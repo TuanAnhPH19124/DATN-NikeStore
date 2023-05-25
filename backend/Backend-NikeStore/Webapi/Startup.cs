@@ -1,3 +1,4 @@
+using Domain.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using Persistence.Repositories;
+using Service;
+using Service.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +38,8 @@ namespace Webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webapi", Version = "v1" });
             });
-
+            services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
 
         }
