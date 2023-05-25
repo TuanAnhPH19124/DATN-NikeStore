@@ -1,0 +1,17 @@
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\Service.Abstractions.deps.json
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\Service.Abstractions.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\Service.Abstractions.pdb
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\Domain.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\DTOConvert.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\Domain.pdb
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\bin\Debug\net5.0\DTOConvert.pdb
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.csproj.AssemblyReference.cache
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.AssemblyInfoInputs.cache
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.AssemblyInfo.cs
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.csproj.CoreCompileInputs.cache
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.csproj.CopyComplete
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\refint\Service.Abstractions.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\Service.Abstractions.pdb
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Service.Abstractions\obj\Debug\net5.0\ref\Service.Abstractions.dll

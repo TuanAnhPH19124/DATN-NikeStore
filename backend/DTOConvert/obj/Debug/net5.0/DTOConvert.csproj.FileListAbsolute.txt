@@ -1,0 +1,12 @@
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\bin\Debug\net5.0\DTOConvert.deps.json
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\bin\Debug\net5.0\DTOConvert.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\bin\Debug\net5.0\DTOConvert.pdb
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.csproj.AssemblyReference.cache
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.AssemblyInfoInputs.cache
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.AssemblyInfo.cs
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.csproj.CoreCompileInputs.cache
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\refint\DTOConvert.dll
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\DTOConvert.pdb
+C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\DTOConvert\obj\Debug\net5.0\ref\DTOConvert.dll
