@@ -45,6 +45,5 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"TuanAnhPH19124_DATN-NikeStore" /o:"tuananhph19124" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           cd backend\Backend-NikeStore\Webapi
-          dotnet build 
-          cd ..\..\..\
+          dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
