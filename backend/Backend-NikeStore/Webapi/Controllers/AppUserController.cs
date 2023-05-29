@@ -19,11 +19,11 @@ namespace Webapi.Controllers
             _serviceManager = serviceManager;
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CreateAccount([FromBody] AppUserForCreateDto appUserForCreationDto, CancellationToken cancellationToken)
         {
-            var response = await _serviceManager.AppUserService.CreateAsync(appUserForCreationDto, cancellationToken);
-
+            await _serviceManager.AppUserService.CreateAsync(appUserForCreationDto, cancellationToken);
             return Ok();
         }
 

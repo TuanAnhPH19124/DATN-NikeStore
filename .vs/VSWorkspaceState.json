@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\backend",
+    "\\backend\\Backend-NikeStore",
+    "\\backend\\Backend-NikeStore\\Webapi"
   ],
-  "SelectedNode": "\\C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore",
+  "SelectedNode": "\\backend\\Backend-NikeStore\\Webapi\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,17 @@ namespace Persistence.Repositories
         public AppUserRepository(AppDbContext context)
         {
             _context = context;    
+        }
+
+        public async Task<AppUser> AuthticationUserWithGoogle(string email)
+        {
+            var user = await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email);
+            return user;
+        }
+
+        public async Task<AppUser> AuthticationUserWithLogin(string email, string password)
+        {
+            return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
         }
 
         public Task<AppUser> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)

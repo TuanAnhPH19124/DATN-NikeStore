@@ -9,9 +9,6 @@ namespace EntitiesDto
 {
     public class AppUserForCreateDto
     {
-        [Required(ErrorMessage = "Không được bỏ trống tên đăng nhập.")]
-        [MaxLength(50, ErrorMessage = "Tên đăng nhập không được nhiều hơn 50 kí tự.")]
-        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Không được bỏ trống Email.")]
         [MaxLength(50, ErrorMessage = "Email không được nhiều hơn 50 kí tự.")]
@@ -24,7 +21,9 @@ namespace EntitiesDto
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Không được bỏ trống số điện thoại.")]
-        [MaxLength(10, ErrorMessage = "Số điện thoại không được nhiều hơn 10 số.")]
+        [StringLength(10,MinimumLength = 10, ErrorMessage = "Số điện thoại phải đủ 10 số.")]
         public string PhoneNumber { get; set; }
+
+        public string FullName { get; set; }
     }
 }

@@ -1,22 +1,14 @@
-using Domain.Repositories;
+﻿using Domain.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Repositories;
 using Service;
 using Service.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Webapi
 {
@@ -32,6 +24,20 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies"; // Scheme mặc định (ví dụ: Cookie Authentication)
+                options.DefaultChallengeScheme = "Google"; // Scheme để chuyển hướng đến khi xác thực thất bại (ví dụ: Google Authentication)
+            })
+            .AddCookie("Cookies") // Đăng ký Cookie Authentication Scheme
+            .AddGoogle("Google", options =>
+            {
+                options.ClientId = Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                options.Scope.Add("phone");
+                options.Scope.Add("profile");
+            });
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -41,6 +47,7 @@ namespace Webapi
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
+
 
         }
 
@@ -57,6 +64,8 @@ namespace Webapi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

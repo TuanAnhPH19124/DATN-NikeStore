@@ -13,5 +13,7 @@ namespace Domain.Repositories
         void Insert(AppUser appUser);
         void Update(AppUser appUser);
         Task<AppUser> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<AppUser> AuthticationUserWithGoogle(string email);
+        Task<AppUser> AuthticationUserWithLogin(string email, string password);
     }
 }
