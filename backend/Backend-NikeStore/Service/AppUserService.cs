@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto;
+using EntitiesDto.User;
 using Mapster;
 using Service.Abstractions;
 using System;
@@ -29,6 +30,18 @@ namespace Service
             await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
 
             return user;
+        }
+
+        public async Task<AppUser> GetauthenticationByGoogle(string email, CancellationToken cancellationToken = default)
+        {
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithGoogle(email);
+            
+           
+        }
+
+        public async Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default)
+        {
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Email, appUser.Password);
         }
     }
 }

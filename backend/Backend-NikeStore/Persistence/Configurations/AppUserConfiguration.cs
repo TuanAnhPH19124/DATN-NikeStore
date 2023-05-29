@@ -14,12 +14,11 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable(nameof(AppUser));
-            builder.HasKey(user => new { user.Id, user.UserName });
+            builder.HasKey(user => new { user.Id, user.Email});
+
             builder.Property(user => user.Id).ValueGeneratedOnAdd();
-            //builder.Property(user => user.Password).HasConversion<Guid>();
             builder.Property(user => user.PhoneNumber).HasMaxLength(10);
             builder.Property(user => user.FullName).HasMaxLength(50);
-            builder.Property(user => user.Email).IsRequired();
         }
     }
 }
