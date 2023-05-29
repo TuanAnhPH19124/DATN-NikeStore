@@ -34,14 +34,14 @@ namespace Service
 
         public async Task<AppUser> GetauthenticationByGoogle(string email, CancellationToken cancellationToken = default)
         {
-            return await _repositoryManger.AppUserRepository?.AuthticationUserWithGoogle(email);
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithGoogle(email);
             
            
         }
 
         public async Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default)
         {
-            return await _repositoryManger.AppUserRepository?.AuthticationUserWithLogin(appUser.Email, appUser.Password);
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Email, appUser.Password);
         }
     }
 }
