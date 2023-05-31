@@ -21,7 +21,9 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="/frontend/admin//css/product-page.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/frontend/admin/css/category.css" rel="stylesheet">
+
 
 </head>
 
@@ -64,12 +66,12 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Quản lý sản phẩm</span>
+                    <span>Components</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Sản phẩm</a>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
                         <a class="collapse-item" href="cards.html">Cards</a>
                     </div>
                 </div>
@@ -360,185 +362,17 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="add-btn">
-                        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
-                            data-target=".bd-example-modal-lg">
-                            <span class="icon text-white-50">
-                                <i class="fa fa-plus"></i>
-                            </span>
-                            <span class="text">Thêm sản phẩm</span>
-                        </a>
-                    </div>
-                    <!-- Button trigger modal -->
+                    <h1 class="h3 mb-2 text-gray-800">Danh mục</h1>
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Thêm danh mục</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </form>
 
                     <!-- Modal -->
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp" placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Mô tả</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Giá sản phẩm</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Trạng thái</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Danh mục</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Màu sắc</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Thương hiệu</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Kích cỡ và số lượng</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true"></span>
-                                        </button>
-                                    </div>
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">Kích cỡ</th>
-                                                <th scope="col">Số lượng</th>
-                                                <th scope="col">Trạng thái</th>
-                                                <th scope="col">Thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button type="submit" class="btn btn-primary"
-                                        style="margin: auto;display: flex;">Thêm Kích Cỡ</button>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Chọn ảnh</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                                accept="image/*" onchange="loadFile(event)">
-                                            <label class="custom-file-label" for="inputGroupFile01">Choose
-                                                file</label>
-                                        </div>
-                                    </div>
-                                    <p><img id="output" width="150" height="150" /></p>
-                                    <script>
-                                        var loadFile = function (event) {
-                                            var image = document.getElementById('output');
-                                            image.src = URL.createObjectURL(event.target.files[0]);
-                                        };
-                                    </script>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Xác nhận</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="select">
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect1">Danh mục:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect2">Hãng:</label>
-                            <select class="form-control" id="exampleFormControlSelect2">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect3">Màu sắc:</label>
-                            <select class="form-control" id="exampleFormControlSelect3">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-
-                    </div>
-
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -546,14 +380,24 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Giá</th>
-                                            <th>Giá tạo</th>
-                                            <th>Trạng thái</th>
-                                            <th>Thao tác</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
                                         </tr>
                                     </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot>
                                     <tbody>
                                         <tr>
                                             <td>Tiger Nixon</td>
@@ -1079,7 +923,6 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/frontend/admin/startbootstrap-sb-admin-2/css/button.css"></script>
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
