@@ -10,5 +10,6 @@ namespace Domain.Repositories
     {
         IAppUserRepository AppUserRepository { get; }
         IUnitOfWork UnitOfWork { get; }
+        IVoucherRepository VoucherRepository { get; }
     }
 }

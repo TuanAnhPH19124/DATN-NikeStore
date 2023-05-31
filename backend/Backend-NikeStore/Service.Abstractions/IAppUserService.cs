@@ -15,5 +15,7 @@ namespace Service.Abstractions
         Task<AppUser> CreateAsync(AppUserForCreateDto appUserForCreationDto, CancellationToken cancellationToken = default);
         Task<AppUser> GetauthenticationByGoogle(string email, CancellationToken cancellationToken = default);
         Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default);
+        Task<AppUser> GetByIdAppUser(Guid id, CancellationToken cancellationToken = default);       
+        Task<AppUser> UpdateByIdAppUser(Guid id, AppUser updatedUser, CancellationToken cancellationToken = default);
     }
 }

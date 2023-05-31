@@ -30,19 +30,21 @@ namespace Persistence.Repositories
             return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
         }
 
-        public Task<AppUser> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<AppUser> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var appUser = await _context.AppUsers.FirstOrDefaultAsync(e => e.Id== id);
+            return appUser;
         }
-
+      
         public void Insert(AppUser appUser)
         {
             _context.AppUsers.Add(appUser);
         }
 
-        public void Update(AppUser appUser)
-        {
-            throw new NotImplementedException();
+        public async void Update( AppUser appUser)
+        {                    
+            _context.AppUsers.Update(appUser);
+            _context.SaveChanges();
         }
     }
 }

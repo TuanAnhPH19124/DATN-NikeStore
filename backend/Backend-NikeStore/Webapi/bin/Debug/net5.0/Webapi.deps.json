@@ -37,6 +37,7 @@
           "Google.Apis.PeopleService.v1": "1.60.0.2924",
           "Microsoft.AspNetCore.Authentication.Google": "5.0.17",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.17",
+          "Microsoft.Extensions.Logging": "5.0.0",
           "Persistence": "1.0.0",
           "Service": "1.0.0",
           "Service.Abstractions": "1.0.0",
@@ -754,6 +755,9 @@
         }
       },
       "Domain/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.17"
+        },
         "runtime": {
           "Domain.dll": {}
         },
@@ -762,6 +766,9 @@
         }
       },
       "EntitiesDto/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.17"
+        },
         "runtime": {
           "EntitiesDto.dll": {}
         },
@@ -772,6 +779,7 @@
       "Persistence/1.0.0": {
         "dependencies": {
           "Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "5.0.17",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.10"
         },
@@ -785,6 +793,7 @@
       "Service/1.0.0": {
         "dependencies": {
           "Mapster": "7.3.0",
+          "Microsoft.EntityFrameworkCore": "5.0.17",
           "Service.Abstractions": "1.0.0"
         },
         "runtime": {
@@ -797,7 +806,8 @@
       "Service.Abstractions/1.0.0": {
         "dependencies": {
           "Domain": "1.0.0",
-          "EntitiesDto": "1.0.0"
+          "EntitiesDto": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "5.0.17"
         },
         "runtime": {
           "Service.Abstractions.dll": {}

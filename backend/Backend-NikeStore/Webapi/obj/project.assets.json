@@ -701,6 +701,9 @@
       "Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.12"
+        },
         "compile": {
           "bin/placeholder/Domain.dll": {}
         },
@@ -711,6 +714,9 @@
       "EntitiesDto/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.12"
+        },
         "compile": {
           "bin/placeholder/EntitiesDto.dll": {}
         },
@@ -723,6 +729,7 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "5.0.12",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.10"
         },
@@ -738,6 +745,7 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Mapster": "7.3.0",
+          "Microsoft.EntityFrameworkCore": "5.0.12",
           "Service.Abstractions": "1.0.0"
         },
         "compile": {
@@ -752,7 +760,8 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Domain": "1.0.0",
-          "EntitiesDto": "1.0.0"
+          "EntitiesDto": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "5.0.12"
         },
         "compile": {
           "bin/placeholder/Service.Abstractions.dll": {}
@@ -2218,19 +2227,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\savan\\.nuget\\packages\\": {}
+    "C:\\Users\\pc\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Webapi\\Webapi.csproj",
+      "projectUniqueName": "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Webapi\\Webapi.csproj",
       "projectName": "Webapi",
-      "projectPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Webapi\\Webapi.csproj",
-      "packagesPath": "C:\\Users\\savan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Webapi\\obj\\",
+      "projectPath": "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Webapi\\Webapi.csproj",
+      "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Webapi\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\savan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2244,14 +2258,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Persistence\\Persistence.csproj": {
-              "projectPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Persistence\\Persistence.csproj"
+            "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Persistence\\Persistence.csproj": {
+              "projectPath": "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Persistence\\Persistence.csproj"
             },
-            "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Service.Abstractions\\Service.Abstractions.csproj": {
-              "projectPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Service.Abstractions\\Service.Abstractions.csproj"
+            "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Service.Abstractions\\Service.Abstractions.csproj": {
+              "projectPath": "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Service.Abstractions\\Service.Abstractions.csproj"
             },
-            "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Service\\Service.csproj": {
-              "projectPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Service\\Service.csproj"
+            "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Service\\Service.csproj": {
+              "projectPath": "C:\\Users\\pc\\Desktop\\Kine\\backend\\Backend-NikeStore\\Service\\Service.csproj"
             }
           }
         }
@@ -2312,7 +2326,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

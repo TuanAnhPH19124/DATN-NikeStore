@@ -15,9 +15,10 @@ namespace Persistence
             
         }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-        }
+        }      
     }
 }

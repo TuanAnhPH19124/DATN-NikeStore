@@ -10,3 +10,15 @@ C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Backend-NikeStore\Entitie
 C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\refint\EntitiesDto.dll
 C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.pdb
 C:\Users\savan\OneDrive\Desktop\DATN-NikeStore\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\ref\EntitiesDto.dll
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\bin\Debug\net5.0\EntitiesDto.deps.json
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\bin\Debug\net5.0\EntitiesDto.dll
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\bin\Debug\net5.0\EntitiesDto.pdb
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.csproj.AssemblyReference.cache
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.AssemblyInfoInputs.cache
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.AssemblyInfo.cs
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.csproj.CoreCompileInputs.cache
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.dll
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\refint\EntitiesDto.dll
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\EntitiesDto.pdb
+C:\Users\pc\Desktop\Kine\backend\Backend-NikeStore\EntitiesDto\obj\Debug\net5.0\ref\EntitiesDto.dll
