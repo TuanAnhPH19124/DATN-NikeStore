@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "U0k6pPTFuMLXTHHKB7jOAzrYfDTa/uAGSQiThzvojMImR55gv4L4dbLBxORTGjg+bDIMRYY+FF/G9S0Tv/q8+A==",
+  "dgSpecHash": "k3kxg7EZgvJjZelba9JlSKHj8+ikP8T8xoJQtLDIyNTGU18oh04j6ANoMEtZHhRMXnORAsZXXQEFQ8joyhZRUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\pc\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Domain\\Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
