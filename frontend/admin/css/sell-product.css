@@ -1,0 +1,23 @@
+.add-btn{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+.footer{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+.footer-customer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.customer-info .form-control{
+    width: 250px;
+}
+.modal-dialog{
+    max-width: 70%;
+}

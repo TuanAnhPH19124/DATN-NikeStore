@@ -22,9 +22,7 @@
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="/frontend/admin/css/category.css" rel="stylesheet">
-
-
+    <link href="/frontend/admin/css/sell-product.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -362,16 +360,140 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Danh mục</h1>
-                    <form>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Tên danh mục</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="">
+                    <!-- Button trigger modal -->
+                    <div class="add-btn">
+                        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
+                            data-target=".bd-example-modal-lg">
+                            <span class="icon text-white-50">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span class="text">Tạo đơn hàng</span>
+                        </a>
+                    </div>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Tạo đơn hàng</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="add-btn">
+                                        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
+                                            data-target=".bd-example-modal-lg">
+                                            <span class="icon text-white-50">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                            <span class="text">Thêm sản phẩm</span>
+                                        </a>
+                                    </div>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <table class="table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Sản phẩm</th>
+                                                <th scope="col">Số lượng</th>
+                                                <th scope="col">Số tiền</th>
+                                                <th scope="col">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th scope="row"></th>
+                                                <td></td>
+                                                <td>Tổng tiền:</td>
+                                                <td>1000000</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div class="choose-customer">
+                                        <div class="header">
+                                            <div class="tittle">
+                                                <h5 class="modal-title" id="exampleModalLabel">Tài khoản</h5>
+                                            </div>
+                                            <div class="add-btn">
+                                                <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
+                                                    data-target=".bd-example-modal-lg">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fa fa-plus"></i>
+                                                    </span>
+                                                    <span class="text">Chọn tài khoản</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="footer">
+                                            <div>Tên khách hàng</div>
+                                            <span>Khách lẻ</span>
+                                        </div>
+                                    </div>
+                                    <div class="choose-customer">
+                                        <div class="header">
+                                            <div class="tittle">
+                                                <h5 class="modal-title" id="exampleModalLabel">Khách hàng</h5>
+                                            </div>
+                                            <div class="add-btn">
+                                                <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
+                                                    data-target=".bd-example-modal-lg">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fa fa-plus"></i>
+                                                    </span>
+                                                    <span class="text">Chọn địa chỉ</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="footer-customer">
+                                            <div class="customer-info">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Họ và tên</label>
+                                                        <input type="email" class="form-control" id="exampleInputEmail1"
+                                                            aria-describedby="emailHelp" placeholder="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Số điện thoại</label>
+                                                        <input type="text" class="form-control"
+                                                            id="exampleInputPassword1" placeholder="">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div>Thông tin thanh toán</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Thêm</button>
-                    </form>
-
+                    </div>
                     <!-- Modal -->
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
