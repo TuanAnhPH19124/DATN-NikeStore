@@ -383,12 +383,37 @@
                                 <div class="modal-body">
                                     <div class="add-btn">
                                         <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
-                                            data-target=".bd-example-modal-lg">
+                                            data-target="#exampleModal">
                                             <span class="icon text-white-50">
                                                 <i class="fa fa-plus"></i>
                                             </span>
-                                            <span class="text">Thêm sản phẩm</span>
+                                            <span class="text" data-toggle="modal" data-target="#exampleModal">Thêm sản
+                                                phẩm</span>
                                         </a>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ...
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save
+                                                            changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -481,9 +506,83 @@
                                                         <input type="text" class="form-control"
                                                             id="exampleInputPassword1" placeholder="">
                                                     </div>
+                                                    <div class="form-address">
+                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                            <option value="" disabled selected hidden>Tỉnh/Thành
+                                                            </option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
+                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                            <option value="" disabled selected hidden>Quận/Huyện
+                                                            </option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
+                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                            <option value="" disabled selected hidden>Phường/Xã</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Địa chỉ</label>
+                                                        <input type="text" class="form-control"
+                                                            id="exampleInputPassword1" placeholder="">
+                                                    </div>
                                                 </form>
                                             </div>
-                                            <div>Thông tin thanh toán</div>
+                                            <div class="receipt-info">
+                                                <h3>Thông tin thanh toán</h4>
+                                                    <div class="toggle-btn">
+                                                        <label class="switch">
+                                                            <input type="checkbox">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <label for="">Giao hàng</label>
+                                                    </div>
+                                                    <div class="discount-btn">
+                                                        <select class="form-control" id="exampleFormControlSelect1">
+                                                            <option disabled selected hidden>Mã giảm giá</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                        </select>
+                                                        <div class="discount-rate">
+                                                            Giảm: 10%
+                                                        </div>
+                                                    </div>
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Tiền hàng:</label>
+                                                            <label for="exampleInputEmail1">3,600,000 đ</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Phí vận chuyển:</label>
+                                                            <label for="exampleInputEmail1">67,000 đ</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Giảm giá:</label>
+                                                            <label for="exampleInputEmail1">0 đ</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Quyền lọi thành
+                                                                viên:</label>
+                                                            <label for="exampleInputEmail1">72,000 đ</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Tổng số tiền:</label>
+                                                            <label for="exampleInputEmail1">3,595,000 đ</label>
+                                                        </div>
+                                                    </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
