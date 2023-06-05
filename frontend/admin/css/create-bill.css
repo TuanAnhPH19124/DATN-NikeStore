@@ -24,7 +24,7 @@
 }
 
 .modal-dialog{
-    max-width: 70%;
+    max-width: 80%;
 }
 .switch {
   position: relative;
@@ -102,5 +102,79 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
 }
-
-
+.modal-content{
+  margin-bottom: 20px;
+}
+.form-filter{
+  display: flex;
+  align-items: baseline;
+  padding: 10px;
+}
+.form-filter label{
+  font-size: 20px;
+  padding-right: 10px;
+}
+.form-filter .form-control{
+  width: 100px;
+}
+.select{
+  display: flex;
+  justify-content: center;
+}
+#productModal .modal-dialog{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+}
+#product-detail{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 25px;
+}
+.product-info{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+}
+.size .title{
+  text-align: center;
+}
+.size .title .btn-toolbar{
+  justify-content: center;
+}
+.btn-group{
+  display: block;
+}
+.btn-group .btn{
+  border-radius: 0px;
+  margin: 5px;
+}
+.input-number{
+  display: flex;
+  justify-content: center;
+  margin: 15px 0px 15px 0px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-number .btn{
+  border-radius: 0px;
+}
+.input-number #number{
+  border-radius: 0px;
+  width: 100px;
+}
+.title .btn{
+  border-radius: 0px;
+}
+.instock{
+  margin-bottom: 10px;
+}
+#account-modal form{
+   display: flex;
+   align-items: baseline;
+}
