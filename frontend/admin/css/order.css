@@ -128,3 +128,15 @@ ul li .active .uil{
 .icon{
     visibility: hidden;
 }
+.order-btn{
+    display: flex;
+    justify-content: space-between;
+}
+.detail-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.detail{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
