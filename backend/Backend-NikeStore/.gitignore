@@ -1,4 +1,4 @@
-# File và th? m?c t?m th?i
+# File vï¿½ th? m?c t?m th?i
 .temp/
 .temp/*
 .temp/**/*
@@ -10,23 +10,23 @@
 /bin/
 /bin/Debug/**/*
 /obj/
-
-# Các t?p khóa
+*/obj/
+# Cï¿½c t?p khï¿½a
 *.key
 
-# Các t?p c?u hình local
+# Cï¿½c t?p c?u hï¿½nh local
 /appsettings*.json
 
 # Logs
 /logs/
 
-# Th? m?c công c? và gói cài ??t
+# Th? m?c cï¿½ng c? vï¿½ gï¿½i cï¿½i ??t
 /tools/
 /packages/
 
-# Các t?p c?u hình máy ch? local
+# Cï¿½c t?p c?u hï¿½nh mï¿½y ch? local
 /launchSettings.json
 
-# Các t?p h? th?ng
+# Cï¿½c t?p h? th?ng
 .DS_Store
 Thumbs.db
