@@ -11,10 +11,13 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Service.Abstractions;
 using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+=======
+>>>>>>> main
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,6 +42,7 @@ namespace Service
         {
             var user_exist = await _repositoryManger.AppUserRepository.FindByEmailAsync(appUserForCreationDto.Email);
 
+<<<<<<< HEAD
             if (user_exist != null)
             {
                 throw new Exception("Email already exist");
@@ -100,6 +104,14 @@ namespace Service
         public async Task<AppUser> GetauthenticationByGoogle(string email, CancellationToken cancellationToken = default)
         {
             return await _repositoryManger.AppUserRepository.AuthticationUserWithGoogle(email);
+=======
+            return user;
+        }      
+
+        public async Task<AppUser> GetauthenticationByGoogle(string email, CancellationToken cancellationToken = default)
+        {
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithGoogle(email);                      
+>>>>>>> main
         }
 
         public async Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default)
@@ -107,6 +119,7 @@ namespace Service
             return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Email, appUser.Password);
         }
 
+<<<<<<< HEAD
         public async Task<AppUser> GetByIdAsync(string id)
         {
             return await _repositoryManger.AppUserRepository.GetByIdAsync(id);
@@ -161,5 +174,30 @@ namespace Service
         }
 
 
+=======
+        public async Task<AppUser> GetByIdAppUser(Guid id, CancellationToken cancellationToken = default)
+        {          
+                AppUser appUser = await _repositoryManger.AppUserRepository.GetByIdAsync(id, cancellationToken);     
+            return appUser;
+        }
+    
+        public async Task<AppUser> UpdateByIdAppUser(Guid id, AppUser updatedUser, CancellationToken cancellationToken = default)
+        {
+            var existingUser = await _repositoryManger.AppUserRepository.GetByIdAsync(id, cancellationToken);
+            if (existingUser == null)
+            {             
+                throw new Exception("AppUser not found.");
+            }
+            else
+            {
+                existingUser.FullName = updatedUser.FullName;
+                existingUser.PhoneNumber = updatedUser.PhoneNumber;
+                existingUser.Password = updatedUser.Password;
+                existingUser.AvatarUrl = updatedUser.AvatarUrl;
+                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                return existingUser;
+            }                   
+        }
+>>>>>>> main
     }
 }
