@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
-        public Guid Id { get; set; }
-        public string Email { get; set; }
+        
         public string FullName { get; set; }
-        public string Password { get; set; }
-        public string PhoneNumber { get; set; }
         public Status Status { get; set; } = Status.Active;
-        public DateTime ModifiedDate { get; set; }
+        public DateTime ModifiedDate { get; set; } = DateTime.Now;
         public Ranks Rank { get; set; } = Ranks.New;
         public decimal LoyaltyPoint { get; set; } = 0;
         public int MemberDiscount { get; set; } = 0;

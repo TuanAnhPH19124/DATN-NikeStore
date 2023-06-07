@@ -21,9 +21,9 @@ namespace EntitiesDto
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Không được bỏ trống số điện thoại.")]
-        [StringLength(10,MinimumLength = 10, ErrorMessage = "Số điện thoại phải đủ 10 số.")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Số điện thoại phải đủ 10 số.")]
         public string PhoneNumber { get; set; }
 
-        public string FullName { get; set; }
+        public string UserName { get; set; }
     }
 }

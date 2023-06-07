@@ -13,7 +13,7 @@ namespace EntitiesDto.User
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+(\+[a-zA-Z0-9._%+-]+)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email không hợp lệ.")]
         public string Email { get; set; }
 
-        
+   
         [Required(ErrorMessage = "Không được bỏ qua trống mật khẩu.")]
         public string Password { get; set; }
     }

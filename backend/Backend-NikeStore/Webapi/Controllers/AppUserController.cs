@@ -40,9 +40,9 @@ namespace Webapi.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateAccount([FromBody] AppUserForCreateDto appUserForCreationDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAccount([FromBody] AppUserForCreateDto appUserForCreationDto)
         {
-            await _serviceManager.AppUserService.CreateAsync(appUserForCreationDto, cancellationToken);
+            await _serviceManager.AppUserService.CreateAsync(appUserForCreationDto);
             return Ok();
         }
 
