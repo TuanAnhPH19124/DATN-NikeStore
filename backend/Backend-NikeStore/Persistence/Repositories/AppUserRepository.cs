@@ -37,25 +37,12 @@ namespace Persistence.Repositories
 
         public async Task<AppUser> AuthticationUserWithLogin(string email, string password)
         {
-<<<<<<< HEAD
             //return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
             throw new NotImplementedException();
 
         }
 
         public async Task<bool> CheckPassword(AppUser user, string password)
-=======
-            return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
-        }
-
-        public async Task<AppUser> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var appUser = await _context.AppUsers.FirstOrDefaultAsync(e => e.Id== id);
-            return appUser;
-        }
-      
-        public void Insert(AppUser appUser)
->>>>>>> main
         {
             return await _userManager.CheckPasswordAsync(user, password);
         }
