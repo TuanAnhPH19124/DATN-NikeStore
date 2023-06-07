@@ -100,11 +100,7 @@ namespace Persistence.Repositories
             
         }
 
-        public async void Update( AppUser appUser)
-        {                    
-            _context.AppUsers.Update(appUser);
-            _context.SaveChanges();
-        }
+       
 
 
     }

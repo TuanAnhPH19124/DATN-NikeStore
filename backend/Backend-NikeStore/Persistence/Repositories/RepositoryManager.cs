@@ -14,6 +14,8 @@ namespace Persistence.Repositories
     public class RepositoryManager : IRepositoryManger
     {
         private readonly Lazy<IAppUserRepository> _lazyAppUserRepository;
+        private readonly Lazy<IVoucherRepository> _lazyVoucherRepository;
+
         private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration)
