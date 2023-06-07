@@ -1,6 +1,8 @@
 ﻿using Domain.Entities;
+using Domain.Models;
 using EntitiesDto;
 using EntitiesDto.User;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,11 @@ namespace Service.Abstractions
 {
     public interface IAppUserService
     {
-        Task<AppUser> CreateAsync(AppUserForCreateDto appUserForCreationDto, CancellationToken cancellationToken = default);
+        Task<AuthResult> CreateAsync(AppUserForCreateDto appUserForCreationDto);
+        Task<AuthResult> Login(AppUserForLogin user);
         Task<AppUser> GetauthenticationByGoogle(string email, CancellationToken cancellationToken = default);
         Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default);
+        Task<AppUser> GetByIdAsync(string id);
+        Task<IdentityResult> ConfirmEmailAsync(AppUser user, string code);
     }
 }

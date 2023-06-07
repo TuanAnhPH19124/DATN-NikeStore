@@ -9,6 +9,9 @@ using Persistence;
 using Persistence.Repositories;
 using Service;
 using Service.Abstractions;
+using System.ComponentModel;
+using WatchDog;
+using WatchDog.src.Enums;
 
 namespace Webapi
 {
@@ -24,6 +27,14 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddWatchDogServices(option =>
+            {
+                option.IsAutoClear = false;
+                option.SetExternalDbConnString = Configuration.GetConnectionString("DefaultConnection");
+                option.DbDriverOption = WatchDogDbDriverEnum.PostgreSql;
+                
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies"; // Scheme mặc định (ví dụ: Cookie Authentication)
@@ -61,6 +72,8 @@ namespace Webapi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Webapi v1"));
             }
 
+
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -68,6 +81,16 @@ namespace Webapi
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseWatchDogExceptionLogger();
+
+            app.UseWatchDog(option =>
+            {
+                option.WatchPagePassword = "admin";
+                option.WatchPageUsername = "admin";
+
+            });
+
 
             app.UseEndpoints(endpoints =>
             {

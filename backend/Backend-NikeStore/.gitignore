@@ -1,0 +1,32 @@
+# File và th? m?c t?m th?i
+.temp/
+.temp/*
+.temp/**/*
+
+.vs/
+.vs/*
+.vs/**/*
+# Th? m?c ??u ra build
+/bin/
+/bin/Debug/**/*
+/obj/
+
+# Các t?p khóa
+*.key
+
+# Các t?p c?u hình local
+/appsettings*.json
+
+# Logs
+/logs/
+
+# Th? m?c công c? và gói cài ??t
+/tools/
+/packages/
+
+# Các t?p c?u hình máy ch? local
+/launchSettings.json
+
+# Các t?p h? th?ng
+.DS_Store
+Thumbs.db
