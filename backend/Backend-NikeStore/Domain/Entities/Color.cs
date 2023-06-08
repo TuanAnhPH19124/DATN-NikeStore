@@ -14,6 +14,6 @@ namespace Domain.Entities
         public string Name { get; set; }
 
         public virtual List<Stock> Stocks { get; set; } = new List<Stock>();
-
+        public virtual List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
     }
 }

@@ -37,6 +37,9 @@ namespace Persistence.Configurations
                    .WithOne(s => s.Product)
                    .HasForeignKey(s => s.ProductId);
 
+            builder.HasMany(p => p.ProductImages)
+                   .WithOne(p => p.Product)
+                   .HasForeignKey(p => p.ProductId);
         }
     }
 }

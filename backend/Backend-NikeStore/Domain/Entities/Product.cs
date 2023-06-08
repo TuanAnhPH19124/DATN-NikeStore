@@ -22,6 +22,6 @@ namespace Domain.Entities
         public virtual List<Category> Categories { get; set; } = new List<Category>();
         public virtual List<Tag> Tags { get; set; } = new List<Tag>();
         public virtual List<Stock> Stocks { get; set; } = new List<Stock>();
-
+        public virtual List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
     }
 }

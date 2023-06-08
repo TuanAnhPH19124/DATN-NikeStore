@@ -21,6 +21,10 @@ namespace Persistence.Configurations
             builder.HasMany(c => c.Stocks)
                    .WithOne(s => s.Color)
                    .HasForeignKey(s => s.ColorId);
+
+            builder.HasMany(p => p.ProductImages)
+                   .WithOne(p => p.Color)
+                   .HasForeignKey(p => p.ColorId);
         }
     }
 }
