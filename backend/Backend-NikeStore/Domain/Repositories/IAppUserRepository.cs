@@ -12,7 +12,7 @@ namespace Domain.Repositories
     public interface IAppUserRepository
     {
         Task<IdentityResult> Insert(AppUser appUser, string password);
-        void Update(AppUser appUser);
+      
         Task<AppUser> GetByIdAsync(string id, CancellationToken cancellationToken = default);
         Task<AppUser> AuthticationUserWithGoogle(string email);
         Task<AppUser> AuthticationUserWithLogin(string email, string password);

@@ -14,14 +14,11 @@ namespace Persistence.Repositories
     public class RepositoryManager : IRepositoryManger
     {
         private readonly Lazy<IAppUserRepository> _lazyAppUserRepository;
+        private readonly Lazy<IVoucherRepository> _lazyVoucherRepository;
+
         private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
-<<<<<<< HEAD
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration)
-=======
-        private readonly Lazy<IVoucherRepository> _lazyVoucherRepository;
-        public RepositoryManager(AppDbContext context)
->>>>>>> main
         {
             _lazyAppUserRepository = new Lazy<IAppUserRepository>(() => new AppUserRepository(userManager, configuration));
             _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(context));

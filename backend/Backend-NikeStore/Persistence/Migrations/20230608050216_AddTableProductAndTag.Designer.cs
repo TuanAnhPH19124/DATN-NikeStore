@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -9,9 +10,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230608050216_AddTableProductAndTag")]
+    partial class AddTableProductAndTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,23 +152,6 @@ namespace Persistence.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Color", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Color");
-                });
-
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
@@ -213,50 +198,6 @@ namespace Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Size", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<int>("NumberSize")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Size");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock", b =>
-                {
-                    b.Property<string>("StockId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ColorId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SizeId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("UnitInStock")
-                        .HasColumnType("integer");
-
-                    b.HasKey("StockId");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("Stock");
                 });
 
             modelBuilder.Entity("Domain.Entities.Tag", b =>
@@ -486,27 +427,6 @@ namespace Persistence.Migrations
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Stock", b =>
-                {
-                    b.HasOne("Domain.Entities.Color", "Color")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ColorId");
-
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Domain.Entities.Size", "Size")
-                        .WithMany("Stocks")
-                        .HasForeignKey("SizeId");
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Size");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -576,21 +496,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("ChildCategories");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Color", b =>
-                {
-                    b.Navigation("Stocks");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Product", b =>
-                {
-                    b.Navigation("Stocks");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Size", b =>
-                {
-                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

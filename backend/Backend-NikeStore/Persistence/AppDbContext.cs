@@ -16,21 +16,20 @@ namespace Persistence
         {
             
         }
-<<<<<<< HEAD
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-          
-            
-        }
-=======
-        public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<Voucher> Vouchers { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-        }      
->>>>>>> main
+
+        }
+    
+        public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Color> Colors { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+
     }
 }

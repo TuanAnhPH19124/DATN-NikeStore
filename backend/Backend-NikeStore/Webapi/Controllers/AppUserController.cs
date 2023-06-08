@@ -29,13 +29,7 @@ namespace Webapi.Controllers
         [HttpGet("{Id}")]
         public async Task<ActionResult<AppUser>> GetAppUsers(Guid Id)
         {
-            var appUser = await _serviceManager.AppUserService.GetByIdAppUser(Id);
-
-            if (appUser == null)
-            {
-                return NotFound();
-            }
-            return appUser;
+            return Ok();
         }
 
 
@@ -54,19 +48,7 @@ namespace Webapi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAppUser(Guid id, AppUser appUser)
         {
-            if (id != appUser.Id)
-            {
-                return BadRequest("The provided id does not match the id in the user data.");
-            }
-            try
-            {
-                await _serviceManager.AppUserService.UpdateByIdAppUser(id, appUser);
-            }
-            catch (Exception ex)
-            {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
-                return StatusCode((int)HttpStatusCode.Conflict, ex);               
-            }
+            
 
             return NoContent();
         }
