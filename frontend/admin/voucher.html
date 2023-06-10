@@ -21,7 +21,7 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="/frontend/admin/css/staff.css" rel="stylesheet">
+    <link href="/frontend/admin/css/voucher.css" rel="stylesheet">
 
 </head>
 
@@ -366,7 +366,7 @@
                             <span class="icon text-white-50">
                                 <i class="fa fa-plus"></i>
                             </span>
-                            <span class="text">Tạo tài khoản</span>
+                            <span class="text">Tạo mã giảm giá</span>
                         </a>
                     </div>
                     <!-- Button trigger modal -->
@@ -377,33 +377,67 @@
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Tạo tài khoản nhân viên</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Voucher</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Tên tài khoản</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp" placeholder="">
+                                        <div class="discount-row-2">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Mã giảm giá</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Giá trị</label>
+                                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                                    placeholder="">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Họ và tên</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
+                                        <div class="discount-row-2">
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Giá trị tối đa(voucher theo
+                                                    %)</label>
+                                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                                    placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Áp dụng đơn hàng từ</label>
+                                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                                    placeholder="">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Email</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
+                                        <div class="discount-row-3">
+                                            <div class="date">
+                                                <label for="birthdaytime">Từ ngày</label>
+                                                <input type="date" id="birthdaytime" name="birthdaytime">
+                                            </div>
+                                            <div class="date">
+                                                <label for="birthdaytime">Đến ngày</label>
+                                                <input type="date" id="birthdaytime" name="birthdaytime">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                                    placeholder="Lượt áp dụng">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="exampleFormControlSelect1">Quyền sử dụng:</label>
+                                            <select class="form-control" id="exampleFormControlSelect1">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                                    <button type="button" class="btn btn-primary">Tạo mới</button>
                                 </div>
                             </div>
                         </div>
@@ -412,6 +446,26 @@
                     <div class="select">
                         <div class="form-filter">
                             <label for="exampleFormControlSelect1">Trạng thái:</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-filter">
+                            <label for="exampleFormControlSelect1">Quyền:</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-filter">
+                            <label for="exampleFormControlSelect1">Loại:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
                                 <option>1</option>
                                 <option>2</option>
@@ -429,14 +483,14 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên tài khoản</th>
-                                            <th>Email</th>
-                                            <th>Họ và tên</th>
-                                            <th>Ngày tạo</th>
-                                            <th>Điểm</th>
-                                            <th>Hạng</th>
+                                            <th>Mã</th>
+                                            <th>Giá trị</th>
+                                            <th>Giá trị tối đa</th>
+                                            <th>Cho đơn tối thiểu</th>
+                                            <th>Số lượng</th>
+                                            <th>Quyền</th>
                                             <th>Trạng thái</th>
+                                            <th>Thời gian</th>
                                             <th>Thao tác</th>
                                         </tr>
                                     </thead>
