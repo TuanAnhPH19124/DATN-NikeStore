@@ -10,7 +10,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public string Code { get; set; }
-        public decimal Value { get; set; }
+        public decimal Value { get; set;}
         public string Description { get; set; }
         public DateTime StartDate { get; set; } = DateTime.Now;
         public DateTime EndDate { get; set; }

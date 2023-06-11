@@ -12,14 +12,18 @@ namespace Service
     {
         private readonly Lazy<IAppUserService> _lazyAppUserService;
         private readonly Lazy<VoucherService> _lazyVoucherService;
+        private readonly Lazy<NewsService> _lazyNewsService;
 
         public ServiceManager(IRepositoryManger repositoryManger)
         {
             _lazyAppUserService = new Lazy<IAppUserService>(() => new AppUserService(repositoryManger));
             _lazyVoucherService = new Lazy<VoucherService>(() => new VoucherService(repositoryManger));
+            _lazyNewsService = new Lazy<NewsService>(() => new NewsService(repositoryManger));
         }
 
         public IAppUserService AppUserService => _lazyAppUserService.Value;
         public IVoucherService VoucherService => _lazyVoucherService.Value;
+
+        public INewsService NewsService => _lazyNewsService.Value;
     }
 }

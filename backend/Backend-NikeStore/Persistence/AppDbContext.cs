@@ -20,11 +20,19 @@ namespace Persistence
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-          
-            
+            modelBuilder.Entity<Schedule>()
+          .HasOne(s => s.Employees)
+          .WithMany()
+          .HasForeignKey(s => s.EmployeeId);
+
+
         }
     
         public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<Employees> Employees { get; set; }
+        public DbSet<Products> Products { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<News> News { get; set; }
        
     }
 }

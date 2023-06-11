@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Service.Abstractions
 {
-    public interface IServiceManager
+    public interface INewsService
     {
-        IAppUserService AppUserService { get; }
-        IVoucherService VoucherService { get; }
-        INewsService NewsService { get; }
+        Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default);
     }
 }
