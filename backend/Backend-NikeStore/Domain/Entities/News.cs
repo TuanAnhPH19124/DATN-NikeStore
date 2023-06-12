@@ -9,6 +9,7 @@ namespace Domain.Entities
      public class News
     {
         public Guid Id { get; set; }
+        //test
         public string Title { get; set; }
         public string Content { get; set; }
         public string ImageUrl { get; set; }
