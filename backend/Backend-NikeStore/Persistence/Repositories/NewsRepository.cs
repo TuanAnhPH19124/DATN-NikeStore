@@ -20,7 +20,18 @@ namespace Persistence.Repositories
                 _dbContext = dbContext;
             }
 
-            public async Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default)
+        public async void AddNews(News news)
+        {
+            _dbContext.News.Add(news);
+        }
+
+        public async Task<News> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var news = await _dbContext.News.FirstOrDefaultAsync(c => c.Id == id);
+            return news;
+        }
+
+        public async Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default)
             {
                return await _dbContext.Set<News>()
                .OrderByDescending(n => n.CreatedAt)

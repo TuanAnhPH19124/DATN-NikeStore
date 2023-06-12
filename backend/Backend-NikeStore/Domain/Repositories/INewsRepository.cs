@@ -10,9 +10,9 @@ namespace Domain.Repositories
 {
     public interface INewsRepository
     {
-       
-            Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default);
-        
+        void AddNews(News news);
+        Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default);
+        Task<News> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     }
 }

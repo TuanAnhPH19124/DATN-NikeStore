@@ -21,6 +21,19 @@ namespace Service
             _repositoryManger = repositoryManger;
         }
 
+        public  async Task<News> CreateAsync(News news)
+        {
+            _repositoryManger.NewsRepository.AddNews(news);
+            await _repositoryManger.UnitOfWork.SaveChangeAsync();
+            return news;
+        }
+
+        public async Task<News> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            News news = await _repositoryManger.NewsRepository.GetByIdAsync(id, cancellationToken);
+            return news;
+        }
+
         public async Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default)
         {
             var highlights = await _repositoryManger.NewsRepository.GetHighlights(count, cancellationToken);

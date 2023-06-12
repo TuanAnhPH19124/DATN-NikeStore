@@ -10,6 +10,8 @@ namespace Service.Abstractions
 {
     public interface INewsService
     {
+        Task<News> CreateAsync(News news);
         Task<List<News>> GetHighlights(int count, CancellationToken cancellationToken = default);
+        Task<News> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }
