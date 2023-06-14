@@ -178,3 +178,10 @@ input::-webkit-inner-spin-button {
    display: flex;
    align-items: baseline;
 }
+#productModal2 .modal-dialog{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+}

@@ -665,44 +665,185 @@
                                                 </form>
                                             </div>
                                             <div class="modal-body">
-                                                <table class="table">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th scope="col">Sản phẩm</th>
-                                                            <th scope="col">Số lượng</th>
-                                                            <th scope="col">Số tiền</th>
-                                                            <th scope="col">Thao tác</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">3</th>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            <td>Tổng tiền:</td>
-                                                            <td>1000000</td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered" id="dataTable2"
+                                                                width="100%" cellspacing="0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Avatar</th>
+                                                                        <th>ID</th>
+                                                                        <th>Tên tài khoản</th>
+                                                                        <th>Email</th>
+                                                                        <th>Ngày tạo</th>
+                                                                        <th>Ngày cập nhật</th>
+                                                                        <th>Thao tác</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Tiger Nixon</td>
+                                                                        <td>System Architect</td>
+                                                                        <td>Edinburgh</td>
+                                                                        <td>61</td>
+                                                                        <td>2011/04/25</td>
+                                                                        <td>61</td>
+                                                                        <td>2011/04/25</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Garrett Winters</td>
+                                                                        <td>Accountant</td>
+                                                                        <td>Tokyo</td>
+                                                                        <td>63</td>
+                                                                        <td>2011/07/25</td>
+                                                                        <td>61</td>
+                                                                        <td>2011/04/25</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="img">
+                                                                                <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
+                                                                                    alt="" width="200" height="200">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>Junior Technical Author</td>
+                                                                        <td>San Francisco</td>
+                                                                        <td>66</td>
+                                                                        <td>
+                                                                            <button type="button"
+                                                                                class="btn btn-outline-primary"
+                                                                                data-toggle="modal"
+                                                                                data-target="#productModal2">Chọn</button>
+                                                                            <!-- Modal -->
+                                                                            <div class="modal fade" id="productModal2"
+                                                                                tabindex="-1" role="dialog"
+                                                                                aria-labelledby="exampleModalLabel"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog"
+                                                                                    role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-body"
+                                                                                            id="product-detail">
+                                                                                            <div class="img">
+                                                                                                <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
+                                                                                                    alt="" width="400"
+                                                                                                    height="400">
+                                                                                            </div>
+                                                                                            <div>
+                                                                                                <h4
+                                                                                                    class="product-title">
+                                                                                                    Tên sản phẩm gì đó
+                                                                                                </h4>
+                                                                                                <div
+                                                                                                    class="product-info">
+                                                                                                    <div>Thương hiệu
+                                                                                                    </div>
+                                                                                                    <div>Thương hiệu
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="product-info">
+                                                                                                    <div>Danh mục
+                                                                                                    </div>
+                                                                                                    <div>Danh mục
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="product-info">
+                                                                                                    <div>1 tỉ gói mè
+                                                                                                        (Giá)
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="size">
+                                                                                                    <div class="title">
+                                                                                                        Size
+                                                                                                        <div class="btn-group btn-group-toggle"
+                                                                                                            data-toggle="buttons">
+                                                                                                            <label
+                                                                                                                class="btn btn-outline-primary btn-toggle">
+                                                                                                                <input
+                                                                                                                    type="radio"
+                                                                                                                    name="options"
+                                                                                                                    id="option1"
+                                                                                                                    autocomplete="off">
+                                                                                                                1
+                                                                                                            </label>
+                                                                                                            <label
+                                                                                                                class="btn btn-outline-primary btn-toggle">
+                                                                                                                <input
+                                                                                                                    type="radio"
+                                                                                                                    name="options"
+                                                                                                                    id="option2"
+                                                                                                                    autocomplete="off">
+                                                                                                                2
+                                                                                                            </label>
+                                                                                                            <label
+                                                                                                                class="btn btn-outline-primary btn-toggle">
+                                                                                                                <input
+                                                                                                                    type="radio"
+                                                                                                                    name="options"
+                                                                                                                    id="option3"
+                                                                                                                    autocomplete="off">
+                                                                                                                3
+                                                                                                            </label>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="input-number">
+                                                                                                            <button
+                                                                                                                onclick="decrement()"
+                                                                                                                class="btn btn-primary">-</button>
+                                                                                                            <div
+                                                                                                                class="form-outline">
+                                                                                                                <input
+                                                                                                                    type="number"
+                                                                                                                    id="number"
+                                                                                                                    name="number"
+                                                                                                                    class="form-control"
+                                                                                                                    value="0" />
+                                                                                                            </div>
+                                                                                                            <button
+                                                                                                                onclick="increment()"
+                                                                                                                class="btn btn-primary">+</button>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="instock">
+                                                                                                            Còn n sản
+                                                                                                            phẩm
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <button
+                                                                                                                type="button"
+                                                                                                                onclick="$('#productModal').modal('hide');"
+                                                                                                                class="btn btn-primary">Thêm
+                                                                                                                vào giỏ
+                                                                                                                hàng</button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>61</td>
+                                                                        <td>2011/04/25</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Cedric Kelly</td>
+                                                                        <td>Senior Javascript Developer</td>
+                                                                        <td>Edinburgh</td>
+                                                                        <td>22</td>
+                                                                        <td>2012/03/29</td>
+                                                                        <td>61</td>
+                                                                        <td>2011/04/25</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -723,7 +864,7 @@
                         <div class="modal-body">
                             <div class="choose-customer">
                                 <div class="footer-customer">
-                                    <div class="customer-info">
+                                    <div class="customer-info" id="customer-info">
                                         <form>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Họ và tên</label>
@@ -771,7 +912,7 @@
                                         <h3>Thông tin thanh toán</h4>
                                             <div class="toggle-btn">
                                                 <label class="switch">
-                                                    <input type="checkbox">
+                                                    <input type="checkbox" onclick="myFunction()">
                                                     <span class="slider round"></span>
                                                 </label>
                                                 <label for="">Giao hàng</label>
@@ -890,7 +1031,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary"><a href="/frontend/admin/order.html"
-                                    style="color: #fff;">Xác
+                                    style="color: #fff;text-decoration: none;">Xác
                                     nhận</a>
                             </button>
                         </div>

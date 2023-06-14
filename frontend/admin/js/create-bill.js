@@ -28,3 +28,12 @@ function closeModal(modalId) {
   $('#productModal').on('shown.bs.modal', function() {
     $(this).find('#productModal').focus();
  });
+ function myFunction() {
+  var x = document.getElementById('customer-info');
+  if (x.style.visibility === 'hidden') {
+    x.style.visibility = 'visible';
+  } else {
+    x.style.visibility = 'hidden';
+  }
+}
+
