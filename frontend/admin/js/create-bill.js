@@ -30,7 +30,8 @@ function closeModal(modalId) {
  });
  function myFunction() {
   var x = document.getElementById('customer-info');
-  if (x.style.visibility === 'hidden') {
+  console.log(x.style.visibility)
+  if (x.style.visibility == 'hidden') {
     x.style.visibility = 'visible';
   } else {
     x.style.visibility = 'hidden';
