@@ -23,33 +23,73 @@ namespace Webapi.Controllers
         public AppUserController(IServiceManager serviceManager)
         {
             _serviceManager = serviceManager;
-        }    
-      
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetAllAppUser()
+        {
+            try
+            {
+                var appUser = await _serviceManager.AppUserService.GetAllAppUserAsync();
+                if (appUser == null || !appUser.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(appUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+        }
+
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<AppUser>> GetAppUsers(Guid Id)
+        public async Task<ActionResult<AppUser>> GetByIdAppUser(string Id)
         {
-            return Ok();
-        }
+            var appUser = await _serviceManager.AppUserService.GetByIdAppUserAsync(Id);
 
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+            return appUser;
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAccount([FromBody] AppUserForCreateDto appUserForCreationDto)
+        public async Task<ActionResult<AppUser>> CreateAppUser(AppUser appUser)
         {
-            await _serviceManager.AppUserService.CreateAsync(appUserForCreationDto);
-            return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var createdAppUser = await _serviceManager.AppUserService.CreateAsync(appUser);
+                return CreatedAtAction(nameof(GetByIdAppUser), new { id = createdAppUser.Id }, createdAppUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
-        private object GetAccountById()
-        {
-            throw new NotImplementedException();
-        }
-       
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppUser(Guid id, AppUser appUser)
+        public async Task<IActionResult> UpdateAppUser(string id, AppUser appUser)
         {
-            
-
+            if (id != appUser.Id)
+            {
+                return BadRequest("The provided id does not match the id in the user data.");
+            }
+            try
+            {
+                await _serviceManager.AppUserService.UpdateByIdAppUser(id, appUser);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
+                return StatusCode((int)HttpStatusCode.Conflict, ex);
+            }
             return NoContent();
         }
     }
