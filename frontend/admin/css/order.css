@@ -140,3 +140,17 @@ ul li .active .uil{
     display: grid;
     grid-template-columns: 1fr 2fr;
 }
+.modal-dialog{
+    max-width: 70%;
+}
+.detail-header{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    align-items: center;
+}
+.detail-header .icon{
+    font-size: 40px;
+}
+.modal-content{
+    margin-bottom: 20px;
+}

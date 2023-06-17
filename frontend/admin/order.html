@@ -412,7 +412,51 @@
                                     <button type="button" class="btn btn-primary" onclick="update()">Xác nhận</button>
                                     <button type="button" class="btn btn-danger">Hủy đơn</button>
                                 </div>
-                                <button type="button" class="btn btn-secondary">Chi tiết</button>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#detail">Chi tiết</button>
+                                <div class="modal fade" id="detail" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <table class="table">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Thời gian</th>
+                                                            <th scope="col">Người xác nhận</th>
+                                                            <th scope="col">Ghi chú</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="detail-header">
+                                                                <i class="icon uil uil-capture"
+                                                                    style="visibility: visible;"></i>
+                                                                <div>Tạo đơn hàng</div>
+                                                            </th>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>@fat</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">3</th>
+                                                            <td>Larry</td>
+                                                            <td>the Bird</td>
+                                                            <td>@twitter</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
