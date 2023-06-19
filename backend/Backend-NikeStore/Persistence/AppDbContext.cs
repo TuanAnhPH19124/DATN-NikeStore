@@ -37,6 +37,7 @@ namespace Persistence
         public DbSet<Color> Colors { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
 
         public DbSet<Employees> Employees { get; set; }
         public DbSet<Products> Products { get; set; }

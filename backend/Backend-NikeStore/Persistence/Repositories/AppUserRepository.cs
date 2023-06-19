@@ -20,26 +20,23 @@ namespace Persistence.Repositories
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly AppDbContext _appDbContext;
 
-        public AppUserRepository(UserManager<AppUser> userManager, IConfiguration configuration)
+        public AppUserRepository(UserManager<AppUser> userManager, IConfiguration configuration, AppDbContext appDbContext)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _appDbContext = appDbContext;
         }
 
         public async Task<AppUser> AuthticationUserWithGoogle(string email)
         {
-            //var user = await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email);
-            //return user;
             throw new NotImplementedException();
-
         }
 
         public async Task<AppUser> AuthticationUserWithLogin(string email, string password)
         {
-            //return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
             throw new NotImplementedException();
-
         }
 
         public async Task<bool> CheckPassword(AppUser user, string password)
@@ -100,8 +97,28 @@ namespace Persistence.Repositories
             
         }
 
-       
+      
+        public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
+        {                    
+            var userList = await _appDbContext.Users.ToListAsync(cancellationToken);
+            return userList;
+        }
 
+        public async Task<AppUser> GetByIdAppUserAsync(string id, CancellationToken cancellationToken = default)
+        {
+            var appUser = await _appDbContext.AppUsers.FirstOrDefaultAsync(e => e.Id == id);
+            return appUser;
+        }
+
+        public async void AddAppUser(AppUser appUser)
+        {
+            _appDbContext.AppUsers.Add(appUser);
+        }
+
+        public async void UpdateAppUser(AppUser appUser)
+        {
+            _appDbContext.AppUsers.Update(appUser);
+        }
 
     }
 }

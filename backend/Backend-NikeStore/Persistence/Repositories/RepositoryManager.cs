@@ -22,7 +22,7 @@ namespace Persistence.Repositories
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration)
         {
-            _lazyAppUserRepository = new Lazy<IAppUserRepository>(() => new AppUserRepository(userManager, configuration));
+            _lazyAppUserRepository = new Lazy<IAppUserRepository>(() => new AppUserRepository(userManager, configuration, context));
             _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
             _lazyVoucherRepository = new Lazy<IVoucherRepository>(() =>new VoucherRepository(context));
             _lazyProductRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));

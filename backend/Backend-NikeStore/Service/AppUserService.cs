@@ -161,5 +161,42 @@ namespace Service
         }
 
 
+
+        ////////////////////
+        public async Task<AppUser> CreateAsync(AppUser appUser)
+        {
+            _repositoryManger.AppUserRepository.AddAppUser(appUser);
+
+            await _repositoryManger.UnitOfWork.SaveChangeAsync();
+            return appUser;
+        }
+        public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
+        {
+            List<AppUser> appUserList = await _repositoryManger.AppUserRepository.GetAllAppUserAsync(cancellationToken);
+            return appUserList;
+        }
+
+        public async Task<AppUser> GetByIdAppUserAsync(string id, CancellationToken cancellationToken = default)
+        {
+            AppUser appUser = await _repositoryManger.AppUserRepository.GetByIdAsync(id, cancellationToken);
+            return appUser;
+        }
+
+        public async Task<AppUser> UpdateByIdAppUser(string id, AppUser appUser, CancellationToken cancellationToken = default)
+        {
+            var existingAppUser = await _repositoryManger.AppUserRepository.GetByIdAsync(id, cancellationToken);
+            if (existingAppUser == null)
+            {
+                throw new Exception("User not found.");
+            }
+            else
+            {
+                existingAppUser.FullName = appUser.FullName;
+                existingAppUser.Email= appUser.Email;
+                existingAppUser.PhoneNumber= appUser.PhoneNumber;               
+                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                return existingAppUser;
+            }
+        }
     }
 }
