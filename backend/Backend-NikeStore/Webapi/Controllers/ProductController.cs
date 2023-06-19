@@ -1,40 +1,38 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstractions;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using EntitiesDto;
-using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
-using Persistence;
-using System.Linq;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppUserController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
 
-        public AppUserController(IServiceManager serviceManager)
+        public ProductController(IServiceManager serviceManager)
         {
             _serviceManager = serviceManager;
         }
+
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetAllAppUser()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
         {
             try
             {
-                var appUser = await _serviceManager.AppUserService.GetAllAppUserAsync();
-                if (appUser == null || !appUser.Any())
+                var products = await _serviceManager.ProductService.GetAllProductAsync();
+                if (products == null || !products.Any())
                 {
                     return NotFound();
                 }
-                return Ok(appUser);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -45,19 +43,19 @@ namespace Webapi.Controllers
 
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<AppUser>> GetByIdAppUser(string Id)
+        public async Task<ActionResult<Product>> GetProduct(string Id)
         {
-            var appUser = await _serviceManager.AppUserService.GetByIdAppUserAsync(Id);
+            var product = await _serviceManager.ProductService.GetByIdProduct(Id);
 
-            if (appUser == null)
+            if (product == null)
             {
                 return NotFound();
             }
-            return appUser;
+            return product;
         }
 
         [HttpPost]
-        public async Task<ActionResult<AppUser>> CreateAppUser(AppUser appUser)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody]Product product)
         {
             try
             {
@@ -65,8 +63,8 @@ namespace Webapi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var createdAppUser = await _serviceManager.AppUserService.CreateAsync(appUser);
-                return CreatedAtAction(nameof(GetByIdAppUser), new { id = createdAppUser.Id }, createdAppUser);
+                var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
+                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
             }
             catch (Exception ex)
             {
@@ -75,21 +73,22 @@ namespace Webapi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppUser(string id, AppUser appUser)
+        public async Task<IActionResult> UpdateProduct(string id, Product product)
         {
-            if (id != appUser.Id)
+            if (id != product.Id)
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }
             try
             {
-                await _serviceManager.AppUserService.UpdateByIdAppUser(id, appUser);
+                await _serviceManager.ProductService.UpdateByIdProduct(id, product);
             }
             catch (Exception ex)
             {
                 // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
                 return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
+
             return NoContent();
         }
     }

@@ -15,14 +15,16 @@ namespace Persistence.Repositories
     {
         private readonly Lazy<IAppUserRepository> _lazyAppUserRepository;
         private readonly Lazy<IVoucherRepository> _lazyVoucherRepository;
+        private readonly Lazy<IProductRepository> _lazyProductRepository;
 
         private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration)
         {
-            _lazyAppUserRepository = new Lazy<IAppUserRepository>(() => new AppUserRepository(userManager, configuration));
+            _lazyAppUserRepository = new Lazy<IAppUserRepository>(() => new AppUserRepository(userManager, configuration, context));
             _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
             _lazyVoucherRepository = new Lazy<IVoucherRepository>(() =>new VoucherRepository(context));
+            _lazyProductRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
@@ -30,5 +32,6 @@ namespace Persistence.Repositories
         public IUnitOfWork UnitOfWork => _lazyUnitOfWork.Value;
 
         public IVoucherRepository VoucherRepository => _lazyVoucherRepository.Value;
+        public IProductRepository ProductRepository => _lazyProductRepository.Value;
     }
 }
