@@ -409,7 +409,36 @@
                             </div>
                             <div class="order-btn">
                                 <div class="left-btn">
-                                    <button type="button" class="btn btn-primary" onclick="update()">Xác nhận</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#confirm">Xác nhận</button>
+                                    <div class="modal fade" id="confirm" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận đơn hàng
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlTextarea1">Ghi chú</label>
+                                                            <textarea class="form-control"
+                                                                id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        onclick="update()">Xác nhận</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button type="button" class="btn btn-danger">Hủy đơn</button>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-toggle="modal"
@@ -432,7 +461,7 @@
                                                         <tr>
                                                             <th scope="row" class="detail-header">
                                                                 <i class="icon uil uil-capture"
-                                                                    style="visibility: visible;"></i>
+                                                                    style="visibility: visible;color: #ff4732;"></i>
                                                                 <div>Tạo đơn hàng</div>
                                                             </th>
                                                             <td>Mark</td>
@@ -475,18 +504,62 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Cập nhật đơn hàng</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            ...
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Họ và tên</label>
+                                                    <input type="email" class="form-control" id="exampleInputEmail1"
+                                                        aria-describedby="emailHelp" placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Số điện thoại</label>
+                                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                                        placeholder="">
+                                                </div>
+                                                <div class="form-address">
+                                                    <select class="form-control" id="exampleFormControlSelect1">
+                                                        <option value="" disabled selected hidden>Tỉnh/Thành
+                                                        </option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                    <select class="form-control" id="exampleFormControlSelect1">
+                                                        <option value="" disabled selected hidden>Quận/Huyện
+                                                        </option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                    <select class="form-control" id="exampleFormControlSelect1">
+                                                        <option value="" disabled selected hidden>Phường/Xã</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Địa chỉ</label>
+                                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                                        placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Mô tả</label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                        rows="3"></textarea>
+                                                </div>
+                                            </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                            <button type="button" class="btn btn-primary">Cập nhật</button>
                                         </div>
                                     </div>
                                 </div>
@@ -581,9 +654,27 @@
                                         <th scope="row" style="width: 200px;"><img style="width: 200px;"
                                                 src="https://media.istockphoto.com/id/1249496770/vi/anh/gi%C3%A0y-ch%E1%BA%A1y-b%E1%BB%99.jpg?s=2048x2048&w=is&k=20&c=_w_Env8RLauB23hmSlInzaPPzEfWoEzzQhfvnohmcOY="
                                                 alt=""></th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
+                                        <td class="item-info">
+                                            <div>
+                                                <div>
+                                                    Giày mlb mule dia monogram new york
+                                                </div>
+                                                <div>
+                                                    1,200,000 đ
+                                                </div>
+                                                <div>
+                                                    Size: 42
+                                                </div>
+                                                <div>
+                                                    x 3
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: middle;">3,600,000 đ</td>
+                                        <td style="vertical-align: middle;text-align: center;">
+                                            <button type="button" class="btn btn-primary">Cập nhật</button>
+                                            <button type="button" class="btn btn-danger">Hủy</button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
@@ -599,6 +690,33 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="footer">
+                                <div>
+                                    <button type="button" class="btn btn-primary">Thêm sản phẩm</button>
+                                </div>
+                                <div class="total">
+                                    <div class="total-info">
+                                        <div>Tiền hàng</div>
+                                        <div>3,600,000 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Phí vận chuyển</div>
+                                        <div>66,500 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Giảm giá</div>
+                                        <div>100,000 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Quyền lợi thành viên</div>
+                                        <div>72,000 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Tổng số tiền</div>
+                                        <div>3.494,500 đ</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

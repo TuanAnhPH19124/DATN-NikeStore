@@ -146,7 +146,7 @@ ul li .active .uil{
 .detail-header{
     display: grid;
     grid-template-columns: 1fr 4fr;
-    align-items: center;
+    align-items: right;
 }
 .detail-header .icon{
     font-size: 40px;
@@ -154,3 +154,24 @@ ul li .active .uil{
 .modal-content{
     margin-bottom: 20px;
 }
+.table .item-info{
+    display: table-cell;
+    width: 30%;
+    height: 200px;
+    padding: 10px;
+    vertical-align: middle;
+}
+.footer{
+    display: flex;
+    justify-content: space-between;
+}
+.total-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 100px;
+}
+.form-address{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 10px;
+  }
