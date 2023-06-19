@@ -12,5 +12,6 @@ namespace Domain.Repositories
         IUnitOfWork UnitOfWork { get; }
         IVoucherRepository VoucherRepository { get; }
         IProductRepository ProductRepository { get; }
+        INewsRepository NewsRepository { get; } 
     }
 }
