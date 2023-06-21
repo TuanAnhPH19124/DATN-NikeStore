@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-   
-        public class NewsRepository : INewsRepository
+
+        internal sealed class NewsRepository : INewsRepository
         {
             private readonly AppDbContext _dbContext;
 
