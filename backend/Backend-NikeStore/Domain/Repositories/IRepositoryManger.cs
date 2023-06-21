@@ -16,5 +16,6 @@ namespace Domain.Repositories
         INewsRepository NewsRepository { get; }
         IWishListsRepository WishListsRepository{get;}
         IShoppingCartsRepository ShoppingCartsRepository { get; }
+        IEmployeeRepository EmployeeRepository { get; }
     }
 }

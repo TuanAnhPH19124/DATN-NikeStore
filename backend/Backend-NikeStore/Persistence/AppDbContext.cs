@@ -56,6 +56,8 @@ namespace Persistence
                 .HasOne(item => item.Product)
                 .WithMany()
                 .HasForeignKey(item => item.ProductsId);
+
+           
         }
     
         public DbSet<Voucher> Vouchers { get; set; }

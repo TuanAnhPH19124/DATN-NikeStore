@@ -31,5 +31,7 @@ namespace Domain.Entities
 
         [Required(ErrorMessage = "Vai trò là bắt buộc")]
         public string Role { get; set; }
+
+        public bool Status { get; set; }       
     }
 }

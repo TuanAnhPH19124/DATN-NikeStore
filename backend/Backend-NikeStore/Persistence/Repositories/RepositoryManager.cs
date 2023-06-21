@@ -20,6 +20,7 @@ namespace Persistence.Repositories
         private readonly Lazy<INewsRepository> _lazyNewsRepository;
         private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
         private readonly Lazy<ShoppingCartsRepository> _lazyShoppingCartsRepository;
+        private readonly Lazy<EmployeeRepository> _lazyEmployeeRepository;
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration)
         {
@@ -30,6 +31,8 @@ namespace Persistence.Repositories
             _lazyNewsRepository= new Lazy<INewsRepository>(() =>new NewsRepository(context));
             _lazyWishListsRepository = new Lazy<IWishListsRepository>(() =>new WishListsRepository(context));
             _lazyShoppingCartsRepository = new Lazy<ShoppingCartsRepository>(() =>new ShoppingCartsRepository(context));
+            _lazyEmployeeRepository = new Lazy<EmployeeRepository>(() => new EmployeeRepository(context));
+            
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
@@ -43,5 +46,7 @@ namespace Persistence.Repositories
 
         public IWishListsRepository WishListsRepository => _lazyWishListsRepository.Value;
         public IShoppingCartsRepository ShoppingCartsRepository => _lazyShoppingCartsRepository.Value;
+
+        public IEmployeeRepository EmployeeRepository => _lazyEmployeeRepository.Value;
     }
 }
