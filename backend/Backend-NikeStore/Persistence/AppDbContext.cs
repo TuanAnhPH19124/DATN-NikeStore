@@ -26,8 +26,36 @@ namespace Persistence
           .HasOne(s => s.Employees)
           .WithMany()
           .HasForeignKey(s => s.EmployeeId);
+            modelBuilder.Entity<WishLists>()
+            .HasKey(w => new { w.ProductsId, w.AppUserId });
 
+            modelBuilder.Entity<WishLists>()
+                .HasOne(w => w.Product)
+                .WithMany()
+                .HasForeignKey(w => w.ProductsId);
 
+            modelBuilder.Entity<WishLists>()
+                .HasOne(w => w.AppUser)
+                .WithMany()
+                .HasForeignKey(w => w.AppUserId);
+            modelBuilder.Entity<ShoppingCarts>()
+              .HasOne(s => s.AppUser)
+              .WithOne(u => u.ShoppingCarts)
+              .HasForeignKey<ShoppingCarts>(s => s.AppUserId);
+
+            modelBuilder.Entity<ShoppingCartItems>()
+              .HasKey(item => new { item.ShoppingCartsId, item.ProductsId });
+
+            modelBuilder.Entity<ShoppingCartItems>()
+             .HasOne(item => item.ShoppingCarts)
+             .WithMany(cart => cart.Items) // Sử dụng tên thuộc tính đúng của ShoppingCart
+             .HasForeignKey(item => item.ShoppingCartsId)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ShoppingCartItems>()
+                .HasOne(item => item.Product)
+                .WithMany()
+                .HasForeignKey(item => item.ProductsId);
         }
     
         public DbSet<Voucher> Vouchers { get; set; }
@@ -39,10 +67,12 @@ namespace Persistence
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
 
+        public DbSet<ShoppingCartItems>  ShoppingCartItems { get; set; }
         public DbSet<Employees> Employees { get; set; }
-        public DbSet<Products> Products { get; set; }
+        public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<WishLists> WishLists { get; set; }
        
     }
 }

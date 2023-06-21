@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -9,9 +10,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230615042410_UpdateTable")]
+    partial class UpdateTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,12 +260,6 @@ namespace Persistence.Migrations
                     b.Property<double>("RetailPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<string>("ShoppingCartItemsProductsId")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("ShoppingCartItemsShoppingCartsId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -274,8 +270,6 @@ namespace Persistence.Migrations
 
                     b.HasIndex("Name")
                         .IsUnique();
-
-                    b.HasIndex("ShoppingCartItemsShoppingCartsId", "ShoppingCartItemsProductsId");
 
                     b.ToTable("Product");
                 });
@@ -339,41 +333,6 @@ namespace Persistence.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCartItems", b =>
-                {
-                    b.Property<Guid>("ShoppingCartsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ProductsId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ShoppingCartsId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("ShoppingCartItems");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
-
-                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Size", b =>
@@ -662,15 +621,6 @@ namespace Persistence.Migrations
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Product", b =>
-                {
-                    b.HasOne("Domain.Entities.ShoppingCartItems", "ShoppingCartItems")
-                        .WithMany()
-                        .HasForeignKey("ShoppingCartItemsShoppingCartsId", "ShoppingCartItemsProductsId");
-
-                    b.Navigation("ShoppingCartItems");
-                });
-
             modelBuilder.Entity("Domain.Entities.ProductImage", b =>
                 {
                     b.HasOne("Domain.Entities.Color", "Color")
@@ -695,34 +645,6 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCartItems", b =>
-                {
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.ShoppingCarts", "ShoppingCarts")
-                        .WithMany("Items")
-                        .HasForeignKey("ShoppingCartsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ShoppingCarts");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
-                {
-                    b.HasOne("Domain.Entities.AppUser", "AppUser")
-                        .WithOne("ShoppingCarts")
-                        .HasForeignKey("Domain.Entities.ShoppingCarts", "AppUserId");
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Domain.Entities.Stock", b =>
@@ -831,11 +753,6 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entities.AppUser", b =>
-                {
-                    b.Navigation("ShoppingCarts");
-                });
-
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("ChildCategories");
@@ -853,11 +770,6 @@ namespace Persistence.Migrations
                     b.Navigation("ProductImages");
 
                     b.Navigation("Stocks");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Domain.Entities.Size", b =>
