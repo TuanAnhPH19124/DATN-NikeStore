@@ -156,7 +156,7 @@ ul li .active .uil{
 }
 .table .item-info{
     display: table-cell;
-    width: 30%;
+    width: 40%;
     height: 200px;
     padding: 10px;
     vertical-align: middle;
@@ -174,4 +174,68 @@ ul li .active .uil{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-gap: 10px;
+  }
+#updateModal{
+    text-align: initial;
+}
+.input-number {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0px 15px 0px;
+}
+.input-number .btn{
+    border-radius: 0px;
+  }
+  .input-number #number{
+    border-radius: 0px;
+    width: 100px;
+  }
+.form-group{
+    margin: 0px 20px 0px 20px;
+}
+.form-filter{
+    display: flex;
+    align-items: baseline;
+    padding: 10px;
+  }
+  .form-filter label{
+    font-size: 20px;
+    padding-right: 10px;
+  }
+  .form-filter .form-control{
+    width: 100px;
+  }
+  .select{
+    display: flex;
+    justify-content: center;
+  }
+  #productModal .modal-dialog{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+  }
+  #product-detail{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 25px;
+  }
+  .product-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+  }
+  .size .title{
+    text-align: center;
+  }
+  .size .title .btn-toolbar{
+    justify-content: center;
+  }
+  .btn-group{
+    display: block;
+  }
+  .btn-group .btn{
+    border-radius: 0px;
+    margin: 5px;
   }
