@@ -29,7 +29,7 @@ namespace Webapi.Controllers
         [HttpGet("{Id}")]
         public async Task<ActionResult<AppUser>> GetAppUsers(Guid Id)
         {
-            return Ok();
+            return await Task.FromResult(Ok());
         }
 
 
@@ -50,7 +50,7 @@ namespace Webapi.Controllers
         {
             
 
-            return NoContent();
+            return await Task.FromResult(Ok());
         }
     }
 }

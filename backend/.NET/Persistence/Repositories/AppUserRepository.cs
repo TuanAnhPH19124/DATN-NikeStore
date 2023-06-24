@@ -31,14 +31,14 @@ namespace Persistence.Repositories
         {
             //var user = await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email);
             //return user;
-            throw new NotImplementedException();
+            return await Task.FromResult(new AppUser());
 
         }
 
         public async Task<AppUser> AuthticationUserWithLogin(string email, string password)
         {
             //return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
-            throw new NotImplementedException();
+            return await Task.FromResult(new AppUser());
 
         }
 

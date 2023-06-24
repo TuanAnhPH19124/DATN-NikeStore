@@ -31,10 +31,10 @@ namespace Persistence.Repositories
 
         public async void AddVoucher(Voucher voucher)
         {
-            _appDbContext.Vouchers.Add(voucher);
+            await _appDbContext.Vouchers.AddAsync(voucher);
         }
 
-        public async void UpdateVoucher(Voucher voucher)
+        public void UpdateVoucher(Voucher voucher)
         {
             _appDbContext.Vouchers.Update(voucher);
         }

@@ -176,7 +176,7 @@ namespace Webapi.Controllers
         public async Task<IActionResult> ConfrimEmail(string userid, string code)
         {
 
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok());
         }
 
 
