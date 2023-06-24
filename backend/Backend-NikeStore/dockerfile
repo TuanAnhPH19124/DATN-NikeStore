@@ -2,17 +2,16 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 as build-env
 WORKDIR /src
 EXPOSE 80
 
-COPY . .
-RUN dotnet restore 
-RUN dotnet tool install --global dotnet-ef --version 5.0.17
-RUN dotnet-ef database update -p /src/Persistence/ -s /src/Webapi/ -c AppDbContext
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 as publish-env
+COPY ./Webapi/*.csproj /src/Webapi/
 WORKDIR /src/Webapi
-COPY --from=build-env /src/Webapi .
-RUN dotnet publish -c Release -o /src/publish
+RUN dotnet restore
+
+WORKDIR /src
+COPY . .
+WORKDIR /src/Webapi
+RUN dotnet publish -c Release -o /src/out/   
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 as final-env
 WORKDIR /app
-COPY --from=publish-env /src/publish .
+COPY --from=build-env /src/out .   
 ENTRYPOINT ["dotnet", "Webapi.dll"]

@@ -4,9 +4,12 @@
 *.jfm
 *.pdb
 *.user
-*.vs
+.vs
 [Dd]ebug/
 [Rr]elease/
-
+*.csv
 .git/
 .svn/
+*.sln
+.gitignore
+.dockerignore

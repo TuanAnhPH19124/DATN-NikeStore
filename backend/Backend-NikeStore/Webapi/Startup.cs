@@ -63,13 +63,22 @@ namespace Webapi
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
-
+            services.AddCors();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            DatabaseMigration.StartMigration(app);
+
+            app.UseCors(option =>
+            {
+                option.AllowAnyOrigin()
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -93,9 +102,7 @@ namespace Webapi
             {
                 option.WatchPagePassword = "admin";
                 option.WatchPageUsername = "admin";
-
             });
-
 
             app.UseEndpoints(endpoints =>
             {
