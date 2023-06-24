@@ -1,0 +1,54 @@
+version: '3.0'
+
+networks:
+  dev:
+    driver: bridge
+    
+services:
+  datn-webapi:
+    image: datn-webapi
+    depends_on:
+      - "app_db"
+      - "redis_db"
+    container_name: webapi-runtime
+    ports:
+      - "8080:80"
+    build: 
+      context: .
+      dockerfile: dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=app_db;Port=5432;Database=Nike_stores;Pooling=true
+      - ConnectionStrings__RedisConnection=redis_db:6379
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  app_db:
+    image: postgres:latest
+    container_name: app_db
+    environment:
+      - POSTGRES_USER=postgres --role=superuser
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=Nike_stores
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - app_data:/var/lib/postgresql/data
+    networks:
+      - dev
+
+  redis_db:
+    image: redis:latest
+    container_name: redis_db
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis_data:/var/lib/redis/data
+    networks:
+      - dev
+
+volumes:
+  app_data:
+  redis_data:

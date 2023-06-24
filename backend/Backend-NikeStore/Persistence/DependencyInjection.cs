@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Persistence.Configurations;
+using StackExchange.Redis;
 using System.Text;
 
 namespace Persistence
@@ -19,6 +20,8 @@ namespace Persistence
                 var connection = configuration.GetConnectionString("DefaultConnection");
                 builder.UseNpgsql(connection, b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
             });
+
+            services.AddSingleton<IConnectionMultiplexer>(opt => ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")));
 
             services.AddIdentity<AppUser, IdentityRole>(option => option.SignIn.RequireConfirmedEmail = true)
              .AddEntityFrameworkStores<AppDbContext>()

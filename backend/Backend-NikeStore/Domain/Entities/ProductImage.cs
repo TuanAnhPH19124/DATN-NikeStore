@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("ProductIamges")]
+    [Table("ProductImages")]
     public class ProductImage
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();

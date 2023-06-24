@@ -11,5 +11,8 @@ namespace Domain.Repositories
         IAppUserRepository AppUserRepository { get; }
         IUnitOfWork UnitOfWork { get; }
         IVoucherRepository VoucherRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
+        IProductRepository ProductRepository { get; }
+        ICacheRepository CacheRepository { get; }
     }
 }

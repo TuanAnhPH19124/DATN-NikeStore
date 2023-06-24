@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+*.dbmdl
+*.jfm
+*.pdb
+*.user
+*.vs
+[Dd]ebug/
+[Rr]elease/
+
+.git/
+.svn/

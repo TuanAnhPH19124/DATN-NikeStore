@@ -9,6 +9,7 @@ using Persistence;
 using Persistence.Repositories;
 using Service;
 using Service.Abstractions;
+using StackExchange.Redis;
 using System.ComponentModel;
 using WatchDog;
 using WatchDog.src.Enums;
@@ -27,6 +28,10 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            services.AddElasticSearch(Configuration);
+
             services.AddWatchDogServices(option =>
             {
                 option.IsAutoClear = false;
@@ -72,7 +77,7 @@ namespace Webapi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Webapi v1"));
             }
 
-
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

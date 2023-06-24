@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Service.Abstractions
     {
         IAppUserService AppUserService { get; }
         IVoucherService VoucherService { get; }
+        ICategoryService CategoryService { get; }
+        IProductService ProductService { get; }
     }
 }
