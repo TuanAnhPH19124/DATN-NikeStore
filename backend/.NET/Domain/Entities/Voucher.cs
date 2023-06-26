@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class Voucher
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Code { get; set; }
         public decimal Value { get; set; }
         public string Description { get; set; }

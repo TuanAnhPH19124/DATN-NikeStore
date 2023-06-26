@@ -23,7 +23,7 @@ namespace Persistence.Repositories
             List<Voucher> voucherList = await _appDbContext.Vouchers.ToListAsync(cancellationToken);
             return voucherList;
         }
-        public async Task<Voucher> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Voucher> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {           
             var voucher = await _appDbContext.Vouchers.FirstOrDefaultAsync(e => e.Id == id);
             return voucher;

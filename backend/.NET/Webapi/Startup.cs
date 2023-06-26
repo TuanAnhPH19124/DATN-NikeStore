@@ -32,13 +32,13 @@ namespace Webapi
 
             services.AddElasticSearch(Configuration);
 
-            services.AddWatchDogServices(option =>
-            {
-                option.IsAutoClear = false;
-                option.SetExternalDbConnString = Configuration.GetConnectionString("DefaultConnection");
-                option.DbDriverOption = WatchDogDbDriverEnum.PostgreSql;
+            // services.AddWatchDogServices(option =>
+            // {
+            //     option.IsAutoClear = false;
+            //     option.SetExternalDbConnString = Configuration.GetConnectionString("DefaultConnection");
+            //     option.DbDriverOption = WatchDogDbDriverEnum.PostgreSql;
                 
-            });
+            // });
 
             services.AddAuthentication(options =>
             {
@@ -96,13 +96,13 @@ namespace Webapi
 
             app.UseAuthorization();
 
-            app.UseWatchDogExceptionLogger();
+            // app.UseWatchDogExceptionLogger();
 
-            app.UseWatchDog(option =>
-            {
-                option.WatchPagePassword = "admin";
-                option.WatchPageUsername = "admin";
-            });
+            // app.UseWatchDog(option =>
+            // {
+            //     option.WatchPagePassword = "admin";
+            //     option.WatchPageUsername = "admin";
+            // });
 
             app.UseEndpoints(endpoints =>
             {

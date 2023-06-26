@@ -24,5 +24,6 @@ namespace Domain.Entities
         public virtual List<Tag> Tags { get; set; } = new List<Tag>();
         public virtual List<Stock> Stocks { get; set; } = new List<Stock>();
         public virtual List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        public virtual IEnumerable<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

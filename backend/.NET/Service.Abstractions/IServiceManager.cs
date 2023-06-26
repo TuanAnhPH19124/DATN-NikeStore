@@ -14,5 +14,6 @@ namespace Service.Abstractions
         IVoucherService VoucherService { get; }
         ICategoryService CategoryService { get; }
         IProductService ProductService { get; }
+        IOrderService OrderService {get; }
     }
 }

@@ -46,7 +46,7 @@ namespace Webapi.Controllers
 
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<Voucher>> GetVoucher(Guid Id)
+        public async Task<ActionResult<Voucher>> GetVoucher(string Id)
         {
             var voucher = await _serviceManager.VoucherService.GetByIdVoucher(Id);
 
@@ -76,7 +76,7 @@ namespace Webapi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVoucher(Guid id, Voucher voucher)
+        public async Task<IActionResult> UpdateVoucher(string id, Voucher voucher)
         {
             if (id != voucher.Id)
             {

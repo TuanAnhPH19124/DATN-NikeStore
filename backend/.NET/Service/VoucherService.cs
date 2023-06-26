@@ -38,13 +38,13 @@ namespace Service
             return voucherList;
         }
 
-        public async Task<Voucher> GetByIdVoucher(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Voucher> GetByIdVoucher(string id, CancellationToken cancellationToken = default)
         {           
             Voucher voucher = await _repositoryManger.VoucherRepository.GetByIdAsync(id, cancellationToken);
             return voucher;
         }
 
-        public async Task<Voucher> UpdateByIdVoucher(Guid id, Voucher voucher, CancellationToken cancellationToken = default)
+        public async Task<Voucher> UpdateByIdVoucher(string id, Voucher voucher, CancellationToken cancellationToken = default)
         {
             var existingVoucher = await _repositoryManger.VoucherRepository.GetByIdAsync(id, cancellationToken);
             if (existingVoucher == null)
