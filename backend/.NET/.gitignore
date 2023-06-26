@@ -30,8 +30,7 @@
 # C�c t?p h? th?ng
 .DS_Store
 Thumbs.db
+.dockerignore
 dockerfile
 *.yml
-*.sln
 *.csv
-.dockerignore
