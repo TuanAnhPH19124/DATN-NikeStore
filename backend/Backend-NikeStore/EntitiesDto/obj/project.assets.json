@@ -8,19 +8,24 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\savan\\.nuget\\packages\\": {}
+    "C:\\Users\\ha\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\EntitiesDto\\EntitiesDto.csproj",
+      "projectUniqueName": "C:\\Users\\ha\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\EntitiesDto\\EntitiesDto.csproj",
       "projectName": "EntitiesDto",
-      "projectPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\EntitiesDto\\EntitiesDto.csproj",
-      "packagesPath": "C:\\Users\\savan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\EntitiesDto\\obj\\",
+      "projectPath": "C:\\Users\\ha\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\EntitiesDto\\EntitiesDto.csproj",
+      "packagesPath": "C:\\Users\\ha\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ha\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\EntitiesDto\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\savan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

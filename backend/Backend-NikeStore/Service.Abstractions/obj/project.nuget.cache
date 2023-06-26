@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9ktq19zwMu2CFD3uLyw50YyNntuAiixbvSDiLGX/BX+Rd318ohG9JDaoWKMhEAwirC+tv/68foitT6wlls5xbw==",
+  "dgSpecHash": "OZpwzGqB3/2aj/roiZi69mp0H3YLD2NTwuVyuksQ0iJaGSty/Fv23cGIIg1SJDjEzi2XDApkHaMO4vmn20YTow==",
   "success": true,
-  "projectFilePath": "C:\\Users\\savan\\OneDrive\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Service.Abstractions\\Service.Abstractions.csproj",
+  "projectFilePath": "C:\\Users\\ha\\Desktop\\DATN-NikeStore\\backend\\Backend-NikeStore\\Service.Abstractions\\Service.Abstractions.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
