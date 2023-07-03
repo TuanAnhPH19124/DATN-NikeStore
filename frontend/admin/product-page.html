@@ -13,6 +13,8 @@
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="themify-icons/themify-icons.css" rel="stylesheet" type="text/css">
+
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -361,148 +363,12 @@
 
                     <!-- Page Heading -->
                     <div class="add-btn">
-                        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
-                            data-target=".bd-example-modal-lg">
+                        <a href="/frontend/admin/add-product.html" class="btn btn-primary text-white me-0">
                             <span class="icon text-white-50">
-                                <i class="fa fa-plus"></i>
+                                <i class="ti-plus"></i>
                             </span>
                             <span class="text">Thêm sản phẩm</span>
                         </a>
-                    </div>
-                    <!-- Button trigger modal -->
-
-                    <!-- Modal -->
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp" placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Mô tả</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Giá sản phẩm</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Trạng thái</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Danh mục</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Màu sắc</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Thương hiệu</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Kích cỡ và số lượng</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true"></span>
-                                        </button>
-                                    </div>
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">Kích cỡ</th>
-                                                <th scope="col">Số lượng</th>
-                                                <th scope="col">Trạng thái</th>
-                                                <th scope="col">Thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button type="submit" class="btn btn-primary"
-                                        style="margin: auto;display: flex;">Thêm Kích Cỡ</button>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Chọn ảnh</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                                accept="image/*" onchange="loadFile(event)">
-                                            <label class="custom-file-label" for="inputGroupFile01">Choose
-                                                file</label>
-                                        </div>
-                                    </div>
-                                    <p><img id="output" width="150" height="150" /></p>
-                                    <script>
-                                        var loadFile = function (event) {
-                                            var image = document.getElementById('output');
-                                            image.src = URL.createObjectURL(event.target.files[0]);
-                                        };
-                                    </script>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Xác nhận</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="select">
