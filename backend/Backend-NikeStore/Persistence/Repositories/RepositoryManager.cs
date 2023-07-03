@@ -32,7 +32,6 @@ namespace Persistence.Repositories
             _lazyWishListsRepository = new Lazy<IWishListsRepository>(() =>new WishListsRepository(context));
             _lazyShoppingCartsRepository = new Lazy<ShoppingCartsRepository>(() =>new ShoppingCartsRepository(context));
             _lazyEmployeeRepository = new Lazy<EmployeeRepository>(() => new EmployeeRepository(context));
-            
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;

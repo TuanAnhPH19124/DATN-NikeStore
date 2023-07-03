@@ -46,7 +46,7 @@ namespace Service
             var existingEmployee = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
             if (existingEmployee == null)
             {
-                throw new Exception("Voucher not found.");
+                throw new Exception("Employee not found.");
             }
             else
             {
