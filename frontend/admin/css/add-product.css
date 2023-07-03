@@ -1,0 +1,206 @@
+.add-btn{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
+.footer{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+.footer-customer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.customer-info .form-control{
+    width: 450px;
+}
+.form-address{
+  display: flex;
+}
+.form-address .form-control {
+  width: 140px;
+  margin-right: 14px;
+}
+
+.modal-dialog{
+    max-width: 80%;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.toggle-btn{
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+    align-items: center;
+}
+.receipt-info .form-control{
+  width: 200px;
+}
+.discount-btn{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.receipt-info .form-group{
+  display: flex;
+  justify-content: space-between;
+}
+.modal-content{
+  margin-bottom: 20px;
+}
+.form-filter{
+  display: flex;
+  align-items: baseline;
+  padding: 10px;
+}
+.form-filter label{
+  font-size: 20px;
+  padding-right: 10px;
+}
+.form-filter .form-control{
+  width: 100px;
+}
+.select{
+  display: flex;
+  justify-content: center;
+}
+#productModal .modal-dialog{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+}
+#product-detail{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 25px;
+}
+.product-info{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+}
+.size .title{
+  text-align: center;
+}
+.size .title .btn-toolbar{
+  justify-content: center;
+}
+.btn-group{
+  display: block;
+}
+.btn-group .btn{
+  border-radius: 0px;
+  margin: 5px;
+}
+.input-number{
+  display: flex;
+  justify-content: center;
+  margin: 15px 0px 15px 0px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-number .btn{
+  border-radius: 0px;
+}
+.input-number #number{
+  border-radius: 0px;
+  width: 100px;
+}
+.title .btn{
+  border-radius: 0px;
+}
+.instock{
+  margin-bottom: 10px;
+}
+#account-modal form{
+   display: flex;
+   align-items: baseline;
+}
+#productModal2 .modal-dialog{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+}
+.modal-dialog {
+    max-width: 80%;
+}
+.modal-title{
+    margin: auto;
+}
+.modal-body form{
+    max-width: 70%;
+    margin: auto;
+}
+.size-amount{
+    max-width: 70%;
+    margin: auto;
+}
+.amount{
+  display: flex;
+  gap: 80px;
+  align-items: center;
+}
