@@ -11,5 +11,11 @@ namespace Service.Abstractions
     {
         IAppUserService AppUserService { get; }
         IVoucherService VoucherService { get; }
+        IProductService ProductService { get; }
+        INewsService NewsService { get; }
+        IWishListsService WishListsService { get; }
+        IShoppingCartsService ShoppingCartsService { get; }
+        IEmployeeService employeeService { get; }
+
     }
 }
