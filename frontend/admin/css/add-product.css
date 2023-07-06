@@ -204,3 +204,8 @@ input::-webkit-inner-spin-button {
   gap: 80px;
   align-items: center;
 }
+.btn-outline-primary{
+  margin: 3px;
+  border-radius: 0px;
+  padding: 5px 30px;
+}
