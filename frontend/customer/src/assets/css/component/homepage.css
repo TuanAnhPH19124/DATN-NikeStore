@@ -1,0 +1,60 @@
+*{
+    margin: auto;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+header{
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    justify-content: space-between;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);;
+}
+
+header p{
+    margin-bottom: 0;
+}
+.header-top{
+    background-color: #f5f5f5;
+    padding: 10px 100px;
+    padding-left: 530px;
+    font-size: 14px;
+    
+}
+.header-top, .right, .email, .icon, .language, .login{
+    display: flex;
+    align-items: center;
+    
+}
+.header-top i{
+    margin: 0px 10px;
+}
+.header-top .left, .right:hover{
+    color: rgb(255, 0, 0);
+}
+.header-main, nav ul, .right-main, .price{
+    display: flex;
+    align-items: center;
+}
+
+.header-main :hover{
+    color: rgb(207, 43, 43);
+}
+nav li{
+    list-style: none;
+    padding-top: 10px;
+    margin: 0 20px;
+}
+nav li a{
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 200;
+    color: #292727;
+}
+.right-main i{
+    margin-right: 10px;
+    margin-top: 11px;
+}
+/* end header  */

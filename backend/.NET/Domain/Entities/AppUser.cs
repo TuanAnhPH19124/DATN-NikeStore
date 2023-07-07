@@ -20,5 +20,6 @@ namespace Domain.Entities
         public string AvatarUrl { get; set; }
 
         public virtual List<Order> Orders { get; set; }
+        public ShoppingCarts ShoppingCarts { get; set; }
     }
 }

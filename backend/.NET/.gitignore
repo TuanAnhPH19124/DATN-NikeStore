@@ -2,7 +2,7 @@
 .temp/
 .temp/*
 .temp/**/*
-
+/Migrations
 .vs/
 .vs/*
 .vs/**/*
