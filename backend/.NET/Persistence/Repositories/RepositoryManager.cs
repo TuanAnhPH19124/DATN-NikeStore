@@ -21,8 +21,9 @@ namespace Persistence.Repositories
     private readonly Lazy<IProductRepository> _lazyProductRepository;
     private readonly Lazy<ICacheRepository> _lazyCacheRepository;
     private readonly Lazy<IOrderRepository> _lazyOrderRepository;
+    private readonly Lazy<IOrderItemsRepository> _lazyOrderItemsRepository;
+    private readonly Lazy<IStockRepository> _lazyStockRepository;
     private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
-
 
     public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration, IConnectionMultiplexer redis)
     {
@@ -33,6 +34,8 @@ namespace Persistence.Repositories
       _lazyProductRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
       _lazyCacheRepository = new Lazy<ICacheRepository>(() => new CacheRepository(redis));
       _lazyOrderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
+      _lazyOrderItemsRepository = new Lazy<IOrderItemsRepository>(() => new OrderItemsRepository(context));
+      _lazyStockRepository = new Lazy<IStockRepository>(() => new StockRepository(context));
     }
 
     public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
@@ -47,6 +50,10 @@ namespace Persistence.Repositories
 
     public ICacheRepository CacheRepository => _lazyCacheRepository.Value;
 
-    public IOrderRepository OrderRepository => _lazyOrderRepository.Value;
+    public IOrderRepository OrderRepository => _lazyOrderRepository.Value; 
+
+    public IOrderItemsRepository OrderItemsRepository => _lazyOrderItemsRepository.Value;
+
+    public IStockRepository StockRepository => _lazyStockRepository.Value;
   }
 }

@@ -13,6 +13,7 @@ using StackExchange.Redis;
 using System.ComponentModel;
 using WatchDog;
 using WatchDog.src.Enums;
+using Webapi.Hubs;
 
 namespace Webapi
 {
@@ -64,21 +65,22 @@ namespace Webapi
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
             services.AddCors();
-
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            DatabaseMigration.StartMigration(app);
-
             app.UseCors(option =>
             {
-                option.AllowAnyOrigin()
-                      .AllowAnyHeader()
-                      .AllowAnyMethod();
+                option.WithOrigins("http://127.0.0.1:5500")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
             });
 
+            DatabaseMigration.StartMigration(app);
+            SeedingDatabase.Start(app).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -104,10 +106,15 @@ namespace Webapi
             //     option.WatchPageUsername = "admin";
             // });
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/hubs/notify");
+                endpoints.MapHub<ManagerHub>("/hubs/manager");
+                endpoints.MapHub<CustomerHub>("/hubs/customer");
             });
+
         }
     }
 }

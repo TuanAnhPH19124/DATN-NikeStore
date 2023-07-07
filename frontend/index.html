@@ -1,13 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 </head>
+
 <body>
-    <button>New Submit</button>
+    <input id="MessageInput" type="text" placeholder="Message">
+    <input id="EmailInput" type="text" placeholder="Email">
+    <button id="sendButton">Send</button>
+    <script>
+        const Url = "https://localhost:44328";
+        var connection = new signalR.HubConnectionBuilder().withUrl(`${Url}/hubs/customer`).configureLogging(signalR.LogLevel.Information).build();
+        function SendMessage() {
+            var inputMessage = document.getElementById('MessageInput');
+            var email = document.getElementById('EmailInput');
+            connection.send("SendMessage", email.value, inputMessage.value);
+        }
+        // Lấy tham chiếu đến thẻ button
+        const sendButton = document.getElementById('sendButton');
+
+        // Gắn sự kiện onclick cho button
+        sendButton.addEventListener('click', function () {
+            // Xử lý sự kiện onclick tại đây
+            SendMessage();
+            // Gọi hàm hoặc thực hiện các thao tác khác
+        });
+
+        async function Start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (error) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+        connection.onclose(async () => {
+            await Start();
+        });
+        Start();
+    </script>
 </body>
+
 </html>

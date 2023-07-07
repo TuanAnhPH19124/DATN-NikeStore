@@ -179,9 +179,6 @@ namespace Persistence.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("double precision");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
                     b.Property<string>("CustomerName")
                         .HasColumnType("text");
 
@@ -216,7 +213,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("VoucherId");
 
@@ -395,12 +392,14 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("EndDate")
@@ -592,11 +591,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
 
                     b.HasOne("Domain.Entities.Voucher", "Voucher")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("VoucherId");
 
                     b.Navigation("AppUser");
@@ -725,6 +724,11 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.AppUser", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("ChildCategories");
@@ -754,6 +758,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Size", b =>
                 {
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Voucher", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

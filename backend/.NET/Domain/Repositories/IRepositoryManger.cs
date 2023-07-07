@@ -15,5 +15,7 @@ namespace Domain.Repositories
     IProductRepository ProductRepository { get; }
     ICacheRepository CacheRepository { get; }
     IOrderRepository OrderRepository { get; }
+    IOrderItemsRepository OrderItemsRepository { get; }
+    IStockRepository StockRepository { get; }
   }
 }

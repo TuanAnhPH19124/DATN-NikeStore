@@ -18,5 +18,7 @@ namespace Domain.Entities
         public decimal LoyaltyPoint { get; set; } = 0;
         public int MemberDiscount { get; set; } = 0;
         public string AvatarUrl { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
     }
 }
