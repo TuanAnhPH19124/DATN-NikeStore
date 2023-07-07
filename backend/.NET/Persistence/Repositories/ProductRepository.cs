@@ -12,6 +12,24 @@ namespace Persistence.Repositories
 {
     internal sealed class ProductRepository : IProductRepository
     {
+        private readonly AppDbContext _context;
+
+        public ProductRepository(AppDbContext context)
+        {
+            _context=context;
+        }
+
+        public async Task<IEnumerable<Product>> GetByCategoryAsync(string categoryId)
+        {
+            var products = await _context.Products
+                                         .FromSqlInterpolated($"select * from \"GetByCategory\"({categoryId})")
+                                         .ToListAsync();
+            return products;
+        }
+
+        public async Task<IEnumerable<Product>> GetProductAsync()
+        {
+            return await _context.Products.ToListAsync();
         private readonly AppDbContext _appDbContext;
         public ProductRepository(AppDbContext appDbContext)
         {

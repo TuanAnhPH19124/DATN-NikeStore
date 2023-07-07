@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-    public class AppUserConfiguration
+    internal class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     {
-        public void Configure()
+        public void Configure(EntityTypeBuilder<AppUser> builder)
         {
-         
+            builder.HasMany(p => p.Orders)
+                .WithOne(p => p.AppUser)
+                .HasForeignKey(p => p.UserId);
         }
     }
 }
