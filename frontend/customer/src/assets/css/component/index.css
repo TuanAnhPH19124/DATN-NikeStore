@@ -44,12 +44,13 @@
     height: 50px;
     border: none;
     transform: rotate(-90deg);
+    letter-spacing: 4px;
 }.shopnow a {
     color: white;
-    text-decoration: none;
 }
 .shopnow a:hover{
-    color: yellow;
+    color: yellow;  
+    text-decoration: none;
 }
 .full {
     font-size: 32px;
@@ -92,8 +93,10 @@
     text-align: center;
 }
 .boxA a{
-    text-decoration: none;
     color: #000000;
+}
+.boxA a:hover{
+    text-decoration: none;
 }
 .boxA button{
     width: 200px;
@@ -108,6 +111,7 @@
 .boxA button:hover{
     background-color: #f97b00;
     transition: all .7s ease;
+    
 }
 
 .boxC{
@@ -155,7 +159,7 @@
     height: 190px;
     width: 250px;
     padding-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 30px;   
 }
 .product-links{
     list-style: none !important;
@@ -196,6 +200,7 @@
 }
 .name a:hover{
     color: #000000;
+    text-decoration: none;
 }
 .priceI span{
     font-size: 18px;
@@ -225,7 +230,7 @@
     transition: all .6s ease;
 }
 .boxProduct img:hover{
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 .card-badge {
@@ -245,11 +250,13 @@
 }
 .paynow a{
     color: rgb(255, 0, 0);
-    text-decoration: none;
+
 }
 .paynow a:hover{
     color: white;
+    text-decoration: none;
 }
+
 /* blog */
 .blog-post {
     -webkit-transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0s;

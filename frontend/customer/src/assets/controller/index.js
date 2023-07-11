@@ -35,15 +35,13 @@ app.config(function ($routeProvider, $locationProvider){
       templateUrl: "../page/productdetails/productdetail.html",
     })
     .when("/10", {
-      templateUrl: "../page/cart/pay.html",
+      templateUrl: "../page/cart/cart.html",
     })
     .when("/12", {
-      templateUrl: "../pages/qlsps/qlsp.html",
-      controller: "qlsp",
+      templateUrl: "../page/index/favoriteproduct.html",
     })
     .when("/13", {
-      templateUrl: "../pages/qldm/qldm.html",
-      controller: "qldm",
+      templateUrl: "../page/index/indexTest.html",
     })
     .when("/14", {
       templateUrl: "../pages/deatails/deatail1.html",
