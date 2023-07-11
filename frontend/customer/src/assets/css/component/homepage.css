@@ -1,9 +1,17 @@
 *{
-    margin: auto;
+    margin: auto; 
     padding: 0;
     font-family: 'Times New Roman', Times, serif;
 }
+.column {
+    width: 100%;
+}
 
+@media (min-width: 600px) {
+    .column {
+        width: 50%;
+    }
+}
 header{
     top: 0;
     left: 0;
@@ -38,8 +46,8 @@ header p{
     display: flex;
     align-items: center;
 }
-
 .header-main :hover{
+    text-decoration: double;
     color: rgb(207, 43, 43);
 }
 nav li{
@@ -49,12 +57,20 @@ nav li{
 }
 nav li a{
     font-size: 20px;
-    text-decoration: none;
-    font-weight: 200;
-    color: #292727;
+    color: rgb(46, 46, 46);
 }
 .right-main i{
     margin-right: 10px;
     margin-top: 11px;
 }
+/* .right-main .search{
+    font-size: 18px;
+    border: none; 
+    border: 1px solid rgb(183, 195, 208); 
+    margin-left: 10px;
+    margin-right: 5px;
+    width: 100px;
+    border-radius: 5px;
+    background-color: #ffffff;
+} */
 /* end header  */
