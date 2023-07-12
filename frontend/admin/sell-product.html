@@ -57,9 +57,6 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Danh mục
-            </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -70,16 +67,24 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
+                        <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="sell-product.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Bán hàng tạo quầy</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Bán hàng</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="order.html">Bán hàng Online</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="bill.html">
@@ -87,9 +92,22 @@
                     <span>Quản lý hóa đơn</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="transaction.html">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Quản lý thu chi</span></a>
+                    <span>Thống kê</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Khuyến mại</span>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
+                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -104,19 +122,6 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Khuyến mại</span>
-                </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thanh viên</a>
-                    </div>
-                </div>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -125,6 +130,8 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
+
 
         </ul>
         <!-- End of Sidebar -->
