@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Persistence.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,10 @@ namespace Domain.Repositories
     ICacheRepository CacheRepository { get; }
     IOrderRepository OrderRepository { get; }
     IOrderItemsRepository OrderItemsRepository { get; }
+        IWishListsRepository WishListsRepository { get; }
+        INewsRepository NewsRepository { get; }
+        IShoppingCartsRepository ShoppingCartsRepository { get; }
+        IEmployeeRepository EmployeeRepository { get; }
     IStockRepository StockRepository { get; }
   }
 }

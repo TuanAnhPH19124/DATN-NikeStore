@@ -2,49 +2,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence
 {
-  public class AppDbContext : IdentityDbContext<AppUser, IdentityRole, string>
-  {
-    public AppDbContext(DbContextOptions<AppDbContext> optionsBuilder) : base(optionsBuilder)
-    {
-
-    }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      base.OnModelCreating(modelBuilder);
-      modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-
-    }
-
-    public DbSet<Voucher> Vouchers { get; set; }
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Tag> Tags { get; set; }
-    public DbSet<Color> Colors { get; set; }
-    public DbSet<Size> Sizes { get; set; }
-    public DbSet<Stock> Stocks { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderItem> OrderItems { get; set; }
-  }
     public class AppDbContext : IdentityDbContext<AppUser, IdentityRole, string>
     {
         public AppDbContext(DbContextOptions<AppDbContext> optionsBuilder) : base(optionsBuilder)
         {
-            
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
             modelBuilder.Entity<Schedule>()
           .HasOne(s => s.Employees)
           .WithMany()
@@ -80,9 +51,9 @@ namespace Persistence
                 .WithMany()
                 .HasForeignKey(item => item.ProductsId);
 
-           
+
         }
-    
+
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -91,13 +62,13 @@ namespace Persistence
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
-
-        public DbSet<ShoppingCartItems>  ShoppingCartItems { get; set; }
+        public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<WishLists> WishLists { get; set; }
-       
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }

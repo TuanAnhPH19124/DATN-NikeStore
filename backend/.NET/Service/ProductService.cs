@@ -46,7 +46,7 @@ namespace Service
             var expiryTime = DateTimeOffset.Now.AddMinutes(15);
             _repositoryManger.CacheRepository.SetData<IEnumerable<ProductForThirdServiceDto>>("homepage-product", cacheData, expiryTime);
             return cacheData;
-            _repositoryManger = repositoryManger;
+          
         }
 
         public async Task<Product> CreateAsync(Product product)
