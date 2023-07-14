@@ -19,10 +19,11 @@
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="/frontend/admin/css/create-bill.css" rel="stylesheet">
+    <link href="/frontend/admin/css/add-product.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -38,7 +39,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
             </a>
 
             <!-- Divider -->
@@ -48,7 +49,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>NSW Admin Dashboard</span></a>
             </li>
 
             <!-- Divider -->
@@ -358,172 +359,129 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                            <h2 class="modal-title">Thêm sản phẩm</h2>
                         </div>
                         <div class="modal-body">
                             <form>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp" placeholder="">
+                                <div class="row">
+                                    <div class="col">
+                                    <input type="text" class="form-control" placeholder="Tên sản phẩm">
+                                    </div>    
+                                    <div class="col">
+                                    <input type="text" class="form-control" placeholder="Mô tả">
+                                    </div>                            
+                                </div> <br>                         
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="number" class="form-control" placeholder="Giá nhập">
+                                    </div>    
+                                    <div class="col">
+                                        <input type="number" class="form-control" placeholder="Giá bán">
+                                    </div>    
+                                    <div class="col">
+                                        <input type="number" class="form-control" placeholder="Số lượng">
+                                    </div>                                   
+                                </div> <br>
+                                <div class="combo-box">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="form-control" placeholder="Trạng thái">
+                                                    <option>Trạng thái</option>
+                                                    <option>Còn hàng</option>
+                                                    <option>Hết hàng</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="form-control" placeholder="Danh mục">
+                                                    <option>Danh mục</option>
+                                                    <option>Nike Air Force 1</option>
+                                                    <option>Nike Jordan 1</option>
+                                                    <option>Nike Cortez</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="form-control"placeholder="Màu sắc">
+                                                    <option>Màu sắc</option>
+                                                    <option>Màu đỏ</option>
+                                                    <option>Màu trắng</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="form-control"placeholder="Kích cỡ">
+                                                    <option>Kích cỡ</option>
+                                                    <option>40</option>
+                                                    <option>41</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                    <div class="modal-footer">
+                                        <p style="max-width: 100%;margin: auto;"><img id="output" style="width: 200px; height: 200px; border: 0.5px solid white;" /></p>
+                                        <div class="btn btn-primary" style="margin: auto;height: 38.6px;">
+                                            <input type="file" class="custom-file-input" id="inputGroupFile01" accept="image/*"
+                                                onchange="loadFile(event)" multiple style="width: 0px;">
+                                            <label for="inputGroupFile01" style="margin: auto;">Thêm ảnh</label>                                         
+                                        </div>  
+                                        <button type="button" class="btn btn-danger">Xác nhận</button>
+                                    </div>  
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Mô tả</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Giá sản phẩm</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Trạng thái</label>
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Danh mục</label>
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Màu sắc</label>
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Thương hiệu</label>
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </form>
-                            <div class="size-amount">
-                                <h5 class="modal-title" id="exampleModalLabel">Kích cỡ và số lượng</h5>
-                                <table class="table">
+                            </form> <br>
+                            <div class="size-amount" style="max-width: max-content">
+                                <h3 class="modal-title" id="exampleModalLabel">Sản phẩm chi tiết</h3> <br>
+                                <table class="table" style="border: 1px solid rgb(219, 215, 215);">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col">Kích cỡ</th>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Hình ảnh</th>
+                                            <th scope="col">Tên sản phẩm</th>
+                                            <th scope="col">Giá nhập</th>
+                                            <th scope="col">Giá bán</th>
                                             <th scope="col">Số lượng</th>
                                             <th scope="col">Trạng thái</th>
-                                            <th scope="col">Thao tác</th>
+                                            <th scope="col">Danh mục</th>
+                                            <th scope="col">Màu sắc</th>
+                                            <th scope="col">Kích cỡ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
+                                    <tr style="text-align: left;">
+                                        <td>1</td>
+                                        <td>IMG</td>
+                                        <td>NIKE</td>
+                                        <td>500</td>
+                                        <td>1000</td>
+                                        <td>20</td>
+                                        <td>Còn hàng</td>
+                                        <td>Nike Low</td>
+                                        <td>Trắng</td>
+                                        <td>41</td>
+                                    </tr>
+                                    <tr style="text-align: left;">
+                                        <td>2</td>
+                                        <td>IMG</td>
+                                        <td>NIKE</td>
+                                        <td>500</td>
+                                        <td>1000</td>
+                                        <td>20</td>
+                                        <td>Còn hàng</td>
+                                        <td>Nike Low</td>
+                                        <td>Trắng</td>
+                                        <td>41</td>
+                                    </tr>
+
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="btn btn-primary" style="margin: auto;display: flex;" data-toggle="modal"
-                                data-target="#size-modal">Thêm Kích
-                                Cỡ</button>
-                            <div class="modal fade" id="size-modal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document" style="max-width: 50%;">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <div class="size" style="    
-                                            padding: 50px 0;
-                                            display: grid;
-                                            grid-template-columns: 1fr 4fr;
-                                            align-items: center;
-                                        ">
-                                                <div class="label">Kích cỡ</div>
-                                                <div class="buttons">
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                    <button type="button" class="btn btn-outline-primary">34</button>
-                                                </div>
-                                            </div>
-                                            <div class="amount" style="padding: 50px 0;">
-                                                <div class="label">Số lượng</div>
-
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Chọn ảnh</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputGroupFile01" accept="image/*"
-                                        onchange="loadFile(event)">
-                                    <label class="custom-file-label" for="inputGroupFile01">Choose
-                                        file</label>
-                                </div>
-                            </div>
-                            <p><img id="output" width="150" height="150" /></p>
-                            <script>
-                                var loadFile = function (event) {
-                                    var image = document.getElementById('output');
-                                    image.src = URL.createObjectURL(event.target.files[0]);
-                                };
-                            </script>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Xác nhận</button>
-                        </div>
+                        </div>                       
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -588,7 +546,7 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="js/create-bill.js"></script>
+    <script src="/frontend/admin/js/add-product.js"></script>
 
 
 </body>

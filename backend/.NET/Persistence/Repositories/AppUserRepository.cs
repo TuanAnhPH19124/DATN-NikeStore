@@ -31,12 +31,17 @@ namespace Persistence.Repositories
 
         public async Task<AppUser> AuthticationUserWithGoogle(string email)
         {
-            throw new NotImplementedException();
+            //var user = await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email);
+            //return user;
+            return await Task.FromResult(new AppUser());
+
         }
 
         public async Task<AppUser> AuthticationUserWithLogin(string email, string password)
         {
-            throw new NotImplementedException();
+            //return await _context.AppUsers.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
+            return await Task.FromResult(new AppUser());
+
         }
 
         public async Task<bool> CheckPassword(AppUser user, string password)

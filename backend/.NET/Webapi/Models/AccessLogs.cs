@@ -8,7 +8,7 @@ namespace Webapi.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         public DateTimeOffset Time { get; set; }
         public string LogInfomation { get; set; }

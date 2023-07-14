@@ -1,0 +1,19 @@
+[
+  {
+    "Id": "3c055679-9541-4dfd-a18a-986ce2b6b879",
+    "ModifiedDate": "8/31/2022",
+    "Name": "Networked scalable attitude",
+    "Status": 4,
+    "CreatedDate": "8/5/2012",
+    "ParentCategoriesId" : null
+  },
+  {
+    "Id": "ca25f75a-aad4-434e-8865-b306f7fc60d2",
+    "ModifiedDate": "8/31/2021",
+    "Name": "Networked scalable attitude",
+    "Status": 1,
+    "CreatedDate": "8/5/2018",
+    "ParentCategoriesId" : "3c055679-9541-4dfd-a18a-986ce2b6b879"
+  }
+]
+

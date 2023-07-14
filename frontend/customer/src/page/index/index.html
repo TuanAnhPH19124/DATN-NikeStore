@@ -1,6 +1,6 @@
 
 <!-- SLIDE SHOW -->
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+<div class="carousel slide">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <h1 class="abc">NIKE</h1>
@@ -13,7 +13,7 @@
             <i class="fa-solid fa-star" style="color: #e6df14;"></i>
             <i class="fa-solid fa-star" style="color: #a6a6a2;"></i>
         </div>
-        <button class="shopnow" type="button" ><a href="/frontend/customer/src/page/cart/pay.html">MUA NGAY</a></button>
+        <button class="shopnow" type="button" ><a href="#6">XEM NGAY</a></button>
         <img class="d-block w-100" src="/frontend/customer/src/assets/img/slide/Nike_03.png">
       </div>
 </div>
@@ -24,7 +24,7 @@
 <main>
     <div class="container">
         <div class="textQ">
-            <img src="/frontend/customer/src/assets/img/logo/icons8-nike-144.png" alt="" style="padding-left: 600px; padding-right: 600px; padding-top: 20px;">
+            <img src="/frontend/customer/src/assets/img/logo/icons8-nike-144.png" alt="" style="padding-left: 500px; padding-right: 600px; padding-top: 20px;">
             <p class="hello"> WELCOME TO <br> NIKE SNEAKER WORLD </p>
         </div>
         <div class="boxA">
@@ -37,11 +37,11 @@
 </main> 
 <section>
     <div class="product">
-        <div class="boxProduct" onmouseover="second1()" onmouseout="first1()">
+        <div class="boxProduct">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/1.jpg"></a>
             <div class="card-badge">New</div>      
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><a href="" data-favorite-count="0"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
@@ -54,7 +54,9 @@
                 <span class="strike"><del></del></span>  
             </div>
             <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
+                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;">
+                    <a href="#6">Đặt hàng ngay</a> 
+                </button>
             </div>
         </div>
         <div class="boxProduct">
@@ -449,3 +451,14 @@
     
     <!-- END SERVICES  -->
 </section>
+<script>
+    function showCartIcon(element) {
+    var cartIcon = element.nextElementSibling;
+    cartIcon.style.display = "block";
+  }
+  
+  function hideCartIcon(element) {
+    var cartIcon = element.nextElementSibling;
+    cartIcon.style.display = "none";
+  }
+</script>
