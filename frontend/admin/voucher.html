@@ -22,6 +22,8 @@
 
     <!-- Custom styles for this page -->
     <link href="/frontend/admin/css/voucher.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+
 
 </head>
 
@@ -44,50 +46,62 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>NSW Admin Dashboard</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Danh mục
-            </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-cubes"></i>
                     <span>Quản lý sản phẩm</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
+                        <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="sell-product.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Bán hàng tạo quầy</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Bán hàng</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="order.html">Bán hàng Online</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="bill.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-file"></i>
                     <span>Quản lý hóa đơn</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="transaction.html">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Quản lý thu chi</span></a>
+                    <span>Thống kê</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Khuyến mại</span>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
+                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -102,19 +116,6 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Khuyến mại</span>
-                </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thanh viên</a>
-                    </div>
-                </div>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -123,6 +124,9 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
+
+
         </ul>
         <!-- End of Sidebar -->
 
@@ -142,19 +146,6 @@
                         </button>
                     </form>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -303,7 +294,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -311,20 +302,16 @@
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Hồ sơ
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Giao ca
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Đăng xuất
                                 </a>
                             </div>
                         </li>
@@ -344,7 +331,7 @@
                             <span class="icon text-white-50">
                                 <i class="fa fa-plus"></i>
                             </span>
-                            <span class="text">Tạo mã giảm giá</span>
+                            <span class="text">Tạo tài khoản</span>
                         </a>
                     </div>
                     <!-- Button trigger modal -->
@@ -355,67 +342,33 @@
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Voucher</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Tạo tài khoản nhân viên</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <div class="discount-row-2">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Mã giảm giá</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                                    aria-describedby="emailHelp" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword1">Giá trị</label>
-                                                <input type="text" class="form-control" id="exampleInputPassword1"
-                                                    placeholder="">
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tên tài khoản</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp" placeholder="">
                                         </div>
-                                        <div class="discount-row-2">
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword1">Giá trị tối đa(voucher theo
-                                                    %)</label>
-                                                <input type="text" class="form-control" id="exampleInputPassword1"
-                                                    placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword1">Áp dụng đơn hàng từ</label>
-                                                <input type="text" class="form-control" id="exampleInputPassword1"
-                                                    placeholder="">
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Họ và tên</label>
+                                            <input type="text" class="form-control" id="exampleInputPassword1"
+                                                placeholder="">
                                         </div>
-                                        <div class="discount-row-3">
-                                            <div class="date">
-                                                <label for="birthdaytime">Từ ngày</label>
-                                                <input type="date" id="birthdaytime" name="birthdaytime">
-                                            </div>
-                                            <div class="date">
-                                                <label for="birthdaytime">Đến ngày</label>
-                                                <input type="date" id="birthdaytime" name="birthdaytime">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="exampleInputPassword1"
-                                                    placeholder="Lượt áp dụng">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label for="exampleFormControlSelect1">Quyền sử dụng:</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Email</label>
+                                            <input type="text" class="form-control" id="exampleInputPassword1"
+                                                placeholder="">
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Tạo mới</button>
+                                    <button type="button" class="btn btn-primary">Xác nhận</button>
                                 </div>
                             </div>
                         </div>
@@ -424,26 +377,6 @@
                     <div class="select">
                         <div class="form-filter">
                             <label for="exampleFormControlSelect1">Trạng thái:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect1">Quyền:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect1">Loại:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
                                 <option>1</option>
                                 <option>2</option>
@@ -461,14 +394,14 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Mã</th>
-                                            <th>Giá trị</th>
-                                            <th>Giá trị tối đa</th>
-                                            <th>Cho đơn tối thiểu</th>
-                                            <th>Số lượng</th>
-                                            <th>Quyền</th>
+                                            <th>Ảnh</th>
+                                            <th>Tên tài khoản</th>
+                                            <th>Email</th>
+                                            <th>Họ và tên</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Điểm</th>
+                                            <th>Hạng</th>
                                             <th>Trạng thái</th>
-                                            <th>Thời gian</th>
                                             <th>Thao tác</th>
                                         </tr>
                                     </thead>
@@ -496,15 +429,6 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
