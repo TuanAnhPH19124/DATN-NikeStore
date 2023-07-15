@@ -23,7 +23,7 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
-    <link href="/frontend/admin/css/add-product.css" rel="stylesheet">
+    <link href="/frontend/admin/css/product-detail.css" rel="stylesheet">
 
 </head>
 
@@ -326,7 +326,7 @@
                 <div class="container-fluid">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title">Thêm sản phẩm</h2>
+                            <h2 class="modal-title">Thông tin sản phẩm</h2>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -390,11 +390,243 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="/frontend//admin//product-detail.html" class="btn btn-primary">Xác
-                                            nhận</a>
+                                        <p style="max-width: 100%;margin: auto;"><img id="output"
+                                                style="width: 200px; height: 200px; border: 0.5px solid white;" /></p>
+                                        <div class="btn btn-primary" style="margin: auto;height: 38.6px;">
+                                            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                                accept="image/*" onchange="loadFile(event)" multiple
+                                                style="width: 0px;">
+                                            <label for="inputGroupFile01" style="margin: auto;">Thêm ảnh</label>
+                                        </div>
+                                        <button type="button" class="btn btn-danger">Cập nhật</button>
                                     </div>
                                 </div>
                             </form>
+                            <div class="modal fade" id="size-modal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document" style="max-width: 50%;">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="size" style="    
+                                            padding: 50px 0;
+                                            display: grid;
+                                            grid-template-columns: 1fr 4fr;
+                                            align-items: center;
+                                        ">
+                                                <div class="label">Kích cỡ</div>
+                                                <div class="btn-group-toggle" data-toggle="buttons">
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label> <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label> <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label> <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="amount">
+                                                <div class="label">Số lượng</div>
+                                                <div class="input-number">
+                                                    <button onclick="decrement()" class="btn btn-primary">-</button>
+                                                    <div class="form-outline">
+                                                        <input type="number" id="number" name="number"
+                                                            class="form-control" value="0" />
+                                                    </div>
+                                                    <button onclick="increment()" class="btn btn-primary">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Xác
+                                                nhận</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Kích cỡ và số lượng</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="size-amount">
+
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Kích cỡ</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="btn btn-primary" style="margin: auto;display: flex;margin-bottom: 20px;"
+                                data-toggle="modal" data-target="#size-modal">Thêm Kích
+                                Cỡ</button>
+                            <div class="modal fade" id="size-modal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document" style="max-width: 50%;">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="size" style="    
+                                            padding: 50px 0;
+                                            display: grid;
+                                            grid-template-columns: 1fr 4fr;
+                                            align-items: center;
+                                        ">
+                                                <div class="label">Kích cỡ</div>
+                                                <div class="btn-group-toggle" data-toggle="buttons">
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label> <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label> <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label> <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option1"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option2"
+                                                            autocomplete="off">34
+                                                    </label>
+                                                    <label class="btn btn-outline-primary">
+                                                        <input type="radio" name="options" id="option3"
+                                                            autocomplete="off"> 34
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="amount">
+                                                <div class="label">Số lượng</div>
+                                                <div class="input-number">
+                                                    <button onclick="decrement()" class="btn btn-primary">-</button>
+                                                    <div class="form-outline">
+                                                        <input type="number" id="number" name="number"
+                                                            class="form-control" value="0" />
+                                                    </div>
+                                                    <button onclick="increment()" class="btn btn-primary">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Xác
+                                                nhận</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -451,7 +683,7 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="/frontend/admin/js/add-product.js"></script>
+    <script src="/frontend/admin/js/product-detail.js"></script>
 
 
 </body>
