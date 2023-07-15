@@ -16,6 +16,7 @@ namespace Service
         private readonly Lazy<NewsService> _lazyNewsService;
         private readonly Lazy<WishListsService> _lazyWishListsService;
         private readonly Lazy<ShoppingCartsService> _lazyShoppingCartsService;
+        private readonly Lazy<ProductRateService> _lazyProductRateService;
 
         public ServiceManager(IRepositoryManger repositoryManger)
         {
@@ -25,6 +26,7 @@ namespace Service
             _lazyNewsService = new Lazy<NewsService>(() => new NewsService(repositoryManger));
             _lazyWishListsService  = new Lazy<WishListsService>(() => new WishListsService(repositoryManger));
             _lazyShoppingCartsService = new Lazy<ShoppingCartsService>(() => new ShoppingCartsService(repositoryManger));
+            _lazyProductRateService=new Lazy<ProductRateService>(() => new ProductRateService(repositoryManger));
         }
 
         public IAppUserService AppUserService => _lazyAppUserService.Value;
@@ -35,5 +37,6 @@ namespace Service
 
         public IWishListsService WishListsService => _lazyWishListsService.Value;
         public IShoppingCartsService ShoppingCartsService => _lazyShoppingCartsService.Value;
+        public IProductRateService ProductRateService => _lazyProductRateService.Value;
     }
 }

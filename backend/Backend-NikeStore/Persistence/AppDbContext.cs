@@ -14,7 +14,7 @@ namespace Persistence
     {
         public AppDbContext(DbContextOptions<AppDbContext> optionsBuilder) : base(optionsBuilder)
         {
-            
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,8 +56,18 @@ namespace Persistence
                 .HasOne(item => item.Product)
                 .WithMany()
                 .HasForeignKey(item => item.ProductsId);
+            modelBuilder.Entity<Product>()
+                 .HasMany(p => p.ProductRate)
+                 .WithOne(pr => pr.Product)
+                 .HasForeignKey(pr => pr.ProductId);
+
+            // Cấu hình bảng "AppUser"
+            modelBuilder.Entity<AppUser>()
+                .HasMany(u => u.ProductRate)
+                .WithOne(pr => pr.AppUser)
+                .HasForeignKey(pr => pr.AppUserId);
         }
-    
+
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -67,12 +77,13 @@ namespace Persistence
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
 
-        public DbSet<ShoppingCartItems>  ShoppingCartItems { get; set; }
+        public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<WishLists> WishLists { get; set; }
-       
+        public DbSet<ProductRate> ProductRate { get; set; }
+
     }
 }

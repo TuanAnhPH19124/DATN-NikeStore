@@ -19,5 +19,6 @@ namespace Domain.Entities
         public int MemberDiscount { get; set; } = 0;
         public string AvatarUrl { get; set; }
         public ShoppingCarts ShoppingCarts { get; set; }
+        public ICollection<ProductRate> ProductRate { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace Service.Abstractions
         INewsService NewsService { get; }
         IWishListsService WishListsService { get; }
         IShoppingCartsService ShoppingCartsService { get; }
+        IProductRateService ProductRateService { get; }
 
     }
 }

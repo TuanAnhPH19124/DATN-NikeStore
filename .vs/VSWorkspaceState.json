@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\backend",
+    "\\backend\\Backend-NikeStore",
+    "\\backend\\Backend-NikeStore\\Domain",
+    "\\backend\\Backend-NikeStore\\Persistence",
+    "\\backend\\Backend-NikeStore\\Service.Abstractions",
+    "\\frontend",
+    "\\frontend\\customer"
   ],
-  "SelectedNode": "\\Backend-NikeStore.sln",
   "PreviewInSolutionExplorer": false
 }
