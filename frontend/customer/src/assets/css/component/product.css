@@ -49,8 +49,11 @@
     text-decoration: none;
 }
 .info-wrap .paynowA button{
+    width: 200px;
     margin-top: 10px;
-    margin-left: 40px;
+    border-radius: 25px;
+    background-color: #212529;
+    border: 1px solid #212529;
 }
 .info-wrap .paynowA a{
     color: rgb(255, 0, 0);

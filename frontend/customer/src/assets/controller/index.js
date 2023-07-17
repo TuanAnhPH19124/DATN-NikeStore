@@ -41,7 +41,7 @@ app.config(function ($routeProvider, $locationProvider){
       templateUrl: "../page/index/favoriteproduct.html",
     })
     .when("/13", {
-      templateUrl: "../page/index/indexTest.html",
+      templateUrl: "../page/cart/pay.html",
     })
     .when("/14", {
       templateUrl: "../pages/deatails/deatail1.html",
