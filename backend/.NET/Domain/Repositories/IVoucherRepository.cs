@@ -13,6 +13,6 @@ namespace Domain.Repositories
         void AddVoucher(Voucher voucher);
         void UpdateVoucher(Voucher voucher);
         Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default);
-        Task<Voucher> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Voucher> GetByIdAsync(string id, CancellationToken cancellationToken = default);
     }
 }

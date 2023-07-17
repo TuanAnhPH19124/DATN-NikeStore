@@ -1,12 +1,17 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Persistence.Configurations;
+using Persistence.Providers;
+using StackExchange.Redis;
+using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Persistence
 {
@@ -19,6 +24,8 @@ namespace Persistence
                 var connection = configuration.GetConnectionString("DefaultConnection");
                 builder.UseNpgsql(connection, b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
             });
+
+            services.AddSingleton<IConnectionMultiplexer>(opt => ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")));
 
             services.AddIdentity<AppUser, IdentityRole>(option => option.SignIn.RequireConfirmedEmail = true)
              .AddEntityFrameworkStores<AppDbContext>()
@@ -49,11 +56,25 @@ namespace Persistence
                         RequireExpirationTime = false,
                         ValidateLifetime = true
                     };
+                    jwt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
 
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/hubs/customer")))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
 
                 });
 
-
+            services.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
+          
         }
     }
 }

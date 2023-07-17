@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Persistence.Ultilities;
 using Service.Abstractions;
@@ -16,6 +17,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ubiety.Dns.Core.Records.NotUsed;
+using Webapi.Hubs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,15 +30,18 @@ namespace Webapi.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly IHubContext<CustomerHub> _contextHub;
+      
 
-        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration)
-        {
-            _signInManager=signInManager;
-            _userManager=userManager;
-            _configuration=configuration;
-        }
+    public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
+    {
+      _signInManager = signInManager;
+      _userManager = userManager;
+      _configuration = configuration;
+      _contextHub = contextHub;
+    }
 
-        [AllowAnonymous]
+    [AllowAnonymous]
         [HttpGet("google")]
         public IActionResult GoogleLogin()
         
@@ -113,20 +118,15 @@ namespace Webapi.Controllers
 
                     if (is_correct)
                     {
-                        var result = await _signInManager.PasswordSignInAsync(user_exits, appUser.Password, false, false);
-                        if (result.Succeeded)
+                        var roles = await _userManager.GetRolesAsync(user_exits);
+
+                        var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
+
+                        return Ok(new
                         {
-                            var roles = await _userManager.GetRolesAsync(user_exits);
-
-                            var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
-                            return Ok(new
-                            {
-                                Message = "dang nhap thang cong",
-                                Token = token
-                            });
-                        }
-
-                        return BadRequest("Dang nhap that bai");
+                            Message = "dang nhap thang cong",
+                            Token = token
+                        });
                     }
 
                     return BadRequest("Mat khau chua chinh xac");
@@ -176,7 +176,7 @@ namespace Webapi.Controllers
         public async Task<IActionResult> ConfrimEmail(string userid, string code)
         {
 
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok());
         }
 
 

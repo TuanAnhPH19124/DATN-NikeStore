@@ -1,42 +1,49 @@
 ﻿using Domain.Repositories;
 using Service.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
     public sealed class ServiceManager : IServiceManager
     {
         private readonly Lazy<IAppUserService> _lazyAppUserService;
-        private readonly Lazy<VoucherService> _lazyVoucherService;
-        private readonly Lazy<ProductService> _lazyProductService;
-        private readonly Lazy<NewsService> _lazyNewsService;
-        private readonly Lazy<WishListsService> _lazyWishListsService;
-        private readonly Lazy<ShoppingCartsService> _lazyShoppingCartsService;
-        private readonly Lazy<EmployeeService> _lazyEmployeeService;
+        private readonly Lazy<IVoucherService> _lazyVoucherService;
+        private readonly Lazy<ICategoryService> _lazyCategoryService;
+        private readonly Lazy<IProductService> _lazyProductService;
+        private readonly Lazy<IOrderService> _lazyOrderService;
+        private readonly Lazy<INewsService> _lazyNewsService;
+        private readonly Lazy<IWishListsService> _lazyWishListsService;
+        private readonly Lazy<IShoppingCartsService> _lazyShoppingCartsService;
+        private readonly Lazy<IEmployeeService> _lazyEmployeeService;
 
         public ServiceManager(IRepositoryManger repositoryManger)
         {
             _lazyAppUserService = new Lazy<IAppUserService>(() => new AppUserService(repositoryManger));
-            _lazyVoucherService = new Lazy<VoucherService>(() => new VoucherService(repositoryManger));
-            _lazyProductService = new Lazy<ProductService>(() => new ProductService(repositoryManger));
-            _lazyNewsService = new Lazy<NewsService>(() => new NewsService(repositoryManger));
-            _lazyWishListsService  = new Lazy<WishListsService>(() => new WishListsService(repositoryManger));
-            _lazyShoppingCartsService = new Lazy<ShoppingCartsService>(() => new ShoppingCartsService(repositoryManger));
-            _lazyEmployeeService = new Lazy<EmployeeService>(() => new EmployeeService(repositoryManger));
+            _lazyVoucherService = new Lazy<IVoucherService>(() => new VoucherService(repositoryManger));
+            _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManger));
+            _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManger));
+            _lazyOrderService = new Lazy<IOrderService>(() => new OrderService(repositoryManger));
+            _lazyNewsService = new Lazy<INewsService>(() => new NewsService(repositoryManger));
+            _lazyWishListsService = new Lazy<IWishListsService>(() => new WishListsService(repositoryManger));
+            _lazyShoppingCartsService = new Lazy<IShoppingCartsService>(() => new ShoppingCartsService(repositoryManger));
+            _lazyEmployeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManger));
         }
 
         public IAppUserService AppUserService => _lazyAppUserService.Value;
         public IVoucherService VoucherService => _lazyVoucherService.Value;
+        public ICategoryService CategoryService => _lazyCategoryService.Value;
+
         public IProductService ProductService => _lazyProductService.Value;
+
+        public IOrderService OrderService => _lazyOrderService.Value;
 
         public INewsService NewsService => _lazyNewsService.Value;
 
         public IWishListsService WishListsService => _lazyWishListsService.Value;
+
         public IShoppingCartsService ShoppingCartsService => _lazyShoppingCartsService.Value;
+
         public IEmployeeService employeeService => _lazyEmployeeService.Value;
     }
+    
 }
