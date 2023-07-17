@@ -21,11 +21,10 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-<<<<<<< HEAD
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
-=======
     <link href="/frontend/admin/css/login.css" rel="stylesheet">
->>>>>>> submain
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -66,7 +65,6 @@
                                         <a class="btn btn-primary btn-user btn-block" onclick="loginClicked()">
                                             Login
                                         </a>
-<<<<<<< HEAD
                                         <hr>
                                         <a href="index.html" id="google-login"
                                             class="btn btn-google btn-user btn-block">
@@ -76,8 +74,6 @@
                                         <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                             <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
                                         </a>
-=======
->>>>>>> submain
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -120,12 +116,12 @@
         })
         async function Start() {
             try {
-            
+
                 await connection.start();
                 console.log("SignalR Connected.");
             } catch (error) {
                 console.log(err);
-                
+
             }
         };
 
@@ -134,7 +130,7 @@
             return localStorage.getItem('Token');
         }
 
-      
+
         async function loginClicked() {
 
             var apiEndpoint = "api/authentication/signin"

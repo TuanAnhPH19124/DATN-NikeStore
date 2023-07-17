@@ -48,7 +48,7 @@ header p{
 }
 .header-main :hover{
     text-decoration: double;
-    color: rgb(207, 43, 43);
+    color: rgb(0, 0, 0);
 }
 nav li{
     list-style: none;
@@ -57,7 +57,7 @@ nav li{
 }
 nav li a{
     font-size: 20px;
-    color: rgb(46, 46, 46);
+    color: #747272;
 }
 .right-main i{
     margin-right: 10px;
