@@ -45,7 +45,7 @@
     color: white;
 }
 .shopnow a:hover{
-    color: yellow;  
+    color: rgb(0, 0, 0);  
     text-decoration: none;
 }
 .full {
