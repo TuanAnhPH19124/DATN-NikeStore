@@ -351,20 +351,22 @@
                                     <form id="add-employee-form">
                                         <div class="form-group">
                                             <label>Họ và tên</label>
-                                            <input type="text" class="form-control" id="fullName"
+                                            <input type="text" class="form-control" id="fullName" name="fullName"
                                                 aria-describedby="emailHelp" placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="snn">Số căn cước</label>
-                                            <input type="text" class="form-control" id="snn" placeholder="">
+                                            <input type="text" class="form-control" id="snn" placeholder="" name="snn">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại</label>
-                                            <input type="text" class="form-control" id="phoneNumber" placeholder="">
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                name="phoneNumber">
                                         </div>
                                         <div class="form-group">
                                             <label>Vai trò</label>
-                                            <input type="text" class="form-control" id="role" placeholder="">
+                                            <input type="text" class="form-control" id="role" placeholder=""
+                                                name="role">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -470,6 +472,7 @@
     <!-- Page level custom scripts -->
     <script src="/frontend/admin/startbootstrap-sb-admin-2/css/button.css"></script>
     <script src="js/demo/datatables-demo.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="/frontend/admin/js/staff.js"></script>
 
 </body>
