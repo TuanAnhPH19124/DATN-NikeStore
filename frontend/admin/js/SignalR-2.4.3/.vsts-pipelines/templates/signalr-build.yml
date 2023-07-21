@@ -1,0 +1,70 @@
+parameters:
+  pool: ''
+  beforeBuild: []
+  afterBuild: []
+  variables:
+
+jobs:
+- job: Windows
+  pool:
+    ${{ if eq(parameters.pool, 'public') }}:
+      name: NetCore1ESPool-Public
+      demands: ImageOverride -equals Build.Server.Amd64.VS2019.Open
+    ${{ if eq(parameters.pool, 'internal') }}:
+      name: NetCore1ESPool-Internal
+      demands: ImageOverride -equals Build.Server.Amd64.VS2019
+  variables:
+    BuildConfiguration: Release
+    ${{ insert }}: ${{ parameters.variables }}
+  steps:
+  - checkout: self
+    clean: true
+
+  - task: NodeTool@0
+    displayName: Install Node.js
+    inputs:
+      versionSpec: 12.x
+  - powershell: |
+      ./tools/chrome/InstallGoogleChrome.ps1
+    displayName: Install Chrome
+
+  - ${{ parameters.beforeBuild }}
+
+  - script: .\build.cmd -ci /p:Configuration=$(BuildConfiguration)
+    displayName: Run build.cmd
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    condition: always()
+    inputs:
+      testRunner: vstest
+      testResultsFiles: 'artifacts/logs/**/*.trx'
+
+  - task: PublishBuildArtifacts@1
+    displayName: Upload artifacts
+    condition: and(always(), eq(variables['system.pullrequest.isfork'], false))
+    inputs:
+      pathtoPublish: artifacts/$(BuildConfiguration)/
+      artifactName: artifacts-$(BuildConfiguration)
+      artifactType: Container
+
+  - task: PublishBuildArtifacts@1
+    displayName: Upload logs
+    condition: and(always(), eq(variables['system.pullrequest.isfork'], false))
+    inputs:
+      pathtoPublish: artifacts/logs/
+      artifactName: logs-$(BuildConfiguration)
+      artifactType: Container
+
+  - task: PublishTestResults@2
+    displayName: Publish js test results
+    condition: always()
+    inputs:
+      testResultsFormat: JUnit
+      testResultsFiles: '**/artifacts/log/**/*.xml'
+      testRunTitle: $(AgentOsName)-$(BuildConfiguration)-js
+      mergeTestResults: true
+      buildConfiguration: $(BuildConfiguration)
+      buildPlatform: $(AgentOsName)
+
+  - ${{ parameters.afterBuild }}

@@ -1,6 +1,49 @@
-
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content"> 
+        <!-- Modal Header -->
+        <div class="modal-header" style="border-bottom: none;">
+          <h4 class="modal-title">GIỎ HÀNG</h4>
+        </div> 
+        <!-- Modal body -->
+        <div class="modal-body" style="text-align: center; display: grid;">
+            <table class="table table-bordered">
+                <tbody class="table">
+                    <tr>
+                        <td>                           
+                            <img src="/frontend/customer/src/assets/img/product/1.jpg" width="80px" height="50px">                                                        
+                        </td>
+                        <td>
+                            <div class="">
+                                <a title="AIR JORDAN 1 LOW 'PANDA" name="img1">Giày Nike Jordan Panda Black White</a>
+                            </div>                           
+                        </td>
+                        <td>
+                            <div class="priceI">
+                                <span>2,300,000 đ</span>                                                        
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action">
+                                
+                                <a href="" style="color: red; font-size: 24px; font-weight: 700;">X</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div> 
+      </div>
+    </div>
+  </div>
 <!-- SLIDE SHOW -->
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+<div class="carousel slide">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <h1 class="abc">NIKE</h1>
@@ -13,7 +56,7 @@
             <i class="fa-solid fa-star" style="color: #e6df14;"></i>
             <i class="fa-solid fa-star" style="color: #a6a6a2;"></i>
         </div>
-        <button class="shopnow" type="button" ><a href="/frontend/customer/src/page/cart/pay.html">MUA NGAY</a></button>
+        <button class="shopnow" type="button" ><a href="#6">XEM NGAY</a></button>
         <img class="d-block w-100" src="/frontend/customer/src/assets/img/slide/Nike_03.png">
       </div>
 </div>
@@ -24,7 +67,7 @@
 <main>
     <div class="container">
         <div class="textQ">
-            <img src="/frontend/customer/src/assets/img/logo/icons8-nike-144.png" alt="" style="padding-left: 600px; padding-right: 600px; padding-top: 20px;">
+            <img src="/frontend/customer/src/assets/img/logo/icons8-nike-144.png" alt="" style="padding-left: 500px; padding-right: 600px; padding-top: 20px;">
             <p class="hello"> WELCOME TO <br> NIKE SNEAKER WORLD </p>
         </div>
         <div class="boxA">
@@ -37,55 +80,58 @@
 </main> 
 <section>
     <div class="product">
-        <div class="boxProduct" onmouseover="second1()" onmouseout="first1()">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/1.jpg"></a>
+        <div class="boxProduct">
+            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
             <div class="card-badge">New</div>      
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
             </ul>    
             <div class="name">
-                <a href="" title="AIR JORDAN 1 LOW 'PANDA" name="img1">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
             </div>
             <div class="priceI">
                 <span>2,300,000 đ</span>                                                        
                 <span class="strike"><del></del></span>  
-            </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
             </div>
         </div>
         <div class="boxProduct">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/2.jpg" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
-                <a href="">UNION LA X AIR JORDAN 4 RETRO 'GUAVA ICE'</a>
+                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
             </div>
             <div class="priceI">
                 <span>2,300,000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
-            </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
             </div>
         </div>
         <div class="boxProduct">
             <a href=""><img src="/frontend/customer/src/assets/img/product/3.jpg" name="img3" ></a>
             <div class="card-badge">New</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">UNION LA X AIR JORDAN 4 RETRO 'GUAVA ICE'</a>
             </div>
@@ -93,19 +139,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img4" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img4" style="background-color: #938a8a;"></a>
             <div class="card-badge">New</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">AIR JORDAN 1 RETRO HIGH OG 'VOLT GOLD'</a>
             </div>
@@ -113,21 +159,21 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
     </div>
     <div class="product">
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/4.jpg" name="img5" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img5" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">AIR FORCE 1 LOW '07 3 'WHITE WOLF GREY'</a>
             </div>
@@ -135,19 +181,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct">
-            <a href=""><img src="/frontend/customer/src/assets/img/product/6.jpg" name="img6" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/2.jpg" name="img6" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">YEEZY BOOST 350 STATIC BLACK 3M</a>
             </div>
@@ -155,19 +201,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/7.jpg" name="img7" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/3.jpg" name="img7" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">AIR JORDAN 1 RETRO HIGH OG 'VOLT GOLD'</a>
             </div>
@@ -175,19 +221,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/8.jpg" name="img8" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img8" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>     
             <div class="name">
                 <a href="">WMNS AIR FORCE 1 SHADOW 'PASTEL'</a>
             </div>
@@ -195,21 +241,21 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
     </div>
     <div class="product">
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/9.jpg" name="img9" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img9" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">Ultra Boost 20 'Black Violet' VIP Ultra Boost</a>
             </div>
@@ -217,19 +263,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/7.jpg" name="img10" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/2.jpg" name="img10" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">ULTRABOOST 21 'WHITE CHARCOAL'</a>
             </div>
@@ -237,19 +283,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/8.jpg" name="img11" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/3.jpg" name="img11" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">SUPERSTAR BLACK WHITE GOLD</a>
             </div>
@@ -257,19 +303,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/6.jpg" name="img12" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img12" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">YEEZY BOOST 350 STATIC BLACK 3M</a>
             </div>
@@ -277,21 +323,21 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
     </div>
     <div class="product">
         <div class="boxProduct" >
-            <a href=""><img src="/frontend/customer/src/assets/img/product/1.jpg" name="img13" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img13" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">Fear of God x Chuck 70 Hi 'Natural'</a>
             </div>
@@ -299,19 +345,19 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct">
-            <a href=""><img src="/frontend/customer/src/assets/img/product/10.jpg" name="img14" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/2.jpg" name="img14" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>    
             <div class="name">
                 <a href="">YEEZY BOOST 350 V2 'CARBON'</a>
             </div>
@@ -319,39 +365,39 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct">
-            <a href=""><img src="/frontend/customer/src/assets/img/product/11.jpg" name="img15" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/3.jpg" name="img15" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>     
             <div class="name">
-                <a href="">Fear of God x Chuck 70 Hi 'Grey'</a>
+                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
             </div>
             <div class="priceI">
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button type="button" class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
         <div class="boxProduct">
-            <a href=""><img src="/frontend/customer/src/assets/img/product/8.jpg" name="img16" ></a>
+            <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img16" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
-                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
             </ul> 
             <ul class="product-links-cart">
-                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul> 
+                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
+            </ul>   
+            <ul class="product-links-buy">
+                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
+            </ul>     
             <div class="name">
                 <a href="">SUPERSTAR BLACK WHITE GOLD</a>
             </div>
@@ -359,13 +405,10 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-            <div class="paynow">
-                <button class="btn btn-outline-danger" style="font-size: 18px;"> <a href="#6">Đặt hàng ngay</a> </button>
-            </div>
         </div>
     </div> 
     <div class="view-more">
-        <div class="boxC" style="font-size: 12px; padding-top: 20px; padding-bottom: 20px;">          
+        <div class="boxC" style="font-size: 12px; padding-top: 40px; padding-bottom: 20px;">          
             <button type="button" class="btn btn-outline-danger"><a href="#6" style="text-decoration: none;color: black;"> Xem thêm </a></button>       
         </div>
     </div> <hr style="color: #938a8a; padding-bottom: 10px;">
@@ -442,7 +485,6 @@
         </div><!--end col-->
     </div><!--end row-->
 </div>
-    </div> <hr style="color: #938a8a; padding-bottom: 10px;">
     <!-- END BLOG -->
 
     <!-- SERVICES -->

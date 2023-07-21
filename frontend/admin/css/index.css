@@ -1,0 +1,13 @@
+.birthdaytime{
+    padding: 8px 15px;
+    border: 1px solid #DFDFDF;
+    border-radius: 6px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    font-family: "Manrope", sans-serif;
+    min-width: 170px;
+    height: 34px;
+    background: #ffffff;
+}

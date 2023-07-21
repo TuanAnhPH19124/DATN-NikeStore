@@ -1,0 +1,23 @@
+.title-cart {
+    text-align: center;
+    padding-top: 50px;
+    font-size:  30px;
+    font-weight: bold
+}
+.pay-cart {
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: 50px;
+}
+.pay-cart a{
+    width: 200px;
+}
+.pay-cart a:hover{
+    color: white;
+}
+.more{
+    padding-top: 30px;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+}

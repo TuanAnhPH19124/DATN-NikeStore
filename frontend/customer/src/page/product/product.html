@@ -6,12 +6,12 @@
 
 <div class="container" style="padding-top: 50px;">
 <div class="row">
-<aside class="col-md-3">		
+<aside class="col-md-3" style="margin-top: 0;">		
 <div class="card">
 	<article class="filter-group">
 		<header class="card-header">
-			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
-				<h5 class="title" style="padding-top: 15px; color: black; font-weight: bold; text-decoration: none;">DANH MỤC</h5>
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+				<h5 class="title" style="padding-top: 15px; color: black; font-weight: bold;">DANH MỤC</h5>
 			</a>
 		</header>
 		<div class="filter-content collapse show" id="collapse_1">
@@ -23,8 +23,7 @@
 				    <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
 				  </div>
 				</div>
-				</form>
-				
+				</form>				
 				<ul class="list-menu" style="color: rgb(54, 51, 51); text-decoration: none; font-size: 18px;">
 				<li><a href="#"> Sản Phẩm Mới </a></li>
 				<li><a href="#"> Hàng Mới Về </a></li>
@@ -32,13 +31,12 @@
 				<li><a href="#"> Giá Từ Thấp Đến Cao </a></li>
 				<li><a href="#"> Giá Từ Cao Đến Thấp </a></li>
 				</ul>
-
 			</div> <!-- card-body.// -->
 		</div>
 	</article> <!-- filter-group  .// -->
 	<article class="filter-group">
 		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
-			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> LOẠI GIÀY </h6>
 			</a>
 		</header>
@@ -88,7 +86,7 @@
 	</article> <!-- filter-group .// -->
 	<article class="filter-group">
 		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
-			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">GIÁ TIỀN</h6>
 			</a>
 		</header>
@@ -138,7 +136,7 @@
 	</article> <!-- filter-group .// -->
     <article class="filter-group">
 		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
-			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> MÀU SẮC </h6>
 			</a>
 		</header>
@@ -188,7 +186,7 @@
 	</article> <!-- filter-group .// -->
 	<article class="filter-group">
 		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
-			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">KÍCH THƯỚC</h6>
 			</a>
 		</header>
@@ -276,25 +274,28 @@
 		<figure class="card card-product-grid">
 			<div class="img-wrap"> 
 				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
-								<img src="/frontend/customer/src/assets/img/product/2.jpg" class="img-fluid">
-				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+				<img src="/frontend/customer/src/assets/img/product/2.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i></a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
-					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
-                        
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>                       
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;"> 1,000,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -306,22 +307,26 @@
 								<img src="/frontend/customer/src/assets/img/product/2.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>			
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -333,22 +338,26 @@
 								<img src="/frontend/customer/src/assets/img/product/3.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -360,22 +369,26 @@
 								<img src="/frontend/customer/src/assets/img/product/5.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -387,22 +400,26 @@
 								<img src="/frontend/customer/src/assets/img/product/8.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -414,22 +431,26 @@
 								<img src="/frontend/customer/src/assets/img/product/7.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -441,22 +462,26 @@
 								<img src="/frontend/customer/src/assets/img/product/14.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -468,22 +493,26 @@
 								<img src="/frontend/customer/src/assets/img/product/15.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -495,22 +524,26 @@
 								<img src="/frontend/customer/src/assets/img/product/18.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -522,22 +555,26 @@
 								<img src="/frontend/customer/src/assets/img/product/13.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -549,22 +586,26 @@
 								<img src="/frontend/customer/src/assets/img/product/14.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -576,22 +617,26 @@
 								<img src="/frontend/customer/src/assets/img/product/19.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -603,22 +648,26 @@
 								<img src="/frontend/customer/src/assets/img/product/10.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -630,22 +679,26 @@
 								<img src="/frontend/customer/src/assets/img/product/1.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -657,22 +710,26 @@
 								<img src="/frontend/customer/src/assets/img/product/3.jpg" class="img-fluid">
 				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
 			</div> <!-- img-wrap.// -->
-			<ul class="product-links1">
+			<!-- <ul class="product-links1">
                 <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
             </ul> 
             <ul class="product-links-cart1">
                 <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
-            </ul>  
+            </ul>   -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
                         
 					<div class="price-wrap mt-2">
-						<span class="price" style="color: red;">500,000đ</span>
+						<span class="price" style="color: black;">500,000đ</span>
 						<del class="price-old" style="color: gray;">700,000đ</del>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-danger"> Đặt hàng ngay </a>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->

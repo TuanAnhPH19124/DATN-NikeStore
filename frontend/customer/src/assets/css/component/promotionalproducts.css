@@ -48,6 +48,27 @@
     overflow: hidden;
     position: relative;
 }
+.info-wrap .title:hover{
+    text-decoration: none;
+}
+.card-header .title:hover{
+    text-decoration: none;
+}
+.info-wrap .paynowA button{
+    width: 200px;
+    margin-top: 10px;
+    margin-left: 8px;
+    border-radius: 25px;
+    background-color: #212529;
+    border: 1px solid #212529;
+    
+}
+.info-wrap .paynowA a{
+    color: rgb(255, 255, 255);
+}
+.info-wrap .paynowA a:hover{
+    text-decoration: none;
+}
 .img-fluid{
     display: block;
     transition: all .6s ease;

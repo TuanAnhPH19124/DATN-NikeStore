@@ -9,9 +9,11 @@ using Persistence;
 using Persistence.Repositories;
 using Service;
 using Service.Abstractions;
+using StackExchange.Redis;
 using System.ComponentModel;
 using WatchDog;
 using WatchDog.src.Enums;
+using Webapi.Hubs;
 
 namespace Webapi
 {
@@ -27,13 +29,17 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddWatchDogServices(option =>
-            {
-                option.IsAutoClear = false;
-                option.SetExternalDbConnString = Configuration.GetConnectionString("DefaultConnection");
-                option.DbDriverOption = WatchDogDbDriverEnum.PostgreSql;
+
+
+            services.AddElasticSearch(Configuration);
+
+            // services.AddWatchDogServices(option =>
+            // {
+            //     option.IsAutoClear = false;
+            //     option.SetExternalDbConnString = Configuration.GetConnectionString("DefaultConnection");
+            //     option.DbDriverOption = WatchDogDbDriverEnum.PostgreSql;
                 
-            });
+            // });
 
             services.AddAuthentication(options =>
             {
@@ -58,13 +64,23 @@ namespace Webapi
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
-
-
+            services.AddCors();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(option =>
+            {
+                option.WithOrigins("http://127.0.0.1:5502")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+            });
+
+            DatabaseMigration.StartMigration(app);
+            SeedingDatabase.Start(app).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,7 +88,7 @@ namespace Webapi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Webapi v1"));
             }
 
-
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
@@ -82,20 +98,23 @@ namespace Webapi
 
             app.UseAuthorization();
 
-            app.UseWatchDogExceptionLogger();
+            // app.UseWatchDogExceptionLogger();
 
-            app.UseWatchDog(option =>
-            {
-                option.WatchPagePassword = "admin";
-                option.WatchPageUsername = "admin";
-
-            });
+            // app.UseWatchDog(option =>
+            // {
+            //     option.WatchPagePassword = "admin";
+            //     option.WatchPageUsername = "admin";
+            // });
 
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("/hubs/notify");
+                endpoints.MapHub<ManagerHub>("/hubs/manager");
+                endpoints.MapHub<CustomerHub>("/hubs/customer");
             });
+
         }
     }
 }
