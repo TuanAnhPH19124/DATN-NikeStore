@@ -48,7 +48,7 @@ header p{
 }
 .header-main :hover{
     text-decoration: double;
-    color: rgb(0, 0, 0);
+    color: brown;
 }
 nav li{
     list-style: none;
@@ -57,7 +57,7 @@ nav li{
 }
 nav li a{
     font-size: 20px;
-    color: #747272;
+    color: #2e2f34;
 }
 .right-main i{
     margin-right: 10px;
