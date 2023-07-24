@@ -7,16 +7,18 @@ $(document).ready(function () {
             "dataSrc": ""
         },
         "columns": [
-            { "data": 'fullName' },
-            { "data": 'snn' },
-            { "data": 'phoneNumber' },
-            { "data": 'modifiedDate' },
-            { "data": 'role' },
-            { "data": 'status' },
+            { "data": 'employeeId', "title": "ID" },
+            { "data": 'fullName', "title": "Họ và tên" },
+            { "data": 'snn', "title": "Số căn cước" },
+            { "data": 'phoneNumber', "title": "Số điện thoại" },
+            { "data": 'modifiedDate', "title": "Ngày thay đổi" },
+            { "data": 'role', "title": "Vai trò" },
+            { "data": 'status', "title": "Trạng thái" },
             {
                 "render": function () {
                     return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Xóa</a></td>';
-                }
+                },
+                "title": "Thao tác"
             },
         ],
     });
@@ -100,4 +102,17 @@ $(document).ready(function () {
             }
         },
     });
+    //add event click datatable
+
+    $('#staff-table tbody').on('click', 'tr', function (e) {
+        e.preventDefault();
+        let id = $('#staff-table').DataTable().row(this).data().employeeId;
+        if (id !== null) {
+            localStorage.setItem("id", id);
+            window.location.href = `/frontend/admin/update-staff.html`;
+        }
+    });
+
 });
+
+
