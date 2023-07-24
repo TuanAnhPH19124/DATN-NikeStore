@@ -22,14 +22,13 @@ $(document).ready(function () {
     });
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
-        event.preventDefault();
         var formData = {
             fullName: $("#fullName").val(),
             snn: $("#snn").val(),
             phoneNumber: $("#phoneNumber").val(),
             role: $("#role").val(),
             password: "1",
-            modifiedDate: "2023-07-18T08:44:53.134Z",
+            modifiedDate: new Date,
             status: true,
         };
         $.ajax({
@@ -38,12 +37,8 @@ $(document).ready(function () {
             data: JSON.stringify(formData),
             contentType: "application/json",
             success: function (response) {
-                console.log("Thêm nhân viên thành công")
+                $('.toast').toast('show')
             },
-            error: function (xhr, status, error) {
-                console.log("Fail")
-                console.log(formData);
-            }
         });
     });
     // custom validate 
@@ -55,6 +50,9 @@ $(document).ready(function () {
     });
     $.validator.addMethod("phoneNumContainOnlyNum", function (value, element) {
         return value.match(/[^0-9]/) == null;
+    });
+    $.validator.addMethod("onlyContain10Char", function (value, element) {
+        return value.match(/^\w{10}$/) != null;
     });
     $.validator.addMethod("onlyContain12Char", function (value, element) {
         return value.match(/^\w{12}$/) != null;
@@ -73,11 +71,12 @@ $(document).ready(function () {
                 onlyContain12Char: true,
             },
             "phoneNumber": {
-                require: true,
+                required: true,
                 phoneNumContainOnlyNum: true,
+                onlyContain10Char: true,
             },
             "role": {
-                require: true,
+                required: true,
             }
         },
         messages: {
@@ -93,7 +92,8 @@ $(document).ready(function () {
             },
             "phoneNumber": {
                 required: "Bạn phải nhập số điện thoại",
-                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự"
+                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
+                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
             },
             "role": {
                 required: "Bạn phải nhập tên vai trò",
