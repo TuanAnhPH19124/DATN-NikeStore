@@ -7,16 +7,24 @@ $(document).ready(function () {
             "dataSrc": ""
         },
         "columns": [
-            { "data": 'employeeId', "title": "ID" },
+            { "data": 'employeeId', "title": "ID", "visible": false, },
             { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'snn', "title": "Số căn cước" },
             { "data": 'phoneNumber', "title": "Số điện thoại" },
             { "data": 'modifiedDate', "title": "Ngày thay đổi" },
             { "data": 'role', "title": "Vai trò" },
-            { "data": 'status', "title": "Trạng thái" },
+            {
+                "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
+                    if (data == true) {
+                        return '<input type="checkbox" checked>';
+                    } else {
+                        return '<input type="checkbox">';
+                    }
+                }
+            },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Xóa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
                 },
                 "title": "Thao tác"
             },
@@ -24,6 +32,7 @@ $(document).ready(function () {
     });
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
+        event.preventDefault()
         var formData = {
             fullName: $("#fullName").val(),
             snn: $("#snn").val(),
@@ -45,7 +54,7 @@ $(document).ready(function () {
     });
     // custom validate 
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {
-        return value.match(/[^a-zA-Z]/) == null;
+        return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
     });
     $.validator.addMethod("idContainOnlyNum", function (value, element) {
         return value.match(/[^0-9]/) == null;
