@@ -353,34 +353,43 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="add-employee-form">
+                                    <form id="add-voucher-form">
                                         <div class="form-group">
-                                            <label>Mã voucher</label>
+                                            <label for="code">Mã voucher</label>
                                             <input type="text" class="form-control" id="code" name="code"
                                                 aria-describedby="emailHelp" placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label for="snn">Giá trị</label>
+                                            <label for="value">Giá trị</label>
                                             <input type="text" class="form-control" id="value" placeholder=""
                                                 name="value">
                                         </div>
                                         <div class="form-group">
-                                            <label for="date" class="col-sm-1 col-form-label">Date</label>
-                                            <div class="col-sm-4">
-                                                <div class="input-group date" id="datepicker">
-                                                    <input type="text" class="form-control">
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text bg-white">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
+                                            <label for="description">Mô tả</label>
+                                            <input type="text" class="form-control" id="description" placeholder=""
+                                                name="description">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="startDate">Ngày bắt đầu</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" class="form-control" id="startDate" name="startDate">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
                                                     </span>
-                                                </div>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>Vai trò</label>
-                                            <input type="text" class="form-control" id="role" placeholder=""
-                                                name="role">
+                                            <label for="end">Ngày kết thúc</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" class="form-control" id="endDate" name="endDate">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"

@@ -31,19 +31,25 @@ $(document).ready(function () {
         ],
     });
     // call api them nhan vien
-    $('#add-employee-form').submit(function (event) {
+    $('#add-voucher-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            fullName: $("#fullName").val(),
-            snn: $("#snn").val(),
-            phoneNumber: $("#phoneNumber").val(),
-            role: $("#role").val(),
-            password: "1",
-            modifiedDate: new Date,
+            code: $("#code").val(),
+            value: $("#value").val(),
+            description: $("#description").val(),
+            startDate: $("#startDate").val(),
+            endDate: $("#endDate").val(),
+            createdDate: new Date,
             status: true,
         };
+        //convert nomal date to ISO 8601 date
+        [startDay, startMonth, startYear] = formData.startDate.split('/');
+        [endDay, endMonth, endYear] = formData.endDate.split('/');
+        formData.startDate = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
+        formData.endDate = new Date(`${endYear}-${endMonth}-${endDay}`).toISOString();
+
         $.ajax({
-            url: "https://localhost:44328/api/Employee",
+            url: "https://localhost:44328/api/Voucher",
             type: "POST",
             data: JSON.stringify(formData),
             contentType: "application/json",
@@ -112,7 +118,6 @@ $(document).ready(function () {
         },
     });
     //add event click datatable
-
     $('#voucher-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
         let id = $('#voucher-table').DataTable().row(this).data().employeeId;
@@ -124,7 +129,7 @@ $(document).ready(function () {
 
 });
 $(function () {
-    $('#datepicker').datepicker({
+    $('.date').datepicker({
         format: 'dd/mm/yyyy',
     });
 });
