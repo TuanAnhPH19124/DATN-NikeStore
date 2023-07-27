@@ -10,11 +10,59 @@ $(document).ready(function () {
             { "data": 'id', "title": "ID", "visible": false, },
             { "data": 'code', "title": "Mã" },
             { "data": 'value', "title": "Giá trị" },
-            { "data": 'startDate', "title": "Ngày bắt đầu" },
-            { "data": 'endDate', "title": "Ngày kết thúc" },
-            { "data": 'createdDate', "title": "Ngày tạo" },
+            // {
+            //     "data": 'startDate', "title": "Ngày bắt đầu",
+            //     "render": function (data, type, full, meta) {
+            //         var dateObj = new Date(data);
+            //         var day = dateObj.getUTCDate();
+            //         var month = dateObj.getUTCMonth() + 1;
+            //         var year = dateObj.getUTCFullYear();
+            //         var formattedDate = `${day}/${month}/${year}`;
+            //         return formattedDate;
+            //     }
+            // },
+            // {
+            //     "data": 'endDate', "title": "Ngày kết thúc",
+            //     "render": function (data, type, full, meta) {
+            //         var dateObj = new Date(data);
+            //         var day = dateObj.getUTCDate();
+            //         var month = dateObj.getUTCMonth() + 1;
+            //         var year = dateObj.getUTCFullYear();
+            //         var formattedDate = `${day}/${month}/${year}`;
+            //         return formattedDate;
+            //     }
+            // },
             {
-                "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
+                "data": null,
+                "title": "Thời gian",
+                "render": function (data, type, full, meta) {
+                    var dateObj1 = new Date(full.startDate);
+                    var day1 = dateObj1.getUTCDate();
+                    var month1 = dateObj1.getUTCMonth() + 1;
+                    var year1 = dateObj1.getUTCFullYear();
+                    var formattedDate = `${day1}/${month1}/${year1}`;
+                    var dateObj2 = new Date(full.endDate);
+                    var day2 = dateObj2.getUTCDate();
+                    var month2 = dateObj2.getUTCMonth() + 1;
+                    var year2 = dateObj2.getUTCFullYear();
+                    var formattedDate2 = `${day2}/${month2}/${year2}`;
+                    return formattedDate + '-' + formattedDate2;
+                }
+            },
+            {
+                "data": 'createdDate', "title": "Ngày tạo",
+                "render": function (data, type, full, meta) {
+                    var dateObj = new Date(data);
+                    var day = dateObj.getUTCDate();
+                    var month = dateObj.getUTCMonth() + 1;
+                    var year = dateObj.getUTCFullYear();
+                    var formattedDate = `${day}/${month}/${year}`;
+                    return formattedDate;
+                }
+            },
+            {
+                "data": 'status', "title": "Trạng thái",
+                "render": function (data, type, row) {
                     if (data == true) {
                         return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
                     } else {
@@ -24,7 +72,7 @@ $(document).ready(function () {
             },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-danger" id="btn" onclick="myFunction()">Hủy kích hoạt</a></td>';
                 },
                 "title": "Thao tác"
             },
@@ -42,11 +90,17 @@ $(document).ready(function () {
             createdDate: new Date,
             status: true,
         };
+
         //convert nomal date to ISO 8601 date
         [startDay, startMonth, startYear] = formData.startDate.split('/');
         [endDay, endMonth, endYear] = formData.endDate.split('/');
-        formData.startDate = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
-        formData.endDate = new Date(`${endYear}-${endMonth}-${endDay}`).toISOString();
+        try {
+            formData.startDate = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
+            formData.endDate = new Date(`${endYear}-${endMonth}-${endDay}`).toISOString();
+        } catch (error) {
+            formData.startDate = ""
+            formData.endDate = ""
+        }
 
         $.ajax({
             url: "https://localhost:44328/api/Voucher",
@@ -54,6 +108,7 @@ $(document).ready(function () {
             data: JSON.stringify(formData),
             contentType: "application/json",
             success: function (response) {
+                console.log(response)
                 $('.toast').toast('show')
             },
         });
@@ -62,69 +117,72 @@ $(document).ready(function () {
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {
         return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
     });
-    $.validator.addMethod("idContainOnlyNum", function (value, element) {
+    $.validator.addMethod("valueContainOnlyNum", function (value, element) {
         return value.match(/[^0-9]/) == null;
     });
-    $.validator.addMethod("phoneNumContainOnlyNum", function (value, element) {
-        return value.match(/[^0-9]/) == null;
+    $.validator.addMethod("compare2Date", function (value, element) {
+        var parts1 = $("#startDate").val().split("/");
+        var parts2 = $("#endDate").val().split("/");
+
+        var year1 = parseInt(parts1[2], 10) + 2000; // Convert 2-digit year to 4-digit year
+        var year2 = parseInt(parts2[2], 10) + 2000;
+
+        var month1 = parseInt(parts1[1], 10) - 1; // JavaScript months are zero-indexed
+        var month2 = parseInt(parts2[1], 10) - 1;
+
+        var day1 = parseInt(parts1[0], 10);
+        var day2 = parseInt(parts2[0], 10);
+
+        var jsDate1 = new Date(year1, month1, day1);
+        var jsDate2 = new Date(year2, month2, day2);
+        return jsDate1 <= jsDate2
+
     });
-    $.validator.addMethod("onlyContain10Char", function (value, element) {
-        return value.match(/^\w{10}$/) != null;
-    });
-    $.validator.addMethod("onlyContain12Char", function (value, element) {
-        return value.match(/^\w{12}$/) != null;
-    });
+
     // add validate
-    $("#add-employee-form").validate({
+    $("#add-voucher-form").validate({
         rules: {
-            "fullName": {
+            "code": {
                 required: true,
-                maxlength: 30,
-                nameContainOnlyChar: true,
+                maxlength: 15,
             },
-            "snn": {
+            "value": {
                 required: true,
-                idContainOnlyNum: true,
-                onlyContain12Char: true,
+                valueContainOnlyNum: true,
             },
-            "phoneNumber": {
-                required: true,
-                phoneNumContainOnlyNum: true,
-                onlyContain10Char: true,
+            "description": {
+                maxlength: 20
             },
-            "role": {
+            "startDate": {
                 required: true,
-            }
+                compare2Date: true,
+            },
+            "endDate": {
+                required: true,
+                compare2Date: true,
+            },
         },
         messages: {
-            "fullName": {
-                required: "Bạn phải nhập họ và tên",
-                maxlength: "Hãy nhập tối đa 30 ký tự",
-                nameContainOnlyChar: "Họ tên không được chứa số hay ký tự",
+            "code": {
+                required: "Bạn phải nhập Mã giảm giá",
+                maxlength: "Mã giảm giá không quá 15 ký tự",
             },
-            "snn": {
+            "value": {
                 required: "Bạn phải nhập số căn cước",
-                idContainOnlyNum: "Số căn cước không được chưa ký tự",
-                onlyContain12Char: "Độ dài của số căn cước là 12"
+                valueContainOnlyNum: "Giá trị là số, không chứa ký tự",
             },
-            "phoneNumber": {
-                required: "Bạn phải nhập số điện thoại",
-                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
-                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
+            "description": {
+                maxlength: "Mô tả không được quá 20 ký tự"
             },
-            "role": {
-                required: "Bạn phải nhập tên vai trò",
-            }
+            "startDate": {
+                required: "Nhập ngày bắt đầu",
+                compare2Date: "Ngày bắt đầu không thể lớn hơn ngày kết thúc",
+            },
+            "endDate": {
+                required: "Nhập ngày kết thúc",
+                compare2Date: "Ngày bắt đầu không thể lớn hơn ngày kết thúc",
+            },
         },
-    });
-    //add event click datatable
-    $('#voucher-table tbody').on('click', 'tr', function (e) {
-        e.preventDefault();
-        let id = $('#voucher-table').DataTable().row(this).data().employeeId;
-        if (id !== null) {
-            localStorage.setItem("id", id);
-            window.location.href = `/frontend/admin/update-staff.html`;
-        }
     });
 
 });
