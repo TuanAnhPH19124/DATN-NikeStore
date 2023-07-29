@@ -407,10 +407,30 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Biểu đồ thống kê</h6>
                                     <div class="date-picker">
-                                        <label for="birthdaytime">Từ ngày</label>
-                                        <input type="date" class="birthdaytime" name="birthdaytime">
-                                        <label for="birthdaytime">Đến ngày</label>
-                                        <input type="date" class="birthdaytime" name="birthdaytime">
+                                        <div class="form-group">
+                                            <label for="end">Từ ngày</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" class="form-control" id="endDate" name="endDate"
+                                                    autocomplete="off">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="end">Đến ngày</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" class="form-control" id="endDate" name="endDate"
+                                                    autocomplete="off">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -565,6 +585,9 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-bar-demo.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="js/index.js"></script>
 
 </body>
 

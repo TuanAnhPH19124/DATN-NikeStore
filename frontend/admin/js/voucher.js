@@ -10,28 +10,6 @@ $(document).ready(function () {
             { "data": 'id', "title": "ID", "visible": false, },
             { "data": 'code', "title": "Mã" },
             { "data": 'value', "title": "Giá trị" },
-            // {
-            //     "data": 'startDate', "title": "Ngày bắt đầu",
-            //     "render": function (data, type, full, meta) {
-            //         var dateObj = new Date(data);
-            //         var day = dateObj.getUTCDate();
-            //         var month = dateObj.getUTCMonth() + 1;
-            //         var year = dateObj.getUTCFullYear();
-            //         var formattedDate = `${day}/${month}/${year}`;
-            //         return formattedDate;
-            //     }
-            // },
-            // {
-            //     "data": 'endDate', "title": "Ngày kết thúc",
-            //     "render": function (data, type, full, meta) {
-            //         var dateObj = new Date(data);
-            //         var day = dateObj.getUTCDate();
-            //         var month = dateObj.getUTCMonth() + 1;
-            //         var year = dateObj.getUTCFullYear();
-            //         var formattedDate = `${day}/${month}/${year}`;
-            //         return formattedDate;
-            //     }
-            // },
             {
                 "data": null,
                 "title": "Thời gian",
@@ -41,6 +19,7 @@ $(document).ready(function () {
                     var month1 = dateObj1.getUTCMonth() + 1;
                     var year1 = dateObj1.getUTCFullYear();
                     var formattedDate = `${day1}/${month1}/${year1}`;
+
                     var dateObj2 = new Date(full.endDate);
                     var day2 = dateObj2.getUTCDate();
                     var month2 = dateObj2.getUTCMonth() + 1;

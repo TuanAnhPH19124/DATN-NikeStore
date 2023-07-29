@@ -11,14 +11,24 @@ $(document).ready(function () {
             { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'snn', "title": "Số căn cước" },
             { "data": 'phoneNumber', "title": "Số điện thoại" },
-            { "data": 'modifiedDate', "title": "Ngày thay đổi" },
+            {
+                "data": 'modifiedDate', "title": "Ngày thay đổi",
+                "render": function (data, type, full, meta) {
+                    var dateObj = new Date(data);
+                    var day = dateObj.getUTCDate();
+                    var month = dateObj.getUTCMonth() + 1;
+                    var year = dateObj.getUTCFullYear();
+                    var formattedDate = `${day}/${month}/${year}`;
+                    return formattedDate;
+                }
+            },
             { "data": 'role', "title": "Vai trò" },
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == true) {
-                        return '<input type="checkbox" checked>';
+                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
                     } else {
-                        return '<input type="checkbox">';
+                        return '<span class="badge badge-pill badge-danger">Ngừng kích hoạt</span>';
                     }
                 }
             },
