@@ -13,19 +13,17 @@
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="themify-icons/themify-icons.css" rel="stylesheet" type="text/css">
-
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="/frontend/admin/css/product-page.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
-
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+    <link href="/frontend/admin/css/update-product.css" rel="stylesheet">
 
 </head>
 
@@ -147,6 +145,8 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
+
+                    <!-- Topbar Search -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -324,76 +324,66 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="add-btn">
-                        <a href="/frontend/admin/add-product.html" class="btn btn-primary text-white me-0">
-                            <span class="icon text-white-50">
-                                <i class="ti-plus"></i>
-                            </span>
-                            <span class="text">Thêm sản phẩm</span>
-                        </a>
-                    </div>
-
-                    <div class="select">
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect1">Danh mục:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Cập nhật tài khoản</h2>
                         </div>
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect2">Hãng:</label>
-                            <select class="form-control" id="exampleFormControlSelect2">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect3">Màu sắc:</label>
-                            <select class="form-control" id="exampleFormControlSelect3">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Giá</th>
-                                            <th>Giá tạo</th>
-                                            <th>Trạng thái</th>
-                                            <th>Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody">
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="modal-body">
+                            <form id="update-employee-form">
+                                <div class="form-group">
+                                    <label>Họ và tên</label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName"
+                                        aria-describedby="emailHelp" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="snn">Số căn cước</label>
+                                    <input type="text" class="form-control" id="snn" placeholder="" name="snn">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số điện thoại</label>
+                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                        name="phoneNumber">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mật khẩu</label>
+                                    <input type="text" class="form-control" id="password" placeholder=""
+                                        name="password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Vai trò</label>
+                                    <input type="text" class="form-control" id="role" placeholder="" name="role">
+                                </div>
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <input type="checkbox" id="status" placeholder="" name="status">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Xác
+                                        nhận</button>
+                                </div>
+                                <!-- thông báo -->
+                                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                                    data-delay="2000" style="position: fixed;
+                                bottom: 1rem;
+                                right: 1rem;
+                                z-index: 1050;">
+                                    <div class="toast-header">
+                                        <strong class="mr-auto">Thành công</strong>
+                                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Cập nhật thành công
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -444,9 +434,8 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/frontend/admin/startbootstrap-sb-admin-2/css/button.css"></script>
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="/frontend/admin/js/product-page.js"></script>
+    <script src="/frontend/admin/js/update-product.js"></script>
 
 
 </body>
