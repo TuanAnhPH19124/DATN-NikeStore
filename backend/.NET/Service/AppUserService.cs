@@ -163,13 +163,7 @@ namespace Service
 
 
         ////////////////////
-        public async Task<AppUser> CreateAsync(AppUser appUser)
-        {
-            _repositoryManger.AppUserRepository.AddAppUser(appUser);
-
-            await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return appUser;
-        }
+       
         public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
         {
             List<AppUser> appUserList = await _repositoryManger.AppUserRepository.GetAllAppUserAsync(cancellationToken);
@@ -192,11 +186,27 @@ namespace Service
             else
             {
                 existingAppUser.FullName = appUser.FullName;
-                existingAppUser.Email= appUser.Email;
-                existingAppUser.PhoneNumber= appUser.PhoneNumber;               
+                existingAppUser.PhoneNumber= appUser.PhoneNumber;   
+                existingAppUser.AvatarUrl= appUser.AvatarUrl;
                 await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
                 return existingAppUser;
             }
         }
+
+        public async Task<AppUser> UpdateByIdAppUserByAdmin(string id, AppUser appUser, CancellationToken cancellationToken = default)
+        {
+            var existingAppUser = await _repositoryManger.AppUserRepository.GetByIdAsync(id, cancellationToken);
+            if (existingAppUser == null)
+            {
+                throw new Exception("User not found.");
+            }
+            else
+            {
+                existingAppUser.Status= appUser.Status;
+                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                return existingAppUser;
+            }
+        }
+
     }
 }

@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace Domain.Repositories
+namespace Service.Abstractions
 {
-    public interface IOrderItemsRepository
+    public interface IOrderItemService
     {
-        Task<IEnumerable<OrderItem>> SelectItemByOrderId(string OrderId);
         Task<int> GetAmountByProductId(string productId);
         Task<decimal> GetRevenueByProductId(string productId);
         Task<decimal> GetTotalRevenueInTimeRange(DateTime startDate, DateTime endDate);

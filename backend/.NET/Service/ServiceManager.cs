@@ -1,4 +1,5 @@
 ﻿using Domain.Repositories;
+using Nest;
 using Service.Abstractions;
 using System;
 
@@ -11,10 +12,12 @@ namespace Service
         private readonly Lazy<ICategoryService> _lazyCategoryService;
         private readonly Lazy<IProductService> _lazyProductService;
         private readonly Lazy<IOrderService> _lazyOrderService;
+        private readonly Lazy<IOrderItemService> _lazyOrderItemService;
         private readonly Lazy<INewsService> _lazyNewsService;
         private readonly Lazy<IWishListsService> _lazyWishListsService;
         private readonly Lazy<IShoppingCartsService> _lazyShoppingCartsService;
         private readonly Lazy<IEmployeeService> _lazyEmployeeService;
+
 
         public ServiceManager(IRepositoryManger repositoryManger)
         {
@@ -23,6 +26,7 @@ namespace Service
             _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManger));
             _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManger));
             _lazyOrderService = new Lazy<IOrderService>(() => new OrderService(repositoryManger));
+            _lazyOrderItemService = new Lazy<IOrderItemService>(() => new OrderItemService(repositoryManger));
             _lazyNewsService = new Lazy<INewsService>(() => new NewsService(repositoryManger));
             _lazyWishListsService = new Lazy<IWishListsService>(() => new WishListsService(repositoryManger));
             _lazyShoppingCartsService = new Lazy<IShoppingCartsService>(() => new ShoppingCartsService(repositoryManger));
@@ -36,6 +40,8 @@ namespace Service
         public IProductService ProductService => _lazyProductService.Value;
 
         public IOrderService OrderService => _lazyOrderService.Value;
+
+        public IOrderItemService OrderItemService => _lazyOrderItemService.Value;
 
         public INewsService NewsService => _lazyNewsService.Value;
 

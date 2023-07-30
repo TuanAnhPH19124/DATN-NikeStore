@@ -11,6 +11,8 @@ using Persistence;
 using System.Linq;
 using System.Collections.Generic;
 using System.Net;
+using Mapster;
+using EntitiesDto.User;
 
 namespace Webapi.Controllers
 {
@@ -24,7 +26,8 @@ namespace Webapi.Controllers
         {
             _serviceManager = serviceManager;
         }
-        [HttpGet]
+
+        [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetAllAppUser()
         {
             try
@@ -44,7 +47,7 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpGet("{Id}")]
+        [HttpGet("Get/{Id}")]
         public async Task<ActionResult<AppUser>> GetByIdAppUser(string Id)
         {
             var appUser = await _serviceManager.AppUserService.GetByIdAppUserAsync(Id);
@@ -56,38 +59,40 @@ namespace Webapi.Controllers
             return appUser;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<AppUser>> CreateAppUser(AppUser appUser)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var createdAppUser = await _serviceManager.AppUserService.CreateAsync(appUser);
-                return CreatedAtAction(nameof(GetByIdAppUser), new { id = createdAppUser.Id }, createdAppUser);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppUser(string id, AppUser appUser)
+        public async Task<IActionResult> UpdateAppUser(string id, AppUserDto appUserDto)
         {
-            if (id != appUser.Id)
+            if (id != appUserDto.Id)
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }
             try
             {
-                await _serviceManager.AppUserService.UpdateByIdAppUser(id, appUser);
+                var user = appUserDto.Adapt<AppUser>();
+                await _serviceManager.AppUserService.UpdateByIdAppUser(id, user);
             }
             catch (Exception ex)
             {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
+                return StatusCode((int)HttpStatusCode.Conflict, ex);
+            }
+            return NoContent();
+        }
+
+        [HttpPut("{id}/UpdateUserByAdmin")]
+        public async Task<IActionResult> UpdateAppUserByAdmin(string id, AppUserByAdmin appUserByAdmin)
+        {
+            if (id != appUserByAdmin.Id)
+            {
+                return BadRequest("The provided id does not match the id in the user data.");
+            }
+            try
+            {
+                var user = appUserByAdmin.Adapt<AppUser>();
+                await _serviceManager.AppUserService.UpdateByIdAppUserByAdmin(id, user);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
             return NoContent();
