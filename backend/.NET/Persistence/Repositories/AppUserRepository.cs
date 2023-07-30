@@ -105,7 +105,7 @@ namespace Persistence.Repositories
       
         public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
         {                    
-            var userList = await _appDbContext.Users.ToListAsync(cancellationToken);
+            var userList = await _appDbContext.AppUsers.ToListAsync(cancellationToken);
             return userList;
         }
 
@@ -115,12 +115,12 @@ namespace Persistence.Repositories
             return appUser;
         }
 
-        public async void AddAppUser(AppUser appUser)
+        public async void UpdateAppUser(AppUser appUser)
         {
-            _appDbContext.AppUsers.Add(appUser);
+            _appDbContext.AppUsers.Update(appUser);
         }
 
-        public async void UpdateAppUser(AppUser appUser)
+        public async void UpdateAppUserbyAdmin(AppUser appUser)
         {
             _appDbContext.AppUsers.Update(appUser);
         }
