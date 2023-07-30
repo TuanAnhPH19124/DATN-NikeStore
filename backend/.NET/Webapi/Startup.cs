@@ -73,13 +73,13 @@ namespace Webapi
         {
             app.UseCors(option =>
             {
-                option.WithOrigins("http://127.0.0.1:5502")
+                option.WithOrigins("http://127.0.0.1:5500")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
             });
 
-            DatabaseMigration.StartMigration(app);
+            //DatabaseMigration.StartMigration(app);
             SeedingDatabase.Start(app).Wait();
             if (env.IsDevelopment())
             {
