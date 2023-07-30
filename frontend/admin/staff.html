@@ -334,6 +334,7 @@
                             <span class="text">Tạo tài khoản</span>
                         </a>
                     </div>
+
                     <!-- Button trigger modal -->
 
                     <!-- Modal -->
@@ -348,42 +349,53 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form id="add-employee-form">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Tên tài khoản</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                            <label>Họ và tên</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName"
                                                 aria-describedby="emailHelp" placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Họ và tên</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
+                                            <label for="snn">Số căn cước</label>
+                                            <input type="text" class="form-control" id="snn" placeholder="" name="snn">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Email</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1"
-                                                placeholder="">
+                                            <label>Số điện thoại</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                name="phoneNumber">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Vai trò</label>
+                                            <input type="text" class="form-control" id="role" placeholder=""
+                                                name="role">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Xác
+                                                nhận</button>
+                                        </div>
+                                        <!-- thông báo -->
+                                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                                            data-delay="2000" style="position: fixed;
+                                        bottom: 1rem;
+                                        right: 1rem;
+                                        z-index: 1050;">
+                                            <div class="toast-header">
+                                                <strong class="mr-auto">Thành công</strong>
+                                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Thêm thành công
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Xác nhận</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="select">
-                        <div class="form-filter">
-                            <label for="exampleFormControlSelect1">Trạng thái:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
+                            </div>
                         </div>
                     </div>
 
@@ -391,32 +403,8 @@
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên tài khoản</th>
-                                            <th>Email</th>
-                                            <th>Họ và tên</th>
-                                            <th>Ngày tạo</th>
-                                            <th>Điểm</th>
-                                            <th>Hạng</th>
-                                            <th>Trạng thái</th>
-                                            <th>Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                            <td>$320,800</td>
-                                            <td>$320,800</td>
-                                            <td>$320,800</td>
-                                        </tr>
+                                <table class="table table-bordered" id="staff-table" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>
@@ -478,6 +466,7 @@
     <!-- Page level custom scripts -->
     <script src="/frontend/admin/startbootstrap-sb-admin-2/css/button.css"></script>
     <script src="js/demo/datatables-demo.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="/frontend/admin/js/staff.js"></script>
 
 </body>
