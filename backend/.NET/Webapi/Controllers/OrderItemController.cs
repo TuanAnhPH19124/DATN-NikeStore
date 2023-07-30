@@ -21,14 +21,14 @@ namespace Webapi.Controllers
             {
                 _serviceManager = serviceManager;
             }
-            // so luong sp da ban
+            // tong so luong sp da ban cua 1 sp cu the
             [HttpGet("product/{productId}/amount")]
             public async Task<IActionResult> GetSoldAmount(string productId)
             {
                 int amount = await _serviceManager.OrderItemService.GetAmountByProductId(productId);
                 return Ok(amount);
             }
-            // doanh thu cua 1 sp
+            // doanh thu cua 1 sp cu the
             [HttpGet("product/{productId}/revenue")]
             public async Task<IActionResult> GetRevenue(string productId)
             {
