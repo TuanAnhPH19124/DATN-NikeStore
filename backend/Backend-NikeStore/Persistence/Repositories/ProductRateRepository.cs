@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,12 @@ namespace Persistence.Repositories
             return await _context.ProductRate.FindAsync(appUserId, productId);
         }
 
+        public async Task<List<ProductRate>> GetProductRatesByProductId(string productId)
+        {
+            return await _context.ProductRate
+          .Where(rate => rate.ProductId == productId).ToListAsync();
+          
+        }
         public async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
@@ -35,4 +42,7 @@ namespace Persistence.Repositories
             _context.ProductRate.Update(productRate);
         }
     }
-}
+
+      
+    }
+

@@ -120,5 +120,6 @@ namespace Persistence.Repositories
             _appDbContext.AppUsers.Update(appUser);
         }
 
+      
     }
 }

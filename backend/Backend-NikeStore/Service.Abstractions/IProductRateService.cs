@@ -14,5 +14,6 @@ namespace Service.Abstractions
         Task<ProductRate> GetProductRateAsync(string appUserId, string productId);
         Task UpdateProductRate(ProductRate productRate);
         Task<bool> SaveChangesAsync();
+        Task<List<ProductRate>> GetProductRatesByProductId(string productId);
     }
 }

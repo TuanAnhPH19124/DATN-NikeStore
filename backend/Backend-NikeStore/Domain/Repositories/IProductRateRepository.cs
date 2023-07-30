@@ -14,5 +14,6 @@ namespace Domain.Repositories
         Task<ProductRate> GetProductRateAsync(string appUserId, string productId);
         void UpdateProductRate(ProductRate productRate);
         Task<bool> SaveChangesAsync();
+        Task<List<ProductRate>> GetProductRatesByProductId(string productId);
     }
 }

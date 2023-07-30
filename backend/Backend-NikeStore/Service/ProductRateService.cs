@@ -31,6 +31,12 @@ namespace Service
            
         }
 
+        public async Task<List<ProductRate>> GetProductRatesByProductId(string productId)
+        {
+            return await _repositoryManger.ProductRateRepository.GetProductRatesByProductId(productId);
+            
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return await _repositoryManger.ProductRateRepository.SaveChangesAsync();

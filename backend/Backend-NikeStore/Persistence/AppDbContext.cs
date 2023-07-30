@@ -66,6 +66,8 @@ namespace Persistence
                 .HasMany(u => u.ProductRate)
                 .WithOne(pr => pr.AppUser)
                 .HasForeignKey(pr => pr.AppUserId);
+            modelBuilder.Entity<ProductRate>()
+            .HasKey(pr => new { pr.AppUserId, pr.ProductId });
         }
 
         public DbSet<Voucher> Vouchers { get; set; }

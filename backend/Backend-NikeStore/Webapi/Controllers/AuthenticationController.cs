@@ -180,5 +180,14 @@ namespace Webapi.Controllers
         }
 
 
+        [AllowAnonymous]
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // Gọi phương thức Logout từ SignInManager để xóa thông tin đăng nhập của người dùng
+            await _signInManager.SignOutAsync();
+
+            return Ok(new { Message = "Logout successful" });
+        }
     }
 }
