@@ -3,6 +3,15 @@
     justify-content: end;
     margin-bottom: 20px;
 }
+.add-btn a {
+    padding: 8px 15px;
+    border: 1px solid #CADDFF;
+    font-size: 12px;
+}
+.btn-icon-split .icon {
+    background: none;
+   padding: 0
+}
 .form-filter{
     display: flex;
     align-items: baseline;

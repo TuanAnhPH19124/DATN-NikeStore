@@ -8,6 +8,10 @@
     border: 1px solid #CADDFF;
     font-size: 12px;
 }
+.btn-icon-split .icon {
+    background: none;
+   padding: 0
+}
 .form-filter{
     display: flex;
     align-items: baseline;
