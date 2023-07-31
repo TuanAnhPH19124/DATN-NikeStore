@@ -1,13 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend",
     "\\backend\\Backend-NikeStore",
     "\\backend\\Backend-NikeStore\\Domain",
     "\\backend\\Backend-NikeStore\\Persistence",
     "\\backend\\Backend-NikeStore\\Service.Abstractions",
     "\\frontend",
+    "\\frontend\\admin",
     "\\frontend\\customer"
   ],
+  "SelectedNode": "\\frontend\\admin\\forgot-password.html",
   "PreviewInSolutionExplorer": false
 }
