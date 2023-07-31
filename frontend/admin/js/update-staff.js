@@ -1,62 +1,42 @@
-// call api len datatable nhan vien
+const id = localStorage.getItem("id");
+console.log(id) //lay id nhan vien
+// call api chi tiet 1 nhan vien
 $(document).ready(function () {
-    $('#staff-table').DataTable({
-        "ajax": {
-            "url": "https://localhost:44328/api/Employee",
-            "dataType": "json",
-            "dataSrc": ""
+    $.ajax({
+        url: "https://localhost:44328/api/Employee/" + id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log(JSON.stringify(data));
+            $('#fullName').val(data.fullName);
+            $('#snn').val(data.snn);
+            $('#phoneNumber').val(data.phoneNumber);
+            $('#password').val(data.password);
+            $('#status').prop('checked', data.status);
+            $('#role').val(data.role);
         },
-        "columns": [
-            { "data": 'employeeId', "title": "ID", "visible": false, },
-            { "data": 'fullName', "title": "Họ và tên" },
-            { "data": 'snn', "title": "Số căn cước" },
-            { "data": 'phoneNumber', "title": "Số điện thoại" },
-            {
-                "data": 'modifiedDate', "title": "Ngày thay đổi",
-                "render": function (data, type, full, meta) {
-                    var dateObj = new Date(data);
-                    var day = dateObj.getUTCDate();
-                    var month = dateObj.getUTCMonth() + 1;
-                    var year = dateObj.getUTCFullYear();
-                    var formattedDate = `${day}/${month}/${year}`;
-                    return formattedDate;
-                }
-            },
-            { "data": 'role', "title": "Vai trò" },
-            {
-                "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
-                    if (data == true) {
-                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
-                    } else {
-                        return '<span class="badge badge-pill badge-danger">Ngừng kích hoạt</span>';
-                    }
-                }
-            },
-            {
-                "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
-                },
-                "title": "Thao tác"
-            },
-        ],
+        error: function () {
+            console.log("Error retrieving data.");
+        }
     });
-    // call api them nhan vien
-    $('#add-employee-form').submit(function (event) {
+    $('#update-employee-form').submit(function (event) {
         event.preventDefault()
         var formData = {
+            employeeId: id,
             fullName: $("#fullName").val(),
             snn: $("#snn").val(),
             phoneNumber: $("#phoneNumber").val(),
             role: $("#role").val(),
-            password: "1",
+            password: $("#password").val(),
             modifiedDate: new Date,
-            status: true,
+            status: $("#status").prop('checked'),
         };
         $.ajax({
-            url: "https://localhost:44328/api/Employee",
-            type: "POST",
+            url: "https://localhost:44328/api/Employee/" + id,
+            type: "PUT",
             data: JSON.stringify(formData),
-            contentType: "application/json",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function (response) {
                 $('.toast').toast('show')
             },
@@ -79,7 +59,7 @@ $(document).ready(function () {
         return value.match(/^\w{12}$/) != null;
     });
     // add validate
-    $("#add-employee-form").validate({
+    $("#update-employee-form").validate({
         rules: {
             "fullName": {
                 required: true,
@@ -97,6 +77,9 @@ $(document).ready(function () {
                 onlyContain10Char: true,
             },
             "role": {
+                required: true,
+            },
+            "password": {
                 required: true,
             }
         },
@@ -118,20 +101,12 @@ $(document).ready(function () {
             },
             "role": {
                 required: "Bạn phải nhập tên vai trò",
+            },
+            "password": {
+                required: "Không được để trống mật khẩu",
             }
         },
     });
-    //add event click datatable
-
-    $('#staff-table tbody').on('click', 'tr', function (e) {
-        e.preventDefault();
-        let id = $('#staff-table').DataTable().row(this).data().employeeId;
-        if (id !== null) {
-            localStorage.setItem("id", id);
-            window.location.href = `/frontend/admin/update-staff.html`;
-        }
-    });
-
 });
 
 
