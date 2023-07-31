@@ -21,12 +21,12 @@ namespace Persistence.Repositories
         private readonly Lazy<INewsRepository> _lazyNewsRepository;
         private readonly Lazy<IShoppingCartsRepository> _lazyShoppingCartsRepository;
         private readonly Lazy<IEmployeeRepository> _lazyEmployeeRepository;
-        private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
+        private readonly Lazy<ISizeRepository> _lazySizeRepository;
+
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration, IConnectionMultiplexer redis)
         {
             _lazyAppUserRepository = new Lazy<IAppUserRepository>(() => new AppUserRepository(userManager, configuration, context));
-            _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
             _lazyVoucherRepository = new Lazy<IVoucherRepository>(() => new VoucherRepository(context));
             _lazyCategoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(context));
             _lazyProductRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
@@ -38,12 +38,11 @@ namespace Persistence.Repositories
             _lazyNewsRepository = new Lazy<INewsRepository>(() => new NewsRepository(context));
             _lazyShoppingCartsRepository = new Lazy<IShoppingCartsRepository>(() => new ShoppingCartsRepository(context));
             _lazyEmployeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(context));
-
+            _lazySizeRepository = new Lazy<ISizeRepository>(() => new SizeRepository(context));
+            
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
-
-        public IUnitOfWork UnitOfWork => _lazyUnitOfWork.Value;
 
         public IVoucherRepository VoucherRepository => _lazyVoucherRepository.Value;
 
@@ -66,5 +65,9 @@ namespace Persistence.Repositories
         public IShoppingCartsRepository ShoppingCartsRepository => _lazyShoppingCartsRepository.Value;
 
         public IEmployeeRepository EmployeeRepository => _lazyEmployeeRepository.Value;
+
+        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
+
+        public ISizeRepository SizeRepository => _lazySizeRepository.Value;
     }
 }
