@@ -1,4 +1,4 @@
-const id = localStorage.getItem("id");
+const id = localStorage.getItem("staffId");
 console.log(id) //lay id nhan vien
 // call api chi tiet 1 nhan vien
 $(document).ready(function () {
