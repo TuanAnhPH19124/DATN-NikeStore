@@ -1,0 +1,143 @@
+*{
+    margin: auto; 
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    
+}
+.column {
+    width: 100%;
+}
+
+/* Nút Để Mở Chatbox */
+.nut-mo-chatbox {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+  }
+  
+  /* Ẩn chatbox mặc định */
+  .Chatbox {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+  
+  /* Thêm style cho form */
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+  
+  /* thiết lập style textarea */
+  .form-container textarea {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+    resize: none;
+    min-height: 100px;
+  }
+  
+  /*thiết lập style cho textarea khi được focus */
+  .form-container textarea:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* Sthiết lập style cho nút trong form*/
+  .form-container .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  
+  /* Thiết lập màu nền cho nút đóng chatbox */
+  .form-container .nut-dong-chatbox {
+    background-color: red;
+  }
+  
+  /* Thêm hiệu ứng hover cho nút*/
+  .form-container .btn:hover, .nut-mo-chatbox:hover {
+    opacity: 1;
+  }
+header{
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    justify-content: space-between;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);;
+}
+
+header p{
+    margin-bottom: 0;
+}
+.header-top{
+    background-color: #f5f5f5;
+    padding: 10px 100px;
+    padding-left: 530px;
+    font-size: 14px;
+    
+}
+.header-top, .right, .email, .icon, .language, .login{
+    display: flex;
+    align-items: center;
+    
+}
+.header-top i{
+    margin: 0px 10px;
+}
+.header-top .left, .right:hover{
+    color: rgb(255, 0, 0);
+}
+.header-main, nav ul, .right-main, .price{
+    display: flex;
+    align-items: center;
+}
+.header-main :hover{
+    text-decoration: double;
+    color: brown;
+}
+nav li{
+    list-style: none;
+    padding-top: 10px;
+    margin: 0 20px;
+}
+nav li a{
+    font-size: 20px;
+    color: #2e2f34;
+}
+.right-main i{
+    margin-right: 10px;
+    margin-top: 11px;
+}
+/* .right-main .search{
+    font-size: 18px;
+    border: none; 
+    border: 1px solid rgb(183, 195, 208); 
+    margin-left: 10px;
+    margin-right: 5px;
+    width: 100px;
+    border-radius: 5px;
+    background-color: #ffffff;
+} */
+/* end header  */

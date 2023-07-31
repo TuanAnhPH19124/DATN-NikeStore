@@ -1,0 +1,36 @@
+# File v� th? m?c t?m th?i
+.temp/
+.temp/*
+.temp/**/*
+/Migrations
+.vs/
+.vs/*
+.vs/**/*
+# Th? m?c ??u ra build
+/bin/
+/bin/Debug/**/*
+/obj/
+*/obj/
+# C�c t?p kh�a
+*.key
+
+# C�c t?p c?u h�nh local
+/appsettings*.json
+
+# Logs
+/logs/
+
+# Th? m?c c�ng c? v� g�i c�i ??t
+/tools/
+/packages/
+
+# C�c t?p c?u h�nh m�y ch? local
+/launchSettings.json
+
+# C�c t?p h? th?ng
+.DS_Store
+Thumbs.db
+.dockerignore
+dockerfile
+*.yml
+*.csv

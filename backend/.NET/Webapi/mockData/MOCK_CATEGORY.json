@@ -1,0 +1,42 @@
+[
+  {
+    "Id": "abd19488-fc0a-4b0c-b811-299084cd5060",
+    "ModifiedDate": null,
+    "Name": "Nike Jordan",
+    "Status": 2,
+    "CreatedDate": "8/5/2018",
+    "ParentCategoriesId": null
+  },
+  {
+    "Id": "87fb5042-f3bb-4d1a-9a52-9321e740f143",
+    "ModifiedDate": null,
+    "Name": "Nike Air",
+    "Status": 1,
+    "CreatedDate": "8/5/2018",
+    "ParentCategoriesId": null
+  },
+  {
+    "Id": "2f38e0ee-cf9e-4bfd-b8cd-54aede64fa35",
+    "ModifiedDate": null,
+    "Name": "Nike Air Force",
+    "Status": 3,
+    "CreatedDate": "8/5/2018",
+    "ParentCategoriesId": "87fb5042-f3bb-4d1a-9a52-9321e740f143"
+  },
+  {
+    "Id": "d2bb78f0-0c6c-4631-a2d9-41970f93829b",
+    "ModifiedDate": "8/31/2021",
+    "Name": "Nike Air Max",
+    "Status": 3,
+    "CreatedDate": "8/5/2018",
+    "ParentCategoriesId": "87fb5042-f3bb-4d1a-9a52-9321e740f143"
+  },
+  {
+    "Id": "ed8204b3-347b-417d-99ba-f03d53c23198",
+    "ModifiedDate": null,
+    "Name": "Nike ZoomX",
+    "Status": 3,
+    "CreatedDate": "8/5/2018",
+    "ParentCategoriesId": null
+  }
+]

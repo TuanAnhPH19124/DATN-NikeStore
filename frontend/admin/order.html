@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/frontend/admin/css/order.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-cubes"></i>
+                    <span>Quản lý sản phẩm</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="category.html">Danh mục</a>
+                        <a class="collapse-item" href="color.html">Màu sắc</a>
+                        <a class="collapse-item" href="product-page.html">Sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Bán hàng</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="order.html">Bán hàng Online</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="bill.html">
+                    <i class="fas fa-file"></i>
+                    <span>Quản lý hóa đơn</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Thống kê</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Khuyến mại</span>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
+                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Quản lý tài khoản</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="staff.html">Nhân viên</a>
+                        <a class="collapse-item" href="customer.html">Khách hàng</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Hồ sơ
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Giao ca
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="main">
+                                <ul>
+                                    <li>
+                                        <i class="icon uil uil-capture"></i>
+                                        <div class="progres one">
+                                            <p>1</p>
+                                            <i class="uil uil-check"></i>
+                                        </div>
+                                        <p class="text">Add To Cart</p>
+                                    </li>
+                                    <li>
+                                        <i class="icon uil uil-clipboard-notes"></i>
+                                        <div class="progres two">
+                                            <p>2</p>
+                                            <i class="uil uil-check"></i>
+                                        </div>
+                                        <p class="text">Fill Details</p>
+                                    </li>
+                                    <li>
+                                        <i class="icon uil uil-credit-card"></i>
+                                        <div class="progres three">
+                                            <p>3</p>
+                                            <i class="uil uil-check"></i>
+                                        </div>
+                                        <p class="text">Make Payment</p>
+                                    </li>
+                                    <li>
+                                        <i class="icon uil uil-exchange"></i>
+                                        <div class="progres four">
+                                            <p>4</p>
+                                            <i class="uil uil-check"></i>
+                                        </div>
+                                        <p class="text">Order in Progress</p>
+                                    </li>
+                                    <li>
+                                        <i class="icon uil uil-map-marker"></i>
+                                        <div class="progres five">
+                                            <p>5</p>
+                                            <i class="uil uil-check"></i>
+                                        </div>
+                                        <p class="text">Order Arrived</p>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="order-btn">
+                                <div class="left-btn">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#confirm">Xác nhận</button>
+                                    <div class="modal fade" id="confirm" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận đơn hàng
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlTextarea1">Ghi chú</label>
+                                                            <textarea class="form-control"
+                                                                id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        onclick="update()">Xác nhận</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-danger">Hủy đơn</button>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#detail">Chi tiết</button>
+                                <div class="modal fade" id="detail" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <table class="table">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Thời gian</th>
+                                                            <th scope="col">Người xác nhận</th>
+                                                            <th scope="col">Ghi chú</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="detail-header">
+                                                                <i class="icon uil uil-capture"
+                                                                    style="visibility: visible;color: #ff4732;"></i>
+                                                                <div>Tạo đơn hàng</div>
+                                                            </th>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>@fat</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">3</th>
+                                                            <td>Larry</td>
+                                                            <td>the Bird</td>
+                                                            <td>@twitter</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thông tin đơn hàng</h5>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal">
+                                Cập nhập
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Cập nhật đơn hàng</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Họ và tên</label>
+                                                    <input type="email" class="form-control" id="exampleInputEmail1"
+                                                        aria-describedby="emailHelp" placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Số điện thoại</label>
+                                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                                        placeholder="">
+                                                </div>
+                                                <div class="form-address">
+                                                    <select class="form-control" id="exampleFormControlSelect1">
+                                                        <option value="" disabled selected hidden>Tỉnh/Thành
+                                                        </option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                    <select class="form-control" id="exampleFormControlSelect1">
+                                                        <option value="" disabled selected hidden>Quận/Huyện
+                                                        </option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                    <select class="form-control" id="exampleFormControlSelect1">
+                                                        <option value="" disabled selected hidden>Phường/Xã</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Địa chỉ</label>
+                                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                                        placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Mô tả</label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                        rows="3"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary">Cập nhật</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="detail-info">
+                                <div class="info">
+                                    <div class="detail">
+                                        <div class="lable">Trạng thái:</div>
+                                        <div class="lable">Đang chờ xác nhận</div>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="lable">Loại:</div>
+                                        <div class="lable">Giao hàng:</div>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="lable">Mã đơn hàng:</div>
+                                        <div class="lable">1233123213123</div>
+                                    </div>
+                                </div>
+                                <div class="info">
+                                    <div class="detail">
+                                        <div class="lable">Họ và tên:</div>
+                                        <div class="lable">Việt Hà</div>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="lable">Số điện thoại:</div>
+                                        <div class="lable">0981033419</div>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="lable">Email:</div>
+                                        <div class="lable">abc@gmail.com</div>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="lable">Địa chỉ:</div>
+                                        <div class="lable">abc, xyz</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Lịch sử thanh toán</h5>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payment">
+                                Xác nhận thanh toán
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="payment" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh toán</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Số tiền</label>
+                                                    <input type="email" class="form-control" id="exampleInputEmail1"
+                                                        aria-describedby="emailHelp">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Mô tả</label>
+                                                    <input type="text" class="form-control" id="exampleInputPassword1">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary">Tiền mặt</button>
+                                            <button type="button" class="btn btn-primary">Chuyển khoản</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            Không có dữ liệu
+                        </div>
+                    </div>
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" style="width: 200px;"><img style="width: 200px;"
+                                                src="https://media.istockphoto.com/id/1249496770/vi/anh/gi%C3%A0y-ch%E1%BA%A1y-b%E1%BB%99.jpg?s=2048x2048&w=is&k=20&c=_w_Env8RLauB23hmSlInzaPPzEfWoEzzQhfvnohmcOY="
+                                                alt=""></th>
+                                        <td class="item-info">
+                                            <div>
+                                                <div>
+                                                    Giày mlb mule dia monogram new york
+                                                </div>
+                                                <div>
+                                                    1,200,000 đ
+                                                </div>
+                                                <div>
+                                                    Size: 42
+                                                </div>
+                                                <div>
+                                                    x 3
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: middle;">3,600,000 đ</td>
+                                        <td style="vertical-align: middle;text-align: center;">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#updateModal">Cập nhật</button>
+
+                                            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <table class="table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th scope="row" style="width: 200px;"><img
+                                                                                style="width: 200px;"
+                                                                                src="https://media.istockphoto.com/id/1249496770/vi/anh/gi%C3%A0y-ch%E1%BA%A1y-b%E1%BB%99.jpg?s=2048x2048&w=is&k=20&c=_w_Env8RLauB23hmSlInzaPPzEfWoEzzQhfvnohmcOY="
+                                                                                alt=""></th>
+                                                                        <td class="item-info">
+                                                                            <div>
+                                                                                <div>
+                                                                                    Giày mlb mule dia monogram new york
+                                                                                </div>
+                                                                                <div>
+                                                                                    1,200,000 đ
+                                                                                </div>
+                                                                                <div>
+                                                                                    Size: 42
+                                                                                </div>
+                                                                                <div>
+                                                                                    x 3
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="vertical-align: middle;">3,600,000 đ
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="input-number">
+                                                            <button onclick="decrement()"
+                                                                class="btn btn-primary">-</button>
+                                                            <div class="form-outline">
+                                                                <input type="number" id="number" name="number"
+                                                                    class="form-control" value="0" />
+                                                            </div>
+                                                            <button onclick="increment()"
+                                                                class="btn btn-primary">+</button>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlTextarea1">Mô tả</label>
+                                                            <textarea class="form-control"
+                                                                id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary">Cập
+                                                                nhật</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger">Hủy</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="footer">
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#addModal">Thêm sản phẩm</button>
+
+                                    <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm sản phẩm
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="select">
+                                                        <div class="form-filter">
+                                                            <label for="exampleFormControlSelect1">Danh mục:</label>
+                                                            <select class="form-control" id="exampleFormControlSelect1">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-filter">
+                                                            <label for="exampleFormControlSelect2">Hãng:</label>
+                                                            <select class="form-control" id="exampleFormControlSelect2">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-filter">
+                                                            <label for="exampleFormControlSelect3">Màu sắc:</label>
+                                                            <select class="form-control" id="exampleFormControlSelect3">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered" id="dataTable"
+                                                                    width="100%" cellspacing="0">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Ảnh</th>
+                                                                            <th>ID</th>
+                                                                            <th>Tên sản phẩm</th>
+                                                                            <th>Giá</th>
+                                                                            <th>Thao tác</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Tiger Nixon</td>
+                                                                            <td>System Architect</td>
+                                                                            <td>Edinburgh</td>
+                                                                            <td>61</td>
+                                                                            <td>2011/04/25</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Garrett Winters</td>
+                                                                            <td>Accountant</td>
+                                                                            <td>Tokyo</td>
+                                                                            <td>63</td>
+                                                                            <td>2011/07/25</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <div class="img">
+                                                                                    <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
+                                                                                        alt="" width="200" height="200">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>Junior Technical Author</td>
+                                                                            <td>San Francisco</td>
+                                                                            <td>66</td>
+                                                                            <td>
+                                                                                <button type="button"
+                                                                                    class="btn btn-outline-primary"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#productModal">Chọn</button>
+                                                                                <!-- Modal -->
+                                                                                <div class="modal fade"
+                                                                                    id="productModal" tabindex="-1"
+                                                                                    role="dialog"
+                                                                                    aria-labelledby="exampleModalLabel"
+                                                                                    aria-hidden="true">
+                                                                                    <div class="modal-dialog"
+                                                                                        role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-body"
+                                                                                                id="product-detail">
+                                                                                                <div class="img">
+                                                                                                    <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
+                                                                                                        alt=""
+                                                                                                        width="400"
+                                                                                                        height="400">
+                                                                                                </div>
+                                                                                                <div>
+                                                                                                    <h4
+                                                                                                        class="product-title">
+                                                                                                        Tên sản phẩm gì
+                                                                                                        đó
+                                                                                                    </h4>
+                                                                                                    <div
+                                                                                                        class="product-info">
+                                                                                                        <div>Thương hiệu
+                                                                                                        </div>
+                                                                                                        <div>Thương hiệu
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="product-info">
+                                                                                                        <div>Danh mục
+                                                                                                        </div>
+                                                                                                        <div>Danh mục
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="product-info">
+                                                                                                        <div>1 tỉ gói mè
+                                                                                                            (Giá)
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="size">
+                                                                                                        <div
+                                                                                                            class="title">
+                                                                                                            Size
+                                                                                                            <div class="btn-group btn-group-toggle"
+                                                                                                                data-toggle="buttons">
+                                                                                                                <label
+                                                                                                                    class="btn btn-outline-primary btn-toggle">
+                                                                                                                    <input
+                                                                                                                        type="radio"
+                                                                                                                        name="options"
+                                                                                                                        id="option1"
+                                                                                                                        autocomplete="off">
+                                                                                                                    1
+                                                                                                                </label>
+                                                                                                                <label
+                                                                                                                    class="btn btn-outline-primary btn-toggle">
+                                                                                                                    <input
+                                                                                                                        type="radio"
+                                                                                                                        name="options"
+                                                                                                                        id="option2"
+                                                                                                                        autocomplete="off">
+                                                                                                                    2
+                                                                                                                </label>
+                                                                                                                <label
+                                                                                                                    class="btn btn-outline-primary btn-toggle">
+                                                                                                                    <input
+                                                                                                                        type="radio"
+                                                                                                                        name="options"
+                                                                                                                        id="option3"
+                                                                                                                        autocomplete="off">
+                                                                                                                    3
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="input-number">
+                                                                                                                <button
+                                                                                                                    onclick="decrement()"
+                                                                                                                    class="btn btn-primary">-</button>
+                                                                                                                <div
+                                                                                                                    class="form-outline">
+                                                                                                                    <input
+                                                                                                                        type="number"
+                                                                                                                        id="number"
+                                                                                                                        name="number"
+                                                                                                                        class="form-control"
+                                                                                                                        value="0" />
+                                                                                                                </div>
+                                                                                                                <button
+                                                                                                                    onclick="increment()"
+                                                                                                                    class="btn btn-primary">+</button>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="instock">
+                                                                                                                Còn n
+                                                                                                                sản
+                                                                                                                phẩm
+                                                                                                            </div>
+                                                                                                            <div>
+                                                                                                                <button
+                                                                                                                    type="button"
+                                                                                                                    onclick="$('#productModal').modal('hide');"
+                                                                                                                    class="btn btn-primary">Thêm
+                                                                                                                    vào
+                                                                                                                    giỏ
+                                                                                                                    hàng</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Cedric Kelly</td>
+                                                                            <td>Senior Javascript Developer</td>
+                                                                            <td>Edinburgh</td>
+                                                                            <td>22</td>
+                                                                            <td>2012/03/29</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="total">
+                                    <div class="total-info">
+                                        <div>Tiền hàng</div>
+                                        <div>3,600,000 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Phí vận chuyển</div>
+                                        <div>66,500 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Giảm giá</div>
+                                        <div>100,000 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Quyền lợi thành viên</div>
+                                        <div>72,000 đ</div>
+                                    </div>
+                                    <div class="total-info">
+                                        <div>Tổng số tiền</div>
+                                        <div>3.494,500 đ</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+    <script src="/frontend/admin/js/order.js"></script>
+</body>
+
+</html>

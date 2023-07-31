@@ -1,0 +1,800 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://fontawesome.com/v4.7.0/assets/font-awesome/css/font-awesome.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content"> 
+        <!-- Modal Header -->
+        <div class="modal-header" style="border-bottom: none;">
+          <h4 class="modal-title">GIỎ HÀNG</h4>
+        </div> 
+        <!-- Modal body -->
+        <div class="modal-body" style="text-align: center; display: grid;">
+            <table class="table table-bordered">
+                <tbody class="table">
+                    <tr>
+                        <td>                           
+                            <img src="/frontend/customer/src/assets/img/product/1.jpg" width="80px" height="50px">                                                        
+                        </td>
+                        <td>
+                            <div class="">
+                                <a title="AIR JORDAN 1 LOW 'PANDA" name="img1">Giày Nike Jordan Panda Black White</a>
+                            </div>                           
+                        </td>
+                        <td>
+                            <div class="priceI">
+                                <span>2,300,000 đ</span>                                                        
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action">
+                                
+                                <a href="" style="color: red; font-size: 24px; font-weight: 700;">X</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a href="#10" style="color: white; text-decoration: none;">XEM GIỎ HÀNG</a></button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a href="#13" style="color: white; text-decoration: none;">THANH TOÁN</a></button>
+        </div> 
+      </div>
+    </div>
+  </div>
+<!-- MODAL -->
+
+<div class="container" style="padding-top: 50px;">
+<div class="row">
+<aside class="col-md-3" style="margin-top: 0;">		
+<div class="card">
+	<article class="filter-group">
+		<header class="card-header">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+				<h5 class="title" style="padding-top: 15px; color: black; font-weight: bold;">DANH MỤC</h5>
+			</a>
+		</header>
+		<div class="filter-content collapse show" id="collapse_1">
+			<div class="card-body">
+				<form class="pb-3">
+				<div class="input-group">
+				  <input type="text" class="form-control" placeholder="Tìm kiếm">
+				  <div class="input-group-append">
+				    <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+				  </div>
+				</div>
+				</form>				
+				<ul class="list-menu" style="color: rgb(54, 51, 51); text-decoration: none; font-size: 18px;">
+				<li><a href="#"> Sản Phẩm Mới </a></li>
+				<li><a href="#"> Hàng Mới Về </a></li>
+				<li><a href="#"> Top Thịnh Hành </a></li>
+				<li><a href="#"> Giá Từ Thấp Đến Cao </a></li>
+				<li><a href="#"> Giá Từ Cao Đến Thấp </a></li>
+				</ul>
+			</div> <!-- card-body.// -->
+		</div>
+	</article> <!-- filter-group  .// -->
+	<article class="filter-group">
+		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> LOẠI GIÀY </h6>
+			</a>
+		</header>
+		<div class="filter-content collapse show" id="collapse_2">
+			<div class="card-body" style="color: gray;">
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Nike Air Jordan 
+				  	<b class="badge badge-pill badge-light float-right"></b>  </div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Nike Air Max
+				  	<b class="badge badge-pill badge-light float-right"></b></div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Nike City Rep
+				  	<b class="badge badge-pill badge-light float-right"></b> </div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Nike Phantom GT
+				  	<b class="badge badge-pill badge-light float-right"></b> </div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Nike Waffle Racer
+				  	<b class="badge badge-pill badge-light float-right"></b>  </div>
+				</label>
+                <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Nike Crater Remixa
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Nike Renew In-Season
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Nike React Miler
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                  </label>
+	        </div> <!-- card-body.// -->
+	</article> <!-- filter-group .// -->
+	<article class="filter-group">
+		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">GIÁ TIỀN</h6>
+			</a>
+		</header>
+		<div class="filter-content collapse show" id="collapse_2">
+			<div class="card-body" style="color: gray;">
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Dưới 500,000 đ
+				  	<b class="badge badge-pill badge-light float-right"></b>  </div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> 500,000 - 1,000,000 đ
+				  	<b class="badge badge-pill badge-light float-right"></b></div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> 1,000,000 - 1,500,000 đ
+				  	<b class="badge badge-pill badge-light float-right"></b> </div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> 1,500,000 - 2,000,000 đ
+				  	<b class="badge badge-pill badge-light float-right"></b> </div>
+				</label>
+				<label class="custom-control custom-checkbox">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> 2,000,000 - 2,500,000 đ
+				  	<b class="badge badge-pill badge-light float-right"></b>  </div>
+				</label>
+                <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> 2,500,000 - 3,000,000 đ
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                </label>
+                <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> 3,000,000 - 5,000,000 đ
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                </label>
+                <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Trên 5,000,000 đ
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                </label>
+	        </div> <!-- card-body.// -->
+	</article> <!-- filter-group .// -->
+    <article class="filter-group">
+		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> MÀU SẮC </h6>
+			</a>
+		</header>
+		<div class="filter-content collapse show" id="collapse_2">
+			<div class="card-body" style="color: gray;">
+				<label class="custom-control custom-radio">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Màu xanh
+				  	<b class="badge badge-pill badge-light float-right"></b>  </div>
+				</label>
+				<label class="custom-control custom-radio">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Màu đỏ
+				  	<b class="badge badge-pill badge-light float-right"></b></div>
+				</label>
+				<label class="custom-control custom-radio">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Màu trắng
+				  	<b class="badge badge-pill badge-light float-right"></b> </div>
+				</label>
+				<label class="custom-control custom-radio">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Màu hồng
+				  	<b class="badge badge-pill badge-light float-right"></b> </div>
+				</label>
+				<label class="custom-control custom-radio">
+				  <input type="checkbox" class="custom-control-input">
+				  <div class="custom-control-label"> Màu vàng
+				  	<b class="badge badge-pill badge-light float-right"></b>  </div>
+				</label>
+                <label class="custom-control custom-radio">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Màu tím
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                  </label>
+                  <label class="custom-control custom-radio">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Màu đen
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                  </label>
+                  <label class="custom-control custom-radio">
+                    <input type="checkbox" class="custom-control-input">
+                    <div class="custom-control-label"> Mùa nâu
+                        <b class="badge badge-pill badge-light float-right"></b>  </div>
+                  </label>
+	        </div> <!-- card-body.// -->
+	</article> <!-- filter-group .// -->
+	<article class="filter-group">
+		<header class="card-header" style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+				<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">KÍCH THƯỚC</h6>
+			</a>
+		</header>
+		<div class="filter-content collapse show" id="collapse_4">
+			<div class="card-body">
+			  <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 35 </span>
+			  </label>
+
+			  <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 36 </span>
+			  </label>
+
+			  <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 37 </span>
+			  </label>
+
+			  <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 38 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 39 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 40 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 41 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 42 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 43 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 44 </span>
+			  </label>
+
+              <label class="checkbox-btn">
+			    <input type="checkbox">
+			    <span class="btn btn-light"> 45 </span>
+			  </label>
+		</div><!-- card-body.// -->
+		</div>
+	</article> <!-- filter-group .// -->
+	
+</div> <!-- card.// -->
+
+	</aside>
+	<main class="col-md-9">
+
+<header class="border-bottom mb-4 pb-3">
+		<div class="form-inline">
+			<span class="mr-md-auto" style="font-size: 26px; font-weight: 400;">TẤT CẢ SẢN PHẨM</span>
+			<select class="mr-2 form-control">
+                <option>Mặc định</option>
+                <option>Hàng với về</option>
+				<option>Top thịnh hành</option>			
+				<option>Khuyến mại</option>
+				<option>Giá từ thấp đến cao</option>
+				<option>Giá từ cap đến thấp</option>
+			</select>
+		</div>
+</header><!-- sect-heading -->
+
+<div class="row">
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+				<img src="/frontend/customer/src/assets/img/product/2.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i></a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>                       
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;"> 1,000,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/2.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>			
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/3.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/5.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/8.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/7.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/14.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/15.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/18.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/13.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/14.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/19.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/10.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/1.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+
+    <div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				<span class="badge badge-danger" style="margin-left: 15px; margin-top: 15px;"> NEW </span>
+								<img src="/frontend/customer/src/assets/img/product/3.jpg" class="img-fluid">
+				<a class="btn-overlay" href="#" style="color: white;"><i class="fa fa-search-plus"></i> Xem chi tiết</a>
+			</div> <!-- img-wrap.// -->
+			<!-- <ul class="product-links1">
+                <li><a href="#"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></a></li>               
+            </ul> 
+            <ul class="product-links-cart1">
+                <li><a href="#"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></a></li>               
+            </ul>   -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="#" class="title">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE'</a>
+                        
+					<div class="price-wrap mt-2">
+						<span class="price" style="color: black;">500,000đ</span>
+						<del class="price-old" style="color: gray;">700,000đ</del>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<div class="paynowA">
+					<button class="btn btn-outline-danger" type="button">
+						<a href="#"> Mua ngay </a>	
+					</button>					
+				</div>	
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+    <nav aria-label="Page navigation example" style="padding-left: 32px; padding-top: 20px;">
+        <ul class="pagination">
+          <li class="page-item">
+          </li>
+          <li class="page-item"><a class="page-link" href="">1</a></li>
+          <li class="page-item"><a class="page-link" href="">2</a></li>
+          <li class="page-item"><a class="page-link" href="">3</a></li>
+          <li class="page-item"><a class="page-link" href="">4</a></li>
+          <li class="page-item"><a class="page-link" href="">Trang tiếp theo</a></li>
+          <li class="page-item">         
+          </li>
+        </ul>
+      </nav>    
+</div> <!-- row end.// -->
+
+</main>
+</div>
+</div>
