@@ -188,7 +188,7 @@ namespace Service
                 existingAppUser.FullName = appUser.FullName;
                 existingAppUser.PhoneNumber= appUser.PhoneNumber;   
                 existingAppUser.AvatarUrl= appUser.AvatarUrl;
-                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                await _repositoryManger.AppUserRepository.UpdateAppUser(existingAppUser);
                 return existingAppUser;
             }
         }
@@ -203,8 +203,8 @@ namespace Service
             else
             {
                 existingAppUser.Status= appUser.Status;
-                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
-                return existingAppUser;
+                await _repositoryManger.AppUserRepository.UpdateAppUserbyAdmin(existingAppUser);             
+                return existingAppUser;             
             }
         }
 
