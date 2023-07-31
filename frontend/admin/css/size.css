@@ -1,0 +1,9 @@
+.form-control{
+    width: 400px;
+}
+form{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+tr:hover td { background: rgb(187, 173, 173); }
