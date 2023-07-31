@@ -125,9 +125,9 @@ $(document).ready(function () {
 
     $('#staff-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
-        let id = $('#staff-table').DataTable().row(this).data().employeeId;
-        if (id !== null) {
-            localStorage.setItem("id", id);
+        let staffId = $('#staff-table').DataTable().row(this).data().employeeId;
+        if (staffId !== null) {
+            localStorage.setItem("staffId", staffId);
             window.location.href = `/frontend/admin/update-staff.html`;
         }
     });
