@@ -54,24 +54,7 @@ namespace Webapi.Controllers
             }
             return size;
         }
-
-        //[HttpPost]
-        //public async Task<ActionResult> CreateSize(SizeDto sizeDto)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-        //        var createdSize = await _serviceManager.SizeService.CreateAsync(sizeDto);
-        //        return CreatedAtAction(nameof(GetByIdSize), new { id = createdSize.Id }, createdSize);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
+       
 
         [HttpPost]
         public async Task<IActionResult> CreateSize(SizeDto sizeDto)
