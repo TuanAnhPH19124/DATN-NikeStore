@@ -31,7 +31,6 @@ namespace Persistence.Repositories
 
         public async Task AddSize(Size size)
         {
-
             await _appDbContext.Sizes.AddAsync(size);
             _appDbContext.SaveChangesAsync();
         }
