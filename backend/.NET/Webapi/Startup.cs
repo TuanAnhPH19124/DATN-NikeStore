@@ -112,7 +112,7 @@ namespace Webapi
                 endpoints.MapControllers();
                 endpoints.MapHub<NotificationHub>("/hubs/notify");
                 endpoints.MapHub<ManagerHub>("/hubs/manager");
-                endpoints.MapHub<CustomerHub>("/hubs/customer");
+                endpoints.MapHub<CustomerHub>("/hubs/customer");    
             });
 
         }

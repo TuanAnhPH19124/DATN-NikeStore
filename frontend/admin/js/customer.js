@@ -1,6 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#customer-table').DataTable({
+    var customerTable = $('#customer-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/AppUser/Get",
             "dataType": "json",
@@ -43,6 +43,9 @@ $(document).ready(function () {
             },
         ],
     });
+    setInterval(function () {
+        customerTable.ajax.reload();
+    }, 5000);
     //add event click datatable
 
     $('#customer-table tbody').on('click', 'tr', function (e) {
@@ -73,7 +76,7 @@ $(document).ready(function () {
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (response) {
-                                location.reload();
+                                $('.toast').toast('show')
                             },
                         });
                     } else {

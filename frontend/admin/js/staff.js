@@ -1,6 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#staff-table').DataTable({
+    var staffTable = $('#staff-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Employee",
             "dataType": "json",
@@ -40,6 +40,9 @@ $(document).ready(function () {
             },
         ],
     });
+    setInterval(function () {
+        staffTable.ajax.reload();
+    }, 5000);
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()
@@ -131,7 +134,6 @@ $(document).ready(function () {
             window.location.href = `/frontend/admin/update-staff.html`;
         }
     });
-
 });
 
 

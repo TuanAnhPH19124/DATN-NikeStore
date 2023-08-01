@@ -1,6 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#size-table').DataTable({
+    var sizeTable = $('#size-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Size/Get",
             "dataType": "json",
@@ -24,27 +24,30 @@ $(document).ready(function () {
             },
         ],
     });
+    setInterval(function () {
+        sizeTable.ajax.reload();
+    }, 5000);
     // call api them nhan vien
-    $('#add-employee-form').submit(function (event) {
+    $('#add-size-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            fullName: $("#fullName").val(),
-            snn: $("#snn").val(),
-            phoneNumber: $("#phoneNumber").val(),
-            role: $("#role").val(),
-            password: "1",
-            modifiedDate: new Date,
-            status: true,
+            numberSize: $("#numberSize").val(),
+            description: ""
         };
-        $.ajax({
-            url: "https://localhost:44328/api/Employee",
-            type: "POST",
-            data: JSON.stringify(formData),
-            contentType: "application/json",
-            success: function (response) {
-                $('.toast').toast('show')
-            },
-        });
+
+        if (confirm(`Bạn có muốn thêm size ${formData.numberSize} không?`)) {
+            $.ajax({
+                url: "https://localhost:44328/api/Size",
+                type: "POST",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (response) {
+                    $('.toast').toast('show')
+                },
+            });
+        } else {
+            return
+        }
     });
     // custom validate 
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {

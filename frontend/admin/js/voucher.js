@@ -1,6 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#voucher-table').DataTable({
+    var voucherTable = $('#voucher-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Voucher",
             "dataType": "json",
@@ -57,6 +57,9 @@ $(document).ready(function () {
             },
         ],
     });
+    setInterval(function () {
+        customerTable.ajax.reload();
+    }, 5000);
     // call api them nhan vien
     $('#add-voucher-form').submit(function (event) {
         event.preventDefault()
