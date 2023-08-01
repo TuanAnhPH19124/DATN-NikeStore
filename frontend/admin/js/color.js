@@ -1,8 +1,8 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    var sizeTable = $('#size-table').DataTable({
+    var sizeTable = $('#color-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/Size/Get",
+            "url": "https://localhost:44328/api/Color/Get",
             "dataType": "json",
             "dataSrc": ""
         },
@@ -13,9 +13,8 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'numberSize', "title": "Kích cỡ size" },
-            { "data": 'description', "title": "Mô tả" },
-            { "data": 'stocks', "title": "Tồn kho" },
+            { "data": 'name', "title": "Tên màu" },
+            { "data": 'productImages', "title": "Tồn kho" },
             {
                 "render": function () {
                     return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
@@ -28,16 +27,15 @@ $(document).ready(function () {
         sizeTable.ajax.reload();
     }, 5000);
     // call api them nhan vien
-    $('#add-size-form').submit(function (event) {
+    $('#add-color-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            numberSize: $("#numberSize").val(),
-            description: ""
+            name: $("#name").val(),
         };
 
-        if (confirm(`Bạn có muốn thêm size ${formData.numberSize} không?`)) {
+        if (confirm(`Bạn có muốn thêm màu ${formData.name} không?`)) {
             $.ajax({
-                url: "https://localhost:44328/api/Size",
+                url: "https://localhost:44328/api/Color",
                 type: "POST",
                 data: JSON.stringify(formData),
                 contentType: "application/json",
@@ -49,12 +47,12 @@ $(document).ready(function () {
             return
         }
     });
-    $('#size-table tbody').on('click', 'tr', function (e) {
+    $('#color-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
-        let sizeId = $('#size-table').DataTable().row(this).data().id;
-        if (sizeId !== null) {
-            localStorage.setItem("sizeId", sizeId);
-            window.location.href = `/frontend/admin/update-size.html`;
+        let colorId = $('#color-table').DataTable().row(this).data().id;
+        if (colorId !== null) {
+            localStorage.setItem("colorId", colorId);
+            window.location.href = `/frontend/admin/update-color.html`;
         }
     });
 });
