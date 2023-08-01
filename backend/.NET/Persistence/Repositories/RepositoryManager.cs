@@ -22,6 +22,7 @@ namespace Persistence.Repositories
         private readonly Lazy<IShoppingCartsRepository> _lazyShoppingCartsRepository;
         private readonly Lazy<IEmployeeRepository> _lazyEmployeeRepository;
         private readonly Lazy<ISizeRepository> _lazySizeRepository;
+        private readonly Lazy<IColorRepository> _lazyColorRepository;
 
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration, IConnectionMultiplexer redis)
@@ -39,7 +40,8 @@ namespace Persistence.Repositories
             _lazyShoppingCartsRepository = new Lazy<IShoppingCartsRepository>(() => new ShoppingCartsRepository(context));
             _lazyEmployeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(context));
             _lazySizeRepository = new Lazy<ISizeRepository>(() => new SizeRepository(context));
-            
+            _lazyColorRepository = new Lazy<IColorRepository>(() => new ColorRepository(context));
+
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
@@ -69,5 +71,7 @@ namespace Persistence.Repositories
         public IUnitOfWork UnitOfWork => throw new NotImplementedException();
 
         public ISizeRepository SizeRepository => _lazySizeRepository.Value;
+
+        public IColorRepository ColorRepository => _lazyColorRepository.Value;
     }
 }
