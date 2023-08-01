@@ -23,6 +23,6 @@ namespace Domain.Repositories
         IEmployeeRepository EmployeeRepository { get; }
         IStockRepository StockRepository { get; }   
         ISizeRepository SizeRepository { get; }
-
+        IColorRepository ColorRepository { get; }
   }
 }
