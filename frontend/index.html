@@ -8,29 +8,118 @@
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .chatbox-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chatbox {
+            width: 60%;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        .message {
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .from-1 {
+            text-align: left;
+        }
+
+        .from-2 {
+            text-align: right;
+            background-color: #f1f0f0;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+        }
+    </style>
 </head>
 
 <body>
-    <input id="MessageInput" type="text" placeholder="Message">
-    <input id="EmailInput" type="text" placeholder="Email">
-    <button id="sendButton">Send</button>
+    <div class="chatbox-container">
+        <div class="chatbox" id="chatbox1"></div>
+    </div>
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
     <script>
-        const Url = "https://localhost:44328";
-        var connection = new signalR.HubConnectionBuilder().withUrl(`${Url}/hubs/customer`).configureLogging(signalR.LogLevel.Information).build();
+        const Url = "https://localhost:5001";
+        var chatboxs = [
+            { id: null, toId: null, inbox: [{ from: null, message: null }, { from: null, message: null }] },
+        ]
+        var connection = new signalR.HubConnectionBuilder().withUrl(`${Url}/hubs/chat`, { accessTokenFactory: () => getToken() }).configureLogging(signalR.LogLevel.Information).build();
         function SendMessage() {
             var inputMessage = document.getElementById('MessageInput');
             var email = document.getElementById('EmailInput');
             connection.send("SendMessage", email.value, inputMessage.value);
         }
         // Lấy tham chiếu đến thẻ button
-        const sendButton = document.getElementById('sendButton');
-
+        function getToken() {
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjM1MDMzYjAyLWZlOWYtNGExOC1iMzNkLTA0MGIzNWU4NmE5MyIsInN1YiI6ImFkbWluQG0uY29tIiwiZW1haWwiOiJhZG1pbkBtLmNvbSIsImp0aSI6IjcxNzc1MzZjLWIyNzQtNGM3YS05Zjg0LTAyZTcyYTI1ZWM0MiIsImlhdCI6MTY5MDcxMDkwMywidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTY5MDcxMDkwMywiZXhwIjoxNjkwNzE0NTAzfQ.F8WlrvrfLf97fFnbSehbhQ2p_OD_pev_rH92lIDLOAg"
+            return token;
+        }
         // Gắn sự kiện onclick cho button
-        sendButton.addEventListener('click', function () {
-            // Xử lý sự kiện onclick tại đây
-            SendMessage();
-            // Gọi hàm hoặc thực hiện các thao tác khác
-        });
+
+        function displayChatMessages(chatboxId) {
+            var chatbox = document.getElementById('chatbox' + chatboxId);
+            var messages = chatboxs.find(item => item.id === chatboxId).inbox;
+
+            chatbox.innerHTML = ""; // Clear previous messages
+
+            messages.forEach(message => {
+                var messageElement = document.createElement("div");
+                messageElement.innerText = message.message;
+                messageElement.classList.add("message");
+
+                // Add class based on 'from' value for styling
+                if (message.from === 1) {
+                    messageElement.classList.add("from-1");
+                } else if (message.from === 2) {
+                    messageElement.classList.add("from-2");
+                }
+
+                chatbox.appendChild(messageElement);
+            });
+
+            // Scroll to the bottom to see the latest messages
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function sendMessage() {
+            var messageInput = document.getElementById('messageInput');
+            var message = messageInput.value.trim();
+
+            if (message !== "") {
+                var activeChatboxId = 1; // Set this to the active chatbox ID (e.g., 1 or 2)
+                var activeChatbox = chatboxs.find(item => item.id === activeChatboxId);
+                activeChatbox.inbox.push({ from: 2, message: message }); // Assume you are sending the message
+
+                displayChatMessages(activeChatboxId);
+
+                messageInput.value = ""; // Clear the input field after sending the message
+            }
+        }
+
 
         async function Start() {
             try {
@@ -41,10 +130,12 @@
                 setTimeout(start, 5000);
             }
         };
+
         connection.onclose(async () => {
             await Start();
         });
         Start();
+        displayChatMessages(1);
     </script>
 </body>
 

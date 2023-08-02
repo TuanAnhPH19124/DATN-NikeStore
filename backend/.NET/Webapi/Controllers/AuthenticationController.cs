@@ -1,23 +1,20 @@
 ﻿using Domain.Entities;
-using Domain.Models;
 using EntitiesDto;
 using EntitiesDto.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Persistence.Ultilities;
-using Service.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Ubiety.Dns.Core.Records.NotUsed;
 using Webapi.Hubs;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -119,12 +116,10 @@ namespace Webapi.Controllers
                     if (is_correct)
                     {
                         var roles = await _userManager.GetRolesAsync(user_exits);
-
                         var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
-
                         return Ok(new
                         {
-                            Message = "dang nhap thang cong",
+                            Message = $"dang nhap thanh cong",
                             Token = token
                         });
                     }
@@ -135,7 +130,7 @@ namespace Webapi.Controllers
                 return NotFound("Email khong ton tai");
             }
 
-            return BadRequest();
+            return Unauthorized();
         }
 
         [AllowAnonymous]
@@ -179,6 +174,21 @@ namespace Webapi.Controllers
             return await Task.FromResult(Ok());
         }
 
+        [HttpGet("getUserData")]
+        public IActionResult GetUserData()
+        {
+            if (Request.Cookies.TryGetValue("username", out var username))
+            {
+                return Ok($"Welcome back, {username}");
+            }
+            return Unauthorized();
+        }
 
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("username", new CookieOptions { Path = "/", Expires = DateTimeOffset.Now.AddDays(-1) });
+            return Ok("Dang xuat thanh cong");
+        }
     }
 }

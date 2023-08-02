@@ -289,7 +289,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="username">Admin</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -543,6 +543,24 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const url = "https://localhost:5001";
+        async function getUserData() {
+            const response = await fetch(`${url}/api/Authentication/getUserData`);
+            if (response.ok) {
+                setOutput(await response.text());
+            } else {
+                setOutput('Unauthorized. Please login first.');
+            }
+        }
+
+        function setOutput(message) {
+            document.getElementById('username').innerText = message;
+        }
+
+        getUserData();
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

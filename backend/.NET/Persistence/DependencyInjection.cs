@@ -61,20 +61,23 @@ namespace Persistence
                         OnMessageReceived = context =>
                         {
                             var accessToken = context.Request.Query["access_token"];
-
                             var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/hubs/customer")))
+                            if (!string.IsNullOrEmpty(accessToken))
                             {
-                                context.Token = accessToken;
+                                if (path.StartsWithSegments("/hubs/chat"))
+                                {
+                                    context.Token = accessToken;
+                                }
+                                if (path.StartsWithSegments("/hubs/manager"))
+                                {
+                                    context.Token = accessToken;
+                                }
                             }
                             return Task.CompletedTask;
                         }
                     };
-
                 });
-
             services.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
-          
         }
     }
 }
