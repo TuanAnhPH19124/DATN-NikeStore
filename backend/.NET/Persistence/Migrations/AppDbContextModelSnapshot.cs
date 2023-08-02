@@ -290,10 +290,10 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ColorId")
                         .HasColumnType("text");
-                        
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp without time zone");
-                        
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 

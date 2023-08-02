@@ -17,10 +17,12 @@ namespace Domain.Repositories
     ICacheRepository CacheRepository { get; }
     IOrderRepository OrderRepository { get; }
     IOrderItemsRepository OrderItemsRepository { get; }
-        IWishListsRepository WishListsRepository { get; }
-        INewsRepository NewsRepository { get; }
-        IShoppingCartsRepository ShoppingCartsRepository { get; }
-        IEmployeeRepository EmployeeRepository { get; }
+    IWishListsRepository WishListsRepository { get; }
+    INewsRepository NewsRepository { get; }
+    IShoppingCartsRepository ShoppingCartsRepository { get; }
+    IEmployeeRepository EmployeeRepository { get; }
     IStockRepository StockRepository { get; }
+
+    IProductRateRepository ProductRateRepository { get; }
   }
 }

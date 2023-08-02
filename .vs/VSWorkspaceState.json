@@ -1,14 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend\\Backend-NikeStore",
-    "\\backend\\Backend-NikeStore\\Domain",
-    "\\backend\\Backend-NikeStore\\Persistence",
-    "\\backend\\Backend-NikeStore\\Service.Abstractions",
-    "\\frontend",
-    "\\frontend\\admin",
-    "\\frontend\\customer"
+    "\\backend",
+    "\\backend\\.NET"
   ],
-  "SelectedNode": "\\frontend\\admin\\forgot-password.html",
+  "SelectedNode": "\\backend\\.NET\\.NET.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -125,6 +125,17 @@ namespace Persistence.Repositories
             _appDbContext.AppUsers.Update(appUser);
         }
 
-      
+        public void AddAppUser(AppUser appUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword)
+        {
+         
+                var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+                return result;
+            
+        }
     }
 }

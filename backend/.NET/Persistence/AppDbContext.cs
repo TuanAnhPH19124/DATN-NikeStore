@@ -77,7 +77,7 @@ namespace Persistence
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
 
-        public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
+       
         public DbSet<Employees> Employees { get; set; }
         public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }

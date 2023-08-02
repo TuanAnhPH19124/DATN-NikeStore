@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class longnt : Migration
+    public partial class db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -351,6 +351,30 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductRate",
+                columns: table => new
+                {
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    ProductId = table.Column<string>(type: "text", nullable: false),
+                    RateScore = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Review = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    Response = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductRate", x => new { x.AppUserId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductRate_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WishLists",
                 columns: table => new
                 {
@@ -394,6 +418,7 @@ namespace Persistence.Migrations
                     ProductId = table.Column<string>(type: "text", nullable: false),
                     ColorId = table.Column<string>(type: "text", nullable: true),
                     SizeId = table.Column<string>(type: "text", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     UnitPrice = table.Column<double>(type: "double precision", nullable: false)
                 },
@@ -646,6 +671,11 @@ namespace Persistence.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductRate_ProductId",
+                table: "ProductRate",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductTag_TagsId",
                 table: "ProductTag",
                 column: "TagsId");
@@ -691,6 +721,14 @@ namespace Persistence.Migrations
                 name: "IX_WishLists_AppUserId",
                 table: "WishLists",
                 column: "AppUserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ProductRate_Product_ProductId",
+                table: "ProductRate",
+                column: "ProductId",
+                principalTable: "Product",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_WishLists_Product_ProductsId",
@@ -785,6 +823,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductImage");
+
+            migrationBuilder.DropTable(
+                name: "ProductRate");
 
             migrationBuilder.DropTable(
                 name: "ProductTag");

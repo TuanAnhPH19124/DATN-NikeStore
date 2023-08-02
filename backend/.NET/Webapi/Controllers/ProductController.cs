@@ -32,7 +32,7 @@ namespace Webapi.Controllers
                 {
                     return NotFound();
                 }
-                return Ok();
+                return Ok(products); // Thêm danh sách sản phẩm vào đây
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace Webapi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody]Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
         {
             try
             {
@@ -63,7 +63,10 @@ namespace Webapi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
+
+                // Trả về kết quả thêm mới sản phẩm và đường dẫn đến sản phẩm đã tạo
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
             }
             catch (Exception ex)
@@ -71,6 +74,7 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(string id, Product product)
@@ -81,15 +85,22 @@ namespace Webapi.Controllers
             }
             try
             {
-                await _serviceManager.ProductService.UpdateByIdProduct(id, product);
+                // Gọi phương thức cập nhật sản phẩm từ dịch vụ
+                var updatedProduct = await _serviceManager.ProductService.UpdateByIdProduct(id, product);
+
+                // Kiểm tra xem sản phẩm đã tồn tại và cập nhật thành công hay chưa
+                if (updatedProduct == null)
+                {
+                    return NotFound(); // Sản phẩm không tồn tại trong cơ sở dữ liệu
+                }
+
+                return NoContent(); // Cập nhật thành công
             }
             catch (Exception ex)
             {
                 // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
                 return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
-
-            return NoContent();
         }
     }
 }

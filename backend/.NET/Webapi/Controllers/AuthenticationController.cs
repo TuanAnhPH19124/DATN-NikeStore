@@ -189,5 +189,27 @@ namespace Webapi.Controllers
 
             return Ok(new { Message = "Logout successful" });
         }
+        [Authorize]
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            try
+            {
+                var result = await _userManager.ChangePasswordAsync(currentUser, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    return Ok(new { Message = "Đổi mật khẩu thành công." });
+                }
+
+                return BadRequest(new { Message = "Không thể đổi mật khẩu." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 }
