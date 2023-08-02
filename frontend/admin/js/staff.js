@@ -1,6 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#staff-table').DataTable({
+    var staffTable = $('#staff-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Employee",
             "dataType": "json",
@@ -40,6 +40,9 @@ $(document).ready(function () {
             },
         ],
     });
+    setInterval(function () {
+        staffTable.ajax.reload();
+    }, 5000);
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()
@@ -125,13 +128,12 @@ $(document).ready(function () {
 
     $('#staff-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
-        let id = $('#staff-table').DataTable().row(this).data().employeeId;
-        if (id !== null) {
-            localStorage.setItem("id", id);
+        let staffId = $('#staff-table').DataTable().row(this).data().employeeId;
+        if (staffId !== null) {
+            localStorage.setItem("staffId", staffId);
             window.location.href = `/frontend/admin/update-staff.html`;
         }
     });
-
 });
 
 

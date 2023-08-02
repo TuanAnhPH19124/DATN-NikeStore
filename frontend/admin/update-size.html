@@ -19,15 +19,15 @@
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
     <!-- Custom styles for this page -->
     <!-- get date and bold fe -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link href="/frontend/admin/css/staff.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
-
+    <link href="/frontend/admin/css/update-staff.css" rel="stylesheet">
 
 </head>
 
@@ -151,6 +151,7 @@
                         </button>
                     </form>
 
+                    <!-- Topbar Search -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -328,97 +329,47 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="add-btn">
-                        <h1 class="h3 mb-2 text-gray-800">Quản lý nhân viên</h1>
-                        <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
-                            data-target=".bd-example-modal-lg">
-                            <span class="icon text-white-50">
-                                <i class="fa fa-plus"></i>
-                            </span>
-                            <span class="text">Tạo tài khoản</span>
-                        </a>
-                    </div>
-
-                    <!-- Button trigger modal -->
-
-                    <!-- Modal -->
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Tạo tài khoản nhân viên</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Cập nhật size</h2>
+                        </div>
+                        <div class="modal-body">
+                            <form id="update-size-form">
+                                <div class="form-group">
+                                    <label>Kích cỡ</label>
+                                    <input type="text" class="form-control" id="numberSize" name="numberSize"
+                                        aria-describedby="emailHelp" placeholder="">
                                 </div>
-                                <div class="modal-body">
-                                    <form id="add-employee-form">
-                                        <div class="form-group">
-                                            <label>Họ và tên</label>
-                                            <input type="text" class="form-control" id="fullName" name="fullName"
-                                                aria-describedby="emailHelp" placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="snn">Số căn cước</label>
-                                            <input type="text" class="form-control" id="snn" placeholder="" name="snn">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Số điện thoại</label>
-                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                                name="phoneNumber">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Vai trò</label>
-                                            <input type="text" class="form-control" id="role" placeholder=""
-                                                name="role">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Xác
-                                                nhận</button>
-                                        </div>
-                                        <!-- thông báo -->
-                                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-                                            data-delay="2000" style="position: fixed;
-                                        bottom: 1rem;
-                                        right: 1rem;
-                                        z-index: 1050;">
-                                            <div class="toast-header">
-                                                <strong class="mr-auto">Thành công</strong>
-                                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="toast-body">
-                                                Thêm thành công
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="form-group">
+                                    <label>Mô tả</label>
+                                    <input type="text" class="form-control" id="description" name="description"
+                                        aria-describedby="emailHelp" placeholder="">
                                 </div>
-                            </div>
+                                <button type="submit" class="btn btn-primary">Xác
+                                    nhận</button>
+
+                                <!-- thông báo -->
+                                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                                    data-delay="2000" style="position: fixed;
+                                bottom: 1rem;
+                                right: 1rem;
+                                z-index: 1050;">
+                                    <div class="toast-header">
+                                        <strong class="mr-auto">Thành công</strong>
+                                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Cập nhật thành công
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="staff-table" width="100%" cellspacing="0">
-                                    <tbody id="tbody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -469,10 +420,9 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/frontend/admin/startbootstrap-sb-admin-2/css/button.css"></script>
-    <script src="js/demo/datatables-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <script src="/frontend/admin/js/staff.js"></script>
+    <script src="/frontend/admin/js/update-size.js"></script>
+
 
 </body>
 
