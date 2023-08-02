@@ -17,6 +17,7 @@ namespace Domain.Entities
         public Color Color { get; set; }
         public string SizeId { get; set; }
         public Size Size { get; set; }
+        public DateTime OrderDate { get; set; }
 
 
         public int Quantity { get; set; }

@@ -1,27 +1,51 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#staff-table').DataTable({
+    var staffTable = $('#staff-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Employee",
             "dataType": "json",
             "dataSrc": ""
         },
         "columns": [
-            { "data": 'fullName' },
-            { "data": 'snn' },
-            { "data": 'phoneNumber' },
-            { "data": 'modifiedDate' },
-            { "data": 'role' },
-            { "data": 'status' },
+            { "data": 'employeeId', "title": "ID", "visible": false, },
+            { "data": 'fullName', "title": "Họ và tên" },
+            { "data": 'snn', "title": "Số căn cước" },
+            { "data": 'phoneNumber', "title": "Số điện thoại" },
+            {
+                "data": 'modifiedDate', "title": "Ngày thay đổi",
+                "render": function (data, type, full, meta) {
+                    var dateObj = new Date(data);
+                    var day = dateObj.getUTCDate();
+                    var month = dateObj.getUTCMonth() + 1;
+                    var year = dateObj.getUTCFullYear();
+                    var formattedDate = `${day}/${month}/${year}`;
+                    return formattedDate;
+                }
+            },
+            { "data": 'role', "title": "Vai trò" },
+            {
+                "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
+                    if (data == true) {
+                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
+                    } else {
+                        return '<span class="badge badge-pill badge-danger">Ngừng kích hoạt</span>';
+                    }
+                }
+            },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Xóa</a></td>';
-                }
+                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                },
+                "title": "Thao tác"
             },
         ],
     });
+    setInterval(function () {
+        staffTable.ajax.reload();
+    }, 5000);
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
+        event.preventDefault()
         var formData = {
             fullName: $("#fullName").val(),
             snn: $("#snn").val(),
@@ -43,7 +67,7 @@ $(document).ready(function () {
     });
     // custom validate 
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {
-        return value.match(/[^a-zA-Z]/) == null;
+        return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
     });
     $.validator.addMethod("idContainOnlyNum", function (value, element) {
         return value.match(/[^0-9]/) == null;
@@ -100,4 +124,16 @@ $(document).ready(function () {
             }
         },
     });
+    //add event click datatable
+
+    $('#staff-table tbody').on('click', 'tr', function (e) {
+        e.preventDefault();
+        let staffId = $('#staff-table').DataTable().row(this).data().employeeId;
+        if (staffId !== null) {
+            localStorage.setItem("staffId", staffId);
+            window.location.href = `/frontend/admin/update-staff.html`;
+        }
+    });
 });
+
+

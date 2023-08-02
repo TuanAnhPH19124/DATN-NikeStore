@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nike Sneaker World</title>
     <link rel="icon" type="image/x-icon" href="../assets/img/logo/icons8-sneakers-35.png" />
     <link rel="stylesheet" href="../assets/css/component/homepage.css">
@@ -60,6 +61,18 @@
         </div>
     </div>
     </div>
+    <button class="nut-mo-chatbox" onclick="moForm()"><i class="fa-brands fa-rocketchat"></i></button>
+<div class="Chatbox" id="myForm">
+  <form action="" class="form-container">
+    <h2>CHAT BOX</h2>
+    <label for="msg"><b>Tin nhắn:</b></label> <br>
+    <input type="text" name="msg" style="margin-bottom: 10px;width: 280px;border: 1px solid gray;height: 35px;border: 1px solid #a6a6a2;border-radius: 5px;">
+    <input type="text" name="msg" id="" style="margin-bottom: 10px;width: 280px;border: 1px solid gray;height: 35px;border: 1px solid #a6a6a2;background-color: #e1e1d6;border-radius: 5px;">
+    <textarea placeholder="Bạn hãy nhập lời nhắn.." name="msg" required></textarea>    
+    <button type="submit" class="btn">Gửi</button>
+    <button type="button" class="btn nut-dong-chatbox" onclick="dongForm()">Đóng</button>
+  </form>
+</div>
 </header>
     <!-- end-header -->
     <!-- main -->
@@ -135,6 +148,7 @@
     <!-- Copyright -->
   </footer>
   <!-- Footer -->
+<script src="../assets/css/js/chatbox.js"></script>
 <script src="../assets/css/js/index.js"></script>
 <script src="../assets/css/js/product.js"></script>
 <script src="../assets/css/js/login.js"></script>
