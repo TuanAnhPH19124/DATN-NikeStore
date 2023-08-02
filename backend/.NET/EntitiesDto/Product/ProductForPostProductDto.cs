@@ -9,6 +9,7 @@ namespace EntitiesDto.Product
 {
     public class ProductForPostProductDto
     {
+        public string BarCode { get; set; }
         public string Name { get; set; }
         public double RetailPrice { get; set; }
         public string Description { get; set; }

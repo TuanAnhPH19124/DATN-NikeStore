@@ -68,6 +68,7 @@ namespace Webapi.Controllers
 
                 var product = new Product
                 {
+                    BarCode = productDto.BarCode,
                     Name = productDto.Name,
                     RetailPrice = productDto.RetailPrice,
                     Description = productDto.Description,
