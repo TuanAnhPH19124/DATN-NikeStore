@@ -55,7 +55,7 @@ namespace Webapi.Controllers
             return product;
         }
 
-        
+
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductForPostProductDto productDto)
         {
@@ -66,16 +66,31 @@ namespace Webapi.Controllers
                     return BadRequest(ModelState);
                 }
 
+                // Tạo đối tượng Product từ DTO
                 var product = new Product
                 {
-                    BarCode = productDto.BarCode,
                     Name = productDto.Name,
                     RetailPrice = productDto.RetailPrice,
                     Description = productDto.Description,
                     Brand = productDto.Brand,
-                    DiscountRate = productDto.DiscountRate
+                    DiscountRate = productDto.DiscountRate,
+                    BarCode = productDto.BarCode // Gán giá trị BarCode từ DTO
                 };
 
+                foreach (var stockDto in productDto.Stocks)
+                {
+                    // Thêm thông tin số lượng, size và màu sắc vào stock
+                    product.Stocks.Add(new Stock
+                    {
+                        ColorId = stockDto.ColorId,
+                        SizeId = stockDto.SizeId,
+                        UnitInStock = stockDto.UnitInStock
+                    });
+                }
+
+              
+
+                // Gọi phương thức thêm mới sản phẩm từ dịch vụ
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
 
                 // Trả về kết quả thêm mới sản phẩm và đường dẫn đến sản phẩm đã tạo
@@ -85,8 +100,8 @@ namespace Webapi.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-        }
 
+        }
 
 
         [HttpPut("{id}")]

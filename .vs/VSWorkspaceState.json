@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\backend",
-    "\\backend\\.NET"
+    "\\backend\\.NET",
+    "\\backend\\.NET\\Webapi",
+    "\\backend\\.NET\\Webapi\\Controllers",
+    "\\frontend"
   ],
-  "SelectedNode": "\\backend\\.NET\\.NET.sln",
+  "SelectedNode": "\\backend\\.NET\\Webapi\\Controllers\\ProductController.cs",
   "PreviewInSolutionExplorer": false
 }
