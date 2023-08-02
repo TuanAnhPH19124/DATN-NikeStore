@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using EntitiesDto.Product;
 
 namespace Webapi.Controllers
 {
@@ -54,8 +55,9 @@ namespace Webapi.Controllers
             return product;
         }
 
+        
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductForPostProductDto productDto)
         {
             try
             {
@@ -63,6 +65,15 @@ namespace Webapi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+
+                var product = new Product
+                {
+                    Name = productDto.Name,
+                    RetailPrice = productDto.RetailPrice,
+                    Description = productDto.Description,
+                    Brand = productDto.Brand,
+                    DiscountRate = productDto.DiscountRate
+                };
 
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
 
@@ -74,6 +85,7 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
         [HttpPut("{id}")]
