@@ -115,14 +115,16 @@ namespace Persistence.Repositories
             return appUser;
         }
 
-        public async void UpdateAppUser(AppUser appUser)
+        public async Task UpdateAppUser(AppUser appUser)
         {
             _appDbContext.AppUsers.Update(appUser);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public async void UpdateAppUserbyAdmin(AppUser appUser)
+        public async Task UpdateAppUserbyAdmin(AppUser appUser)
         {
             _appDbContext.AppUsers.Update(appUser);
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void AddAppUser(AppUser appUser)

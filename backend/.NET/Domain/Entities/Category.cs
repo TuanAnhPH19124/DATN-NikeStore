@@ -15,7 +15,7 @@ namespace Domain.Entities
         public string ParentCategoriesId { get; set; }
         public virtual Category ParentCategory { get; set; }
 
-        public virtual List<Category> ChildCategories { get; set; } = new List<Category>();
-        public virtual List<Product> Products { get; set; } = new List<Product>();
+        public virtual List<Category> ChildCategories { get; set; }
+        public virtual List<Product> Products { get; set; }
     }
 }

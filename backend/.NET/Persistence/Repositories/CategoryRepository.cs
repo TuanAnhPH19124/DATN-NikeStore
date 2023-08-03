@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using Domain.Entities;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,25 @@ namespace Persistence.Repositories
             _context=context;
         }
 
+        public async Task AddAsync(Category category)
+        {
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await _context.Categories.AddAsync(category);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+         
+        }
+
         public Task<bool> FindByNameAsync(string name)
         {
             throw new NotImplementedException();
@@ -26,6 +46,35 @@ namespace Persistence.Repositories
         {
             var categories = await _context.Categories.Select(c => new {c.Name, c.Id}).ToListAsync();
             return categories;
+        }
+
+        public async Task<object> GetByIdAsync(string id)
+        {
+             return await _context.Categories.FindAsync(id);
+        }
+
+        public async Task UpdateAsync(string id, Category category)
+        {
+            var targetC = await _context.Categories.FindAsync(id);
+            if (targetC != null)
+            {
+                targetC.Name = category.Name;
+                targetC.ModifiedDate = DateTime.Now;
+            }
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    _context.Categories.Update(targetC);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
         }
     }
 }

@@ -24,9 +24,7 @@ namespace Domain.Repositories
         Task<IdentityResult> ConfirmEmailAsync(AppUser user, string code);
         Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default);
         Task<AppUser> GetByIdAppUserAsync(string id, CancellationToken cancellationToken = default);
-      
-        void AddAppUser(AppUser appUser);
-        void UpdateAppUser(AppUser appUser);
-        void UpdateAppUserbyAdmin(AppUser appUser);
+        Task UpdateAppUser(AppUser appUser);
+        Task UpdateAppUserbyAdmin(AppUser appUser);
     }
 }

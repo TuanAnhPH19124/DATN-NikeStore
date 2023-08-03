@@ -14,6 +14,6 @@ namespace Domain.Entities
         public int NumberSize { get; set; }
         public string Description { get; set; }
 
-        public virtual List<Stock> Stocks { get; set; } = new List<Stock>();
+        public virtual List<Stock> Stocks { get; set; } 
     }
 }

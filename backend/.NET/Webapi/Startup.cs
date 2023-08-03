@@ -67,20 +67,23 @@ namespace Webapi
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://127.0.0.1:5502")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
             services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(option =>
-            {
-                option.WithOrigins("http://127.0.0.1:5500")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
-            });
+            app.UseCors();
 
             //DatabaseMigration.StartMigration(app);
             SeedingDatabase.Start(app).Wait();
@@ -116,6 +119,7 @@ namespace Webapi
                 endpoints.MapHub<NotificationHub>("/hubs/notify");
                 endpoints.MapHub<ManagerHub>("/hubs/manager");
                 endpoints.MapHub<CustomerHub>("/hubs/customer");
+                endpoints.MapHub<ChatHub>("/hubs/chat");
             });
 
         }
