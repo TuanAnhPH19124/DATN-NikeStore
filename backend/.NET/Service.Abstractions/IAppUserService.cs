@@ -20,6 +20,7 @@ namespace Service.Abstractions
         Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default);
         Task<AppUser> GetByIdAsync(string id);
         Task<IdentityResult> ConfirmEmailAsync(AppUser user, string code);
+        Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword);
         Task<AppUser> UpdateByIdAppUser(string id, AppUser appUser, CancellationToken cancellationToken = default);
         Task<AppUser> UpdateByIdAppUserByAdmin(string id, AppUser appUser, CancellationToken cancellationToken = default);
         Task<AppUser> GetByIdAppUserAsync(string id, CancellationToken cancellationToken = default);

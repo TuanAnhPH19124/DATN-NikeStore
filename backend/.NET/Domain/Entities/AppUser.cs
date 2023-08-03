@@ -21,5 +21,6 @@ namespace Domain.Entities
 
         public virtual List<Order> Orders { get; set; }
         public ShoppingCarts ShoppingCarts { get; set; }
+        public ICollection<ProductRate> ProductRate { get; set; }
     }
 }
