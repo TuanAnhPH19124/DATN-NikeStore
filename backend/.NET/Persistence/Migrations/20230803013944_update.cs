@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class startdb : Migration
+    public partial class update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    CategoryId = table.Column<string>(type: "text", nullable: true),
                     ParentCategoriesId = table.Column<string>(type: "text", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -351,6 +352,30 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductRate",
+                columns: table => new
+                {
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    ProductId = table.Column<string>(type: "text", nullable: false),
+                    RateScore = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Review = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    Response = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductRate", x => new { x.AppUserId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductRate_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WishLists",
                 columns: table => new
                 {
@@ -364,6 +389,24 @@ namespace Persistence.Migrations
                         name: "FK_WishLists_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryProduct",
+                columns: table => new
+                {
+                    ProductId = table.Column<string>(type: "text", nullable: false),
+                    CategoryId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryProduct", x => new { x.ProductId, x.CategoryId });
+                    table.ForeignKey(
+                        name: "FK_CategoryProduct_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -394,6 +437,7 @@ namespace Persistence.Migrations
                     ProductId = table.Column<string>(type: "text", nullable: false),
                     ColorId = table.Column<string>(type: "text", nullable: true),
                     SizeId = table.Column<string>(type: "text", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     UnitPrice = table.Column<double>(type: "double precision", nullable: false)
                 },
@@ -583,6 +627,11 @@ namespace Persistence.Migrations
                 column: "ParentCategoriesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CategoryProduct_CategoryId",
+                table: "CategoryProduct",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Color_Name",
                 table: "Color",
                 column: "Name",
@@ -646,6 +695,11 @@ namespace Persistence.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductRate_ProductId",
+                table: "ProductRate",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductTag_TagsId",
                 table: "ProductTag",
                 column: "TagsId");
@@ -693,9 +747,25 @@ namespace Persistence.Migrations
                 column: "AppUserId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_ProductRate_Product_ProductId",
+                table: "ProductRate",
+                column: "ProductId",
+                principalTable: "Product",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_WishLists_Product_ProductsId",
                 table: "WishLists",
                 column: "ProductsId",
+                principalTable: "Product",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CategoryProduct_Product_ProductId",
+                table: "CategoryProduct",
+                column: "ProductId",
                 principalTable: "Product",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -775,6 +845,9 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CategoryProduct");
+
+            migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
@@ -785,6 +858,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductImage");
+
+            migrationBuilder.DropTable(
+                name: "ProductRate");
 
             migrationBuilder.DropTable(
                 name: "ProductTag");

@@ -14,6 +14,7 @@ using Service;
 using Service.Abstractions;
 using StackExchange.Redis;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using WatchDog;
 using WatchDog.src.Enums;
 using Webapi.Hubs;
@@ -64,6 +65,11 @@ namespace Webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webapi", Version = "v1" });
             });
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
+
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
@@ -78,6 +84,7 @@ namespace Webapi
                 });
             });
             services.AddSignalR();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

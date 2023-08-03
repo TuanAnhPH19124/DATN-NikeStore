@@ -65,8 +65,22 @@ namespace Persistence
                 .HasForeignKey(pr => pr.AppUserId);
             modelBuilder.Entity<ProductRate>()
             .HasKey(pr => new { pr.AppUserId, pr.ProductId });
-        }
 
+            // Cấu hình bảng "CategoryProduct"
+            modelBuilder.Entity<CategoryProduct>()
+              .HasKey(cp => new { cp.ProductId, cp.CategoryId });
+
+            modelBuilder.Entity<CategoryProduct>()
+                .HasOne(cp => cp.Product)
+                .WithMany(p => p.CategoryProducts)
+                .HasForeignKey(cp => cp.ProductId);
+
+            modelBuilder.Entity<CategoryProduct>()
+                .HasOne(cp => cp.Category)
+                .WithMany(c => c.CategoryProducts)
+                .HasForeignKey(cp => cp.CategoryId);
+        }
+        public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }

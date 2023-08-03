@@ -191,14 +191,7 @@ namespace Webapi.Controllers
             return Ok("Dang xuat thanh cong");
         }
         [AllowAnonymous]
-        [HttpPost("Logout")]
-        public async Task<IActionResult> Logout()
-        {
-            // Gọi phương thức Logout từ SignInManager để xóa thông tin đăng nhập của người dùng
-            await _signInManager.SignOutAsync();
-
-            return Ok(new { Message = "Logout successful" });
-        }
+       
         [Authorize]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)

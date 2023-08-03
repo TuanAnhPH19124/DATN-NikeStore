@@ -46,6 +46,7 @@ namespace Persistence.Repositories
             _lazySizeRepository = new Lazy<ISizeRepository>(() => new SizeRepository(context));
             _lazyColorRepository = new Lazy<IColorRepository>(() => new ColorRepository(context));
             _lazyProductRateRepository=new Lazy<IProductRateRepository>(() => new ProductRateRepository(context));
+            _lazyUnitOfWork=new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
 
         }
 
@@ -73,7 +74,7 @@ namespace Persistence.Repositories
 
         public IEmployeeRepository EmployeeRepository => _lazyEmployeeRepository.Value;
 
-        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
+        public IUnitOfWork UnitOfWork => _lazyUnitOfWork.Value;
 
         public ISizeRepository SizeRepository => _lazySizeRepository.Value;
 

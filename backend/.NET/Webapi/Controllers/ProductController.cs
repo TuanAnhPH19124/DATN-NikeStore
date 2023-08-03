@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 using EntitiesDto.Product;
+using Domain.Repositories;
+using Persistence;
 
 namespace Webapi.Controllers
 {
@@ -16,10 +18,15 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly IRepositoryManger _repositoryManger;
+        private readonly AppDbContext _context;
 
-        public ProductController(IServiceManager serviceManager)
+
+        public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
         {
             _serviceManager = serviceManager;
+            _repositoryManger = repositoryManger;
+            _context = context;
         }
 
 
@@ -74,11 +81,14 @@ namespace Webapi.Controllers
                     Description = productDto.Description,
                     Brand = productDto.Brand,
                     DiscountRate = productDto.DiscountRate,
-                    BarCode = productDto.BarCode // Gán giá trị BarCode từ DTO
+                     Status = productDto.Status
                 };
 
                 foreach (var stockDto in productDto.Stocks)
                 {
+                    var colorId = await _serviceManager.ColorService.GetByIdColorAsync(stockDto.ColorId);
+                    var sizeId = await _serviceManager.SizeService.GetByIdSizeAsync(stockDto.SizeId);
+
                     // Thêm thông tin số lượng, size và màu sắc vào stock
                     product.Stocks.Add(new Stock
                     {
@@ -87,11 +97,28 @@ namespace Webapi.Controllers
                         UnitInStock = stockDto.UnitInStock
                     });
                 }
+                var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
+                foreach (var categoryId in productDto.CategoryIds)
+                {
+                    var category = await _repositoryManger.CategoryRepository.GetByIdAsync(categoryId);
 
-              
+                    if (category != null)
+                    {
+                        // Thực hiện thêm bản ghi vào bảng CategoryProduct
+                        var categoryProductId = new CategoryProduct
+                        {
+                            ProductId = createdProduct.Id,
+                            CategoryId = categoryId
+                        };
+
+                        _context.CategoryProducts.Add(categoryProductId);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
 
                 // Gọi phương thức thêm mới sản phẩm từ dịch vụ
-                var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
+              
 
                 // Trả về kết quả thêm mới sản phẩm và đường dẫn đến sản phẩm đã tạo
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
@@ -111,8 +138,8 @@ namespace Webapi.Controllers
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }
-            try
-            {
+           // try
+            //{
                 // Gọi phương thức cập nhật sản phẩm từ dịch vụ
                 var updatedProduct = await _serviceManager.ProductService.UpdateByIdProduct(id, product);
 
@@ -123,12 +150,12 @@ namespace Webapi.Controllers
                 }
 
                 return NoContent(); // Cập nhật thành công
-            }
-            catch (Exception ex)
-            {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
-            }
+           // }
+            //catch (Exception ex)
+            //{
+            //    // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
+            //    return StatusCode((int)HttpStatusCode.Conflict, ex);
+            //}
         }
     }
 }
