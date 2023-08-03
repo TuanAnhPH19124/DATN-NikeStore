@@ -65,10 +65,7 @@ namespace Webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webapi", Version = "v1" });
             });
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+
 
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
