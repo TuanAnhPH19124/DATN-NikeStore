@@ -7,6 +7,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using EntitiesDto.Product;
+using Domain.Repositories;
+using Persistence;
 
 namespace Webapi.Controllers
 {
@@ -15,10 +18,15 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly IRepositoryManger _repositoryManger;
+        private readonly AppDbContext _context;
 
-        public ProductController(IServiceManager serviceManager)
+
+        public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
         {
             _serviceManager = serviceManager;
+            _repositoryManger = repositoryManger;
+            _context = context;
         }
 
 
@@ -32,7 +40,7 @@ namespace Webapi.Controllers
                 {
                     return NotFound();
                 }
-                return Ok();
+                return Ok(products); // Thêm danh sách sản phẩm vào đây
             }
             catch (Exception ex)
             {
@@ -54,8 +62,9 @@ namespace Webapi.Controllers
             return product;
         }
 
+
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody]Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductForPostProductDto productDto)
         {
             try
             {
@@ -63,14 +72,64 @@ namespace Webapi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+
+                // Tạo đối tượng Product từ DTO
+                var product = new Product
+                {
+                    Name = productDto.Name,
+                    RetailPrice = productDto.RetailPrice,
+                    Description = productDto.Description,
+                    Brand = productDto.Brand,
+                    DiscountRate = productDto.DiscountRate,
+                     Status = productDto.Status
+                };
+
+                foreach (var stockDto in productDto.Stocks)
+                {
+                    var colorId = await _serviceManager.ColorService.GetByIdColorAsync(stockDto.ColorId);
+                    var sizeId = await _serviceManager.SizeService.GetByIdSizeAsync(stockDto.SizeId);
+
+                    // Thêm thông tin số lượng, size và màu sắc vào stock
+                    product.Stocks.Add(new Stock
+                    {
+                        ColorId = stockDto.ColorId,
+                        SizeId = stockDto.SizeId,
+                        UnitInStock = stockDto.UnitInStock
+                    });
+                }
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
+                foreach (var categoryId in productDto.CategoryIds)
+                {
+                    var category = await _repositoryManger.CategoryRepository.GetByIdAsync(categoryId);
+
+                    if (category != null)
+                    {
+                        // Thực hiện thêm bản ghi vào bảng CategoryProduct
+                        var categoryProductId = new CategoryProduct
+                        {
+                            ProductId = createdProduct.Id,
+                            CategoryId = categoryId
+                        };
+
+                        _context.CategoryProducts.Add(categoryProductId);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+
+                // Gọi phương thức thêm mới sản phẩm từ dịch vụ
+              
+
+                // Trả về kết quả thêm mới sản phẩm và đường dẫn đến sản phẩm đã tạo
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(string id, Product product)
@@ -79,17 +138,24 @@ namespace Webapi.Controllers
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }
-            try
-            {
-                await _serviceManager.ProductService.UpdateByIdProduct(id, product);
-            }
-            catch (Exception ex)
-            {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
-            }
+           // try
+            //{
+                // Gọi phương thức cập nhật sản phẩm từ dịch vụ
+                var updatedProduct = await _serviceManager.ProductService.UpdateByIdProduct(id, product);
 
-            return NoContent();
+                // Kiểm tra xem sản phẩm đã tồn tại và cập nhật thành công hay chưa
+                if (updatedProduct == null)
+                {
+                    return NotFound(); // Sản phẩm không tồn tại trong cơ sở dữ liệu
+                }
+
+                return NoContent(); // Cập nhật thành công
+           // }
+            //catch (Exception ex)
+            //{
+            //    // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
+            //    return StatusCode((int)HttpStatusCode.Conflict, ex);
+            //}
         }
     }
 }
