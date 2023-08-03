@@ -31,3 +31,18 @@ $('#productData tbody').on('click', 'tr', function (event) {
     }
 });
 
+var options = [];
+$.getJSON("https://localhost:44328/api/Categories", function (result) {
+    for (var i = 0; i < result.length; i++) {
+        options.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    }
+    $("#category-select").html(options.join(''));
+});
+var options2 = [];
+$.getJSON("https://localhost:44328/api/Color/Get", function (result) {
+    for (var i = 0; i < result.length; i++) {
+        options2.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    }
+    $("#color-select").html(options2.join(''));
+});
+
