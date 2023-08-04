@@ -58,7 +58,7 @@ $(document).ready(function () {
       "discountRate": 324,
       "stocks": [
         {
-          "unitInStock": 2343,
+          "unitInStock": $("#unitInStock").val(),
           "colorId": $("#color-select").val(),
           "sizeId": $("#size-select").val()
         }
@@ -74,11 +74,12 @@ $(document).ready(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        // window.location.href = "/frontend/admin/product-detail.html";
+        window.location.href = "/frontend/admin/product-detail.html";
         $('.toast').toast('show')
       },
     });
   });
+
 });
 
 

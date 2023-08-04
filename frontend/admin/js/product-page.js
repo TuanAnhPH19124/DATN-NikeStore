@@ -24,6 +24,14 @@ $(document).ready(function () {
             },
         ],
     });
+    $('#productData tbody').on('click', 'tr', function (e) {
+        e.preventDefault();
+        let productId = $('#productData').DataTable().row(this).data().id;
+        if (productId !== null) {
+            localStorage.setItem("productId", productId);
+            window.location.href = `/frontend/admin/product-detail.html`;
+        }
+    });
 });
 //add event click datatable
 

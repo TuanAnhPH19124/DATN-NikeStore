@@ -59,7 +59,7 @@ namespace Webapi.Controllers
                 // Chuyển đổi danh sách sản phẩm sang danh sách DTO
                 var productDtos = products.Select(p => new ProductDto
                 {
-
+                    Id = p.Id,
                     Name = p.Name,
                     DiscountRate=p.DiscountRate,
                     RetailPrice = p.RetailPrice,
