@@ -28,26 +28,55 @@ namespace Webapi.Controllers
             _repositoryManger = repositoryManger;
             _context = context;
         }
+        //public Product CloneProduct(Product source)
+        //{
+        //    return new Product
+        //    {
+        //        Name = source.Name,
+        //        RetailPrice = source.RetailPrice,
+        //        Description = source.Description,
+        //        Brand = source.Brand,
+        //        DiscountRate = source.DiscountRate,
+        //        Status = source.Status
+        //        // Copy other properties here
+        //    };
+        //}
+
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProduct()
         {
             try
             {
                 var products = await _serviceManager.ProductService.GetAllProductAsync();
+
                 if (products == null || !products.Any())
                 {
                     return NotFound();
                 }
-                return Ok(products); // Thêm danh sách sản phẩm vào đây
+
+                // Chuyển đổi danh sách sản phẩm sang danh sách DTO
+                var productDtos = products.Select(p => new ProductDto
+                {
+
+                    Name = p.Name,
+                    DiscountRate=p.DiscountRate,
+                    RetailPrice = p.RetailPrice,
+                    Description = p.Description,
+                    Brand = p.Brand,
+                    Status = p.Status
+                    // Thêm các trường khác tương ứng
+                }).ToList();
+
+                return Ok(productDtos);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
         }
+
 
 
         [HttpGet("{Id}")]
@@ -62,9 +91,8 @@ namespace Webapi.Controllers
             return product;
         }
 
-
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductForPostProductDto productDto)
+        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody] ProductForPostProductDto productDto)
         {
             try
             {
@@ -81,7 +109,7 @@ namespace Webapi.Controllers
                     Description = productDto.Description,
                     Brand = productDto.Brand,
                     DiscountRate = productDto.DiscountRate,
-                     Status = productDto.Status
+                    Status = productDto.Status
                 };
 
                 foreach (var stockDto in productDto.Stocks)
@@ -97,65 +125,91 @@ namespace Webapi.Controllers
                         UnitInStock = stockDto.UnitInStock
                     });
                 }
+
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
-                foreach (var categoryId in productDto.CategoryIds)
+
+                // Tạo đối tượng ProductDto để trả về
+                var createdProductDto = new ProductDto
                 {
-                    var category = await _repositoryManger.CategoryRepository.GetByIdAsync(categoryId);
 
-                    if (category != null)
-                    {
-                        // Thực hiện thêm bản ghi vào bảng CategoryProduct
-                        var categoryProductId = new CategoryProduct
-                        {
-                            ProductId = createdProduct.Id,
-                            CategoryId = categoryId
-                        };
+                    Name = createdProduct.Name,
+                    RetailPrice = createdProduct.RetailPrice,
+                    Description = createdProduct.Description,
+                    Brand = createdProduct.Brand,
+                    DiscountRate = createdProduct.DiscountRate,
+                    Status = createdProduct.Status,
+                    // Không cần thêm liên kết đối tượng Stocks và CategoryIds
+                };
 
-                        _context.CategoryProducts.Add(categoryProductId);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-
-
-                // Gọi phương thức thêm mới sản phẩm từ dịch vụ
-              
-
-                // Trả về kết quả thêm mới sản phẩm và đường dẫn đến sản phẩm đã tạo
-                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                // Trả về kết quả thêm mới sản phẩm và đối tượng DTO đã tạo
+                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProductDto);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
         }
+
+
+
+
+
+
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, Product product)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductForUpdateProductDto productDto)
         {
-            if (id != product.Id)
+            try
             {
-                return BadRequest("The provided id does not match the id in the user data.");
-            }
-           // try
-            //{
-                // Gọi phương thức cập nhật sản phẩm từ dịch vụ
-                var updatedProduct = await _serviceManager.ProductService.UpdateByIdProduct(id, product);
-
-                // Kiểm tra xem sản phẩm đã tồn tại và cập nhật thành công hay chưa
-                if (updatedProduct == null)
+                if (!ModelState.IsValid)
                 {
-                    return NotFound(); // Sản phẩm không tồn tại trong cơ sở dữ liệu
+                    return BadRequest(ModelState);
                 }
 
-                return NoContent(); // Cập nhật thành công
-           // }
-            //catch (Exception ex)
-            //{
-            //    // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
-            //    return StatusCode((int)HttpStatusCode.Conflict, ex);
-            //}
+                var existingProduct = await _serviceManager.ProductService.GetByIdProduct(id);
+
+                if (existingProduct == null)
+                {
+                    return NotFound();
+                }
+
+                // Cập nhật thông tin sản phẩm từ DTO
+                existingProduct.Name = productDto.Name;
+                existingProduct.RetailPrice = productDto.RetailPrice;
+                existingProduct.Description = productDto.Description;
+                existingProduct.Brand = productDto.Brand;
+                existingProduct.DiscountRate = productDto.DiscountRate;
+                existingProduct.Status = productDto.Status;
+
+                // Xóa các Stock cũ và thêm lại các Stock mới
+                existingProduct.Stocks.Clear();
+                foreach (var stockDto in productDto.Stocks)
+                {
+                    var colorId = await _serviceManager.ColorService.GetByIdColorAsync(stockDto.ColorId);
+                    var sizeId = await _serviceManager.SizeService.GetByIdSizeAsync(stockDto.SizeId);
+
+                    // Thêm thông tin số lượng, size và màu sắc vào stock
+                    existingProduct.Stocks.Add(new Stock
+                    {
+                        ColorId = stockDto.ColorId,
+                        SizeId = stockDto.SizeId,
+                        UnitInStock = stockDto.UnitInStock
+                    });
+                }
+
+                // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu
+                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id,existingProduct);
+
+                return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
+
     }
 }
+
