@@ -19,6 +19,8 @@ using WatchDog;
 using WatchDog.src.Enums;
 using Webapi.Hubs;
 
+
+
 namespace Webapi
 {
     public class Startup
@@ -33,7 +35,7 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+           
 
             services.AddElasticSearch(Configuration);
 
@@ -65,10 +67,7 @@ namespace Webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webapi", Version = "v1" });
             });
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+           
 
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
