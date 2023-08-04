@@ -43,3 +43,42 @@ $.getJSON("https://localhost:44328/api/Size/Get", function (result) {
   }
   $("#size-select").html(option_size.join(''));
 });
+
+// call api len datatable nhan vien
+$(document).ready(function () {
+  // call api them nhan vien
+  $('#add-product-form').submit(function (event) {
+    event.preventDefault()
+    var formData = {
+      "name": $("#name").val(),
+      "retailPrice": $("#retailPrice").val(),
+      "description": $("#description").val(),
+      "brand": 0,
+      "status": Number($("#status").val()),
+      "discountRate": 324,
+      "stocks": [
+        {
+          "unitInStock": 2343,
+          "colorId": $("#color-select").val(),
+          "sizeId": $("#size-select").val()
+        }
+      ],
+      "categoryIds": [
+        $("#category-select").val()
+      ]
+    };
+
+    $.ajax({
+      url: "https://localhost:44328/api/Product",
+      type: "POST",
+      data: JSON.stringify(formData),
+      contentType: "application/json",
+      success: function (response) {
+        // window.location.href = "/frontend/admin/product-detail.html";
+        $('.toast').toast('show')
+      },
+    });
+  });
+});
+
+

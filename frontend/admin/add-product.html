@@ -335,13 +335,15 @@
                             <h2 class="modal-title">Thêm sản phẩm</h2>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form id="add-product-form">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Tên sản phẩm">
+                                        <input type="text" class="form-control" placeholder="Tên sản phẩm" id="name"
+                                            name="name">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Mô tả">
+                                        <input type="text" class="form-control" placeholder="Mô tả" id="description"
+                                            name="description">
                                     </div>
                                 </div> <br>
                                 <div class="row">
@@ -349,7 +351,8 @@
                                         <input type="number" class="form-control" placeholder="Giá nhập">
                                     </div>
                                     <div class="col">
-                                        <input type="number" class="form-control" placeholder="Giá bán">
+                                        <input type="number" class="form-control" placeholder="Giá bán" id="retailPrice"
+                                            name="retailPrice">
                                     </div>
                                     <div class="col">
                                         <input type="number" class="form-control" placeholder="Số lượng">
@@ -359,10 +362,11 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <select class="form-control" placeholder="Trạng thái">
+                                                <select class="form-control" placeholder="Trạng thái" id="status"
+                                                    name="status">
                                                     <option>Trạng thái</option>
-                                                    <option>Còn hàng</option>
-                                                    <option>Hết hàng</option>
+                                                    <option value="1">Còn hàng</option>
+                                                    <option value="0">Hết hàng</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -387,8 +391,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="/frontend//admin//product-detail.html" class="btn btn-primary">Xác
-                                            nhận</a>
+                                        <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
                                     </div>
                                 </div>
                             </form>
