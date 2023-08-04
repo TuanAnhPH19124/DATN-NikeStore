@@ -124,6 +124,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -148,6 +151,21 @@ namespace Persistence.Migrations
                     b.HasIndex("ParentCategoriesId");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Domain.Entities.CategoryProduct", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("text");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoryProduct");
                 });
 
             modelBuilder.Entity("Domain.Entities.Color", b =>
@@ -290,10 +308,10 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ColorId")
                         .HasColumnType("text");
-                        
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp without time zone");
-                        
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
@@ -395,6 +413,39 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImage");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductRate", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("RateScore")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Review")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("AppUserId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductRate");
                 });
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
@@ -753,6 +804,25 @@ namespace Persistence.Migrations
                     b.Navigation("ParentCategory");
                 });
 
+            modelBuilder.Entity("Domain.Entities.CategoryProduct", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("CategoryProducts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("CategoryProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
@@ -819,6 +889,25 @@ namespace Persistence.Migrations
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Color");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductRate", b =>
+                {
+                    b.HasOne("Domain.Entities.AppUser", "AppUser")
+                        .WithMany("ProductRate")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductRate")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });
@@ -972,11 +1061,15 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Orders");
 
+                    b.Navigation("ProductRate");
+
                     b.Navigation("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
+                    b.Navigation("CategoryProducts");
+
                     b.Navigation("ChildCategories");
                 });
 
@@ -994,9 +1087,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
+                    b.Navigation("CategoryProducts");
+
                     b.Navigation("OrderItems");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductRate");
 
                     b.Navigation("Stocks");
                 });

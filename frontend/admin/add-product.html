@@ -335,69 +335,69 @@
                             <h2 class="modal-title">Thêm sản phẩm</h2>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form id="add-product-form">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Tên sản phẩm">
+                                        <label>Tên sản phẩm</label>
+                                        <input type="text" class="form-control" id="name" name="name">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Mô tả">
+                                        <label>Mô tả</label>
+                                        <input type="text" class="form-control" id="description" name="description">
                                     </div>
                                 </div> <br>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="number" class="form-control" placeholder="Giá nhập">
+                                        <label>Giá nhập</label>
+                                        <input type="number" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <input type="number" class="form-control" placeholder="Giá bán">
+                                        <label>Giá bán</label>
+                                        <input type="number" class="form-control" id="retailPrice" name="retailPrice">
                                     </div>
                                     <div class="col">
-                                        <input type="number" class="form-control" placeholder="Số lượng">
+                                        <label>Số lượng</label>
+                                        <input type="number" class="form-control" id="unitInStock" name="unitInStock">
                                     </div>
                                 </div> <br>
                                 <div class="combo-box">
                                     <div class="row">
                                         <div class="col">
+                                            <label>Trạng thái</label>
                                             <div class="form-group">
-                                                <select class="form-control" placeholder="Trạng thái">
+                                                <select class="form-control" placeholder="Trạng thái" id="status"
+                                                    name="status">
                                                     <option>Trạng thái</option>
-                                                    <option>Còn hàng</option>
-                                                    <option>Hết hàng</option>
+                                                    <option value="1">Còn hàng</option>
+                                                    <option value="0">Hết hàng</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col">
+                                            <label>Danh mục</label>
                                             <div class="form-group">
-                                                <select class="form-control" placeholder="Danh mục">
-                                                    <option>Danh mục</option>
-                                                    <option>Nike Air Force 1</option>
-                                                    <option>Nike Jordan 1</option>
-                                                    <option>Nike Cortez</option>
+                                                <select class="form-control" placeholder="Danh mục"
+                                                    id="category-select">
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col">
+                                            <label>Màu sắc</label>
                                             <div class="form-group">
-                                                <select class="form-control" placeholder="Màu sắc">
-                                                    <option>Màu sắc</option>
-                                                    <option>Màu đỏ</option>
-                                                    <option>Màu trắng</option>
+                                                <select class="form-control" placeholder="Màu sắc" id="color-select">
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col">
+                                            <label>Kích cỡ</label>
                                             <div class="form-group">
-                                                <select class="form-control" placeholder="Kích cỡ">
-                                                    <option>Kích cỡ</option>
-                                                    <option>40</option>
-                                                    <option>41</option>
+                                                <select class="form-control" placeholder="Kích cỡ" id="size-select">
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="/frontend//admin//product-detail.html" class="btn btn-primary">Xác
-                                            nhận</a>
+                                        <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
                                     </div>
                                 </div>
                             </form>

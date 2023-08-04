@@ -7,23 +7,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-  public interface IRepositoryManger
-  {
+    public interface IRepositoryManger
+    {
         IAppUserRepository AppUserRepository { get; }
         IUnitOfWork UnitOfWork { get; }
         IVoucherRepository VoucherRepository { get; }
-        ICategoryRepository CategoryRepository { get; }
         IProductRepository ProductRepository { get; }
-        ICacheRepository CacheRepository { get; }
-        IOrderRepository OrderRepository { get; }
-        IOrderItemsRepository OrderItemsRepository { get; }
-        IWishListsRepository WishListsRepository { get; }
         INewsRepository NewsRepository { get; }
+        IWishListsRepository WishListsRepository{get;}
         IShoppingCartsRepository ShoppingCartsRepository { get; }
-        IEmployeeRepository EmployeeRepository { get; }
-        IStockRepository StockRepository { get; }   
-        ISizeRepository SizeRepository { get; }
-        IColorRepository ColorRepository { get; }
         IProductRateRepository ProductRateRepository { get; }
-  }
+    }
 }
