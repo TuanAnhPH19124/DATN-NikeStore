@@ -76,5 +76,34 @@ namespace Persistence.Repositories
                 }
             }
         }
+        public async Task DeleteAsync(string id)
+        {
+            var categoryToDelete = await _context.Categories.FindAsync(id);
+
+            if (categoryToDelete != null)
+            {
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        _context.Categories.Remove(categoryToDelete);
+                        await _context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception)
+                    {
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                // Throw an exception or handle the case when the category is not found
+                throw new Exception("Category not found.");
+            }
+        }
+
+
     }
 }
