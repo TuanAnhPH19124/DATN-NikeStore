@@ -61,7 +61,7 @@ namespace Webapi.Controllers
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    DiscountRate=p.DiscountRate,
+                    DiscountRate = p.DiscountRate,
                     RetailPrice = p.RetailPrice,
                     Description = p.Description,
                     Brand = p.Brand,
@@ -90,9 +90,8 @@ namespace Webapi.Controllers
             }
             return product;
         }
-
         [HttpPost]
-        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody] ProductForPostProductDto productDto)
+        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody] ProductDto productDto)
         {
             try
             {
@@ -101,7 +100,6 @@ namespace Webapi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                // Tạo đối tượng Product từ DTO
                 var product = new Product
                 {
                     Name = productDto.Name,
@@ -112,36 +110,21 @@ namespace Webapi.Controllers
                     Status = productDto.Status
                 };
 
-                foreach (var stockDto in productDto.Stocks)
-                {
-                    var colorId = await _serviceManager.ColorService.GetByIdColorAsync(stockDto.ColorId);
-                    var sizeId = await _serviceManager.SizeService.GetByIdSizeAsync(stockDto.SizeId);
-
-                    // Thêm thông tin số lượng, size và màu sắc vào stock
-                    product.Stocks.Add(new Stock
-                    {
-                        ColorId = stockDto.ColorId,
-                        SizeId = stockDto.SizeId,
-                        UnitInStock = stockDto.UnitInStock
-                    });
-                }
+                // ... Thêm các thông tin khác vào product
 
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
 
-                // Tạo đối tượng ProductDto để trả về
                 var createdProductDto = new ProductDto
                 {
-
                     Name = createdProduct.Name,
                     RetailPrice = createdProduct.RetailPrice,
                     Description = createdProduct.Description,
                     Brand = createdProduct.Brand,
                     DiscountRate = createdProduct.DiscountRate,
-                    Status = createdProduct.Status,
-                    // Không cần thêm liên kết đối tượng Stocks và CategoryIds
+                    Status = createdProduct.Status
+                    // Không cần thêm thông tin liên quan đến Stock và Category
                 };
 
-                // Trả về kết quả thêm mới sản phẩm và đối tượng DTO đã tạo
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProductDto);
             }
             catch (Exception ex)
@@ -150,15 +133,8 @@ namespace Webapi.Controllers
             }
         }
 
-
-
-
-
-
-
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductForUpdateProductDto productDto)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductDto productDto)
         {
             try
             {
@@ -174,7 +150,6 @@ namespace Webapi.Controllers
                     return NotFound();
                 }
 
-                // Cập nhật thông tin sản phẩm từ DTO
                 existingProduct.Name = productDto.Name;
                 existingProduct.RetailPrice = productDto.RetailPrice;
                 existingProduct.Description = productDto.Description;
@@ -182,32 +157,22 @@ namespace Webapi.Controllers
                 existingProduct.DiscountRate = productDto.DiscountRate;
                 existingProduct.Status = productDto.Status;
 
-                // Xóa các Stock cũ và thêm lại các Stock mới
-                existingProduct.Stocks.Clear();
-                foreach (var stockDto in productDto.Stocks)
-                {
-                    var colorId = await _serviceManager.ColorService.GetByIdColorAsync(stockDto.ColorId);
-                    var sizeId = await _serviceManager.SizeService.GetByIdSizeAsync(stockDto.SizeId);
+                // ... Cập nhật thông tin khác của sản phẩm
 
-                    // Thêm thông tin số lượng, size và màu sắc vào stock
-                    existingProduct.Stocks.Add(new Stock
-                    {
-                        ColorId = stockDto.ColorId,
-                        SizeId = stockDto.SizeId,
-                        UnitInStock = stockDto.UnitInStock
-                    });
-                }
+                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
 
-                // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu
-                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id,existingProduct);
-
-                return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+                return NoContent();
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
+
+
+
 
 
     }

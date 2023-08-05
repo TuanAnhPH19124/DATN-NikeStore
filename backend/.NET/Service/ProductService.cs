@@ -2,6 +2,8 @@
 using Domain.Repositories;
 using EntitiesDto.Product;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -16,9 +18,11 @@ namespace Service
     {
         private readonly IRepositoryManger _repositoryManger;
 
+
         public ProductService(IRepositoryManger repositoryManger)
         {
-            _repositoryManger=repositoryManger;
+            _repositoryManger = repositoryManger;
+
         }
 
         public async Task<IEnumerable<ProductForThirdServiceDto>> SelectByCategoryOnCacheAsync(string categoryId)
@@ -46,7 +50,7 @@ namespace Service
             var expiryTime = DateTimeOffset.Now.AddMinutes(15);
             _repositoryManger.CacheRepository.SetData<IEnumerable<ProductForThirdServiceDto>>("homepage-product", cacheData, expiryTime);
             return cacheData;
-          
+
         }
 
         public async Task<Product> CreateAsync(Product product)
@@ -58,6 +62,7 @@ namespace Service
 
 
         }
+
 
         public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
         {
@@ -71,29 +76,40 @@ namespace Service
             return product;
         }
 
-        public async Task<Product> UpdateByIdProduct(string id, Product product, CancellationToken cancellationToken = default)
+
+        public async Task<Product> UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
         {
             var existingProduct = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
+
             if (existingProduct == null)
             {
                 throw new Exception("Product not found.");
             }
-            else
-            {
-                existingProduct.Id= product.Id;
-                existingProduct.BarCode= product.BarCode;
-                existingProduct.CostPrice= product.CostPrice;
-                existingProduct.RetailPrice= product.RetailPrice;
-                existingProduct.Description= product.Description;
-                existingProduct.Brand= product.Brand;
-                existingProduct.DiscountRate= product.DiscountRate;
-                existingProduct.ModifiedDate= product.ModifiedDate;
-                existingProduct.Name= product.Name;
-                existingProduct.Status= product.Status;
-                existingProduct.CreatedDate= product.CreatedDate;              
-                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
-                return existingProduct;
-            }
+
+            // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
+            existingProduct.Name = updatedProduct.Name;
+            existingProduct.RetailPrice = updatedProduct.RetailPrice;
+            existingProduct.Description = updatedProduct.Description;
+            existingProduct.Brand = updatedProduct.Brand;
+            existingProduct.DiscountRate = updatedProduct.DiscountRate;
+            existingProduct.Status = updatedProduct.Status;
+
+            // ... Cập nhật thông tin khác của sản phẩm
+            existingProduct.ModifiedDate = DateTime.UtcNow;
+            // Gọi hàm Update trong repository để cập nhật sản phẩm
+            _repositoryManger.ProductRepository.UpdateProduct(existingProduct);
+            await _repositoryManger.UnitOfWork.SaveChangeAsync();
+
+            return existingProduct;
         }
+
+
     }
+
+
+
+
+
 }
+
+

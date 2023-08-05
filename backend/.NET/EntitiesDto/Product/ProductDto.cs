@@ -15,9 +15,9 @@ namespace EntitiesDto.Product
             public double RetailPrice { get; set; }
             public string Description { get; set; }
             public Brands Brand { get; set; }
-            public double DiscountRate { get; set; }
+            public int DiscountRate { get; set; } = 1;
             public Status Status { get; set; }
-            // Other properties as needed
+             // Other properties as needed
         
 
     }
