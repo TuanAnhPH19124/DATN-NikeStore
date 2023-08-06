@@ -10,12 +10,13 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using Mapster;
 
 namespace Webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VoucherController : ControllerBase
+    public class VoucherController : Controller
     {
         private readonly IServiceManager _serviceManager;
 
@@ -24,18 +25,17 @@ namespace Webapi.Controllers
             _serviceManager = serviceManager;
         }
 
-
-        [HttpGet]
+        [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<Voucher>>> GetAllVoucher()
         {
             try
             {
-                var vouchers = await _serviceManager.VoucherService.GetAllVoucherAsync();
-                if (vouchers == null || !vouchers.Any())
+                var voucher = await _serviceManager.VoucherService.GetAllVoucherAsync();
+                if (voucher == null || !voucher.Any())
                 {
                     return NotFound();
                 }
-                return Ok(vouchers);
+                return Ok(voucher);
             }
             catch (Exception ex)
             {
@@ -44,11 +44,10 @@ namespace Webapi.Controllers
 
         }
 
-
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Voucher>> GetVoucher(string Id)
+        [HttpGet("Get/{Id}")]
+        public async Task<ActionResult<Voucher>> GetByIdVoucher(string Id)
         {
-            var voucher = await _serviceManager.VoucherService.GetByIdVoucher(Id);
+            var voucher = await _serviceManager.VoucherService.GetByIdVoucherAsync(Id);
 
             if (voucher == null)
             {
@@ -57,40 +56,38 @@ namespace Webapi.Controllers
             return voucher;
         }
 
+
         [HttpPost]
-        public async Task<ActionResult<Voucher>> CreateVoucher(Voucher voucher)
+        public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
         {
             try
-            {              
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var createdVoucher = await _serviceManager.VoucherService.CreateAsync(voucher);         
-                return CreatedAtAction(nameof(GetVoucher), new { id = createdVoucher.Id }, createdVoucher);
+            {
+                var voucher = voucherDto.Adapt<Voucher>();
+                await _serviceManager.VoucherService.CreateAsync(voucher);
+                return CreatedAtAction(nameof(GetByIdVoucher), new { id = voucher.Id }, voucher);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVoucher(string id, Voucher voucher)
+        public async Task<IActionResult> UpdateVoucher(string id, VoucherDtoUpdate voucherDtoUpdate)
         {
-            if (id != voucher.Id)
+            if (id != voucherDtoUpdate.Id)
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }
             try
-            { 
+            {
+                var voucher = voucherDtoUpdate.Adapt<Voucher>();
                 await _serviceManager.VoucherService.UpdateByIdVoucher(id, voucher);
             }
             catch (Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
-
             return NoContent();
         }
     }
