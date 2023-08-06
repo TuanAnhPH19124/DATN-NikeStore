@@ -21,32 +21,30 @@ namespace Service
             _repositoryManger=repositoryManger;
         }
 
-        public async Task<IEnumerable<ProductForThirdServiceDto>> SelectByCategoryOnCacheAsync(string categoryId)
+        public async Task<IEnumerable<Product>> SelectByCategoryOnCacheAsync(string categoryId)
         {
-            var cacheData = _repositoryManger.CacheRepository.GetData<IEnumerable<ProductForThirdServiceDto>>(categoryId);
+            var cacheData = _repositoryManger.CacheRepository.GetData<IEnumerable<Product>>(categoryId);
             if (cacheData != null && cacheData.Count() > 0)
             {
                 return cacheData;
             }
-            var dbData = await _repositoryManger.ProductRepository.GetByCategoryAsync(categoryId);
-            cacheData = dbData.Adapt(cacheData);
+            cacheData = await _repositoryManger.ProductRepository.GetByCategoryAsync(categoryId);
             var expiryTime = DateTimeOffset.Now.AddMinutes(15);
-            _repositoryManger.CacheRepository.SetData<IEnumerable<ProductForThirdServiceDto>>(categoryId, cacheData, expiryTime);
+            _repositoryManger.CacheRepository.SetData<IEnumerable<Product>>(categoryId, cacheData, expiryTime);
             return cacheData;
         }
 
-        public async Task<IEnumerable<ProductForThirdServiceDto>> SelectProductOnCacheAsync()
+        public async Task<IEnumerable<Product>> SelectProductOnCacheAsync()
         {
-            var cacheData = _repositoryManger.CacheRepository.GetData<IEnumerable<ProductForThirdServiceDto>>("homepage-product");
+            var cacheData = _repositoryManger.CacheRepository.GetData<IEnumerable<Product>>("homepage-product");
             if (cacheData != null && cacheData.Count() > 0)
             {
                 return cacheData;
             }
-            var dbData = await _repositoryManger.ProductRepository.GetProductAsync();
+            cacheData = await _repositoryManger.ProductRepository.GetProductAsync();
             var expiryTime = DateTimeOffset.Now.AddMinutes(15);
-            _repositoryManger.CacheRepository.SetData<IEnumerable<ProductForThirdServiceDto>>("homepage-product", cacheData, expiryTime);
+            _repositoryManger.CacheRepository.SetData<IEnumerable<Product>>("homepage-product", cacheData, expiryTime);
             return cacheData;
-          
         }
 
         public async Task<Product> CreateAsync(Product product)

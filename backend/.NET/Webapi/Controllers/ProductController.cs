@@ -27,12 +27,8 @@ namespace Webapi.Controllers
         {
             try
             {
-                var products = await _serviceManager.ProductService.GetAllProductAsync();
-                if (products == null || !products.Any())
-                {
-                    return NotFound();
-                }
-                return Ok();
+                var products = await _serviceManager.ProductService.SelectProductOnCacheAsync();
+                return Ok(products);
             }
             catch (Exception ex)
             {
