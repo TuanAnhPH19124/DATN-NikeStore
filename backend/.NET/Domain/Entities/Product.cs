@@ -18,7 +18,10 @@ namespace Domain.Entities
         public double CostPrice { get; set; } 
         public double RetailPrice { get; set; }
         public string Description { get; set; }
-        public Brands Brand { get; set; } = Brands.Nike;    
+        public Status Status { get; set; } = Status.Active;
+        public Brands Brand { get; set; } = Brands.Nike;
+
+      
         public int DiscountRate { get; set; } = 1;
         public virtual List<Category> Categories { get; set; } = new List<Category>();
         public virtual List<Tag> Tags { get; set; } = new List<Tag>();
