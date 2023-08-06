@@ -5,22 +5,32 @@ function myFunction() {
 $(document).ready(function () {
     $('#productData').DataTable({
         "ajax": {
-            "url": "https://6447750e50c253374425338d.mockapi.io/fake",
+            "url": "https://localhost:44328/api/Product",
             "dataType": "json",
             "dataSrc": ""
         },
         "columns": [
-            { "data": 'image' },
-            { "data": 'name' },
-            { "data": 'price' },
-            { "data": 'createdPrice' },
-            { "data": 'status' },
+            {
+                "data": 'id', 'title': 'STT', render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
+            { "data": 'name', 'title': 'Tên sản phẩm' },
+            { "data": 'retailPrice', 'title': 'Giá bán' },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Xóa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
                 }
             },
         ],
+    });
+    $('#productData tbody').on('click', 'tr', function (e) {
+        e.preventDefault();
+        let productId = $('#productData').DataTable().row(this).data().id;
+        if (productId !== null) {
+            localStorage.setItem("productId", productId);
+            window.location.href = `/frontend/admin/product-detail.html`;
+        }
     });
 });
 //add event click datatable
@@ -31,3 +41,18 @@ $('#productData tbody').on('click', 'tr', function (event) {
     }
 });
 
+var option_category = [];
+$.getJSON("https://localhost:44328/api/Categories", function (result) {
+    for (var i = 0; i < result.length; i++) {
+        option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    }
+    $("#category-select").html(option_category.join(''));
+});
+
+var option_color = [];
+$.getJSON("https://localhost:44328/api/Color/Get", function (result) {
+    for (var i = 0; i < result.length; i++) {
+        option_color.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    }
+    $("#color-select").html(option_color.join(''));
+});

@@ -7,7 +7,11 @@ $(document).ready(function () {
             "dataSrc": "",
         },
         "columns": [
-            { "data": 'id', "title": "ID", "visible": false, },
+            {
+                "data": 'id', "title": "ID", render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
             { "data": 'code', "title": "Mã" },
             { "data": 'value', "title": "Giá trị" },
             {
