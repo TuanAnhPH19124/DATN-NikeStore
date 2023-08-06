@@ -15,5 +15,6 @@ namespace Domain.Repositories
         Task<object> GetByIdAsync(string id);
         Task AddAsync(Category category);
         Task UpdateAsync(string id, Category category);
+        Task DeleteAsync(string id);
     }
 }

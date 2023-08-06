@@ -22,6 +22,7 @@ namespace Service.Abstractions
         IEmployeeService employeeService { get; }
         ISizeService SizeService { get; }
         IColorService ColorService { get; }
+        IProductRateService ProductRateService { get; }
 
     }
 }

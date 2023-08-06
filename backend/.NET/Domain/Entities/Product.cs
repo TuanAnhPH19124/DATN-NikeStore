@@ -26,5 +26,7 @@ namespace Domain.Entities
         public virtual List<ProductImage> ProductImages { get; set; } 
         public virtual IEnumerable<OrderItem> OrderItems { get; set; } 
         public ShoppingCartItems ShoppingCartItems { get; set; }
+        public ICollection<ProductRate> ProductRate { get; set; }
+        public virtual List<CategoryProduct> CategoryProducts { get; set; }
     }
 }
