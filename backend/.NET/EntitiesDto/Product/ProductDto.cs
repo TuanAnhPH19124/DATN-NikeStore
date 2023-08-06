@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EntitiesDto.Product
 {
     public class ProductDto
     {
-       
+            public string Id { get; set; }
             public string Name { get; set; }
             public double RetailPrice { get; set; }
             public string Description { get; set; }

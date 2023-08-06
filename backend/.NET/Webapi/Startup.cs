@@ -76,7 +76,8 @@ namespace Webapi
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://127.0.0.1:5502")
+                    builder.WithOrigins("http://127.0.0.1:5500")
+                        .WithOrigins("http://127.0.0.1:5858")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -92,7 +93,7 @@ namespace Webapi
             app.UseCors();
 
             //DatabaseMigration.StartMigration(app);
-            SeedingDatabase.Start(app).Wait();
+            //SeedingDatabase.Start(app).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
