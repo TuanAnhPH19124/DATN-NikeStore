@@ -7,6 +7,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using EntitiesDto.Product;
+using Domain.Repositories;
+using Persistence;
 
 namespace Webapi.Controllers
 {
@@ -15,12 +18,15 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly IRepositoryManger _repositoryManger;
+        private readonly AppDbContext _context;
 
-        public ProductController(IServiceManager serviceManager)
+        public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
         {
             _serviceManager = serviceManager;
+            _repositoryManger = repositoryManger;
+            _context = context;
         }
-
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
@@ -28,19 +34,19 @@ namespace Webapi.Controllers
             try
             {
                 var products = await _serviceManager.ProductService.GetAllProductAsync();
+
                 if (products == null || !products.Any())
                 {
                     return NotFound();
                 }
-                return Ok();
+
+                return Ok(products);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
         }
-
 
         [HttpGet("{Id}")]
         public async Task<ActionResult<Product>> GetProduct(string Id)
@@ -55,7 +61,7 @@ namespace Webapi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody]Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDto productDto)
         {
             try
             {
@@ -63,7 +69,21 @@ namespace Webapi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+
+                var product = new Product
+                {
+                    Name = productDto.Name,
+                    RetailPrice = productDto.RetailPrice,
+                    Description = productDto.Description,
+                    Brand = productDto.Brand,
+                    DiscountRate = productDto.DiscountRate,
+                    Status = productDto.Status
+                };
+
+                // ... Thêm các thông tin khác vào product
+
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
+
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
             }
             catch (Exception ex)
@@ -73,23 +93,39 @@ namespace Webapi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, Product product)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductDto productDto)
         {
-            if (id != product.Id)
-            {
-                return BadRequest("The provided id does not match the id in the user data.");
-            }
             try
             {
-                await _serviceManager.ProductService.UpdateByIdProduct(id, product);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var existingProduct = await _serviceManager.ProductService.GetByIdProduct(id);
+
+                if (existingProduct == null)
+                {
+                    return NotFound();
+                }
+
+                existingProduct.Name = productDto.Name;
+                existingProduct.RetailPrice = productDto.RetailPrice;
+                existingProduct.Description = productDto.Description;
+                existingProduct.Brand = productDto.Brand;
+                existingProduct.DiscountRate = productDto.DiscountRate;
+                existingProduct.Status = productDto.Status;
+
+                // ... Cập nhật thông tin khác của sản phẩm
+
+                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
+
+                return NoContent();
             }
             catch (Exception ex)
             {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
-            return NoContent();
         }
     }
 }

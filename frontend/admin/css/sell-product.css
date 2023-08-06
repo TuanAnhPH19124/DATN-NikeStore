@@ -1,6 +1,6 @@
 .add-btn{
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 .add-btn a{

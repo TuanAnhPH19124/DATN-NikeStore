@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,9 @@ namespace Domain.Repositories
         Task<bool> FindByNameAsync(string name);
 
         Task<IEnumerable<object>> GetAllAsync();
-        
+        Task<object> GetByIdAsync(string id);
+        Task AddAsync(Category category);
+        Task UpdateAsync(string id, Category category);
+        Task DeleteAsync(string id);
     }
 }
