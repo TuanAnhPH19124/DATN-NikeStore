@@ -88,7 +88,6 @@ namespace Webapi.Controllers
             }
             catch (Exception ex)
             {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
                 return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
 
