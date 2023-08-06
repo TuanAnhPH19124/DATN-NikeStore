@@ -17,15 +17,11 @@ namespace Webapi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IServiceManager _serviceManager;
-        private readonly IRepositoryManger _repositoryManger;
-        private readonly AppDbContext _context;
-
+        private readonly IServiceManager _serviceManager;       
         public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
         {
             _serviceManager = serviceManager;
-            _repositoryManger = repositoryManger;
-            _context = context;
+           
         }
 
         [HttpGet]
@@ -128,4 +124,4 @@ namespace Webapi.Controllers
             }
         }
     }
-}
+

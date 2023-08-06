@@ -10,5 +10,7 @@ namespace Domain.Repositories
     {
         Task UpdateRange(List<Stock> Stocks);
         Task<Stock> SelectById(string productId, string colorId, string sizeId);
+        Task<IEnumerable<Stock>> GetAllAsync();
+        Task AddAsync(Stock stock);
     }
 }
