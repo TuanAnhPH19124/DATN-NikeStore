@@ -1,6 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $('#staff-table').DataTable({
+    var staffTable = $('#staff-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Employee",
             "dataType": "json",
@@ -11,14 +11,24 @@ $(document).ready(function () {
             { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'snn', "title": "Số căn cước" },
             { "data": 'phoneNumber', "title": "Số điện thoại" },
-            { "data": 'modifiedDate', "title": "Ngày thay đổi" },
+            {
+                "data": 'modifiedDate', "title": "Ngày thay đổi",
+                "render": function (data, type, full, meta) {
+                    var dateObj = new Date(data);
+                    var day = dateObj.getUTCDate();
+                    var month = dateObj.getUTCMonth() + 1;
+                    var year = dateObj.getUTCFullYear();
+                    var formattedDate = `${day}/${month}/${year}`;
+                    return formattedDate;
+                }
+            },
             { "data": 'role', "title": "Vai trò" },
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == true) {
-                        return '<input type="checkbox" checked>';
+                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
                     } else {
-                        return '<input type="checkbox">';
+                        return '<span class="badge badge-pill badge-danger">Ngừng kích hoạt</span>';
                     }
                 }
             },
@@ -30,6 +40,9 @@ $(document).ready(function () {
             },
         ],
     });
+    setInterval(function () {
+        staffTable.ajax.reload();
+    }, 5000);
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()
@@ -115,13 +128,12 @@ $(document).ready(function () {
 
     $('#staff-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
-        let id = $('#staff-table').DataTable().row(this).data().employeeId;
-        if (id !== null) {
-            localStorage.setItem("id", id);
+        let staffId = $('#staff-table').DataTable().row(this).data().employeeId;
+        if (staffId !== null) {
+            localStorage.setItem("staffId", staffId);
             window.location.href = `/frontend/admin/update-staff.html`;
         }
     });
-
 });
 
 

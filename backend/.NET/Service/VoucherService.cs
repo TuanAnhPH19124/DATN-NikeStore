@@ -25,11 +25,8 @@ namespace Service
         public async Task<Voucher> CreateAsync(Voucher voucher)
         {
             _repositoryManger.VoucherRepository.AddVoucher(voucher);
-
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return voucher;
-
-           
+            return voucher; 
         }
         
         public async Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default)

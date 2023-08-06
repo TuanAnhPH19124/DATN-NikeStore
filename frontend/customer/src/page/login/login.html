@@ -19,9 +19,51 @@
 </div>
 
 <script>
+
+  function validateForm(){
+  var emailInput = document.getElementById("email");
+  var passwordInput = document.getElementById("password");
+  var errorMessage = document.getElementById("error-message");
+  errorMessage.style.display = "none";
+  var isValid = true;
+
+  // Validate email
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailInput.value)) {
+    errorMessage.innerText = "Email không đúng định dạng.";
+    errorMessage.style.display = "block";
+    emailInput.style.border = "1px solid red";
+    isValid = false;
+  } else {
+    emailInput.style.border = "1px solid #c3b8b8";
+  }
+
+  // Validate password
+  if (passwordInput.value.length < 8) {
+    errorMessage.innerText = "Mật khẩu phải có ít nhất 8 kí tự.";
+    errorMessage.style.display = "block";
+    passwordInput.style.border = "1px solid red";
+    isValid = false;
+  } else {
+    passwordInput.style.border = "1px solid #bbb2b2";
+  }
+
+  return isValid;
+  }
+
   function login() {
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;
+    if (!validateForm()) {
+    return;
+  }
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+  var errorMessage = document.getElementById("error-message");
+  errorMessage.style.display = "none";
+  
+  var email = emailInput.value;
+  var password = passwordInput.value;
+  errorMessage.innerText = "Đã xảy ra lỗi: Server không phản hồi.";
+  errorMessage.style.display = "block";
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "https://localhost:44328/api/Authentication/google", true);

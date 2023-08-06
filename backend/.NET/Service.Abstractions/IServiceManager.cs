@@ -15,10 +15,13 @@ namespace Service.Abstractions
         ICategoryService CategoryService { get; }
         IProductService ProductService { get; }
         IOrderService OrderService {get; }
+        IOrderItemService OrderItemService { get; }
         INewsService NewsService { get; }
         IWishListsService WishListsService { get; }
         IShoppingCartsService ShoppingCartsService { get; }
         IEmployeeService employeeService { get; }
+        ISizeService SizeService { get; }
+        IColorService ColorService { get; }
 
     }
 }
