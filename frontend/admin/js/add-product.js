@@ -65,8 +65,7 @@ $(document).ready(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        window.location.href = "/frontend/admin/product-detail.html";
-        $('.toast').toast('show')
+        window.location.href = "/frontend/admin/product-page.html";
       },
     });
   });

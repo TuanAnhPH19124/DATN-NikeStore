@@ -63,7 +63,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         customerTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     // call api them nhan vien
     $('#add-voucher-form').submit(function (event) {
         event.preventDefault()

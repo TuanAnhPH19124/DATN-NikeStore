@@ -46,7 +46,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         staffTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()

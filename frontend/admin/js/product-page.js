@@ -15,12 +15,23 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
+            { "data": 'productImages', 'title': 'Ảnh' },
             { "data": 'name', 'title': 'Tên sản phẩm' },
             { "data": 'costPrice', 'title': 'Giá nhập' },
             { "data": 'retailPrice', 'title': 'Giá bán' },
-            { "data": 'status', 'title': 'Trạng thái' },
+            {
+                "data": 'status', "title": "Trạng thái",
+                "render": function (data, type, row) {
+                    if (data == 1) {
+                        return '<span class="badge badge-pill badge-primary">Kinh doanh</span>';
+                    } else {
+                        return '<span class="badge badge-pill badge-danger">Không kinh doanh</span>';
+                    }
+                }
+            },
             { "data": 'brand', 'title': 'Hãng' },
             {
+                "title": "Thao tác",
                 "render": function () {
                     return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
                 }
