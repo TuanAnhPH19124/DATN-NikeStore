@@ -7,7 +7,11 @@ $(document).ready(function () {
             "dataSrc": ""
         },
         "columns": [
-            { "data": 'employeeId', "title": "ID", "visible": false, },
+            {
+                "data": 'employeeId', "title": "ID", render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
             { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'snn', "title": "Số căn cước" },
             { "data": 'phoneNumber', "title": "Số điện thoại" },
