@@ -57,6 +57,7 @@ $(document).ready(function () {
       $('#name').val(data.name);
       $('#description').val(data.description);
       $('#retailPrice').val(data.retailPrice);
+      $('#costPrice').val(data.costPrice);
       $('#status').val(data.status);
     },
     error: function () {
@@ -77,6 +78,20 @@ $(document).ready(function () {
       url: "https://localhost:44328/api/Product/" + id,
       type: "PUT",
       data: JSON.stringify(formData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (e) {
+
+      },
+    });
+    var categoryformData = {
+      productId: id,
+      categoryId: $("#category-select").val(),
+    };
+    $.ajax({
+      url: "https://localhost:44328/api/CategoryProduct",
+      type: "POST",
+      data: JSON.stringify(categoryformData),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (e) {

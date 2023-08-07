@@ -16,7 +16,10 @@ $(document).ready(function () {
                 }
             },
             { "data": 'name', 'title': 'Tên sản phẩm' },
+            { "data": 'costPrice', 'title': 'Giá nhập' },
             { "data": 'retailPrice', 'title': 'Giá bán' },
+            { "data": 'status', 'title': 'Trạng thái' },
+            { "data": 'brand', 'title': 'Hãng' },
             {
                 "render": function () {
                     return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
