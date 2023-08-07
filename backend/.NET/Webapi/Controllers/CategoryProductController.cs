@@ -39,22 +39,33 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        [HttpGet("{productId}/{categoryId}")]
-        public async Task<ActionResult<CategoryProduct>> GetCategoryProduct(string productId, string categoryId)
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<CategoryProductDto>> GetCategoryProduct(string productId)
         {
-            var categoryProduct = await _serviceManager.CategoryProductService.GetCategoryProductByIdAsync(productId, categoryId);
-
-            if (categoryProduct == null)
+            try
             {
-                return NotFound();
-            }
+                // Lấy danh sách CategoryProduct có ProductId tương ứng
+                var categoryProducts = await _serviceManager.CategoryProductService.GetAllCategoryProductsAsync();
+                var categoryProductsOfProduct = categoryProducts.Where(cp => cp.ProductId == productId);
 
-            return Ok(categoryProduct);
+                // Chuyển đổi danh sách CategoryProduct sang danh sách CategoryProductDto
+                var categoryProductDtos = categoryProductsOfProduct.Select(cp => new CategoryProductDto
+                {
+                    ProductId = cp.ProductId,
+                    CategoryId = cp.CategoryId,
+                });
+
+                return Ok(categoryProductDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
- 
-            [HttpPost]
+
+
+        [HttpPost]
             public async Task<ActionResult> CreateCategoryProduct([FromBody] CategoryProductDto categoryProductDto)
             {
                 try
