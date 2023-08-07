@@ -3,6 +3,7 @@ using Domain.Repositories;
 using EntitiesDto.CategoryDto;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -66,5 +67,19 @@ namespace Webapi.Controllers
             return NoContent();
 
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(string id)
+        {
+            try
+            {
+                await _repositoryManger.CategoryRepository.DeleteAsync(id);
+                return NoContent(); // Trả về 204 No Content nếu xóa thành công
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }

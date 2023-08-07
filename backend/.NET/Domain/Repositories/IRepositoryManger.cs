@@ -25,5 +25,6 @@ namespace Domain.Repositories
         ISizeRepository SizeRepository { get; }
         IColorRepository ColorRepository { get; }
         IProductRateRepository ProductRateRepository { get; }
+        ICategoryProductRepository CategoryProductRepository { get; }
   }
 }

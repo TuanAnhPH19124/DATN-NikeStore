@@ -57,6 +57,7 @@ $(document).ready(function () {
       $('#name').val(data.name);
       $('#description').val(data.description);
       $('#retailPrice').val(data.retailPrice);
+      $('#status').val(data.status);
     },
     error: function () {
       console.log("Error retrieving data.");

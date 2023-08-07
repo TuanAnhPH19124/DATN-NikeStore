@@ -11,9 +11,9 @@ namespace Service.Abstractions
 {
     public interface IVoucherService
     {
-        Task<Voucher> CreateAsync(Voucher voucher);       
         Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default);
-        Task<Voucher> GetByIdVoucher(string id, CancellationToken cancellationToken = default);
+        Task<Voucher> GetByIdVoucherAsync(string id, CancellationToken cancellationToken = default);
+        Task<Voucher> CreateAsync(Voucher voucher);
         Task<Voucher> UpdateByIdVoucher(string id, Voucher voucher, CancellationToken cancellationToken = default);
     }
 }
