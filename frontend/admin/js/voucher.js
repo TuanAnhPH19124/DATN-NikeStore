@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var voucherTable = $('#voucher-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/Voucher",
+            "url": "https://localhost:44328/api/Voucher/Get",
             "dataType": "json",
             "dataSrc": "",
         },

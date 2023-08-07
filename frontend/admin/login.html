@@ -46,35 +46,17 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" id="login-form">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="email" class="form-control form-control-user" id="email"
+                                                name="email" placeholder="Nhập Email...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" id="password"
+                                                name="password" placeholder="Nhập mật khẩu...">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <a class="btn btn-primary btn-user btn-block" onclick="loginClicked()">
-                                            Login
-                                        </a>
-                                        <hr>
-                                        <a id="google-login"
-                                            class="btn btn-google btn-user btn-block" onclick="Close()">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Đăng
+                                            nhập</button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -105,65 +87,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    <script>
-        var token = null;
-        const Url = "https://localhost:5001";
-        // Connect, using the token we got.
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${Url}/hubs/chat`, { accessTokenFactory: () => getToken() })
-            .build();
-        connection.on("ReceiveMessage", (message) => {
-            console.log(message);
-        })
-        async function Start() {
-            try {
-
-                await connection.start();
-                console.log("SignalR Connected.");
-            } catch (error) {
-                console.log(err);
-
-            }
-        };
-
-        async function Close(){
-            try {
-                await connection.stop();
-                console.log("SignalR Disconnected.");
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        function getToken() {
-            console.log(localStorage.getItem('Token'));
-            return localStorage.getItem('Token');
-        }
-
-
-        async function loginClicked() {
-            var apiEndpoint = "api/authentication/signin"
-            var emailInput = document.getElementById("exampleInputEmail");
-            var passwordInput = document.getElementById("exampleInputPassword");
-            var userDto = {
-                email: emailInput.value,
-                password: passwordInput.value
-            }
-            await fetch(`${Url}/${apiEndpoint}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userDto)
-            })
-                .then(Response => Response.json())
-                .then(data => {
-                    token = data.token.toString();
-                    console.log(token);
-                    localStorage.setItem('Token', data.token.toString());
-                    Start();
-                })
-        }
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="../admin/js/login.js">
     </script>
 </body>
 
