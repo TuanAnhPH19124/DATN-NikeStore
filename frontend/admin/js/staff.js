@@ -8,7 +8,7 @@ $(document).ready(function () {
         },
         "columns": [
             {
-                "data": 'employeeId', "title": "ID", render: function (data, type, row, meta) {
+                "data": 'employeeId', "title": "STT", render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
             },
