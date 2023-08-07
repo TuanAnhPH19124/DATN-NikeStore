@@ -112,12 +112,19 @@ namespace Webapi.Controllers
             }
 
         // Các phương thức khác tại đây...
-        [HttpDelete("{productId}/{categoryId}")]
-        public async Task<ActionResult> DeleteCategoryProduct(string productId, string categoryId)
+        [HttpDelete("{productId}")]
+        public async Task<ActionResult> DeleteCategoryProduct(string productId)
         {
             try
             {
-                await _serviceManager.CategoryProductService.DeleteCategoryProductAsync(productId, categoryId);
+                // Lấy danh sách CategoryProduct có ProductId tương ứng và xóa chúng
+                var categoryProducts = await _serviceManager.CategoryProductService.GetAllCategoryProductsAsync();
+                var categoryProductsToDelete = categoryProducts.Where(cp => cp.ProductId == productId);
+
+                foreach (var categoryProduct in categoryProductsToDelete)
+                {
+                    await _serviceManager.CategoryProductService.DeleteCategoryProductAsync(categoryProduct.ProductId, categoryProduct.CategoryId);
+                }
 
                 return NoContent();
             }
@@ -126,6 +133,7 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
     }
 }
     
