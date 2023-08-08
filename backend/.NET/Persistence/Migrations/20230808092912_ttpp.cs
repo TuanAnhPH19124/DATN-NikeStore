@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class init : Migration
+    public partial class ttpp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -131,11 +131,11 @@ namespace Persistence.Migrations
                     CostPrice = table.Column<double>(type: "double precision", nullable: false),
                     RetailPrice = table.Column<double>(type: "double precision", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     Brand = table.Column<int>(type: "integer", nullable: false),
                     DiscountRate = table.Column<int>(type: "integer", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>

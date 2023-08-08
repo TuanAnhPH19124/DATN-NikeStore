@@ -11,5 +11,7 @@ namespace Service.Abstractions
     {
         Task AddAsync(ShoppingCarts cart);
         Task DeleteAsync(string Id);
+        Task<bool> GetById(string Id);
+        Task<string> GetShoppingCartIdByUserId(string Id);
     }
 }
