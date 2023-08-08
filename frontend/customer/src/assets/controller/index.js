@@ -4,7 +4,7 @@ app.constant("apiUrl", 'https://localhost:5001');
 app.config(function ($routeProvider, $locationProvider){
     $locationProvider.hashPrefix(""); 
   $routeProvider
-    .when("/", {
+    .when("/index", {
       templateUrl: "../page/index/index.html",
       controller: "homeController"
     })
