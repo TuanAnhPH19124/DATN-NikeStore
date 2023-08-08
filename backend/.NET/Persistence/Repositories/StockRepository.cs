@@ -22,9 +22,9 @@ namespace Persistence.Repositories
             return await _context.Stocks.ToListAsync();
         }
 
-        public async Task<Stock> SelectById(string productId, string colorId, string sizeId)
+        public async Task<Stock> SelectById(string productId)
         {
-            return await _context.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId && s.ColorId == colorId && s.SizeId == sizeId);
+            return await _context.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId);
         }
 
         public async Task AddAsync(Stock stock)

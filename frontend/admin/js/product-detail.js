@@ -78,7 +78,23 @@ $(document).ready(function () {
       console.log("Error retrieving data.");
     }
   });
+      // lay id color size và so luong
+      $.ajax({
+        url: "https://localhost:44328/api/Stock/" + id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          console.log(JSON.stringify(data));
+        $('#unitInStock').val(data.unitInStock);
+        $('#color-select').val(data.colorId);
+        $('#size-select').val(data.sizeId);
+        },
+        error: function () {
+          console.log("Error retrieving data.");
+        }
+      });
 
+// submit
   $('#update-product-form').submit(function (event) {
     event.preventDefault()
     var formData = {
@@ -88,6 +104,8 @@ $(document).ready(function () {
       retailPrice: $("#retailPrice").val(),
       colorId: $("#color-select").val(),
       sizeId: $("#size-select").val(),
+      status: Number($("#status").val()),
+
     };
     //api update product
     $.ajax({
@@ -100,7 +118,7 @@ $(document).ready(function () {
 
       },
     });
-    // api delete
+    // api delete categoryProduct
     $.ajax({
       url: "https://localhost:44328/api/CategoryProduct/" + id,
       type: "DELETE",
@@ -125,5 +143,32 @@ $(document).ready(function () {
 
       },
     });
+        // api delete Stock
+        $.ajax({
+          url: "https://localhost:44328/api/Stock/" + id,
+          type: "DELETE",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (e) {
+    
+          },
+        });
+        //api add Stock
+        var stockformData = {
+          productId: id,
+          colorId: $("#color-select").val(),
+          sizeId: $("#size-select").val(),
+          unitInStock: Number($("#unitInStock").val()),
+        };
+        $.ajax({
+          url: "https://localhost:44328/api/Stock",
+          type: "POST",
+          data: JSON.stringify(stockformData),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (response) {
+
+          },
+        });
   });
 });

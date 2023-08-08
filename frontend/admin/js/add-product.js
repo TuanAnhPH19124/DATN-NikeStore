@@ -65,7 +65,9 @@ $(document).ready(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        window.location.href = "/frontend/admin/product-page.html";
+        localStorage.setItem("productId", response.id);
+        console.log(response.id)
+        window.location.href = "/frontend/admin/product-detail.html";
       },
     });
   });
