@@ -1,6 +1,13 @@
 
-var app = angular.module("app", ["ngRoute"]);
+var app = angular.module("app", ["ngRoute", "angular-jwt"]);
 app.constant("apiUrl", 'https://localhost:5001');
+app.directive("headerPage", function () {
+  return {
+    restrict: 'E',
+    templateUrl: '../directives/header-page.html',
+    controller: "wishListController"
+}
+})
 app.config(function ($routeProvider, $locationProvider){
     $locationProvider.hashPrefix(""); 
   $routeProvider

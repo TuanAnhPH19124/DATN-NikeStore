@@ -16,6 +16,10 @@ namespace Persistence.Configurations
             builder.HasMany(p => p.Orders)
                 .WithOne(p => p.AppUser)
                 .HasForeignKey(p => p.UserId);
+
+            builder.HasMany(x => x.ShoppingCarts)
+                .WithOne(x => x.AppUser)
+                .HasForeignKey(x => x.AppUserId);
         }
     }
 }

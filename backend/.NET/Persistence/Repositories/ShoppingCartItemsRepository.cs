@@ -10,17 +10,29 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-    internal sealed class ShoppingCartsRepository : IShoppingCartsRepository
+    internal sealed class ShoppingCartItemsRepository : IShoppingCartItemRepository
     {
         private AppDbContext _dbcontext;
-        public ShoppingCartsRepository(AppDbContext dbcontext)
+        public ShoppingCartItemsRepository(AppDbContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
         public async void AddCartItemAsync(ShoppingCartItems item)
         {
-            _dbcontext.ShoppingCartItems.Add(item);
-            await _dbcontext.SaveChangesAsync();
+            using (var transaction = await _dbcontext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await _dbcontext.ShoppingCartItems.AddAsync(item);
+                    await transaction.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+            
         }
 
         public async void DeleteCartItemAsync(string productId)
@@ -35,10 +47,7 @@ namespace Persistence.Repositories
 
         public async Task<ShoppingCarts> GetByUserIdAsync(string userId)
         {
-            return await _dbcontext.ShoppingCarts
-             .Include(cart => cart.Items)
-             .ThenInclude(item => item.Product)
-             .FirstOrDefaultAsync(cart => cart.AppUserId == userId);
+            return await _dbcontext.ShoppingCarts.Include(p=>p.ShoppingCartItems).FirstOrDefaultAsync(cart => cart.AppUserId == userId);
         }
 
         public async void UpdateCartItemAsync(ShoppingCartItems item)

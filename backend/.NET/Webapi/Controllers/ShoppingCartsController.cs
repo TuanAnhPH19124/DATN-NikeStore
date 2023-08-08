@@ -1,7 +1,10 @@
 ﻿using Domain.Entities;
+using EntitiesDto;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstractions;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Webapi.Controllers
@@ -21,59 +24,50 @@ namespace Webapi.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<ShoppingCarts>> GetShoppingCartByUserId(string userId)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
+            var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(userId);
 
             if (shoppingCart == null)
             {
                 return NotFound();
             }
 
-            return shoppingCart;
+            return Ok(shoppingCart);
         }
-        [HttpPost("{userId}/items")]
-        public async Task<IActionResult> AddCartItem(string userId, ShoppingCartItems item)
+        [HttpPost]
+        public async Task<IActionResult> AddCartItem([FromBody]Dto.ShopppingCartPostDto item)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
-
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-
-            item.ShoppingCartsId = shoppingCart.Id;
-
-            await _serviceManager.ShoppingCartsService.AddCartItemAsync(item);
-
+            var newCart = item.Adapt<ShoppingCarts>();
+            await _serviceManager.ShoppingCartService.AddAsync(newCart);
+            var newCartItem = item.ShoppingCartItemsDto.Adapt<ShoppingCartItems>();
+            newCartItem.ShoppingCartId = newCart.Id;
+            await _serviceManager.ShoppingCartItemsService.AddCartItemAsync(newCartItem);
             return Ok();
         }
-        [HttpPut("{userId}/items/{itemId}")]
-        public async Task<IActionResult> UpdateCartItem(string userId, string productId, ShoppingCartItems item)
+        [HttpPut("{UserId}")]
+        public async Task<IActionResult> UpdateCartItem(string UserId, ShoppingCartItems item)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
+            var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(UserId);
 
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
+            // if (shoppingCart == null)
+            // {
+            //     return NotFound();
+            // }
 
-            item.ShoppingCartsId = shoppingCart.Id;
-            item.ProductsId = productId;
-
-            await _serviceManager.ShoppingCartsService.UpdateCartItemAsync(item);
+            await _serviceManager.ShoppingCartItemsService.UpdateCartItemAsync(item);
 
             return Ok();
         }
         [HttpDelete("{userId}/items/{productId}")]
         public async Task<IActionResult> DeleteCartItem(string userId, string productId)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
+            var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(userId);
 
             if (shoppingCart == null)
             {
                 return NotFound();
             }
 
-            await _serviceManager.ShoppingCartsService.DeleteCartItemAsync(productId);
+            await _serviceManager.ShoppingCartItemsService.DeleteCartItemAsync(productId);
 
             return Ok();
         }

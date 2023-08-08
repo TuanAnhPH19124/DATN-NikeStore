@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public interface IShoppingCartsRepository
+    public interface IShoppingCartItemRepository
     {
         Task<ShoppingCarts> GetByUserIdAsync(string userId);
         void AddCartItemAsync(ShoppingCartItems item);
