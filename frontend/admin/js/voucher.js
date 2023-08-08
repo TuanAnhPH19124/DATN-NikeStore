@@ -29,7 +29,7 @@ $(document).ready(function () {
                     var month2 = dateObj2.getUTCMonth() + 1;
                     var year2 = dateObj2.getUTCFullYear();
                     var formattedDate2 = `${day2}/${month2}/${year2}`;
-                    return formattedDate + '-' + formattedDate2;
+                    return `<span class="badge badge-pill badge-success" style="padding:10px;">${formattedDate + '-' + formattedDate2}</span>`;
                 }
             },
             {
@@ -47,22 +47,25 @@ $(document).ready(function () {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == true) {
-                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger">Đã hủy</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
                     }
                 }
             },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-danger" id="btn" onclick="myFunction()">Hủy kích hoạt</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          }
     });
     setInterval(function () {
-        customerTable.ajax.reload();
+        voucherTable.ajax.reload();
     }, 2500);
     // call api them nhan vien
     $('#add-voucher-form').submit(function (event) {

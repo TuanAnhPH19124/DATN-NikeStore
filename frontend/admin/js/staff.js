@@ -30,19 +30,22 @@ $(document).ready(function () {
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == true) {
-                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger">Ngừng kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kích hoạt</span>';
                     }
                 }
             },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          }
     });
     setInterval(function () {
         staffTable.ajax.reload();
