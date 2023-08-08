@@ -10,8 +10,9 @@ namespace Service.Abstractions
     public interface IStockService
     {
         Task<IEnumerable<Stock>> GetAllStocksAsync();
-        Task<Stock> GetStockByIdAsync(string productId, string colorId, string sizeId);
+        Task<Stock> GetStockByIdAsync(string productId);
         Task AddStockAsync(Stock stock);
         Task UpdateStockRangeAsync(List<Stock> stocks);
+        Task DeleteStockAsync(string productId);
     }
 }

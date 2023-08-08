@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
@@ -21,9 +22,9 @@ namespace Persistence.Repositories
             return await _context.Stocks.ToListAsync();
         }
 
-        public async Task<Stock> SelectById(string productId, string colorId, string sizeId)
+        public async Task<Stock> SelectById(string productId)
         {
-            return await _context.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId && s.ColorId == colorId && s.SizeId == sizeId);
+            return await _context.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId);
         }
 
         public async Task AddAsync(Stock stock)
@@ -48,6 +49,18 @@ namespace Persistence.Repositories
                     throw;
                 }
             }
+        }
+
+        public async Task DeleteByProductIdAsync(string productId)
+        {
+
+            var stocksToDelete = await _context.Stocks.Where(stock => stock.ProductId == productId).ToListAsync();
+            if (stocksToDelete == null || stocksToDelete.Count == 0)
+            {
+                throw new Exception("Không tìm thấy sản phẩm");
+            }
+            _context.Stocks.RemoveRange(stocksToDelete);
+            await _context.SaveChangesAsync();
         }
 
         // Các phương thức khác tại đây...

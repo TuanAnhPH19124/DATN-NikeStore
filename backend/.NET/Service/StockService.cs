@@ -18,9 +18,9 @@ namespace Service
             return await _repositoryManger.StockRepository.GetAllAsync();
         }
 
-        public async Task<Stock> GetStockByIdAsync(string productId, string colorId, string sizeId)
+        public async Task<Stock> GetStockByIdAsync(string productId)
         {
-            return await _repositoryManger.StockRepository.SelectById(productId, colorId, sizeId);
+            return await _repositoryManger.StockRepository.SelectById(productId);
         }
 
         public async Task AddStockAsync(Stock stock)
@@ -31,6 +31,12 @@ namespace Service
         public async Task UpdateStockRangeAsync(List<Stock> stocks)
         {
             await _repositoryManger.StockRepository.UpdateRange(stocks);
+        }
+
+        public async Task DeleteStockAsync(string productId)
+        {
+            await _repositoryManger.StockRepository.DeleteByProductIdAsync(productId);
+            
         }
 
         // Các phương thức khác tại đây...
