@@ -25,6 +25,7 @@ namespace Persistence.Repositories
         private readonly Lazy<IColorRepository> _lazyColorRepository;
         private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
         private readonly Lazy<IProductRateRepository> _lazyProductRateRepository;
+        private readonly Lazy<ICategoryProductRepository> _lazyCategoryProductRepository;
 
 
 
@@ -47,6 +48,7 @@ namespace Persistence.Repositories
             _lazyColorRepository = new Lazy<IColorRepository>(() => new ColorRepository(context));
             _lazyProductRateRepository=new Lazy<IProductRateRepository>(() => new ProductRateRepository(context));
             _lazyUnitOfWork=new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
+            _lazyCategoryProductRepository=new Lazy<ICategoryProductRepository>(() => new CategoryProductRepository(context));
 
         }
 
@@ -80,5 +82,7 @@ namespace Persistence.Repositories
 
         public IColorRepository ColorRepository => _lazyColorRepository.Value;
         public IProductRateRepository ProductRateRepository => _lazyProductRateRepository.Value;
+
+        public ICategoryProductRepository CategoryProductRepository => _lazyCategoryProductRepository.Value;
     }
 }

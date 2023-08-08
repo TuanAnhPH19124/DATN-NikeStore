@@ -13,6 +13,7 @@ namespace EntitiesDto.Product
             public string Id { get; set; }
             public string Name { get; set; }
             public double RetailPrice { get; set; }
+            public double CostPrice { get; set; }
             public string Description { get; set; }
             public Brands Brand { get; set; }
             public int DiscountRate { get; set; } = 1;

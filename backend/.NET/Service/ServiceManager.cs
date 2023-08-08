@@ -1,4 +1,5 @@
 ﻿using Domain.Repositories;
+using Microsoft.AspNetCore.Hosting;
 using Nest;
 using Service.Abstractions;
 using System;
@@ -20,6 +21,10 @@ namespace Service
         private readonly Lazy<ISizeService> _lazySizeService;
         private readonly Lazy<IColorService> _lazyColorService;
         private readonly Lazy<IProductRateService> _lazyProductRateService;
+        private readonly Lazy<ICategoryProductService> _lazyCategoryProductService;
+        private readonly Lazy<IStockService> _lazyStockService;
+   
+       
 
 
         public ServiceManager(IRepositoryManger repositoryManger)
@@ -37,6 +42,10 @@ namespace Service
             _lazySizeService = new Lazy<ISizeService>(() => new SizeService(repositoryManger));
             _lazyColorService = new Lazy<IColorService>(() => new ColorService(repositoryManger));
             _lazyProductRateService = new Lazy<IProductRateService>(() => new ProductRateService(repositoryManger));
+            _lazyCategoryProductService=new Lazy<ICategoryProductService>(() => new CategoryProductService(repositoryManger));
+            _lazyStockService = new Lazy<IStockService>(() => new StockService(repositoryManger));
+         
+         
         }
 
         public IAppUserService AppUserService => _lazyAppUserService.Value;
@@ -61,6 +70,12 @@ namespace Service
         public IColorService ColorService => _lazyColorService.Value;
 
         public IProductRateService ProductRateService => _lazyProductRateService.Value;
+
+        public ICategoryProductService CategoryProductService => _lazyCategoryProductService.Value;
+
+        public IStockService StockService => _lazyStockService.Value;
+
+     
     }
     
 }

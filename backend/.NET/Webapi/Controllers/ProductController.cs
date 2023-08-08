@@ -18,14 +18,10 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        private readonly IRepositoryManger _repositoryManger;
-        private readonly AppDbContext _context;
-
         public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
         {
             _serviceManager = serviceManager;
-            _repositoryManger = repositoryManger;
-            _context = context;
+
         }
 
         [HttpGet]
@@ -74,6 +70,7 @@ namespace Webapi.Controllers
                 {
                     Name = productDto.Name,
                     RetailPrice = productDto.RetailPrice,
+                    CostPrice = productDto.CostPrice,
                     Description = productDto.Description,
                     Brand = productDto.Brand,
                     DiscountRate = productDto.DiscountRate,
@@ -129,3 +126,4 @@ namespace Webapi.Controllers
         }
     }
 }
+

@@ -48,6 +48,7 @@ $.getJSON("https://localhost:44328/api/Size/Get", function (result) {
 });
 
 $(document).ready(function () {
+  // hien thi product
   $.ajax({
     url: "https://localhost:44328/api/Product/" + id,
     type: "GET",
@@ -57,12 +58,43 @@ $(document).ready(function () {
       $('#name').val(data.name);
       $('#description').val(data.description);
       $('#retailPrice').val(data.retailPrice);
+      $('#costPrice').val(data.costPrice);
       $('#status').val(data.status);
     },
     error: function () {
       console.log("Error retrieving data.");
     }
   });
+  // lay id cate
+  $.ajax({
+    url: "https://localhost:44328/api/CategoryProduct/" + id,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log(JSON.stringify(data[0].categoryId));
+      $('#category-select').val(data[0].categoryId);
+    },
+    error: function () {
+      console.log("Error retrieving data.");
+    }
+  });
+      // lay id color size và so luong
+      $.ajax({
+        url: "https://localhost:44328/api/Stock/" + id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          console.log(JSON.stringify(data));
+        $('#unitInStock').val(data.unitInStock);
+        $('#color-select').val(data.colorId);
+        $('#size-select').val(data.sizeId);
+        },
+        error: function () {
+          console.log("Error retrieving data.");
+        }
+      });
+
+// submit
   $('#update-product-form').submit(function (event) {
     event.preventDefault()
     var formData = {
@@ -72,7 +104,10 @@ $(document).ready(function () {
       retailPrice: $("#retailPrice").val(),
       colorId: $("#color-select").val(),
       sizeId: $("#size-select").val(),
+      status: Number($("#status").val()),
+
     };
+    //api update product
     $.ajax({
       url: "https://localhost:44328/api/Product/" + id,
       type: "PUT",
@@ -83,5 +118,57 @@ $(document).ready(function () {
 
       },
     });
+    // api delete categoryProduct
+    $.ajax({
+      url: "https://localhost:44328/api/CategoryProduct/" + id,
+      type: "DELETE",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (e) {
+
+      },
+    });
+    //api add categoryProduct
+    var categoryformData = {
+      productId: id,
+      categoryId: $("#category-select").val(),
+    };
+    $.ajax({
+      url: "https://localhost:44328/api/CategoryProduct",
+      type: "POST",
+      data: JSON.stringify(categoryformData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (e) {
+
+      },
+    });
+        // api delete Stock
+        $.ajax({
+          url: "https://localhost:44328/api/Stock/" + id,
+          type: "DELETE",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (e) {
+    
+          },
+        });
+        //api add Stock
+        var stockformData = {
+          productId: id,
+          colorId: $("#color-select").val(),
+          sizeId: $("#size-select").val(),
+          unitInStock: Number($("#unitInStock").val()),
+        };
+        $.ajax({
+          url: "https://localhost:44328/api/Stock",
+          type: "POST",
+          data: JSON.stringify(stockformData),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (response) {
+
+          },
+        });
   });
 });

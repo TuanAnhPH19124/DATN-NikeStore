@@ -12,16 +12,16 @@ namespace Domain.Entities
     [Table("Products")]
     public class Product : BaseEntity
     {
-        [JsonIgnore]
+    
         public string BarCode { get; set; }
-        [JsonIgnore]
+   
         public double CostPrice { get; set; } 
         public double RetailPrice { get; set; }
         public string Description { get; set; }
-        public Brands Brand { get; set; } = Brands.Nike;    
-        public Status Status { get; set; }
+        public Status Status { get; set; } = Status.Active;
+        public Brands Brand { get; set; } = Brands.Nike;
         public int DiscountRate { get; set; } = 1;
-        public virtual List<Category> Categories { get; set; }
+        public virtual List<Category> Categories { get; set; } 
         public virtual List<Tag> Tags { get; set; } 
         public virtual List<Stock> Stocks { get; set; } 
         public virtual List<ProductImage> ProductImages { get; set; } 

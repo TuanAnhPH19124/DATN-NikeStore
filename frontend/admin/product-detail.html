@@ -41,9 +41,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
+                <img src="/frontend/admin/image/nike-48.png" alt="">
                 <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
             </a>
 
@@ -331,7 +329,7 @@
                 <div class="container-fluid">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title">Thông tin sản phẩm</h2>
+                            <h2 class="modal-title" style="margin: auto;">Thông tin sản phẩm</h2>
                         </div>
                         <div class="modal-body">
                             <form id="update-product-form">
@@ -348,15 +346,15 @@
                                 <div class="row">
                                     <div class="col">
                                         <label>Giá nhập</label>
-                                        <input type="number" class="form-control">
+                                        <input type="text" class="form-control" id="costPrice" name="costPrice">
                                     </div>
                                     <div class="col">
                                         <label>Giá bán</label>
-                                        <input type="number" class="form-control" id="retailPrice" name="retailPrice">
+                                        <input type="text" class="form-control" id="retailPrice" name="retailPrice">
                                     </div>
                                     <div class="col">
                                         <label>Số lượng</label>
-                                        <input type="number" class="form-control" id="unitInStock" name="unitInStock">
+                                        <input type="text" class="form-control" id="unitInStock" name="unitInStock">
                                     </div>
                                 </div> <br>
                                 <div class="combo-box">
@@ -367,8 +365,8 @@
                                                 <select class="form-control" placeholder="Trạng thái" id="status"
                                                     name="status">
                                                     <option>Trạng thái</option>
-                                                    <option value="1">Còn hàng</option>
-                                                    <option value="0">Hết hàng</option>
+                                                    <option value="1">Kinh doanh</option>
+                                                    <option value="0">Ngừng kinh doanh</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -501,9 +499,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-content">
+                <!-- <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title">Kích cỡ và số lượng</h2>
+                        <h2 class="modal-title" style="margin: auto;">Kích cỡ và số lượng</h2>
                     </div>
                     <div class="modal-body">
                         <div class="size-amount">
@@ -634,7 +632,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <!-- /.container-fluid -->
 
