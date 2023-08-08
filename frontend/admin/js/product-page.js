@@ -15,7 +15,10 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'productImages', 'title': 'Ảnh' },
+            { "data": 'id', 'title': 'Ảnh',
+            "render": function (data, type, row) {
+                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/7b7429a0-423c-4d4f-8ef7-b586b15e2b01/902812a7-85e4-4f58-b496-37c91358e7f6.jpg" alt="">`;
+            }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
             { "data": 'costPrice', 'title': 'Giá nhập' },
             { "data": 'retailPrice', 'title': 'Giá bán' },

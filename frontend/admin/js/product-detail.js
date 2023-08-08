@@ -115,6 +115,7 @@ $(document).ready(function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (e) {
+        $('.toast').toast('show')
 
       },
     });
@@ -167,8 +168,24 @@ $(document).ready(function () {
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function (response) {
-
           },
         });
+        // upload anh
+        var fileInput = document.getElementById('image');
+        var formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+          $.ajax({  
+            url: 'https://localhost:44328/api/ProductImg/'+id, 
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response){
+              console.log('Image uploaded successfully!');
+            },
+            error: function(xhr, status, error){
+              console.error(error);
+            }
+          });
   });
 });
