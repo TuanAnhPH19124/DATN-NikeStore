@@ -60,6 +60,7 @@ $(document).ready(function () {
       $('#retailPrice').val(data.retailPrice);
       $('#costPrice').val(data.costPrice);
       $('#status').val(data.status);
+      $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
     },
     error: function () {
       console.log("Error retrieving data.");
