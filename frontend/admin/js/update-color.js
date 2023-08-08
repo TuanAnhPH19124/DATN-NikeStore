@@ -27,7 +27,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                $('.toast').toast('show')
+                window.location.href = "/frontend/admin/color.html";
             },
         });
     });

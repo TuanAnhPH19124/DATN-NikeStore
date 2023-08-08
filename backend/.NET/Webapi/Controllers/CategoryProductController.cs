@@ -63,8 +63,6 @@ namespace Webapi.Controllers
             }
         }
 
-
-
         [HttpPost]
             public async Task<ActionResult> CreateCategoryProduct([FromBody] CategoryProductDto categoryProductDto)
             {

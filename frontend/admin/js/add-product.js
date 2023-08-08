@@ -52,20 +52,11 @@ $(document).ready(function () {
     var formData = {
       "name": $("#name").val(),
       "retailPrice": $("#retailPrice").val(),
+      "costPrice": $("#costPrice").val(),
       "description": $("#description").val(),
       "brand": 0,
       "status": Number($("#status").val()),
-      "discountRate": 324,
-      "stocks": [
-        {
-          "unitInStock": $("#unitInStock").val(),
-          "colorId": $("#color-select").val(),
-          "sizeId": $("#size-select").val()
-        }
-      ],
-      "categoryIds": [
-        $("#category-select").val()
-      ]
+      "discountRate": 0,
     };
 
     $.ajax({
@@ -74,8 +65,7 @@ $(document).ready(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        window.location.href = "/frontend/admin/product-detail.html";
-        $('.toast').toast('show')
+        window.location.href = "/frontend/admin/product-page.html";
       },
     });
   });

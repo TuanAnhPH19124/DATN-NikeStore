@@ -24,7 +24,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         sizeTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     $('#add-category-form').submit(function (event) {
         event.preventDefault()
         var formData = {
