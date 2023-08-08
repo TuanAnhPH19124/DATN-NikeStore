@@ -13,5 +13,6 @@ namespace Service.Abstractions
         Task<Stock> GetStockByIdAsync(string productId, string colorId, string sizeId);
         Task AddStockAsync(Stock stock);
         Task UpdateStockRangeAsync(List<Stock> stocks);
+        Task DeleteStockAsync(string productId);
     }
 }

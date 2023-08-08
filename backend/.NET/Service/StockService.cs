@@ -33,6 +33,12 @@ namespace Service
             await _repositoryManger.StockRepository.UpdateRange(stocks);
         }
 
+        public async Task DeleteStockAsync(string productId)
+        {
+            await _repositoryManger.StockRepository.DeleteByProductIdAsync(productId);
+            
+        }
+
         // Các phương thức khác tại đây...
     }
 }

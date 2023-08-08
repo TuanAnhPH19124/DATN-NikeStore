@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
@@ -48,6 +49,18 @@ namespace Persistence.Repositories
                     throw;
                 }
             }
+        }
+
+        public async Task DeleteByProductIdAsync(string productId)
+        {
+
+            var stocksToDelete = await _context.Stocks.Where(stock => stock.ProductId == productId).ToListAsync();
+            if (stocksToDelete == null || stocksToDelete.Count == 0)
+            {
+                throw new Exception("Không tìm thấy sản phẩm");
+            }
+            _context.Stocks.RemoveRange(stocksToDelete);
+            await _context.SaveChangesAsync();
         }
 
         // Các phương thức khác tại đây...

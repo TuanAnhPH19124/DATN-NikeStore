@@ -26,6 +26,8 @@ namespace Service.Abstractions
         ICategoryProductService CategoryProductService { get; }
 
         IStockService StockService { get; }
+     
+     
 
     }
 }

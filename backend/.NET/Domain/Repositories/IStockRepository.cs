@@ -12,5 +12,6 @@ namespace Domain.Repositories
         Task<Stock> SelectById(string productId, string colorId, string sizeId);
         Task<IEnumerable<Stock>> GetAllAsync();
         Task AddAsync(Stock stock);
+        Task DeleteByProductIdAsync(string productId);
     }
 }
