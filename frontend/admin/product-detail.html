@@ -332,7 +332,7 @@
                             <h2 class="modal-title" style="margin: auto;">Thông tin sản phẩm</h2>
                         </div>
                         <div class="modal-body">
-                            <form id="update-product-form">
+                            <form id="update-product-form" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col">
                                         <label>Tên sản phẩm</label>
@@ -364,7 +364,6 @@
                                             <div class="form-group">
                                                 <select class="form-control" placeholder="Trạng thái" id="status"
                                                     name="status">
-                                                    <option>Trạng thái</option>
                                                     <option value="1">Kinh doanh</option>
                                                     <option value="0">Ngừng kinh doanh</option>
                                                 </select>
@@ -395,14 +394,30 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <p style="max-width: 100%;margin: auto;"><img id="output"
+                                        <p style="max-width: 100%;margin: auto;"><img id="output"
                                             style="width: 200px; height: 200px; border: 0.5px solid white;" /></p>
                                     <div class="btn btn-primary" style="margin: auto;height: 38.6px;">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        <input type="file" class="custom-file-input" id="image"
                                             accept="image/*" onchange="loadFile(event)" multiple style="width: 0px;">
-                                        <label for="inputGroupFile01" style="margin: auto;">Thêm ảnh</label>
+                                        <label for="image" style="margin: auto;">Thay đổi ảnh</label>
                                     </div>
                                     <button type="submit" class="btn btn-danger">Cập nhật</button>
+                                    <!-- thông báo -->
+                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                        style="position: fixed;
+                bottom: 1rem;
+                right: 1rem;
+                z-index: 1050;">
+                        <div class="toast-header">
+                            <strong class="mr-auto">Thành công</strong>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                            Cập nhật thành công
+                        </div>
+                    </div>
                                 </div>
                         </div>
                         </form>
