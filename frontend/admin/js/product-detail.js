@@ -88,6 +88,8 @@ $(document).ready(function () {
       retailPrice: $("#retailPrice").val(),
       colorId: $("#color-select").val(),
       sizeId: $("#size-select").val(),
+      status: Number($("#status").val()),
+
     };
     //api update product
     $.ajax({

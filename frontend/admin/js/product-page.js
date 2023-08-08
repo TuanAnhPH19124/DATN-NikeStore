@@ -25,7 +25,7 @@ $(document).ready(function () {
                     if (data == 1) {
                         return '<span class="badge badge-pill badge-primary">Kinh doanh</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger">Không kinh doanh</span>';
+                        return '<span class="badge badge-pill badge-danger">Ngừng kinh doanh</span>';
                     }
                 }
             },
