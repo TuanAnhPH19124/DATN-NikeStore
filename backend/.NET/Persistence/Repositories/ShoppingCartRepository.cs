@@ -18,6 +18,16 @@ namespace Persistence.Repositories
             _dbContext=dbContext;
         }
 
+        public async Task<string> GetShoppingCartIdByUserIdAsync(string userId)
+        {
+            var shoppingCart = await _dbContext.ShoppingCarts.FirstOrDefaultAsync(cart => cart.AppUserId == userId);
+            if (shoppingCart == null)
+            {
+                return null;
+            }
+            return shoppingCart.Id;
+        }
+
         public async Task<bool> CheckUserCart(string userId)
         {
             var cart = await _dbContext.ShoppingCarts.FirstOrDefaultAsync(p=>p.AppUserId == userId);

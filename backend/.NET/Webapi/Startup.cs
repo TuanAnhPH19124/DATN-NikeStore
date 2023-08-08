@@ -92,7 +92,7 @@ namespace Webapi
             app.UseCors();
 
             //DatabaseMigration.StartMigration(app);
-            //SeedingDatabase.Start(app).Wait();
+            SeedingDatabase.Start(app).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

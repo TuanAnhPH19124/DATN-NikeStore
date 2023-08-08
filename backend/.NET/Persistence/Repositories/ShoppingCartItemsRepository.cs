@@ -35,13 +35,18 @@ namespace Persistence.Repositories
             
         }
 
-        public async void DeleteCartItemAsync(string productId)
+        public async Task RemoveProductFromCartItemAsync(string cartItemId, string productId)
         {
-            var item = await _dbcontext.ShoppingCartItems.FindAsync(productId);
-            if (item != null)
+            var cartItem = await _dbcontext.ShoppingCartItems.FirstOrDefaultAsync(p => p.ShoppingCartId == cartItemId && p.ProductId == productId);
+
+            if (cartItem != null)
             {
-                _dbcontext.ShoppingCartItems.Remove(item);
+                _dbcontext.ShoppingCartItems.Remove(cartItem);
                 await _dbcontext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
@@ -50,10 +55,22 @@ namespace Persistence.Repositories
             return await _dbcontext.ShoppingCarts.Include(p=>p.ShoppingCartItems).FirstOrDefaultAsync(cart => cart.AppUserId == userId);
         }
 
-        public async void UpdateCartItemAsync(ShoppingCartItems item)
+        public async Task<ShoppingCartItems> GetByIdCartItemAsync(string Id)
         {
+            return await _dbcontext.ShoppingCartItems.FindAsync(Id);
+        }
+        public async Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems)
+        {
+            var item = await _dbcontext.ShoppingCartItems.FindAsync(Id);
+            item = shoppingCartItems;
             _dbcontext.ShoppingCartItems.Update(item);
             await _dbcontext.SaveChangesAsync();
+        }
+
+        public async Task<ShoppingCartItems> CheckProductAsync(string productId, string ShoppingCartId)
+        {
+            var check = _dbcontext.ShoppingCartItems.FirstOrDefault(p => p.ProductId == productId && p.ShoppingCartId == ShoppingCartId);
+            return check;
         }
     }
 
