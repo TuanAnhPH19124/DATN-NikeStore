@@ -81,38 +81,24 @@ namespace Webapi.Controllers
                 }
             }
 
-            [HttpPut("{productId}/{colorId}/{sizeId}")]
-            public async Task<ActionResult> UpdateStock(string productId, string colorId, string sizeId, [FromBody] StockDto stockDto)
+        [HttpDelete("{productId}")]
+        public async Task<ActionResult> DeleteStockByProductId(string productId)
+        {
+            try
             {
-                try
-                {
-                    if (!ModelState.IsValid)
-                    {
-                        return BadRequest(ModelState);
-                    }
-
-                    var existingStock = await _serviceManager.StockService.GetStockByIdAsync(productId, colorId, sizeId);
-
-                    if (existingStock == null)
-                    {
-                        return NotFound();
-                    }
-
-                    existingStock.UnitInStock = stockDto.UnitInStock;
-
-                    await _serviceManager.StockService.UpdateStockRangeAsync(new List<Stock> { existingStock });
-
-                    return NoContent();
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
-                }
+                await _serviceManager.StockService.DeleteStockAsync(productId);
+                return NoContent();
             }
-
-            // Các phương thức khác tại đây...
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
+
+        // Các phương thức khác tại đây...
     }
+}
     
 
 

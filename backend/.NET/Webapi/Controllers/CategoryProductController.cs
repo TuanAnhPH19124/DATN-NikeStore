@@ -39,7 +39,6 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
         [HttpGet("{productId}")]
         public async Task<ActionResult<CategoryProductDto>> GetCategoryProduct(string productId)
         {
@@ -63,7 +62,6 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
 
         [HttpPost]
             public async Task<ActionResult> CreateCategoryProduct([FromBody] CategoryProductDto categoryProductDto)
@@ -144,6 +142,7 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
     }
 }
     
