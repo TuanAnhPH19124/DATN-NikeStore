@@ -42,9 +42,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
+                <img src="/frontend/admin/image/nike-48.png" alt="">
                 <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
             </a>
 
@@ -349,15 +347,11 @@
                                 <div class="row">
                                     <div class="col">
                                         <label>Giá nhập</label>
-                                        <input type="number" class="form-control">
+                                        <input type="number" class="form-control" id="costPrice" name="costPrice">
                                     </div>
                                     <div class="col">
                                         <label>Giá bán</label>
                                         <input type="number" class="form-control" id="retailPrice" name="retailPrice">
-                                    </div>
-                                    <div class="col">
-                                        <label>Số lượng</label>
-                                        <input type="number" class="form-control" id="unitInStock" name="unitInStock">
                                     </div>
                                 </div> <br>
                                 <div class="combo-box">
@@ -368,12 +362,12 @@
                                                 <select class="form-control" placeholder="Trạng thái" id="status"
                                                     name="status">
                                                     <option>Trạng thái</option>
-                                                    <option value="1">Còn hàng</option>
-                                                    <option value="0">Hết hàng</option>
+                                                    <option value="1">Kinh doanh</option>
+                                                    <option value="0">Không kinh doanh</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <!-- <div class="col">
                                             <label>Danh mục</label>
                                             <div class="form-group">
                                                 <select class="form-control" placeholder="Danh mục"
@@ -394,7 +388,7 @@
                                                 <select class="form-control" placeholder="Kích cỡ" id="size-select">
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
