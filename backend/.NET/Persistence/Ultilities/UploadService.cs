@@ -15,8 +15,8 @@ namespace Persistence.Ultilities
             try
             {
                 var extension = Path.GetExtension(Image.FileName);
-                var fileName = Guid.NewGuid().ToString() + extension;
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", id);
+                var fileName = id + extension;
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images");
                 var filePath = Path.Combine(uploadPath, fileName);
                 if (Image.Length > 0)
                 {
