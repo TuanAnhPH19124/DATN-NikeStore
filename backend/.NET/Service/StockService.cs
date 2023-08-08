@@ -18,9 +18,9 @@ namespace Service
             return await _repositoryManger.StockRepository.GetAllAsync();
         }
 
-        public async Task<Stock> GetStockByIdAsync(string productId, string colorId, string sizeId)
+        public async Task<Stock> GetStockByIdAsync(string productId)
         {
-            return await _repositoryManger.StockRepository.SelectById(productId, colorId, sizeId);
+            return await _repositoryManger.StockRepository.SelectById(productId);
         }
 
         public async Task AddStockAsync(Stock stock)
