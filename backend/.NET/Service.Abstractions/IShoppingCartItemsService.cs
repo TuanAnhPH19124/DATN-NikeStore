@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Service.Abstractions
 {
-    public interface IShoppingCartsService
+    public interface IShoppingCartItemsService
     {
         Task<ShoppingCarts> GetByUserIdAsync(string userId);
         Task AddCartItemAsync(ShoppingCartItems item);

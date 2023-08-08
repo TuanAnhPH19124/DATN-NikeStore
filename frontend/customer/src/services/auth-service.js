@@ -1,5 +1,9 @@
 (function () {
     var authService = function ($http, apiUrl) {
+        var session  = {
+            login: false,
+            token: "",
+        }
         this.signIn = function (user) {
             let uri = apiUrl + '/api/Authentication/SignIn';
             return $http({
@@ -16,6 +20,18 @@
                 data: newUser
             });
         };
+        this.isLoggedIn = function () {
+            return session.login;
+        }
+        this.getToken = function () {
+            return session.token;
+        }
+        this.setLoggedIn = function (status) {
+            session.login = status;
+        }
+        this.setToken = function (token) {
+            session.token = token;
+        }
     }
     authService.$inject = ['$http', 'apiUrl'];
     angular.module("app").service("authService", authService);

@@ -19,11 +19,12 @@ namespace Domain.Repositories
         IOrderItemsRepository OrderItemsRepository { get; }
         IWishListsRepository WishListsRepository { get; }
         INewsRepository NewsRepository { get; }
-        IShoppingCartsRepository ShoppingCartsRepository { get; }
+        IShoppingCartItemRepository ShoppingCartItemRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IStockRepository StockRepository { get; }   
         ISizeRepository SizeRepository { get; }
         IColorRepository ColorRepository { get; }
         IProductRateRepository ProductRateRepository { get; }
+        IShoppingCartRepository ShoppingCartRepository { get; }
   }
 }

@@ -18,11 +18,11 @@ namespace Service.Abstractions
         IOrderItemService OrderItemService { get; }
         INewsService NewsService { get; }
         IWishListsService WishListsService { get; }
-        IShoppingCartsService ShoppingCartsService { get; }
+        IShoppingCartItemsService ShoppingCartItemsService { get; }
         IEmployeeService employeeService { get; }
         ISizeService SizeService { get; }
         IColorService ColorService { get; }
         IProductRateService ProductRateService { get; }
-
+        IShoppingCartService ShoppingCartService { get; }
     }
 }

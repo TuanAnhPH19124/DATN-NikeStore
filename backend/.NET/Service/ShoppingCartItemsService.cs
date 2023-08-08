@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -9,34 +10,34 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class ShoppingCartsService : IShoppingCartsService
+    internal sealed class ShoppingCartItemsService : IShoppingCartItemsService
     {
         private IRepositoryManger _repositoryManager;
-        public ShoppingCartsService(IRepositoryManger repositoryManager)
+        public ShoppingCartItemsService(IRepositoryManger repositoryManager)
         {
             _repositoryManager = repositoryManager;   
         }
         public async Task AddCartItemAsync(ShoppingCartItems item)
         {
-            _repositoryManager.ShoppingCartsRepository.AddCartItemAsync(item);
+            _repositoryManager.ShoppingCartItemRepository.AddCartItemAsync(item);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
             
         }
 
         public async Task DeleteCartItemAsync(string productId)
         {
-            _repositoryManager.ShoppingCartsRepository.DeleteCartItemAsync(productId);
+            _repositoryManager.ShoppingCartItemRepository.DeleteCartItemAsync(productId);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
 
         public async Task<ShoppingCarts> GetByUserIdAsync(string userId)
         {
-            return await _repositoryManager.ShoppingCartsRepository.GetByUserIdAsync(userId);
+            return await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
         }
 
         public async Task UpdateCartItemAsync(ShoppingCartItems item)
         {
-            _repositoryManager.ShoppingCartsRepository.UpdateCartItemAsync(item);
+            _repositoryManager.ShoppingCartItemRepository.UpdateCartItemAsync(item);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
     }

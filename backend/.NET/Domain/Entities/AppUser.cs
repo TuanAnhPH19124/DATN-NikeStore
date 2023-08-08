@@ -18,9 +18,9 @@ namespace Domain.Entities
         public decimal LoyaltyPoint { get; set; } = 0;
         public int MemberDiscount { get; set; } = 0;
         public string AvatarUrl { get; set; }
-
+       
         public virtual List<Order> Orders { get; set; }
-        public ShoppingCarts ShoppingCarts { get; set; }
-        public ICollection<ProductRate> ProductRate { get; set; }
+        public virtual IEnumerable<ShoppingCarts> ShoppingCarts { get; set; }
+        public virtual ICollection<ProductRate> ProductRate { get; set; }
     }
 }
