@@ -42,9 +42,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
+                <img src="/frontend/admin/image/nike-48.png" alt="">
                 <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
             </a>
 
@@ -334,12 +332,28 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Danh mục</h1>
                     <label for="exampleInputEmail1">Tên danh mục</label>
-                    <form>
+                    <form id="add-category-form">
                         <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="">
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp"
+                                placeholder="">
                         </div>
                         <button type="submit" class="btn btn-primary">Thêm danh mục</button>
+                        <!-- thông báo -->
+                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                            style="position: fixed;
+                                        bottom: 1rem;
+                                        right: 1rem;
+                                        z-index: 1050;">
+                            <div class="toast-header">
+                                <strong class="mr-auto">Thành công</strong>
+                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="toast-body">
+                                Thêm thành công
+                            </div>
+                        </div>
                     </form>
 
                     <!-- Modal -->

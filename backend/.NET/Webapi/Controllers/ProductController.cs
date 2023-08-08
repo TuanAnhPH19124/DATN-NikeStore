@@ -18,38 +18,24 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        private readonly IRepositoryManger _repositoryManger;
-        private readonly AppDbContext _context;
-
-
         public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
         {
             _serviceManager = serviceManager;
-            _repositoryManger = repositoryManger;
-            _context = context;
+
         }
-        //public Product CloneProduct(Product source)
-        //{
-        //    return new Product
-        //    {
-        //        Name = source.Name,
-        //        RetailPrice = source.RetailPrice,
-        //        Description = source.Description,
-        //        Brand = source.Brand,
-        //        DiscountRate = source.DiscountRate,
-        //        Status = source.Status
-        //        // Copy other properties here
-        //    };
-        //}
-
-
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
         {
             try
             {
-                var products = await _serviceManager.ProductService.SelectProductOnCacheAsync();
+                var products = await _serviceManager.ProductService.GetAllProductAsync();
+
+                if (products == null || !products.Any())
+                {
+                    return NotFound();
+                }
+
                 return Ok(products);
             }
             catch (Exception ex)
@@ -57,8 +43,6 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
 
         [HttpGet("{Id}")]
         public async Task<ActionResult<Product>> GetProduct(string Id)
@@ -71,8 +55,9 @@ namespace Webapi.Controllers
             }
             return product;
         }
+
         [HttpPost]
-        public async Task<ActionResult<ProductDto>> CreateProduct([FromBody] ProductDto productDto)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDto productDto)
         {
             try
             {
@@ -85,6 +70,7 @@ namespace Webapi.Controllers
                 {
                     Name = productDto.Name,
                     RetailPrice = productDto.RetailPrice,
+                    CostPrice = productDto.CostPrice,
                     Description = productDto.Description,
                     Brand = productDto.Brand,
                     DiscountRate = productDto.DiscountRate,
@@ -95,18 +81,7 @@ namespace Webapi.Controllers
 
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
 
-                var createdProductDto = new ProductDto
-                {
-                    Name = createdProduct.Name,
-                    RetailPrice = createdProduct.RetailPrice,
-                    Description = createdProduct.Description,
-                    Brand = createdProduct.Brand,
-                    DiscountRate = createdProduct.DiscountRate,
-                    Status = createdProduct.Status
-                    // Không cần thêm thông tin liên quan đến Stock và Category
-                };
-
-                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProductDto);
+                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
             }
             catch (Exception ex)
             {
@@ -149,13 +124,6 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
-
-
-
-
-
     }
 }
 

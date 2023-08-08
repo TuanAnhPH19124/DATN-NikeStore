@@ -1,4 +1,5 @@
 ﻿using Domain.Repositories;
+using Microsoft.AspNetCore.Hosting;
 using Nest;
 using Service.Abstractions;
 using System;
@@ -20,8 +21,9 @@ namespace Service
         private readonly Lazy<ISizeService> _lazySizeService;
         private readonly Lazy<IColorService> _lazyColorService;
         private readonly Lazy<IProductRateService> _lazyProductRateService;
+        private readonly Lazy<ICategoryProductService> _lazyCategoryProductService;
+        private readonly Lazy<IStockService> _lazyStockService;
         private readonly Lazy<IShoppingCartService> _lazyShoppingCartService;
-
         public ServiceManager(IRepositoryManger repositoryManger)
         {
             _lazyAppUserService = new Lazy<IAppUserService>(() => new AppUserService(repositoryManger));
@@ -37,6 +39,10 @@ namespace Service
             _lazySizeService = new Lazy<ISizeService>(() => new SizeService(repositoryManger));
             _lazyColorService = new Lazy<IColorService>(() => new ColorService(repositoryManger));
             _lazyProductRateService = new Lazy<IProductRateService>(() => new ProductRateService(repositoryManger));
+            _lazyCategoryProductService=new Lazy<ICategoryProductService>(() => new CategoryProductService(repositoryManger));
+            _lazyStockService = new Lazy<IStockService>(() => new StockService(repositoryManger));
+         
+         
             _lazyShoppingCartService = new Lazy<IShoppingCartService>(() => new ShoppingCartService(repositoryManger));
         }
 
@@ -63,6 +69,10 @@ namespace Service
 
         public IProductRateService ProductRateService => _lazyProductRateService.Value;
 
+        public ICategoryProductService CategoryProductService => _lazyCategoryProductService.Value;
+
+        public IStockService StockService => _lazyStockService.Value;
+        
         public IShoppingCartService ShoppingCartService => _lazyShoppingCartService.Value;
     }
     

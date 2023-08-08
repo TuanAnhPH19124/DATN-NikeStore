@@ -10,9 +10,9 @@ namespace Domain.Repositories
 {
     public interface IVoucherRepository
     {
-        void AddVoucher(Voucher voucher);
-        void UpdateVoucher(Voucher voucher);
         Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default);
-        Task<Voucher> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<Voucher> GetByIdVoucherAsync(string id, CancellationToken cancellationToken = default);
+        Task AddVoucher(Voucher voucher);
+        Task UpdateVoucher(string id, Voucher voucher);
     }
 }

@@ -1,3 +1,8 @@
 .container{
     max-width: 35%;
 }
+.error {
+    color: red;
+    font-size: 1em;
+    width: 100%;
+ }

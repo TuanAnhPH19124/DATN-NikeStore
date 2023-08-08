@@ -23,6 +23,8 @@ namespace Service.Abstractions
         ISizeService SizeService { get; }
         IColorService ColorService { get; }
         IProductRateService ProductRateService { get; }
+        ICategoryProductService CategoryProductService { get; }
+        IStockService StockService { get; }
         IShoppingCartService ShoppingCartService { get; }
     }
 }
