@@ -23,6 +23,21 @@ $(document).ready(function () {
         ],
         rowCallback: function(row, data) {
             $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
           }
     });
     setInterval(function () {
