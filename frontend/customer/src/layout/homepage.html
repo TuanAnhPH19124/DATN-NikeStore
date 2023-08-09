@@ -26,15 +26,14 @@
 <header id="header">
     <div class="header-top">
         <div class="left">
-            <div class="Nike">                
-                <p style="text-decoration: none; color: rgb(119, 118, 118)">Chương trình khuyến mãi</p>
-            </div>
+          <div class="Nike">                
+            <p style="text-decoration: none; color: rgb(119, 118, 118)" id="promo-time"></p>          
+        </div>
         </div>
         <div class="right">
             <div class="login">
-                <a href="#2" style="text-decoration: none; color: rgb(119, 118, 118)"> Đăng nhập |</a>
-                <a href="#3" style="text-decoration: none; color: rgb(119, 118, 118)">| Đăng ký |</a>
-                <a href="#13" style="text-decoration: none; color: rgb(119, 118, 118)">| Kiểm tra đơn hàng</a>               
+                <a href="#2" style="text-decoration: none; color: rgb(119, 118, 118)"><i class="fa-solid fa-user"></i></a>
+                <a href="#13" style="text-decoration: none; color: rgb(119, 118, 118)"> | Kiểm tra đơn hàng</a>               
             </div>
         </div>        
     </div>
@@ -148,6 +147,26 @@
     <!-- Copyright -->
   </footer>
   <!-- Footer -->
+  <script>
+    function updatePromoTime() {
+        var currentTime = new Date();
+        var options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        var formattedTime = currentTime.toLocaleString('en-US', options);
+        
+        var promoTimeElement = document.getElementById("promo-time");
+        promoTimeElement.innerText = formattedTime;
+    }
+    updatePromoTime();
+
+    setInterval(updatePromoTime, 1000);
+</script>
 <script src="../assets/css/js/chatbox.js"></script>
 <script src="../assets/css/js/index.js"></script>
 <script src="../assets/css/js/product.js"></script>
