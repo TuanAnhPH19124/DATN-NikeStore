@@ -15,7 +15,6 @@ $(document).ready(function () {
             },
             { "data": 'numberSize', "title": "Kích cỡ size" },
             { "data": 'description', "title": "Mô tả" },
-            { "data": 'stocks', "title": "Tồn kho" },
             {
                 "render": function () {
                     return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
@@ -26,7 +25,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         sizeTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     // call api them nhan vien
     $('#add-size-form').submit(function (event) {
         event.preventDefault()

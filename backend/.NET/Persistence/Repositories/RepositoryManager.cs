@@ -19,13 +19,14 @@ namespace Persistence.Repositories
         private readonly Lazy<IOrderItemsRepository> _lazyOrderItemsRepository;
         private readonly Lazy<IStockRepository> _lazyStockRepository;
         private readonly Lazy<INewsRepository> _lazyNewsRepository;
-        private readonly Lazy<IShoppingCartsRepository> _lazyShoppingCartsRepository;
+        private readonly Lazy<IShoppingCartItemRepository> _lazyShoppingCartItemRepository;
         private readonly Lazy<IEmployeeRepository> _lazyEmployeeRepository;
         private readonly Lazy<ISizeRepository> _lazySizeRepository;
         private readonly Lazy<IColorRepository> _lazyColorRepository;
         private readonly Lazy<IUnitOfWork> _lazyUnitOfWork;
         private readonly Lazy<IProductRateRepository> _lazyProductRateRepository;
-
+        private readonly Lazy<ICategoryProductRepository> _lazyCategoryProductRepository;
+        private readonly Lazy<IShoppingCartRepository> _lazyShoppingCartRepository;
 
 
 
@@ -41,12 +42,14 @@ namespace Persistence.Repositories
             _lazyStockRepository = new Lazy<IStockRepository>(() => new StockRepository(context));
             _lazyWishListsRepository = new Lazy<IWishListsRepository>(() => new WishListsRepository(context));
             _lazyNewsRepository = new Lazy<INewsRepository>(() => new NewsRepository(context));
-            _lazyShoppingCartsRepository = new Lazy<IShoppingCartsRepository>(() => new ShoppingCartsRepository(context));
+            _lazyShoppingCartItemRepository = new Lazy<IShoppingCartItemRepository>(() => new ShoppingCartItemsRepository(context));
             _lazyEmployeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(context));
             _lazySizeRepository = new Lazy<ISizeRepository>(() => new SizeRepository(context));
             _lazyColorRepository = new Lazy<IColorRepository>(() => new ColorRepository(context));
             _lazyProductRateRepository=new Lazy<IProductRateRepository>(() => new ProductRateRepository(context));
-            _lazyUnitOfWork=new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
+            _lazyShoppingCartRepository = new Lazy<IShoppingCartRepository>(() => new ShoppingCartRepository(context));
+            _lazyUnitOfWork =new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
+            _lazyCategoryProductRepository=new Lazy<ICategoryProductRepository>(() => new CategoryProductRepository(context));
 
         }
 
@@ -70,7 +73,7 @@ namespace Persistence.Repositories
 
         public INewsRepository NewsRepository => _lazyNewsRepository.Value;
 
-        public IShoppingCartsRepository ShoppingCartsRepository => _lazyShoppingCartsRepository.Value;
+        public IShoppingCartItemRepository ShoppingCartItemRepository => _lazyShoppingCartItemRepository.Value;
 
         public IEmployeeRepository EmployeeRepository => _lazyEmployeeRepository.Value;
 
@@ -80,5 +83,9 @@ namespace Persistence.Repositories
 
         public IColorRepository ColorRepository => _lazyColorRepository.Value;
         public IProductRateRepository ProductRateRepository => _lazyProductRateRepository.Value;
+
+        public IShoppingCartRepository ShoppingCartRepository => _lazyShoppingCartRepository.Value;
+
+        public ICategoryProductRepository CategoryProductRepository => _lazyCategoryProductRepository.Value;
     }
 }

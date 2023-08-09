@@ -8,7 +8,7 @@ $(document).ready(function () {
         },
         "columns": [
             {
-                "data": 'employeeId', "title": "ID", render: function (data, type, row, meta) {
+                "data": 'employeeId', "title": "STT", render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
             },
@@ -46,7 +46,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         staffTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()

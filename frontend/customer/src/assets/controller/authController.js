@@ -1,11 +1,23 @@
 (function () {
-    var authController = function (e,l,authService){
+    var authController = function (e,l,authService,headerFactory,jwtHelper,wishListService){
+        e.loggedInStatus = false;
         e.signInE = function (user) {
             if (user !== null){
-                console.log(user);
                 authService.signIn(user)
                 .then(function (response){
-                    console.log(response);
+                    authService.setLoggedIn(!e.loggedInStatus);
+                    authService.setToken(response.data.token);
+                    // get wish list counter
+                    let tokenDecode = jwtHelper.decodeToken(response.data.token);
+                    wishListService.getWishLists(tokenDecode.Id)
+                    .then(function (response){
+                        headerFactory.setWishListCounter(response.data.length);
+                    })
+                    .catch(function (data){
+                        console.log(data);
+                    });
+                    // get cart counter
+                    
                     l.path('/');
                 })
                 .catch(function (data, status, header, configuration){
@@ -31,10 +43,11 @@
             }
         };
         function constructor(){
+            e.loggedInStatus = authService.isLoggedIn();
         };
         constructor();
     }
-    authController.$inject = ['$scope', '$location','authService'];
+    authController.$inject = ['$scope', '$location','authService', 'headerFactory', 'jwtHelper', 'wishListService'];
     angular.module("app").controller("authController", authController);
 
 }());

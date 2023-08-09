@@ -15,9 +15,26 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
+            { "data": 'id', 'title': 'Ảnh',
+            "render": function (data, type, row) {
+                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="">`;
+            }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
+            { "data": 'costPrice', 'title': 'Giá nhập' },
             { "data": 'retailPrice', 'title': 'Giá bán' },
             {
+                "data": 'status', "title": "Trạng thái",
+                "render": function (data, type, row) {
+                    if (data == 1) {
+                        return '<span class="badge badge-pill badge-primary">Kinh doanh</span>';
+                    } else {
+                        return '<span class="badge badge-pill badge-danger">Ngừng kinh doanh</span>';
+                    }
+                }
+            },
+            { "data": 'brand', 'title': 'Hãng' },
+            {
+                "title": "Thao tác",
                 "render": function () {
                     return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
                 }
@@ -56,3 +73,4 @@ $.getJSON("https://localhost:44328/api/Color/Get", function (result) {
     }
     $("#color-select").html(option_color.join(''));
 });
+
