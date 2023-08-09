@@ -22,10 +22,6 @@
   width: 140px;
   margin-right: 14px;
 }
-
-.modal-dialog{
-    max-width: 80%;
-}
 .switch {
   position: relative;
   display: inline-block;
@@ -185,12 +181,7 @@ input::-webkit-inner-spin-button {
   transform: translate(-50%, -50%);
   width: 65%;
 }
-.modal-dialog {
-    max-width: 80%;
-}
-.modal-title{
-    margin: auto;
-}
+
 .modal-body form{
     max-width: 70%;
     margin: auto;

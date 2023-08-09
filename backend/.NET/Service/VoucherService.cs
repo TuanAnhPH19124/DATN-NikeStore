@@ -21,45 +21,40 @@ namespace Service
         {
             _repositoryManger = repositoryManger;
         }
-
-        public async Task<Voucher> CreateAsync(Voucher voucher)
-        {
-            _repositoryManger.VoucherRepository.AddVoucher(voucher);
-
-            await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return voucher;
-
-           
-        }
-        
         public async Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default)
         {
-            List<Voucher> voucherList = await _repositoryManger.VoucherRepository.GetAllVoucherAsync(cancellationToken);
+            List<Voucher> voucherList = await _repositoryManger.VoucherRepository.GetAllVoucherAsync (cancellationToken);
             return voucherList;
         }
 
-        public async Task<Voucher> GetByIdVoucher(string id, CancellationToken cancellationToken = default)
-        {           
-            Voucher voucher = await _repositoryManger.VoucherRepository.GetByIdAsync(id, cancellationToken);
+        public async Task<Voucher> GetByIdVoucherAsync(string id, CancellationToken cancellationToken = default)
+        {
+            Voucher voucher = await _repositoryManger.VoucherRepository.GetByIdVoucherAsync(id, cancellationToken);
             return voucher;
         }
-
+        public async Task<Voucher> CreateAsync(Voucher voucher)
+        {
+            await _repositoryManger.VoucherRepository.AddVoucher(voucher);
+            // await _repositoryManger.UnitOfWork.SaveChangeAsync();
+            return voucher;
+        }
         public async Task<Voucher> UpdateByIdVoucher(string id, Voucher voucher, CancellationToken cancellationToken = default)
         {
-            var existingVoucher = await _repositoryManger.VoucherRepository.GetByIdAsync(id, cancellationToken);
+            var existingVoucher = await _repositoryManger.VoucherRepository.GetByIdVoucherAsync(id, cancellationToken);
             if (existingVoucher == null)
             {
-                throw new Exception("Voucher not found.");
+                throw new Exception("User not found.");
             }
             else
             {
                 existingVoucher.Code = voucher.Code;
-                existingVoucher.Value= voucher.Value;
-                existingVoucher.Description= voucher.Description;
-                existingVoucher.StartDate= voucher.StartDate;
-                existingVoucher.EndDate= voucher.EndDate;
-                existingVoucher.Status= voucher.Status;               
-                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                existingVoucher.Value = voucher.Value;
+                existingVoucher.Description = voucher.Description;
+                existingVoucher.StartDate = voucher.StartDate;
+                existingVoucher.EndDate = voucher.EndDate;
+                existingVoucher.Status = voucher.Status;
+                existingVoucher.CreatedDate= voucher.CreatedDate;
+                await _repositoryManger.VoucherRepository.UpdateVoucher(id, existingVoucher);
                 return existingVoucher;
             }
         }

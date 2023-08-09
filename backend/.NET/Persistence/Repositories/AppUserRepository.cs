@@ -105,7 +105,7 @@ namespace Persistence.Repositories
       
         public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
         {                    
-            var userList = await _appDbContext.Users.ToListAsync(cancellationToken);
+            var userList = await _appDbContext.AppUsers.ToListAsync(cancellationToken);
             return userList;
         }
 
@@ -115,15 +115,29 @@ namespace Persistence.Repositories
             return appUser;
         }
 
-        public async void AddAppUser(AppUser appUser)
-        {
-            _appDbContext.AppUsers.Add(appUser);
-        }
-
-        public async void UpdateAppUser(AppUser appUser)
+        public async Task UpdateAppUser(AppUser appUser)
         {
             _appDbContext.AppUsers.Update(appUser);
+            await _appDbContext.SaveChangesAsync();
         }
 
+        public async Task UpdateAppUserbyAdmin(AppUser appUser)
+        {
+            _appDbContext.AppUsers.Update(appUser);
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public void AddAppUser(AppUser appUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword)
+        {
+         
+                var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+                return result;
+            
+        }
     }
 }

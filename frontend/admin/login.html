@@ -22,6 +22,7 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
     <link href="/frontend/admin/css/login.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
 
@@ -45,35 +46,33 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" id="login-form">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="email" class="form-control form-control-user" id="email"
+                                                name="email" placeholder="Nhập Email...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" id="password"
+                                                name="password" placeholder="Nhập mật khẩu...">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Đăng
+                                            nhập</button>
+                                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                                            data-delay="2000" style="position: fixed;
+                                        bottom: 1rem;
+                                        right: 1rem;
+                                        z-index: 1050;">
+                                            <div class="toast-header">
+                                                <strong class="mr-auto">Đăng nhập thất bại</strong>
+                                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Email hoặc password sai
                                             </div>
                                         </div>
-                                        <a class="btn btn-primary btn-user btn-block" onclick="loginClicked()">
-                                            Login
-                                        </a>
-                                        <hr>
-                                        <a href="index.html" id="google-login"
-                                            class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -104,57 +103,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    <script>
-        var token = null;
-        const Url = "https://localhost:44328";
-        // Connect, using the token we got.
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${Url}/hubs/customer`, { accessTokenFactory: () => getToken() })
-            .build();
-        connection.on("ReceiveMessage", (message) => {
-            console.log(message);
-        })
-        async function Start() {
-            try {
-
-                await connection.start();
-                console.log("SignalR Connected.");
-            } catch (error) {
-                console.log(err);
-
-            }
-        };
-
-        function getToken() {
-            console.log(localStorage.getItem('Token'));
-            return localStorage.getItem('Token');
-        }
-
-
-        async function loginClicked() {
-
-            var apiEndpoint = "api/authentication/signin"
-            var emailInput = document.getElementById("exampleInputEmail");
-            var passwordInput = document.getElementById("exampleInputPassword");
-            var userDto = {
-                email: emailInput.value,
-                password: passwordInput.value
-            }
-            await fetch(`${Url}/${apiEndpoint}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userDto)
-            })
-                .then(Response => Response.json())
-                .then(data => {
-                    token = data.token.toString();
-                    console.log(token);
-                    localStorage.setItem('Token', data.token.toString());
-                    Start();
-                })
-        }
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="../admin/js/login.js">
     </script>
 </body>
 

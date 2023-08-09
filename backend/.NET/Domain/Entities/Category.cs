@@ -10,12 +10,14 @@ namespace Domain.Entities
     [Table("Categories")]
     public class Category : BaseEntity
     {
-    
+
+        public string CategoryId { get; set; } // Khớp với kiểu dữ liệu Id của Category
 
         public string ParentCategoriesId { get; set; }
         public virtual Category ParentCategory { get; set; }
 
-        public virtual List<Category> ChildCategories { get; set; } = new List<Category>();
-        public virtual List<Product> Products { get; set; } = new List<Product>();
+        public virtual List<Category> ChildCategories { get; set; }
+        public virtual List<Product> Products { get; set; }
+        public virtual List<CategoryProduct> CategoryProducts { get; set; }
     }
 }

@@ -163,13 +163,7 @@ namespace Service
 
 
         ////////////////////
-        public async Task<AppUser> CreateAsync(AppUser appUser)
-        {
-            _repositoryManger.AppUserRepository.AddAppUser(appUser);
-
-            await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return appUser;
-        }
+       
         public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
         {
             List<AppUser> appUserList = await _repositoryManger.AppUserRepository.GetAllAppUserAsync(cancellationToken);
@@ -192,11 +186,40 @@ namespace Service
             else
             {
                 existingAppUser.FullName = appUser.FullName;
-                existingAppUser.Email= appUser.Email;
-                existingAppUser.PhoneNumber= appUser.PhoneNumber;               
-                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                existingAppUser.PhoneNumber= appUser.PhoneNumber;   
+                existingAppUser.AvatarUrl= appUser.AvatarUrl;
+                await _repositoryManger.AppUserRepository.UpdateAppUser(existingAppUser);
                 return existingAppUser;
             }
+        }
+
+        public async Task<AppUser> UpdateByIdAppUserByAdmin(string id, AppUser appUser, CancellationToken cancellationToken = default)
+        {
+            var existingAppUser = await _repositoryManger.AppUserRepository.GetByIdAsync(id, cancellationToken);
+            if (existingAppUser == null)
+            {
+                throw new Exception("User not found.");
+            }
+            else
+            {
+                existingAppUser.Status= appUser.Status;
+                await _repositoryManger.AppUserRepository.UpdateAppUserbyAdmin(existingAppUser);             
+                return existingAppUser;             
+            }
+        }
+
+        public async Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword)
+        {
+            var isCorrectPassword = await _repositoryManger.AppUserRepository.CheckPassword(user, currentPassword);
+            if (!isCorrectPassword)
+            {
+                throw new Exception("Mật khẩu hiện tại không chính xác.");
+            }
+
+            // Thay đổi mật khẩu mới
+            var result = await _repositoryManger.AppUserRepository.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            return result;
         }
     }
 }

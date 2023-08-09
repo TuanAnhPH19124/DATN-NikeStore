@@ -1,7 +1,10 @@
 ﻿using Domain.Entities;
+using EntitiesDto;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstractions;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Webapi.Controllers
@@ -18,10 +21,18 @@ namespace Webapi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateWishList([FromBody] WishLists wishLists)
+        public async Task<IActionResult> CreateWishList([FromBody]Dto.WishListPost newWishDto)
         {
-            var createdWishList = await _serviceManager.WishListsService.CreateAsync(wishLists);
-            return Ok(createdWishList);
+            if (!ModelState.IsValid){
+                return BadRequest("Missing parameter!");
+            }
+            var newwish = newWishDto.Adapt<WishLists>();
+            var checkExsist = await _serviceManager.WishListsService.IsWishListExists(newwish);
+            if (!checkExsist){
+                await _serviceManager.WishListsService.CreateAsync(newwish);
+                return Ok();
+            }
+            return StatusCode((int)HttpStatusCode.Found, "Sản phẩm này đã nằm trong mục yêu thích của bạn.");
         }
 
         [HttpDelete("{appUserId}/{productId}")]

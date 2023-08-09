@@ -10,17 +10,10 @@ namespace Domain.Entities
 {
     public class ShoppingCarts
     {
-     
-            [Key]
-            public Guid Id { get; set; }
-
-            [ForeignKey("AppUser")]
-            public string AppUserId { get; set; }
-
-            // Các thuộc tính khác của ShoppingCart
-
-            public AppUser AppUser { get; set; }
-            public ICollection<ShoppingCartItems> Items { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
+        public IEnumerable<ShoppingCartItems> ShoppingCartItems { get; set; }
 
     }
 }

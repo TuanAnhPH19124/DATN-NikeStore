@@ -9,6 +9,7 @@ namespace Persistence
     {
         public AppDbContext(DbContextOptions<AppDbContext> optionsBuilder) : base(optionsBuilder)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,28 +33,37 @@ namespace Persistence
                 .HasOne(w => w.AppUser)
                 .WithMany()
                 .HasForeignKey(w => w.AppUserId);
-            modelBuilder.Entity<ShoppingCarts>()
-              .HasOne(s => s.AppUser)
-              .WithOne(u => u.ShoppingCarts)
-              .HasForeignKey<ShoppingCarts>(s => s.AppUserId);
-
-            modelBuilder.Entity<ShoppingCartItems>()
-              .HasKey(item => new { item.ShoppingCartsId, item.ProductsId });
-
-            modelBuilder.Entity<ShoppingCartItems>()
-             .HasOne(item => item.ShoppingCarts)
-             .WithMany(cart => cart.Items) // Sử dụng tên thuộc tính đúng của ShoppingCart
-             .HasForeignKey(item => item.ShoppingCartsId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<ShoppingCartItems>()
-                .HasOne(item => item.Product)
-                .WithMany()
-                .HasForeignKey(item => item.ProductsId);
+         
 
 
+            modelBuilder.Entity<Product>()
+                 .HasMany(p => p.ProductRate)
+                 .WithOne(pr => pr.Product)
+                 .HasForeignKey(pr => pr.ProductId);
+
+            // Cấu hình bảng "AppUser"
+            modelBuilder.Entity<AppUser>()
+                .HasMany(u => u.ProductRate)
+                .WithOne(pr => pr.AppUser)
+                .HasForeignKey(pr => pr.AppUserId);
+            modelBuilder.Entity<ProductRate>()
+            .HasKey(pr => new { pr.AppUserId, pr.ProductId });
+
+            // Cấu hình bảng "CategoryProduct"
+            modelBuilder.Entity<CategoryProduct>()
+              .HasKey(cp => new { cp.ProductId, cp.CategoryId });
+
+            modelBuilder.Entity<CategoryProduct>()
+                .HasOne(cp => cp.Product)
+                .WithMany(p => p.CategoryProducts)
+                .HasForeignKey(cp => cp.ProductId);
+
+            modelBuilder.Entity<CategoryProduct>()
+                .HasOne(cp => cp.Category)
+                .WithMany(c => c.CategoryProducts)
+                .HasForeignKey(cp => cp.CategoryId);
         }
-
+        public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -70,5 +80,7 @@ namespace Persistence
         public DbSet<WishLists> WishLists { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ProductRate> ProductRate { get; set; }
+
     }
 }

@@ -6,3 +6,25 @@ form{
     align-items: baseline;
     gap: 10px;
 }
+tr:hover td { background: rgb(187, 173, 173); }
+/* css table */
+#category-table {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+#category-table th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#category-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+#category-table th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #4e73df;
+    color: white;
+}

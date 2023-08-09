@@ -1,7 +1,13 @@
 ﻿using Domain.Entities;
+using EntitiesDto;
+using EntitiesDto.Datas;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using Service.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Webapi.Controllers
@@ -19,63 +25,56 @@ namespace Webapi.Controllers
 
         
         [HttpGet("{userId}")]
-        public async Task<ActionResult<ShoppingCarts>> GetShoppingCartByUserId(string userId)
+        public async Task<ActionResult<IEnumerable<Data.ShoppingCartItemData>>> GetShoppingCartByUserId(string userId)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
+            var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(userId);
 
             if (shoppingCart == null)
             {
                 return NotFound();
             }
 
-            return shoppingCart;
+            return Ok(shoppingCart);
         }
-        [HttpPost("{userId}/items")]
-        public async Task<IActionResult> AddCartItem(string userId, ShoppingCartItems item)
+
+        [HttpPost]
+        public async Task<IActionResult> AddCartItemTest([FromBody] Dto.ShopppingCartPostDto item)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
 
-            if (shoppingCart == null)
+            var existingCart = await _serviceManager.ShoppingCartService.GetById(item.AppUserId);
+            if (existingCart == false)
+            {              
+                var newCart = item.Adapt<ShoppingCarts>();
+                await _serviceManager.ShoppingCartService.AddAsync(newCart);               
+            }          
+             var get = await _serviceManager.ShoppingCartService.GetShoppingCartIdByUserId(item.AppUserId);
+             var newCartItem = item.ShoppingCartItemsDto.Adapt<ShoppingCartItems>();
+             newCartItem.ShoppingCartId = get;
+            var check = await _serviceManager.ShoppingCartItemsService.checkProduct(newCartItem.ProductId, get);
+            if (check != null)
             {
-                return NotFound();
+                check.Quantity++;
+                await _serviceManager.ShoppingCartItemsService.UpdateCartItemAsync(check.Id, check);
             }
-
-            item.ShoppingCartsId = shoppingCart.Id;
-
-            await _serviceManager.ShoppingCartsService.AddCartItemAsync(item);
-
+            else
+            {
+                await _serviceManager.ShoppingCartItemsService.AddCartItemAsync(newCartItem);
+            }
             return Ok();
         }
-        [HttpPut("{userId}/items/{itemId}")]
-        public async Task<IActionResult> UpdateCartItem(string userId, string productId, ShoppingCartItems item)
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCartItemQuantity([FromBody] Dto.ShoppingCartItemsDto shoppingCartItemsDto)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
-
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-
-            item.ShoppingCartsId = shoppingCart.Id;
-            item.ProductsId = productId;
-
-            await _serviceManager.ShoppingCartsService.UpdateCartItemAsync(item);
-
+            await _serviceManager.ShoppingCartItemsService.UpdatePutAsync(shoppingCartItemsDto.ShoppingCartId, shoppingCartItemsDto.IsQuantity);
             return Ok();
         }
-        [HttpDelete("{userId}/items/{productId}")]
-        public async Task<IActionResult> DeleteCartItem(string userId, string productId)
-        {
-            var shoppingCart = await _serviceManager.ShoppingCartsService.GetByUserIdAsync(userId);
 
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-
-            await _serviceManager.ShoppingCartsService.DeleteCartItemAsync(productId);
-
-            return Ok();
+        [HttpDelete("{cartItemId}/{productId}")]
+        public async Task<IActionResult> RemoveProductFromCartItem(string cartItemId, string productId)
+        {         
+                await _serviceManager.ShoppingCartItemsService.RemoveProductFromCartItemAsync(cartItemId,productId);             
+                return Ok();         
         }
     }
 }
