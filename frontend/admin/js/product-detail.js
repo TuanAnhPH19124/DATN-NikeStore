@@ -118,8 +118,7 @@ $(document).ready(function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (e) {
-        $('.toast').toast('show')
-
+        window.location.href = `/frontend/admin/product-page.html`;
       },
     });
     // category product

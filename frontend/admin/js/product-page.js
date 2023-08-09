@@ -17,10 +17,13 @@ $(document).ready(function () {
             },
             { "data": 'id', 'title': 'Ảnh',
             "render": function (data, type, row) {
-                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=150px height=150px>`;
+                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=125px height=125px>`;
             }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
-            { "data": 'costPrice', 'title': 'Giá nhập' },
+            { "data": 'costPrice', 'title': 'Giá nhập',
+            "render": function (data, type, row) {
+                    return data+" VND";
+            } },
             { "data": 'retailPrice', 'title': 'Giá bán' },
             {
                 "data": 'status', "title": "Trạng thái",

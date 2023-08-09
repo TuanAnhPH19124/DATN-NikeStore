@@ -83,7 +83,7 @@ $(document).ready(function () {
             data: JSON.stringify(formData),
             contentType: "application/json",
             success: function (response) {
-                $('.toast').toast('show')
+                window.location.href = `/frontend/admin/staff.html`;
             },
         });
     });

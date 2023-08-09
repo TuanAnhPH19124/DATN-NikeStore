@@ -196,3 +196,12 @@ $(function () {
     });
 });
 
+$('#voucher-table tbody').on('click', 'tr', function (e) {
+    e.preventDefault();
+    let voucherId = $('#voucher-table').DataTable().row(this).data().id;
+    if (voucherId !== null) {
+        localStorage.setItem("voucherId", voucherId);
+        window.location.href = `/frontend/admin/update-voucher.html`;
+    }
+});
+
