@@ -45,7 +45,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         customerTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     //add event click datatable
 
     $('#customer-table tbody').on('click', 'tr', function (e) {

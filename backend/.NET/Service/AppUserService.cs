@@ -208,5 +208,18 @@ namespace Service
             }
         }
 
+        public async Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword)
+        {
+            var isCorrectPassword = await _repositoryManger.AppUserRepository.CheckPassword(user, currentPassword);
+            if (!isCorrectPassword)
+            {
+                throw new Exception("Mật khẩu hiện tại không chính xác.");
+            }
+
+            // Thay đổi mật khẩu mới
+            var result = await _repositoryManger.AppUserRepository.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            return result;
+        }
     }
 }

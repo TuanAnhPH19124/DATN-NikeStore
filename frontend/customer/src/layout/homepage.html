@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
     </head>
-<body ng-app="demo_routing">
+<body ng-cloak>
     <!-- header -->
 <header id="header">
     <div class="header-top">
@@ -72,11 +72,11 @@
     <button type="button" class="btn nut-dong-chatbox" onclick="dongForm()">Đóng</button>
   </form>
 </div>
-</header>
+  <header-page></header-page>
     <!-- end-header -->
     <!-- main -->
 <main>
-    <div class="" ng-view>
+    <div ng-view>
       
     </div>
 </main>
@@ -168,15 +168,34 @@
     setInterval(updatePromoTime, 1000);
 </script>
 <script src="../assets/css/js/chatbox.js"></script>
-<script src="../assets/css/js/index.js"></script>
 <script src="../assets/css/js/product.js"></script>
 <script src="../assets/css/js/login.js"></script>
 <script src="/frontend/customer/angular/angular-1.8.2/angular.js"></script>
 <script src="/frontend/customer/angular/angular-1.8.2/angular-route.js"></script>
 <script src="/frontend/customer/angular/js/bootstrap.bundle.js"></script>
 <script src="/frontend/customer/angular/js/bootstrap.min.js"></script>
+
+<script src="../../node_modules/angular-jwt/dist/angular-jwt.js"></script>
+
 <script src="/frontend/customer/src/assets/controller/index.js"></script>
 <script src="/frontend/customer/src/assets/controller/productwishlist.js"></script>
+<script src="../assets/controller/index.js"></script>
+
+<!-- services -->
+<script src="../services/auth-service.js"></script>
+<script src="../services/product-service.js"></script>
+<script src="../services/wishList-service.js"></script>
+<script src="../services//cart-service.js"></script>
+
+<!-- factories -->
+<script src="../factories/header-factory.js"></script>
+
+<!-- controllers -->
+<script src="../assets/controller/homeController.js"></script>
+<script src="../assets/controller/authController.js"></script>
+<script src="../assets/controller/headerController.js"></script>
+
+
 </body>
 </html>
 

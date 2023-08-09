@@ -39,7 +39,7 @@ namespace Service
                 var StockList = new List<Stock>();
                 foreach (var orderQuantity in orderQuanities)
                 {
-                    var currentUnitOfStock = await _manager.StockRepository.SelectById(orderQuantity.ProductId, orderQuantity.ColorId, orderQuantity.SizeId);
+                    var currentUnitOfStock = await _manager.StockRepository.SelectById(orderQuantity.ProductId);
                     if (currentUnitOfStock == null) throw new System.Exception($"There are something wrong! Could not find the stock with ProducId {orderQuantity.ProductId}, ColorId {orderQuantity.ColorId}, SizeId {orderQuantity.SizeId}.");
                     currentUnitOfStock.UnitInStock -= orderQuantity.Quantity;
                     StockList.Add(currentUnitOfStock);
