@@ -1,5 +1,5 @@
 (function () {
-    var authController = function (e,l,authService,headerFactory,jwtHelper,wishListService){
+    var authController = function (e,l,authService,headerFactory,jwtHelper,wishListService, cartService){
         e.loggedInStatus = false;
         e.signInE = function (user) {
             if (user !== null){
@@ -17,7 +17,14 @@
                         console.log(data);
                     });
                     // get cart counter
-                    
+                    cartService.getCarts(tokenDecode.Id)
+                    .then(function (response){
+                        console.log(response.data);
+                        headerFactory.setCartCounter(response.data.length);
+                    })
+                    .catch(function (data){
+                        console.log(data);
+                    });
                     l.path('/');
                 })
                 .catch(function (data, status, header, configuration){
@@ -47,7 +54,7 @@
         };
         constructor();
     }
-    authController.$inject = ['$scope', '$location','authService', 'headerFactory', 'jwtHelper', 'wishListService'];
+    authController.$inject = ['$scope', '$location','authService', 'headerFactory', 'jwtHelper', 'wishListService', 'cartService'];
     angular.module("app").controller("authController", authController);
 
 }());

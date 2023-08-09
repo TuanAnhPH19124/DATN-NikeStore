@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using EntitiesDto;
+using EntitiesDto.Datas;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace Webapi.Controllers
 
         
         [HttpGet("{userId}")]
-        public async Task<ActionResult<ShoppingCarts>> GetShoppingCartByUserId(string userId)
+        public async Task<ActionResult<IEnumerable<Data.ShoppingCartItemData>>> GetShoppingCartByUserId(string userId)
         {
             var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(userId);
 

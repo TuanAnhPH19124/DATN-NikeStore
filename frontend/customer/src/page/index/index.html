@@ -69,7 +69,7 @@
     <div class="container">
         <div class="textQ">
             <img src="/frontend/customer/src/assets/img/logo/icons8-nike-144.png" alt="" style="padding-left: 500px; padding-right: 600px; padding-top: 20px;">
-            <p class="hello"> WELCOME TO <br> NIKE SNEAKER WORLD </p> <p ng-bind="wishListCounter"></p>
+            <p class="hello"> WELCOME TO <br> NIKE SNEAKER WORLD </p>
         </div>
         <div class="boxA">
             <button><a href="">Nike Jordan</a></button>
@@ -81,7 +81,8 @@
 </main> 
 <section>
     <div class="product">
-        <div class="boxProduct" ng-repeat="product in products | limitTo: 4">
+        <product-primary></product-primary>
+        <!-- <div class="boxProduct" ng-repeat="product in products | limitTo: 4">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
             <div class="card-badge">New</div>      
             <ul class="product-links">
@@ -100,7 +101,7 @@
                 <span>{{product.retailPrice}} đ</span>                                                        
                 <span class="strike"><del></del></span>  
             </div>
-        </div>
+        </div> -->
         <!-- <div class="boxProduct">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/2.jpg" ></a>
             <div class="card-badge">-25%</div>
