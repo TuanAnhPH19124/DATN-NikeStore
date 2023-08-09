@@ -19,6 +19,7 @@ namespace EntitiesDto
             public int Quantity { get; set; } = 1;
             public string ProductId { get; set; }
             public string ShoppingCartId { get; set; }
+            public Boolean IsQuantity { get; set; }
         }
 
         public class WishListPost

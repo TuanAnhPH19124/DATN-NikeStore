@@ -15,7 +15,10 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'productImages', 'title': 'Ảnh' },
+            { "data": 'id', 'title': 'Ảnh',
+            "render": function (data, type, row) {
+                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="">`;
+            }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
             { "data": 'costPrice', 'title': 'Giá nhập' },
             { "data": 'retailPrice', 'title': 'Giá bán' },
@@ -70,3 +73,4 @@ $.getJSON("https://localhost:44328/api/Color/Get", function (result) {
     }
     $("#color-select").html(option_color.join(''));
 });
+

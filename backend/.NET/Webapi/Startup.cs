@@ -67,8 +67,7 @@ namespace Webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webapi", Version = "v1" });
             });
-           
-
+          
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
@@ -93,7 +92,7 @@ namespace Webapi
             app.UseCors();
 
             //DatabaseMigration.StartMigration(app);
-            //SeedingDatabase.Start(app).Wait();
+            SeedingDatabase.Start(app).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
