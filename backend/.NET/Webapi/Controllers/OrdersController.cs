@@ -5,7 +5,10 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Service;
 using Service.Abstractions;
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Webapi.Hubs;
@@ -26,6 +29,24 @@ namespace Webapi.Controllers
             _logger=logger;
             _service=service;
             _hubContext=hubContext;
+        }
+
+        [HttpGet("Get")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrder()
+        {
+            try
+            {
+                var order = await _service.OrderService.GetAllOrderAsync();
+                if (order == null || !order.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPost("pay")]

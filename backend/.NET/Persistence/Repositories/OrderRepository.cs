@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Repositories;
@@ -35,7 +36,12 @@ namespace Persistence.Repositories
       }
     }
 
-    public async Task<Order> SelectById(string id)
+        public async Task<List<Order>> GetAllOrderAsync(CancellationToken cancellationToken = default)
+        {
+            var orderList = await _context.Orders.ToListAsync(cancellationToken);
+            return orderList;
+        }
+        public async Task<Order> SelectById(string id)
     {
       return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
     }
