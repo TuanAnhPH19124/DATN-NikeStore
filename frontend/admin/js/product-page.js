@@ -17,7 +17,7 @@ $(document).ready(function () {
             },
             { "data": 'id', 'title': 'Ảnh',
             "render": function (data, type, row) {
-                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=125px height=125px>`;
+                    return `<img src="https://localhost:44328/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>`;
             }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
             { "data": 'costPrice', 'title': 'Giá nhập',
@@ -35,7 +35,6 @@ $(document).ready(function () {
                     }
                 }
             },
-            { "data": 'brand', 'title': 'Hãng' },
             {
                 "title": "Thao tác",
                 "render": function () {
