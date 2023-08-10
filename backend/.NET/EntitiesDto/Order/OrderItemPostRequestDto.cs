@@ -10,5 +10,6 @@ namespace EntitiesDto.Order
         public string ProductId { get; set; }
         public double UnitPrice { get; set; }
         public int Quantity { get; set; }
+        public string Name { get; set; }
     }
 }
