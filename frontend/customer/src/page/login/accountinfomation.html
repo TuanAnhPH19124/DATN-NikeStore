@@ -3,16 +3,13 @@
       list-style: none;
       padding-left: 0;
     }
-  
     ul li {
       padding-left: 20px;
       position: relative;
     }
-  
     ul li::before {
       position: absolute;
-      left: 0;
-      
+      left: 0;    
     }
     ul li p a{
         text-decoration: none;
@@ -22,9 +19,8 @@
       text-decoration: none;
       transition: color 0.3s;
     }
-  
     a:hover {
-      color: #5787bb; /* Màu xanh khi hover */
+      color: #5787bb;
     }
   </style>
 <!-- CSS -->
@@ -39,13 +35,13 @@
           <h4>TÀI KHOẢN</h4>
           <ul>
             <li>
-                <p>* <a href="" style="text-decoration: none;">Thông tin tài khoản</a></p>
+                <p>* <a href="#20" style="text-decoration: none;">Thông tin tài khoản</a></p>
             </li>
             <li>
-                <p>* <a href="" style="text-decoration: none;">Danh sách địa chỉ</a></p>
+                <p>* <a href="#21" style="text-decoration: none;">Danh sách địa chỉ</a></p>
             </li>
             <li>
-                <p>* <a href="" style="text-decoration: none;">Đăng xuất</a></p>
+              <p>* <a href="#" style="text-decoration: none;" onclick="logout()">Đăng xuất</a></p>
             </li>
           </ul>
         </div>
@@ -65,7 +61,7 @@
                     <p>0902096529</p>
               </li>
               <li>
-                <a href="" style="text-decoration: none;">Xem địa chỉ</a>
+                <a href="#21" style="text-decoration: none;">Xem địa chỉ</a>
               </li>
             </ul>
         </div>

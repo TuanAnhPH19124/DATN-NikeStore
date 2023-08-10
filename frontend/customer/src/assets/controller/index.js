@@ -46,7 +46,7 @@ app.config(function ($routeProvider, $locationProvider){
     .when("/20", {
       templateUrl: "../page/login/accountinfomation.html",
     })
-    .when("/15", {
+    .when("/21", {
       templateUrl: "../page/login/addressinfomation.html",
     })
     .when("/16", {
