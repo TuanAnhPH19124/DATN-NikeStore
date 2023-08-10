@@ -108,6 +108,7 @@ namespace Webapi.Controllers
 
                 existingProduct.Name = productDto.Name;
                 existingProduct.RetailPrice = productDto.RetailPrice;
+                existingProduct.CostPrice = productDto.CostPrice;
                 existingProduct.Description = productDto.Description;
                 existingProduct.Brand = productDto.Brand;
                 existingProduct.DiscountRate = productDto.DiscountRate;

@@ -22,7 +22,7 @@ namespace Service
         public async Task PostAndSendNontification(OrderPostRequestDto orderDto)
         {
             var order = orderDto.Adapt<Order>();
-            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>();
+            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>(); 
             await _manager.OrderRepository.Post(order);
         }
 

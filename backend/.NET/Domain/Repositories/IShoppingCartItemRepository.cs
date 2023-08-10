@@ -11,7 +11,9 @@ namespace Domain.Repositories
     {
         Task<ShoppingCarts> GetByUserIdAsync(string userId);
         void AddCartItemAsync(ShoppingCartItems item);
-        void UpdateCartItemAsync(ShoppingCartItems item);
-        void DeleteCartItemAsync(string productId);
+        Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems);
+        Task<ShoppingCartItems> GetByIdCartItemAsync(string Id);
+        Task RemoveProductFromCartItemAsync(string cartItemId, string productId);
+        Task<ShoppingCartItems> CheckProductAsync(string productId, string ShoppingCartId);
     }
 }

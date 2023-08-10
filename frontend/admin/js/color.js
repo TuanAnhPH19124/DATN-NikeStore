@@ -16,11 +16,29 @@ $(document).ready(function () {
             { "data": 'name', "title": "Tên màu" },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
+          }
     });
     setInterval(function () {
         sizeTable.ajax.reload();

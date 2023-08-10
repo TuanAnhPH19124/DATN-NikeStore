@@ -38,7 +38,6 @@ namespace Webapi.Controllers
                     #region Thanh toán vnpay
 
                     #endregion
-                    return Ok();
                 }
                 #region Đẩy dữ liệu vào db
                 try

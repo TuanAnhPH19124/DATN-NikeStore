@@ -5,8 +5,15 @@ app.directive("headerPage", function () {
   return {
     restrict: 'E',
     templateUrl: '../directives/header-page.html',
-    controller: "wishListController"
+    controller: "headerController"
+    
 }
+})
+app.directive("productPrimary", function(){
+  return{
+    restrict: 'E',
+    templateUrl: '../directives/product-primary.html'
+  }
 })
 app.config(function ($routeProvider, $locationProvider){
     $locationProvider.hashPrefix(""); 

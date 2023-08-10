@@ -12,5 +12,6 @@ namespace Domain.Repositories
         Task AddAsync(ShoppingCarts cart);
         Task DeleteAsync(string Id);
         Task<bool> CheckUserCart(string userId);
+        Task<string> GetShoppingCartIdByUserIdAsync(string userId);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto;
+using EntitiesDto.Datas;
+using Mapster;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -24,21 +26,46 @@ namespace Service
             
         }
 
-        public async Task DeleteCartItemAsync(string productId)
+        public async Task RemoveProductFromCartItemAsync(string cartItemId, string productId)
         {
-            _repositoryManager.ShoppingCartItemRepository.DeleteCartItemAsync(productId);
+           await _repositoryManager.ShoppingCartItemRepository.RemoveProductFromCartItemAsync(cartItemId, productId);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
 
-        public async Task<ShoppingCarts> GetByUserIdAsync(string userId)
+        public async Task<IEnumerable<Data.ShoppingCartItemData>> GetByUserIdAsync(string userId)
         {
-            return await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
+            var cart =  await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
+            var listCarts = cart.ShoppingCartItems.Adapt<List<Data.ShoppingCartItemData>>();
+            return listCarts;
         }
 
-        public async Task UpdateCartItemAsync(ShoppingCartItems item)
+        public async Task UpdatePutAsync(string Id, Boolean isQuantity)
         {
-            _repositoryManager.ShoppingCartItemRepository.UpdateCartItemAsync(item);
+            var item = await _repositoryManager.ShoppingCartItemRepository.GetByIdCartItemAsync(Id);
+            if (isQuantity)
+            {
+                item.Quantity++;
+            }
+            else
+            {
+                if (item.Quantity > 1)
+                {
+                    item.Quantity--;
+                }                           
+            }
+            await _repositoryManager.ShoppingCartItemRepository.UpdateCartItemAsync(Id, item);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
+        }
+        public async Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems)
+        {
+           await _repositoryManager.ShoppingCartItemRepository.UpdateCartItemAsync(Id, shoppingCartItems);
+            await _repositoryManager.UnitOfWork.SaveChangeAsync();
+        }
+
+        public async Task<ShoppingCartItems> checkProduct(string productId, string ShoppingCartId)
+        {
+          var check = await _repositoryManager.ShoppingCartItemRepository.CheckProductAsync(productId, ShoppingCartId);
+            return check;
         }
     }
 }

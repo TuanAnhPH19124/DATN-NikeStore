@@ -1,9 +1,13 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,11 +23,21 @@ namespace Service
             _repositoryManger = repositoryManger;
         }
 
-        public async Task<WishLists> CreateAsync(WishLists wishLists, CancellationToken cancellationToken = default)
+        public async Task CreateAsync(WishLists wishLists, CancellationToken cancellationToken = default)
         {
-            _repositoryManger.WishListsRepository.AddItem(wishLists);
+
+            await _repositoryManger.WishListsRepository.AddItem(wishLists);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return wishLists;
+        }
+
+        public async Task<bool> IsWishListExists(WishLists wish)
+        {
+            var wishListExsist = await _repositoryManger.WishListsRepository.GetItemByAppUserIDAndProductID(wish.AppUserId, wish.ProductsId);
+            if (wishListExsist == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<WishLists> DeleteAsync(string appUserId, string productId, CancellationToken cancellationToken = default)
@@ -35,10 +49,6 @@ namespace Service
                 await _repositoryManger.UnitOfWork.SaveChangeAsync();
             }
             return item;
-
-
-
-
         }
 
         public async Task<List<WishLists>> GetItemsByUserID(string AppUserId, CancellationToken cancellationToken = default)
