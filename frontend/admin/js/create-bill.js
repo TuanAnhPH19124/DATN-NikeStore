@@ -174,15 +174,13 @@ function addToCart(){
     arr.push(obj[key]);
   }
 
-  console.log(arr);
-  var cart = arr
-  cart.push({
+  arr.push({
     "productId": id,
     "unitPrice": $("#retailPrice").text(),
     "quantity": $("#number").val(),
   });
-  var cartJson = JSON.stringify(cart)
+  var cartJson = JSON.stringify(arr)
   localStorage.setItem("cart",cartJson)
-  console.log(cart)
+  console.log(cartJson)
 
 }
