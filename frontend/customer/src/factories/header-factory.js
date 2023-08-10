@@ -1,8 +1,10 @@
 (function (){
     var headerFactory = function () {
+       
         var wishListCounter = 0;
         var cartCounter = 0;
-        
+
+
         var factory = {};
         factory.getWishListCounter = function (){
             return wishListCounter;
@@ -19,6 +21,8 @@
         factory.setCartCounter = function (cartLength) {
             cartCounter = cartLength;
         }
+
+        
         return factory;
     }
     angular.module("app").factory("headerFactory", headerFactory);

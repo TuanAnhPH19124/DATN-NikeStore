@@ -1,5 +1,5 @@
 (function () {
-    var wishListController = function (e, wishListService, authService, jwtHelper, headerFactory){
+    var headerController = function (e, wishListService, authService, jwtHelper, headerFactory){
         e.wishListCounter = function () {
             return headerFactory.getWishListCounter();
         };
@@ -12,6 +12,6 @@
         };
         constructor();
     }
-    wishListController.$inject = ['$scope', 'wishListService', 'authService', 'jwtHelper', 'headerFactory'];
-    angular.module("app").controller("wishListController", wishListController);
+    headerController.$inject = ['$scope', 'wishListService', 'authService', 'jwtHelper', 'headerFactory'];
+    angular.module("app").controller("headerController", headerController);
 }());
