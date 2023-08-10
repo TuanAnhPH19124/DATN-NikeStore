@@ -28,6 +28,7 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
     <link href="/frontend/admin/css/product-detail.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
 
 </head>
 
@@ -370,7 +371,7 @@
                                             <label class="label">Danh mục</label>
                                             <div class="form-group">
                                                 <select class="form-control" placeholder="Danh mục"
-                                                    id="category-select" >
+                                                    id="category-select" multiple>
                                                 </select>
                                             </div>
                                         </div>
@@ -414,6 +415,7 @@
                                         <label for="image" style="margin: auto;">Thay đổi ảnh</label>
                                     </div>
                                     <button type="submit" class="btn btn-danger" style="padding: 10px 15px;">Cập nhật</button>
+                                    </select>
                                     <!-- thông báo -->
                         <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
                         style="position: fixed;
@@ -715,8 +717,7 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="/frontend/admin/js/product-detail.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
 </body>
 
 </html>
