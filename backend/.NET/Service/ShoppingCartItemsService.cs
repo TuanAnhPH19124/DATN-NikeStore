@@ -1,6 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto;
+using EntitiesDto.Datas;
+using Mapster;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -30,9 +32,11 @@ namespace Service
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
 
-        public async Task<ShoppingCarts> GetByUserIdAsync(string userId)
+        public async Task<IEnumerable<Data.ShoppingCartItemData>> GetByUserIdAsync(string userId)
         {
-            return await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
+            var cart =  await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
+            var listCarts = cart.ShoppingCartItems.Adapt<List<Data.ShoppingCartItemData>>();
+            return listCarts;
         }
 
         public async Task UpdatePutAsync(string Id, Boolean isQuantity)

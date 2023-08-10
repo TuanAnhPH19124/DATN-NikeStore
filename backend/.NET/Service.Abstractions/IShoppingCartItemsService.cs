@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using EntitiesDto.Datas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Service.Abstractions
 {
     public interface IShoppingCartItemsService
     {
-        Task<ShoppingCarts> GetByUserIdAsync(string userId);
+        Task<IEnumerable<Data.ShoppingCartItemData>> GetByUserIdAsync(string userId);
         Task AddCartItemAsync(ShoppingCartItems item);
         Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems);
         Task UpdatePutAsync(string Id, Boolean isQuantity);

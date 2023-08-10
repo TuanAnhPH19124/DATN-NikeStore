@@ -52,7 +52,7 @@ namespace Persistence.Repositories
 
         public async Task<ShoppingCarts> GetByUserIdAsync(string userId)
         {
-            return await _dbcontext.ShoppingCarts.Include(p=>p.ShoppingCartItems).FirstOrDefaultAsync(cart => cart.AppUserId == userId);
+            return await _dbcontext.ShoppingCarts.Include(p=>p.ShoppingCartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(cart => cart.AppUserId == userId);
         }
 
         public async Task<ShoppingCartItems> GetByIdCartItemAsync(string Id)

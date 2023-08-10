@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,14 @@ namespace EntitiesDto
             public string ProductId { get; set; }
             public string ShoppingCartId { get; set; }
             public Boolean IsQuantity { get; set; }
+        }
+
+        public class WishListPost
+        {
+            [Required]
+            public string ProductsId { get; set; }
+            [Required]
+            public string AppUserId { get; set; }
         }
     }
 }
