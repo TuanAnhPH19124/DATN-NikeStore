@@ -17,16 +17,24 @@ $(document).ready(function () {
             { "data": 'userName', "title": "Tên tài khoản", },
             { "data": 'email', "title": "Email", },
             { "data": 'fullName', "title": "Họ và tên", },
-            { "data": 'modifiedDate', "title": "Ngày tạo", },
+            { "data": 'modifiedDate', "title": "Ngày tạo",
+            "render": function (data, type, full, meta) {
+                var dateObj = new Date(data);
+                var day = dateObj.getUTCDate();
+                var month = dateObj.getUTCMonth() + 1;
+                var year = dateObj.getUTCFullYear();
+                var formattedDate = `${day}/${month}/${year}`;
+                return formattedDate;
+            } },
             { "data": 'loyaltyPoint', "title": "Điểm", },
             { "data": 'rank', "title": "Hạng", },
             {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger">Đã hủy</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
                     }
                 }
             },
@@ -36,12 +44,30 @@ $(document).ready(function () {
                     if (data == 1) {
                         return '<td><button class="btn btn-danger" id="btn" ><i class="fa fa-times" aria-hidden="true"></i></button></td>';
                     } else {
-                        return '<td><button class="btn btn-danger" id="btn" style="padding-right: 8px;padding-left: 8px;"><i class="fa fa-retweet" aria-hidden="true"></i></button></td>';
+                        return '<td><button class="btn btn-primary" id="btn" style="padding-right: 8px;padding-left: 8px;"><i class="fa fa-retweet" aria-hidden="true"></i></button></td>';
                     }
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
+          }
     });
     setInterval(function () {
         customerTable.ajax.reload();

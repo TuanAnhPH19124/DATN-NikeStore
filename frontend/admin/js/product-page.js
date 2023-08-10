@@ -17,29 +17,49 @@ $(document).ready(function () {
             },
             { "data": 'id', 'title': 'Ảnh',
             "render": function (data, type, row) {
-                    return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="">`;
+                    return `<img src="https://localhost:44328/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>`;
             }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
-            { "data": 'costPrice', 'title': 'Giá nhập' },
+            { "data": 'costPrice', 'title': 'Giá nhập',
+            "render": function (data, type, row) {
+                    return data+" VND";
+            } },
             { "data": 'retailPrice', 'title': 'Giá bán' },
             {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge badge-pill badge-primary">Kinh doanh</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kinh doanh</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger">Ngừng kinh doanh</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kinh doanh</span>';
                     }
                 }
             },
-            { "data": 'brand', 'title': 'Hãng' },
             {
                 "title": "Thao tác",
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 }
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
+          }
     });
     $('#productData tbody').on('click', 'tr', function (e) {
         e.preventDefault();

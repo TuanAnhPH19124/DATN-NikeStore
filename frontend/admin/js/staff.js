@@ -30,19 +30,37 @@ $(document).ready(function () {
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == true) {
-                        return '<span class="badge badge-pill badge-primary">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger">Ngừng kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kích hoạt</span>';
                     }
                 }
             },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
+          }
     });
     setInterval(function () {
         staffTable.ajax.reload();
@@ -65,7 +83,7 @@ $(document).ready(function () {
             data: JSON.stringify(formData),
             contentType: "application/json",
             success: function (response) {
-                $('.toast').toast('show')
+                window.location.href = `/frontend/admin/staff.html`;
             },
         });
     });
