@@ -181,6 +181,29 @@ function addToCart(){
   });
   var cartJson = JSON.stringify(arr)
   localStorage.setItem("cart",cartJson)
-  console.log(cartJson)
+
+  const data = JSON.parse(localStorage.getItem("cart"));
+  console.log(data)
+  var html = '';
+  var totalPrice=0;
+  for (var i = 0; i < data.length; i++) {
+    html += '<tr>';
+    html += `<td><img src="https://localhost:44328/Images/${data[i].productId}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>  </td>`;
+    html += '<td>' + data[i].quantity + '</td>';
+    html += '<td>' + data[i].unitPrice + '</td>';
+    html += `<td><button class="btn btn-danger" id="btn" ><i class="fa fa-times" aria-hidden="true"></i></button></td>`;
+    html += '</tr>';
+    totalPrice += data[i].quantity*data[i].unitPrice
+  }
+
+  var total = `<tr>
+  <th scope="row"></th>
+  <td></td>
+  <td>Tổng tiền:</td>
+  <td>${totalPrice}</td>
+</tr>`
+
+  $('#myTable tbody').html(html); 
+  $('tfoot').html(total); 
 
 }
