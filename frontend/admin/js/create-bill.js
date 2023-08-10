@@ -173,37 +173,67 @@ function addToCart(){
   for (const key in obj) {
     arr.push(obj[key]);
   }
-
   arr.push({
     "productId": id,
     "unitPrice": $("#retailPrice").text(),
     "quantity": $("#number").val(),
+    "name": $("#name").text(),
   });
   var cartJson = JSON.stringify(arr)
   localStorage.setItem("cart",cartJson)
+  // đẩy ra html
+  pushHTML();
+  // Đăng ký sự kiện click cho các nút xóa sản phẩm
+  document.addEventListener('click', function(event) {
+      if (event.target && event.target.matches('.btn-danger')) {
+          var productId = event.target.getAttribute('data-product-id');
+          deleteItem(productId);
+      }
+  });
 
+
+
+}
+function deleteItem(id){
+  console.log(id)
+  const oldCart = localStorage.getItem("cart");
+  const obj = JSON.parse(oldCart);
+  console.log(obj)
+  
+  const productIdToDelete = id;
+  
+  const newArray = obj.filter(item => item.productId !== productIdToDelete);
+  localStorage.removeItem('cart');
+  var cartJson = JSON.stringify(newArray)
+  localStorage.setItem("cart",cartJson)
+  pushHTML();
+  console.log(newArray);
+}
+function pushHTML(){
   const data = JSON.parse(localStorage.getItem("cart"));
   console.log(data)
   var html = '';
   var totalPrice=0;
+  var html = '';
+  var totalPrice = 0;
+  
   for (var i = 0; i < data.length; i++) {
-    html += '<tr>';
-    html += `<td><img src="https://localhost:44328/Images/${data[i].productId}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>  </td>`;
-    html += '<td>' + data[i].quantity + '</td>';
-    html += '<td>' + data[i].unitPrice + '</td>';
-    html += `<td><button class="btn btn-danger" id="btn" ><i class="fa fa-times" aria-hidden="true"></i></button></td>`;
-    html += '</tr>';
-    totalPrice += data[i].quantity*data[i].unitPrice
+      html += '<tr>';
+      html += `<td><img src="https://localhost:44328/Images/${data[i].productId}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>  </td>`;
+      html += `<td style="vertical-align: middle;">${data[i].name}</td>`;
+      html += '<td style="vertical-align: middle;">' + data[i].quantity + '</td>';
+      html += '<td style="vertical-align: middle;">' + Number(data[i].quantity) * Number(data[i].unitPrice) + '</td>';
+      html += `<td style="vertical-align: middle;"><button class="btn btn-danger" id="btn${data[i].productId}" data-product-id="${data[i].productId}"><i class="fa fa-times" aria-hidden="true"></i></button></td>`;
+      html += '</tr>';
+      totalPrice += data[i].quantity * data[i].unitPrice;
   }
-
+  
   var total = `<tr>
-  <th scope="row"></th>
-  <td></td>
-  <td>Tổng tiền:</td>
-  <td>${totalPrice}</td>
-</tr>`
-
+    <th scope="row"></th>
+    <td></td>
+    <td>Tổng tiền:</td>
+    <td>${totalPrice}</td>
+  </tr>`
   $('#myTable tbody').html(html); 
   $('tfoot').html(total); 
-
 }

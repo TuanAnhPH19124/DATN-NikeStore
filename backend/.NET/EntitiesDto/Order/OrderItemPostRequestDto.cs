@@ -8,6 +8,7 @@ namespace EntitiesDto.Order
     public class OrderItemPostRequestDto
     {
         public string ProductId { get; set; }
+        public string Name { get; set; }
         public double UnitPrice { get; set; }
         public int Quantity { get; set; }
     }
