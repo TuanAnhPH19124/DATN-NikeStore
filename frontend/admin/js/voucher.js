@@ -2,12 +2,16 @@
 $(document).ready(function () {
     var voucherTable = $('#voucher-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/Voucher",
+            "url": "https://localhost:44328/api/Voucher/Get",
             "dataType": "json",
             "dataSrc": "",
         },
         "columns": [
-            { "data": 'id', "title": "ID", "visible": false, },
+            {
+                "data": 'id', "title": "ID", render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
             { "data": 'code', "title": "Mã" },
             { "data": 'value', "title": "Giá trị" },
             {
@@ -59,7 +63,7 @@ $(document).ready(function () {
     });
     setInterval(function () {
         customerTable.ajax.reload();
-    }, 5000);
+    }, 2500);
     // call api them nhan vien
     $('#add-voucher-form').submit(function (event) {
         event.preventDefault()

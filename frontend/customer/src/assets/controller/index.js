@@ -1,20 +1,34 @@
 
-let app = angular.module("demo_routing", ["ngRoute"]);
+var app = angular.module("app", ["ngRoute", "angular-jwt"]);
+app.constant("apiUrl", 'https://localhost:5001');
+app.directive("headerPage", function () {
+  return {
+    restrict: 'E',
+    templateUrl: '../directives/header-page.html',
+    controller: "headerController"
+    
+}
+})
+app.directive("productPrimary", function(){
+  return{
+    restrict: 'E',
+    templateUrl: '../directives/product-primary.html'
+  }
+})
 app.config(function ($routeProvider, $locationProvider){
-    $locationProvider.hashPrefix(""); //Xóa khoảng thừa của URL
-  //Giống switch case
+    $locationProvider.hashPrefix(""); 
   $routeProvider
-    .when("/1", {
-      templateUrl: "../pages/index/index.html",
-    })
-    .when("/2", {
-      templateUrl: "../page/login/login.html",
-    })
-    .when("/3", {
-      templateUrl: "../page/login/register.html",
-    })
-    .when("/4", {
+    .when("/", {
       templateUrl: "../page/index/index.html",
+      controller: "homeController"
+    })
+    .when("/signin", {
+      controller: "authController",
+      templateUrl: "../page/login/login.html"
+    })
+    .when("/signup", {
+      controller: "authController",
+      templateUrl: "../page/login/register.html",
     })
     .when("/5", {
       templateUrl: "../page/login/forgotpassword.html",

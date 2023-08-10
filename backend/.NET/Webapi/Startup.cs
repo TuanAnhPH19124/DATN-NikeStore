@@ -1,19 +1,25 @@
 ﻿using Domain.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Persistence;
 using Persistence.Repositories;
 using Service;
 using Service.Abstractions;
 using StackExchange.Redis;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using WatchDog;
 using WatchDog.src.Enums;
 using Webapi.Hubs;
+
+
 
 namespace Webapi
 {
@@ -29,7 +35,7 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+           
 
             services.AddElasticSearch(Configuration);
 
@@ -61,6 +67,7 @@ namespace Webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webapi", Version = "v1" });
             });
+          
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManger, RepositoryManager>();
             services.AddPersistence(Configuration);
@@ -68,13 +75,15 @@ namespace Webapi
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://127.0.0.1:5502")
+                    builder.WithOrigins("http://127.0.0.1:5500")
+                        .WithOrigins("http://127.0.0.1:5858")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
             });
             services.AddSignalR();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,7 +117,7 @@ namespace Webapi
             //     option.WatchPagePassword = "admin";
             //     option.WatchPageUsername = "admin";
             // });
-
+           
 
             app.UseEndpoints(endpoints =>
             {

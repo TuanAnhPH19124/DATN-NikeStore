@@ -94,7 +94,8 @@
 </main> 
 <section>
     <div class="product">
-        <div class="boxProduct">
+        <product-primary></product-primary>
+        <!-- <div class="boxProduct" ng-repeat="product in products | limitTo: 4">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
             <div class="card-badge">New</div>      
             <ul class="product-links">
@@ -115,14 +116,14 @@
                 <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
             </ul>    
             <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+                <a href="#" title="{{product.name}}">{{product.name}}</a>
             </div>
             <div class="priceI">
-                <span>2,300,000 đ</span>                                                        
+                <span>{{product.retailPrice}} đ</span>                                                        
                 <span class="strike"><del></del></span>  
             </div>
-        </div>
-        <div class="boxProduct">
+        </div> -->
+        <!-- <div class="boxProduct">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/2.jpg" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
@@ -181,9 +182,9 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-        </div>
+        </div> -->
     </div>
-    <div class="product">
+    <!-- <div class="product">
         <div class="boxProduct" >
             <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img5" ></a>
             <div class="card-badge">-25%</div>
@@ -428,7 +429,7 @@
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
         </div>
-    </div> 
+    </div>  -->
     <div class="view-more">
         <div class="boxC" style="font-size: 12px; padding-top: 40px; padding-bottom: 20px;">          
             <button type="button" class="btn btn-outline-danger"><a href="#6" style="text-decoration: none;color: black;"> Xem thêm </a></button>       

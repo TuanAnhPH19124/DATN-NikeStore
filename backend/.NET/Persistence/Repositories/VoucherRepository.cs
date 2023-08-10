@@ -15,29 +15,30 @@ namespace Persistence.Repositories
         private readonly AppDbContext _appDbContext;
         public VoucherRepository(AppDbContext appDbContext)
         {
-            _appDbContext= appDbContext;
+            _appDbContext = appDbContext;
         }
-
         public async Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default)
         {
-            List<Voucher> voucherList = await _appDbContext.Vouchers.ToListAsync(cancellationToken);
+            var voucherList = await _appDbContext.Vouchers.ToListAsync(cancellationToken);
             return voucherList;
         }
-        public async Task<Voucher> GetByIdAsync(string id, CancellationToken cancellationToken = default)
-        {           
+
+        public async Task<Voucher> GetByIdVoucherAsync(string id, CancellationToken cancellationToken = default)
+        {
             var voucher = await _appDbContext.Vouchers.FirstOrDefaultAsync(e => e.Id == id);
             return voucher;
         }
 
-        public async void AddVoucher(Voucher voucher)
+        public async Task AddVoucher(Voucher voucher)
         {
             await _appDbContext.Vouchers.AddAsync(voucher);
+            _appDbContext.SaveChangesAsync();
         }
 
-        public void UpdateVoucher(Voucher voucher)
+        public async Task UpdateVoucher(string id, Voucher voucher)
         {
             _appDbContext.Vouchers.Update(voucher);
+            await _appDbContext.SaveChangesAsync();
         }
-
     }
 }
