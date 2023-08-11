@@ -3,10 +3,12 @@ using Domain.Enums;
 using Domain.Repositories;
 using EntitiesDto.Order;
 using Mapster;
+using Persistence.Repositories;
 using Service.Abstractions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Service
@@ -20,10 +22,15 @@ namespace Service
             _manager = manager;
         }
 
+        public async Task<List<Order>> GetAllOrderAsync(CancellationToken cancellationToken = default)
+        {          
+            List<Order> orderList = await _manager.OrderRepository.GetAllOrderAsync(cancellationToken);
+            return orderList;
+        }
         public async Task PostAndSendNontification(OrderPostRequestDto orderDto)
         {
             var order = orderDto.Adapt<Order>();
-            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>();
+            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>(); 
             await _manager.OrderRepository.Post(order);
         }
 

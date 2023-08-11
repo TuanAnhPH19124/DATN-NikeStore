@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities;
 
@@ -11,5 +12,6 @@ namespace Domain.Repositories
         Task Post(Order order);
         Task<string> Update(string id, Order order);
         Task<Order> SelectById(string id);
+        Task<List<Order>> GetAllOrderAsync(CancellationToken cancellationToken = default);
     }
 }
