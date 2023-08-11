@@ -28,6 +28,26 @@ namespace Webapi.Controllers
             _hubContext=hubContext;
         }
 
+        [HttpPost("PayAtStore")]
+        public async Task<IActionResult> PayAtStore([FromBody] OrderAtStorePostRequestDto orderPost)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return await Task.FromResult(BadRequest(new { Errors = errors }));
+            }
+            try
+            {
+                await _service.OrderService.PostNewOrderAtStore(orderPost);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost("pay")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
         {
@@ -38,7 +58,7 @@ namespace Webapi.Controllers
                     #region Thanh toán vnpay
 
                     #endregion
-                    return Ok();
+                 
                 }
                 #region Đẩy dữ liệu vào db
                 try

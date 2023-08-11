@@ -2,14 +2,19 @@
     <div class="header-top">
         <div class="left">
             <div class="Nike">
-                <p style="text-decoration: none; color: rgb(119, 118, 118)">Chương trình khuyến mãi</p>
+                <p style="text-decoration: none; color: rgb(119, 118, 118)"> </p>
             </div>
         </div>
-        <div class="right">
-            <div class="login">
+        <div  class="right">
+            <div ng-show="!isLogin()" class="login">
                 <a href="#/signin" style="text-decoration: none; color: rgb(119, 118, 118)"> Đăng nhập |</a>
                 <a href="#/signup" style="text-decoration: none; color: rgb(119, 118, 118)">| Đăng ký |</a>
-                <a href="#13" style="text-decoration: none; color: rgb(119, 118, 118)">| Kiểm tra đơn hàng</a>
+                <a href="#/pay/1" style="text-decoration: none; color: rgb(119, 118, 118)">| Kiểm tra đơn hàng</a>
+            </div>
+            <div ng-show="isLogin()" class="login">
+                <span>Tuan Anh</span>
+                <a href="#" style="text-decoration: none; color: rgb(119, 118, 118)"><i class="fa-solid fa-user"></i></a>
+                <a href="#/pay/1" style="text-decoration: none; color: rgb(119, 118, 118)"> | Kiểm tra đơn hàng</a>               
             </div>
         </div>
     </div>
@@ -34,8 +39,8 @@
                     style="border-radius: 25px; margin-right: 10px;">
             </div>
             
-            <a href="#12" style="color: rgb(81, 74, 74); font-size: 20px;"><i class="fas fa-heart"></i></a><span>{{ wishListCounter() }}</span>
-            <a href="#" style="color: rgb(58, 53, 53); font-size: 20px;"><i class="fas fa-shopping-cart"
+            <a href="#/wishlist" style="color: rgb(81, 74, 74); font-size: 20px;"><i class="fas fa-heart"></i></a><span>{{ wishListCounter() }}</span>
+            <a href="#/cart" style="color: rgb(58, 53, 53); font-size: 20px;"><i class="fas fa-shopping-cart"
                     data-bs-toggle="modal" data-bs-target="#myModal"></i></a><span>{{ cartCounter() }}</span>
         </div>
     </div>

@@ -12,6 +12,7 @@
                     wishListService.getWishLists(tokenDecode.Id)
                     .then(function (response){
                         headerFactory.setWishListCounter(response.data.length);
+
                     })
                     .catch(function (data){
                         console.log(data);
@@ -39,6 +40,8 @@
                 console.log(newUser);
                 authService.signUp(newUser)
                 .then(function (response){
+                    authService.setLoggedIn(!e.loggedInStatus);
+                    authService.setToken(response.data.token);
                     console.log(response);
                     l.path('/');
                 })

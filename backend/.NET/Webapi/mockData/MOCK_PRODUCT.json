@@ -20,7 +20,7 @@
     "Description": "Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\n\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
     "Brand": 3,
     "DiscountRate": 13,
-    "ModifiedDate": "4/12/2017",
+    "ModifiedDate": "4/12/2017", 
     "Name": "Open-source user-facing success",
     "Status": 9,
     "CreatedDate": "5/17/2011"
@@ -120,6 +120,7 @@
     "Id": "537f8fa9-ed99-47bd-a5cc-e31bddd707c3",
     "Barcode": 3252593250752,
     "CostPrice": 142168.61,
+    "RetailPrice": 431108.36,
     "RetailPrice": 431108.36,
     "Description": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
     "Brand": 8,
