@@ -149,10 +149,11 @@ $(document).ready(function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (e) {
-        window.location.href = `/frontend/admin/product-page.html`;
+        //window.location.href = `/frontend/admin/product-page.html`;
       },
     });
     // category product
+    debugger
     $.ajax({
       url: "https://localhost:44328/api/CategoryProduct/" + id,
       type: "DELETE",

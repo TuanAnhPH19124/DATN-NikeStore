@@ -48,6 +48,29 @@ $.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
   }
   $("#voucher-select").html(option_voucher.join(''));
 });
+$('#voucher-select').on('change', function() {
+  const id = $(this).val();
+  $.ajax({
+    url: "https://localhost:44328/api/Voucher/Get/" + id,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+        console.log(JSON.stringify(data));
+        console.log($("#total").text())
+        if($("#total").text()!="0 đ"){
+          var discount_price = $('#discount-price').text(((data.value*$("#total").text())/100));
+          $('#sum').text((($("#total").text())-discount_price[0].innerHTML)+" đ");
+          
+          document.getElementById("discount-price").innerHTML ="- " +discount_price[0].innerHTML+' đ';
+        }
+
+    },
+    error: function () {
+        console.log("Error retrieving data.");
+    }
+});
+});
+
 $('#create-bill').click(function (event) {
   event.preventDefault()
   var formData = {
@@ -97,9 +120,13 @@ $(document).ready(function () {
           { "data": 'name', 'title': 'Tên sản phẩm' },
           { "data": 'costPrice', 'title': 'Giá nhập',
           "render": function (data, type, row) {
-                  return data+" VND";
+                  return data+" đ";
           } },
-          { "data": 'retailPrice', 'title': 'Giá bán' },
+          { "data": 'retailPrice', 'title': 'Giá bán' ,
+          "render": function (data, type, row) {
+            return data+" đ";
+    }
+        },
           {
               "data": 'status', "title": "Trạng thái",
               "render": function (data, type, row) {
@@ -151,8 +178,8 @@ $('#productData tbody').on('click', 'tr', function (e) {
           console.log(JSON.stringify(data));
           $('#name').text(data.name);
           $('#description').val(data.description);
-          $('#retailPrice').text(data.retailPrice);
-          $('#costPrice').text(data.costPrice);
+          $('#retailPrice').text(data.retailPrice+" đ");
+          $('#costPrice').text(data.costPrice+ " đ");
           $('#status').val(data.status);
           $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
           
@@ -215,14 +242,13 @@ function pushHTML(){
   var html = '';
   var totalPrice=0;
   var html = '';
-  var totalPrice = 0;
   
   for (var i = 0; i < data.length; i++) {
       html += '<tr>';
       html += `<td><img src="https://localhost:44328/Images/${data[i].productId}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>  </td>`;
       html += `<td style="vertical-align: middle;">${data[i].name}</td>`;
-      html += '<td style="vertical-align: middle;">' + data[i].quantity + '</td>';
-      html += '<td style="vertical-align: middle;">' + Number(data[i].quantity) * Number(data[i].unitPrice) + '</td>';
+      html += '<td style="vertical-align: middle;">' + data[i].quantity+" đôi" + '</td>';
+      html += '<td style="vertical-align: middle;">' + (Number(data[i].quantity) * Number(data[i].unitPrice)) +" đ" + '</td>';
       html += `<td style="vertical-align: middle;"><button class="btn btn-danger" id="btn${data[i].productId}" data-product-id="${data[i].productId}"><i class="fa fa-times" aria-hidden="true"></i></button></td>`;
       html += '</tr>';
       totalPrice += data[i].quantity * data[i].unitPrice;
@@ -232,8 +258,9 @@ function pushHTML(){
     <th scope="row"></th>
     <td></td>
     <td>Tổng tiền:</td>
-    <td>${totalPrice}</td>
+    <td>${totalPrice+" đ"}</td>
   </tr>`
   $('#myTable tbody').html(html); 
   $('tfoot').html(total); 
+  $('#total').html(totalPrice);
 }

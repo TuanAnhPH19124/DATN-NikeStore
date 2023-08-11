@@ -13,7 +13,7 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'numberSize', "title": "Kích cỡ size" },
+            { "data": 'numberSize', "title": "Kích cỡ" },
             { "data": 'description', "title": "Mô tả" },
             {
                 "render": function () {

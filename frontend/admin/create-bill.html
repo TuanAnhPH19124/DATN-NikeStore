@@ -406,20 +406,20 @@
                                                                                         <p>Tên sản phẩm gì đó</p>
                                                                                     </h4>
                                                                                     <div class="product-info">
-                                                                                        <div>Giá nhập
+                                                                                        <div class="label">Giá nhập: 
                                                                                         </div>
                                                                                         <div id="costPrice">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="product-info">
-                                                                                        <div>Giá bán
+                                                                                        <div class="label">Giá bán:
                                                                                         </div>
                                                                                         <div id="retailPrice">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="size">
-                                                                                        <div class="title">
-                                                                                            Số lượng
+                                                                                    <div class="size" style="margin-top: 80px;">
+                                                                                        <div class="title" >
+                                                                                            <p class="label">Số lượng</p>
                                                                                             <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                                                                 <label class="btn btn-outline-primary btn-toggle">
                                                                                                     <input type="radio" name="options" id="option1" autocomplete="off">
@@ -441,10 +441,10 @@
                                                                                                 </div>
                                                                                                 <button onclick="increment()" class="btn btn-primary">+</button>
                                                                                             </div>
-                                                                                            <div class="instock">
+                                                                                            <!-- <div class="instock">
                                                                                                 Còn n sản
                                                                                                 phẩm
-                                                                                            </div>
+                                                                                            </div> -->
                                                                                             <div>
                                                                                                 <button type="button" onclick="addToCart()"
                                                                                                     class="btn btn-primary">Thêm
@@ -498,15 +498,15 @@
                         <div class="modal-body">
                             <div class="choose-customer">
                                 <div class="footer-customer">
-                                    <div class="customer-info" id="customer-info" style="visibility: hidden;">
+                                    <div class="customer-info" id="customer-info">
                                         <form>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Họ và tên</label>
+                                                <label for="exampleInputEmail1" class="label">Họ và tên</label>
                                                 <input type="email" class="form-control" id="customerName"
                                                     aria-describedby="emailHelp" placeholder="">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputPassword1">Số điện thoại</label>
+                                                <label for="exampleInputPassword1" class="label">Số điện thoại</label>
                                                 <input type="text" class="form-control" id="phoneNumber"
                                                     placeholder="">
                                             </div>
@@ -536,11 +536,11 @@
                                                 </select>
                                             </div> -->
                                             <div class="form-group">
-                                                <label for="exampleInputPassword1">Địa chỉ</label>
+                                                <label for="exampleInputPassword1" class="label">Địa chỉ</label>
                                                 <input type="text" class="form-control" id="address" placeholder="">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputPassword1">Ghi chú</label>
+                                                    <label for="exampleInputPassword1" class="label">Ghi chú</label>
                                                     <input type="text" class="form-control" id="note"
                                                     placeholder="">
                                             </div>
@@ -548,19 +548,16 @@
                                     </div>
                                     <div class="receipt-info">
                                         <h3>Thông tin thanh toán</h4>
-                                            <div class="toggle-btn">
+                                            <!-- <div class="toggle-btn">
                                                 <label class="switch">
                                                     <input type="checkbox" onclick="myFunction()">
                                                     <span class="slider round"></span>
                                                 </label>
                                                 <label for="">Giao hàng</label>
-                                            </div>
+                                            </div> -->
                                             <div class="discount-btn">
-                                                <select class="form-control" id="voucher-select">
-                                                </select>
                                                 <div class="discount-rate">
                                                     <div class="add-btn">
-                                                        <div>Mã giảm giá</div>
                                                         <!-- <a href="#" class="btn btn-primary btn-icon-split"
                                                             data-toggle="modal" data-target="#discount-modal">
                                                             <span class="icon text-white-50">
@@ -638,25 +635,30 @@
                                             </div>
                                             <form>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Tiền hàng:</label>
-                                                    <label for="exampleInputEmail1">3,600,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Mã giảm giá:</label>
+                                                    <select class="form-control" id="voucher-select">
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Phí vận chuyển:</label>
-                                                    <label for="exampleInputEmail1">67,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Tiền hàng:</label>
+                                                    <label for="exampleInputEmail1" id="total">0 đ</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Giảm giá:</label>
+                                                    <label for="exampleInputEmail1" class="label">Phí vận chuyển:</label>
                                                     <label for="exampleInputEmail1">0 đ</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Quyền lợi thành
-                                                        viên:</label>
-                                                    <label for="exampleInputEmail1">72,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Giảm giá:</label>
+                                                    <label for="exampleInputEmail1" id="discount-price">0 đ</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Tổng số tiền:</label>
-                                                    <label for="exampleInputEmail1">3,595,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Quyền lợi thành
+                                                        viên:</label>
+                                                    <label for="exampleInputEmail1">0 đ</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1" class="label">Tổng số tiền:</label>
+                                                    <label for="exampleInputEmail1" id="sum">0 đ</label>
                                                 </div>
                                             </form>
                                     </div>
