@@ -57,11 +57,11 @@ app.config(function ($routeProvider, $locationProvider){
     .when("/13", {
       templateUrl: "../page/cart/pay.html",
     })
-    .when("/14", {
-      templateUrl: "../pages/deatails/deatail1.html",
+    .when("/20", {
+      templateUrl: "../page/login/accountinfomation.html",
     })
-    .when("/15", {
-      templateUrl: "../pages/deatails/deatail2.html",
+    .when("/21", {
+      templateUrl: "../page/login/addressinfomation.html",
     })
     .when("/16", {
       templateUrl: "../pages/qlsp_add/qlsp_add.html",
