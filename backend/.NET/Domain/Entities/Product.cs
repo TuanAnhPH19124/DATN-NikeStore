@@ -16,7 +16,7 @@ namespace Domain.Entities
         public double CostPrice { get; set; } 
         public double RetailPrice { get; set; }
         public string Description { get; set; }
-        public Status Status { get; set; } = Status.Active;
+        public Status Status { get; set; } = Status.ACTIVE;
         public Brands Brand { get; set; } = Brands.Nike;
         public int DiscountRate { get; set; } = 1;
         public virtual IEnumerable<ShoppingCartItems> ShoppingCartItems { get; set; }

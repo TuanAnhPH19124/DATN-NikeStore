@@ -10,9 +10,9 @@ namespace Domain.Repositories
 {
     public interface IEmployeeRepository
     {
-        Task<List<Employees>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
-        Task<Employees> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-        void AddEmployee(Employees employees);
-        void UpdateEmployee(Employees employees);
+        Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
+        Task<Employee> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+        void AddEmployee(Employee employees);
+        void UpdateEmployee(Employee employees);
     }
 }

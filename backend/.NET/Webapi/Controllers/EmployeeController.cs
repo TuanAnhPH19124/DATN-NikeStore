@@ -23,7 +23,7 @@ namespace Webapi.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employees>>> GetAllEmployee()
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployee()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace Webapi.Controllers
 
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<Employees>> GetEmployee(Guid Id)
+        public async Task<ActionResult<Employee>> GetEmployee(string Id)
         {
             var employee = await _serviceManager.employeeService.GetByIdEmployee(Id);
 
@@ -73,7 +73,7 @@ namespace Webapi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<Employees>> CreateEmployee(Employees employees)
+        public async Task<ActionResult<Employee>> CreateEmployee(Employee employees)
         {
             try
             {
@@ -83,10 +83,10 @@ namespace Webapi.Controllers
                 }
 
                 // Set default role if not provided
-                if (string.IsNullOrEmpty(employees.Role))
-                {
-                    employees.Role = "employee";
-                }
+                //if (string.IsNullOrEmpty(employees.Role))
+                //{
+                //    employees.Role = "employee";
+                //}
 
                 var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
                 return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
@@ -99,9 +99,9 @@ namespace Webapi.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee(Guid id, Employees employees)
+        public async Task<IActionResult> UpdateEmployee(string id, Employee employees)
         {
-            if (id != employees.EmployeeId)
+            if (id != employees.Id)
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }

@@ -30,8 +30,8 @@ app.config(function ($routeProvider, $locationProvider){
       controller: "authController",
       templateUrl: "../page/login/register.html",
     })
-    .when("/5", {
-      templateUrl: "../page/login/forgotpassword.html",
+    .when("/2", {
+      templateUrl: "../page/login/accountinfomation.html",
     })
     .when("/6", {
       templateUrl: "../page/product/product.html",
@@ -44,6 +44,9 @@ app.config(function ($routeProvider, $locationProvider){
     })
     .when("/9", {
       templateUrl: "../page/contact/contact.html",
+    })
+    .when("/21", {
+      templateUrl: "../page/login/addressinfomation.html"
     })
     .when("/productDetail/:id", {
       templateUrl: "../page/productdetails/productdetail.html",
