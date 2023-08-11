@@ -1,3 +1,4 @@
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,7 @@ namespace EntitiesDto.Order
         public string CustomerName { get; set; } = string.Empty;
         public string VoucherId { get; set; }
         public string UserId { get; set; }
+        public int Status { get; set; } = ((int)OrderStatus.Confirm);
         public List<OrderItemPostRequestDto> OrderItems { get; set; }
     }
 }
