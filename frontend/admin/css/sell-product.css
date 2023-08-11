@@ -29,7 +29,7 @@
 }
 
 .modal-dialog{
-    max-width: 70%;
+  max-width: 500px;
 }
 .switch {
   position: relative;

@@ -49,7 +49,7 @@ $(document).ready(function () {
                     if (data == true) {
                         return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Không kích hoạt</span>';
                     }
                 }
             },
