@@ -327,13 +327,6 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <form class="date-picker-add-btn">
-                        <div class="date-picker">
-                            <label for="birthdaytime">Từ ngày</label>
-                            <input type="date" id="birthdaytime" name="birthdaytime">
-                            <label for="birthdaytime">Đến ngày</label>
-                            <input type="date" id="birthdaytime" name="birthdaytime">
-                        </div>
                         <div class="add-btn">
                             <a href="/frontend/admin/create-bill.html" class="btn btn-primary btn-icon-split">
                                 <span class="icon text-white-50">
@@ -342,8 +335,6 @@
                                 <span class="text">Tạo đơn hàng</span>
                             </a>
                         </div>
-
-                    </form>
                     <!-- Page Heading -->
                     <!-- Button trigger modal -->
 
@@ -481,7 +472,7 @@
                         </div>
                     </div>
 
-                    <div class="select">
+                    <!-- <div class="select">
                         <div class="form-filter">
                             <label for="exampleFormControlSelect1">Trạng thái:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
@@ -502,36 +493,15 @@
                                 <option>5</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Mã đơn hàng</th>
-                                            <th>Số sản phẩm</th>
-                                            <th>Tổng tiền</th>
-                                            <th>Tên khách hàng</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Ngày tạo</th>
-                                            <th>Loại đơn hàng</th>
-                                            <th>Trạng thái đơn</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr onclick="myFunction()">
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
+                                <table class="table table-bordered" id="bill-table" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
+
                                     </tbody>
                                 </table>
                             </div>

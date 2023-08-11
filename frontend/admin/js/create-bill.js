@@ -56,14 +56,10 @@ $('#voucher-select').on('change', function() {
     dataType: "json",
     success: function (data) {
         console.log(JSON.stringify(data));
-        console.log($("#total").text())
-        if($("#total").text()!="0 đ"){
-          var discount_price = $('#discount-price').text(((data.value*$("#total").text())/100));
-          $('#sum').text((($("#total").text())-discount_price[0].innerHTML)+" đ");
-          
-          document.getElementById("discount-price").innerHTML ="- " +discount_price[0].innerHTML+' đ';
-        }
-
+        var discount_price = $('#discount-price').text(((data.value*$("#total").text())/100));
+        $('#sum').text((($("#total").text())-discount_price[0].innerHTML)+" đ");
+        
+        document.getElementById("discount-price").innerHTML = discount_price[0].innerHTML+' đ';
     },
     error: function () {
         console.log("Error retrieving data.");
@@ -74,21 +70,15 @@ $('#voucher-select').on('change', function() {
 $('#create-bill').click(function (event) {
   event.preventDefault()
   var formData = {
-      address: $("#address").val(),
-      phoneNumber: $("#phoneNumber").val(),
-      note: $("#note").val(),
-      customerName: $("#customerName").val(),
-      voucherId: $("#voucher-select").val(),
-  };
-  var formData = {
     "address": $("#address").val(),
     "phoneNumber": $("#phoneNumber").val(),
     "note": $("#note").val(),
     "paymentMethod": 0,
-    "amount": 0,
+    "amount": $('#sum').text().replace(/\s/g, "").replace("đ", ""),
     "customerName":  $("#customerName").val(),
     "voucherId": $("#voucher-select").val(),
     "orderItems": JSON.parse(localStorage.getItem("cart")),
+    status: 1,
   };
   $.ajax({
       url: "https://localhost:44328/api/Orders/pay",
@@ -96,7 +86,8 @@ $('#create-bill').click(function (event) {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-         // window.location.href = `/frontend/admin/order.html`;
+        location.reload();
+        localStorage.removeItem('cart');
       },
   });
 });
@@ -120,13 +111,9 @@ $(document).ready(function () {
           { "data": 'name', 'title': 'Tên sản phẩm' },
           { "data": 'costPrice', 'title': 'Giá nhập',
           "render": function (data, type, row) {
-                  return data+" đ";
+                  return data+" VND";
           } },
-          { "data": 'retailPrice', 'title': 'Giá bán' ,
-          "render": function (data, type, row) {
-            return data+" đ";
-    }
-        },
+          { "data": 'retailPrice', 'title': 'Giá bán' },
           {
               "data": 'status', "title": "Trạng thái",
               "render": function (data, type, row) {
@@ -178,8 +165,8 @@ $('#productData tbody').on('click', 'tr', function (e) {
           console.log(JSON.stringify(data));
           $('#name').text(data.name);
           $('#description').val(data.description);
-          $('#retailPrice').text(data.retailPrice+" đ");
-          $('#costPrice').text(data.costPrice+ " đ");
+          $('#retailPrice').text(data.retailPrice);
+          $('#costPrice').text(data.costPrice);
           $('#status').val(data.status);
           $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
           
@@ -192,6 +179,7 @@ $('#productData tbody').on('click', 'tr', function (e) {
 });
 function addToCart(){
   const id = localStorage.getItem("selectedProduct");
+  deleteItem(id)
   const oldCart = localStorage.getItem("cart");
   $('#productModal').modal('hide');
   const obj = JSON.parse(oldCart);
@@ -200,6 +188,18 @@ function addToCart(){
   for (const key in obj) {
     arr.push(obj[key]);
   }
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].productId === id) {
+      arr.push({
+        "productId": id,
+        "unitPrice": $("#retailPrice").text(),
+        "quantity": Number($("#number").val())+Number(arr[i].quantity),
+        "name": $("#name").text(),
+      });
+      break;
+    }
+  }
+  // thêm sp vào localStorage
   arr.push({
     "productId": id,
     "unitPrice": $("#retailPrice").text(),
@@ -208,24 +208,21 @@ function addToCart(){
   });
   var cartJson = JSON.stringify(arr)
   localStorage.setItem("cart",cartJson)
+  
   // đẩy ra html
   pushHTML();
   // Đăng ký sự kiện click cho các nút xóa sản phẩm
-  document.addEventListener('click', function(event) {
-      if (event.target && event.target.matches('.btn-danger')) {
-          var productId = event.target.getAttribute('data-product-id');
-          deleteItem(productId);
-      }
-  });
-
-
-
 }
+document.addEventListener('click', function(event) {
+  if (event.target && event.target.matches('.btn-danger')) {
+      var productId = event.target.getAttribute('data-product-id');
+      deleteItem(productId);
+  }
+});
 function deleteItem(id){
   console.log(id)
   const oldCart = localStorage.getItem("cart");
   const obj = JSON.parse(oldCart);
-  console.log(obj)
   
   const productIdToDelete = id;
   
@@ -247,8 +244,8 @@ function pushHTML(){
       html += '<tr>';
       html += `<td><img src="https://localhost:44328/Images/${data[i].productId}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>  </td>`;
       html += `<td style="vertical-align: middle;">${data[i].name}</td>`;
-      html += '<td style="vertical-align: middle;">' + data[i].quantity+" đôi" + '</td>';
-      html += '<td style="vertical-align: middle;">' + (Number(data[i].quantity) * Number(data[i].unitPrice)) +" đ" + '</td>';
+      html += '<td style="vertical-align: middle;">' + data[i].quantity + '</td>';
+      html += '<td style="vertical-align: middle;">' + Number(data[i].quantity) * Number(data[i].unitPrice) + '</td>';
       html += `<td style="vertical-align: middle;"><button class="btn btn-danger" id="btn${data[i].productId}" data-product-id="${data[i].productId}"><i class="fa fa-times" aria-hidden="true"></i></button></td>`;
       html += '</tr>';
       totalPrice += data[i].quantity * data[i].unitPrice;
@@ -263,4 +260,5 @@ function pushHTML(){
   $('#myTable tbody').html(html); 
   $('tfoot').html(total); 
   $('#total').html(totalPrice);
+  $('#sum').html(totalPrice+" đ");
 }
