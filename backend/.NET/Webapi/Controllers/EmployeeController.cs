@@ -54,6 +54,24 @@ namespace Webapi.Controllers
             return employee;
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult<Employees>> CreateEmployee(Employees employees)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            return BadRequest(ModelState);
+        //        }
+        //        var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
+        //        return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
+
         [HttpPost]
         public async Task<ActionResult<Employees>> CreateEmployee(Employees employees)
         {
@@ -63,6 +81,13 @@ namespace Webapi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+
+                // Set default role if not provided
+                if (string.IsNullOrEmpty(employees.Role))
+                {
+                    employees.Role = "employee";
+                }
+
                 var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
                 return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
             }
@@ -71,6 +96,7 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(Guid id, Employees employees)
