@@ -18,12 +18,12 @@ namespace Persistence.Repositories
         {
             _appDbContext = appDbContext;
         }
-
         public async Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default)
         {
-            List<Employee> employeeList = await _appDbContext.Employees.ToListAsync(cancellationToken);
+            var employeeList = await _appDbContext.Employees.ToListAsync(cancellationToken);
             return employeeList;
         }
+
         public async Task<Employee> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var employee = await _appDbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);

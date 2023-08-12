@@ -21,8 +21,7 @@ namespace Webapi.Controllers
             _serviceManager = serviceManager;
         }
 
-
-        [HttpGet]
+        [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployee()
         {
             try
@@ -41,11 +40,10 @@ namespace Webapi.Controllers
 
         }
 
-
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(string Id)
+        [HttpGet("Get/{Id}")]
+        public async Task<ActionResult<Employee>> GetByIdEmployee(string Id)
         {
-            var employee = await _serviceManager.employeeService.GetByIdEmployee(Id);
+            var employee = await _serviceManager.employeeService.GetByIdEmployeeAsync(Id);
 
             if (employee == null)
             {
@@ -54,23 +52,6 @@ namespace Webapi.Controllers
             return employee;
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Employees>> CreateEmployee(Employees employees)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-        //        var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
-        //        return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
 
         [HttpPost]
         public async Task<ActionResult<Employee>> CreateEmployee([FromBody]Dto.EmployeeDto employees)
@@ -84,10 +65,9 @@ namespace Webapi.Controllers
                 });
             }
             var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
-            return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
+            return Ok(employees);
 
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(string id, [FromBody]Dto.UpdateEmployeeDto employees)

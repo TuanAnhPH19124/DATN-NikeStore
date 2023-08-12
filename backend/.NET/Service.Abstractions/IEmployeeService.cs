@@ -14,6 +14,7 @@ namespace Service.Abstractions
         Task<Employee> CreateAsync(Dto.EmployeeDto employees);
         Task UpdateByIdEmployee(string id, Dto.UpdateEmployeeDto employees, CancellationToken cancellationToken = default);
         Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
-        Task<Employee> GetByIdEmployee(string id, CancellationToken cancellationToken = default);
+        Task<Employee> GetByIdEmployeeAsync(string id, CancellationToken cancellationToken = default);
+        
     }
 }

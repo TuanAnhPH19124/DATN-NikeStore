@@ -30,13 +30,20 @@ namespace Service
         public async Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default)
         {
             List<Employee> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync(cancellationToken);
+            
             return employeeList;
         }
 
-        public async Task<Employee> GetByIdEmployee(string id, CancellationToken cancellationToken = default)
+        public async Task<Employee> GetByIdEmployeeAsync(string id, CancellationToken cancellationToken = default)
         {
-            Employee employees = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
-            return employees;
+            Employee employee = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
+            return employee;
+        }
+        public async Task<Employee> CreateAsync(Employee employee)
+        {
+            await _repositoryManger.EmployeeRepository.AddEmployee(employee);
+            // await _repositoryManger.UnitOfWork.SaveChangeAsync();
+            return employee;
         }
 
         public async Task UpdateByIdEmployee(string id, Dto.UpdateEmployeeDto employees, CancellationToken cancellationToken = default)
