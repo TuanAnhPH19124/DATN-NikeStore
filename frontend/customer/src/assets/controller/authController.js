@@ -1,5 +1,5 @@
 (function () {
-    var authController = function (e,l,authService,headerFactory,jwtHelper,wishListService){
+    var authController = function (e,l,authService,headerFactory,jwtHelper,wishListService, cartService){
         e.loggedInStatus = false;
         e.signInE = function (user) {
             if (user !== null){
@@ -12,12 +12,20 @@
                     wishListService.getWishLists(tokenDecode.Id)
                     .then(function (response){
                         headerFactory.setWishListCounter(response.data.length);
+
                     })
                     .catch(function (data){
                         console.log(data);
                     });
                     // get cart counter
-                    
+                    cartService.getCarts(tokenDecode.Id)
+                    .then(function (response){
+                        console.log(response.data);
+                        headerFactory.setCartCounter(response.data.length);
+                    })
+                    .catch(function (data){
+                        console.log(data);
+                    });
                     l.path('/');
                 })
                 .catch(function (data, status, header, configuration){
@@ -32,6 +40,8 @@
                 console.log(newUser);
                 authService.signUp(newUser)
                 .then(function (response){
+                    authService.setLoggedIn(!e.loggedInStatus);
+                    authService.setToken(response.data.token);
                     console.log(response);
                     l.path('/');
                 })
@@ -47,7 +57,7 @@
         };
         constructor();
     }
-    authController.$inject = ['$scope', '$location','authService', 'headerFactory', 'jwtHelper', 'wishListService'];
+    authController.$inject = ['$scope', '$location','authService', 'headerFactory', 'jwtHelper', 'wishListService', 'cartService'];
     angular.module("app").controller("authController", authController);
 
 }());

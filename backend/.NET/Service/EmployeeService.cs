@@ -19,7 +19,7 @@ namespace Service
             _repositoryManger = repositoryManger;
         }
 
-        public async Task<Employees> CreateAsync(Employees employees)
+        public async Task<Employee> CreateAsync(Employee employees)
         {
             _repositoryManger.EmployeeRepository.AddEmployee(employees);
 
@@ -29,19 +29,19 @@ namespace Service
 
         }
 
-        public async Task<List<Employees>> GetAllEmployeeAsync(CancellationToken cancellationToken = default)
+        public async Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default)
         {
-            List<Employees> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync (cancellationToken);
+            List<Employee> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync (cancellationToken);
             return employeeList;
         }
 
-        public async Task<Employees> GetByIdEmployee(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Employee> GetByIdEmployee(string id, CancellationToken cancellationToken = default)
         {
-            Employees employees = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
+            Employee employees = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
             return employees;
         }
 
-        public async Task<Employees> UpdateByIdEmployee(Guid id, Employees employees, CancellationToken cancellationToken = default)
+        public async Task<Employee> UpdateByIdEmployee(string id, Employee employees, CancellationToken cancellationToken = default)
         {
             var existingEmployee = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
             if (existingEmployee == null)
@@ -53,8 +53,6 @@ namespace Service
                 existingEmployee.SNN = employees.SNN;
                 existingEmployee.FullName= employees.FullName;
                 existingEmployee.PhoneNumber= employees.PhoneNumber;
-                existingEmployee.Password= employees.Password;
-                existingEmployee.Role= employees.Role;
                 existingEmployee.Status = employees.Status;              
                 await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
                 return existingEmployee;

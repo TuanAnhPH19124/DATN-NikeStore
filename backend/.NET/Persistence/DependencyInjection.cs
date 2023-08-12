@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Persistence.Configurations;
 using Persistence.Providers;
 using StackExchange.Redis;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,14 +25,14 @@ namespace Persistence
 
             services.AddSingleton<IConnectionMultiplexer>(opt => ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")));
 
-            services.AddIdentity<AppUser, IdentityRole>(option => option.SignIn.RequireConfirmedEmail = true)
+            services.AddIdentity<AppUser, IdentityRole>(option =>
+            {
+                option.SignIn.RequireConfirmedAccount = true;
+                option.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            })
              .AddEntityFrameworkStores<AppDbContext>()
              .AddDefaultTokenProviders();
-             
 
-
-
-            //services.Configure<JwtConfigs>(configuration.GetSection("JwtConfig"));
 
             services.AddAuthentication(option =>
             {
@@ -77,6 +75,7 @@ namespace Persistence
                         }
                     };
                 });
+
             services.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
         }
     }

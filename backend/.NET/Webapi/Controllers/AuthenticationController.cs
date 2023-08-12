@@ -28,20 +28,69 @@ namespace Webapi.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<CustomerHub> _contextHub;
-      
 
-    public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
-    {
-      _signInManager = signInManager;
-      _userManager = userManager;
-      _configuration = configuration;
-      _contextHub = contextHub;
-    }
 
-    [AllowAnonymous]
+        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _configuration = configuration;
+            _contextHub = contextHub;
+        }
+
+        [HttpPost("CreateEmployeeAccount")]
+        public async Task<IActionResult> CreateEmployeeAccount([FromBody]string phoneNumber)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    PhoneNumber = phoneNumber,
+                    Error = "Không được bỏ trống số điện thoại!"
+                });
+            }
+
+            string userName = phoneNumber.Substring(phoneNumber.Length - 6);
+            var userNameExisted = await _userManager.FindByNameAsync(userName);
+            if (userNameExisted != null)
+            {
+                return Conflict(new
+                {
+                    UserName = userName,
+                    Error = "UserName này đã tồn tại!"
+                });
+            }
+
+            var newUser = new AppUser()
+            {
+                UserName = userName,
+                PhoneNumber = phoneNumber
+            };
+            var passWord = "!123@Abc";
+            var newUserResponse = await _userManager.CreateAsync(newUser, passWord);
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, "Admin");
+                return Ok(new
+                {
+                    User = newUser,
+                });
+           
+            }
+            else
+            {
+                foreach (var error in newUserResponse.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet("google")]
         public IActionResult GoogleLogin()
-        
+
         {
             var authenticationProperties = new AuthenticationProperties
             {
@@ -72,15 +121,15 @@ namespace Webapi.Controllers
                         Email = email,
                         UserName = authenticateResult.Principal.FindFirstValue(ClaimTypes.Surname).Trim(),
                         EmailConfirmed = true
-                        
+
                     };
 
                     var result = await _userManager.CreateAsync(user, "A012292@a");
-                    if (result.Succeeded) 
+                    if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, "User");
                         roles = await _userManager.GetRolesAsync(user);
-                        token = JwtService.GenerateJwtToken(exsisted, roles,_configuration);
+                        token = JwtService.GenerateJwtToken(exsisted, roles, _configuration);
                         return Ok(new
                         {
                             Message = "Thanh cong",
@@ -105,65 +154,118 @@ namespace Webapi.Controllers
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn([FromBody] AppUserForLogin appUser)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user_exits = await _userManager.FindByEmailAsync(appUser.Email);
-
-                if (user_exits != null)
+                return BadRequest(new
                 {
-                    var is_correct = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);
-
-                    if (is_correct)
-                    {
-                        var roles = await _userManager.GetRolesAsync(user_exits);
-                        var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
-                        return Ok(new
-                        {
-                            Message = $"dang nhap thanh cong",
-                            Token = token
-                        });
-                    }
-
-                    return BadRequest("Mat khau chua chinh xac");
-                }
-
-                return NotFound("Email khong ton tai");
+                    data = ModelState,
+                    error = "Không được để trống thông tin đăng nhập!"
+                });
             }
 
-            return Unauthorized();
+            var user_exits = new AppUser();
+            if (!string.IsNullOrEmpty(appUser.UserName))
+            {
+                var userCheck = await _userManager.FindByNameAsync(appUser.UserName);
+                if (userCheck == null)
+                {
+                    return NotFound(new
+                    {
+                        email = appUser.UserName,
+                        error = "UserName này không tôn tại!"
+                    });
+                }
+                user_exits = userCheck;
+            }
+            else
+            {
+                var userCheck = await _userManager.FindByEmailAsync(appUser.Email);
+                if (userCheck == null)
+                {
+                    return NotFound(new
+                    {
+                        email = appUser.Email,
+                        error = "Email này không tôn tại!"
+                    });
+                }
+                user_exits = userCheck;
+            }
+           
+
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);
+            if (!passwordCorrect)
+                return Unauthorized();
+
+            var roles = await _userManager.GetRolesAsync(user_exits);
+            var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
+            return Ok(new
+            {
+                Message = $"dang nhap thanh cong",
+                Token = token
+            });
         }
 
         [AllowAnonymous]
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] AppUserForCreateDto appUser)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userExists = await _userManager.FindByEmailAsync(appUser.Email);
-                if (userExists == null)
+                return BadRequest(new
                 {
-                    var newUser = new AppUser()
-                    {
-                        Email = appUser.Email,
-                        UserName = appUser.UserName
-                    };
-                    var newUserResponse = await _userManager.CreateAsync(newUser, appUser.Password);
-                    if (newUserResponse.Succeeded)
-                    {
-                        await _userManager.AddToRoleAsync(newUser, "User");
-                        var roles = await _userManager.GetRolesAsync(newUser);
-                        var token = JwtService.GenerateJwtToken(newUser, roles, _configuration);
-                        return Ok(new
-                        {
-                            Message = "dang ki thanh cong",
-                            Token = token
-                        });
-                    }
-                    return BadRequest(newUserResponse.Errors);
-                }
-                return BadRequest("Tai khoan da ton tai");
+                    data = ModelState,
+                    error = "Không được bỏ trống thông tin đăng ký"
+                });
             }
-            return BadRequest("Khong duoc bo trong");
+
+            var emailExisted = await _userManager.FindByEmailAsync(appUser.Email);
+            if (emailExisted != null)
+            {
+                return Conflict(new
+                {
+                    Email = appUser.Email,
+                    Error = "Email này đã tồn tại vui lòng đăng nhập hoặc lấy lại mật khẩu!"
+                });
+            }
+
+            var userNameExisted = await _userManager.FindByNameAsync(appUser.UserName);
+            if (userNameExisted != null)
+            {
+                return Conflict(new
+                {
+                    UserName = appUser.UserName,
+                    Error = "UserName này đã tồn tại vui lòng chọn một tên khác!"
+                });
+            }
+
+            var newUser = new AppUser()
+            {
+                Email = appUser.Email,
+                UserName = appUser.UserName,
+                PhoneNumber = appUser.PhoneNumber
+            };
+
+            var newUserResponse = await _userManager.CreateAsync(newUser, appUser.Password);
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, "User");
+                var roles = await _userManager.GetRolesAsync(newUser);
+                var token = JwtService.GenerateJwtToken(newUser, roles, _configuration);
+                return Ok(new
+                {
+                    User = newUser,
+                    Token = token
+                });
+            }
+            else
+            {
+                foreach (var error in newUserResponse.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+           
         }
 
         [Route("confrimemail")]
@@ -191,7 +293,7 @@ namespace Webapi.Controllers
             return Ok("Dang xuat thanh cong");
         }
         [AllowAnonymous]
-       
+
         [Authorize]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)

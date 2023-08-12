@@ -11,8 +11,8 @@ namespace EntitiesDto
         public string Code { get; set; } = string.Empty;
         public decimal Value { get; set; }
         public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(10);
         public bool Status { get; set; }
         public DateTime CreatedDate { get; set; }
     }

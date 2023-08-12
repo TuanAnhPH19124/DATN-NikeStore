@@ -185,28 +185,51 @@ namespace Persistence.Migrations
                     b.ToTable("Color");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Employees", b =>
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
                 {
-                    b.Property<Guid>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("HomeTown")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("RelativeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RelativePhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -217,7 +240,10 @@ namespace Persistence.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
-                    b.HasKey("EmployeeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -442,9 +468,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
                 {
-                    b.Property<Guid>("ScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("ScheduleId")
+                        .HasColumnType("text");
 
                     b.Property<decimal>("CashFloat")
                         .HasColumnType("numeric");
@@ -452,8 +477,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp without time zone");
@@ -820,6 +845,17 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
+                {
+                    b.HasOne("Domain.Entities.AppUser", "AppUser")
+                        .WithOne("Employee")
+                        .HasForeignKey("Domain.Entities.Employee", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
@@ -902,11 +938,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
                 {
-                    b.HasOne("Domain.Entities.Employees", "Employees")
+                    b.HasOne("Domain.Entities.Employee", "Employees")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employees");
                 });
@@ -1047,6 +1081,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
                 {
+                    b.Navigation("Employee");
+
                     b.Navigation("Orders");
 
                     b.Navigation("ProductRate");

@@ -10,9 +10,10 @@ namespace Service.Abstractions
 {
     public interface IOrderService
     {
-        Task PostAndSendNontification(OrderPostRequestDto order);
+        Task PostAndSendNontification(OrderPostRequestDto orderDto);
 
         Task UpdateOrderOnConfirm(string id ,object order);
+        Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto);
         Task<List<Order>> GetAllOrderAsync(CancellationToken cancellationToken = default);
     }
 }

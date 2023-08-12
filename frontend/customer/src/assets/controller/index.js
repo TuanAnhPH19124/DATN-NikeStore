@@ -5,8 +5,15 @@ app.directive("headerPage", function () {
   return {
     restrict: 'E',
     templateUrl: '../directives/header-page.html',
-    controller: "wishListController"
+    controller: "headerController"
+    
 }
+})
+app.directive("productPrimary", function(){
+  return{
+    restrict: 'E',
+    templateUrl: '../directives/product-primary.html'
+  }
 })
 app.config(function ($routeProvider, $locationProvider){
     $locationProvider.hashPrefix(""); 
@@ -23,8 +30,8 @@ app.config(function ($routeProvider, $locationProvider){
       controller: "authController",
       templateUrl: "../page/login/register.html",
     })
-    .when("/5", {
-      templateUrl: "../page/login/forgotpassword.html",
+    .when("/2", {
+      templateUrl: "../page/login/accountinfomation.html",
     })
     .when("/6", {
       templateUrl: "../page/product/product.html",
@@ -38,34 +45,24 @@ app.config(function ($routeProvider, $locationProvider){
     .when("/9", {
       templateUrl: "../page/contact/contact.html",
     })
-    .when("/11", {
+    .when("/21", {
+      templateUrl: "../page/login/addressinfomation.html"
+    })
+    .when("/productDetail/:id", {
       templateUrl: "../page/productdetails/productdetail.html",
+      controller: "productDetailController"
     })
-    .when("/10", {
+    .when("/cart", {
       templateUrl: "../page/cart/cart.html",
+      controller: "cartsController"
     })
-    .when("/12", {
+    .when("/wishlist", {
       templateUrl: "../page/index/favoriteproduct.html",
+      controller: "wishListController"
     })
-    .when("/13", {
+    .when("/pay/:type", {
       templateUrl: "../page/cart/pay.html",
-    })
-    .when("/14", {
-      templateUrl: "../pages/deatails/deatail1.html",
-    })
-    .when("/15", {
-      templateUrl: "../pages/deatails/deatail2.html",
-    })
-    .when("/16", {
-      templateUrl: "../pages/qlsp_add/qlsp_add.html",
-      controller: "qlsp_add",
-    })
-    .when("/17", {
-      templateUrl: "../pages/qlsp_del/qlsp_del.html",
-      controller: "qlsp_del",
-    })
-    .when("/18", {
-      templateUrl: "../pages/giohang/giohang.html",
+      controller: "orderController"
     })
     .otherwise({
       templateUrl: "../pages/index/index.html",

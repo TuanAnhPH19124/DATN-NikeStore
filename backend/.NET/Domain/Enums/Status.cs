@@ -8,8 +8,9 @@ namespace Domain.Enums
 {
     public enum Status
     {
-        Active = 1,
-        Modified = 2
+        ACTIVE = 1,
+        MODIFIED = 2,
+
         
     }
 }

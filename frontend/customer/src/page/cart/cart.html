@@ -1,223 +1,153 @@
-  
-  <!-- The Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content"> 
-        <!-- Modal Header -->
-        <div class="modal-header" style="border-bottom: none;">
-          <h4 class="modal-title">GIỎ HÀNG</h4>
-        </div> 
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center; display: grid;">
-            <table class="table table-bordered">
-                <tbody class="table">
-                    <tr>
-                        <td>                           
-                            <img src="/frontend/customer/src/assets/img/product/1.jpg" width="80px" height="50px">                                                        
-                        </td>
-                        <td>
-                            <div class="">
-                                <a title="AIR JORDAN 1 LOW 'PANDA" name="img1">Giày Nike Jordan Panda Black White</a>
-                            </div>                           
-                        </td>
-                        <td>
-                            <div class="priceI">
-                                <span>2,300,000 đ</span>                                                        
-                            </div>
-                        </td>
-                        <td>
-                            <div class="action">
-                                
-                                <a href="" style="color: red; font-size: 24px; font-weight: 700;">X</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-              </table>
-        </div>  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a href="#10" style="color: white; text-decoration: none;">XEM GIỎ HÀNG</a></button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a href="#13" style="color: white; text-decoration: none;">THANH TOÁN</a></button>
-        </div> 
+<!-- MODAL -->
+<section class="container">
+  <div class="detal">
+    <div class="card mb-4" ng-repeat="cart in carts">
+      <div class="card-body p-4">
+        <div class="row align-items-center">
+          <input type="checkbox" ng-model="cart.isSelected">
+          <div class="col-md-2">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp" class="img-fluid"
+              alt="Generic placeholder image">
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <div>
+              <p class="small text-muted mb-4 pb-2"></p>
+              <p class="lead fw-normal mb-0">{{ cart.product.name }}</p>
+            </div>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <div>
+              <p class="small text-muted mb-4 pb-2">{{ cart.quantity }}</p>
+              <p class="lead fw-normal mb-0">1</p>
+            </div>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <div>
+              <p class="small text-muted mb-4 pb-2">Giá tiền</p>
+              <p class="lead fw-normal mb-0">{{ cart.product.retailPrice }} đ</p>
+              <p>giá khuyến mãi {{ cart.product.retailPrice * cart.product.discountRate / 100 }} đ</p>
+            </div>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <div>
+              <p class="small text-muted mb-4 pb-2">Tổng tiền</p>
+              <p class="lead fw-normal mb-0">{{ cart.product.retailPrice * cart.product.discountRate / 100 * cart.quantity }} đ</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-<!-- MODAL -->
-<section class="container">
-    <div class="title-cart">
-        <a>Tổng giá trị giỏ hàng của bạn là 1.534.000đ</a>
-    </div>
-    <div class="pay-cart">
-        <a href="#13" type="button" class="btn btn-primary">Thanh toán</a>
-    </div>
-    <div class="detal">
-        <div class="card mb-4">
-            <div class="card-body p-4">
-              <div class="row align-items-center">
-                <div class="col-md-2">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
-                    class="img-fluid" alt="Generic placeholder image">
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Sản phẩm</p>
-                    <p class="lead fw-normal mb-0">Giày chạy bộ</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Số lượng</p>
-                    <p class="lead fw-normal mb-0">1</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Giá tiền</p>
-                    <p class="lead fw-normal mb-0">1.986.987đ</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Tổng tiền</p>
-                    <p class="lead fw-normal mb-0">1.986.987đ</p>
-                  </div>
-                </div>
-              </div>              
-            </div>
-          </div>
-          <div class="card mb-4">
-            <div class="card-body p-4">
-              <div class="row align-items-center">
-                <div class="col-md-2">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
-                    class="img-fluid" alt="Generic placeholder image">
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Sản phẩm</p>
-                    <p class="lead fw-normal mb-0">Giày chạy bộ</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Số lượng</p>
-                    <p class="lead fw-normal mb-0">1</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Giá tiền</p>
-                    <p class="lead fw-normal mb-0">1.986.987đ</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Tổng tiền</p>
-                    <p class="lead fw-normal mb-0">1.986.987đ</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    </div>
-    <div style="text-align: right; font-size: 24px; font-weight: bold;">
-        <p>Thanh toán</p>
-        <p style="color: brown;">2.985.456đ</p>
-      </div>
-      <br>
-      <hr>
+  <div style="text-align: right; font-size: 24px; font-weight: bold;">
+    <a href="#13" type="button" class="btn btn-primary" ng-click="goToPayment()">Thanh toán</a>
+    <p>Tổng cộng</p>
+    <p style="color: brown;">{{totalAmount()}} đ</p>
+  </div>
+  <br>
+  <hr>
 </section>
 
 <section>
-    <div class="text-center">
-         <h2 style="font-weight: bold; padding-top: 20px;padding-bottom: 20px;">Có thể bạn sẽ thích</h2>
+  <div class="text-center">
+    <h2 style="font-weight: bold; padding-top: 20px;padding-bottom: 20px;">Có thể bạn sẽ thích</h2>
+  </div>
+  <div class="product">
+    <div class="boxProduct">
+      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
+      <div class="card-badge">New</div>
+      <ul class="product-links">
+        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
+              title="Thêm vào yêu thích"></i></button></li>
+      </ul>
+      <ul class="product-links-cart">
+        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
+              title="Thêm vào giỏ hàng"></i></button></li>
+      </ul>
+      <ul class="product-links-buy">
+        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
+        </li>
+      </ul>
+      <div class="name">
+        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+      </div>
+      <div class="priceI">
+        <span>2,300,000 đ</span>
+        <span class="strike"><del></del></span>
+      </div>
     </div>
-    <div class="product">
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>      
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
-            </ul> 
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
-            </ul>   
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
-            </ul>    
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>                                                        
-                <span class="strike"><del></del></span>  
-            </div>
-        </div>
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>      
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
-            </ul> 
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
-            </ul>   
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
-            </ul>    
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>                                                        
-                <span class="strike"><del></del></span>  
-            </div>
-        </div>
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>      
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
-            </ul> 
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
-            </ul>   
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
-            </ul>    
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>                                                        
-                <span class="strike"><del></del></span>  
-            </div>
-        </div>
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>      
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
-            </ul> 
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
-            </ul>   
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
-            </ul>    
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>                                                        
-                <span class="strike"><del></del></span>  
-            </div>
-        </div>
+    <div class="boxProduct">
+      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
+      <div class="card-badge">New</div>
+      <ul class="product-links">
+        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
+              title="Thêm vào yêu thích"></i></button></li>
+      </ul>
+      <ul class="product-links-cart">
+        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
+              title="Thêm vào giỏ hàng"></i></button></li>
+      </ul>
+      <ul class="product-links-buy">
+        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
+        </li>
+      </ul>
+      <div class="name">
+        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+      </div>
+      <div class="priceI">
+        <span>2,300,000 đ</span>
+        <span class="strike"><del></del></span>
+      </div>
     </div>
+    <div class="boxProduct">
+      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
+      <div class="card-badge">New</div>
+      <ul class="product-links">
+        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
+              title="Thêm vào yêu thích"></i></button></li>
+      </ul>
+      <ul class="product-links-cart">
+        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
+              title="Thêm vào giỏ hàng"></i></button></li>
+      </ul>
+      <ul class="product-links-buy">
+        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
+        </li>
+      </ul>
+      <div class="name">
+        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+      </div>
+      <div class="priceI">
+        <span>2,300,000 đ</span>
+        <span class="strike"><del></del></span>
+      </div>
+    </div>
+    <div class="boxProduct">
+      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
+      <div class="card-badge">New</div>
+      <ul class="product-links">
+        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
+              title="Thêm vào yêu thích"></i></button></li>
+      </ul>
+      <ul class="product-links-cart">
+        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
+              title="Thêm vào giỏ hàng"></i></button></li>
+      </ul>
+      <ul class="product-links-buy">
+        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
+        </li>
+      </ul>
+      <div class="name">
+        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+      </div>
+      <div class="priceI">
+        <span>2,300,000 đ</span>
+        <span class="strike"><del></del></span>
+      </div>
+    </div>
+  </div>
 </section>
 <div class="more">
-    <div class="">          
-        <a href="#6">Hiển thị thêm sản phẩm </a>     
-    </div>
+  <div class="">
+    <a href="#6">Hiển thị thêm sản phẩm </a>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using EntitiesDto;
+using EntitiesDto.Datas;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace Webapi.Controllers
 
         
         [HttpGet("{userId}")]
-        public async Task<ActionResult<ShoppingCarts>> GetShoppingCartByUserId(string userId)
+        public async Task<ActionResult<IEnumerable<Data.ShoppingCartItemData>>> GetShoppingCartByUserId(string userId)
         {
             var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(userId);
 
@@ -52,7 +53,7 @@ namespace Webapi.Controllers
             var check = await _serviceManager.ShoppingCartItemsService.checkProduct(newCartItem.ProductId, get);
             if (check != null)
             {
-                check.Quantity++;
+                check.Quantity += newCartItem.Quantity;
                 await _serviceManager.ShoppingCartItemsService.UpdateCartItemAsync(check.Id, check);
             }
             else
@@ -65,7 +66,7 @@ namespace Webapi.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCartItemQuantity([FromBody] Dto.ShoppingCartItemsDto shoppingCartItemsDto)
         {
-            await _serviceManager.ShoppingCartItemsService.UpdatePutAsync(shoppingCartItemsDto.ShoppingCartId, shoppingCartItemsDto.IsQuantity);
+            //await _serviceManager.ShoppingCartItemsService.UpdatePutAsync(shoppingCartItemsDto.ShoppingCartId, shoppingCartItemsDto.IsQuantity);
             return Ok();
         }
 
