@@ -1,5 +1,10 @@
 (function () {
     var headerController = function (e, wishListService, authService, jwtHelper, headerFactory){
+        e.isLogin = function () {
+            return authService.isLoggedIn();
+        };
+
+        
         e.wishListCounter = function () {
             return headerFactory.getWishListCounter();
         };

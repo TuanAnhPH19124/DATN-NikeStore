@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums
 {
-    public enum Status
+    public enum Gender
     {
-        ACTIVE = 1,
-        MODIFIED = 2,
-
-        
+      
     }
 }

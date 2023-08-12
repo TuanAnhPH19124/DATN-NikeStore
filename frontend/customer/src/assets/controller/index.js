@@ -30,8 +30,8 @@ app.config(function ($routeProvider, $locationProvider){
       controller: "authController",
       templateUrl: "../page/login/register.html",
     })
-    .when("/5", {
-      templateUrl: "../page/login/forgotpassword.html",
+    .when("/2", {
+      templateUrl: "../page/login/accountinfomation.html",
     })
     .when("/6", {
       templateUrl: "../page/product/product.html",
@@ -45,34 +45,24 @@ app.config(function ($routeProvider, $locationProvider){
     .when("/9", {
       templateUrl: "../page/contact/contact.html",
     })
-    .when("/11", {
-      templateUrl: "../page/productdetails/productdetail.html",
-    })
-    .when("/10", {
-      templateUrl: "../page/cart/cart.html",
-    })
-    .when("/12", {
-      templateUrl: "../page/index/favoriteproduct.html",
-    })
-    .when("/13", {
-      templateUrl: "../page/cart/pay.html",
-    })
-    .when("/20", {
-      templateUrl: "../page/login/accountinfomation.html",
-    })
     .when("/21", {
-      templateUrl: "../page/login/addressinfomation.html",
+      templateUrl: "../page/login/addressinfomation.html"
     })
-    .when("/16", {
-      templateUrl: "../pages/qlsp_add/qlsp_add.html",
-      controller: "qlsp_add",
+    .when("/productDetail/:id", {
+      templateUrl: "../page/productdetails/productdetail.html",
+      controller: "productDetailController"
     })
-    .when("/17", {
-      templateUrl: "../pages/qlsp_del/qlsp_del.html",
-      controller: "qlsp_del",
+    .when("/cart", {
+      templateUrl: "../page/cart/cart.html",
+      controller: "cartsController"
     })
-    .when("/18", {
-      templateUrl: "../pages/giohang/giohang.html",
+    .when("/wishlist", {
+      templateUrl: "../page/index/favoriteproduct.html",
+      controller: "wishListController"
+    })
+    .when("/pay/:type", {
+      templateUrl: "../page/cart/pay.html",
+      controller: "orderController"
     })
     .otherwise({
       templateUrl: "../pages/index/index.html",

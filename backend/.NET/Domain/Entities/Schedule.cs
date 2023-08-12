@@ -9,11 +9,11 @@ namespace Domain.Entities
 {
     public class Schedule
     {
-        public Guid ScheduleId { get; set; }
+        public string ScheduleId { get; set; }
 
       
-        public Guid EmployeeId { get; set; }
-        public Employees Employees { get; set; }
+        public string EmployeeId { get; set; }
+        public Employee Employees { get; set; }
 
         [Required(ErrorMessage = "Date là bắt buộc")]
         public DateTime Date { get; set; }

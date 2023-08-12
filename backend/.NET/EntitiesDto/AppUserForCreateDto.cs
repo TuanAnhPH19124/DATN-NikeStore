@@ -24,6 +24,7 @@ namespace EntitiesDto
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Số điện thoại phải đủ 10 số.")]
         public string PhoneNumber { get; set; }
 
+        [Required]
         public string UserName { get; set; }
     }
 }

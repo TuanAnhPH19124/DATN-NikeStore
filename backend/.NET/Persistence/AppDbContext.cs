@@ -33,8 +33,12 @@ namespace Persistence
                 .HasOne(w => w.AppUser)
                 .WithMany()
                 .HasForeignKey(w => w.AppUserId);
-         
 
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.AppUser)
+            .WithOne(u => u.Employee)
+            .HasForeignKey<Employee>(e => e.AppUserId)
+            .IsRequired(); 
 
             modelBuilder.Entity<Product>()
                  .HasMany(p => p.ProductRate)
@@ -73,7 +77,7 @@ namespace Persistence
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
-        public DbSet<Employees> Employees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }
