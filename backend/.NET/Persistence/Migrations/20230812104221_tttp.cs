@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class updateTableEmployee : Migration
+    public partial class tttp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

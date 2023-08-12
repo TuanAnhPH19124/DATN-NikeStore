@@ -10,9 +10,9 @@ namespace Service.Abstractions
 {
     public interface IEmployeeService
     {
-        Task<Employee> CreateAsync(Employee employees);
-        Task<Employee> UpdateByIdEmployee(string id, Employee employees, CancellationToken cancellationToken = default);
         Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
-        Task<Employee> GetByIdEmployee(string id, CancellationToken cancellationToken = default);
+        Task<Employee> GetByIdEmployeeAsync(string id, CancellationToken cancellationToken = default);
+        Task<Employee> CreateAsync(Employee employee);
+        Task<Employee> UpdateByIdEmployee(string id, Employee employee, CancellationToken cancellationToken = default);
     }
 }
