@@ -7,6 +7,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using EntitiesDto;
+using Mapster;
 
 namespace Webapi.Controllers
 {
@@ -21,8 +23,7 @@ namespace Webapi.Controllers
             _serviceManager = serviceManager;
         }
 
-
-        [HttpGet]
+        [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployee()
         {
             try
@@ -41,11 +42,10 @@ namespace Webapi.Controllers
 
         }
 
-
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(string Id)
+        [HttpGet("Get/{Id}")]
+        public async Task<ActionResult<Employee>> GetByIdEmployee(string Id)
         {
-            var employee = await _serviceManager.employeeService.GetByIdEmployee(Id);
+            var employee = await _serviceManager.employeeService.GetByIdEmployeeAsync(Id);
 
             if (employee == null)
             {
@@ -54,64 +54,36 @@ namespace Webapi.Controllers
             return employee;
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Employees>> CreateEmployee(Employees employees)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-        //        var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
-        //        return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> CreateEmployee(Employee employees)
+        public async Task<IActionResult> CreateEmployee(EmployeeDto employeeDto)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // Set default role if not provided
-                //if (string.IsNullOrEmpty(employees.Role))
-                //{
-                //    employees.Role = "employee";
-                //}
-
-                var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
-                return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
+                var employee = employeeDto.Adapt<Employee>();
+                await _serviceManager.employeeService.CreateAsync(employee);
+                return CreatedAtAction(nameof(GetByIdEmployee), new { id = employee.Id }, employee);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
         }
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee(string id, Employee employees)
+        public async Task<IActionResult> UpdateEmployee(string id, EmployeeUpdateDto employeeUpdateDto)
         {
-            if (id != employees.Id)
+            if (id != employeeUpdateDto.Id)
             {
                 return BadRequest("The provided id does not match the id in the user data.");
             }
             try
             {
-                await _serviceManager.employeeService.UpdateByIdEmployee(id, employees);
+                var employee = employeeUpdateDto.Adapt<Employee>();
+                await _serviceManager.employeeService.UpdateByIdEmployee(id, employee);
             }
             catch (Exception ex)
             {
-                // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
                 return StatusCode((int)HttpStatusCode.Conflict, ex);
             }
             return NoContent();

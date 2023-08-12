@@ -18,45 +18,40 @@ namespace Service
         {
             _repositoryManger = repositoryManger;
         }
-
-        public async Task<Employee> CreateAsync(Employee employees)
-        {
-            _repositoryManger.EmployeeRepository.AddEmployee(employees);
-
-            await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return employees;
-
-
-        }
-
         public async Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default)
         {
-            List<Employee> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync (cancellationToken);
+            List<Employee> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync(cancellationToken);
             return employeeList;
         }
 
-        public async Task<Employee> GetByIdEmployee(string id, CancellationToken cancellationToken = default)
+        public async Task<Employee> GetByIdEmployeeAsync(string id, CancellationToken cancellationToken = default)
         {
-            Employee employees = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
-            return employees;
+            Employee employee = await _repositoryManger.EmployeeRepository.GetByIdEmployeeAsync(id, cancellationToken);
+            return employee;
         }
-
-        public async Task<Employee> UpdateByIdEmployee(string id, Employee employees, CancellationToken cancellationToken = default)
+        public async Task<Employee> CreateAsync(Employee employee)
         {
-            var existingEmployee = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
+            await _repositoryManger.EmployeeRepository.AddEmployee(employee);
+            // await _repositoryManger.UnitOfWork.SaveChangeAsync();
+            return employee;
+        }
+        public async Task<Employee> UpdateByIdEmployee(string id, Employee employee, CancellationToken cancellationToken = default)
+        {
+            var existingEmployee = await _repositoryManger.EmployeeRepository.GetByIdEmployeeAsync(id, cancellationToken);
             if (existingEmployee == null)
             {
-                throw new Exception("Employee not found.");
+                throw new Exception("User not found.");
             }
             else
             {
-                existingEmployee.SNN = employees.SNN;
-                existingEmployee.FullName= employees.FullName;
-                existingEmployee.PhoneNumber= employees.PhoneNumber;
-                existingEmployee.Status = employees.Status;              
-                await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
+                existingEmployee.DateOfBirth = employee.DateOfBirth;
+                existingEmployee.FullName= employee.FullName;
+                existingEmployee.SNN = employee.SNN;
+                existingEmployee.Gender = employee.Gender;
+                existingEmployee.Address= employee.Address;               
+                await _repositoryManger.EmployeeRepository.UpdateEmployee(id, existingEmployee);
                 return existingEmployee;
             }
-        }       
+        }
     }
 }

@@ -11,8 +11,9 @@ namespace Domain.Repositories
     public interface IEmployeeRepository
     {
         Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
-        Task<Employee> GetByIdAsync(string id, CancellationToken cancellationToken = default);
-        void AddEmployee(Employee employees);
-        void UpdateEmployee(Employee employees);
+        Task<Employee> GetByIdEmployeeAsync(string id, CancellationToken cancellationToken = default);
+        Task AddEmployee(Employee employee);
+        Task UpdateEmployee(string id, Employee employee);
+
     }
 }
