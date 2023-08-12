@@ -14,7 +14,6 @@ $(document).ready(function () {
             },
             { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'snn', "title": "Số căn cước" },
-            { "data": 'phoneNumber', "title": "Số điện thoại" },
             {
                 "data": 'modifiedDate', "title": "Ngày thay đổi",
                 "render": function (data, type, full, meta) {
@@ -26,7 +25,6 @@ $(document).ready(function () {
                     return formattedDate;
                 }
             },
-            { "data": 'role', "title": "Vai trò" },
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == true) {

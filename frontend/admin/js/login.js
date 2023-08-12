@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#login-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            email: $("#email").val(),
+            userName: $("#userName").val(),
             password: $("#password").val(),
         };
         $.ajax({
