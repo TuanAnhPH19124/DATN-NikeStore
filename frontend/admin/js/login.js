@@ -21,6 +21,9 @@ $(document).ready(function () {
                 console.log(payload);
                 console.log(signature);
                 if(payload.role=="Admin"){
+                    localStorage.setItem("user-id", payload.Id);
+                    const id = localStorage.getItem("user-id");
+                    console.log(id)
                     window.location.href = `/frontend/admin/index.html`;
                 }else{
                     $('.toast').toast('show')

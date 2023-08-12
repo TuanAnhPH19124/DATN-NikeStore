@@ -1,6 +1,10 @@
+const id = localStorage.getItem("user-id");
 function closeModal(modalId) {
     $(modalId).modal('hide');
   }
+  window.addEventListener('load', function() {
+    localStorage.removeItem('cart');
+  });
   function selectButton(button) {
     // Deselect all buttons in the group
     var buttons = button.parentElement.children;
@@ -83,15 +87,14 @@ $('#create-bill').click(function (event) {
     "voucherId": $("#voucher-select").val(),
     "orderItems": JSON.parse(localStorage.getItem("cart")),
     status: 1,
+    userId: id
   };
   $.ajax({
-      url: "https://localhost:44328/api/Orders/pay",
+      url: "https://localhost:44328/api/Orders/PayAtStore",
       type: "POST",
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        location.reload();
-        localStorage.removeItem('cart');
       },
   });
 });
@@ -186,40 +189,53 @@ $('#productData tbody').on('click', 'tr', function (e) {
 });
 function addToCart(){
   const id = localStorage.getItem("selectedProduct");
-  deleteItem(id)
-  const oldCart = localStorage.getItem("cart");
-  $('#productModal').modal('hide');
-  const obj = JSON.parse(oldCart);
-
-  const arr = [];
-  for (const key in obj) {
-    arr.push(obj[key]);
-  }
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].productId === id) {
-      console.log(arr[i]);
-      arr.push({
-        "productId": id,
-        "unitPrice": $("#retailPrice").text(),
-        "quantity": Number($("#number").val())+Number(arr[i].quantity),
-        "name": $("#name").text(),
-      });
-      break;
-    }
-  }
-  // thêm sp vào localStorage
-  arr.push({
-    "productId": id,
-    "unitPrice": $("#retailPrice").text(),
-    "quantity": $("#number").val(),
-    "name": $("#name").text(),
-  });
-  var cartJson = JSON.stringify(arr)
-  localStorage.setItem("cart",cartJson)
-  
-  // đẩy ra html
-  pushHTML();
-  // Đăng ký sự kiện click cho các nút xóa sản phẩm
+  $.ajax({
+    url: "https://localhost:44328/api/Stock/6d5c0c7f-f8fa-41d1-be54-93bd6d113583",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+        console.log(JSON.stringify(data));
+        try{
+          deleteItem(id)
+        }finally{
+          const oldCart = localStorage.getItem("cart");
+          $('#productModal').modal('hide');
+          const obj = JSON.parse(oldCart);
+        
+          const arr = [];
+          for (const key in obj) {
+            arr.push(obj[key]);
+          }
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].productId === id) {
+              console.log(arr[i]);
+              arr.push({
+                "productId": id,
+                "unitPrice": $("#retailPrice").text(),
+                "quantity": Number($("#number").val())+Number(arr[i].quantity),
+                "name": $("#name").text(),
+                "productId": data.productId,
+                "colorId": data.colorId,
+              });
+              break;
+            }
+          }
+          // thêm sp vào localStorage
+          arr.push({
+            "productId": id,
+            "unitPrice": $("#retailPrice").text(),
+            "quantity": $("#number").val(),
+            "name": $("#name").text(),
+          });
+          var cartJson = JSON.stringify(arr)
+          localStorage.setItem("cart",cartJson)
+          
+          // đẩy ra html
+          pushHTML();
+          // Đăng ký sự kiện click cho các nút xóa sản phẩm
+        }
+    },
+});
 }
 document.addEventListener('click', function(event) {
   if (event.target && event.target.matches('.btn-danger')) {
@@ -233,7 +249,7 @@ function deleteItem(id){
   const obj = JSON.parse(oldCart);
   
   const productIdToDelete = id;
-  
+
   const newArray = obj.filter(item => item.productId !== productIdToDelete);
   localStorage.removeItem('cart');
   var cartJson = JSON.stringify(newArray)

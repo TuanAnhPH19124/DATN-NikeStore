@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var staffTable = $('#staff-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/Employee",
+            "url": "https://localhost:44328/api/Employee/Get",
             "dataType": "json",
             "dataSrc": ""
         },
@@ -12,10 +12,17 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'snn', "title": "Số căn cước" },
+            { "data": 'fullName', "title": "Họ và tên" },
+            { "data": 'gender', "title": "Giới tính", "render": function (data, type, row) {
+                if (data == true) {
+                    return '<span class="badge badge-pill badge-primary" style="padding:10px;">Nam</span>';
+                } else {
+                    return '<span class="badge badge-pill badge-danger" style="padding:10px;">Nữ</span>';
+                }
+            }},
             {
-                "data": 'modifiedDate', "title": "Ngày thay đổi",
+                "data": 'dateOfBirth', "title": "Ngày sinh",
                 "render": function (data, type, full, meta) {
                     var dateObj = new Date(data);
                     var day = dateObj.getUTCDate();

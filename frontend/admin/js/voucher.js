@@ -1,5 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var voucherTable = $('#voucher-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Voucher/Get",
@@ -77,7 +78,8 @@ $(document).ready(function () {
                 "sNext": "Tiếp",
                 "sPrevious": "Trước"
             },
-          }
+          },
+          
     });
     setInterval(function () {
         voucherTable.ajax.reload();
