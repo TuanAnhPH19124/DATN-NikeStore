@@ -1,10 +1,10 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
+using Mapster;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,19 +19,17 @@ namespace Service
             _repositoryManger = repositoryManger;
         }
 
-        public async Task<Employee> CreateAsync(Employee employees)
+        public async Task<Employee> CreateAsync(Dto.EmployeeDto employees)
         {
-            _repositoryManger.EmployeeRepository.AddEmployee(employees);
-
+            var newEmployee = employees.Adapt<Employee>();
+            await _repositoryManger.EmployeeRepository.AddEmployee(newEmployee);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
-            return employees;
-
-
+            return newEmployee;
         }
 
         public async Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default)
         {
-            List<Employee> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync (cancellationToken);
+            List<Employee> employeeList = await _repositoryManger.EmployeeRepository.GetAllEmployeeAsync(cancellationToken);
             return employeeList;
         }
 
@@ -41,22 +39,20 @@ namespace Service
             return employees;
         }
 
-        public async Task<Employee> UpdateByIdEmployee(string id, Employee employees, CancellationToken cancellationToken = default)
+        public async Task UpdateByIdEmployee(string id, Dto.UpdateEmployeeDto employees, CancellationToken cancellationToken = default)
         {
-            var existingEmployee = await _repositoryManger.EmployeeRepository.GetByIdAsync(id, cancellationToken);
-            if (existingEmployee == null)
+            try
             {
-                throw new Exception("Employee not found.");
-            }
-            else
-            {
-                existingEmployee.SNN = employees.SNN;
-                existingEmployee.FullName= employees.FullName;
-                existingEmployee.PhoneNumber= employees.PhoneNumber;
-                existingEmployee.Status = employees.Status;              
+                var updateEmp = employees.Adapt<Employee>();
+                _repositoryManger.EmployeeRepository.UpdateEmployee(id, updateEmp);
                 await _repositoryManger.UnitOfWork.SaveChangeAsync(cancellationToken);
-                return existingEmployee;
+
             }
-        }       
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
     }
 }

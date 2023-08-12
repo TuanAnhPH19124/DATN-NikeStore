@@ -12,7 +12,7 @@ namespace Domain.Repositories
     {
         Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
         Task<Employee> GetByIdAsync(string id, CancellationToken cancellationToken = default);
-        void AddEmployee(Employee employees);
-        void UpdateEmployee(Employee employees);
+        Task AddEmployee(Employee employees);
+        void UpdateEmployee(string id, Employee employees);
     }
 }

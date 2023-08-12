@@ -38,7 +38,7 @@ namespace Persistence
             .HasOne(e => e.AppUser)
             .WithOne(u => u.Employee)
             .HasForeignKey<Employee>(e => e.AppUserId)
-            .IsRequired(); 
+            .IsRequired(false);
 
             modelBuilder.Entity<Product>()
                  .HasMany(p => p.ProductRate)

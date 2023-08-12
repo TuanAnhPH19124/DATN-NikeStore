@@ -1,12 +1,12 @@
 ﻿using Domain.Entities;
-using Microsoft.AspNetCore.Http;
+using EntitiesDto;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstractions;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System;
-using System.Linq;
 
 namespace Webapi.Controllers
 {
@@ -73,48 +73,53 @@ namespace Webapi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> CreateEmployee(Employee employees)
+        public async Task<ActionResult<Employee>> CreateEmployee([FromBody]Dto.EmployeeDto employees)
         {
-            try
+
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                return BadRequest(new
                 {
-                    return BadRequest(ModelState);
-                }
-
-                // Set default role if not provided
-                //if (string.IsNullOrEmpty(employees.Role))
-                //{
-                //    employees.Role = "employee";
-                //}
-
-                var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
-                return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
+                    Error = ModelState
+                });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var createdEmployee = await _serviceManager.employeeService.CreateAsync(employees);
+            return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
+
         }
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee(string id, Employee employees)
+        public async Task<IActionResult> UpdateEmployee(string id, [FromBody]Dto.UpdateEmployeeDto employees)
         {
-            if (id != employees.Id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("The provided id does not match the id in the user data.");
+                return BadRequest(new
+                {
+                    data = employees,
+                    error = "Thieu truong thong tin."
+                });
             }
+
+            if (id != employees.Id)
+                return BadRequest(new { error = "The provided id does not match the id in the user data." });
+            
+
             try
             {
                 await _serviceManager.employeeService.UpdateByIdEmployee(id, employees);
+                return NoContent();
             }
             catch (Exception ex)
             {
                 // Xử lý ngoại lệ DbUpdateConcurrencyException tại đây
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
+                //return StatusCode((int)HttpStatusCode.Conflict, ex);
+                return BadRequest(new
+                {
+                    error = ex.Message
+                });
             }
-            return NoContent();
+            
         }
     }
 }

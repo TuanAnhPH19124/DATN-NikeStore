@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,18 +26,59 @@ namespace Persistence.Repositories
         }
         public async Task<Employee> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
-            var employee = await _appDbContext.Employees .FirstOrDefaultAsync(e => e.Id == id);
+            var employee = await _appDbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);
             return employee;
         }
 
-        public async void AddEmployee (Employee employees)
+        public async Task AddEmployee (Employee employees)
         {
-            _appDbContext.Employees.Add(employees);
+            using (var transaction = _appDbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _appDbContext.Employees.AddAsync(employees);
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
         }
 
-        public async void UpdateEmployee(Employee employees)
+        public async void UpdateEmployee(string id, Employee employees)
         {
-            _appDbContext.Employees.Update(employees);
+            var emp = _appDbContext.Employees.Find(id);
+
+            if (emp == null)
+                throw new Exception("Khong tim thay nhan vien nay");
+
+            emp.ModifiedDate = employees.ModifiedDate;
+            emp.SNN = employees.SNN;
+            emp.PhoneNumber = employees.PhoneNumber;
+            emp.FullName = employees.FullName;
+            emp.DateOfBirth = employees.DateOfBirth;
+            emp.Gender = employees.Gender;
+            emp.HomeTown = employees.HomeTown;
+            emp.Address = employees.Address;
+            emp.RelativeName = employees.RelativeName;
+            emp.RelativePhoneNumber = employees.RelativePhoneNumber;
+            emp.Status = emp.Status;
+
+            using (var transaction = _appDbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    _appDbContext.Employees.Update(emp);
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
         }
     }
 }

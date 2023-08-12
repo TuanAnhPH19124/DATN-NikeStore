@@ -8,10 +8,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using Nest;
 using Persistence.Ultilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Webapi.Hubs;
 
@@ -200,7 +204,7 @@ namespace Webapi.Controllers
             var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
             return Ok(new
             {
-                Message = $"dang nhap thanh cong",
+                User = user_exits.UserName,
                 Token = token
             });
         }
@@ -228,12 +232,30 @@ namespace Webapi.Controllers
                 });
             }
 
-            var userNameExisted = await _userManager.FindByNameAsync(appUser.UserName);
+            #region tạo username tự động
+            string[] nameParts = appUser.FullName.Split(' ');
+            string lastName = nameParts[nameParts.Length - 1];
+            string lastNameWithoutDiacritics = new string(lastName.Normalize(NormalizationForm.FormD)
+            .Where(ch => CharUnicodeInfo.GetUnicodeCategory(ch) != UnicodeCategory.NonSpacingMark)
+            .ToArray()).ToLower();
+            string firstNameInitials = "";
+            foreach (var namePart in nameParts)
+            {
+                if (namePart.Length > 0)
+                {
+                    firstNameInitials += namePart[0];
+                }
+            }
+            var sixDigit = appUser.PhoneNumber.Substring(appUser.PhoneNumber.Length - 3);
+            var userName = lastNameWithoutDiacritics + firstNameInitials.ToLower() + sixDigit;
+            #endregion
+
+            var userNameExisted = await _userManager.FindByNameAsync(userName);
             if (userNameExisted != null)
             {
                 return Conflict(new
                 {
-                    UserName = appUser.UserName,
+                    UserName = userName,
                     Error = "UserName này đã tồn tại vui lòng chọn một tên khác!"
                 });
             }
@@ -241,8 +263,9 @@ namespace Webapi.Controllers
             var newUser = new AppUser()
             {
                 Email = appUser.Email,
-                UserName = appUser.UserName,
-                PhoneNumber = appUser.PhoneNumber
+                PhoneNumber = appUser.PhoneNumber,
+                FullName = appUser.FullName,
+                UserName = userName
             };
 
             var newUserResponse = await _userManager.CreateAsync(newUser, appUser.Password);
@@ -253,7 +276,7 @@ namespace Webapi.Controllers
                 var token = JwtService.GenerateJwtToken(newUser, roles, _configuration);
                 return Ok(new
                 {
-                    User = newUser,
+                    User = newUser.UserName,
                     Token = token
                 });
             }
@@ -292,8 +315,8 @@ namespace Webapi.Controllers
             Response.Cookies.Delete("username", new CookieOptions { Path = "/", Expires = DateTimeOffset.Now.AddDays(-1) });
             return Ok("Dang xuat thanh cong");
         }
-        [AllowAnonymous]
 
+        [AllowAnonymous]
         [Authorize]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)

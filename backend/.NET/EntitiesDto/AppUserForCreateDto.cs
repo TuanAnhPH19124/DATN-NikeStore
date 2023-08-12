@@ -25,6 +25,6 @@ namespace EntitiesDto
         public string PhoneNumber { get; set; }
 
         [Required]
-        public string UserName { get; set; }
+        public string FullName { get; set; }
     }
 }
