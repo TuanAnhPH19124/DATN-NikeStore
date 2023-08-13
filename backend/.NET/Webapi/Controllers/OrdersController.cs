@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Webapi.Hubs;
+using Domain.DTOs;
 
 namespace Webapi.Controllers
 {
@@ -51,8 +52,8 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("Get")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrder()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetAllOrder()
         {
             try
             {

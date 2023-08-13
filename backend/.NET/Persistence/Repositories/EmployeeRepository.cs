@@ -64,7 +64,7 @@ namespace Persistence.Repositories
             emp.Address = employees.Address;
             emp.RelativeName = employees.RelativeName;
             emp.RelativePhoneNumber = employees.RelativePhoneNumber;
-            emp.Status = emp.Status;
+            emp.Status = employees.Status;
 
             using (var transaction = _appDbContext.Database.BeginTransaction())
             {
