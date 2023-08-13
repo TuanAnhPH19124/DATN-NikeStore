@@ -72,6 +72,10 @@ namespace Persistence.Repositories
             return orderDTOList;
         }
 
+        public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Orders.Include(p => p.Id == id).FirstOrDefaultAsync(p => p.Id == id);
+        }
         public async Task<Order> SelectById(string id)
         {
             return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
