@@ -72,6 +72,18 @@ $(document).ready(function () {
             window.location.href = `/frontend/admin/update-color.html`;
         }
     });
+    $("#add-color-form").validate({
+        rules: {
+            "name": {
+                required: true,
+            },
+        },
+        messages: {
+            "name": {
+                required: "Mời bạn nhập Số size",
+            },
+        },
+    });
 });
 
 

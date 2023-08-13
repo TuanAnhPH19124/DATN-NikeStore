@@ -1,5 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var voucherTable = $('#voucher-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Voucher/Get",
@@ -8,7 +9,7 @@ $(document).ready(function () {
         },
         "columns": [
             {
-                "data": 'id', "title": "ID", render: function (data, type, row, meta) {
+                "data": 'id', "title": "STT", render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
             },
@@ -49,7 +50,7 @@ $(document).ready(function () {
                     if (data == true) {
                         return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Không kích hoạt</span>';
                     }
                 }
             },
@@ -77,7 +78,8 @@ $(document).ready(function () {
                 "sNext": "Tiếp",
                 "sPrevious": "Trước"
             },
-          }
+          },
+          
     });
     setInterval(function () {
         voucherTable.ajax.reload();

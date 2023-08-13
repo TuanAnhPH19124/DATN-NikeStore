@@ -24,7 +24,10 @@ $(document).ready(function () {
             "render": function (data, type, row) {
                     return data+" VND";
             } },
-            { "data": 'retailPrice', 'title': 'Giá bán' },
+            { "data": 'retailPrice', 'title': 'Giá bán',
+            "render": function (data, type, row) {
+                return data+" VND";
+        }  },
             {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
