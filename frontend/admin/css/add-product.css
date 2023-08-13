@@ -209,3 +209,8 @@ input::-webkit-inner-spin-button {
   border-radius: 0px;
   padding: 5px 30px;
 }
+.error {
+  color: red;
+  font-size: 1em;
+  width: 100%;
+}

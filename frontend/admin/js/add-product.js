@@ -73,5 +73,38 @@ $(document).ready(function () {
   });
 
 });
+$.validator.addMethod("compare2Price", function (value, element) {
+  var parts1 = Number($("#retailPrice").val());
+  var parts2 = Number($("#costPrice").val());
+  return parts1 > parts2
 
-
+});
+$("#add-product-form").validate({
+  rules: {
+      "name": {
+          required: true,
+      },
+      "retailPrice": {
+        required: true,
+    },
+    "costPrice": {
+      required: true,
+  },
+      "retailPrice": {
+        required: true,
+        compare2Price: true,
+    },
+  },
+  messages: {
+      "name": {
+          required: "Mời bạn nhập Tên sản phẩm",
+      },
+    "retailPrice": {
+      required: "Mời bạn nhập giá bán",
+      compare2Price: "Tiền nhập không được lớn hơn tiền bán",
+  },
+  "costPrice": {
+    required: "Mời bạn nhập giá nhập",
+},
+  },
+});

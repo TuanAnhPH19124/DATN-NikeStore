@@ -42,9 +42,9 @@ namespace Persistence.Repositories
             return orderList;
         }
         public async Task<Order> SelectById(string id)
-    {
-      return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
-    }
+        {
+          return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
+        }
 
     public async Task<string> Update(string id, Order order)
     {

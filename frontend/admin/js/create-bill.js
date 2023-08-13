@@ -31,7 +31,7 @@ function closeModal(modalId) {
     const input = document.getElementById("number");
     let newValue = parseInt(input.value) - 1;
     if(newValue<=0||isNaN(newValue)){
-      newValue=1;
+      newValue=0;
     }
     input.value = newValue;
   }
