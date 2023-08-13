@@ -8,11 +8,19 @@
 
         var session  = {
             login: false,
+            userName: "",
             token: "",
         }
         var eAfterSignIn = [];
         var clearEventPromise = null;
 
+        this.setUserName = function (userName){
+            session.userName = userName;
+        }
+
+        this.getUserName = function (){
+            return session.userName;
+        }
         this.removeExistEnumType = function (i,newE) {
             eAfterSignIn.splice(i, 1, newE);
         }

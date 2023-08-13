@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using EntitiesDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,10 @@ namespace Service.Abstractions
 {
     public interface IEmployeeService
     {
+        Task<Employee> CreateAsync(Dto.EmployeeDto employees);
+        Task UpdateByIdEmployee(string id, Dto.UpdateEmployeeDto employees, CancellationToken cancellationToken = default);
         Task<List<Employee>> GetAllEmployeeAsync(CancellationToken cancellationToken = default);
         Task<Employee> GetByIdEmployeeAsync(string id, CancellationToken cancellationToken = default);
-        Task<Employee> CreateAsync(Employee employee);
-        Task<Employee> UpdateByIdEmployee(string id, Employee employee, CancellationToken cancellationToken = default);
+        
     }
 }
