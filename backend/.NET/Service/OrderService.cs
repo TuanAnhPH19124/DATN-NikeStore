@@ -1,3 +1,4 @@
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Repositories;
@@ -22,9 +23,9 @@ namespace Service
             _manager = manager;
         }
 
-        public async Task<List<Order>> GetAllOrderAsync(CancellationToken cancellationToken = default)
+        public async Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default)
         {          
-            List<Order> orderList = await _manager.OrderRepository.GetAllOrderAsync(cancellationToken);
+            var orderList = await _manager.OrderRepository.GetAllOrderAsync(cancellationToken);
             return orderList;
         }
         public async Task PostAndSendNontification(OrderPostRequestDto orderDto)
