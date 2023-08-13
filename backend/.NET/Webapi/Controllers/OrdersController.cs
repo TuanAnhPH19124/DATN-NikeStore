@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Webapi.Hubs;
 using Domain.DTOs;
+using System.Threading;
 
 namespace Webapi.Controllers
 {
@@ -120,6 +121,18 @@ namespace Webapi.Controllers
                 
                 throw;
             }
+        }
+
+        [HttpGet("Get/{Id}")]
+        public async Task<ActionResult<Order>> GetByIdOrder(string Id)
+        {
+            var order = await _service.OrderService.GetByIdOrderAsync(Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return order;
         }
     }
 }
