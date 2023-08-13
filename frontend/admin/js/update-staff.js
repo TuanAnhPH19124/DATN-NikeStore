@@ -3,17 +3,27 @@ console.log(id) //lay id nhan vien
 // call api chi tiet 1 nhan vien
 $(document).ready(function () {
     $.ajax({
-        url: "https://localhost:44328/api/Employee/" + id,
+        url: "https://localhost:44328/api/Employee/Get/" + id,
         type: "GET",
         dataType: "json",
         success: function (data) {
             console.log(JSON.stringify(data));
             $('#fullName').val(data.fullName);
+            $('#employeeId').val(data.employeeId);
+            var dateObj1 = new Date(data.dateOfBirth);
+            var day1 = dateObj1.getUTCDate();
+            var month1 = dateObj1.getUTCMonth() + 1;
+            var year1 = dateObj1.getUTCFullYear();
+            var formattedDate = `${day1}/${month1}/${year1}`;
+            $('#dateOfBirth').val(formattedDate);
             $('#snn').val(data.snn);
             $('#phoneNumber').val(data.phoneNumber);
-            $('#password').val(data.password);
             $('#status').prop('checked', data.status);
-            $('#role').val(data.role);
+            $('#homeTown').val(data.homeTown);
+            $('#address').val(data.address);
+            $('#relativeName').val(data.relativeName);
+            $('#relativePhoneNumber').val(data.relativePhoneNumber);
+
         },
         error: function () {
             console.log("Error retrieving data.");
@@ -22,15 +32,26 @@ $(document).ready(function () {
     $('#update-employee-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            employeeId: id,
-            fullName: $("#fullName").val(),
-            snn: $("#snn").val(),
-            phoneNumber: $("#phoneNumber").val(),
-            role: $("#role").val(),
-            password: $("#password").val(),
-            modifiedDate: new Date,
-            status: $("#status").prop('checked'),
+            id : id,
+            "employeeId": $("#employeeId").val(),
+            "snn": $("#snn").val(),
+            "fullName": $("#fullName").val(),
+            "phoneNumber": $("#phoneNumber").val(),
+            "dateOfBirth": $("#dateOfBirth").val(),
+            "gender": $("#gender").val(),
+            "homeTown":  $("#homeTown").val(),
+            "address":  $("#address").val(),
+            "relativeName":  $("#relativeName").val(),
+            "relativePhoneNumber":  $("#relativePhoneNumber").val(),
+            "status":  $("#status").prop('checked'),
         };
+                  //convert nomal date to ISO 8601 date
+                  [startDay, startMonth, startYear] = formData.dateOfBirth.split('/');
+                  try {
+                      formData.dateOfBirth = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
+                  } catch (error) {
+                      formData.dateOfBirth = ""
+                  }
         $.ajax({
             url: "https://localhost:44328/api/Employee/" + id,
             type: "PUT",
@@ -38,8 +59,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                window.location.href = "/frontend/admin/staff.html";
-
+               // window.location.href = "/frontend/admin/staff.html";
             },
         });
     });
@@ -109,5 +129,8 @@ $(document).ready(function () {
         },
     });
 });
-
-
+$(function () {
+    $('.date').datepicker({
+        format: 'dd/mm/yyyy',
+    });
+});
