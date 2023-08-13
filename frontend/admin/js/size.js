@@ -13,7 +13,7 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'numberSize', "title": "Kích cỡ size" },
+            { "data": 'numberSize', "title": "Kích cỡ" },
             { "data": 'description', "title": "Mô tả" },
             {
                 "render": function () {
@@ -73,6 +73,23 @@ $(document).ready(function () {
             localStorage.setItem("sizeId", sizeId);
             window.location.href = `/frontend/admin/update-size.html`;
         }
+    });
+    $.validator.addMethod("onlyContaiNum", function (value, element) {
+        return value.match(/^[0-9]+$/) != null;
+    });
+    $("#add-size-form").validate({
+        rules: {
+            "numberSize": {
+                required: true,
+                onlyContaiNum: true
+            },
+        },
+        messages: {
+            "numberSize": {
+                required: "Mời bạn nhập Số size",
+                onlyContaiNum: "Size là số không chứa ký tự"
+            },
+        },
     });
 });
 

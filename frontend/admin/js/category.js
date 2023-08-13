@@ -71,6 +71,18 @@ $(document).ready(function () {
             window.location.href = `/frontend/admin/update-category.html`;
         }
     });
+    $("#add-category-form").validate({
+        rules: {
+            "name": {
+                required: true,
+            },
+        },
+        messages: {
+            "name": {
+                required: "Mời bạn nhập Tên danh mục",
+            },
+        },
+    });
 });
 
 

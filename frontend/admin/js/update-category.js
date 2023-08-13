@@ -31,6 +31,18 @@ $(document).ready(function () {
             },
         });
     });
+    $("#update-category-form").validate({
+        rules: {
+            "name": {
+                required: true,
+            },
+        },
+        messages: {
+            "name": {
+                required: "Mời bạn nhập Tên danh mục",
+            },
+        },
+    });
 });
 
 

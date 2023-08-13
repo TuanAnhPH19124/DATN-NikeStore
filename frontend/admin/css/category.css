@@ -1,5 +1,5 @@
 .form-control{
-    width: 400px;
+    width: 200;
 }
 form{
     display: flex;
@@ -31,3 +31,8 @@ tr:hover td { background: rgb(187, 173, 173); }
 #btn{
     padding: 2px 10px;
 }
+.error {
+    color: red;
+    font-size: 1em;
+    width: 100%;
+ }
