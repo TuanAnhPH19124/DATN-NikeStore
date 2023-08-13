@@ -19,7 +19,7 @@ $(document).ready(function () {
             { "data": 'dateCreated', "title": "Ngày tạo" },
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
-                    if (data == 0) {
+                    if (data == 1) {
                         return '<span class="badge badge-pill badge-primary" style="padding:10px;">Đã thanh toán</span>';
                     } else {
                         return '<span class="badge badge-pill badge-danger" style="padding:10px;">Chưa thanh toán</span>';

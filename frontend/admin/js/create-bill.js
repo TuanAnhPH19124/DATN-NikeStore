@@ -19,7 +19,10 @@ function closeModal(modalId) {
     const input = document.getElementById("number");
     let newValue = parseInt(input.value) + 1;
     if(isNaN(newValue)){
-      newValue=0;
+      newValue=1;
+    }
+    if(newValue> $('.stock').text()){
+      newValue=$('.stock').text();
     }
     input.value = newValue;
   }
@@ -27,8 +30,8 @@ function closeModal(modalId) {
   function decrement() {
     const input = document.getElementById("number");
     let newValue = parseInt(input.value) - 1;
-    if(newValue<0||isNaN(newValue)){
-      newValue=0;
+    if(newValue<=0||isNaN(newValue)){
+      newValue=1;
     }
     input.value = newValue;
   }
@@ -95,6 +98,7 @@ $('#create-bill').click(function (event) {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
+        window.location.href = `/frontend/admin/bill.html`;
       },
   });
 });
@@ -175,8 +179,8 @@ $('#productData tbody').on('click', 'tr', function (e) {
           console.log(JSON.stringify(data));
           $('#name').text(data.name);
           $('#description').val(data.description);
-          $('#retailPrice').text(data.retailPrice);
-          $('#costPrice').text(data.costPrice);
+          $('#retailPrice').text(data.retailPrice+" VND");
+          $('#costPrice').text(data.costPrice+ "VND");
           $('#status').val(data.status);
           $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
           
@@ -185,12 +189,55 @@ $('#productData tbody').on('click', 'tr', function (e) {
           console.log("Error retrieving data.");
         }
       });
+      $.ajax({
+        url: "https://localhost:44328/api/Stock/" + id,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+          console.log(response)
+          // call Mầu
+          $.ajax({
+            url: "https://localhost:44328/api/Color/Get/" + response.colorId,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+              console.log(response)
+              
+              $('#productColor').text(response.name);
+            },
+            error: function () {
+                console.log("Error retrieving data.");
+            }
+        });
+        // call Size
+        $.ajax({
+          url: "https://localhost:44328/api/Size/Get/" + response.sizeId,
+          type: "GET",
+          dataType: "json",
+          success: function (response) {
+            console.log(response)
+            
+            $('#productSize').text(response.numberSize);
+          },
+          error: function () {
+              console.log("Error retrieving data.");
+          }
+      });
+
+      $('.instock').html(`Còn <span class="stock">${response.unitInStock}</span> sản phẩm`).css('font-weight', 'bold');
+      $('.instock .stock').css('color', 'red').css('font-weight', 'bold');
+
+        },
+        error: function () {
+            console.log("Error retrieving data.");
+        }
+    });
   }
 });
 function addToCart(){
   const id = localStorage.getItem("selectedProduct");
   $.ajax({
-    url: "https://localhost:44328/api/Stock/6d5c0c7f-f8fa-41d1-be54-93bd6d113583",
+    url: "https://localhost:44328/api/Stock/"+id,
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -206,26 +253,15 @@ function addToCart(){
           for (const key in obj) {
             arr.push(obj[key]);
           }
-          for (let i = 0; i < arr.length; i++) {
-            if (arr[i].productId === id) {
-              console.log(arr[i]);
-              arr.push({
-                "productId": id,
-                "unitPrice": $("#retailPrice").text(),
-                "quantity": Number($("#number").val())+Number(arr[i].quantity),
-                "name": $("#name").text(),
-                "productId": data.productId,
-                "colorId": data.colorId,
-              });
-              break;
-            }
-          }
+
           // thêm sp vào localStorage
           arr.push({
             "productId": id,
-            "unitPrice": $("#retailPrice").text(),
+            "unitPrice": $("#retailPrice").text().replace(/\s/g, "").replace("VND", ""),
             "quantity": $("#number").val(),
             "name": $("#name").text(),
+            "productId": data.productId,
+            "colorId": data.colorId,
           });
           var cartJson = JSON.stringify(arr)
           localStorage.setItem("cart",cartJson)

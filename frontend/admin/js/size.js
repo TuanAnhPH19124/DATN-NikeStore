@@ -74,6 +74,23 @@ $(document).ready(function () {
             window.location.href = `/frontend/admin/update-size.html`;
         }
     });
+    $.validator.addMethod("onlyContaiNum", function (value, element) {
+        return value.match(/^[0-9]+$/) != null;
+    });
+    $("#add-size-form").validate({
+        rules: {
+            "numberSize": {
+                required: true,
+                onlyContaiNum: true
+            },
+        },
+        messages: {
+            "numberSize": {
+                required: "Mời bạn nhập Số size",
+                onlyContaiNum: "Size là số không chứa ký tự"
+            },
+        },
+    });
 });
 
 
