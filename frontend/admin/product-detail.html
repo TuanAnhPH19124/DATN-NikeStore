@@ -78,7 +78,7 @@
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="create-bill.html">Bán hàng tại quầy</a>
                         <a class="collapse-item" href="order.html">Bán hàng Online</a>
                     </div>
                 </div>
@@ -94,17 +94,10 @@
                     <span>Thống kê</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link"  href="voucher.html">
                     <i class="far fa-money-bill-alt"></i>
                     <span>Khuyến mại</span>
                 </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -304,14 +297,14 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/frontend/admin/user-info.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Giao ca
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -335,73 +328,86 @@
                             <form id="update-product-form" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col">
-                                        <label>Tên sản phẩm</label>
+                                        <label class="label">Tên sản phẩm</label>
                                         <input type="text" class="form-control" id="name" name="name">
                                     </div>
                                     <div class="col">
-                                        <label>Mô tả</label>
-                                        <input type="text" class="form-control" id="description" name="description">
+                                        <label class="label">Trạng thái</label>
+                                        <div class="form-group">
+                                            <select class="form-control" placeholder="Trạng thái" id="status"
+                                                name="status">
+                                                <option value="1">Kinh doanh</option>
+                                                <option value="0">Ngừng kinh doanh</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div> <br>
+                                </div>
                                 <div class="row">
                                     <div class="col">
-                                        <label>Giá nhập</label>
+                                        <label class="label">Giá nhập</label>
                                         <input type="text" class="form-control" id="costPrice" name="costPrice">
                                     </div>
                                     <div class="col">
-                                        <label>Giá bán</label>
+                                        <label class="label">Giá bán</label>
                                         <input type="text" class="form-control" id="retailPrice" name="retailPrice">
                                     </div>
                                     <div class="col">
-                                        <label>Số lượng</label>
+                                        <label class="label">Số lượng</label>
                                         <input type="text" class="form-control" id="unitInStock" name="unitInStock">
                                     </div>
-                                </div> <br>
+                                </div>
+                                <br>
                                 <div class="combo-box">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Trạng thái</label>
-                                            <div class="form-group">
-                                                <select class="form-control" placeholder="Trạng thái" id="status"
-                                                    name="status">
-                                                    <option value="1">Kinh doanh</option>
-                                                    <option value="0">Ngừng kinh doanh</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <label>Danh mục</label>
+                                            <label class="label">Danh mục</label>
                                             <div class="form-group">
                                                 <select class="form-control" placeholder="Danh mục"
-                                                    id="category-select">
+                                                    id="category-select" >
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col">
-                                            <label>Màu sắc</label>
+                                            <label class="label">Màu sắc</label>
                                             <div class="form-group">
                                                 <select class="form-control" placeholder="Màu sắc" id="color-select">
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col">
-                                            <label>Kích cỡ</label>
+                                            <label class="label">Kích cỡ</label>
                                             <div class="form-group">
                                                 <select class="form-control" placeholder="Kích cỡ" id="size-select">
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label class="label">Mô tả</label>
+                                            <textarea class="form-control" id="description" name="description" rows="3"></textarea> 
+                                        </div>
+                                    </div>
+                                    <br>
                                 </div>
                                 <div class="modal-footer">
-                                        <p style="max-width: 100%;margin: auto;"><img id="output"
-                                            style="width: 200px; height: 200px; border: 0.5px solid white;" /></p>
-                                    <div class="btn btn-primary" style="margin: auto;height: 38.6px;">
+                                        <label for="image" style="max-width: 100%"><img id="output"
+                                            style="width: 200px; height: 200px;  border-radius: 8px;
+                                            overflow: hidden;
+                                            border: 2px dashed #757575;
+                                            background-color: #f5f5f5;" /></label>
+                                    <div class="btn btn-primary" style="margin: auto;height: 38.6px; visibility: hidden;">
                                         <input type="file" class="custom-file-input" id="image"
                                             accept="image/*" onchange="loadFile(event)" multiple style="width: 0px;">
                                         <label for="image" style="margin: auto;">Thay đổi ảnh</label>
                                     </div>
-                                    <button type="submit" class="btn btn-danger">Cập nhật</button>
+                                    <button type="submit" class="btn btn-danger" style="padding: 10px 15px;">Cập nhật</button>
+                                    </select>
                                     <!-- thông báo -->
                         <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
                         style="position: fixed;
@@ -418,7 +424,7 @@
                             Cập nhật thành công
                         </div>
                     </div>
-                                </div>
+                </div>
                         </div>
                         </form>
                         <div class="modal fade" id="size-modal" tabindex="-1" role="dialog"
@@ -672,15 +678,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -703,8 +709,6 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="/frontend/admin/js/product-detail.js"></script>
-
-
 </body>
 
 </html>

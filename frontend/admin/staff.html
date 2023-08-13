@@ -78,7 +78,7 @@
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="create-bill.html">Bán hàng tại quầy</a>
                         <a class="collapse-item" href="order.html">Bán hàng Online</a>
                     </div>
                 </div>
@@ -94,17 +94,10 @@
                     <span>Thống kê</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link"  href="voucher.html">
                     <i class="far fa-money-bill-alt"></i>
                     <span>Khuyến mại</span>
                 </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -303,14 +296,14 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/frontend/admin/user-info.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Giao ca
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -354,25 +347,95 @@
                                 </div>
                                 <div class="modal-body">
                                     <form id="add-employee-form">
-                                        <div class="form-group">
-                                            <label>Họ và tên</label>
-                                            <input type="text" class="form-control" id="fullName" name="fullName"
-                                                aria-describedby="emailHelp" placeholder="">
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Mã nhân viên</label>
+                                                    <input type="text" class="form-control" id="fullName" name="fullName"
+                                                        aria-describedby="emailHelp" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="snn">Họ và tên</label>
+                                                    <input type="text" class="form-control" id="snn" placeholder="" name="snn">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Số căn cước</label>
+                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                        name="phoneNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Số điện thoại</label>
+                                                    <input type="text" class="form-control" id="role" placeholder=""
+                                                        name="role">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Giới tính</label>
+                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                        name="phoneNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Ngày sinh</label>
+                                                    <input type="text" class="form-control" id="role" placeholder=""
+                                                        name="role">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Quên quán</label>
+                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                        name="phoneNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Địa chỉ hiện tại</label>
+                                                    <input type="text" class="form-control" id="role" placeholder=""
+                                                        name="role">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Người thân</label>
+                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                        name="phoneNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>SĐT người thân</label>
+                                                    <input type="text" class="form-control" id="role" placeholder=""
+                                                        name="role">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="snn">Số căn cước</label>
-                                            <input type="text" class="form-control" id="snn" placeholder="" name="snn">
+                                            <label>Trạng thái</label>
+                                            <input type="checkbox" id="status" placeholder="" name="status">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Số điện thoại</label>
-                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                                name="phoneNumber">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Vai trò</label>
-                                            <input type="text" class="form-control" id="role" placeholder=""
-                                                name="role">
-                                        </div>
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Close</button>
@@ -438,15 +501,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
                 </div>
             </div>
         </div>

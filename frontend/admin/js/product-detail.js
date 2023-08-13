@@ -22,29 +22,60 @@ function decrement() {
   }
   input.value = newValue;
 }
-
-var option_category = [];
-$.getJSON("https://localhost:44328/api/Categories", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#category-select").html(option_category.join(''));
+// call api for multiple input
+document.addEventListener('DOMContentLoaded', function () {
+  var selectElement = document.getElementById('category-select');
+  fetch('https://localhost:44328/api/Categories')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          data.forEach(function (country) {
+              var optionElement = document.createElement('option');
+              optionElement.value = country.id; 
+              optionElement.textContent = country.name;
+              selectElement.appendChild(optionElement);
+          });
+          new MultiSelectTag('category-select')
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
 });
-
-var option_color = [];
-$.getJSON("https://localhost:44328/api/Color/Get", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_color.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#color-select").html(option_color.join(''));
+document.addEventListener('DOMContentLoaded', function () {
+  var selectElement = document.getElementById('color-select');
+  fetch('https://localhost:44328/api/Color/Get')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          data.forEach(function (country) {
+              var optionElement = document.createElement('option');
+              optionElement.value = country.id;
+              optionElement.textContent = country.name;
+              selectElement.appendChild(optionElement);
+          });
+          new MultiSelectTag('color-select')  // id
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
 });
-
-var option_size = [];
-$.getJSON("https://localhost:44328/api/Size/Get", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_size.push('<option value="', result[i].id, '">', result[i].numberSize, '</option>');
-  }
-  $("#size-select").html(option_size.join(''));
+document.addEventListener('DOMContentLoaded', function () {
+  var selectElement = document.getElementById('size-select');
+  fetch('https://localhost:44328/api/Size/Get')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          data.forEach(function (country) {
+              var optionElement = document.createElement('option');
+              optionElement.value = country.id;
+              optionElement.textContent = country.numberSize;
+              selectElement.appendChild(optionElement);
+          });
+          new MultiSelectTag('size-select')
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
 });
 
 $(document).ready(function () {
@@ -122,6 +153,7 @@ $(document).ready(function () {
       },
     });
     // category product
+    debugger
     $.ajax({
       url: "https://localhost:44328/api/CategoryProduct/" + id,
       type: "DELETE",

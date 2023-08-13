@@ -9,6 +9,8 @@ namespace EntitiesDto.Order
 {
     public class OrderAtStorePostRequestDto
     {
+        [Required]
+        public string UserId { get; set; }
         [Required(ErrorMessage = "Thiếu Địa chỉ nhận hàng")]
         public string Address { get; set; }
         [Required(ErrorMessage = "Thiếu số điện thoại")]

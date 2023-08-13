@@ -33,6 +33,18 @@ $(document).ready(function () {
             },
         });
     });
+    $("#update-size-form").validate({
+        rules: {
+            "numberSize": {
+                required: true,
+            },
+        },
+        messages: {
+            "numberSize": {
+                required: "Mời bạn nhập kích cỡ",
+            },
+        },
+    });
 });
 
 

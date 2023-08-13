@@ -19,16 +19,15 @@
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+    <!-- Custom styles for this page -->
     <!-- get date and bold fe -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link href="/frontend/admin/css/category.css" rel="stylesheet">
-
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+    <link href="/frontend/admin/css/update-staff.css" rel="stylesheet">
 
 </head>
 
@@ -143,7 +142,7 @@
                         </button>
                     </form>
 
-
+                    <!-- Topbar Search -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -321,50 +320,129 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Danh mục</h1>
-                    <label for="exampleInputEmail1">Tên danh mục</label>
-                    <form id="add-category-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp"
-                                placeholder="">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Thông tin tài khoản</h2>
                         </div>
-                        <button type="submit" class="btn btn-primary">Thêm danh mục</button>
-                        <!-- thông báo -->
-                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
-                            style="position: fixed;
-                                        bottom: 1rem;
-                                        right: 1rem;
-                                        z-index: 1050;">
-                            <div class="toast-header">
-                                <strong class="mr-auto">Thành công</strong>
-                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="toast-body">
-                                Thêm thành công
-                            </div>
-                        </div>
-                    </form>
+                        <div class="modal-body">
+                            <form id="user-info-form">
 
-                    <!-- Modal -->
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="category-table" width="100%" cellspacing="0">
-                                    <tbody id="tbody">
-                                    </tbody>
-                                </table>
-                            </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Mã nhân viên</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName"
+                                                aria-describedby="emailHelp" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="snn">Họ và tên</label>
+                                            <input type="text" class="form-control" id="snn" placeholder="" name="snn">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Số căn cước</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                name="phoneNumber">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Số điện thoại</label>
+                                            <input type="text" class="form-control" id="role" placeholder=""
+                                                name="role">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Giới tính</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                name="phoneNumber">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Ngày sinh</label>
+                                            <input type="text" class="form-control" id="role" placeholder=""
+                                                name="role">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Quên quán</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                name="phoneNumber">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Địa chỉ hiện tại</label>
+                                            <input type="text" class="form-control" id="role" placeholder=""
+                                                name="role">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Người thân</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                name="phoneNumber">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>SĐT người thân</label>
+                                            <input type="text" class="form-control" id="role" placeholder=""
+                                                name="role">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <input type="checkbox" id="status" placeholder="" name="status">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Xác
+                                        nhận</button>
+                                </div>
+                                <!-- thông báo -->
+                                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                                    data-delay="2000" style="position: fixed;
+                                bottom: 1rem;
+                                right: 1rem;
+                                z-index: 1050;">
+                                    <div class="toast-header">
+                                        <strong class="mr-auto">Thành công</strong>
+                                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Thêm thành công
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -413,11 +491,11 @@
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-    <script src="js/category.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="/frontend/admin/js/update-category.js"></script>
+
 
 </body>
 
