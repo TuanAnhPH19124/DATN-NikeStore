@@ -70,6 +70,7 @@ namespace Webapi.Controllers
                 {
                     Name = productDto.Name,
                     RetailPrice = productDto.RetailPrice,
+                    CostPrice = productDto.CostPrice,
                     Description = productDto.Description,
                     Brand = productDto.Brand,
                     DiscountRate = productDto.DiscountRate,
