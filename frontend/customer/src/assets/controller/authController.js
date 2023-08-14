@@ -1,7 +1,7 @@
 (function () {
     var authController = function (e,l,authService,headerFactory,jwtHelper,wishListService, cartService){
         e.loggedInStatus = false;
-
+    
         e.signInE = function (user) {
             if (user !== null){
                 authService.signIn(user)
@@ -55,8 +55,19 @@
                 console.log('Wrong Credential!');
             }
         };
+        e.signOutE = function (){
+            authService.setLogOut();
+            authService.clearSession();
+            l.path('/');
+        }
+
         function constructor(){
             e.loggedInStatus = authService.isLoggedIn();
+            let path = l.path();
+            if (path === "/accountDetail"){
+                if (!authService.isLoggedIn())
+                    l.path('/signin');
+            }
         };
         constructor();
     }

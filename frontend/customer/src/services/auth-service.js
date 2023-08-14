@@ -21,6 +21,14 @@
         this.getUserName = function (){
             return session.userName;
         }
+
+        this.clearSession = function (){
+            session.userName = "";
+            session.token = "";
+        }
+        this.setLogOut = function (){
+            session.login = false;
+        }
         this.removeExistEnumType = function (i,newE) {
             eAfterSignIn.splice(i, 1, newE);
         }

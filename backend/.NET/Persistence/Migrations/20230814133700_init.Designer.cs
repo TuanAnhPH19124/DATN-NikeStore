@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230812225011_updateTableEmplv2")]
-    partial class updateTableEmplv2
+    [Migration("20230814133700_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -249,6 +249,33 @@ namespace Persistence.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Material", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Materials");
+                });
+
             modelBuilder.Entity("Domain.Entities.News", b =>
                 {
                     b.Property<Guid>("Id")
@@ -434,6 +461,21 @@ namespace Persistence.Migrations
                     b.ToTable("ProductImage");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ProductMaterial", b =>
+                {
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.HasKey("MaterialId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductMaterials");
+                });
+
             modelBuilder.Entity("Domain.Entities.ProductRate", b =>
                 {
                     b.Property<string>("AppUserId")
@@ -465,6 +507,21 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductRate");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductSole", b =>
+                {
+                    b.Property<int>("SoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.HasKey("SoleId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSoles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
@@ -554,6 +611,33 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Size");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Soles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Stock", b =>
@@ -916,6 +1000,25 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ProductMaterial", b =>
+                {
+                    b.HasOne("Domain.Entities.Material", "Material")
+                        .WithMany("ProductMaterials")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductMaterials")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Domain.Entities.ProductRate", b =>
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
@@ -933,6 +1036,25 @@ namespace Persistence.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductSole", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductSoles")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Sole", "Sole")
+                        .WithMany("ProductSoles")
+                        .HasForeignKey("SoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Sole");
                 });
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
@@ -1103,6 +1225,11 @@ namespace Persistence.Migrations
                     b.Navigation("Stocks");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Material", b =>
+                {
+                    b.Navigation("ProductMaterials");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -1116,7 +1243,11 @@ namespace Persistence.Migrations
 
                     b.Navigation("ProductImages");
 
+                    b.Navigation("ProductMaterials");
+
                     b.Navigation("ProductRate");
+
+                    b.Navigation("ProductSoles");
 
                     b.Navigation("ShoppingCartItems");
 
@@ -1131,6 +1262,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Size", b =>
                 {
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sole", b =>
+                {
+                    b.Navigation("ProductSoles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Voucher", b =>

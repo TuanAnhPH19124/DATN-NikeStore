@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class tttp : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -90,6 +90,22 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Materials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Materials", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "News",
                 columns: table => new
                 {
@@ -136,6 +152,22 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Size", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Soles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Soles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -295,7 +327,7 @@ namespace Persistence.Migrations
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: false)
+                    AppUserId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -305,7 +337,7 @@ namespace Persistence.Migrations
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -402,6 +434,30 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductMaterials",
+                columns: table => new
+                {
+                    MaterialId = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductMaterials", x => new { x.MaterialId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductMaterials_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductMaterials_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductRate",
                 columns: table => new
                 {
@@ -486,6 +542,30 @@ namespace Persistence.Migrations
                         principalTable: "Size",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductSoles",
+                columns: table => new
+                {
+                    SoleId = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductSoles", x => new { x.SoleId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductSoles_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductSoles_Soles_SoleId",
+                        column: x => x.SoleId,
+                        principalTable: "Soles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -756,8 +836,18 @@ namespace Persistence.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductMaterials_ProductId",
+                table: "ProductMaterials",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductRate_ProductId",
                 table: "ProductRate",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductSoles_ProductId",
+                table: "ProductSoles",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -845,7 +935,13 @@ namespace Persistence.Migrations
                 name: "ProductImage");
 
             migrationBuilder.DropTable(
+                name: "ProductMaterials");
+
+            migrationBuilder.DropTable(
                 name: "ProductRate");
+
+            migrationBuilder.DropTable(
+                name: "ProductSoles");
 
             migrationBuilder.DropTable(
                 name: "ProductTag");
@@ -870,6 +966,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Materials");
+
+            migrationBuilder.DropTable(
+                name: "Soles");
 
             migrationBuilder.DropTable(
                 name: "Tag");
