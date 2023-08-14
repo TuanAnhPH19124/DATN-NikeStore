@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Persistence.Ultilities;
+using Service.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -28,14 +29,16 @@ namespace Webapi.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<CustomerHub> _contextHub;
-      
+        private readonly IServiceManager _serviceManager;
 
-    public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
+
+        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
     {
-      _signInManager = signInManager;
-      _userManager = userManager;
-      _configuration = configuration;
-      _contextHub = contextHub;
+          _signInManager = signInManager;
+          _userManager = userManager;
+          _configuration = configuration;
+          _contextHub = contextHub;
+          _serviceManager = serviceManager;
     }
 
     [AllowAnonymous]
@@ -190,13 +193,18 @@ namespace Webapi.Controllers
             Response.Cookies.Delete("username", new CookieOptions { Path = "/", Expires = DateTimeOffset.Now.AddDays(-1) });
             return Ok("Dang xuat thanh cong");
         }
-        [AllowAnonymous]
        
+
         [Authorize]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
+            var currentUser = await _userManager.FindByEmailAsync(HttpContext.User.Identity.Name);
+
+            if (currentUser == null)
+            {
+                return NotFound("Không tìm thấy người dùng đang đăng nhập.");
+            }
 
             try
             {
@@ -214,5 +222,26 @@ namespace Webapi.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                await _serviceManager.AppUserService.ForgotPassword(forgotPasswordDto.Email);
+
+                return Ok("Password reset email sent.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }
