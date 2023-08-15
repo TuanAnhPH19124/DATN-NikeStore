@@ -4,6 +4,7 @@ using EntitiesDto.Product;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Service
     internal sealed class ProductService : IProductService
     {
         private readonly IRepositoryManger _repositoryManger;
+
 
 
         public ProductService(IRepositoryManger repositoryManger)
@@ -54,14 +56,15 @@ namespace Service
 
         public async Task<Product> CreateAsync(Product product)
         {
-            _repositoryManger.ProductRepository.AddProduct(product);
-
+           _repositoryManger.ProductRepository.AddProduct(product);
+            var qrcode = new UploadBarCode();
+            product.BarCode = qrcode.generateAndUploadQRCode(product.Id);
+            Console.WriteLine(product.BarCode);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
             return product;
-
-
         }
 
+        
 
         public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
         {
