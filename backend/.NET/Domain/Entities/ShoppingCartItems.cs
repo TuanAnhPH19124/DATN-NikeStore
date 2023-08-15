@@ -10,19 +10,12 @@ namespace Domain.Entities
 {
     public class ShoppingCartItems
     {
-        [Key]
-        [Column(Order = 0)]
-        public Guid ShoppingCartsId { get; set; }
-
-        [Key]
-        [Column(Order = 1)]
-        public string ProductsId { get; set; }
-
-        public int Quantity { get; set; }
-
-        // Các thuộc tính khác của ShoppingCartItem
-
-        public ShoppingCarts ShoppingCarts { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Quantity { get; set; } = 1;
+        public string ProductId { get; set; }
         public Product Product { get; set; }
+
+        public string ShoppingCartId { get; set; }
+        public ShoppingCarts ShoppingCarts { get; set; }
     }
 }

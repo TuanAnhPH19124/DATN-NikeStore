@@ -1,0 +1,63 @@
+<header id="header">
+    <div class="header-top">
+        <div class="left">
+            <div class="Nike">
+                <p style="text-decoration: none; color: rgb(119, 118, 118)" id="promo-time"></p>
+            </div>
+        </div>
+        <div  class="right">
+            <div ng-show="!isLogin()" class="login">
+                <a href="#/signin" style="text-decoration: none; color: rgb(119, 118, 118)"> Đăng nhập |</a>
+                <a href="#/signup" style="text-decoration: none; color: rgb(119, 118, 118)">| Đăng ký |</a>
+                <a href="#/pay/1" style="text-decoration: none; color: rgb(119, 118, 118)">| Kiểm tra đơn hàng</a>
+            </div>
+            <div ng-show="isLogin()" class="login">
+      
+                <span>{{ getUserName() }}</span>
+                <a href="#/accountDetail" style="text-decoration: none; color: rgb(119, 118, 118)"><i class="fa-solid fa-user"></i></a>
+                <a href="#/pay/1" style="text-decoration: none; color: rgb(119, 118, 118)"> | Kiểm tra đơn hàng</a>               
+            </div>
+        </div>
+    </div>
+    <div class="header-main" id="menu" style="margin-left: 50px; margin-right: 50px; padding-bottom: 10px;">
+        <div class="left-main">
+            <a href="#4"><img src="../assets/img/logo/icons8-nike-45.png" alt=""
+                    style="padding-top: 8px; width: 120%;"></a>
+            <!-- <a href="#4" style=" font-size: 40px; font-weight: bold; text-decoration: none; padding-top: 10px;"> NSW  </a> -->
+        </div>
+        <nav class="menu-main" style="padding-top: 15px; font-weight: 100;">
+            <ul>
+                <li><a href="#" style="font-weight: bold; text-align: left; color: black;"> NIKE STORE </a></li>
+                <li><a href="#6" style="font-weight: 600;">Sản phẩm</a></li>
+                <li><a href="#7" style="font-weight: bold;">Giá ưu đãi</a></li>
+                <li><a href="#8" style="font-weight: bold;">Tin tức</a></li>
+                <li><a href="#9" style="font-weight: bold;">Liên hệ</a></li>
+            </ul>
+        </nav>
+        <div class="right-main">
+            <div class="input-group" style="margin: 10px; padding-top: 12px;">
+                <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..."
+                    style="border-radius: 25px; margin-right: 10px;">
+            </div>
+            
+            <a href="#/wishlist" style="color: rgb(81, 74, 74); font-size: 20px;"><i class="fas fa-heart"></i></a><span>{{ wishListCounter() }}</span>
+            <a href="#/cart" style="color: rgb(58, 53, 53); font-size: 20px;"><i class="fas fa-shopping-cart"
+                    data-bs-toggle="modal" data-bs-target="#myModal"></i></a><span>{{ cartCounter() }}</span>
+        </div>
+    </div>
+    </div>
+    <button class="nut-mo-chatbox" onclick="moForm()"><i class="fa-brands fa-rocketchat"></i></button>
+    <div class="Chatbox" id="myForm">
+        <form action="" class="form-container">
+            <h2>CHAT BOX</h2>
+            <label for="msg"><b>Tin nhắn:</b></label> <br>
+            <input type="text" name="msg"
+                style="margin-bottom: 10px;width: 280px;border: 1px solid gray;height: 35px;border: 1px solid #a6a6a2;border-radius: 5px;">
+            <input type="text" name="msg" id=""
+                style="margin-bottom: 10px;width: 280px;border: 1px solid gray;height: 35px;border: 1px solid #a6a6a2;background-color: #e1e1d6;border-radius: 5px;">
+            <textarea placeholder="Bạn hãy nhập lời nhắn.." name="msg" required></textarea>
+            <button type="submit" class="btn">Gửi</button>
+            <button type="button" class="btn nut-dong-chatbox" onclick="dongForm()">Đóng</button>
+        </form>
+    </div>
+</header>

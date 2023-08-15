@@ -33,25 +33,12 @@ namespace Persistence
                 .HasOne(w => w.AppUser)
                 .WithMany()
                 .HasForeignKey(w => w.AppUserId);
-            modelBuilder.Entity<ShoppingCarts>()
-              .HasOne(s => s.AppUser)
-              .WithOne(u => u.ShoppingCarts)
-              .HasForeignKey<ShoppingCarts>(s => s.AppUserId);
 
-            modelBuilder.Entity<ShoppingCartItems>()
-              .HasKey(item => new { item.ShoppingCartsId, item.ProductsId });
-
-            modelBuilder.Entity<ShoppingCartItems>()
-             .HasOne(item => item.ShoppingCarts)
-             .WithMany(cart => cart.Items) // Sử dụng tên thuộc tính đúng của ShoppingCart
-             .HasForeignKey(item => item.ShoppingCartsId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<ShoppingCartItems>()
-                .HasOne(item => item.Product)
-                .WithMany()
-                .HasForeignKey(item => item.ProductsId);
-
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.AppUser)
+            .WithOne(u => u.Employee)
+            .HasForeignKey<Employee>(e => e.AppUserId)
+            .IsRequired(false);
 
             modelBuilder.Entity<Product>()
                  .HasMany(p => p.ProductRate)
@@ -80,6 +67,11 @@ namespace Persistence
                 .WithMany(c => c.CategoryProducts)
                 .HasForeignKey(cp => cp.CategoryId);
         }
+
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<Sole> Soles { get; set; }
+        public DbSet<ProductMaterial> ProductMaterials { get; set; }
+        public DbSet<ProductSole> ProductSoles { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -90,9 +82,7 @@ namespace Persistence
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
-
-       
-        public DbSet<Employees> Employees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }

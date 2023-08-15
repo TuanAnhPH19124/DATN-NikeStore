@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using Nest;
 using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Webapi.Hubs;
 
@@ -29,9 +33,17 @@ namespace Webapi.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<CustomerHub> _contextHub;
+
         private readonly IServiceManager _serviceManager;
 
 
+        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _configuration = configuration;
+            _contextHub = contextHub;
+        }
         public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
     {
           _signInManager = signInManager;
@@ -41,10 +53,59 @@ namespace Webapi.Controllers
           _serviceManager = serviceManager;
     }
 
-    [AllowAnonymous]
+        [HttpPost("CreateEmployeeAccount")]
+        public async Task<IActionResult> CreateEmployeeAccount([FromBody]string phoneNumber)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    PhoneNumber = phoneNumber,
+                    Error = "Không được bỏ trống số điện thoại!"
+                });
+            }
+
+            string userName = phoneNumber.Substring(phoneNumber.Length - 6);
+            var userNameExisted = await _userManager.FindByNameAsync(userName);
+            if (userNameExisted != null)
+            {
+                return Conflict(new
+                {
+                    UserName = userName,
+                    Error = "UserName này đã tồn tại!"
+                });
+            }
+
+            var newUser = new AppUser()
+            {
+                UserName = userName,
+                PhoneNumber = phoneNumber
+            };
+            var passWord = "!123@Abc";
+            var newUserResponse = await _userManager.CreateAsync(newUser, passWord);
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, "Admin");
+                return Ok(new
+                {
+                    User = newUser,
+                });
+           
+            }
+            else
+            {
+                foreach (var error in newUserResponse.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet("google")]
         public IActionResult GoogleLogin()
-        
+
         {
             var authenticationProperties = new AuthenticationProperties
             {
@@ -75,15 +136,15 @@ namespace Webapi.Controllers
                         Email = email,
                         UserName = authenticateResult.Principal.FindFirstValue(ClaimTypes.Surname).Trim(),
                         EmailConfirmed = true
-                        
+
                     };
 
                     var result = await _userManager.CreateAsync(user, "A012292@a");
-                    if (result.Succeeded) 
+                    if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, "User");
                         roles = await _userManager.GetRolesAsync(user);
-                        token = JwtService.GenerateJwtToken(exsisted, roles,_configuration);
+                        token = JwtService.GenerateJwtToken(exsisted, roles, _configuration);
                         return Ok(new
                         {
                             Message = "Thanh cong",
@@ -108,65 +169,137 @@ namespace Webapi.Controllers
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn([FromBody] AppUserForLogin appUser)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user_exits = await _userManager.FindByEmailAsync(appUser.Email);
-
-                if (user_exits != null)
+                return BadRequest(new
                 {
-                    var is_correct = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);
-
-                    if (is_correct)
-                    {
-                        var roles = await _userManager.GetRolesAsync(user_exits);
-                        var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
-                        return Ok(new
-                        {
-                            Message = $"dang nhap thanh cong",
-                            Token = token
-                        });
-                    }
-
-                    return BadRequest("Mat khau chua chinh xac");
-                }
-
-                return NotFound("Email khong ton tai");
+                    data = ModelState,
+                    error = "Không được để trống thông tin đăng nhập!"
+                });
             }
 
-            return Unauthorized();
+            var user_exits = new AppUser();
+            if (!string.IsNullOrEmpty(appUser.UserName))
+            {
+                var userCheck = await _userManager.FindByNameAsync(appUser.UserName);
+                if (userCheck == null)
+                {
+                    return NotFound(new
+                    {
+                        email = appUser.UserName,
+                        error = "UserName này không tôn tại!"
+                    });
+                }
+                user_exits = userCheck;
+            }
+            else
+            {
+                var userCheck = await _userManager.FindByEmailAsync(appUser.Email);
+                if (userCheck == null)
+                {
+                    return NotFound(new
+                    {
+                        email = appUser.Email,
+                        error = "Email này không tôn tại!"
+                    });
+                }
+                user_exits = userCheck;
+            }
+           
+
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);
+            if (!passwordCorrect)
+                return Unauthorized();
+
+            var roles = await _userManager.GetRolesAsync(user_exits);
+            var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
+            return Ok(new
+            {
+                User = user_exits.UserName,
+                Token = token
+            });
         }
 
         [AllowAnonymous]
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] AppUserForCreateDto appUser)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userExists = await _userManager.FindByEmailAsync(appUser.Email);
-                if (userExists == null)
+                return BadRequest(new
                 {
-                    var newUser = new AppUser()
-                    {
-                        Email = appUser.Email,
-                        UserName = appUser.UserName
-                    };
-                    var newUserResponse = await _userManager.CreateAsync(newUser, appUser.Password);
-                    if (newUserResponse.Succeeded)
-                    {
-                        await _userManager.AddToRoleAsync(newUser, "User");
-                        var roles = await _userManager.GetRolesAsync(newUser);
-                        var token = JwtService.GenerateJwtToken(newUser, roles, _configuration);
-                        return Ok(new
-                        {
-                            Message = "dang ki thanh cong",
-                            Token = token
-                        });
-                    }
-                    return BadRequest(newUserResponse.Errors);
-                }
-                return BadRequest("Tai khoan da ton tai");
+                    data = ModelState,
+                    error = "Không được bỏ trống thông tin đăng ký"
+                });
             }
-            return BadRequest("Khong duoc bo trong");
+
+            var emailExisted = await _userManager.FindByEmailAsync(appUser.Email);
+            if (emailExisted != null)
+            {
+                return Conflict(new
+                {
+                    Email = appUser.Email,
+                    Error = "Email này đã tồn tại vui lòng đăng nhập hoặc lấy lại mật khẩu!"
+                });
+            }
+
+            #region tạo username tự động
+            string[] nameParts = appUser.FullName.Split(' ');
+            string lastName = nameParts[nameParts.Length - 1];
+            string lastNameWithoutDiacritics = new string(lastName.Normalize(NormalizationForm.FormD)
+            .Where(ch => CharUnicodeInfo.GetUnicodeCategory(ch) != UnicodeCategory.NonSpacingMark)
+            .ToArray()).ToLower();
+            string firstNameInitials = "";
+            foreach (var namePart in nameParts)
+            {
+                if (namePart.Length > 0)
+                {
+                    firstNameInitials += namePart[0];
+                }
+            }
+            var sixDigit = appUser.PhoneNumber.Substring(appUser.PhoneNumber.Length - 3);
+            var userName = lastNameWithoutDiacritics + firstNameInitials.ToLower() + sixDigit;
+            #endregion
+
+            var userNameExisted = await _userManager.FindByNameAsync(userName);
+            if (userNameExisted != null)
+            {
+                return Conflict(new
+                {
+                    UserName = userName,
+                    Error = "UserName này đã tồn tại vui lòng chọn một tên khác!"
+                });
+            }
+
+            var newUser = new AppUser()
+            {
+                Email = appUser.Email,
+                PhoneNumber = appUser.PhoneNumber,
+                FullName = appUser.FullName,
+                UserName = userName
+            };
+
+            var newUserResponse = await _userManager.CreateAsync(newUser, appUser.Password);
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, "User");
+                var roles = await _userManager.GetRolesAsync(newUser);
+                var token = JwtService.GenerateJwtToken(newUser, roles, _configuration);
+                return Ok(new
+                {
+                    User = newUser.UserName,
+                    Token = token
+                });
+            }
+            else
+            {
+                foreach (var error in newUserResponse.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+           
         }
 
         [Route("confrimemail")]
@@ -193,6 +326,8 @@ namespace Webapi.Controllers
             Response.Cookies.Delete("username", new CookieOptions { Path = "/", Expires = DateTimeOffset.Now.AddDays(-1) });
             return Ok("Dang xuat thanh cong");
         }
+
+        [AllowAnonymous]
        
 
         [Authorize]

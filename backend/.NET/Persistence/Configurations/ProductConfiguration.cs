@@ -40,9 +40,21 @@ namespace Persistence.Configurations
             builder.HasMany(p => p.ProductImages)
                    .WithOne(p => p.Product)
                    .HasForeignKey(p => p.ProductId);
-              builder.HasMany(p => p.OrderItems)
-              .WithOne(p => p.Product)
-              .HasForeignKey(p => p.ProductId);
+            builder.HasMany(p => p.OrderItems)
+            .WithOne(p => p.Product)
+            .HasForeignKey(p => p.ProductId);
+
+            builder.HasMany(x => x.ShoppingCartItems)
+            .WithOne(x => x.Product)
+            .HasForeignKey(x => x.ProductId);
+
+            builder.HasMany(p => p.ProductSoles)
+                .WithOne(p => p.Product)
+                .HasForeignKey(p => p.ProductId);
+
+            builder.HasMany(p => p.ProductMaterials)
+                .WithOne(p => p.Product)
+                .HasForeignKey(p => p.ProductId);
         }
     }
 }

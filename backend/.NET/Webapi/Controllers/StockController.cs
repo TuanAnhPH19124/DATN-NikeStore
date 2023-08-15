@@ -40,10 +40,10 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("{productId}/{colorId}/{sizeId}")]
-        public async Task<ActionResult<Stock>> GetStock(string productId, string colorId, string sizeId)
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<Stock>> GetStock(string productId)
         {
-            var stock = await _serviceManager.StockService.GetStockByIdAsync(productId, colorId, sizeId);
+            var stock = await _serviceManager.StockService.GetStockByIdAsync(productId);
 
             if (stock == null)
             {

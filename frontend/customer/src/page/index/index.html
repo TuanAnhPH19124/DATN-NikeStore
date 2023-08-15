@@ -1,4 +1,17 @@
-  
+<style>
+    #notification {
+      display: none;
+      background-color: #f2f2f2;
+      border: 1px solid #ccc;
+      padding: 10px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  </style>
   <!-- The Modal -->
   <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -81,12 +94,21 @@
 </main> 
 <section>
     <div class="product">
-        <div class="boxProduct">
+        <product-primary></product-primary>
+        <!-- <div class="boxProduct" ng-repeat="product in products | limitTo: 4">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
             <div class="card-badge">New</div>      
             <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i></button></li>               
-            </ul> 
+                <li>
+                  <button type="button" class="viewheart" onclick="showNotification()">
+                    <i class="fa-solid fa-heart" title="Thêm vào yêu thích"></i>
+                  </button>
+                </li>
+              </ul>
+              
+              <div id="notification">
+                Sản phẩm đã tồn tại trong danh sách yêu thích!
+              </div>            
             <ul class="product-links-cart">
                 <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng"></i></button></li>               
             </ul>   
@@ -94,14 +116,14 @@
                 <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button></li>               
             </ul>    
             <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
+                <a href="#" title="{{product.name}}">{{product.name}}</a>
             </div>
             <div class="priceI">
-                <span>2,300,000 đ</span>                                                        
+                <span>{{product.retailPrice}} đ</span>                                                        
                 <span class="strike"><del></del></span>  
             </div>
-        </div>
-        <div class="boxProduct">
+        </div> -->
+        <!-- <div class="boxProduct">
             <a href="#11"><img src="/frontend/customer/src/assets/img/product/2.jpg" ></a>
             <div class="card-badge">-25%</div>
             <ul class="product-links">
@@ -160,9 +182,9 @@
                 <span>2.300.000 đ</span>
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
-        </div>
+        </div> -->
     </div>
-    <div class="product">
+    <!-- <div class="product">
         <div class="boxProduct" >
             <a href=""><img src="/frontend/customer/src/assets/img/product/5.jpg" name="img5" ></a>
             <div class="card-badge">-25%</div>
@@ -407,7 +429,7 @@
                 <span class="strike"><del>3,000,000 đ</del></span>                                                         
             </div>
         </div>
-    </div> 
+    </div>  -->
     <div class="view-more">
         <div class="boxC" style="font-size: 12px; padding-top: 40px; padding-bottom: 20px;">          
             <button type="button" class="btn btn-outline-danger"><a href="#6" style="text-decoration: none;color: black;"> Xem thêm </a></button>       
@@ -492,3 +514,13 @@
     
     <!-- END SERVICES  -->
 </section>
+<script>
+    function showNotification() {
+      var notification = document.getElementById("notification");
+      notification.style.display = "block";
+    
+      setTimeout(function() {
+        notification.style.display = "none";
+      }, 1000); // Display for 3 seconds
+    }
+    </script>

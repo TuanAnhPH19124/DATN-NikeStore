@@ -22,29 +22,60 @@ function decrement() {
   }
   input.value = newValue;
 }
-
-var option_category = [];
-$.getJSON("https://localhost:44328/api/Categories", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#category-select").html(option_category.join(''));
+// call api for multiple input
+document.addEventListener('DOMContentLoaded', function () {
+  var selectElement = document.getElementById('category-select');
+  fetch('https://localhost:44328/api/Categories')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          data.forEach(function (country) {
+              var optionElement = document.createElement('option');
+              optionElement.value = country.id; 
+              optionElement.textContent = country.name;
+              selectElement.appendChild(optionElement);
+          });
+          new MultiSelectTag('category-select')
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
 });
-
-var option_color = [];
-$.getJSON("https://localhost:44328/api/Color/Get", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_color.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#color-select").html(option_color.join(''));
+document.addEventListener('DOMContentLoaded', function () {
+  var selectElement = document.getElementById('color-select');
+  fetch('https://localhost:44328/api/Color/Get')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          data.forEach(function (country) {
+              var optionElement = document.createElement('option');
+              optionElement.value = country.id;
+              optionElement.textContent = country.name;
+              selectElement.appendChild(optionElement);
+          });
+          new MultiSelectTag('color-select')  // id
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
 });
-
-var option_size = [];
-$.getJSON("https://localhost:44328/api/Size/Get", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_size.push('<option value="', result[i].id, '">', result[i].numberSize, '</option>');
-  }
-  $("#size-select").html(option_size.join(''));
+document.addEventListener('DOMContentLoaded', function () {
+  var selectElement = document.getElementById('size-select');
+  fetch('https://localhost:44328/api/Size/Get')
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          data.forEach(function (country) {
+              var optionElement = document.createElement('option');
+              optionElement.value = country.id;
+              optionElement.textContent = country.numberSize;
+              selectElement.appendChild(optionElement);
+          });
+          new MultiSelectTag('size-select')
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
 });
 
 $(document).ready(function () {
@@ -60,25 +91,43 @@ $(document).ready(function () {
       $('#retailPrice').val(data.retailPrice);
       $('#costPrice').val(data.costPrice);
       $('#status').val(data.status);
+      $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
     },
     error: function () {
       console.log("Error retrieving data.");
     }
   });
-  // lay id cate
+  // lay id cate và stock
   $.ajax({
     url: "https://localhost:44328/api/CategoryProduct/" + id,
     type: "GET",
-    dataType: "json",
-    success: function (data) {
-      console.log(JSON.stringify(data[0].categoryId));
-      $('#category-select').val(data[0].categoryId);
-    },
-    error: function () {
-      console.log("Error retrieving data.");
-    }
+    dataType: "json"
+  })
+  .done(function(data) {
+    console.log(JSON.stringify(data[0].categoryId));
+    $('#category-select').val(data[0].categoryId);
+  })
+  .fail(function() {
+    console.log("Error retrieving data for category.");
+  })
+  .always(function() {
+    $.ajax({
+      url: "https://localhost:44328/api/Stock/" + id,
+      type: "GET",
+      dataType: "json"
+    })
+    .done(function(data) {
+      console.log(JSON.stringify(data));
+      $('#unitInStock').val(data.unitInStock);
+      $('#color-select').val(data.colorId);
+      $('#size-select').val(data.sizeId);
+    })
+    .fail(function() {
+      console.log("Error retrieving data for stock.");
+    });
   });
 
+// submit
   $('#update-product-form').submit(function (event) {
     event.preventDefault()
     var formData = {
@@ -86,8 +135,11 @@ $(document).ready(function () {
       name: $("#name").val(),
       description: $("#description").val(),
       retailPrice: $("#retailPrice").val(),
+      costPrice: $("#costPrice").val(),
       colorId: $("#color-select").val(),
       sizeId: $("#size-select").val(),
+      status: Number($("#status").val()),
+
     };
     //api update product
     $.ajax({
@@ -97,33 +149,77 @@ $(document).ready(function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (e) {
-
+        window.location.href = `/frontend/admin/product-page.html`;
       },
     });
-    // api delete
+    // category product
+    debugger
     $.ajax({
       url: "https://localhost:44328/api/CategoryProduct/" + id,
       type: "DELETE",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
-      success: function (e) {
-
-      },
+    })
+    .then(function() {
+      var categoryformData = {
+        productId: id,
+        categoryId: $("#category-select").val(),
+      };
+      
+      return $.ajax({
+        url: "https://localhost:44328/api/CategoryProduct",
+        type: "POST",
+        data: JSON.stringify(categoryformData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+      })
+    })
+    .then(function(response) {
+    })
+    .catch(function(error) {
     });
-    //api add categoryProduct
-    var categoryformData = {
-      productId: id,
-      categoryId: $("#category-select").val(),
-    };
-    $.ajax({
-      url: "https://localhost:44328/api/CategoryProduct",
-      type: "POST",
-      data: JSON.stringify(categoryformData),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (e) {
-
-      },
-    });
+        // api delete Stock
+        $.ajax({
+          url: "https://localhost:44328/api/Stock/" + id,
+          type: "DELETE",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (e) {
+    
+          },
+        });
+        //api add Stock
+        var stockformData = {
+          productId: id,
+          colorId: $("#color-select").val(),
+          sizeId: $("#size-select").val(),
+          unitInStock: Number($("#unitInStock").val()),
+        };
+        $.ajax({
+          url: "https://localhost:44328/api/Stock",
+          type: "POST",
+          data: JSON.stringify(stockformData),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (response) {
+          },
+        });
+        // upload anh
+        var fileInput = document.getElementById('image');
+        var formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+          $.ajax({  
+            url: 'https://localhost:44328/api/ProductImg/'+id, 
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response){
+              console.log('Image uploaded successfully!');
+            },
+            error: function(xhr, status, error){
+              console.error(error);
+            }
+          });
   });
 });

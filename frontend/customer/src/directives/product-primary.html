@@ -1,0 +1,20 @@
+<div class="boxProduct" ng-repeat="product in products | limitTo: 4">
+    <a href="#/productDetail/{{product.id}}"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
+    <div class="card-badge">New</div>      
+    <ul class="product-links">
+        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích" ng-click="addToWishListE(product.id)"></i></button></li>               
+    </ul> 
+    <ul class="product-links-cart">
+        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus" title="Thêm vào giỏ hàng" ng-click="addToCartsE(product.id)"></i></button></li>               
+    </ul>   
+    <ul class="product-links-buy">
+        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay" ng-click="buyNow(product.id)"></i></button></li>               
+    </ul>    
+    <div class="name">
+        <a href="#" title="{{product.name}}">{{product.name}}</a>
+    </div>
+    <div class="priceI">
+        <span>{{product.retailPrice}} đ</span>                                                        
+        <span class="strike"><del></del></span>  
+    </div>
+</div>

@@ -59,7 +59,6 @@ namespace Webapi.Controllers
             return appUser;
         }
 
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAppUser(string id, AppUserDto appUserDto)
         {
@@ -79,6 +78,8 @@ namespace Webapi.Controllers
             return NoContent();
         }
 
+        
+        
         [HttpPut("{id}/UpdateUserByAdmin")]
         public async Task<IActionResult> UpdateAppUserByAdmin(string id, AppUserByAdmin appUserByAdmin)
         {

@@ -25,8 +25,8 @@ namespace Persistence.Ultilities
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("Id", user.Id),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Sub, string.IsNullOrEmpty(user.Email) ? user.UserName : user.Email),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, string.IsNullOrEmpty(user.Email) ? user.UserName : user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString()),
                     new Claim(ClaimTypes.Name, user.UserName)
@@ -35,6 +35,8 @@ namespace Persistence.Ultilities
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
+
+
 
             foreach (var role in Roles)
             {

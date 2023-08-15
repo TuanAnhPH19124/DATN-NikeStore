@@ -13,15 +13,33 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'numberSize', "title": "Kích cỡ size" },
+            { "data": 'numberSize', "title": "Kích cỡ" },
             { "data": 'description', "title": "Mô tả" },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
+          }
     });
     setInterval(function () {
         sizeTable.ajax.reload();
@@ -55,6 +73,23 @@ $(document).ready(function () {
             localStorage.setItem("sizeId", sizeId);
             window.location.href = `/frontend/admin/update-size.html`;
         }
+    });
+    $.validator.addMethod("onlyContaiNum", function (value, element) {
+        return value.match(/^[0-9]+$/) != null;
+    });
+    $("#add-size-form").validate({
+        rules: {
+            "numberSize": {
+                required: true,
+                onlyContaiNum: true
+            },
+        },
+        messages: {
+            "numberSize": {
+                required: "Mời bạn nhập Số size",
+                onlyContaiNum: "Size là số không chứa ký tự"
+            },
+        },
     });
 });
 

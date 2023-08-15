@@ -44,6 +44,12 @@ namespace Webapi.Controllers
 
         }
 
+        [HttpGet("confirm/{code}")]
+        public async Task<IActionResult> ConfirmVoucher(string code)
+        {
+            return Ok();
+        }
+
         [HttpGet("Get/{Id}")]
         public async Task<ActionResult<Voucher>> GetByIdVoucher(string Id)
         {

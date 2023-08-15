@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230803013944_update")]
-    partial class update
+    [Migration("20230814145127_ok")]
+    partial class ok
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -187,28 +187,50 @@ namespace Persistence.Migrations
                     b.ToTable("Color");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Employees", b =>
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
                 {
-                    b.Property<Guid>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("HomeTown")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("RelativeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RelativePhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -219,9 +241,39 @@ namespace Persistence.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
-                    b.HasKey("EmployeeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Material", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Materials");
                 });
 
             modelBuilder.Entity("Domain.Entities.News", b =>
@@ -368,12 +420,6 @@ namespace Persistence.Migrations
                     b.Property<double>("RetailPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<string>("ShoppingCartItemsProductsId")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("ShoppingCartItemsShoppingCartsId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -384,8 +430,6 @@ namespace Persistence.Migrations
 
                     b.HasIndex("Name")
                         .IsUnique();
-
-                    b.HasIndex("ShoppingCartItemsShoppingCartsId", "ShoppingCartItemsProductsId");
 
                     b.ToTable("Product");
                 });
@@ -415,6 +459,21 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImage");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductMaterial", b =>
+                {
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.HasKey("MaterialId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductMaterials");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductRate", b =>
@@ -450,11 +509,25 @@ namespace Persistence.Migrations
                     b.ToTable("ProductRate");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ProductSole", b =>
+                {
+                    b.Property<int>("SoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.HasKey("SoleId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSoles");
+                });
+
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
                 {
-                    b.Property<Guid>("ScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("ScheduleId")
+                        .HasColumnType("text");
 
                     b.Property<decimal>("CashFloat")
                         .HasColumnType("numeric");
@@ -462,8 +535,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp without time zone");
@@ -486,35 +559,40 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.ShoppingCartItems", b =>
                 {
-                    b.Property<Guid>("ShoppingCartsId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Property<string>("ProductsId")
+                    b.Property<string>("ProductId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("ShoppingCartsId", "ProductsId");
+                    b.Property<string>("ShoppingCartId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.HasIndex("ProductsId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("AppUserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -533,6 +611,33 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Size");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Soles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Stock", b =>
@@ -825,6 +930,15 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
+                {
+                    b.HasOne("Domain.Entities.AppUser", "AppUser")
+                        .WithOne("Employee")
+                        .HasForeignKey("Domain.Entities.Employee", "AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
@@ -871,15 +985,6 @@ namespace Persistence.Migrations
                     b.Navigation("Size");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Product", b =>
-                {
-                    b.HasOne("Domain.Entities.ShoppingCartItems", "ShoppingCartItems")
-                        .WithMany()
-                        .HasForeignKey("ShoppingCartItemsShoppingCartsId", "ShoppingCartItemsProductsId");
-
-                    b.Navigation("ShoppingCartItems");
-                });
-
             modelBuilder.Entity("Domain.Entities.ProductImage", b =>
                 {
                     b.HasOne("Domain.Entities.Color", "Color")
@@ -891,6 +996,25 @@ namespace Persistence.Migrations
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Color");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductMaterial", b =>
+                {
+                    b.HasOne("Domain.Entities.Material", "Material")
+                        .WithMany("ProductMaterials")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductMaterials")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
 
                     b.Navigation("Product");
                 });
@@ -914,13 +1038,30 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Schedule", b =>
+            modelBuilder.Entity("Domain.Entities.ProductSole", b =>
                 {
-                    b.HasOne("Domain.Entities.Employees", "Employees")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductSoles")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Entities.Sole", "Sole")
+                        .WithMany("ProductSoles")
+                        .HasForeignKey("SoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Sole");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Schedule", b =>
+                {
+                    b.HasOne("Domain.Entities.Employee", "Employees")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employees");
                 });
@@ -928,14 +1069,14 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.ShoppingCartItems", b =>
                 {
                     b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .WithMany("ShoppingCartItems")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.ShoppingCarts", "ShoppingCarts")
-                        .WithMany("Items")
-                        .HasForeignKey("ShoppingCartsId")
+                        .WithMany("ShoppingCartItems")
+                        .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -947,8 +1088,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
                 {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
-                        .WithOne("ShoppingCarts")
-                        .HasForeignKey("Domain.Entities.ShoppingCarts", "AppUserId");
+                        .WithMany("ShoppingCarts")
+                        .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
                 });
@@ -1061,6 +1202,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
                 {
+                    b.Navigation("Employee");
+
                     b.Navigation("Orders");
 
                     b.Navigation("ProductRate");
@@ -1082,6 +1225,11 @@ namespace Persistence.Migrations
                     b.Navigation("Stocks");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Material", b =>
+                {
+                    b.Navigation("ProductMaterials");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -1095,19 +1243,30 @@ namespace Persistence.Migrations
 
                     b.Navigation("ProductImages");
 
+                    b.Navigation("ProductMaterials");
+
                     b.Navigation("ProductRate");
+
+                    b.Navigation("ProductSoles");
+
+                    b.Navigation("ShoppingCartItems");
 
                     b.Navigation("Stocks");
                 });
 
             modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.Size", b =>
                 {
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sole", b =>
+                {
+                    b.Navigation("ProductSoles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Voucher", b =>

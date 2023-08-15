@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "angular-jwt": "^0.1.11"
+  }
+}
