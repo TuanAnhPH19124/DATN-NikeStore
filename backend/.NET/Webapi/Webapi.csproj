@@ -18,6 +18,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="WatchDog.NET" Version="1.4.10" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot\QRProduct\" />
   </ItemGroup>
 
 </Project>
