@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230813043256_pppp")]
-    partial class pppp
+    [Migration("20230815152639_inti")]
+    partial class inti
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -249,6 +249,33 @@ namespace Persistence.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Material", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Materials");
+                });
+
             modelBuilder.Entity("Domain.Entities.News", b =>
                 {
                     b.Property<Guid>("Id")
@@ -383,6 +410,9 @@ namespace Persistence.Migrations
                     b.Property<int>("DiscountRate")
                         .HasColumnType("integer");
 
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -393,6 +423,9 @@ namespace Persistence.Migrations
                     b.Property<double>("RetailPrice")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("SoleId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -401,8 +434,12 @@ namespace Persistence.Migrations
                     b.HasIndex("BarCode")
                         .IsUnique();
 
+                    b.HasIndex("MaterialId");
+
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("SoleId");
 
                     b.ToTable("Product");
                 });
@@ -554,6 +591,33 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Size");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Soles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Stock", b =>
@@ -901,6 +965,25 @@ namespace Persistence.Migrations
                     b.Navigation("Size");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.Material", "Material")
+                        .WithMany("Products")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Sole", "Sole")
+                        .WithMany("Products")
+                        .HasForeignKey("SoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Sole");
+                });
+
             modelBuilder.Entity("Domain.Entities.ProductImage", b =>
                 {
                     b.HasOne("Domain.Entities.Color", "Color")
@@ -1103,6 +1186,11 @@ namespace Persistence.Migrations
                     b.Navigation("Stocks");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Material", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -1131,6 +1219,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Size", b =>
                 {
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sole", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.Voucher", b =>

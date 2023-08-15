@@ -408,6 +408,9 @@ namespace Persistence.Migrations
                     b.Property<int>("DiscountRate")
                         .HasColumnType("integer");
 
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -418,6 +421,9 @@ namespace Persistence.Migrations
                     b.Property<double>("RetailPrice")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("SoleId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -426,8 +432,12 @@ namespace Persistence.Migrations
                     b.HasIndex("BarCode")
                         .IsUnique();
 
+                    b.HasIndex("MaterialId");
+
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("SoleId");
 
                     b.ToTable("Product");
                 });
@@ -457,21 +467,6 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImage");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProductMaterial", b =>
-                {
-                    b.Property<int>("MaterialId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("text");
-
-                    b.HasKey("MaterialId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductMaterials");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductRate", b =>
@@ -505,21 +500,6 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductRate");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProductSole", b =>
-                {
-                    b.Property<int>("SoleId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("text");
-
-                    b.HasKey("SoleId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductSoles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
@@ -983,6 +963,25 @@ namespace Persistence.Migrations
                     b.Navigation("Size");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.Material", "Material")
+                        .WithMany("Products")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Sole", "Sole")
+                        .WithMany("Products")
+                        .HasForeignKey("SoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Sole");
+                });
+
             modelBuilder.Entity("Domain.Entities.ProductImage", b =>
                 {
                     b.HasOne("Domain.Entities.Color", "Color")
@@ -994,25 +993,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Color");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProductMaterial", b =>
-                {
-                    b.HasOne("Domain.Entities.Material", "Material")
-                        .WithMany("ProductMaterials")
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("ProductMaterials")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Material");
 
                     b.Navigation("Product");
                 });
@@ -1034,25 +1014,6 @@ namespace Persistence.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProductSole", b =>
-                {
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("ProductSoles")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Sole", "Sole")
-                        .WithMany("ProductSoles")
-                        .HasForeignKey("SoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Sole");
                 });
 
             modelBuilder.Entity("Domain.Entities.Schedule", b =>
@@ -1225,7 +1186,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Material", b =>
                 {
-                    b.Navigation("ProductMaterials");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -1241,11 +1202,7 @@ namespace Persistence.Migrations
 
                     b.Navigation("ProductImages");
 
-                    b.Navigation("ProductMaterials");
-
                     b.Navigation("ProductRate");
-
-                    b.Navigation("ProductSoles");
 
                     b.Navigation("ShoppingCartItems");
 
@@ -1264,7 +1221,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Sole", b =>
                 {
-                    b.Navigation("ProductSoles");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.Voucher", b =>

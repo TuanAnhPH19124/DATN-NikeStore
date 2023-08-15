@@ -20,7 +20,7 @@ namespace Persistence.Configurations
             builder.Property(p => p.CreatedDate).IsRequired();
             builder.Property(p => p.ModifiedDate).ValueGeneratedOnAddOrUpdate();
 
-            builder.HasMany(p => p.ProductSoles)
+            builder.HasMany(p => p.Products)
                 .WithOne(p => p.Sole)
                 .HasForeignKey(p => p.SoleId);
 

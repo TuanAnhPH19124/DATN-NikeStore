@@ -4,11 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230814133700_init.cs
-    public partial class init : Migration
-========
-    public partial class pppp : Migration
->>>>>>>> c8b0642cea28c66901087036e206adc286a00b53:backend/.NET/Persistence/Migrations/20230813043256_pppp.cs
+    public partial class inti : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -122,27 +118,6 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    BarCode = table.Column<string>(type: "text", nullable: true),
-                    CostPrice = table.Column<double>(type: "double precision", nullable: false),
-                    RetailPrice = table.Column<double>(type: "double precision", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    Brand = table.Column<int>(type: "integer", nullable: false),
-                    DiscountRate = table.Column<int>(type: "integer", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -363,6 +338,100 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    BarCode = table.Column<string>(type: "text", nullable: true),
+                    CostPrice = table.Column<double>(type: "double precision", nullable: false),
+                    RetailPrice = table.Column<double>(type: "double precision", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Brand = table.Column<int>(type: "integer", nullable: false),
+                    DiscountRate = table.Column<int>(type: "integer", nullable: false),
+                    SoleId = table.Column<int>(type: "integer", nullable: false),
+                    MaterialId = table.Column<int>(type: "integer", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Product_Soles_SoleId",
+                        column: x => x.SoleId,
+                        principalTable: "Soles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    Paymethod = table.Column<int>(type: "integer", nullable: false),
+                    Amount = table.Column<double>(type: "double precision", nullable: false),
+                    CustomerName = table.Column<string>(type: "text", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    PassivedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    VoucherId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_Vouchers_VoucherId",
+                        column: x => x.VoucherId,
+                        principalTable: "Vouchers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    ScheduleId = table.Column<string>(type: "text", nullable: false),
+                    EmployeeId = table.Column<string>(type: "text", nullable: true),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    IsHoliday = table.Column<bool>(type: "boolean", nullable: false),
+                    CashFloat = table.Column<decimal>(type: "numeric", nullable: false),
+                    Total = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
+                    table.ForeignKey(
+                        name: "FK_Schedules_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CategoryProduct",
                 columns: table => new
                 {
@@ -438,30 +507,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductMaterials",
-                columns: table => new
-                {
-                    MaterialId = table.Column<int>(type: "integer", nullable: false),
-                    ProductId = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductMaterials", x => new { x.MaterialId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_ProductMaterials_Materials_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Materials",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductMaterials_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductRate",
                 columns: table => new
                 {
@@ -492,25 +537,51 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WishLists",
+                name: "ProductTag",
                 columns: table => new
                 {
                     ProductsId = table.Column<string>(type: "text", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: false)
+                    TagsId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WishLists", x => new { x.ProductsId, x.AppUserId });
+                    table.PrimaryKey("PK_ProductTag", x => new { x.ProductsId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_WishLists_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_ProductTag_Product_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WishLists_Product_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_ProductTag_Tag_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShoppingCartItems",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<string>(type: "text", nullable: false),
+                    ShoppingCartId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCartItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCartItems_Product_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCartItems_ShoppingCarts_ShoppingCartId",
+                        column: x => x.ShoppingCartId,
+                        principalTable: "ShoppingCarts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -549,134 +620,25 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductSoles",
-                columns: table => new
-                {
-                    SoleId = table.Column<int>(type: "integer", nullable: false),
-                    ProductId = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductSoles", x => new { x.SoleId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_ProductSoles_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductSoles_Soles_SoleId",
-                        column: x => x.SoleId,
-                        principalTable: "Soles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductTag",
+                name: "WishLists",
                 columns: table => new
                 {
                     ProductsId = table.Column<string>(type: "text", nullable: false),
-                    TagsId = table.Column<string>(type: "text", nullable: false)
+                    AppUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductTag", x => new { x.ProductsId, x.TagsId });
+                    table.PrimaryKey("PK_WishLists", x => new { x.ProductsId, x.AppUserId });
                     table.ForeignKey(
-                        name: "FK_ProductTag_Product_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductTag_Tag_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tag",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    Note = table.Column<string>(type: "text", nullable: true),
-                    Paymethod = table.Column<int>(type: "integer", nullable: false),
-                    Amount = table.Column<double>(type: "double precision", nullable: false),
-                    CustomerName = table.Column<string>(type: "text", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    PassivedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
-                    VoucherId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_WishLists_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Orders_Vouchers_VoucherId",
-                        column: x => x.VoucherId,
-                        principalTable: "Vouchers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Schedules",
-                columns: table => new
-                {
-                    ScheduleId = table.Column<string>(type: "text", nullable: false),
-                    EmployeeId = table.Column<string>(type: "text", nullable: true),
-                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    IsHoliday = table.Column<bool>(type: "boolean", nullable: false),
-                    CashFloat = table.Column<decimal>(type: "numeric", nullable: false),
-                    Total = table.Column<decimal>(type: "numeric", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ShoppingCartItems",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    ProductId = table.Column<string>(type: "text", nullable: false),
-                    ShoppingCartId = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShoppingCartItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ShoppingCartItems_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShoppingCartItems_ShoppingCarts_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
-                        principalTable: "ShoppingCarts",
+                        name: "FK_WishLists_Product_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -819,10 +781,20 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_MaterialId",
+                table: "Product",
+                column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_Name",
                 table: "Product",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_SoleId",
+                table: "Product",
+                column: "SoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductCategory_ProductsId",
@@ -840,18 +812,8 @@ namespace Persistence.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductMaterials_ProductId",
-                table: "ProductMaterials",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductRate_ProductId",
                 table: "ProductRate",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductSoles_ProductId",
-                table: "ProductSoles",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -939,13 +901,7 @@ namespace Persistence.Migrations
                 name: "ProductImage");
 
             migrationBuilder.DropTable(
-                name: "ProductMaterials");
-
-            migrationBuilder.DropTable(
                 name: "ProductRate");
-
-            migrationBuilder.DropTable(
-                name: "ProductSoles");
 
             migrationBuilder.DropTable(
                 name: "ProductTag");
@@ -972,12 +928,6 @@ namespace Persistence.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Materials");
-
-            migrationBuilder.DropTable(
-                name: "Soles");
-
-            migrationBuilder.DropTable(
                 name: "Tag");
 
             migrationBuilder.DropTable(
@@ -1000,6 +950,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Materials");
+
+            migrationBuilder.DropTable(
+                name: "Soles");
         }
     }
 }
