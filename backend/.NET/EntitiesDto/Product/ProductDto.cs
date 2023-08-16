@@ -18,8 +18,10 @@ namespace EntitiesDto.Product
             public Brands Brand { get; set; }
             public int DiscountRate { get; set; } = 1;
             public Status Status { get; set; }
-             // Other properties as needed
-        
+            public int SoleId { get; set; }
+            public int MaterialId { get; set; }
+        // Other properties as needed
+
 
     }
 }
