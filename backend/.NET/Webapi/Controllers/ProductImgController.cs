@@ -22,7 +22,7 @@ namespace Webapi.Controllers
                 }
 
                 // Gọi hàm UploadImages để tải lên ảnh
-                UploadService.UploadImages(image, productId);
+                //UploadService.UploadImages(image, productId);
 
                 return Ok("Image uploaded successfully.");
             }

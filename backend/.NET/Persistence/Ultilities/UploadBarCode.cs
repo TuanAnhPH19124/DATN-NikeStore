@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using Domain.Entities;
 using QRCoder;
 
 namespace Persistence.Ultilities
@@ -42,9 +43,9 @@ namespace Persistence.Ultilities
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     image.Save(fileStream, System.Drawing.Imaging.ImageFormat.Png);
-                }
-
-                return filePath;
+                }               
+                var path = Path.Combine("QRProduct", filename);
+                return path;
             }
             catch (Exception e)
             {
