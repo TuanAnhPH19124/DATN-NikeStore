@@ -14,6 +14,6 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime? ModifiedDate { get; set; }
 
-        public virtual List<ProductSole> ProductSoles { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

@@ -77,8 +77,6 @@ namespace Webapi.Controllers
                     Status = productDto.Status
                 };
 
-                // ... Thêm các thông tin khác vào product
-
                 var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
 
                 return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);

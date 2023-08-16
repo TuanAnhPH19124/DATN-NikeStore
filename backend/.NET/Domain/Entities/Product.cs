@@ -20,8 +20,10 @@ namespace Domain.Entities
         public Brands Brand { get; set; } = Brands.Nike;
         public int DiscountRate { get; set; } = 1;
 
-        public virtual List<ProductSole> ProductSoles { get; set; }
-        public virtual List<ProductMaterial> ProductMaterials { get; set; }
+        public int SoleId { get; set; }
+        public int MaterialId { get; set; }
+        public Material Material { get; set; }
+        public Sole Sole { get; set; }
         public virtual IEnumerable<ShoppingCartItems> ShoppingCartItems { get; set; }
         public virtual List<Category> Categories { get; set; }
         public virtual List<Tag> Tags { get; set; } 

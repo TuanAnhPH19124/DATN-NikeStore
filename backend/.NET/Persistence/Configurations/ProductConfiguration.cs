@@ -48,13 +48,13 @@ namespace Persistence.Configurations
             .WithOne(x => x.Product)
             .HasForeignKey(x => x.ProductId);
 
-            builder.HasMany(p => p.ProductSoles)
-                .WithOne(p => p.Product)
-                .HasForeignKey(p => p.ProductId);
+            builder.HasOne(p => p.Sole)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.SoleId);
 
-            builder.HasMany(p => p.ProductMaterials)
-                .WithOne(p => p.Product)
-                .HasForeignKey(p => p.ProductId);
+            builder.HasOne(p => p.Material)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.MaterialId);
         }
     }
 }
