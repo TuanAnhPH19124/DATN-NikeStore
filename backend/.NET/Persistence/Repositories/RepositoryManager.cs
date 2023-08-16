@@ -29,6 +29,7 @@ namespace Persistence.Repositories
         private readonly Lazy<IShoppingCartRepository> _lazyShoppingCartRepository;
 
         private readonly Lazy<IMaterialRepository> _lazyMaterialRepository;
+        private readonly Lazy<ISoleRepository> _lazySoleRepository;
 
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration, IConnectionMultiplexer redis)
@@ -51,7 +52,12 @@ namespace Persistence.Repositories
             _lazyShoppingCartRepository = new Lazy<IShoppingCartRepository>(() => new ShoppingCartRepository(context));
             _lazyUnitOfWork =new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
             _lazyCategoryProductRepository=new Lazy<ICategoryProductRepository>(() => new CategoryProductRepository(context));
+
+            _lazySoleRepository = new Lazy<ISoleRepository>(() => new SoleRepository(context));
+             _lazyMaterialRepository = new Lazy<IMaterialRepository>(() => new MaterialRepository(context));
+
             _lazyMaterialRepository = new Lazy<IMaterialRepository>(() => new MaterialRepository(context));
+
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
@@ -88,6 +94,9 @@ namespace Persistence.Repositories
         public IShoppingCartRepository ShoppingCartRepository => _lazyShoppingCartRepository.Value;
 
         public ICategoryProductRepository CategoryProductRepository => _lazyCategoryProductRepository.Value;
+
         public IMaterialRepository MaterialRepository => _lazyMaterialRepository.Value;
+
+        public ISoleRepository SoleRepository => _lazySoleRepository.Value;
     }
 }

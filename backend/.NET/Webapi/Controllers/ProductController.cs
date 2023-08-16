@@ -62,7 +62,6 @@ namespace Webapi.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -145,6 +144,8 @@ namespace Webapi.Controllers
                 existingProduct.Brand = productDto.Brand;
                 existingProduct.DiscountRate = productDto.DiscountRate;
                 existingProduct.Status = productDto.Status;
+                existingProduct.SoleId = productDto.SoleId;
+                existingProduct.MaterialId = productDto.MaterialId;
 
                 // ... Cập nhật thông tin khác của sản phẩm
 
@@ -157,6 +158,30 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        // Tiếp tục trong ProductController
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
+            string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        {
+            try
+            {
+                var filteredProducts = await _serviceManager.ProductService.FilterProductsAsync(
+                    sizeId, colorId, categoryId, materialId, soleId);
+
+                if (filteredProducts == null || !filteredProducts.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(filteredProducts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }
 
