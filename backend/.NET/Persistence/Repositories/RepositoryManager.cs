@@ -27,7 +27,7 @@ namespace Persistence.Repositories
         private readonly Lazy<IProductRateRepository> _lazyProductRateRepository;
         private readonly Lazy<ICategoryProductRepository> _lazyCategoryProductRepository;
         private readonly Lazy<IShoppingCartRepository> _lazyShoppingCartRepository;
-        private readonly Lazy<IProductMaterialRepository> _lazyProductMaterialRepository;
+
         private readonly Lazy<IMaterialRepository> _lazyMaterialRepository;
 
 
@@ -51,7 +51,6 @@ namespace Persistence.Repositories
             _lazyShoppingCartRepository = new Lazy<IShoppingCartRepository>(() => new ShoppingCartRepository(context));
             _lazyUnitOfWork =new Lazy<IUnitOfWork>(() => new UnitOfWork(context));
             _lazyCategoryProductRepository=new Lazy<ICategoryProductRepository>(() => new CategoryProductRepository(context));
-            _lazyProductMaterialRepository=new Lazy<IProductMaterialRepository>(() => new ProductMaterialRepository(context));
             _lazyMaterialRepository = new Lazy<IMaterialRepository>(() => new MaterialRepository(context));
         }
 
@@ -89,7 +88,6 @@ namespace Persistence.Repositories
         public IShoppingCartRepository ShoppingCartRepository => _lazyShoppingCartRepository.Value;
 
         public ICategoryProductRepository CategoryProductRepository => _lazyCategoryProductRepository.Value;
-        public IProductMaterialRepository ProductMaterialRepository => _lazyProductMaterialRepository.Value;
         public IMaterialRepository MaterialRepository => _lazyMaterialRepository.Value;
     }
 }
