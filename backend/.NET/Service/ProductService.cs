@@ -56,10 +56,13 @@ namespace Service
 
         public async Task<Product> CreateAsync(Product product)
         {
-           _repositoryManger.ProductRepository.AddProduct(product);
+            await _repositoryManger.ProductRepository.AddProduct(product);
+
+            #region tạo ảnh barcode
             var qrcode = new UploadBarCode();
             product.BarCode = qrcode.generateAndUploadQRCode(product.Id);
-            Console.WriteLine(product.BarCode);
+            #endregion
+
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
             return product;
         }
