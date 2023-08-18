@@ -67,6 +67,9 @@ namespace Persistence
                 .WithMany(c => c.CategoryProducts)
                 .HasForeignKey(cp => cp.CategoryId);
         }
+
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<Sole> Soles { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }

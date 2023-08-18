@@ -30,8 +30,9 @@ app.config(function ($routeProvider, $locationProvider){
       controller: "authController",
       templateUrl: "../page/login/register.html",
     })
-    .when("/2", {
+    .when("/accountDetail", {
       templateUrl: "../page/login/accountinfomation.html",
+      controller: "authController"
     })
     .when("/6", {
       templateUrl: "../page/product/product.html",

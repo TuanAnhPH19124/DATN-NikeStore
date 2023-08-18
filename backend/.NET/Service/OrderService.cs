@@ -108,5 +108,10 @@ namespace Service
 
             return StockList;
         }
+
+        public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
+        {       
+            return await _manager.OrderRepository.GetByIdOrderAsync(id, cancellationToken);
+        }
     }
 }

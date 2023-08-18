@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace Webapi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+   
+
     public class ProductsController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;

@@ -19,6 +19,11 @@ namespace Domain.Entities
         public Status Status { get; set; } = Status.ACTIVE;
         public Brands Brand { get; set; } = Brands.Nike;
         public int DiscountRate { get; set; } = 1;
+        public int SoleId { get; set; }
+        public int MaterialId { get; set; }
+
+        public Material Material { get; set; }
+        public Sole Sole { get; set; }
         public virtual IEnumerable<ShoppingCartItems> ShoppingCartItems { get; set; }
         public virtual List<Category> Categories { get; set; }
         public virtual List<Tag> Tags { get; set; } 

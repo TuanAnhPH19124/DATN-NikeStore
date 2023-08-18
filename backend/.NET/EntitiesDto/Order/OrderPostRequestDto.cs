@@ -23,11 +23,11 @@ namespace EntitiesDto.Order
         public string CustomerName { get; set; } = string.Empty;
         public string VoucherId { get; set; } = null;
         public List<OrderItemPostRequestDto> OrderItems { get; set; }
+    
     }
 
     public class OrderPostRequestDto : OrderAtStorePostRequestDto
     {
-        [Required]
-        public string UserId { get; set; }
+        
     }
 }

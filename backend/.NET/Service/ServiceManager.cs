@@ -24,6 +24,11 @@ namespace Service
         private readonly Lazy<ICategoryProductService> _lazyCategoryProductService;
         private readonly Lazy<IStockService> _lazyStockService;
         private readonly Lazy<IShoppingCartService> _lazyShoppingCartService;
+
+        private readonly Lazy<ISoleService> _lazySoleService;
+      
+
+        private readonly Lazy<IMaterialService> _lazyMaterialService;
         public ServiceManager(IRepositoryManger repositoryManger)
         {
             _lazyAppUserService = new Lazy<IAppUserService>(() => new AppUserService(repositoryManger));
@@ -41,8 +46,10 @@ namespace Service
             _lazyProductRateService = new Lazy<IProductRateService>(() => new ProductRateService(repositoryManger));
             _lazyCategoryProductService=new Lazy<ICategoryProductService>(() => new CategoryProductService(repositoryManger));
             _lazyStockService = new Lazy<IStockService>(() => new StockService(repositoryManger));
-         
-         
+
+            _lazySoleService=new Lazy<ISoleService>(() => new SoleService(repositoryManger));
+
+            _lazyMaterialService = new Lazy<IMaterialService>(() => new MaterialService(repositoryManger));
             _lazyShoppingCartService = new Lazy<IShoppingCartService>(() => new ShoppingCartService(repositoryManger));
         }
 
@@ -74,6 +81,8 @@ namespace Service
         public IStockService StockService => _lazyStockService.Value;
         
         public IShoppingCartService ShoppingCartService => _lazyShoppingCartService.Value;
+        public IMaterialService MaterialService => _lazyMaterialService.Value;
+        public ISoleService SoleService => _lazySoleService.Value;
     }
     
 }
