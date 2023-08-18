@@ -12,7 +12,7 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'snn', "title": "Số căn cước" },
+            { "data": 'phoneNumber', "title": "Số điện thoại" },
             { "data": 'fullName', "title": "Họ và tên" },
             { "data": 'gender', "title": "Giới tính", "render": function (data, type, row) {
                 if (data == true) {
