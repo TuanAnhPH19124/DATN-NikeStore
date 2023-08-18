@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -10,10 +9,9 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230815160701_ttpdcv")]
-    partial class ttpdcv
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -459,7 +457,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("SetAsDefault")
+                    b.Property<bool>("SetAsDefault")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");

@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230816070852_ok")]
-    partial class ok
+    [Migration("20230818082523_hhhh")]
+    partial class hhhh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -459,7 +459,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("SetAsDefault")
+                    b.Property<bool>("SetAsDefault")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");

@@ -20,16 +20,20 @@ $(document).ready(function () {
             id: id,
             name: $("#name").val(),
         };
-        $.ajax({
-            url: "https://localhost:44328/api/Categories/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                window.location.href = "/frontend/admin/category.html";
-            },
-        });
+        if (confirm(`Bạn có muốn sửa danh mục thành ${formData.name} không?`)) {
+            $.ajax({
+                url: "https://localhost:44328/api/Categories/" + id,
+                type: "PUT",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/frontend/admin/category.html";
+                },
+            });
+        } else {
+            return
+        }
     });
     $("#update-category-form").validate({
         rules: {

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class ttpdcv : Migration
+    public partial class hhhh : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -485,7 +485,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: false),
-                    SetAsDefault = table.Column<bool>(type: "boolean", nullable: true),
+                    SetAsDefault = table.Column<bool>(type: "boolean", nullable: false),
                     ProductId = table.Column<string>(type: "text", nullable: true),
                     ColorId = table.Column<string>(type: "text", nullable: true)
                 },

@@ -119,42 +119,42 @@ namespace Persistence
         #endregion
 
         #region Product
-        if (!await _dbContext.Products.AnyAsync())
-        {
-          if (Directory.Exists(filePath))
-          {
-            var file = Path.Combine(filePath, "MOCK_PRODUCT.json");
-            if (File.Exists(file))
-            {
-              var jsonContent = File.ReadAllText(file);
-              var data = JsonConvert.DeserializeObject<List<Product>>(jsonContent);
-              using (var transaction = await _dbContext.Database.BeginTransactionAsync())
-              {
-                try
-                {
-                  await _dbContext.Products.AddRangeAsync(data);
-                  await _dbContext.SaveChangesAsync();
-                  await transaction.CommitAsync();
-                  Console.WriteLine("Sccessfully inserted mock data to table Product");
-                }
-                catch (System.Exception)
-                {
-                  await transaction.RollbackAsync();
-                  throw;
-                }
-              }
-            }
-            else
-            {
-              Console.WriteLine($"Error: Could not find {file}");
-            }
-          }
-          else
-          {
-            Console.WriteLine($"Error: {filePath} is not exists.");
-          }
-        }
-        Console.WriteLine("Skipping seed data to table Products..");
+        //if (!await _dbContext.Products.AnyAsync())
+        //{
+        //  if (Directory.Exists(filePath))
+        //  {
+        //    var file = Path.Combine(filePath, "MOCK_PRODUCT.json");
+        //    if (File.Exists(file))
+        //    {
+        //      var jsonContent = File.ReadAllText(file);
+        //      var data = JsonConvert.DeserializeObject<List<Product>>(jsonContent);
+        //      using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+        //      {
+        //        try
+        //        {
+        //          await _dbContext.Products.AddRangeAsync(data);
+        //          await _dbContext.SaveChangesAsync();
+        //          await transaction.CommitAsync();
+        //          Console.WriteLine("Sccessfully inserted mock data to table Product");
+        //        }
+        //        catch (System.Exception)
+        //        {
+        //          await transaction.RollbackAsync();
+        //          throw;
+        //        }
+        //      }
+        //    }
+        //    else
+        //    {
+        //      Console.WriteLine($"Error: Could not find {file}");
+        //    }
+        //  }
+        //  else
+        //  {
+        //    Console.WriteLine($"Error: {filePath} is not exists.");
+        //  }
+        //}
+        //Console.WriteLine("Skipping seed data to table Products..");
         #endregion
 
       }
