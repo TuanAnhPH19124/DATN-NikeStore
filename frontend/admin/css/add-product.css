@@ -214,3 +214,69 @@ input::-webkit-inner-spin-button {
   font-size: 1em;
   width: 100%;
 }
+/* upload nhiều ảnh */
+.upload-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.upload-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.upload-list .preview-container {
+  width: calc(33.33% - 10px);
+  margin: 5px;
+  cursor: pointer;
+}
+
+.upload-button {
+  width: 32%;
+  height: 32%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border: 2px dashed #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.upload-button:hover {
+  border-color: #1890ff;
+}
+
+.upload-button .icon {
+  font-size: 24px;
+  color: #1890ff;
+}
+
+.upload-button-text {
+  margin-top: 8px;
+  color: #999;
+  font-size: 14px;
+}
+
+.preview-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+}

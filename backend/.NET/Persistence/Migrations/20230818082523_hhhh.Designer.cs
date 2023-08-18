@@ -10,13 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230813070808_updateVH.Designer.cs
-    [Migration("20230813070808_updateVH")]
-    partial class updateVH
-========
-    [Migration("20230815160701_ttpdcv")]
-    partial class ttpdcv
->>>>>>>> submain:backend/.NET/Persistence/Migrations/20230815160701_ttpdcv.Designer.cs
+    [Migration("20230818082523_hhhh")]
+    partial class hhhh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -464,7 +459,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("SetAsDefault")
+                    b.Property<bool>("SetAsDefault")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
