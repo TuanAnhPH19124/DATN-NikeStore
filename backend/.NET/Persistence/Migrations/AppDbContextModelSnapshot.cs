@@ -9,7 +9,21 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
+<<<<<<< HEAD
+<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/AppDbContextModelSnapshot.cs
     partial class AppDbContextModelSnapshot : ModelSnapshot
+========
+    [Migration("20230818082523_hhhh")]
+    partial class hhhh
+>>>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff:backend/.NET/Persistence/Migrations/20230818082523_hhhh.Designer.cs
+=======
+<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230819103628_init.Designer.cs
+    [Migration("20230819103628_init")]
+    partial class init
+========
+    partial class AppDbContextModelSnapshot : ModelSnapshot
+>>>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff:backend/.NET/Persistence/Migrations/AppDbContextModelSnapshot.cs
+>>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

@@ -20,16 +20,20 @@ $(document).ready(function () {
             id: id,
             name: $("#name").val(),
         };
-        $.ajax({
-            url: "https://localhost:44328/api/Color/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                window.location.href = "/frontend/admin/color.html";
-            },
-        });
+        if (confirm(`Bạn có muốn sửa thành màu ${formData.name} không?`)) {
+            $.ajax({
+                url: "https://localhost:44328/api/Color/" + id,
+                type: "PUT",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/frontend/admin/color.html";
+                },
+            });
+        } else {
+            return
+        }
     });
     $("#update-color-form").validate({
         rules: {

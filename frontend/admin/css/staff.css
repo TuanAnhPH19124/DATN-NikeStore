@@ -35,7 +35,7 @@ table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !importan
     font-size: 1em;
     width: 100%;
  }
- tr:hover td { background: rgb(187, 173, 173); }
+ #staff-table tr:hover td { background: rgb(187, 173, 173); }
  /* css table */
 #staff-table {
     font-family: Arial, sans-serif;
