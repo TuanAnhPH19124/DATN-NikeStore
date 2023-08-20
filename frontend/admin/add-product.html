@@ -530,7 +530,7 @@
                     <div class="col">
                       <label class="label">Danh mục</label>
                       <div
-                        class="input-and-add"
+                        
                         style="
                           display: flex;
                           align-items: baseline;
@@ -602,7 +602,7 @@
                     <div class="col">
                       <label class="label">Đế giày</label>
                       <div
-                        class="input-and-add"
+                        
                         style="
                           display: flex;
                           align-items: baseline;
@@ -673,7 +673,7 @@
                     <div class="col">
                       <label class="label">Chất liệu</label>
                       <div
-                        class="input-and-add"
+                        
                         style="
                           display: flex;
                           align-items: baseline;
@@ -749,7 +749,6 @@
                     >
                       <label class="label">Màu sắc : </label>
                       <div
-                        class="input-and-add"
                         style="
                           display: flex;
                           align-items: baseline;
@@ -757,7 +756,7 @@
                         "
                       >
                         <!-- Button trigger modal -->
-                        <div id="render-btn">
+                        <div id="render-color">
 
                         </div>
                         <button
@@ -780,9 +779,8 @@
                                   </div>
                                   <div class="modal-body">
                                     <div class="row">
-                                      <div class="col-md-12" id="buttonContainer">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalAddColor">+</button>
-                                        
+                                      <div class="col-md-12" id="colorContainer">
+                                        <button type="button" class="btn btn-primary" id="add-now-btn" style="margin-left: 3%;margin-top: 1%;" data-bs-toggle="modal" data-bs-target="#exampleModalAddColor">+</button>
                                       </div>
 
                                   </div>
@@ -826,7 +824,7 @@
                                     <input
                                       type="text"
                                       class="form-control"
-                                      id="inputNameColor"
+                                      id="color-name"
                                     />
                                   </div>
                                 </div>
@@ -839,7 +837,7 @@
                                 >
                                   Hủy
                                 </button>
-                                <button type="button" class="btn btn-primary">
+                                <button type="button" class="btn btn-primary" id="add-color-now">
                                   Thêm
                                 </button>
                               </div>
@@ -856,7 +854,6 @@
                     >
                       <label class="label">Kích cỡ : </label>
                       <div
-                        class="input-and-add"
                         style="
                           display: flex;
                           align-items: baseline;
@@ -864,6 +861,9 @@
                         "
                       >
                         <!-- Button trigger modal -->
+                        <div id="render-size">
+
+                        </div>
                         <button
                           type="button"
                           class="btn btn-primary"
@@ -875,9 +875,32 @@
                         </button>
 
                         <!-- Modal -->
+                        <div class="modal fade" id="exampleModalSize" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Kích cỡ</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="row">
+                                      <div class="col-md-12" id="sizeContainer">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalAddSize" id="add-size-now" style="margin-left: 3%;margin-top: 1%;">+</button>
+                                      </div>
+
+                                  </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                      <button type="button" class="btn btn-primary" id="addSizeButton">Thêm</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                        <!-- Modal color thêm nhanh  -->
                         <div
                           class="modal fade"
-                          id="exampleModalSize"
+                          id="exampleModalAddSize"
                           tabindex="-1"
                           aria-labelledby="exampleModalLabel"
                           aria-hidden="true"
@@ -886,7 +909,7 @@
                             <div class="modal-content">
                               <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">
-                                  Kích cỡ
+                                  Thêm Size
                                 </h5>
                                 <button
                                   type="button"
@@ -895,7 +918,22 @@
                                   aria-label="Close"
                                 ></button>
                               </div>
-                              <div class="modal-body">...</div>
+                              <div class="modal-body">
+                                <div class="mb-3 row">
+                                  <label
+                                    for="inputNameColor"
+                                    class="col-sm-3 col-form-label"
+                                    >Số Size</label
+                                  >
+                                  <div class="col-sm-8">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      id="numberSize"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
                               <div class="modal-footer">
                                 <button
                                   type="button"
@@ -904,7 +942,7 @@
                                 >
                                   Hủy
                                 </button>
-                                <button type="button" class="btn btn-primary">
+                                <button type="button" class="btn btn-primary" id="add-size-now-btn">
                                   Thêm
                                 </button>
                               </div>
@@ -921,7 +959,7 @@
                     >
                       <label class="label">Số lượng : </label>
                       <div
-                        class="input-and-add"
+                        
                         style="
                           display: flex;
                           align-items: baseline;

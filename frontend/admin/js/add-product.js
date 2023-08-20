@@ -216,10 +216,10 @@ document.addEventListener("DOMContentLoaded", () => {
     fileInput.value = ""; // Reset file input
   });
 });
-
+// add color 
 document.addEventListener("DOMContentLoaded", function() {
   var addColorButton = document.getElementById("addColorButton");
-  var plusButtonContainer = document.getElementById("render-btn");
+  var plusButtonContainer = document.getElementById("render-color");
   var selectedColorText = "";
   var selectedButtons = [];
 
@@ -259,31 +259,245 @@ document.addEventListener("DOMContentLoaded", function() {
     selectedColorText = ""; // Reset màu đã chọn khi modal đóng
   });
 
-  $.ajax({
-    url: 'https://localhost:44328/api/Color/Get', // Change to your API URL
+$.ajax({
+    url: 'https://localhost:44328/api/Color/Get',
     method: 'GET',
     dataType: 'json',
     success: function(data) {
-      var buttonContainer = $('#buttonContainer');
+        var buttonContainer = $('#colorContainer');
+        var addButton = buttonContainer.find('#add-now-btn'); // Get the "add-now-btn" button
+        var buttonsToKeep = buttonContainer.find('.btn:not(#add-now-btn)'); // Get all buttons except "add-now-btn"
 
-      data.forEach(function(item) {
-        var button = $('<button></button>');
-        button.attr('type', 'button');
-        button.addClass('btn btn-outline-dark');
-        button.css('margin-left', '3%');
-        button.text(item.name);
-        button.attr('data-color', item.name); // Add data-color attribute
-        button.click(function() {
-          selectedColorText = item.name; // Lưu màu khi người dùng chọn
+        buttonContainer.empty(); // Empty the container
+
+        // Append the buttons you want to keep
+        buttonsToKeep.each(function() {
+            buttonContainer.append($(this));
         });
-        buttonContainer.append(button);
-      });
+
+        data.forEach(function(item) {
+            var button = $('<button></button>');
+            button.attr('type', 'button');
+            button.addClass('btn btn-outline-dark');
+            button.css('margin-left', '3%');
+            button.css('margin-top', '1%');
+            button.text(item.name);
+            button.attr('data-color', item.name);
+            button.click(function() {
+                selectedColorText = item.name;
+            });
+            buttonContainer.append(button);
+        });
+
+        buttonContainer.append(addButton); // Append the "add-now-btn" button back
     },
     error: function() {
-      console.error('Error fetching data.');
+        console.error('Error fetching data.');
     }
+});
+    // add color nhanh
+    $('#add-color-now').click(function () {
+      // thêm nút ban đầu
+      var buttonContainer = $('#colorContainer');
+      var addButton = buttonContainer.find('#add-now-btn');
+      buttonContainer.empty(); 
+      buttonContainer.append(addButton); 
+      var formData = {
+          name: $("#color-name").val(),
+      };
+      if (confirm(`Bạn có muốn thêm màu ${formData.name}?`)) {
+          $.ajax({
+              url: "https://localhost:44328/api/Color",
+              type: "POST",
+              data: JSON.stringify(formData),
+              contentType: "application/json",
+              success: function (response) {
+                $('#exampleModalAddColor').modal('hide');
+                $.ajax({
+                  url: 'https://localhost:44328/api/Color/Get',
+                  method: 'GET',
+                  dataType: 'json',
+                  success: function(data) {
+                      var buttonContainer = $('#colorContainer');
+                      var addButton = buttonContainer.find('#add-now-btn'); // Get the "add-now-btn" button
+                      var buttonsToKeep = buttonContainer.find('.btn:not(#add-now-btn)'); // Get all buttons except "add-now-btn"
+              
+                      buttonContainer.empty(); // Empty the container
+              
+                      // Append the buttons you want to keep
+                      buttonsToKeep.each(function() {
+                          buttonContainer.append($(this));
+                      });
+              
+                      data.forEach(function(item) {
+                          var button = $('<button></button>');
+                          button.attr('type', 'button');
+                          button.addClass('btn btn-outline-dark');
+                          button.css('margin-left', '3%');
+                          button.css('margin-top', '1%');
+                          button.text(item.name);
+                          button.attr('data-color', item.name);
+                          button.click(function() {
+                              selectedColorText = item.name;
+                          });
+                          buttonContainer.append(button);
+                      });
+                      buttonContainer.append(addButton); // Append the "add-now-btn" button back
+                      $("#color-name").val("")
+                  },
+                  error: function() {
+                      console.error('Error fetching data.');
+                  }
+              });
+                $('#exampleModalColor').modal('show');
+              },
+          });
+      }
   });
 });
+
+// add size 
+document.addEventListener("DOMContentLoaded", function() {
+  var addColorButton = document.getElementById("addSizeButton");
+  var plusButtonContainer = document.getElementById("render-size");
+  var selectedColorText = "";
+  var selectedButtons = [];
+
+  addColorButton.addEventListener("click", function() {
+    if (selectedColorText === "" || selectedColorText == undefined) {
+      return; // Ngăn việc thêm nút nếu màu chưa được chọn
+    }
+
+    if (selectedButtons.indexOf(selectedColorText) === -1) {
+      var newButton = document.createElement("button");
+      newButton.type = "button";
+      newButton.className = 'btn btn-outline-dark';
+      newButton.style.marginRight = "5%";
+      newButton.textContent = selectedColorText;
+
+      plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
+
+      plusButtonContainer.style.float = "left";
+
+      selectedButtons.push(selectedColorText);
+      $('#exampleModalSize').modal('hide');
+    } 
+
+    selectedColorText = ""; // Reset màu đã chọn
+  });
+
+  $('#exampleModalSize').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    selectedColorText = button.data('color');
+    
+    if (selectedButtons.indexOf(selectedColorText) !== -1) {
+      selectedColorText = ""; // Reset màu đã chọn
+    }
+  });
+
+  $('#exampleModalSize').on('hide.bs.modal', function() {
+    selectedColorText = ""; // Reset màu đã chọn khi modal đóng
+  });
+
+$.ajax({
+    url: 'https://localhost:44328/api/Size/Get',
+    method: 'GET',
+    dataType: 'json',
+    success: function(data) {
+        var buttonContainer = $('#sizeContainer');
+        var addButton = buttonContainer.find('#add-size-now'); // Get the "add-now-btn" button
+        var buttonsToKeep = buttonContainer.find('.btn:not(#add-size-now)'); // Get all buttons except "add-now-btn"
+
+        buttonContainer.empty(); // Empty the container
+
+        // Append the buttons you want to keep
+        buttonsToKeep.each(function() {
+            buttonContainer.append($(this));
+        });
+
+        data.forEach(function(item) {
+            var button = $('<button></button>');
+            button.attr('type', 'button');
+            button.addClass('btn btn-outline-dark');
+            button.css('margin-left', '3%');
+            button.css('margin-top', '1%');
+            button.text(item.numberSize);
+            button.attr('data-color', item.numberSize);
+            button.click(function() {
+                selectedColorText = item.numberSize;
+            });
+            buttonContainer.append(button);
+        });
+
+        buttonContainer.append(addButton); // Append the "add-now-btn" button back
+    },
+    error: function() {
+        console.error('Error fetching data.');
+    }
+});
+    // add color nhanh
+    $('#add-size-now-btn').click(function () {
+      // thêm nút ban đầu
+      var buttonContainer = $('#sizeContainer');
+      var addButton = buttonContainer.find('#add-size-now');
+      buttonContainer.empty(); 
+      buttonContainer.append(addButton); 
+      var formData = {
+        numberSize: $("#numberSize").val(),
+      };
+      if (confirm(`Bạn có muốn thêm màu ${formData.numberSize}?`)) {
+          $.ajax({
+              url: "https://localhost:44328/api/Size",
+              type: "POST",
+              data: JSON.stringify(formData),
+              contentType: "application/json",
+              success: function (response) {
+                $('#exampleModalAddSize').modal('hide');
+                $.ajax({
+                  url: 'https://localhost:44328/api/Size/Get',
+                  method: 'GET',
+                  dataType: 'json',
+                  success: function(data) {
+                      var buttonContainer = $('#sizeContainer');
+                      var addButton = buttonContainer.find('#add-size-now'); // Get the "add-now-btn" button
+                      var buttonsToKeep = buttonContainer.find('.btn:not(#add-size-now)'); // Get all buttons except "add-now-btn"
+              
+                      buttonContainer.empty(); // Empty the container
+              
+                      // Append the buttons you want to keep
+                      buttonsToKeep.each(function() {
+                          buttonContainer.append($(this));
+                      });
+              
+                      data.forEach(function(item) {
+                          var button = $('<button></button>');
+                          button.attr('type', 'button');
+                          button.addClass('btn btn-outline-dark');
+                          button.css('margin-left', '3%');
+                          button.css('margin-top', '1%');
+                          button.text(item.numberSize);
+                          button.attr('data-color', item.numberSize);
+                          button.click(function() {
+                              selectedColorText = item.numberSize;
+                          });
+                          buttonContainer.append(button);
+                      });
+              
+                      buttonContainer.append(addButton); // Append the "add-now-btn" button back
+                      $("#numberSize").val("")
+                  },
+                  error: function() {
+                      console.error('Error fetching data.');
+                  }
+              });
+              
+                $('#exampleModalSize').modal('show');
+              },
+          });
+      }
+  });
+});
+
 
 
 
