@@ -34,14 +34,11 @@ var product = {
   "materialId": 1,
   "name": "123423",
   "Colors":[
-    {
-      "id":"2",
-      "Images":[],
-      "Sizes":[]
-    }
+
   ]
 }
 
+var selectedColor = -1;
 document.addEventListener("DOMContentLoaded", function() {
   // Đoạn mã AJAX ở đây
 });
@@ -183,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fileList.push(file);
         // ảnh thêm vào api
         const newImage = { file: file, setAsDefault: false };
-         product.Colors[0].Images.push(newImage);
+        //  product.Colors[0].Images.push(newImage);
 
         // Hiển thị hình ảnh tải lên trong giao diện
         const previewContainer = document.createElement("div");
@@ -220,30 +217,36 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", function() {
   var addColorButton = document.getElementById("addColorButton");
   var plusButtonContainer = document.getElementById("render-color");
-  var selectedColorText = "";
+  var selectedColorText = {};
   var selectedButtons = [];
 
   addColorButton.addEventListener("click", function() {
-    if (selectedColorText === "" || selectedColorText == undefined) {
+    if (selectedColorText === {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
-    if (selectedButtons.indexOf(selectedColorText) === -1) {
+    if (selectedButtons.indexOf(selectedColorText.id) === -1) {
       var newButton = document.createElement("button");
       newButton.type = "button";
       newButton.className = 'btn btn-outline-dark';
       newButton.style.marginRight = "5%";
-      newButton.textContent = selectedColorText;
+      newButton.id = selectedColorText.id;
+      newButton.textContent = selectedColorText.text;
+      newButton.addEventListener('click', function (e) {
+        selectedColor = e.target.id;
+      })
 
       plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
 
       plusButtonContainer.style.float = "left";
-
+      product.Colors.push({id : selectedColorText.id, Images: [], Sizes: []});
+      console.log(product);
       selectedButtons.push(selectedColorText);
       $('#exampleModalColor').modal('hide');
+     
     } 
+    selectedColorText = {}; // Reset màu đã chọn
 
-    selectedColorText = ""; // Reset màu đã chọn
   });
 
   $('#exampleModalColor').on('show.bs.modal', function(event) {
@@ -283,8 +286,10 @@ $.ajax({
             button.css('margin-top', '1%');
             button.text(item.name);
             button.attr('data-color', item.name);
+            button.attr('id',item.id);
             button.click(function() {
-                selectedColorText = item.name;
+                selectedColorText = {id: item.id, text: item.name};
+
             });
             buttonContainer.append(button);
         });
@@ -337,6 +342,7 @@ $.ajax({
                           button.css('margin-top', '1%');
                           button.text(item.name);
                           button.attr('data-color', item.name);
+                          button.attr('id',item.id);
                           button.click(function() {
                               selectedColorText = item.name;
                           });
@@ -360,11 +366,29 @@ $.ajax({
 document.addEventListener("DOMContentLoaded", function() {
   var addColorButton = document.getElementById("addSizeButton");
   var plusButtonContainer = document.getElementById("render-size");
-  var selectedColorText = "";
+  var selectedColorText = {};
   var selectedButtons = [];
 
+  // if (product.Colors[selectedColor].Sizes.length !== 0){
+  //   product.Colors[selectedColor].Sizes.forEach(element => {
+  //     var newButton = document.createElement("button");
+  //     newButton.type = "button";
+  //     newButton.className = 'btn btn-outline-dark';
+  //     newButton.style.marginRight = "5%";
+  //     newButton.textContent = element.numberSize;
+  
+  //     plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
+  
+  //     plusButtonContainer.style.float = "left";
+  //   });
+  // }
+
+  if (selectedColor === -1){
+    console.log('rrror==')
+  }
+  
   addColorButton.addEventListener("click", function() {
-    if (selectedColorText === "" || selectedColorText == undefined) {
+    if (selectedColorText === {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
@@ -373,12 +397,12 @@ document.addEventListener("DOMContentLoaded", function() {
       newButton.type = "button";
       newButton.className = 'btn btn-outline-dark';
       newButton.style.marginRight = "5%";
-      newButton.textContent = selectedColorText;
+      newButton.textContent = selectedColorText.numberSize;
 
       plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
 
       plusButtonContainer.style.float = "left";
-
+      // product.Colors[selectedColor].Sizes.push(selectedColorText);
       selectedButtons.push(selectedColorText);
       $('#exampleModalSize').modal('hide');
     } 
@@ -424,7 +448,7 @@ $.ajax({
             button.text(item.numberSize);
             button.attr('data-color', item.numberSize);
             button.click(function() {
-                selectedColorText = item.numberSize;
+                selectedColorText = {id: item.id, numberSize: item.numberSize, unitInStock: 0};
             });
             buttonContainer.append(button);
         });
