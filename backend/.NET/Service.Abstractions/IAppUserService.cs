@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Models;
 using EntitiesDto;
 using EntitiesDto.User;
@@ -26,5 +27,6 @@ namespace Service.Abstractions
         Task<AppUser> GetByIdAppUserAsync(string id, CancellationToken cancellationToken = default);
         Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default);
         Task<AuthResult> ForgotPassword(string email);
+        Task<AppUserPhoneDto> GetUserByPhoneNumber(string phoneNumber);
     }
 }

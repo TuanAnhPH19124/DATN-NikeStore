@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230815160701_ttpdcv")]
-    partial class ttpdcv
+    [Migration("20230819103628_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,47 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("ProductCategory");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Line")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("WardCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("toDistrictId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
@@ -305,7 +346,6 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<double>("Amount")
@@ -330,7 +370,6 @@ namespace Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
@@ -459,7 +498,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("SetAsDefault")
+                    b.Property<bool>("SetAsDefault")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
@@ -882,6 +921,15 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.HasOne("Domain.Entities.AppUser", "AppUser")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "ParentCategory")
@@ -1163,6 +1211,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("Employee");
 
                     b.Navigation("Orders");

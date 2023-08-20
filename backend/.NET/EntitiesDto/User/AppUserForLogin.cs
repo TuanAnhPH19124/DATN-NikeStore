@@ -9,10 +9,10 @@ namespace EntitiesDto.User
 {
     public class AppUserForLogin
     {
-        
+
         //[RegularExpression(@"^[a-zA-Z0-9._%+-]+(\+[a-zA-Z0-9._%+-]+)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email không hợp lệ.")]
-        public string Email { get; set; }
-        public string UserName { get; set; }
+        [Required]
+        public string Account { get; set; }
 
         [Required(ErrorMessage = "Không được bỏ qua trống mật khẩu.")]
         public string Password { get; set; }

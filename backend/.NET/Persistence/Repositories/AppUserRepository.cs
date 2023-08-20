@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -148,6 +149,28 @@ namespace Persistence.Repositories
         public async Task<IdentityResult> ResetPasswordAsync(AppUser user, string token, string newPassword)
         {
             return await _userManager.ResetPasswordAsync(user, token, newPassword);
+        }
+
+        public async Task<AppUserPhoneDto> GetByPhoneAsync(string phoneNumber)
+        {
+            var user = await _appDbContext.AppUsers.Include(p => p.Addresses).FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
+            if (user != null)
+            {
+                var userDto = new AppUserPhoneDto
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    PhoneNumber = user.PhoneNumber,
+                    Addresses = user.Addresses.Select(p => new AddressDto
+                    {
+                        Id = p.Id,
+                        Address = $"{p.Line}, {p.Ward}, {p.Province}, {p.District}"
+                    }).ToList()
+                };
+
+                return userDto;
+            }
+            return null;
         }
     }
 }
