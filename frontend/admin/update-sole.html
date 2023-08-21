@@ -323,13 +323,18 @@
                 <div class="container-fluid">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title">Cập nhật danh mục</h2>
+                            <h2 class="modal-title">Cập nhật đế giày</h2>
                         </div>
                         <div class="modal-body">
-                            <form id="update-category-form">
+                            <form id="update-sole-form">
                                 <div class="form-group">
-                                    <label>Tên danh mục</label>
+                                    <label>Loại đế giày</label>
                                     <input type="text" class="form-control" id="name" name="name"
+                                        aria-describedby="emailHelp" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mô tả</label>
+                                    <input type="text" class="form-control" id="description" name="description"
                                         aria-describedby="emailHelp" placeholder="">
                                 </div>
 
@@ -409,7 +414,7 @@
 
     <!-- Page level custom scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <script src="/frontend/admin/js/update-category.js"></script>
+    <script src="/frontend/admin/js/update-sole.js"></script>
 
 
 </body>
