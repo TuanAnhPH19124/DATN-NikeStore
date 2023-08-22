@@ -16,7 +16,7 @@ namespace Persistence.Configurations
             builder.ToTable(nameof(ProductImage));
             builder.HasKey(p => p.Id);
             builder.Property(p => p.ImageUrl).IsRequired();
-            builder.Property(p => p.SetAsDefault).IsRequired(false);
+            builder.Property(p => p.SetAsDefault).IsRequired();
 
             builder.HasOne(p => p.Color)
                    .WithMany(p => p.ProductImages)

@@ -43,9 +43,9 @@ namespace Persistence.Repositories
             return product;
         }
 
-        public async void AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
         }
 
         public async void UpdateProduct(Product product)

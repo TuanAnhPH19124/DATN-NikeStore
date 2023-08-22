@@ -1,15 +1,16 @@
 ﻿using Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Service.Abstractions;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
-using EntitiesDto.Product;
 using Domain.Repositories;
+using EntitiesDto.Product;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using Persistence;
+using Persistence.Ultilities;
+using Service.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Webapi.Controllers
 {
@@ -18,10 +19,12 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
-        {
-            _serviceManager = serviceManager;
+        private readonly AppDbContext _dbContext;
 
+        public ProductController(IServiceManager serviceManager, AppDbContext dbContext)
+        {
+            _serviceManager=serviceManager;
+            _dbContext=dbContext;
         }
 
         [HttpGet]
@@ -57,41 +60,68 @@ namespace Webapi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDto productDto)
+        public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            }
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
                 {
-                    return BadRequest(ModelState);
+                    var nProduct = productAPI.Adapt<Product>();
+                    nProduct.ProductImages = new List<ProductImage>();
+                    nProduct.Stocks = new List<Stock>();
+
+                    var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
+
+                    foreach (var urlParent in UrList)
+                    {
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            nProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = nProduct.Id
+                            });
+                        }
+                    }
+
+                    nProduct.Stocks = (
+                        from color in productAPI.Colors
+                        from size in color.Sizes
+                        select new Stock
+                        {
+                            UnitInStock = size.UnitInStock,
+                            ColorId = color.Id,
+                            SizeId = size.Id
+                        }
+                        ).ToList();
+
+                    var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
+                    transaction.Commit();
+
+                    return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
                 }
-
-                var product = new Product
-                {
-                    Name = productDto.Name,
-                    RetailPrice = productDto.RetailPrice,
-                    CostPrice = productDto.CostPrice,
-                    Description = productDto.Description,
-                    Brand = productDto.Brand,
-                    DiscountRate = productDto.DiscountRate,
-                    Status = productDto.Status,
-                    SoleId = productDto.SoleId,
-                    MaterialId = productDto.MaterialId,
-
-                };
-
-                var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
-
-                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                catch (Exception ex)
+                { 
+                    transaction.Rollback();
+                    return BadRequest(new
+                    {
+                        Error = ex.Message
+                    });
+                    throw;
+                }
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            
+
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductDto productDto)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductAPI productDto)
         {
             try
             {
