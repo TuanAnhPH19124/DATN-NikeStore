@@ -7,20 +7,77 @@ $.getJSON("https://localhost:44328/api/Categories", function (result) {
   $("#category-select").html(option_category.join(''));
 });
 
-var option_color = [];
-$.getJSON("https://localhost:44328/api/Color/Get", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_color.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+$('#add-category-now').click(function () {
+  var formData = {
+    name: $("#category-name").val(),
+  };
+
+  if (confirm(`Bạn có muốn thêm danh mục ${formData.name} không?`)) {
+    $.ajax({
+      url: "https://localhost:44328/api/Categories",
+      type: "POST",
+      data: JSON.stringify(formData),
+      contentType: "application/json",
+      success: function (response) {
+        $('.toast').toast('show');
+      },
+    });
   }
-  $("#color-select").html(option_color.join(''));
 });
 
-var option_size = [];
-$.getJSON("https://localhost:44328/api/Size/Get", function (result) {
+
+var option_sole = [];
+$.getJSON("https://localhost:44328/api/Sole", function (result) {
   for (var i = 0; i < result.length; i++) {
-    option_size.push('<option value="', result[i].id, '">', result[i].numberSize, '</option>');
+    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
   }
-  $("#size-select").html(option_size.join(''));
+  $("#sole-select").html(option_sole.join(''));
+});
+
+$('#add-material-now').click(function () {
+  var formData = {
+    name: $("#material-name").val(),
+    description: "",
+  };
+
+  if (confirm(`Bạn có muốn thêm chất liệu ${formData.name} không?`)) {
+    $.ajax({
+      url: "https://localhost:44328/api/Material",
+      type: "POST",
+      data: JSON.stringify(formData),
+      contentType: "application/json",
+      success: function (response) {
+        $('.toast').toast('show');
+      },
+    });
+  }
+});
+
+var option_material = [];
+$.getJSON("https://localhost:44328/api/Material", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+  }
+  $("#material-select").html(option_material.join(''));
+});
+
+$('#add-sole-now').click(function () {
+  var formData = {
+    name: $("#sole-name").val(),
+    description: "",
+  };
+
+  if (confirm(`Bạn có muốn thêm đế ${formData.name} không?`)) {
+    $.ajax({
+      url: "https://localhost:44328/api/Sole",
+      type: "POST",
+      data: JSON.stringify(formData),
+      contentType: "application/json",
+      success: function (response) {
+        $('.toast').toast('show');
+      },
+    });
+  }
 });
 
 var product = {
