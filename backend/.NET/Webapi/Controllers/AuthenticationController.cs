@@ -36,14 +36,6 @@ namespace Webapi.Controllers
 
         private readonly IServiceManager _serviceManager;
 
-
-        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _configuration = configuration;
-            _contextHub = contextHub;
-        }
         public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
     {
           _signInManager = signInManager;
