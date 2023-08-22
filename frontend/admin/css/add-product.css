@@ -209,3 +209,138 @@ input::-webkit-inner-spin-button {
   border-radius: 0px;
   padding: 5px 30px;
 }
+.error {
+  color: red;
+  font-size: 1em;
+  width: 100%;
+}
+.label{
+  font-weight: bold;
+}
+/* upload nhiều ảnh */
+.upload-container {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+
+}
+
+.upload-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.upload-list .preview-container {
+  position: relative;
+  margin: 5px 12px;
+  cursor: pointer;
+}
+
+.upload-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border: 2px dashed #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.upload-button:hover {
+  border-color: #1890ff;
+}
+
+.upload-button .icon {
+  font-size: 24px;
+  color: #1890ff;
+}
+
+.upload-button-text {
+  margin-top: 8px;
+  color: #999;
+  font-size: 14px;
+}
+
+.preview-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+#file-input {
+  margin-left: 5px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: none;
+  border-radius: 4px;
+}
+
+.preview-container:hover .delete-button {
+  display: block;
+}
+.upload-button.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Modal */
+#myModalColor {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+#myModalColor .modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%; /* Di chuyển lên 50% của chiều cao */
+    left: 50%; /* Di chuyển sang 50% của chiều ngang */
+    transform: translate(-50%, -50%); /* Dịch chuyển để căn giữa chính xác */
+    text-align: center;
+}
+
+/* Close Button */
+#myModalColor .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+

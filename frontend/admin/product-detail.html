@@ -66,6 +66,8 @@
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
                         <a class="collapse-item" href="size.html">Kích cỡ</a>
+                        <a class="collapse-item" href="sole.html">Đế giày</a>
+                        <a class="collapse-item" href="material.html">Chất liệu</a>
                         <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
@@ -345,15 +347,15 @@
                                 <div class="row">
                                     <div class="col">
                                         <label class="label">Giá nhập</label>
-                                        <input type="text" class="form-control" id="costPrice" name="costPrice">
+                                        <input type="number" class="form-control" id="costPrice" name="costPrice">
                                     </div>
                                     <div class="col">
                                         <label class="label">Giá bán</label>
-                                        <input type="text" class="form-control" id="retailPrice" name="retailPrice">
+                                        <input type="number" class="form-control" id="retailPrice" name="retailPrice">
                                     </div>
                                     <div class="col">
                                         <label class="label">Số lượng</label>
-                                        <input type="text" class="form-control" id="unitInStock" name="unitInStock">
+                                        <input type="number" class="form-control" id="unitInStock" name="unitInStock">
                                     </div>
                                 </div>
                                 <br>
@@ -367,8 +369,6 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col">
                                             <label class="label">Màu sắc</label>
                                             <div class="form-group">
@@ -376,8 +376,6 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col">
                                             <label class="label">Kích cỡ</label>
                                             <div class="form-group">
@@ -705,6 +703,7 @@
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>

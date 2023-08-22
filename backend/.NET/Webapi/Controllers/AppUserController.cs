@@ -78,7 +78,19 @@ namespace Webapi.Controllers
             return NoContent();
         }
 
-        
+        [HttpGet("phone=/{number}")]
+        public async Task<IActionResult> GetUserByPhoneNumber(string number)
+        {
+            if (string.IsNullOrEmpty(number))
+            {
+                return BadRequest(new { error = "Không được để trống số điện thoại" });
+            }
+            if (number.Length < 10 || number.Length > 10)
+                return BadRequest(new { error = "Số điện thoại phải đủ 10 số" });
+
+            var result = await _serviceManager.AppUserService.GetUserByPhoneNumber(number);
+            return Ok(result);
+        }
         
         [HttpPut("{id}/UpdateUserByAdmin")]
         public async Task<IActionResult> UpdateAppUserByAdmin(string id, AppUserByAdmin appUserByAdmin)

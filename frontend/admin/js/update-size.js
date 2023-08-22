@@ -22,16 +22,20 @@ $(document).ready(function () {
             numberSize: $("#numberSize").val(),
             description: $("#description").val(),
         };
-        $.ajax({
-            url: "https://localhost:44328/api/Size/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                window.location.href = "/frontend/admin/size.html";
-            },
-        });
+        if (confirm(`Bạn có muốn sửa thành thông tin size không?`)) {
+            $.ajax({
+                url: "https://localhost:44328/api/Size/" + id,
+                type: "PUT",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/frontend/admin/size.html";
+                },
+            });
+        } else {
+            return
+        }
     });
     $("#update-size-form").validate({
         rules: {
