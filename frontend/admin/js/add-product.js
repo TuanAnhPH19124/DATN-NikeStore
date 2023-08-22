@@ -258,6 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selectedColorText === {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
+    if (!selectedColorText || selectedButtons.indexOf(selectedColorText.id) !== -1) {
+      return; // Check trùng trước không có
+    }
 
     if (selectedButtons.indexOf(selectedColorText.id) === -1) {
       var newButton = document.createElement("button");
@@ -280,7 +283,8 @@ document.addEventListener("DOMContentLoaded", function () {
       loadSizeE();
       loadImageE();
       console.log(product);
-      selectedButtons.push(selectedColorText);
+      // trước không có id
+      selectedButtons.push(selectedColorText.id);
       $('#exampleModalColor').modal('hide');
 
     }
