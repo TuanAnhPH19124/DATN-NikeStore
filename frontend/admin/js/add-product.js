@@ -323,6 +323,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selectedColorText === {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
+    if (!selectedColorText || selectedButtons.indexOf(selectedColorText.id) !== -1) {
+      return; // Check trùng trước không có
+    }
 
     if (selectedButtons.indexOf(selectedColorText.id) === -1) {
       product.Colors.push({ id: selectedColorText.id, name: selectedColorText.text, Images: [], Sizes: [] });
@@ -330,7 +333,9 @@ document.addEventListener("DOMContentLoaded", function () {
       loadColorE();
       loadSizeE();
       loadImageE();
-      selectedButtons.push(selectedColorText);
+      console.log(product);
+      // trước không có id
+      selectedButtons.push(selectedColorText.id);
       $('#exampleModalColor').modal('hide');
     }
     selectedColorText = {}; // Reset màu đã chọn
