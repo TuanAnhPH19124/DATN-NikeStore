@@ -44,6 +44,35 @@
       align-items: center;
       margin-bottom: 10px;
     }
+
+    .container-color {
+      position: relative;
+      margin: 4px;
+      display: inline-block;
+    }
+
+    .close-button {
+      display: none;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border: none;
+      border-radius: 50%;
+      /* Để tạo viền hình tròn */
+      font-weight: bold;
+      opacity: 0.9;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .container-color:hover .close-button {
+      display: block;
+      /* Hiển thị nút khi hover vào div */
+    }
   </style>
 </head>
 
@@ -509,7 +538,7 @@
                     <div>
                       <label class="label">Màu sắc </label>
                       <!-- Button trigger modal -->
-                      <div id="render-color">
+                      <div id="render-color" style="display: flex;">
                       </div>
                       <button type="button" class="btn btn-dark" data-bs-toggle="modal"
                         data-bs-target="#exampleModalColor" style="margin: 5px">
@@ -584,7 +613,7 @@
                       <!-- Button trigger modal -->
                       <div style="margin: 10px;">
                         <div id="render-size">
-                          
+
                         </div>
                         <div style="margin-top: 10px;">
                           <button type="button" class="btn btn-dark" data-bs-toggle="modal"

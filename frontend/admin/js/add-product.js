@@ -247,10 +247,75 @@ function findIndexById(array, id) {
   return -1; // Trả về -1 nếu không tìm thấy phần tử
 }
 
+function clearE(){
+  const uploadList = document.querySelector(".upload-list");
+  const dynamicDivs = uploadList.querySelectorAll(".preview-container");
+  const plusButtonContainer = document.getElementById("render-color");
+  const sizeContainer = document.getElementById("render-size");
+ 
+  plusButtonContainer.innerHTML = "";
+
+  while (sizeContainer.firstChild) {
+    sizeContainer.removeChild(sizeContainer.firstChild);
+  }
+
+  dynamicDivs.forEach(dy => {
+    uploadList.removeChild(dy);
+  });
+}
+
+function loadColorE() {
+  const plusButtonContainer = document.getElementById("render-color");
+  plusButtonContainer.innerHTML = "";
+
+  if (product.Colors.length !== 0) {
+    product.Colors.forEach(color => {
+      var newDiv = document.createElement('div');
+      newDiv.className = "container-color";
+
+
+      var newButton = document.createElement("button");
+      newButton.type = "button";
+      newButton.className = 'btn btn-dark';
+      newButton.id = color.id;
+      newButton.textContent = color.name;
+      newButton.addEventListener('click', function (e) {
+        selectedColor = findIndexById(product.Colors, e.target.id);
+        loadSizeE();
+        loadImageE();
+      });
+
+      var newRemoveBtn = document.createElement("button");
+      newRemoveBtn.className = "close-button";
+      newRemoveBtn.textContent = " x ";
+      newRemoveBtn.id = color.id;
+      newRemoveBtn.addEventListener('click', function (e) {
+        debugger;
+        let index = findIndexById(product.Colors, e.target.id);
+        product.Colors.splice(index, 1);
+        console.log(product);
+        if (product.Colors.length === 0){
+          selectedColor = -1;
+          clearE();
+        }else{
+          selectedColor = 0;
+          loadColorE();
+          loadSizeE();
+          loadImageE();
+        }
+      });
+
+      newDiv.appendChild(newButton);
+      newDiv.appendChild(newRemoveBtn);
+
+      plusButtonContainer.appendChild(newDiv);
+    });
+  }
+}
+
 // add color 
 document.addEventListener("DOMContentLoaded", function () {
   var addColorButton = document.getElementById("addColorButton");
-  var plusButtonContainer = document.getElementById("render-color");
   var selectedColorText = {};
   var selectedButtons = [];
 
@@ -260,29 +325,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (selectedButtons.indexOf(selectedColorText.id) === -1) {
-      var newButton = document.createElement("button");
-      newButton.type = "button";
-      newButton.className = 'btn btn-outline-dark';
-      newButton.style.marginRight = "5%";
-      newButton.id = selectedColorText.id;
-      newButton.textContent = selectedColorText.text;
-      newButton.addEventListener('click', function (e) {
-        selectedColor = findIndexById(product.Colors, e.target.id);
-        loadSizeE();
-        loadImageE();
-      })
-
-      plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
-
-      plusButtonContainer.style.float = "left";
-      product.Colors.push({ id: selectedColorText.id, Images: [], Sizes: [] });
+      product.Colors.push({ id: selectedColorText.id, name: selectedColorText.text, Images: [], Sizes: [] });
       selectedColor = findIndexById(product.Colors, selectedColorText.id);
+      loadColorE();
       loadSizeE();
       loadImageE();
-      console.log(product);
       selectedButtons.push(selectedColorText);
       $('#exampleModalColor').modal('hide');
-
     }
     selectedColorText = {}; // Reset màu đã chọn
 
@@ -316,8 +365,8 @@ document.addEventListener("DOMContentLoaded", function () {
       buttonsToKeep.each(function () {
         buttonContainer.append($(this));
       });
-
       data.forEach(function (item) {
+        
         var button = $('<button></button>');
         button.attr('type', 'button');
         button.addClass('btn btn-outline-dark');
@@ -424,22 +473,22 @@ function loadSizeE() {
         newInput.placeholder = "Điền số lượng"
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
         newInput.min = 0;
-        newInput.addEventListener('change', function (){
+        newInput.addEventListener('change', function () {
           if (parseInt(newInput.value) < 0) {
             newInput.value = 0;
-          }else{
+          } else {
             let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
           }
         });
-        
+
         // thêm nút x bỏ
         var newXButton = document.createElement("button");
         newXButton.type = "button";
         newXButton.className = 'btn btn-danger';
         newXButton.textContent = 'x';
-        newXButton.addEventListener('click', function() {
-          if (confirm("Bạn có muốn xóa thuộc tính này?")){
+        newXButton.addEventListener('click', function () {
+          if (confirm("Bạn có muốn xóa thuộc tính này?")) {
             let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
             product.Colors[selectedColor].Sizes.splice(index, 1);
             loadSizeE();
