@@ -51,6 +51,9 @@ $(document).ready(function () {
         };
 
         if (confirm(`Bạn có muốn thêm màu ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
             $.ajax({
                 url: "https://localhost:44328/api/Color",
                 type: "POST",
@@ -80,7 +83,7 @@ $(document).ready(function () {
         },
         messages: {
             "name": {
-                required: "Mời bạn nhập Số size",
+                required: "Mời bạn nhập tên màu",
             },
         },
     });

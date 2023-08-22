@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -9,14 +10,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230819103628_init.Designer.cs
-    [Migration("20230819103628_init")]
-    partial class init
-========
-    partial class AppDbContextModelSnapshot : ModelSnapshot
->>>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff:backend/.NET/Persistence/Migrations/AppDbContextModelSnapshot.cs
+    [Migration("20230822155056_hhh")]
+    partial class hhh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

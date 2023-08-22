@@ -51,6 +51,9 @@ $(document).ready(function () {
         };
 
         if (confirm(`Bạn có muốn thêm đế ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
             $.ajax({
                 url: "https://localhost:44328/api/Sole",
                 type: "POST",
@@ -74,13 +77,13 @@ $(document).ready(function () {
     });
     $("#add-sole-form").validate({
         rules: {
-            "name": {
+            name: {
                 required: true,
             },
         },
         messages: {
             "name": {
-                required: "Mời bạn nhập Loại đế",
+                required: "Mời bạn nhập loại đế",
             },
         },
     });

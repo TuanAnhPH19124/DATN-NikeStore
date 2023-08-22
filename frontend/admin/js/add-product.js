@@ -81,7 +81,7 @@ $('#add-sole-now').click(function () {
 });
 
 var product = {
-  "costPrice": 123,
+  "costPrice": 1233,
   "retailPrice": 123,
   "description": "123",
   "status": 1,
@@ -89,37 +89,46 @@ var product = {
   "discountRate": 1,
   "soleId": 1,
   "materialId": 1,
-  "name": "123423",
+  "name": $("#name").val(),
+  "Categories":$("#category-select").val(),
   "Colors": [
 
   ]
 }
 
 var selectedColor = -1;
-document.addEventListener("DOMContentLoaded", function () {
-  // Đoạn mã AJAX ở đây
-});
+function objectToFormData(obj) {
+  var formData = new FormData();
+
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      formData.append(key, obj[key]);
+    }
+  }
+
+  return formData;
+}
 // call api len datatable nhan vien
 $(document).ready(function () {
   // call api them nhan vien
   $('#add-product-form').submit(function (event) {
     event.preventDefault()
 
-    // var formData = new FormData();
-    // formData.append("costPrice",231)
-    // formData.append("retailPrice",231)
-    // formData.append("description","12312")
-    // formData.append("status",1)
-    // formData.append("brand",1)
-    // formData.append("discountRate",1)
-    // formData.append("name","1231")
-    // formData.append("materialId",1)
-    // formData.append("colors","2")
+    var product2 = product
+    product2.name = $("#name").val()
+    product2.description = $("#description").val()
+    product2.retailPrice = $("#retailPrice").val()
+    product2.discountRate = $("#discountRate").val()
+    product2.Categories = $("#category-select").val()
+    product2.soleId = $("#sole-select").val()
+    product2.materialId = $("#material-select").val()
+
+    var formData = objectToFormData(product2);
 
     $.ajax({
       url: "https://localhost:44328/api/Product",
       type: "POST",
-      data: product,
+      data: formData,
       processData: false,
       contentType: false,
       success: function (response) {

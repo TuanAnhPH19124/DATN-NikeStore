@@ -51,6 +51,9 @@ $(document).ready(function () {
         };
 
         if (confirm(`Bạn có muốn thêm chất liệu ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
             $.ajax({
                 url: "https://localhost:44328/api/Material",
                 type: "POST",
