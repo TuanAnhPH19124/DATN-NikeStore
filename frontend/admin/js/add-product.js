@@ -247,12 +247,12 @@ function findIndexById(array, id) {
   return -1; // Trả về -1 nếu không tìm thấy phần tử
 }
 
-function clearE(){
+function clearE() {
   const uploadList = document.querySelector(".upload-list");
   const dynamicDivs = uploadList.querySelectorAll(".preview-container");
   const plusButtonContainer = document.getElementById("render-color");
   const sizeContainer = document.getElementById("render-size");
- 
+
   plusButtonContainer.innerHTML = "";
 
   while (sizeContainer.firstChild) {
@@ -294,10 +294,10 @@ function loadColorE() {
         let index = findIndexById(product.Colors, e.target.id);
         product.Colors.splice(index, 1);
         console.log(product);
-        if (product.Colors.length === 0){
+        if (product.Colors.length === 0) {
           selectedColor = -1;
           clearE();
-        }else{
+        } else {
           selectedColor = 0;
           loadColorE();
           loadSizeE();
@@ -313,42 +313,44 @@ function loadColorE() {
   }
 }
 
+function isIdExists(id, array) {
+  return array.some(function (item) {
+    return item.id === id;
+  });
+}
 // add color 
 document.addEventListener("DOMContentLoaded", function () {
   var addColorButton = document.getElementById("addColorButton");
   var selectedColorText = {};
-  var selectedButtons = [];
 
   addColorButton.addEventListener("click", function () {
     if (selectedColorText === {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
-    if (!selectedColorText || selectedButtons.indexOf(selectedColorText.id) !== -1) {
-      return; // Check trùng trước không có
+
+    if (!isIdExists(selectedColorText.id, product.Colors)) {
+      product.Colors.push({ id: selectedColorText.id, name: selectedColorText.text, Images: [], Sizes: [] });
+    } else {
+      alert(`Màu ${selectedColorText.text} đã tồn tại!`);
+      selectedColorText = {};
+      return;
     }
 
-    if (selectedButtons.indexOf(selectedColorText.id) === -1) {
-      product.Colors.push({ id: selectedColorText.id, name: selectedColorText.text, Images: [], Sizes: [] });
-      selectedColor = findIndexById(product.Colors, selectedColorText.id);
-      loadColorE();
-      loadSizeE();
-      loadImageE();
-      console.log(product);
-      // trước không có id
-      selectedButtons.push(selectedColorText.id);
-      $('#exampleModalColor').modal('hide');
-    }
-    selectedColorText = {}; // Reset màu đã chọn
+    selectedColor = findIndexById(product.Colors, selectedColorText.id);
+    loadColorE();
+    loadSizeE();
+    loadImageE();
+    console.log(product);
+
+
+    selectedColorText = {};
+    $('#exampleModalColor').modal('hide');
 
   });
 
   $('#exampleModalColor').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     selectedColorText = button.data('color');
-
-    if (selectedButtons.indexOf(selectedColorText) !== -1) {
-      selectedColorText = ""; // Reset màu đã chọn
-    }
   });
 
   $('#exampleModalColor').on('hide.bs.modal', function () {
@@ -371,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
         buttonContainer.append($(this));
       });
       data.forEach(function (item) {
-        
+
         var button = $('<button></button>');
         button.attr('type', 'button');
         button.addClass('btn btn-outline-dark');
@@ -513,34 +515,31 @@ function loadSizeE() {
 document.addEventListener("DOMContentLoaded", function () {
   var addColorButton = document.getElementById("addSizeButton");
   var selectedColorText = {};
-  var selectedButtons = [];
 
   addColorButton.addEventListener("click", function () {
     if (selectedColorText === {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
-    if (selectedButtons.indexOf(selectedColorText) === -1) {
+    if (selectedColor !== -1 && !isIdExists(selectedColorText.id, product.Colors[selectedColor].Sizes)){
       product.Colors[selectedColor].Sizes.push(selectedColorText);
-      loadSizeE();
-      $('#exampleModalSize').modal('hide');
+    }else{
+      alert(`Size ${selectedColorText.numberSize} đã tồn tại`);
+      selectedColorText = {};
+      return;
     }
-    selectedColorText = ""; // Reset màu đã chọn
+    loadSizeE();
+    $('#exampleModalSize').modal('hide');
+    selectedColorText = {};
   });
 
   $('#exampleModalSize').on('show.bs.modal', function (event) {
     if (selectedColor === -1) {
       alert('Bạn phải chọn màu trước');
-      // Ngăn modal từ việc hiển thị bằng cách gọi e.preventDefault()
       event.preventDefault();
     }
     var button = $(event.relatedTarget);
     selectedColorText = button.data('color');
-
-    if (selectedButtons.indexOf(selectedColorText) !== -1) {
-      selectedColorText = ""; // Reset màu đã chọn
-    }
-
   });
 
   $('#exampleModalSize').on('hide.bs.modal', function () {
