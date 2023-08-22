@@ -148,7 +148,7 @@ namespace Service
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("hoangnam868.oppo@gmail.com", "yourpassword"),
+                    Credentials = new NetworkCredential("hoangnam868.oppo@gmail.com", "hdkrwihunpaaqugh"),
                     EnableSsl = true,
                 };
 
@@ -270,9 +270,10 @@ namespace Service
                 };
             }
 
-            var emailBody = $"Mật khẩu mới của bạn là: {newPassword}. Vui lòng đăng nhập và thay đổi mật khẩu sau khi đăng nhập.";
+            var emailBody = $"Mật khẩu mới của bạn là: {newPassword} Vui lòng đăng nhập và thay đổi mật khẩu sau khi đăng nhập.";
 
-            var isEmailSent = SendEmail(emailBody, user.Email);
+            var isEmailSent =  SendEmail(emailBody, user.Email);
+           
 
             if (!isEmailSent)
             {

@@ -132,7 +132,7 @@ namespace Webapi.Controllers
 
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-            string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+     string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
         {
             try
             {

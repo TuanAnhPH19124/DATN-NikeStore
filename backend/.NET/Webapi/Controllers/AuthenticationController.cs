@@ -37,21 +37,15 @@ namespace Webapi.Controllers
         private readonly IServiceManager _serviceManager;
 
 
-        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _configuration = configuration;
-            _contextHub = contextHub;
-        }
+     
         public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
-    {
+        {
           _signInManager = signInManager;
           _userManager = userManager;
           _configuration = configuration;
           _contextHub = contextHub;
           _serviceManager = serviceManager;
-    }
+        }
 
         [HttpPost("CreateEmployeeAccount")]
         public async Task<IActionResult> CreateEmployeeAccount([FromBody]string phoneNumber)
@@ -376,6 +370,8 @@ namespace Webapi.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
+
         }
 
     }
