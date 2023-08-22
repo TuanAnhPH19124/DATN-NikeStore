@@ -33,10 +33,7 @@ namespace Webapi.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<CustomerHub> _contextHub;
-
         private readonly IServiceManager _serviceManager;
-
-
 
         public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
     {
@@ -173,34 +170,32 @@ namespace Webapi.Controllers
             }
 
             var user_exits = new AppUser();
-            if (!string.IsNullOrEmpty(appUser.UserName))
+            if (!string.IsNullOrEmpty(appUser.Account))
             {
-                var userCheck = await _userManager.FindByNameAsync(appUser.UserName);
+                var userCheck = await _userManager.FindByNameAsync(appUser.Account);
                 if (userCheck == null)
                 {
                     return NotFound(new
                     {
-                        email = appUser.UserName,
-                        error = "UserName này không tôn tại!"
+                        email = appUser.Account,
+                        error = "Tài khoản này không tồn tại!"
                     });
                 }
-                user_exits = userCheck;
-            }
-            else
-            {
-                var userCheck = await _userManager.FindByEmailAsync(appUser.Email);
-                if (userCheck == null)
+                else
                 {
-                    return NotFound(new
+                    userCheck = await _userManager.FindByEmailAsync(appUser.Account);
+                    if (userCheck == null)
                     {
-                        email = appUser.Email,
-                        error = "Email này không tôn tại!"
-                    });
+                        return NotFound(new
+                        {
+                            account = appUser.Account,
+                            error = "Tài khoản này không tồn tại!"
+                        });
+                    }
                 }
                 user_exits = userCheck;
             }
            
-
             var passwordCorrect = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);
             if (!passwordCorrect)
                 return Unauthorized();
