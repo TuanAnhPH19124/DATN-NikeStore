@@ -124,10 +124,8 @@ const getBase64 = (file) =>
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {
-  const fileList = []; // Danh sách hình ảnh đã tải lên
-
   const uploadList = document.querySelector(".upload-list");
-  const uploadButton = document.querySelector(".upload-button");
+  const uploadButton = document.getElementById('upload-button');
 
   // Xử lý sự kiện khi nhấn nút đóng trong modal
   const handleCancel = () => {
@@ -135,17 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Xử lý sự kiện khi xóa hình ảnh
-  const handleDelete = (file, previewContainer) => {
-    const index = fileList.indexOf(file);
-    if (index > -1) {
-      fileList.splice(index, 1);
-      uploadList.removeChild(previewContainer);
 
-      if (fileList.length < 6) {
-        uploadButton.style.display = "flex";
-      }
-    }
-  };
 
   // Lắng nghe sự kiện click nút đóng trong modal
   const modalCloseButton = document.querySelector(".modal-close-button");
@@ -168,25 +156,67 @@ document.addEventListener("DOMContentLoaded", () => {
   // Lắng nghe sự kiện click nút tải lên
   uploadButton.addEventListener("click", () => {
     const fileInput = document.getElementById("file-input");
-    fileInput.click();
+    console.log('run');
+    if (selectedColor === -1) {
+      alert('Bạn phải chọn màu trước');
+    } else {
+      fileInput.click();
+    }
   });
+
+
 
   // Lắng nghe sự kiện thay đổi tập tin tải lên
   const fileInput = document.getElementById("file-input");
   fileInput.addEventListener("change", (event) => {
     const files = event.target.files;
     for (const file of files) {
-      if (fileList.length < 6 && file.type.startsWith("image/")) {
-        fileList.push(file);
+      if (file.type.startsWith("image/")) {
+        // fileList.push(file);
         // ảnh thêm vào api
         const newImage = { file: file, setAsDefault: false };
+        product.Colors[selectedColor].Images.push(newImage);
         //  product.Colors[0].Images.push(newImage);
+        loadImageE();
+      }
+    }
+    fileInput.value = ""; // Reset file input
+  });
+});
 
-        // Hiển thị hình ảnh tải lên trong giao diện
+function handleDelete(file) {
+  const uploadButton = document.getElementById("upload-button");
+  const index = product.Colors[selectedColor].Images.findIndex(p => p.file === file);
+  if (index > -1) {
+    product.Colors[selectedColor].Images.splice(index, 1);
+    if (product.Colors[selectedColor].Images.length < 6) {
+      uploadButton.style.display = "flex";
+    }
+    loadImageE();
+  }
+}
+
+function loadImageE() {
+  const uploadList = document.querySelector(".upload-list");
+  const dynamicDivs = uploadList.querySelectorAll(".preview-container");
+  const uploadButton = document.getElementById("upload-button");
+
+  dynamicDivs.forEach(dy => {
+    uploadList.removeChild(dy);
+  });
+
+  if (selectedColor !== -1) {
+    // Kiểm tra nếu danh sách hình ảnh đã đạt đến giới hạn
+    if (product.Colors[selectedColor].Images.length === 6) {
+      uploadButton.style.display = "none"; // Ẩn nút "Upload"
+    }
+
+    if (product.Colors[selectedColor].Images.length !== 0) {
+      product.Colors[selectedColor].Images.forEach(img => {
         const previewContainer = document.createElement("div");
         previewContainer.className = "preview-container";
         const previewImage = document.createElement("img");
-        previewImage.src = URL.createObjectURL(file);
+        previewImage.src = URL.createObjectURL(img.file);
         previewImage.alt = "Preview";
         previewImage.className = "preview-image";
 
@@ -195,30 +225,24 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteButton.textContent = "x";
         deleteButton.className = "delete-button";
         deleteButton.addEventListener("click", () => {
-          handleDelete(file, previewContainer);
+          handleDelete(img.file);
         });
 
         previewContainer.appendChild(previewImage);
         previewContainer.appendChild(deleteButton);
         uploadList.appendChild(previewContainer);
-
-        // Kiểm tra nếu danh sách hình ảnh đã đạt đến giới hạn
-        if (fileList.length === 6) {
-          uploadButton.style.display = "none"; // Ẩn nút "Upload"
-        }
-      } else {
-        alert("Please select valid image files (up to 6 images).");
-      }
+      });
     }
-    fileInput.value = ""; // Reset file input
-  });
-});
+
+  }
+
+}
 
 function findIndexById(array, id) {
   for (var i = 0; i < array.length; i++) {
-      if (array[i].id === id) {
-          return i; // Trả về chỉ số khi tìm thấy phần tử có id tương ứng
-      }
+    if (array[i].id === id) {
+      return i; // Trả về chỉ số khi tìm thấy phần tử có id tương ứng
+    }
   }
   return -1; // Trả về -1 nếu không tìm thấy phần tử
 }
@@ -244,16 +268,17 @@ document.addEventListener("DOMContentLoaded", function () {
       newButton.textContent = selectedColorText.text;
       newButton.addEventListener('click', function (e) {
         selectedColor = findIndexById(product.Colors, e.target.id);
-        console.log(selectedColor);
         loadSizeE();
+        loadImageE();
       })
-      
+
       plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
 
       plusButtonContainer.style.float = "left";
       product.Colors.push({ id: selectedColorText.id, Images: [], Sizes: [] });
       selectedColor = findIndexById(product.Colors, selectedColorText.id);
       loadSizeE();
+      loadImageE();
       console.log(product);
       selectedButtons.push(selectedColorText);
       $('#exampleModalColor').modal('hide');
@@ -303,7 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
         button.attr('id', item.id);
         button.click(function () {
           selectedColorText = { id: item.id, text: item.name };
-
         });
         buttonContainer.append(button);
       });
@@ -378,35 +402,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadSizeE() {
   var plusButtonContainer = document.getElementById("render-size");
-  var containerParent = plusButtonContainer.parentNode;
   // Xóa tất cả các phần tử con trong containerParent
-  while (containerParent.firstChild !== plusButtonContainer) {
-    containerParent.removeChild(containerParent.firstChild);
+  while (plusButtonContainer.firstChild) {
+    plusButtonContainer.removeChild(plusButtonContainer.firstChild);
   }
 
   if (product.Colors.length !== 0) {
     if (product.Colors[selectedColor].Sizes.length !== 0) {
       product.Colors[selectedColor].Sizes.forEach(element => {
+        var container = document.createElement("div");
+        container.className = "container-unit";
+
+        // thêm ô hiển thị size
         var newButton = document.createElement("button");
-        newButton.type = "button";
-        newButton.className = 'btn btn-outline-dark';
-        newButton.style.marginRight = "5%";
+        newButton.className = 'btn btn-dark';
         newButton.textContent = element.numberSize;
-        plusButtonContainer.parentNode.insertBefore(newButton, plusButtonContainer);
+
+        // thêm ô điền số lượng
+        var newInput = document.createElement("input");
+        newInput.className = 'input-unit';
+        newInput.placeholder = "Điền số lượng"
+        newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
+        newInput.min = 0;
+        newInput.addEventListener('change', function (){
+          if (parseInt(newInput.value) < 0) {
+            newInput.value = 0;
+          }else{
+            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
+          }
+        });
+        
+        // thêm nút x bỏ
+        var newXButton = document.createElement("button");
+        newXButton.type = "button";
+        newXButton.className = 'btn btn-danger';
+        newXButton.textContent = 'x';
+        newXButton.addEventListener('click', function() {
+          if (confirm("Bạn có muốn xóa thuộc tính này?")){
+            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            product.Colors[selectedColor].Sizes.splice(index, 1);
+            loadSizeE();
+          }
+        });
+
+        container.appendChild(newButton);
+        container.appendChild(newInput);
+        container.appendChild(newXButton);
+        plusButtonContainer.appendChild(container);
       });
     }
   }
 }
 
-
 // add size 
 document.addEventListener("DOMContentLoaded", function () {
   var addColorButton = document.getElementById("addSizeButton");
-  var plusButtonContainer = document.getElementById("render-size");
   var selectedColorText = {};
   var selectedButtons = [];
-
- 
 
   addColorButton.addEventListener("click", function () {
     if (selectedColorText === {} || selectedColorText === undefined) {
@@ -414,12 +467,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (selectedButtons.indexOf(selectedColorText) === -1) {
-    
       product.Colors[selectedColor].Sizes.push(selectedColorText);
       loadSizeE();
       $('#exampleModalSize').modal('hide');
     }
-    plusButtonContainer.style.float = "left";
     selectedColorText = ""; // Reset màu đã chọn
   });
 
