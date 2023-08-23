@@ -48,7 +48,7 @@ $(document).ready(function () {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == true) {
-                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;">Kích hoạt</span>';
                     } else {
                         return '<span class="badge badge-pill badge-danger" style="padding:10px;">Không kích hoạt</span>';
                     }
@@ -56,7 +56,7 @@ $(document).ready(function () {
             },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },

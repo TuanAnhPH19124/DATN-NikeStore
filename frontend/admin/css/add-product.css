@@ -342,5 +342,14 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-
-
+.collapse-item{
+  font-weight: 500;
+  font-size: 17px;
+}
+.nav-item span{
+  font-weight: 600;
+  font-size: 17px;
+}
+.col label{
+  font-weight: 600;
+}

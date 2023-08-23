@@ -17,7 +17,7 @@ $(document).ready(function () {
             { "data": 'description', "title": "Mô tả" },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
@@ -51,7 +51,9 @@ $(document).ready(function () {
             numberSize: $("#numberSize").val(),
             description: ""
         };
-
+        if(formData.numberSize.trim(" ")==""){
+            return
+        }
         if (confirm(`Bạn có muốn thêm size ${formData.numberSize} không?`)) {
             $.ajax({
                 url: "https://localhost:44328/api/Size",

@@ -16,7 +16,7 @@ $(document).ready(function () {
             { "data": 'name', "title": "Tên màu" },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
@@ -49,7 +49,9 @@ $(document).ready(function () {
         var formData = {
             name: $("#name").val(),
         };
-
+        if(formData.name.trim(" ")==""){
+            return
+        }
         if (confirm(`Bạn có muốn thêm màu ${formData.name} không?`)) {
             if(formData.name.trim()==""){
                 return
