@@ -20,7 +20,7 @@ $(document).ready(function () {
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Đã thanh toán</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px; style="background-color: #1967d2;border-color: #1967d2;"">Đã thanh toán</span>';
                     } else {
                         return '<span class="badge badge-pill badge-danger" style="padding:10px;">Chưa thanh toán</span>';
                     }
