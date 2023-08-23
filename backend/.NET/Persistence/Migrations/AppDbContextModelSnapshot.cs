@@ -9,21 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<< HEAD
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/AppDbContextModelSnapshot.cs
     partial class AppDbContextModelSnapshot : ModelSnapshot
-========
-    [Migration("20230818082523_hhhh")]
-    partial class hhhh
->>>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff:backend/.NET/Persistence/Migrations/20230818082523_hhhh.Designer.cs
-=======
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230819103628_init.Designer.cs
-    [Migration("20230819103628_init")]
-    partial class init
-========
-    partial class AppDbContextModelSnapshot : ModelSnapshot
->>>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff:backend/.NET/Persistence/Migrations/AppDbContextModelSnapshot.cs
->>>>>>> 81d393e4d14b7e338a73d7181c691ca484cd33ff
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -32,21 +18,6 @@ namespace Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<string>("CategoriesId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProductsId")
-                        .HasColumnType("text");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("ProductCategory");
-                });
 
             modelBuilder.Entity("Domain.Entities.Address", b =>
                 {
@@ -179,9 +150,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -220,7 +188,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryProduct");
+                    b.ToTable("CategoryProducts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Color", b =>
@@ -444,12 +412,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("BarCode")
                         .HasColumnType("text");
-
-                    b.Property<int>("Brand")
-                        .HasColumnType("integer");
-
-                    b.Property<double>("CostPrice")
-                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -916,21 +878,6 @@ namespace Persistence.Migrations
                     b.HasIndex("TagsId");
 
                     b.ToTable("ProductTag");
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("Domain.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Address", b =>

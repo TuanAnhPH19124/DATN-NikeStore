@@ -59,7 +59,6 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    CategoryId = table.Column<string>(type: "text", nullable: true),
                     ParentCategoriesId = table.Column<string>(type: "text", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -368,16 +367,14 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     BarCode = table.Column<string>(type: "text", nullable: true),
-                    CostPrice = table.Column<double>(type: "double precision", nullable: false),
                     RetailPrice = table.Column<double>(type: "double precision", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    Brand = table.Column<int>(type: "integer", nullable: false),
                     DiscountRate = table.Column<int>(type: "integer", nullable: false),
                     SoleId = table.Column<int>(type: "integer", nullable: false),
                     MaterialId = table.Column<int>(type: "integer", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -457,7 +454,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryProduct",
+                name: "CategoryProducts",
                 columns: table => new
                 {
                     ProductId = table.Column<string>(type: "text", nullable: false),
@@ -465,40 +462,16 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryProduct", x => new { x.ProductId, x.CategoryId });
+                    table.PrimaryKey("PK_CategoryProducts", x => new { x.ProductId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_CategoryProduct_Category_CategoryId",
+                        name: "FK_CategoryProducts_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryProduct_Product_ProductId",
+                        name: "FK_CategoryProducts_Product_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductCategory",
-                columns: table => new
-                {
-                    CategoriesId = table.Column<string>(type: "text", nullable: false),
-                    ProductsId = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCategory", x => new { x.CategoriesId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_ProductCategory_Category_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductCategory_Product_ProductsId",
-                        column: x => x.ProductsId,
                         principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -763,8 +736,8 @@ namespace Persistence.Migrations
                 column: "ParentCategoriesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryProduct_CategoryId",
-                table: "CategoryProduct",
+                name: "IX_CategoryProducts_CategoryId",
+                table: "CategoryProducts",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -825,11 +798,6 @@ namespace Persistence.Migrations
                 name: "IX_Product_SoleId",
                 table: "Product",
                 column: "SoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_ProductsId",
-                table: "ProductCategory",
-                column: "ProductsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductImage_ColorId",
@@ -919,16 +887,13 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CategoryProduct");
+                name: "CategoryProducts");
 
             migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
-
-            migrationBuilder.DropTable(
-                name: "ProductCategory");
 
             migrationBuilder.DropTable(
                 name: "ProductImage");
@@ -955,10 +920,10 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Tag");

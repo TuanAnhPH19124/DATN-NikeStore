@@ -1,11 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
@@ -24,9 +19,9 @@ namespace Persistence.Configurations
                    .HasForeignKey(c => c.ParentCategoriesId)
                    .IsRequired(false);
 
-            builder.HasMany(p => p.Products)
-                   .WithMany(p => p.Categories)
-                   .UsingEntity(p => p.ToTable("ProductCategory"));
+            builder.HasMany(p => p.CategoryProducts)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId);
         }
     }
 }

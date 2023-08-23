@@ -23,6 +23,9 @@ $(document).ready(function () {
             description: $("#description").val(),
         };
         if (confirm(`Bạn có muốn sửa đế ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
             $.ajax({
                 url: "https://localhost:44328/api/Sole/" + id,
                 type: "PUT",
