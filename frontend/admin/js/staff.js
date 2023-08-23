@@ -1,5 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var staffTable = $('#staff-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Employee/Get",

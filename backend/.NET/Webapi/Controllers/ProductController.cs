@@ -66,11 +66,13 @@ namespace Webapi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var productId = string.Empty;
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
                     var nProduct = productAPI.Adapt<Product>();
+                    productId = nProduct.Id;
                     nProduct.ProductImages = new List<ProductImage>();
                     nProduct.Stocks = new List<Stock>();
                     nProduct.CategoryProducts = new List<CategoryProduct>();
@@ -103,18 +105,18 @@ namespace Webapi.Controllers
 
                     nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
                     {
-                        CategoryId = item.Id,
-                        ProductId = nProduct.Id,
-                        
+                        CategoryId = item.Id,  
                     }).ToList();
 
                     var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
                     transaction.Commit();
 
-                    return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                    //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                    return Ok();
                 }
                 catch (Exception ex)
-                { 
+                {
+                    UploadService.RollBack(productId);
                     transaction.Rollback();
                     return BadRequest(new
                     {
@@ -148,7 +150,7 @@ namespace Webapi.Controllers
                 existingProduct.RetailPrice = productDto.RetailPrice;
                
                 existingProduct.Description = productDto.Description;
-                existingProduct.Brand = productDto.Brand;
+        
                 existingProduct.DiscountRate = productDto.DiscountRate;
      
                 existingProduct.SoleId = productDto.SoleId;

@@ -21,6 +21,9 @@ $(document).ready(function () {
             name: $("#name").val(),
         };
         if (confirm(`Bạn có muốn sửa thành màu ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
             $.ajax({
                 url: "https://localhost:44328/api/Color/" + id,
                 type: "PUT",
