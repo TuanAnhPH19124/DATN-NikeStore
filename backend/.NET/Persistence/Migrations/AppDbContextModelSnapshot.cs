@@ -294,6 +294,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Materials");
                 });
 
@@ -603,6 +606,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NumberSize")
+                        .IsUnique();
+
                     b.ToTable("Size");
                 });
 
@@ -629,6 +635,9 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Soles");
                 });

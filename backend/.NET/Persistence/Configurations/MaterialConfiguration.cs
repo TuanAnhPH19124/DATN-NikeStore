@@ -19,6 +19,8 @@ namespace Persistence.Configurations
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.CreatedDate).IsRequired();
             builder.Property(p => p.ModifiedDate).ValueGeneratedOnAddOrUpdate();
+            builder.HasIndex(p => p.Name).IsUnique();
+
 
             builder.HasMany(p => p.Products)
                 .WithOne(p => p.Material)
