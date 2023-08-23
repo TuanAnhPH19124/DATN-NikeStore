@@ -81,22 +81,20 @@ $('#add-sole-now').click(function () {
 });
 
 var product = {
-  "costPrice": 1233,
-  "retailPrice": 123,
-  "description": "123",
+  "retailPrice": 0,
+  "description": "",
   "status": 1,
   "brand": 1,
-  "discountRate": 1,
-  "soleId": 1,
-  "materialId": 1,
-  "name": $("#name").val(),
-  "Categories":$("#category-select").val(),
-  "Colors": [
-
-  ]
+  "discountRate": 0,
+  "soleId": 0,
+  "materialId": 0,
+  "name": "",
+  "Categories": [],
+  "Colors": []
 }
 
 var selectedColor = -1;
+
 function objectToFormData(obj) {
   var formData = new FormData();
 
@@ -177,16 +175,6 @@ $(document).ready(function () {
 // },
 //   },
 // });
-
-// upload nhiều ảnh
-// Hàm chuyển đổi hình ảnh thành base64
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {
