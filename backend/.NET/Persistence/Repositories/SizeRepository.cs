@@ -28,6 +28,10 @@ namespace Persistence.Repositories
             var size = await _appDbContext.Sizes.FirstOrDefaultAsync(e => e.Id == id);
             return size;
         }
+        public async Task<Size> GetByNumberSizeAsync(int numberSize, CancellationToken cancellationToken = default)
+        {
+            return await _appDbContext.Sizes.FirstOrDefaultAsync(p => p.NumberSize == numberSize);
+        }
 
         public async Task AddSize(Size size)
         {

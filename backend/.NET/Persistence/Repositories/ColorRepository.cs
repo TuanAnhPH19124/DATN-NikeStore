@@ -29,6 +29,11 @@ namespace Persistence.Repositories
             return color;
         }
 
+        public async Task<Color> GetByNameColorAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await _appDbContext.Colors.FirstOrDefaultAsync(p => p.Name== name);
+        }
+
         public async Task AddColor(Color color)
         {
             await _appDbContext.Colors.AddAsync(color);

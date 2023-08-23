@@ -60,21 +60,15 @@ namespace Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSize(SizeDto sizeDto)
         {
-            //try
-            //{
-            //    var size = sizeDto.Adapt<Size>();
-            //    await _serviceManager.SizeService.CreateAsync(size);
-            //    return CreatedAtAction(nameof(GetByIdSize), new {id = size.Id}, size);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return StatusCode((int)HttpStatusCode.Conflict, ex);
-            //}
-
-            ///
             if (sizeDto == null)
             {
                 return BadRequest("Sole object is null");
+            }
+
+            var existingSize = await _serviceManager.SizeService.GetByNumberSizeAsync(sizeDto.NumberSize);
+            if (existingSize != null)
+            {
+                return Conflict("Size with the same NumberSize already exists");
             }
 
             var size = new Size

@@ -12,6 +12,7 @@ namespace Domain.Repositories
     {
         Task<List<Color>> GetAllColorAsync(CancellationToken cancellationToken = default);
         Task<Color> GetByIdColorAsync(string id, CancellationToken cancellationToken = default);
+        Task<Color> GetByNameColorAsync(string name, CancellationToken cancellationToken = default);
         Task AddColor(Color color);
         Task UpdateColor(string id, Color color);
     }
