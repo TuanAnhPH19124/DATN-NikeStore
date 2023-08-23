@@ -111,22 +111,49 @@ $(document).ready(function () {
   // call api them nhan vien
   $('#add-product-form').submit(function (event) {
     event.preventDefault()
+  
+    let productFormData = new FormData();
+    productFormData.append('name', $("#name").val());
+    productFormData.append('description', $("#description").val());
+    productFormData.append('retailPrice', $("#retailPrice").val());
+    productFormData.append('discountRate', $("#discountRate").val());
+    productFormData.append('soleId', $("#sole-select").val());
+    productFormData.append('materialId', $("#material-select").val());
+    productFormData.append('status', 1);
+    productFormData.append('brand', 1);
+    
+    if (product.Colors.length !== 0){
+      for (let i = 0; i < product.Colors.length; i++) {
+        productFormData.append(`colors[${i}].id`, product.Colors[i].id);
+        for (let j = 0; j < product.Colors[i].Images.length; j++) {
+          productFormData.append(`colors[${i}].images[${j}].image`, product.Colors[i].Images[j].file);
+          productFormData.append(`colors[${i}].images[${j}].setAsDefault`, product.Colors[i].Images[j].setAsDefault);
+        }
+        for (let y = 0; y < product.Colors[i].Sizes.length; y++) {
+          productFormData.append(`colors[${i}].sizes[${y}].id`, product.Colors[i].Sizes[y].id);
+          productFormData.append(`colors[${i}].sizes[${y}].unitInStock`, product.Colors[i].Sizes[y].unitInStock);
+        }
+      }
+      
+    }
 
-    var product2 = product
-    product2.name = $("#name").val()
-    product2.description = $("#description").val()
-    product2.retailPrice = $("#retailPrice").val()
-    product2.discountRate = $("#discountRate").val()
-    product2.Categories = $("#category-select").val()
-    product2.soleId = $("#sole-select").val()
-    product2.materialId = $("#material-select").val()
-
-    var formData = objectToFormData(product2);
+    var categories = $("#category-select").val();
+    if (categories.length !== 0){
+      for (let i = 0; i < categories.length; i++) {
+        productFormData.append(`categories[${i}].id`, categories[i]);
+      }
+    }
+    
+    // console.log($("#category-select").val());
+    for (var pair of productFormData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+    
 
     $.ajax({
       url: "https://localhost:44328/api/Product",
       type: "POST",
-      data: formData,
+      data: productFormData,
       processData: false,
       contentType: false,
       success: function (response) {
@@ -175,6 +202,7 @@ $(document).ready(function () {
 // },
 //   },
 // });
+
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {

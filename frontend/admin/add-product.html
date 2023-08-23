@@ -368,11 +368,11 @@
                 <div class="row">
                   <div class="col">
                     <label class="label">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="name" name="name" />
+                    <input type="text" class="form-control" id="name" name="name" required/>
                   </div>
                   <div class="col">
-                    <button type="submit" class="btn btn-primary" style="float: right; margin-top: 30px">
-                      Thêm sản phẩm
+                    <button type="submit" id="addProductBtn" class="btn btn-dark" style="float: right; margin-top: 30px; font-weight: bold;">
+                      + Thêm sản phẩm
                     </button>
                   </div>
                 </div>
@@ -380,18 +380,18 @@
                 <div class="row">
                   <div class="col">
                     <label class="label">Mô tả</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                   </div>
                 </div>
                 <br />
                 <div class="row">
                   <div class="col">
                     <label class="label">Giá bán</label>
-                    <input type="text" class="form-control" id="retailPrice" name="retailPrice" />
+                    <input type="text" class="form-control" id="retailPrice" name="retailPrice" required/>
                   </div>
                   <div class="col">
                     <label class="label">Khuyến mãi</label>
-                    <input type="text" class="form-control" id="discountRate" name="discountRate" />
+                    <input type="text" class="form-control" id="discountRate" name="discountRate" required/>
                   </div>
                   <div class="col">
                     <label class="label">Danh mục</label>
@@ -401,7 +401,7 @@
                           justify-content: space-between;
                         ">
                       <div class="form-group" style="width: 75%">
-                        <select class="form-control" placeholder="Danh mục" id="category-select"></select>
+                        <select class="form-control" placeholder="Danh mục" id="category-select" required multiple></select>
                       </div>
 
                       <!-- Button trigger modal -->
@@ -452,7 +452,7 @@
                           justify-content: space-between;
                         ">
                       <div class="form-group" style="width: 85%">
-                        <select class="form-control" placeholder="Danh mục" id="sole-select">
+                        <select class="form-control" placeholder="Danh mục" id="sole-select" required>
                         </select>
                       </div>
 
@@ -502,7 +502,7 @@
                           justify-content: space-between;
                         ">
                       <div class="form-group" style="width: 85%">
-                        <select class="form-control" placeholder="Danh mục" id="material-select">
+                        <select class="form-control" placeholder="Danh mục" id="material-select" required>
                         </select>
                       </div>
 
