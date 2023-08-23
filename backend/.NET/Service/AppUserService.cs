@@ -143,7 +143,7 @@ namespace Service
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("hoangnam868.oppo@gmail.com", "yourpassword"),
+                    Credentials = new NetworkCredential("hoangnam868.oppo@gmail.com", "hdkrwihunpaaqugh"),
                     EnableSsl = true,
                 };
 
