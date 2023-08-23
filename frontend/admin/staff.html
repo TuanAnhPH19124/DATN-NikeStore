@@ -26,6 +26,8 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link href="/frontend/admin/css/staff.css" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
 
 
@@ -66,6 +68,8 @@
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
                         <a class="collapse-item" href="size.html">Kích cỡ</a>
+                        <a class="collapse-item" href="sole.html">Đế giày</a>
+                        <a class="collapse-item" href="material.html">Chất liệu</a>
                         <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
@@ -352,14 +356,14 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Mã nhân viên</label>
-                                                    <input type="text" class="form-control" id="fullName" name="fullName"
+                                                    <input type="text" class="form-control" id="employeeId" name="employeeId"
                                                         aria-describedby="emailHelp" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label for="snn">Họ và tên</label>
-                                                    <input type="text" class="form-control" id="snn" placeholder="" name="snn">
+                                                    <input type="text" class="form-control" id="fullName" placeholder="" name="fullName">
                                                 </div>
                                             </div>
                                         </div>
@@ -368,15 +372,42 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Số căn cước</label>
-                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                                        name="phoneNumber">
+                                                    <input type="text" class="form-control" id="snn" placeholder=""
+                                                        name="snn">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Số điện thoại</label>
-                                                    <input type="text" class="form-control" id="role" placeholder=""
-                                                        name="role">
+                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
+                                                        name="phoneNumber">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                            <label>Giới tính</label>
+                                                <div class="form-group">
+                                                    <select class="form-control" placeholder="Trạng thái" id="gender"
+                                                        name="gender">
+                                                        <option value="1">Nam</option>
+                                                        <option value="0">Nữ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="dateOfBirth">Ngày sinh</label>
+                                                    <div class="input-group date" id="datepicker">
+                                                        <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth"
+                                                            autocomplete="off">
+                                                        <span class="input-group-append">
+                                                            <span class="input-group-text bg-white">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -384,33 +415,16 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Giới tính</label>
-                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                                        name="phoneNumber">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Ngày sinh</label>
-                                                    <input type="text" class="form-control" id="role" placeholder=""
-                                                        name="role">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Quên quán</label>
-                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                                        name="phoneNumber">
+                                                    <label>Quê quán</label>
+                                                    <input type="text" class="form-control" id="homeTown" placeholder=""
+                                                        name="homeTown">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Địa chỉ hiện tại</label>
-                                                    <input type="text" class="form-control" id="role" placeholder=""
-                                                        name="role">
+                                                    <input type="text" class="form-control" id="address" placeholder=""
+                                                        name="address">
                                                 </div>
                                             </div>
                                         </div>
@@ -419,15 +433,15 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Người thân</label>
-                                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                                        name="phoneNumber">
+                                                    <input type="text" class="form-control" id="relativeName" placeholder=""
+                                                        name="relativeName">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>SĐT người thân</label>
-                                                    <input type="text" class="form-control" id="role" placeholder=""
-                                                        name="role">
+                                                    <input type="text" class="form-control" id="relativePhoneNumber" placeholder=""
+                                                        name="relativePhoneNumber">
                                                 </div>
                                             </div>
                                         </div>
@@ -533,6 +547,8 @@
     <script src="/frontend/admin/startbootstrap-sb-admin-2/css/button.css"></script>
     <script src="js/demo/datatables-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/frontend/admin/js/staff.js"></script>
 
 </body>

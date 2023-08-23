@@ -1,22 +1,17 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Models;
 using Domain.Repositories;
 using EntitiesDto;
 using EntitiesDto.User;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.Extensions.Configuration;
-using RestSharp;
-using RestSharp.Authenticators;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Mail;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,9 +21,9 @@ namespace Service
     internal sealed class AppUserService : IAppUserService
     {
         private readonly IRepositoryManger _repositoryManger;
-       
 
-        public AppUserService(IRepositoryManger repositoryManger )
+
+        public AppUserService(IRepositoryManger repositoryManger)
         {
             _repositoryManger = repositoryManger;
         }
@@ -67,7 +62,7 @@ namespace Service
                 //send email
 
                 var result = SendEmail(body, new_user.Email);
-                
+
                 if (result)
                 {
                     return new AuthResult()
@@ -107,7 +102,7 @@ namespace Service
 
         public async Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default)
         {
-            return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Email, appUser.Password);
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Account, appUser.Password);
         }
 
         public async Task<AppUser> GetByIdAsync(string id)
@@ -117,7 +112,7 @@ namespace Service
 
         public async Task<AuthResult> Login(AppUserForLogin user)
         {
-            var user_exist = await _repositoryManger.AppUserRepository.FindByEmailAsync(user.Email);
+            var user_exist = await _repositoryManger.AppUserRepository.FindByEmailAsync(user.Account);
 
             if (user_exist != null)
             {
@@ -162,12 +157,8 @@ namespace Service
                 return false;
             }
         }
-    
 
-
-    ////////////////////
-
-    public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
+        public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
         {
             List<AppUser> appUserList = await _repositoryManger.AppUserRepository.GetAllAppUserAsync(cancellationToken);
             return appUserList;
@@ -189,7 +180,7 @@ namespace Service
             else
             {
                 existingAppUser.FullName = appUser.FullName;
-                existingAppUser.PhoneNumber= appUser.PhoneNumber;   
+                existingAppUser.PhoneNumber= appUser.PhoneNumber;
                 existingAppUser.AvatarUrl= appUser.AvatarUrl;
                 await _repositoryManger.AppUserRepository.UpdateAppUser(existingAppUser);
                 return existingAppUser;
@@ -206,8 +197,8 @@ namespace Service
             else
             {
                 existingAppUser.Status= appUser.Status;
-                await _repositoryManger.AppUserRepository.UpdateAppUserbyAdmin(existingAppUser);             
-                return existingAppUser;             
+                await _repositoryManger.AppUserRepository.UpdateAppUserbyAdmin(existingAppUser);
+                return existingAppUser;
             }
         }
 
@@ -224,6 +215,7 @@ namespace Service
 
             return result;
         }
+        
         private string GenerateRandomPassword(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?";
@@ -244,6 +236,7 @@ namespace Service
 
             return shuffledPassword;
         }
+        
         public async Task<AuthResult> ForgotPassword(string email)
         {
             var user = await _repositoryManger.AppUserRepository.FindByEmailAsync(email);
@@ -290,7 +283,12 @@ namespace Service
             };
         }
 
-
-
+        public async Task<AppUserPhoneDto> GetUserByPhoneNumber(string phoneNumber)
+        {
+            var user = await _repositoryManger.AppUserRepository.GetByPhoneAsync(phoneNumber);
+            if (user == null)
+                return null;
+            return user;
+        }
     }
 }

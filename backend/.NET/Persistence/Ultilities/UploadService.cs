@@ -22,7 +22,7 @@ namespace Persistence.Ultilities
                 {
                     urlList.Add(color.Id, new Dictionary<string, bool>());
                     var uploadPath = Path.Combine(uploadSource, color.Id);
-                    foreach (var image in color.Images)
+                    foreach (var image in color.Images)                                 
                     {
                         var extension = Path.GetExtension(image.Image.FileName);
                         var fileName = Guid.NewGuid().ToString() + extension;

@@ -73,7 +73,7 @@ namespace Webapi.Controllers
                     var nProduct = productAPI.Adapt<Product>();
                     nProduct.ProductImages = new List<ProductImage>();
                     nProduct.Stocks = new List<Stock>();
-
+                    nProduct.CategoryProducts = new List<CategoryProduct>();
                     var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
 
                     foreach (var urlParent in UrList)
@@ -100,6 +100,13 @@ namespace Webapi.Controllers
                             SizeId = size.Id
                         }
                         ).ToList();
+
+                    nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
+                    {
+                        CategoryId = item.Id,
+                        ProductId = nProduct.Id,
+                        
+                    }).ToList();
 
                     var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
                     transaction.Commit();
@@ -139,11 +146,11 @@ namespace Webapi.Controllers
 
                 existingProduct.Name = productDto.Name;
                 existingProduct.RetailPrice = productDto.RetailPrice;
-                existingProduct.CostPrice = productDto.CostPrice;
+               
                 existingProduct.Description = productDto.Description;
                 existingProduct.Brand = productDto.Brand;
                 existingProduct.DiscountRate = productDto.DiscountRate;
-                existingProduct.Status = productDto.Status;
+     
                 existingProduct.SoleId = productDto.SoleId;
                 existingProduct.MaterialId = productDto.MaterialId;
 

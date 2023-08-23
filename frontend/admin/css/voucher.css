@@ -37,7 +37,7 @@
     display: grid;
     grid-template-columns: repeat(3,1fr);
 }
-tr:hover td { background: rgb(187, 173, 173); }
+#voucher-table tr:hover td { background: rgb(187, 173, 173); }
 .error {
     color: red;
     font-size: 1em;

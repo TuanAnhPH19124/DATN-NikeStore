@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var billTable = $('#bill-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/Orders/Get",
+            "url": "https://localhost:44328/api/Orders",
             "dataType": "json",
             "dataSrc": ""
         },
@@ -132,12 +132,13 @@ $(document).ready(function () {
     });
     //add event click datatable
 
-    $('#staff-table tbody').on('click', 'tr', function (e) {
-        e.preventDefault();
-        let staffId = $('#staff-table').DataTable().row(this).data().employeeId;
-        if (staffId !== null) {
-            localStorage.setItem("staffId", staffId);
-            window.location.href = `/frontend/admin/update-staff.html`;
-        }
-    });
+});
+$('#bill-table tbody').on('click', 'tr', function (e) {
+    e.preventDefault();
+    window.location.href = `/frontend/admin/bill-detail.html`;
+    let billId = $('#bill-table').DataTable().row(this).data().id;
+    if (billId !== null) {
+        localStorage.setItem("billId", billId);
+        
+    }
 });
