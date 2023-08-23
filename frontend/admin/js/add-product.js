@@ -460,6 +460,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Error fetching data.');
     }
   });
+
   // add color nhanh
   $('#add-color-now').click(function () {
     // thêm nút ban đầu
@@ -486,15 +487,15 @@ document.addEventListener("DOMContentLoaded", function () {
               var buttonContainer = $('#colorContainer');
               var addButton = buttonContainer.find('#add-now-btn'); // Get the "add-now-btn" button
               var buttonsToKeep = buttonContainer.find('.btn:not(#add-now-btn)'); // Get all buttons except "add-now-btn"
-
+        
               buttonContainer.empty(); // Empty the container
-
+        
               // Append the buttons you want to keep
               buttonsToKeep.each(function () {
                 buttonContainer.append($(this));
               });
-
               data.forEach(function (item) {
+        
                 var button = $('<button></button>');
                 button.attr('type', 'button');
                 button.addClass('btn btn-outline-dark');
@@ -504,12 +505,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.attr('data-color', item.name);
                 button.attr('id', item.id);
                 button.click(function () {
-                  selectedColorText = item.name;
+                  selectedColorText = { id: item.id, text: item.name };
                 });
                 buttonContainer.append(button);
               });
+        
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
-              $("#color-name").val("")
             },
             error: function () {
               console.error('Error fetching data.');
@@ -674,14 +675,14 @@ document.addEventListener("DOMContentLoaded", function () {
               var buttonContainer = $('#sizeContainer');
               var addButton = buttonContainer.find('#add-size-now'); // Get the "add-now-btn" button
               var buttonsToKeep = buttonContainer.find('.btn:not(#add-size-now)'); // Get all buttons except "add-now-btn"
-
+        
               buttonContainer.empty(); // Empty the container
-
+        
               // Append the buttons you want to keep
               buttonsToKeep.each(function () {
                 buttonContainer.append($(this));
               });
-
+        
               data.forEach(function (item) {
                 var button = $('<button></button>');
                 button.attr('type', 'button');
@@ -691,13 +692,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.text(item.numberSize);
                 button.attr('data-color', item.numberSize);
                 button.click(function () {
-                  selectedColorText = item.numberSize;
+                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
                 });
                 buttonContainer.append(button);
               });
-
+        
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
-              $("#numberSize").val("")
             },
             error: function () {
               console.error('Error fetching data.');
