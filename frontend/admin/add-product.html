@@ -495,7 +495,7 @@
                   <div class="col" style="margin: 5px; padding: 0;">
                     <h5>Giá</h5>
                     <label class="label">Giá gốc</label>
-                    <input type="text" placeholder="Điền giá gốc, ví dụ:20000"
+                    <input type="text" 
                       style="font-size: 14px; font-weight: 400;" class="form-control" id="retailPrice"
                       name="retailPrice" onchange="formatCurrency(this, 0)" required />
                     <span style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Thiết lập giá sản phẩm.</span>
@@ -513,7 +513,7 @@
                       <label class="option" onclick="selectDiscountType(1)">
                         <input type="radio" name="discount" value="percen" hidden>
                         <div class="dot"></div>
-                        <span style="font-size: 17px; font-weight: 500;">Phần trắm %</span>
+                        <span style="font-size: 17px; font-weight: 500;">Phần trăm %</span>
                       </label>
                     </div>
                     <div class="col">
@@ -531,7 +531,7 @@
                       <span id="rangeValue" class="fw-bold fs-1">0</span>
                       <span class="fw-bold fs-5 mt-1 ms-2">%</span>
                     </div>
-                    <Input class="range" type="range" name="" value="1" min="1" max="100"
+                    <Input class="range" type="range" name="" value="1" min="1" max="100" id="rangPercen"
                       onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
                       <label class="mt-2" style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Thiết lập phần trăm giảm giá để áp dụng trên sản phẩm này</label>
                   </div>
@@ -539,9 +539,9 @@
                   <div class="row " id="discountFixed" style="display: none;">
                     <div class="col">
                       <label class="mb-3" style="font-size: 0.90rem; font-weight: 500;">Giá chiết khấu cố định</label>
-                    <input type="text" placeholder="Điền giá chiết khấu, ví dụ:20000"
-                      style="font-size: 14px; font-weight: 400;" class="form-control" id=""
-                      name="" onchange="formatCurrency(this, 1)" />
+                    <input type="text" 
+                      style="font-size: 14px; font-weight: 400;" class="form-control" id="fixedPrice"
+                      name="fixedPrice" onchange="formatCurrency(this, 1)" />
                     <span style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Đặt giá sản phẩm chiết khấu. Sản phẩm sẽ được giảm giá theo mức giá cố định đã xác định.</span>
                     <span id="validateFixedPrice" style="font-size: 0.90rem; font-weight: 500; opacity: 0.6; color: red; display: none;">Giá chiết khấu không được lớn hơn giá gốc</span>
                     </div>
