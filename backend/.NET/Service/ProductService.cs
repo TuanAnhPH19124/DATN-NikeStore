@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto.Product;
+using EntitiesDto.Stock;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -109,51 +110,34 @@ namespace Service
 
         // Trong ProductService.cs
 
-        public async Task<List<Product>> FilterProductsAsync(
-            string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        public async Task<List<ProductForFilterDto>> FilterProductsAsync(
+      string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
         {
-            // Lấy tất cả sản phẩm từ cơ sở dữ liệu
-            var allProducts = await _repositoryManger.ProductRepository.GetAllProductAsync();
+            var products = await _repositoryManger.ProductRepository.FilterProductsAsync(
+                sizeId, colorId, categoryId, materialId, soleId);
 
-            // Bắt đầu quá trình lọc sản phẩm dựa trên các tham số
-
-            // Lọc theo kích thước (size)
-            if (!string.IsNullOrEmpty(sizeId))
+            var productDTOs = products.Select(product => new ProductForFilterDto
             {
-                allProducts = allProducts.Where(product =>
-                    product.Stocks.Any(stock => stock.SizeId == sizeId)).ToList();
-            }
+               
+                // Sao chép các thuộc tính khác từ product
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
 
-            // Lọc theo màu sắc (color)
-            if (!string.IsNullOrEmpty(colorId))
-            {
-                allProducts = allProducts.Where(product =>
-                    product.Stocks.Any(stock => stock.ColorId == colorId)).ToList();
-            }
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId
+                    // Sao chép các thuộc tính khác từ stock
+                }).ToList(),
 
-            // Lọc theo danh mục (category)
-            if (!string.IsNullOrEmpty(categoryId))
-            {
-                allProducts = allProducts.Where(product =>
-                    product.CategoryProducts.Any(categoryProduct => categoryProduct.CategoryId == categoryId)).ToList();
-            }
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList()
+            }).ToList();
 
-            // Lọc theo chất liệu (material)
-            if (materialId.HasValue)
-            {
-                allProducts = allProducts.Where(product =>
-                    product.MaterialId == materialId).ToList();
-            }
-
-            // Lọc theo đế giày (sole)
-            if (soleId.HasValue)
-            {
-                allProducts = allProducts.Where(product =>
-                    product.SoleId == soleId).ToList();
-            }
-
-            // Trả về danh sách sản phẩm đã lọc
-            return allProducts;
+            return productDTOs;
         }
 
 
