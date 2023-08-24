@@ -1,4 +1,56 @@
 
+function selectDiscountType(type) {
+  const options = document.querySelectorAll('.option');
+  const discountPercen = document.getElementById('discountPercen');
+  const discountFixed = document.getElementById('discountFixed');
+
+  discountPercen.style.display = 'none';
+  discountFixed.style.display = 'none';
+
+  // Loại bỏ lớp 'selected' khỏi tất cả các tùy chọn
+  options.forEach(option => {
+    option.classList.remove('selected');
+  });
+
+  // Thêm lớp 'selected' cho tùy chọn được chọn
+  options[type].classList.add('selected');
+  if (type === 1) {
+    discountPercen.style.display = 'block';
+  } else if (type === 2) {
+    discountFixed.style.display = 'block';
+  }
+}
+
+function formatCurrency(input, type) {
+  debugger;
+  const validateFixedPrice = document.getElementById('validateFixedPrice');
+  validateFixedPrice.style.display = 'none';
+  let value = input.value.replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
+  
+  if (type === 1){
+    let basePrice = parseInt($("#retailPrice").val().replace(/[^\d]/g, ''));
+    if (parseInt(value) > basePrice){
+      value = 0;
+      validateFixedPrice.style.display = 'block';
+    }
+  }
+
+  let numericValue = parseInt(value, 10);
+  if (!isNaN(numericValue)) {
+    const formattedValue = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(numericValue);
+    input.value = formattedValue;
+  } else {
+    input.value = '';
+  }
+}
+
+function rangeSlide(value) {
+  document.getElementById('rangeValue').innerHTML = value;
+}
+
 var option_category = [];
 $.getJSON("https://localhost:44328/api/Categories", function (result) {
   for (var i = 0; i < result.length; i++) {
@@ -137,7 +189,7 @@ $(document).ready(function () {
   // call api them nhan vien
   $('#add-product-form').submit(function (event) {
     event.preventDefault()
-  
+
     let productFormData = new FormData();
     productFormData.append('name', $("#name").val());
     productFormData.append('description', $("#description").val());
@@ -147,8 +199,8 @@ $(document).ready(function () {
     productFormData.append('materialId', $("#material-select").val());
     productFormData.append('status', 1);
     productFormData.append('brand', 1);
-    
-    if (product.Colors.length !== 0){
+
+    if (product.Colors.length !== 0) {
       for (let i = 0; i < product.Colors.length; i++) {
         productFormData.append(`colors[${i}].id`, product.Colors[i].id);
         for (let j = 0; j < product.Colors[i].Images.length; j++) {
@@ -160,16 +212,16 @@ $(document).ready(function () {
           productFormData.append(`colors[${i}].sizes[${y}].unitInStock`, product.Colors[i].Sizes[y].unitInStock);
         }
       }
-      
+
     }
 
     var categories = $("#category-select").val();
-    if (categories.length !== 0){
+    if (categories.length !== 0) {
       for (let i = 0; i < categories.length; i++) {
         productFormData.append(`categories[${i}].id`, categories[i]);
       }
     }
-    
+
     // console.log($("#category-select").val());
     for (var pair of productFormData.entries()) {
       console.log(pair[0] + ': ' + pair[1]);
@@ -535,15 +587,15 @@ document.addEventListener("DOMContentLoaded", function () {
               var buttonContainer = $('#colorContainer');
               var addButton = buttonContainer.find('#add-now-btn'); // Get the "add-now-btn" button
               var buttonsToKeep = buttonContainer.find('.btn:not(#add-now-btn)'); // Get all buttons except "add-now-btn"
-        
+
               buttonContainer.empty(); // Empty the container
-        
+
               // Append the buttons you want to keep
               buttonsToKeep.each(function () {
                 buttonContainer.append($(this));
               });
               data.forEach(function (item) {
-        
+
                 var button = $('<button></button>');
                 button.attr('type', 'button');
                 button.addClass('btn btn-outline-dark');
@@ -557,7 +609,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 buttonContainer.append(button);
               });
-        
+
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
             error: function () {
@@ -636,9 +688,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
-    if (selectedColor !== -1 && !isIdExists(selectedColorText.id, product.Colors[selectedColor].Sizes)){
+    if (selectedColor !== -1 && !isIdExists(selectedColorText.id, product.Colors[selectedColor].Sizes)) {
       product.Colors[selectedColor].Sizes.push(selectedColorText);
-    }else{
+    } else {
       alert(`Size ${selectedColorText.numberSize} đã tồn tại`);
       selectedColorText = {};
       return;
@@ -723,14 +775,14 @@ document.addEventListener("DOMContentLoaded", function () {
               var buttonContainer = $('#sizeContainer');
               var addButton = buttonContainer.find('#add-size-now'); // Get the "add-now-btn" button
               var buttonsToKeep = buttonContainer.find('.btn:not(#add-size-now)'); // Get all buttons except "add-now-btn"
-        
+
               buttonContainer.empty(); // Empty the container
-        
+
               // Append the buttons you want to keep
               buttonsToKeep.each(function () {
                 buttonContainer.append($(this));
               });
-        
+
               data.forEach(function (item) {
                 var button = $('<button></button>');
                 button.attr('type', 'button');
@@ -744,7 +796,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 buttonContainer.append(button);
               });
-        
+
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
             error: function () {
