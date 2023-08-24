@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿     using Domain.Entities;
 using EntitiesDto;
 using EntitiesDto.User;
 using Microsoft.AspNetCore.Authentication;
@@ -319,34 +319,43 @@ namespace Webapi.Controllers
         }
 
         [AllowAnonymous]
-       
 
-        [Authorize]
+
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordModel)
         {
-            var currentUser = await _userManager.FindByEmailAsync(HttpContext.User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            if (currentUser == null)
+            if (user == null)
             {
-                return NotFound("Không tìm thấy người dùng đang đăng nhập.");
-            }
-
-            try
-            {
-                var result = await _userManager.ChangePasswordAsync(currentUser, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
-
-                if (result.Succeeded)
+                return NotFound(new
                 {
-                    return Ok(new { Message = "Đổi mật khẩu thành công." });
-                }
+                    error = "Người dùng không tồn tại!"
+                });
+            }
 
-                return BadRequest(new { Message = "Không thể đổi mật khẩu." });
-            }
-            catch (Exception ex)
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user, changePasswordModel.CurrentPassword);
+            if (!passwordCorrect)
             {
-                return BadRequest(new { Message = ex.Message });
+                return Unauthorized(new
+                {
+                    error = "Mật khẩu hiện tại không chính xác!"
+                });
             }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                return BadRequest(new
+                {
+                    error = "Không thể thay đổi mật khẩu. Vui lòng thử lại sau."
+                });
+            }
+
+            return Ok(new
+            {
+                message = "Mật khẩu đã được thay đổi thành công."
+            });
         }
 
         [HttpPost("forgot-password")]

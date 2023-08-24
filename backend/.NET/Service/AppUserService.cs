@@ -207,15 +207,25 @@ namespace Service
             var isCorrectPassword = await _repositoryManger.AppUserRepository.CheckPassword(user, currentPassword);
             if (!isCorrectPassword)
             {
-                throw new Exception("Mật khẩu hiện tại không chính xác.");
+                // Trả về kết quả không thành công thay vì ném exception
+                return IdentityResult.Failed(new IdentityError { Description = "Mật khẩu hiện tại không chính xác." });
             }
 
             // Thay đổi mật khẩu mới
             var result = await _repositoryManger.AppUserRepository.ChangePasswordAsync(user, currentPassword, newPassword);
 
+            if (!result.Succeeded)
+            {
+                // Xử lý trường hợp thay đổi mật khẩu không thành công
+                // Trả về kết quả không thành công hoặc thực hiện các xử lý khác
+                return result;
+            }
+
+            // Trả về kết quả thành công
             return result;
         }
-        
+
+
         private string GenerateRandomPassword(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?";
