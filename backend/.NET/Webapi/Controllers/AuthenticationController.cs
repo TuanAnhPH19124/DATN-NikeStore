@@ -311,13 +311,13 @@ namespace Webapi.Controllers
             return Ok("Dang xuat thanh cong");
         }
 
+
+
         [AllowAnonymous]
-
-
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordModel)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordRequest)
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(changePasswordRequest.UserName);
 
             if (user == null)
             {
@@ -327,7 +327,7 @@ namespace Webapi.Controllers
                 });
             }
 
-            var passwordCorrect = await _userManager.CheckPasswordAsync(user, changePasswordModel.CurrentPassword);
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user, changePasswordRequest.CurrentPassword);
             if (!passwordCorrect)
             {
                 return Unauthorized(new
@@ -336,7 +336,7 @@ namespace Webapi.Controllers
                 });
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, changePasswordRequest.CurrentPassword, changePasswordRequest.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 return BadRequest(new
@@ -350,6 +350,7 @@ namespace Webapi.Controllers
                 message = "Mật khẩu đã được thay đổi thành công."
             });
         }
+
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)

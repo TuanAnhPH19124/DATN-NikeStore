@@ -4,11 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230822160643_ok.cs
     public partial class ok : Migration
-========
-    public partial class ttp : Migration
->>>>>>>> 5fda15a7078dd5199529a1f9d542c988601de337:backend/.NET/Persistence/Migrations/20230823153458_ttp.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
