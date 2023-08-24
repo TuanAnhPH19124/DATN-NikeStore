@@ -192,15 +192,37 @@ $(document).ready(function () {
   $('#add-product-form').submit(function (event) {
     event.preventDefault()
 
+    var selectedOptions = $('#category-select').val(); // Get selected options
+    
+    if (!selectedOptions || selectedOptions.length === 0) {
+      $('#error-category').show();
+    } else {
+      $('#error-category').hide();
+    }
+    if (selectedColor===-1) {
+      $('#error-color').show();
+    } else {
+      $('#error-color').hide();
+    }
+    if (product.Colors[selectedColor].Sizes.length===0) {
+      $('#error-size').show();
+    } else {
+      $('#error-size').hide();
+    }
+    if (product.Colors[selectedColor].Images.length===0) {
+      $('#error-image').show();
+    } else {
+      $('#error-image').hide();
+    }
+
     let productFormData = new FormData();
     productFormData.append('name', $("#name").val());
     productFormData.append('description', $("#description").val());
     let value = $("#retailPrice").val().replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
     productFormData.append('retailPrice',value);
-    debugger;
     let value2 = 0; // Loại bỏ các ký tự không phải s
     if (selectTypeDiscount === 1){
-      value2 = parseInt($("#rangPercen").val());
+      value2 = value - parseInt($("#rangPercen").val())*value/100;
     }else if (selectTypeDiscount === 2){
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ''));
     }
@@ -249,8 +271,22 @@ $(document).ready(function () {
           // console.log(response.id)
           $('#success').toast('show');
           //window.location.href = "/frontend/admin/product-detail.html";
+          // reset form
           var form = $("#add-product-form")[0]; 
           form.reset();
+          clearE();
+          product = {
+            "retailPrice": 0,
+            "description": "",
+            "status": 1,
+            "brand": 1,
+            "discountRate": 0,
+            "soleId": 0,
+            "materialId": 0,
+            "name": "",
+            "Categories": [],
+            "Colors": []
+          }
         },
         error: function (response){
           $('#fail').toast('show');
@@ -280,19 +316,20 @@ $("#add-product-form").validate({
   "discountRate": {
     required: true,
 },
+
   },
   messages: {
       "name": {
-          required: "Mời bạn nhập Tên sản phẩm",
+          required: "Chưa nhập Tên sản phẩm",
       },
       "description": {
-        required: "Mời bạn nhập mô tả",
+        required: "Chưa nhập mô tả",
     },
     "retailPrice": {
-      required: "Mời bạn nhập giá bán",
+      required: "Chưa nhập giá gốc",
   },
   "discountRate": {
-    required: "Mời bạn nhập giảm giá",
+    required: "Chưa nhập giảm giá",
 },
   },
 });
@@ -647,7 +684,7 @@ function loadSizeE() {
 
         // thêm ô hiển thị size
         var newButton = document.createElement("button");
-        newButton.className = 'btn btn-dark';
+        newButton.className = 'btn btn-outline-dark';
         newButton.textContent = element.numberSize;
 
         // thêm ô điền số lượng
@@ -655,13 +692,20 @@ function loadSizeE() {
         newInput.className = 'input-unit';
         newInput.placeholder = "Điền số lượng"
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
-        newInput.min = 0;
+        newInput.min = 1;
+        newInput.value = 1;
         newInput.addEventListener('change', function () {
           if (parseInt(newInput.value) < 0) {
-            newInput.value = 0;
+            newInput.value = 1;
           } else {
             let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
+          }
+        });
+
+        newInput.addEventListener('input', function() {
+          if (newInput.value < 1) {
+            newInput.value = 1;
           }
         });
 
@@ -768,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = {
       numberSize: $("#numberSize").val(),
     };
-    if (confirm(`Bạn có muốn thêm màu ${formData.numberSize}?`)) {
+    if (confirm(`Bạn có muốn thêm size ${formData.numberSize}?`)) {
       $.ajax({
         url: "https://localhost:44328/api/Size",
         type: "POST",
