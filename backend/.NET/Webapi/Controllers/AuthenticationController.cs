@@ -174,28 +174,21 @@ namespace Webapi.Controllers
             var user_exits = new AppUser();
             if (!string.IsNullOrEmpty(appUser.Account))
             {
-                var userCheck = await _userManager.FindByNameAsync(appUser.Account);
-                if (userCheck == null)
+                var userCheckByNameAndEmail = await _userManager.FindByNameAsync(appUser.Account);
+                if (userCheckByNameAndEmail == null)
+                {
+                    userCheckByNameAndEmail = await _userManager.FindByEmailAsync(appUser.Account);
+                }
+                
+                if (userCheckByNameAndEmail == null)
                 {
                     return NotFound(new
                     {
-                        email = appUser.Account,
-                        error = "Tài khoản này không tồn tại!"
+                        account = appUser.Account,
+                        error = "Tài khoàn này không tồn tại!"
                     });
                 }
-                else
-                {
-                    userCheck = await _userManager.FindByEmailAsync(appUser.Account);
-                    if (userCheck == null)
-                    {
-                        return NotFound(new
-                        {
-                            account = appUser.Account,
-                            error = "Tài khoản này không tồn tại!"
-                        });
-                    }
-                }
-                user_exits = userCheck;
+                user_exits = userCheckByNameAndEmail;
             }
            
             var passwordCorrect = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);

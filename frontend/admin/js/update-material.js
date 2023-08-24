@@ -23,6 +23,9 @@ $(document).ready(function () {
             description: $("#description").val(),
         };
         if (confirm(`Bạn có muốn sửa chất liệu ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
             $.ajax({
                 url: "https://localhost:44328/api/Material/" + id,
                 type: "PUT",
@@ -30,7 +33,10 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    window.location.href = "/frontend/admin/material.html";
+                    $('#success').toast('show')
+                },
+                error: function () {
+                    $('#fail').toast('show')
                 },
             });
         } else {

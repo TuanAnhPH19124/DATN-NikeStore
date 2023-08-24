@@ -52,5 +52,28 @@ namespace Persistence.Ultilities
                 throw;
             }
         }
+
+        public static void RollBack(string productId)
+        {
+            var uploadSource = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+            string targetFolderPath = Path.Combine(uploadSource, productId);
+
+            try
+            {
+                if (Directory.Exists(targetFolderPath))
+                {
+                    Directory.Delete(targetFolderPath, true);
+                    Console.WriteLine("Rollback has completed");
+                }
+                else
+                {
+                    Console.WriteLine($"Target folder {productId} not exists");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

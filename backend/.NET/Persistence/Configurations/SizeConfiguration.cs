@@ -16,7 +16,9 @@ namespace Persistence.Configurations
             builder.ToTable(nameof(Size));
             builder.Property(p => p.NumberSize).IsRequired();
             builder.Property(p => p.Description).IsRequired(false);
-           
+            builder.HasIndex(p => p.NumberSize).IsUnique();
+
+
 
             builder.HasKey(p => p.Id);
             builder.HasMany(s => s.Stocks)

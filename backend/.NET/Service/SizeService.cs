@@ -29,12 +29,18 @@ namespace Service
             Size size = await _repositoryManger.SizeRepository.GetByIdSizeAsync(id, cancellationToken);
             return size;
         }
+
+        public async Task<Size> GetByNumberSizeAsync(int numberSize, CancellationToken cancellationToken = default)
+        {
+            return await _repositoryManger.SizeRepository.GetByNumberSizeAsync(numberSize, cancellationToken);
+        }
         public async Task<Size> CreateAsync(Size size)
         {
             await _repositoryManger.SizeRepository.AddSize(size);
            // await _repositoryManger.UnitOfWork.SaveChangeAsync();
             return size;
         }
+
         public async Task<Size> UpdateByIdSize(string id, Size size, CancellationToken cancellationToken = default)
         {
             var existingSize = await _repositoryManger.SizeRepository.GetByIdSizeAsync(id, cancellationToken);

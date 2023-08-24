@@ -12,6 +12,7 @@ namespace Service.Abstractions
     {
         Task<List<Color>> GetAllColorAsync(CancellationToken cancellationToken = default);
         Task<Color> GetByIdColorAsync(string id, CancellationToken cancellationToken = default);
+        Task<Color> GetByNameColorAsync(string name, CancellationToken cancellationToken = default);
         Task<Color> CreateAsync(Color color);
         Task<Color> UpdateByIdColor(string id, Color color, CancellationToken cancellationToken = default);
 

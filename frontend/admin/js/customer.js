@@ -32,7 +32,7 @@ $(document).ready(function () {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;">Kích hoạt</span>';
                     } else {
                         return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
                     }

@@ -22,7 +22,7 @@ $(document).ready(function () {
             numberSize: $("#numberSize").val(),
             description: $("#description").val(),
         };
-        if (confirm(`Bạn có muốn sửa thành thông tin size không?`)) {
+        if (confirm(`Bạn có muốn sửa thành size ${formData.numberSize} không?`)) {
             $.ajax({
                 url: "https://localhost:44328/api/Size/" + id,
                 type: "PUT",

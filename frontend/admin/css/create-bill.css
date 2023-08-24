@@ -199,3 +199,11 @@ input::-webkit-inner-spin-button {
 .label{
   font-weight: 700;
 }
+.collapse-item{
+  font-weight: 500;
+  font-size: 17px;
+}
+.nav-item span{
+  font-weight: 600;
+  font-size: 17px;
+}

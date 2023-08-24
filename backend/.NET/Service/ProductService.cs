@@ -94,10 +94,8 @@ namespace Service
 
             // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
             existingProduct.Name = updatedProduct.Name;
-            existingProduct.RetailPrice = updatedProduct.RetailPrice;
-            existingProduct.CostPrice = updatedProduct.CostPrice;
-            existingProduct.Description = updatedProduct.Description;
-            existingProduct.Brand = updatedProduct.Brand;
+            existingProduct.RetailPrice = updatedProduct.RetailPrice;       
+            existingProduct.Description = updatedProduct.Description;     
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
             existingProduct.Status = updatedProduct.Status;
 
