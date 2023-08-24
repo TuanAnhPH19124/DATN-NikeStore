@@ -19,8 +19,17 @@ $('#add-category-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('.toast').toast('show');
+        $('#success').toast('show');
+        $('#add-category').modal('hide');
+        var option_category = [];
+      $.getJSON("https://localhost:44328/api/Categories", function (result) {
+        for (var i = 0; i < result.length; i++) {
+          option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+        }
+        $("#category-select").html(option_category.join(''));
+      });
       },
+
     });
   }
 });
@@ -47,7 +56,15 @@ $('#add-material-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('.toast').toast('show');
+        $('#success').toast('show');
+        $('#add-material').modal('hide');
+        var option_material = [];
+$.getJSON("https://localhost:44328/api/Material", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+  }
+  $("#material-select").html(option_material.join(''));
+});
       },
     });
   }
@@ -74,7 +91,15 @@ $('#add-sole-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('.toast').toast('show');
+        $('#success').toast('show');
+        $('#add-sole').modal('hide');
+        var option_sole = [];
+$.getJSON("https://localhost:44328/api/Sole", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+  }
+  $("#sole-select").html(option_sole.join(''));
+});
       },
     });
   }
@@ -108,6 +133,7 @@ function objectToFormData(obj) {
 }
 // call api len datatable nhan vien
 $(document).ready(function () {
+  
   // call api them nhan vien
   $('#add-product-form').submit(function (event) {
     event.preventDefault()
@@ -149,59 +175,65 @@ $(document).ready(function () {
       console.log(pair[0] + ': ' + pair[1]);
     }
     
+    if (confirm(`Bạn có muốn thêm sản phẩm này không?`)) {
+      $.ajax({
+        url: "https://localhost:44328/api/Product",
+        type: "POST",
+        data: productFormData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          // localStorage.setItem("productId", response.id);
+          // console.log(response.id)
+          $('#success').toast('show');
+          //window.location.href = "/frontend/admin/product-detail.html";
+          var form = $("#add-product-form")[0]; 
+          form.reset();
+        },
+        error: function (response){
+          $('#fail').toast('show');
+          
+        }
+      });
+  } else {
+      return
+  }
 
-    $.ajax({
-      url: "https://localhost:44328/api/Product",
-      type: "POST",
-      data: productFormData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        localStorage.setItem("productId", response.id);
-        console.log(response.id)
-        //window.location.href = "/frontend/admin/product-detail.html";
-      },
-    });
 
 
   });
 });
 
-// $.validator.addMethod("compare2Price", function (value, element) {
-//   var parts1 = Number($("#retailPrice").val());
-//   var parts2 = Number($("#costPrice").val());
-//   return parts1 > parts2
-
-// });
-// $("#add-product-form").validate({
-//   rules: {
-//       "name": {
-//           required: true,
-//       },
-//       "retailPrice": {
-//         required: true,
-//     },
-//     "costPrice": {
-//       required: true,
-//   },
-//       "retailPrice": {
-//         required: true,
-//         compare2Price: true,
-//     },
-//   },
-//   messages: {
-//       "name": {
-//           required: "Mời bạn nhập Tên sản phẩm",
-//       },
-//     "retailPrice": {
-//       required: "Mời bạn nhập giá bán",
-//       compare2Price: "Tiền nhập không được lớn hơn tiền bán",
-//   },
-//   "costPrice": {
-//     required: "Mời bạn nhập giá nhập",
-// },
-//   },
-// });
+$("#add-product-form").validate({
+  rules: {
+      "name": {
+          required: true,
+      },
+      "description": {
+        required: true,
+    },
+    "retailPrice": {
+      required: true,
+  },
+  "discountRate": {
+    required: true,
+},
+  },
+  messages: {
+      "name": {
+          required: "Mời bạn nhập Tên sản phẩm",
+      },
+      "description": {
+        required: "Mời bạn nhập mô tả",
+    },
+    "retailPrice": {
+      required: "Mời bạn nhập giá bán",
+  },
+  "discountRate": {
+    required: "Mời bạn nhập giảm giá",
+},
+  },
+});
 
 
 // Chờ tài liệu HTML được tải xong
@@ -358,7 +390,7 @@ function loadColorE() {
 
       var newButton = document.createElement("button");
       newButton.type = "button";
-      newButton.className = 'btn btn-dark';
+      newButton.className = 'btn btn-outline-dark';
       newButton.id = color.id;
       newButton.textContent = color.name;
       newButton.addEventListener('click', function (e) {
