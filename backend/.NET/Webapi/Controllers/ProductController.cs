@@ -2,6 +2,7 @@
 using Domain.Repositories;
 using EntitiesDto.Product;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Persistence;
@@ -9,7 +10,9 @@ using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Webapi.Controllers
@@ -26,26 +29,70 @@ namespace Webapi.Controllers
             _serviceManager=serviceManager;
             _dbContext=dbContext;
         }
+        private async Task<IFormFile> ConvertUrlToFormFileAsync(string imageUrl)
+        {
+            // Tải dữ liệu ảnh từ URL
+            using (var webClient = new WebClient())
+            {
+                var imageData = await webClient.DownloadDataTaskAsync(imageUrl);
+                using (var memoryStream = new MemoryStream(imageData))
+                {
+                    // Tạo đối tượng IFormFile từ dữ liệu ảnh
+                    var formFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(imageUrl));
+                    return formFile;
+                }
+            }
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<ProductAPI>>> GetAllProduct()
         {
             try
             {
                 var products = await _serviceManager.ProductService.GetAllProductAsync();
-
-                if (products == null || !products.Any())
+               
+                var productAPIs = products.Select(product => new ProductAPI
                 {
-                    return NotFound();
-                }
+                    
+                    Name = product.Name,
+                    RetailPrice = product.RetailPrice,
+                    Description = product.Description,
+                    DiscountRate = product.DiscountRate,
+                    SoleId = product.SoleId,
+                    MaterialId = product.MaterialId,
+                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorAPI
+                    {
 
-                return Ok(products);
+                        Id = group.Key,
+                        Images = group.Select(pi => new ImageAPI
+                        {
+                            
+                            Image = (IFormFile)ConvertUrlToFormFileAsync(pi.ImageUrl),
+                            SetAsDefault = pi.SetAsDefault
+                        }).ToList(),
+                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeAPI
+                        {
+                            Id = stock.SizeId,
+                            UnitInStock = stock.UnitInStock
+                        }).ToList()
+                    }).ToList(),
+                    Categories = product.CategoryProducts.Select(category => new CategoryAPI
+                    {
+                        Id = category.CategoryId
+                    }).ToList()
+                }).ToList();
+
+                return Ok(productAPIs);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(new
+                {
+                    Error = ex.Message
+                });
             }
         }
+
 
         [HttpGet("{Id}")]
         public async Task<ActionResult<Product>> GetProduct(string Id)
