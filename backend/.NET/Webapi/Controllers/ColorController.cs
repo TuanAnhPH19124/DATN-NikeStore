@@ -59,6 +59,7 @@ namespace Webapi.Controllers
         {
             try
             {
+                
                 var color = colorCreateDto.Adapt<Color>();
                 await _serviceManager.ColorService.CreateAsync(color);
                 return CreatedAtAction(nameof(GetByIdColor), new { id = color.Id }, color);
