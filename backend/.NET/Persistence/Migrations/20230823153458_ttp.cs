@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class init : Migration
+    public partial class ttp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -753,6 +753,12 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Materials_Name",
+                table: "Materials",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_ColorId",
                 table: "OrderItems",
                 column: "ColorId");
@@ -838,6 +844,18 @@ namespace Persistence.Migrations
                 name: "IX_ShoppingCarts_AppUserId",
                 table: "ShoppingCarts",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Size_NumberSize",
+                table: "Size",
+                column: "NumberSize",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Soles_Name",
+                table: "Soles",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stock_ColorId",

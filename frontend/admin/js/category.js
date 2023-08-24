@@ -58,7 +58,10 @@ $(document).ready(function () {
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
-                    $('.toast').toast('show')
+                    $('#success').toast('show')
+                },
+                error: function () {
+                    $('#fail').toast('show')
                 },
             });
         } else {

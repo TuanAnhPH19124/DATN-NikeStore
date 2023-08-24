@@ -1,5 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var sizeTable = $('#color-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Color/Get",
@@ -62,7 +63,10 @@ $(document).ready(function () {
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
-                    $('.toast').toast('show')
+                    $('#success').toast('show')
+                },
+                error: function () {
+                    $('#fail').toast('show')
                 },
             });
         } else {
