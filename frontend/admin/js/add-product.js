@@ -73,8 +73,17 @@ $('#add-category-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('.toast').toast('show');
+        $('#success').toast('show');
+        $('#add-category').modal('hide');
+        var option_category = [];
+      $.getJSON("https://localhost:44328/api/Categories", function (result) {
+        for (var i = 0; i < result.length; i++) {
+          option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+        }
+        $("#category-select").html(option_category.join(''));
+      });
       },
+
     });
   }
 });
@@ -101,7 +110,15 @@ $('#add-material-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('.toast').toast('show');
+        $('#success').toast('show');
+        $('#add-material').modal('hide');
+        var option_material = [];
+$.getJSON("https://localhost:44328/api/Material", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+  }
+  $("#material-select").html(option_material.join(''));
+});
       },
     });
   }
@@ -128,7 +145,15 @@ $('#add-sole-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('.toast').toast('show');
+        $('#success').toast('show');
+        $('#add-sole').modal('hide');
+        var option_sole = [];
+$.getJSON("https://localhost:44328/api/Sole", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+  }
+  $("#sole-select").html(option_sole.join(''));
+});
       },
     });
   }
@@ -162,19 +187,42 @@ function objectToFormData(obj) {
 }
 // call api len datatable nhan vien
 $(document).ready(function () {
+  
   // call api them nhan vien
   $('#add-product-form').submit(function (event) {
     event.preventDefault()
+
+    var selectedOptions = $('#category-select').val(); // Get selected options
+    
+    if (!selectedOptions || selectedOptions.length === 0) {
+      $('#error-category').show();
+    } else {
+      $('#error-category').hide();
+    }
+    if (selectedColor===-1) {
+      $('#error-color').show();
+    } else {
+      $('#error-color').hide();
+    }
+    if (product.Colors[selectedColor].Sizes.length===0) {
+      $('#error-size').show();
+    } else {
+      $('#error-size').hide();
+    }
+    if (product.Colors[selectedColor].Images.length===0) {
+      $('#error-image').show();
+    } else {
+      $('#error-image').hide();
+    }
 
     let productFormData = new FormData();
     productFormData.append('name', $("#name").val());
     productFormData.append('description', $("#description").val());
     let value = $("#retailPrice").val().replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
     productFormData.append('retailPrice',value);
-    debugger;
     let value2 = 0; // Loại bỏ các ký tự không phải s
     if (selectTypeDiscount === 1){
-      value2 = parseInt($("#rangPercen").val());
+      value2 = value - parseInt($("#rangPercen").val())*value/100;
     }else if (selectTypeDiscount === 2){
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ''));
     }
@@ -210,60 +258,81 @@ $(document).ready(function () {
     for (var pair of productFormData.entries()) {
       console.log(pair[0] + ': ' + pair[1]);
     }
+    
+    if (confirm(`Bạn có muốn thêm sản phẩm này không?`)) {
+      $.ajax({
+        url: "https://localhost:44328/api/Product",
+        type: "POST",
+        data: productFormData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          // localStorage.setItem("productId", response.id);
+          // console.log(response.id)
+          $('#success').toast('show');
+          //window.location.href = "/frontend/admin/product-detail.html";
+          // reset form
+          var form = $("#add-product-form")[0]; 
+          form.reset();
+          clearE();
+          product = {
+            "retailPrice": 0,
+            "description": "",
+            "status": 1,
+            "brand": 1,
+            "discountRate": 0,
+            "soleId": 0,
+            "materialId": 0,
+            "name": "",
+            "Categories": [],
+            "Colors": []
+          }
+        },
+        error: function (response){
+          $('#fail').toast('show');
+          
+        }
+      });
+  } else {
+      return
+  }
 
-
-    $.ajax({
-      url: "https://localhost:44328/api/Product",
-      type: "POST",
-      data: productFormData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        localStorage.setItem("productId", response.id);
-        console.log(response.id)
-        //window.location.href = "/frontend/admin/product-detail.html";
-      },
-    });
 
 
   });
 });
 
-// $.validator.addMethod("compare2Price", function (value, element) {
-//   var parts1 = Number($("#retailPrice").val());
-//   var parts2 = Number($("#costPrice").val());
-//   return parts1 > parts2
+$("#add-product-form").validate({
+  rules: {
+      "name": {
+          required: true,
+      },
+      "description": {
+        required: true,
+    },
+    "retailPrice": {
+      required: true,
+  },
+  "discountRate": {
+    required: true,
+},
 
-// });
-// $("#add-product-form").validate({
-//   rules: {
-//       "name": {
-//           required: true,
-//       },
-//       "retailPrice": {
-//         required: true,
-//     },
-//     "costPrice": {
-//       required: true,
-//   },
-//       "retailPrice": {
-//         required: true,
-//         compare2Price: true,
-//     },
-//   },
-//   messages: {
-//       "name": {
-//           required: "Mời bạn nhập Tên sản phẩm",
-//       },
-//     "retailPrice": {
-//       required: "Mời bạn nhập giá bán",
-//       compare2Price: "Tiền nhập không được lớn hơn tiền bán",
-//   },
-//   "costPrice": {
-//     required: "Mời bạn nhập giá nhập",
-// },
-//   },
-// });
+  },
+  messages: {
+      "name": {
+          required: "Chưa nhập Tên sản phẩm",
+      },
+      "description": {
+        required: "Chưa nhập mô tả",
+    },
+    "retailPrice": {
+      required: "Chưa nhập giá gốc",
+  },
+  "discountRate": {
+    required: "Chưa nhập giảm giá",
+},
+  },
+});
 
 
 // Chờ tài liệu HTML được tải xong
@@ -420,7 +489,7 @@ function loadColorE() {
 
       var newButton = document.createElement("button");
       newButton.type = "button";
-      newButton.className = 'btn btn-dark';
+      newButton.className = 'btn btn-outline-dark';
       newButton.id = color.id;
       newButton.textContent = color.name;
       newButton.addEventListener('click', function (e) {
@@ -615,7 +684,7 @@ function loadSizeE() {
 
         // thêm ô hiển thị size
         var newButton = document.createElement("button");
-        newButton.className = 'btn btn-dark';
+        newButton.className = 'btn btn-outline-dark';
         newButton.textContent = element.numberSize;
 
         // thêm ô điền số lượng
@@ -623,13 +692,20 @@ function loadSizeE() {
         newInput.className = 'input-unit';
         newInput.placeholder = "Điền số lượng"
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
-        newInput.min = 0;
+        newInput.min = 1;
+        newInput.value = 1;
         newInput.addEventListener('change', function () {
           if (parseInt(newInput.value) < 0) {
-            newInput.value = 0;
+            newInput.value = 1;
           } else {
             let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
+          }
+        });
+
+        newInput.addEventListener('input', function() {
+          if (newInput.value < 1) {
+            newInput.value = 1;
           }
         });
 
@@ -736,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var formData = {
       numberSize: $("#numberSize").val(),
     };
-    if (confirm(`Bạn có muốn thêm màu ${formData.numberSize}?`)) {
+    if (confirm(`Bạn có muốn thêm size ${formData.numberSize}?`)) {
       $.ajax({
         url: "https://localhost:44328/api/Size",
         type: "POST",

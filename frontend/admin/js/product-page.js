@@ -20,10 +20,6 @@ $(document).ready(function () {
                     return `<img src="https://localhost:44328/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>`;
             }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
-            { "data": 'costPrice', 'title': 'Giá nhập',
-            "render": function (data, type, row) {
-                    return data+" VND";
-            } },
             { "data": 'retailPrice', 'title': 'Giá bán',
             "render": function (data, type, row) {
                 return data+" VND";
