@@ -1,4 +1,6 @@
 
+var selectTypeDiscount = 0;
+
 function selectDiscountType(type) {
   const options = document.querySelectorAll('.option');
   const discountPercen = document.getElementById('discountPercen');
@@ -10,8 +12,9 @@ function selectDiscountType(type) {
   // Loại bỏ lớp 'selected' khỏi tất cả các tùy chọn
   options.forEach(option => {
     option.classList.remove('selected');
-  });
 
+  });
+  selectTypeDiscount = type;
   // Thêm lớp 'selected' cho tùy chọn được chọn
   options[type].classList.add('selected');
   if (type === 1) {
@@ -22,7 +25,6 @@ function selectDiscountType(type) {
 }
 
 function formatCurrency(input, type) {
-  debugger;
   const validateFixedPrice = document.getElementById('validateFixedPrice');
   validateFixedPrice.style.display = 'none';
   let value = input.value.replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
@@ -193,8 +195,16 @@ $(document).ready(function () {
     let productFormData = new FormData();
     productFormData.append('name', $("#name").val());
     productFormData.append('description', $("#description").val());
-    productFormData.append('retailPrice', $("#retailPrice").val());
-    productFormData.append('discountRate', $("#discountRate").val());
+    let value = $("#retailPrice").val().replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
+    productFormData.append('retailPrice',value);
+    debugger;
+    let value2 = 0; // Loại bỏ các ký tự không phải s
+    if (selectTypeDiscount === 1){
+      value2 = parseInt($("#rangPercen").val());
+    }else if (selectTypeDiscount === 2){
+      value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ''));
+    }
+    productFormData.append('discountRate', value2);
     productFormData.append('soleId', $("#sole-select").val());
     productFormData.append('materialId', $("#material-select").val());
     productFormData.append('status', 1);
@@ -456,7 +466,6 @@ function loadColorE() {
       newRemoveBtn.textContent = " x ";
       newRemoveBtn.id = color.id;
       newRemoveBtn.addEventListener('click', function (e) {
-        debugger;
         let index = findIndexById(product.Colors, e.target.id);
         product.Colors.splice(index, 1);
         console.log(product);

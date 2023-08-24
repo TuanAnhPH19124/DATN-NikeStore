@@ -517,15 +517,65 @@
                   </div>
                 </div>
                 <br />
+
+                <div class="row" style="background-color: white; border-radius: 10px;">
+                  <div class="col" style="margin: 5px; padding: 0;">
+                    <h5>Giá</h5>
+                    <label class="label">Giá gốc</label>
+                    <input type="text" 
+                      style="font-size: 14px; font-weight: 400;" class="form-control" id="retailPrice"
+                      name="retailPrice" onchange="formatCurrency(this, 0)" required />
+                    <span style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Thiết lập giá sản phẩm.</span>
+                  </div>
+                  <div class="row mt-3">
+                    <label class="fs-6 mb-2 fw-semibold">Loại giảm giá</label>
+                    <div class="col">
+                      <label class="option" onclick="selectDiscountType(0)">
+                        <input type="radio" name="discount" value="no_discount" hidden>
+                        <div class="dot"></div>
+                        <span style="font-size: 17px; font-weight: 500;">Không giảm giá</span>
+                      </label>
+                    </div>
+                    <div class="col">
+                      <label class="option" onclick="selectDiscountType(1)">
+                        <input type="radio" name="discount" value="percen" hidden>
+                        <div class="dot"></div>
+                        <span style="font-size: 17px; font-weight: 500;">Phần trăm %</span>
+                      </label>
+                    </div>
+                    <div class="col">
+                      <label class="option" onclick="selectDiscountType(2)">
+                        <input type="radio" name="discount" value="fixed" hidden>
+                        <div class="dot"></div>
+                        <span style="font-size: 17px; font-weight: 500;">Giá chiết khấu</span>
+                      </label>
+                    </div>
+                  </div>
+                  <!-- phần trăm -->
+                  <div class="row " id="discountPercen" style="display: none;">
+                    <label class="" style="font-size: 0.90rem; font-weight: 500;">Thiết lập phần trăm giảm giá</label>
+                    <div class="d-flex align-items-start justify-content-center mb-7">
+                      <span id="rangeValue" class="fw-bold fs-1">0</span>
+                      <span class="fw-bold fs-5 mt-1 ms-2">%</span>
+                    </div>
+                    <Input class="range" type="range" name="" value="1" min="1" max="100" id="rangPercen"
+                      onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+                      <label class="mt-2" style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Thiết lập phần trăm giảm giá để áp dụng trên sản phẩm này</label>
+                  </div>
+                  <!-- chiết khấu -->
+                  <div class="row " id="discountFixed" style="display: none;">
+                    <div class="col">
+                      <label class="mb-3" style="font-size: 0.90rem; font-weight: 500;">Giá chiết khấu cố định</label>
+                    <input type="text" 
+                      style="font-size: 14px; font-weight: 400;" class="form-control" id="fixedPrice"
+                      name="fixedPrice" onchange="formatCurrency(this, 1)" />
+                    <span style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Đặt giá sản phẩm chiết khấu. Sản phẩm sẽ được giảm giá theo mức giá cố định đã xác định.</span>
+                    <span id="validateFixedPrice" style="font-size: 0.90rem; font-weight: 500; opacity: 0.6; color: red; display: none;">Giá chiết khấu không được lớn hơn giá gốc</span>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
-                  <div class="col">
-                    <label class="label">Giá bán</label>
-                    <input type="text" class="form-control" id="retailPrice" name="retailPrice" required/>
-                  </div>
-                  <div class="col">
-                    <label class="label">Khuyến mãi</label>
-                    <input type="text" class="form-control" id="discountRate" name="discountRate" required/>
-                  </div>
                   <div class="col">
                     <label class="label">Danh mục</label>
                     <div style="
