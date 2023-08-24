@@ -1,136 +1,180 @@
-*{
-    margin: auto; 
-    padding: 0;
-    font-family: 'Times New Roman', Times, serif;
-    
-}
-.column {
-    width: 100%;
-}
-
-/* Nút Để Mở Chatbox */
-.nut-mo-chatbox {
-    background-color: #555;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: fixed;
-    bottom: 23px;
-    right: 28px;
-    width: 4em;
-    height: 4em;
-    border-radius: 50%;
-    z-index: 9;
-  }
-  
-  /* Ẩn chatbox mặc định */
-  .Chatbox {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-  }
-  
-  /* Thêm style cho form */
-  .form-container {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;
-  }
-  
-  /* thiết lập style textarea */
-  .form-container textarea {
-    width: 100%;
-    padding: 5px;
-    margin: 5px 0 22px 0;
-    border: none;
-    background: #f1f1f1;
-    resize: none;
-    min-height: 100px;
-  }
-  
-  /*thiết lập style cho textarea khi được focus */
-  .form-container textarea:focus {
-    background-color: #ddd;
-    outline: none;
-  }
-  
-  /* Sthiết lập style cho nút trong form*/
-  .form-container .btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
-  }
-  
-  /* Thiết lập màu nền cho nút đóng chatbox */
-  .form-container .nut-dong-chatbox {
-    background-color: red;
-  }
-  
-  /* Thêm hiệu ứng hover cho nút*/
-  .form-container .btn:hover, .nut-mo-chatbox:hover {
-    opacity: 1;
-  }
-header{
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ffffff;
-    justify-content: space-between;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);;
+:root {
+  --font-maven-pro: 'Maven Pro', sans-serif;
+  --font-playfair-display: 'Playfair Display', serif;
+  --font-noto-serif: 'Noto Serif', serif;
+  --bc-gray-light: #eeeded;
+  --bc-gray-light-hover: #cdc9c9;
+  --tc-black: #000000;
+  --fs-12px: 12px;
+  --fs-14px: 14px;
+  --fs-16px: 16px;
+  --fw-500: 500;
 }
 
-header p{
-    margin-bottom: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-noto-serif);
 }
-.header-top{
-    background-color: #f5f5f5;
-    padding: 10px 100px;
-    padding-left: 530px;
-    font-size: 14px;
-    
+
+.container-top {
+  background-color: var(--bc-gray-light);
 }
-.header-top, .right, .email, .icon, .language, .login{
-    display: flex;
-    align-items: center;
-    
+
+.container-top ul {
+  display: flex;
+  justify-content: end;
+  list-style-type: none;
+  margin: 0;
+  padding: 8px 30px;
+  overflow: hidden;
+
 }
-.header-top i{
-    margin: 0px 10px;
+
+.container-top ul li {
+  margin-right: 20px;
+  position: relative;
 }
-.header-top .left, .right:hover{
-    color: rgb(255, 0, 0);
+
+.container-top ul li::after {
+  content: "";
+  display: inline-block;
+  margin-top: 10px;
+  width: 2px;
+  height: 10px;
+  background-color: black;
+  position: absolute;
+  right: -10px;
+  opacity: 0.2;
 }
-.header-main, nav ul, .right-main, .price{
-    display: flex;
-    align-items: center;
+
+.container-top ul li:last-child::after {
+  content: none;
 }
-.header-main :hover{
-    text-decoration: double;
-    color: brown;
+
+.container-top ul li a {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: var(--tc-black);
+  font-size: var(--fs-12px);
+  font-weight: var(--fw-500);
 }
-nav li{
-    list-style: none;
-    padding-top: 10px;
-    margin: 0 20px;
+.container-top ul li:hover a {
+  /* text-decoration: underline; */
+  opacity: 0.8;
 }
-nav li a{
-    font-size: 20px;
-    color: #2e2f34;
+
+.container-end ul {
+  display: flex;
+  justify-content: end;
+  list-style-type: none;
+  align-items: center;
+  margin: 0;
+  padding: 0 30px;
+  overflow: hidden;
 }
-.right-main i{
-    margin-right: 10px;
-    margin-top: 11px;
+
+.container-end ul li {
+  margin-right: 20px;
+  padding: 20px 6px;
+  position: relative;
+  border-bottom: 2px solid transparent;
 }
+
+.container-end ul li:hover {
+  border-color: black;
+}
+
+.container-end ul li a {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: var(--tc-black);
+  font-size: var(--fs-16px);
+  font-weight: var(--fw-500);
+}
+
+.container_search{
+  display: inline-block;
+  border-radius: 25px;
+  background-color: var(--bc-gray-light);
+  transition: background-color 0.3s ease;
+}
+
+.container_search button{
+  background-color: var(--bc-gray-light);
+  border: none;
+  padding: 10px;
+  border-radius: 25px;
+  transition: inherit;
+}
+
+.container_search input{
+  width: 150px;
+  background-color: transparent;
+  opacity: 0.5;
+  border: none;
+}
+
+.container_search input:focus,
+.container_search button:focus
+{
+  outline: none;
+}
+
+.container_search button:hover{
+  background-color: var(--bc-gray-light-hover); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------- */
+
+.header-main,
+nav ul,
+.right-main,
+.price {
+  display: flex;
+  align-items: center;
+}
+
+.header-main :hover {
+  text-decoration: double;
+  color: brown;
+}
+
+nav li {
+  list-style: none;
+  padding-top: 10px;
+  margin: 0 20px;
+}
+
+nav li a {
+  font-size: 20px;
+  color: #2e2f34;
+}
+
+.right-main i {
+  margin-right: 10px;
+  margin-top: 11px;
+}
+
 /* .right-main .search{
     font-size: 18px;
     border: none; 

@@ -70,7 +70,7 @@
 .textQ p{
     font-size: 36px;
     text-align: center;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+
     color: #201c1c;
     font-weight: 550;
 }
@@ -97,7 +97,6 @@
     border-radius: 20px;
     background-color: #ffffff;
     font-size: 1.5em;
-    font-family: font3;
     color: #383737;
 }
 .boxA button:hover{
@@ -115,7 +114,6 @@
     border-radius: 25px;
     background-color: #ffffff;
     font-size: 1.5em;
-    font-family: font3;
     font-weight: 500;
     text-transform: uppercase;
 }
@@ -223,7 +221,6 @@
 .name a{
     text-decoration: none;
     color: rgb(59, 59, 59);
-    font-family: font4;
     font-size: 1.2em;
     font-weight: 600;
     padding-left: 0;
