@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto.Images;
 using EntitiesDto.Product;
@@ -43,18 +43,13 @@ namespace Webapi.Controllers
             return Ok(productsForDisplay);
         }
 
+
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
 
-            if (productDto == null)
-            {
-                return NotFound(); // Trả về mã 404 nếu sản phẩm không tồn tại
-            }
 
-            return Ok(productDto);
-        }
 
 
 
