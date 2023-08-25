@@ -83,7 +83,7 @@ namespace Webapi.Controllers
         {
             try
             {
-                var product = await _serviceManager.ProductService.GetByIdProduct(id);
+                var product = await _serviceManager.ProductService.GetByIdProduct(Id);
                 if (product == null)
                 {
                     return NotFound();
