@@ -29,66 +29,23 @@ namespace Webapi.Controllers
             _serviceManager=serviceManager;
             _dbContext=dbContext;
         }
-        private async Task<IFormFile> ConvertUrlToFormFileAsync(string imageUrl)
-        {
-            // Tải dữ liệu ảnh từ URL
-            using (var webClient = new WebClient())
-            {
-                var imageData = await webClient.DownloadDataTaskAsync(imageUrl);
-                using (var memoryStream = new MemoryStream(imageData))
-                {
-                    // Tạo đối tượng IFormFile từ dữ liệu ảnh
-                    var formFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(imageUrl));
-                    return formFile;
-                }
-            }
-        }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductAPI>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
         {
             try
             {
                 var products = await _serviceManager.ProductService.GetAllProductAsync();
 
-                var productAPIs = products.Select(product => new ProductAPI
+                if (products == null || !products.Any())
                 {
-
-                    Name = product.Name,
-                    RetailPrice = product.RetailPrice,
-                    Description = product.Description,
-                    DiscountRate = product.DiscountRate,
-                    SoleId = product.SoleId,
-                    MaterialId = product.MaterialId,
-                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorAPI
-                    {
-
-                        Id = group.Key,
-                        Images = group.Select(pi => new ImageAPI
-                        {
-
-                            Image = (IFormFile)ConvertUrlToFormFileAsync(pi.ImageUrl),
-                            SetAsDefault = pi.SetAsDefault
-                        }).ToList(),
-                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeAPI
-                        {
-                            Id = stock.SizeId,
-                            UnitInStock = stock.UnitInStock
-                        }).ToList()
-                    }).ToList(),
-                    Categories = product.CategoryProducts.Select(category => new CategoryAPI
-                    {
-                        Id = category.CategoryId
-                    }).ToList()
-                }).ToList();
-
-                return Ok(productAPIs);
+                    return NotFound();
+                }
+                return Ok(products);
             }
+
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    Error = ex.Message
-                });
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
