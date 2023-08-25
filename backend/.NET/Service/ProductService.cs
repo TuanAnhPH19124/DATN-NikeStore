@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto.Images;
 using EntitiesDto.Product;
 using EntitiesDto.Stock;
 using Mapster;
@@ -76,12 +77,11 @@ namespace Service
 
 
 
+     
 
-        public async Task<Product> GetByIdProduct(string id, CancellationToken cancellationToken = default)
-        {
-            Product product = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
-            return product;
-        }
+       
+
+        
 
 
         public async Task<Product> UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
@@ -141,12 +141,108 @@ namespace Service
             return productDTOs;
         }
 
-        public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
+        public async Task<List<ProductDtoForGet>> GetAllProductAsync(CancellationToken cancellationToken)
         {
-          return  await _repositoryManger.ProductRepository.GetAllProductAsync();
+            var products = await _repositoryManger.ProductRepository.GetAllProductAsync();
+
+            var productDTOs = products.Select(product => new ProductDtoForGet
+            {
+                BarCode = product.BarCode,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                Status = product.Status,              
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
+        Task<Product> IProductService.GetByIdProduct(string id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+          
+
+        public async Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
+        {
+            var product = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
+
+            if (product == null)
+            {
+                // Xử lý nếu sản phẩm không tồn tại
+                return null;
+            }
+
+            var productDto = new ProductDtoForGet
+            {
+                BarCode = product.BarCode,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                Status = product.Status,
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            };
+
+            return productDto;
         }
     }
-}
+    }
+
 
 
 
