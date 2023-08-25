@@ -1,69 +1,74 @@
 const id = localStorage.getItem("productId");
-console.log(id)
+console.log(id);
 
 var selectTypeDiscount = 0;
 
 function selectDiscountType(type) {
-  const options = document.querySelectorAll('.option');
-  const discountPercen = document.getElementById('discountPercen');
-  const discountFixed = document.getElementById('discountFixed');
+  const options = document.querySelectorAll(".option");
+  const discountPercen = document.getElementById("discountPercen");
+  const discountFixed = document.getElementById("discountFixed");
 
-  discountPercen.style.display = 'none';
-  discountFixed.style.display = 'none';
+  discountPercen.style.display = "none";
+  discountFixed.style.display = "none";
 
   // Loại bỏ lớp 'selected' khỏi tất cả các tùy chọn
-  options.forEach(option => {
-    option.classList.remove('selected');
-
+  options.forEach((option) => {
+    option.classList.remove("selected");
   });
   selectTypeDiscount = type;
   // Thêm lớp 'selected' cho tùy chọn được chọn
-  options[type].classList.add('selected');
+  options[type].classList.add("selected");
   if (type === 1) {
-    discountPercen.style.display = 'block';
+    discountPercen.style.display = "block";
   } else if (type === 2) {
-    discountFixed.style.display = 'block';
+    discountFixed.style.display = "block";
   }
 }
 
 function formatCurrency(input, type) {
-  const validateFixedPrice = document.getElementById('validateFixedPrice');
-  validateFixedPrice.style.display = 'none';
-  let value = input.value.replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
-  
-  if (type === 1){
-    let basePrice = parseInt($("#retailPrice").val().replace(/[^\d]/g, ''));
-    if (parseInt(value) > basePrice){
+  const validateFixedPrice = document.getElementById("validateFixedPrice");
+  validateFixedPrice.style.display = "none";
+  let value = input.value.replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
+
+  if (type === 1) {
+    let basePrice = parseInt($("#retailPrice").val().replace(/[^\d]/g, ""));
+    if (parseInt(value) > basePrice) {
       value = 0;
-      validateFixedPrice.style.display = 'block';
+      validateFixedPrice.style.display = "block";
     }
   }
 
   let numericValue = parseInt(value, 10);
   if (!isNaN(numericValue)) {
-    const formattedValue = new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
+    const formattedValue = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
     }).format(numericValue);
     input.value = formattedValue;
   } else {
-    input.value = '';
+    input.value = "";
   }
 }
 
 function rangeSlide(value) {
-  document.getElementById('rangeValue').innerHTML = value;
+  document.getElementById("rangeValue").innerHTML = value;
 }
 
 var option_category = [];
 $.getJSON("https://localhost:44328/api/Categories", function (result) {
   for (var i = 0; i < result.length; i++) {
-    option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    option_category.push(
+      '<option value="',
+      result[i].id,
+      '">',
+      result[i].name,
+      "</option>"
+    );
   }
-  $("#category-select").html(option_category.join(''));
+  $("#category-select").html(option_category.join(""));
 });
 
-$('#add-category-now').click(function () {
+$("#add-category-now").click(function () {
   var formData = {
     name: $("#category-name").val(),
   };
@@ -75,31 +80,41 @@ $('#add-category-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('#success').toast('show');
-        $('#add-category').modal('hide');
+        $("#success").toast("show");
+        $("#add-category").modal("hide");
         var option_category = [];
-      $.getJSON("https://localhost:44328/api/Categories", function (result) {
-        for (var i = 0; i < result.length; i++) {
-          option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-        }
-        $("#category-select").html(option_category.join(''));
-      });
+        $.getJSON("https://localhost:44328/api/Categories", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_category.push(
+              '<option value="',
+              result[i].id,
+              '">',
+              result[i].name,
+              "</option>"
+            );
+          }
+          $("#category-select").html(option_category.join(""));
+        });
       },
-
     });
   }
 });
 
-
 var option_sole = [];
 $.getJSON("https://localhost:44328/api/Sole", function (result) {
   for (var i = 0; i < result.length; i++) {
-    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    option_sole.push(
+      '<option value="',
+      result[i].id,
+      '">',
+      result[i].name,
+      "</option>"
+    );
   }
-  $("#sole-select").html(option_sole.join(''));
+  $("#sole-select").html(option_sole.join(""));
 });
 
-$('#add-material-now').click(function () {
+$("#add-material-now").click(function () {
   var formData = {
     name: $("#material-name").val(),
     description: "",
@@ -112,15 +127,21 @@ $('#add-material-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('#success').toast('show');
-        $('#add-material').modal('hide');
+        $("#success").toast("show");
+        $("#add-material").modal("hide");
         var option_material = [];
-$.getJSON("https://localhost:44328/api/Material", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#material-select").html(option_material.join(''));
-});
+        $.getJSON("https://localhost:44328/api/Material", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_material.push(
+              '<option value="',
+              result[i].id,
+              '">',
+              result[i].name,
+              "</option>"
+            );
+          }
+          $("#material-select").html(option_material.join(""));
+        });
       },
     });
   }
@@ -129,12 +150,18 @@ $.getJSON("https://localhost:44328/api/Material", function (result) {
 var option_material = [];
 $.getJSON("https://localhost:44328/api/Material", function (result) {
   for (var i = 0; i < result.length; i++) {
-    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+    option_material.push(
+      '<option value="',
+      result[i].id,
+      '">',
+      result[i].name,
+      "</option>"
+    );
   }
-  $("#material-select").html(option_material.join(''));
+  $("#material-select").html(option_material.join(""));
 });
 
-$('#add-sole-now').click(function () {
+$("#add-sole-now").click(function () {
   var formData = {
     name: $("#sole-name").val(),
     description: "",
@@ -147,32 +174,38 @@ $('#add-sole-now').click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
-        $('#success').toast('show');
-        $('#add-sole').modal('hide');
+        $("#success").toast("show");
+        $("#add-sole").modal("hide");
         var option_sole = [];
-$.getJSON("https://localhost:44328/api/Sole", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#sole-select").html(option_sole.join(''));
-});
+        $.getJSON("https://localhost:44328/api/Sole", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_sole.push(
+              '<option value="',
+              result[i].id,
+              '">',
+              result[i].name,
+              "</option>"
+            );
+          }
+          $("#sole-select").html(option_sole.join(""));
+        });
       },
     });
   }
 });
 
 var product = {
-  "retailPrice": 0,
-  "description": "",
-  "status": 1,
-  "brand": 1,
-  "discountRate": 0,
-  "soleId": 0,
-  "materialId": 0,
-  "name": "",
-  "Categories": [],
-  "Colors": []
-}
+  retailPrice: 0,
+  description: "",
+  status: 1,
+  brand: 1,
+  discountRate: 0,
+  soleId: 0,
+  materialId: 0,
+  name: "",
+  Categories: [],
+  Colors: [],
+};
 
 var selectedColor = -1;
 
@@ -189,82 +222,94 @@ function objectToFormData(obj) {
 }
 // call api len datatable nhan vien
 $(document).ready(function () {
-    // hien thi product
-    $.ajax({
-      url: "https://localhost:44328/api/Product/" + id,
-      type: "GET",
-      dataType: "json",
-      success: function (data) {
-        console.log(JSON.stringify(data));
-        $('#name').val(data.name);
-        $('#description').val(data.description);
-        $('#retailPrice').val(data.retailPrice);
-        $('#sole-select').val(data.soleId);
-        $('#material-select').val(data.materialId);
-        //$('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
-      },
-      error: function () {
-        console.log("Error retrieving data.");
-      }
-    });
+  // hien thi product
+  $.ajax({
+    url: "https://localhost:44328/api/Product/" + id,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log(JSON.stringify(data));
+      $("#name").val(data.name);
+      $("#description").val(data.description);
+      $("#retailPrice").val(data.retailPrice);
+      $("#sole-select").val(data.soleId);
+      $("#material-select").val(data.materialId);
+      //$('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
+    },
+    error: function () {
+      console.log("Error retrieving data.");
+    },
+  });
 
   // call api them nhan vien
-  $('#add-product-form').submit(function (event) {
-    event.preventDefault()
+  $("#add-product-form").submit(function (event) {
+    event.preventDefault();
+    debugger;
 
-    var selectedOptions = $('#category-select').val(); // Get selected options
-    
+    var selectedOptions = $("#category-select").val(); // Get selected options
+
     if (!selectedOptions || selectedOptions.length === 0) {
-      $('#error-category').show();
+      $("#error-category").show();
     } else {
-      $('#error-category').hide();
+      $("#error-category").hide();
     }
-    if (selectedColor===-1) {
-      $('#error-color').show();
+    if (selectedColor === -1) {
+      $("#error-color").show();
     } else {
-      $('#error-color').hide();
+      $("#error-color").hide();
     }
-    if (product.Colors[selectedColor].Sizes.length===0) {
-      $('#error-size').show();
+    if (product.Colors[selectedColor].Sizes.length === 0) {
+      $("#error-size").show();
     } else {
-      $('#error-size').hide();
+      $("#error-size").hide();
     }
-    if (product.Colors[selectedColor].Images.length===0) {
-      $('#error-image').show();
+    if (product.Colors[selectedColor].Images.length === 0) {
+      $("#error-image").show();
     } else {
-      $('#error-image').hide();
+      $("#error-image").hide();
     }
 
     let productFormData = new FormData();
-    productFormData.append('name', $("#name").val());
-    productFormData.append('description', $("#description").val());
-    let value = $("#retailPrice").val().replace(/[^\d]/g, ''); // Loại bỏ các ký tự không phải s
-    productFormData.append('retailPrice',value);
-    let value2 = 0; // Loại bỏ các ký tự không phải s
-    if (selectTypeDiscount === 1){
-      value2 = value - parseInt($("#rangPercen").val())*value/100;
-    }else if (selectTypeDiscount === 2){
-      value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ''));
+    productFormData.append("name", $("#name").val());
+    productFormData.append("description", $("#description").val());
+    let value = $("#retailPrice").val().replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
+    productFormData.append("retailPrice", value);
+    let value2 = 0;
+    if (selectTypeDiscount === 1) {
+      value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
+    } else if (selectTypeDiscount === 2) {
+      value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
     }
-    productFormData.append('discountRate', value2);
-    productFormData.append('soleId', $("#sole-select").val());
-    productFormData.append('materialId', $("#material-select").val());
-    productFormData.append('status', 1);
-    productFormData.append('brand', 1);
+    productFormData.append("discountRate", value2);
+    productFormData.append("soleId", $("#sole-select").val());
+    productFormData.append("materialId", $("#material-select").val());
+    productFormData.append("status", 1);
+    productFormData.append("brand", 1);
 
     if (product.Colors.length !== 0) {
       for (let i = 0; i < product.Colors.length; i++) {
         productFormData.append(`colors[${i}].id`, product.Colors[i].id);
         for (let j = 0; j < product.Colors[i].Images.length; j++) {
-          productFormData.append(`colors[${i}].images[${j}].image`, product.Colors[i].Images[j].file);
-          productFormData.append(`colors[${i}].images[${j}].setAsDefault`, product.Colors[i].Images[j].setAsDefault);
+          productFormData.append(
+            `colors[${i}].images[${j}].image`,
+            product.Colors[i].Images[j].file
+          );
+          productFormData.append(
+            `colors[${i}].images[${j}].setAsDefault`,
+            product.Colors[i].Images[j].setAsDefault
+          );
         }
         for (let y = 0; y < product.Colors[i].Sizes.length; y++) {
-          productFormData.append(`colors[${i}].sizes[${y}].id`, product.Colors[i].Sizes[y].id);
-          productFormData.append(`colors[${i}].sizes[${y}].unitInStock`, product.Colors[i].Sizes[y].unitInStock);
+          productFormData.append(
+            `colors[${i}].sizes[${y}].id`,
+            product.Colors[i].Sizes[y].id
+          );
+          productFormData.append(
+            `colors[${i}].sizes[${y}].unitInStock`,
+            product.Colors[i].Sizes[y].unitInStock
+          );
         }
       }
-
     }
 
     var categories = $("#category-select").val();
@@ -276,9 +321,9 @@ $(document).ready(function () {
 
     // console.log($("#category-select").val());
     for (var pair of productFormData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
+      console.log(pair[0] + ": " + pair[1]);
     }
-    
+
     if (confirm(`Bạn có muốn thêm sản phẩm này không?`)) {
       $.ajax({
         url: "https://localhost:44328/api/Product",
@@ -289,76 +334,70 @@ $(document).ready(function () {
         success: function (response) {
           // localStorage.setItem("productId", response.id);
           // console.log(response.id)
-          $('#success').toast('show');
+          $("#success").toast("show");
           //window.location.href = "/frontend/admin/product-detail.html";
           // reset form
-          var form = $("#add-product-form")[0]; 
+          var form = $("#add-product-form")[0];
           form.reset();
           clearE();
           product = {
-            "retailPrice": 0,
-            "description": "",
-            "status": 1,
-            "brand": 1,
-            "discountRate": 0,
-            "soleId": 0,
-            "materialId": 0,
-            "name": "",
-            "Categories": [],
-            "Colors": []
-          }
+            retailPrice: 0,
+            description: "",
+            status: 1,
+            brand: 1,
+            discountRate: 0,
+            soleId: 0,
+            materialId: 0,
+            name: "",
+            Categories: [],
+            Colors: [],
+          };
         },
-        error: function (response){
-          $('#fail').toast('show');
-          
-        }
+        error: function (response) {
+          $("#fail").toast("show");
+        },
       });
-  } else {
-      return
-  }
-
-
-
+    } else {
+      return;
+    }
   });
 });
 
 $("#add-product-form").validate({
   rules: {
-      "name": {
-          required: true,
-      },
-      "description": {
-        required: true,
-    },
-    "retailPrice": {
+    name: {
       required: true,
-  },
-  "discountRate": {
-    required: true,
-},
-
+    },
+    description: {
+      required: true,
+    },
+    retailPrice: {
+      required: true,
+    },
+    discountRate: {
+      required: true,
+    },
   },
   messages: {
-      "name": {
-          required: "Chưa nhập Tên sản phẩm",
-      },
-      "description": {
-        required: "Chưa nhập mô tả",
+    name: {
+      required: "Chưa nhập Tên sản phẩm",
     },
-    "retailPrice": {
+    description: {
+      required: "Chưa nhập mô tả",
+    },
+    retailPrice: {
       required: "Chưa nhập giá gốc",
-  },
-  "discountRate": {
-    required: "Chưa nhập giảm giá",
-},
+    },
+    discountRate: {
+      required: "Chưa nhập giảm giá",
+    },
   },
 });
-
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {
   const uploadList = document.querySelector(".upload-list");
-  const uploadButton = document.getElementById('upload-button');
+  const uploadButton = document.getElementById("upload-button");
 
   // Xử lý sự kiện khi nhấn nút đóng trong modal
   const handleCancel = () => {
@@ -366,7 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Xử lý sự kiện khi xóa hình ảnh
-
 
   // Lắng nghe sự kiện click nút đóng trong modal
   const modalCloseButton = document.querySelector(".modal-close-button");
@@ -389,15 +427,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Lắng nghe sự kiện click nút tải lên
   uploadButton.addEventListener("click", () => {
     const fileInput = document.getElementById("file-input");
-    console.log('run');
+    console.log("run");
     if (selectedColor === -1) {
-      alert('Bạn phải chọn màu trước');
+      alert("Bạn phải chọn màu trước");
     } else {
       fileInput.click();
     }
   });
-
-
 
   // Lắng nghe sự kiện thay đổi tập tin tải lên
   const fileInput = document.getElementById("file-input");
@@ -419,7 +455,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function handleDelete(file) {
   const uploadButton = document.getElementById("upload-button");
-  const index = product.Colors[selectedColor].Images.findIndex(p => p.file === file);
+  const index = product.Colors[selectedColor].Images.findIndex(
+    (p) => p.file === file
+  );
   if (index > -1) {
     product.Colors[selectedColor].Images.splice(index, 1);
     if (product.Colors[selectedColor].Images.length < 6) {
@@ -434,7 +472,7 @@ function loadImageE() {
   const dynamicDivs = uploadList.querySelectorAll(".preview-container");
   const uploadButton = document.getElementById("upload-button");
 
-  dynamicDivs.forEach(dy => {
+  dynamicDivs.forEach((dy) => {
     uploadList.removeChild(dy);
   });
 
@@ -445,7 +483,7 @@ function loadImageE() {
     }
 
     if (product.Colors[selectedColor].Images.length !== 0) {
-      product.Colors[selectedColor].Images.forEach(img => {
+      product.Colors[selectedColor].Images.forEach((img) => {
         const previewContainer = document.createElement("div");
         previewContainer.className = "preview-container";
         const previewImage = document.createElement("img");
@@ -466,9 +504,7 @@ function loadImageE() {
         uploadList.appendChild(previewContainer);
       });
     }
-
   }
-
 }
 
 function findIndexById(array, id) {
@@ -492,7 +528,7 @@ function clearE() {
     sizeContainer.removeChild(sizeContainer.firstChild);
   }
 
-  dynamicDivs.forEach(dy => {
+  dynamicDivs.forEach((dy) => {
     uploadList.removeChild(dy);
   });
 }
@@ -502,17 +538,16 @@ function loadColorE() {
   plusButtonContainer.innerHTML = "";
 
   if (product.Colors.length !== 0) {
-    product.Colors.forEach(color => {
-      var newDiv = document.createElement('div');
+    product.Colors.forEach((color) => {
+      var newDiv = document.createElement("div");
       newDiv.className = "container-color";
-
 
       var newButton = document.createElement("button");
       newButton.type = "button";
-      newButton.className = 'btn btn-outline-dark';
+      newButton.className = "btn btn-outline-dark";
       newButton.id = color.id;
       newButton.textContent = color.name;
-      newButton.addEventListener('click', function (e) {
+      newButton.addEventListener("click", function (e) {
         selectedColor = findIndexById(product.Colors, e.target.id);
         loadSizeE();
         loadImageE();
@@ -522,7 +557,7 @@ function loadColorE() {
       newRemoveBtn.className = "close-button";
       newRemoveBtn.textContent = " x ";
       newRemoveBtn.id = color.id;
-      newRemoveBtn.addEventListener('click', function (e) {
+      newRemoveBtn.addEventListener("click", function (e) {
         let index = findIndexById(product.Colors, e.target.id);
         product.Colors.splice(index, 1);
         console.log(product);
@@ -550,7 +585,7 @@ function isIdExists(id, array) {
     return item.id === id;
   });
 }
-// add color 
+// add color
 document.addEventListener("DOMContentLoaded", function () {
   var addColorButton = document.getElementById("addColorButton");
   var selectedColorText = {};
@@ -561,7 +596,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (!isIdExists(selectedColorText.id, product.Colors)) {
-      product.Colors.push({ id: selectedColorText.id, name: selectedColorText.text, Images: [], Sizes: [] });
+      product.Colors.push({
+        id: selectedColorText.id,
+        name: selectedColorText.text,
+        Images: [],
+        Sizes: [],
+      });
     } else {
       alert(`Màu ${selectedColorText.text} đã tồn tại!`);
       selectedColorText = {};
@@ -574,29 +614,27 @@ document.addEventListener("DOMContentLoaded", function () {
     loadImageE();
     console.log(product);
 
-
     selectedColorText = {};
-    $('#exampleModalColor').modal('hide');
-
+    $("#exampleModalColor").modal("hide");
   });
 
-  $('#exampleModalColor').on('show.bs.modal', function (event) {
+  $("#exampleModalColor").on("show.bs.modal", function (event) {
     var button = $(event.relatedTarget);
-    selectedColorText = button.data('color');
+    selectedColorText = button.data("color");
   });
 
-  $('#exampleModalColor').on('hide.bs.modal', function () {
+  $("#exampleModalColor").on("hide.bs.modal", function () {
     selectedColorText = ""; // Reset màu đã chọn khi modal đóng
   });
 
   $.ajax({
-    url: 'https://localhost:44328/api/Color/Get',
-    method: 'GET',
-    dataType: 'json',
+    url: "https://localhost:44328/api/Color/Get",
+    method: "GET",
+    dataType: "json",
     success: function (data) {
-      var buttonContainer = $('#colorContainer');
-      var addButton = buttonContainer.find('#add-now-btn'); // Get the "add-now-btn" button
-      var buttonsToKeep = buttonContainer.find('.btn:not(#add-now-btn)'); // Get all buttons except "add-now-btn"
+      var buttonContainer = $("#colorContainer");
+      var addButton = buttonContainer.find("#add-now-btn"); // Get the "add-now-btn" button
+      var buttonsToKeep = buttonContainer.find(".btn:not(#add-now-btn)"); // Get all buttons except "add-now-btn"
 
       buttonContainer.empty(); // Empty the container
 
@@ -605,15 +643,14 @@ document.addEventListener("DOMContentLoaded", function () {
         buttonContainer.append($(this));
       });
       data.forEach(function (item) {
-
-        var button = $('<button></button>');
-        button.attr('type', 'button');
-        button.addClass('btn btn-outline-dark');
-        button.css('margin-left', '3%');
-        button.css('margin-top', '1%');
+        var button = $("<button></button>");
+        button.attr("type", "button");
+        button.addClass("btn btn-outline-dark");
+        button.css("margin-left", "3%");
+        button.css("margin-top", "1%");
         button.text(item.name);
-        button.attr('data-color', item.name);
-        button.attr('id', item.id);
+        button.attr("data-color", item.name);
+        button.attr("id", item.id);
         button.click(function () {
           selectedColorText = { id: item.id, text: item.name };
         });
@@ -623,15 +660,15 @@ document.addEventListener("DOMContentLoaded", function () {
       buttonContainer.append(addButton); // Append the "add-now-btn" button back
     },
     error: function () {
-      console.error('Error fetching data.');
-    }
+      console.error("Error fetching data.");
+    },
   });
 
   // add color nhanh
-  $('#add-color-now').click(function () {
+  $("#add-color-now").click(function () {
     // thêm nút ban đầu
-    var buttonContainer = $('#colorContainer');
-    var addButton = buttonContainer.find('#add-now-btn');
+    var buttonContainer = $("#colorContainer");
+    var addButton = buttonContainer.find("#add-now-btn");
     buttonContainer.empty();
     buttonContainer.append(addButton);
     var formData = {
@@ -644,15 +681,17 @@ document.addEventListener("DOMContentLoaded", function () {
         data: JSON.stringify(formData),
         contentType: "application/json",
         success: function (response) {
-          $('#exampleModalAddColor').modal('hide');
+          $("#exampleModalAddColor").modal("hide");
           $.ajax({
-            url: 'https://localhost:44328/api/Color/Get',
-            method: 'GET',
-            dataType: 'json',
+            url: "https://localhost:44328/api/Color/Get",
+            method: "GET",
+            dataType: "json",
             success: function (data) {
-              var buttonContainer = $('#colorContainer');
-              var addButton = buttonContainer.find('#add-now-btn'); // Get the "add-now-btn" button
-              var buttonsToKeep = buttonContainer.find('.btn:not(#add-now-btn)'); // Get all buttons except "add-now-btn"
+              var buttonContainer = $("#colorContainer");
+              var addButton = buttonContainer.find("#add-now-btn"); // Get the "add-now-btn" button
+              var buttonsToKeep = buttonContainer.find(
+                ".btn:not(#add-now-btn)"
+              ); // Get all buttons except "add-now-btn"
 
               buttonContainer.empty(); // Empty the container
 
@@ -661,15 +700,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 buttonContainer.append($(this));
               });
               data.forEach(function (item) {
-
-                var button = $('<button></button>');
-                button.attr('type', 'button');
-                button.addClass('btn btn-outline-dark');
-                button.css('margin-left', '3%');
-                button.css('margin-top', '1%');
+                var button = $("<button></button>");
+                button.attr("type", "button");
+                button.addClass("btn btn-outline-dark");
+                button.css("margin-left", "3%");
+                button.css("margin-top", "1%");
                 button.text(item.name);
-                button.attr('data-color', item.name);
-                button.attr('id', item.id);
+                button.attr("data-color", item.name);
+                button.attr("id", item.id);
                 button.click(function () {
                   selectedColorText = { id: item.id, text: item.name };
                 });
@@ -679,10 +717,10 @@ document.addEventListener("DOMContentLoaded", function () {
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
             error: function () {
-              console.error('Error fetching data.');
-            }
+              console.error("Error fetching data.");
+            },
           });
-          $('#exampleModalColor').modal('show');
+          $("#exampleModalColor").modal("show");
         },
       });
     }
@@ -698,32 +736,36 @@ function loadSizeE() {
 
   if (product.Colors.length !== 0) {
     if (product.Colors[selectedColor].Sizes.length !== 0) {
-      product.Colors[selectedColor].Sizes.forEach(element => {
+      product.Colors[selectedColor].Sizes.forEach((element) => {
         var container = document.createElement("div");
         container.className = "container-unit";
 
         // thêm ô hiển thị size
         var newButton = document.createElement("button");
-        newButton.className = 'btn btn-outline-dark';
+        newButton.className = "btn btn-outline-dark";
         newButton.textContent = element.numberSize;
 
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
-        newInput.className = 'input-unit';
-        newInput.placeholder = "Điền số lượng"
-        newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
+        newInput.className = "input-unit";
+        newInput.placeholder = "Điền số lượng";
+        newInput.value = element.unitInStock >= 0 ? element.unitInStock : "";
         newInput.min = 1;
         newInput.value = 1;
-        newInput.addEventListener('change', function () {
+        newInput.addEventListener("change", function () {
           if (parseInt(newInput.value) < 0) {
             newInput.value = 1;
           } else {
-            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
-            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
+            let index = product.Colors[selectedColor].Sizes.findIndex(
+              (p) => p.id === element.id
+            );
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
+              newInput.value
+            );
           }
         });
 
-        newInput.addEventListener('input', function() {
+        newInput.addEventListener("input", function () {
           if (newInput.value < 1) {
             newInput.value = 1;
           }
@@ -732,11 +774,13 @@ function loadSizeE() {
         // thêm nút x bỏ
         var newXButton = document.createElement("button");
         newXButton.type = "button";
-        newXButton.className = 'btn btn-danger';
-        newXButton.textContent = 'x';
-        newXButton.addEventListener('click', function () {
+        newXButton.className = "btn btn-danger";
+        newXButton.textContent = "x";
+        newXButton.addEventListener("click", function () {
           if (confirm("Bạn có muốn xóa thuộc tính này?")) {
-            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            let index = product.Colors[selectedColor].Sizes.findIndex(
+              (p) => p.id === element.id
+            );
             product.Colors[selectedColor].Sizes.splice(index, 1);
             loadSizeE();
           }
@@ -751,7 +795,7 @@ function loadSizeE() {
   }
 }
 
-// add size 
+// add size
 document.addEventListener("DOMContentLoaded", function () {
   var addColorButton = document.getElementById("addSizeButton");
   var selectedColorText = {};
@@ -761,7 +805,10 @@ document.addEventListener("DOMContentLoaded", function () {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
-    if (selectedColor !== -1 && !isIdExists(selectedColorText.id, product.Colors[selectedColor].Sizes)) {
+    if (
+      selectedColor !== -1 &&
+      !isIdExists(selectedColorText.id, product.Colors[selectedColor].Sizes)
+    ) {
       product.Colors[selectedColor].Sizes.push(selectedColorText);
     } else {
       alert(`Size ${selectedColorText.numberSize} đã tồn tại`);
@@ -769,31 +816,31 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     loadSizeE();
-    $('#exampleModalSize').modal('hide');
+    $("#exampleModalSize").modal("hide");
     selectedColorText = {};
   });
 
-  $('#exampleModalSize').on('show.bs.modal', function (event) {
+  $("#exampleModalSize").on("show.bs.modal", function (event) {
     if (selectedColor === -1) {
-      alert('Bạn phải chọn màu trước');
+      alert("Bạn phải chọn màu trước");
       event.preventDefault();
     }
     var button = $(event.relatedTarget);
-    selectedColorText = button.data('color');
+    selectedColorText = button.data("color");
   });
 
-  $('#exampleModalSize').on('hide.bs.modal', function () {
+  $("#exampleModalSize").on("hide.bs.modal", function () {
     selectedColorText = {}; // Reset màu đã chọn khi modal đóng
   });
 
   $.ajax({
-    url: 'https://localhost:44328/api/Size/Get',
-    method: 'GET',
-    dataType: 'json',
+    url: "https://localhost:44328/api/Size/Get",
+    method: "GET",
+    dataType: "json",
     success: function (data) {
-      var buttonContainer = $('#sizeContainer');
-      var addButton = buttonContainer.find('#add-size-now'); // Get the "add-now-btn" button
-      var buttonsToKeep = buttonContainer.find('.btn:not(#add-size-now)'); // Get all buttons except "add-now-btn"
+      var buttonContainer = $("#sizeContainer");
+      var addButton = buttonContainer.find("#add-size-now"); // Get the "add-now-btn" button
+      var buttonsToKeep = buttonContainer.find(".btn:not(#add-size-now)"); // Get all buttons except "add-now-btn"
 
       buttonContainer.empty(); // Empty the container
 
@@ -803,15 +850,19 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       data.forEach(function (item) {
-        var button = $('<button></button>');
-        button.attr('type', 'button');
-        button.addClass('btn btn-outline-dark');
-        button.css('margin-left', '3%');
-        button.css('margin-top', '1%');
+        var button = $("<button></button>");
+        button.attr("type", "button");
+        button.addClass("btn btn-outline-dark");
+        button.css("margin-left", "3%");
+        button.css("margin-top", "1%");
         button.text(item.numberSize);
-        button.attr('data-color', item.numberSize);
+        button.attr("data-color", item.numberSize);
         button.click(function () {
-          selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
+          selectedColorText = {
+            id: item.id,
+            numberSize: item.numberSize,
+            unitInStock: 0,
+          };
         });
         buttonContainer.append(button);
       });
@@ -819,14 +870,14 @@ document.addEventListener("DOMContentLoaded", function () {
       buttonContainer.append(addButton); // Append the "add-now-btn" button back
     },
     error: function () {
-      console.error('Error fetching data.');
-    }
+      console.error("Error fetching data.");
+    },
   });
   // add color nhanh
-  $('#add-size-now-btn').click(function () {
+  $("#add-size-now-btn").click(function () {
     // thêm nút ban đầu
-    var buttonContainer = $('#sizeContainer');
-    var addButton = buttonContainer.find('#add-size-now');
+    var buttonContainer = $("#sizeContainer");
+    var addButton = buttonContainer.find("#add-size-now");
     buttonContainer.empty();
     buttonContainer.append(addButton);
     var formData = {
@@ -839,15 +890,17 @@ document.addEventListener("DOMContentLoaded", function () {
         data: JSON.stringify(formData),
         contentType: "application/json",
         success: function (response) {
-          $('#exampleModalAddSize').modal('hide');
+          $("#exampleModalAddSize").modal("hide");
           $.ajax({
-            url: 'https://localhost:44328/api/Size/Get',
-            method: 'GET',
-            dataType: 'json',
+            url: "https://localhost:44328/api/Size/Get",
+            method: "GET",
+            dataType: "json",
             success: function (data) {
-              var buttonContainer = $('#sizeContainer');
-              var addButton = buttonContainer.find('#add-size-now'); // Get the "add-now-btn" button
-              var buttonsToKeep = buttonContainer.find('.btn:not(#add-size-now)'); // Get all buttons except "add-now-btn"
+              var buttonContainer = $("#sizeContainer");
+              var addButton = buttonContainer.find("#add-size-now"); // Get the "add-now-btn" button
+              var buttonsToKeep = buttonContainer.find(
+                ".btn:not(#add-size-now)"
+              ); // Get all buttons except "add-now-btn"
 
               buttonContainer.empty(); // Empty the container
 
@@ -857,15 +910,19 @@ document.addEventListener("DOMContentLoaded", function () {
               });
 
               data.forEach(function (item) {
-                var button = $('<button></button>');
-                button.attr('type', 'button');
-                button.addClass('btn btn-outline-dark');
-                button.css('margin-left', '3%');
-                button.css('margin-top', '1%');
+                var button = $("<button></button>");
+                button.attr("type", "button");
+                button.addClass("btn btn-outline-dark");
+                button.css("margin-left", "3%");
+                button.css("margin-top", "1%");
                 button.text(item.numberSize);
-                button.attr('data-color', item.numberSize);
+                button.attr("data-color", item.numberSize);
                 button.click(function () {
-                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
+                  selectedColorText = {
+                    id: item.id,
+                    numberSize: item.numberSize,
+                    unitInStock: 0,
+                  };
                 });
                 buttonContainer.append(button);
               });
@@ -873,23 +930,13 @@ document.addEventListener("DOMContentLoaded", function () {
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
             error: function () {
-              console.error('Error fetching data.');
-            }
+              console.error("Error fetching data.");
+            },
           });
 
-          $('#exampleModalSize').modal('show');
+          $("#exampleModalSize").modal("show");
         },
       });
     }
   });
 });
-
-
-
-
-
-
-
-
-
-
