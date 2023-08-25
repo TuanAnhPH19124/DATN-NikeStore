@@ -3,13 +3,16 @@ using Domain.Repositories;
 using EntitiesDto.Product;
 using EntitiesDto.Stock;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -68,13 +71,11 @@ namespace Service
             return product;
         }
 
-        
 
-        public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
-        {
-            List<Product> productList = await _repositoryManger.ProductRepository.GetAllProductAsync(cancellationToken);
-            return productList;
-        }
+
+
+
+
 
         public async Task<Product> GetByIdProduct(string id, CancellationToken cancellationToken = default)
         {
@@ -94,8 +95,8 @@ namespace Service
 
             // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
             existingProduct.Name = updatedProduct.Name;
-            existingProduct.RetailPrice = updatedProduct.RetailPrice;       
-            existingProduct.Description = updatedProduct.Description;     
+            existingProduct.RetailPrice = updatedProduct.RetailPrice;
+            existingProduct.Description = updatedProduct.Description;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
             existingProduct.Status = updatedProduct.Status;
 
@@ -118,7 +119,7 @@ namespace Service
 
             var productDTOs = products.Select(product => new ProductForFilterDto
             {
-               
+
                 // Sao chép các thuộc tính khác từ product
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
@@ -140,13 +141,18 @@ namespace Service
             return productDTOs;
         }
 
-
+        public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
+        {
+          return  await _repositoryManger.ProductRepository.GetAllProductAsync();
+        }
     }
-
-
-
-
-
 }
+
+
+
+
+
+
+    
 
 
