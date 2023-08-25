@@ -11,7 +11,7 @@ namespace EntitiesDto.Product
     public class ProductForFilterDto
     {
         public string BarCode { get; set; }
-        public double CostPrice { get; set; }
+      
         public double RetailPrice { get; set; }
         public string Description { get; set; }
         public Status Status { get; set; } = Status.ACTIVE;

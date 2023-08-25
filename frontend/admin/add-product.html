@@ -601,8 +601,9 @@
               <form id="add-product-form">
                 <div class="row">
                   <div class="col">
-                    <label class="label">Tên sản phẩm</label>
+                    <label for="name">Tên sản phẩm</label>
                     <input type="text" class="form-control" id="name" name="name" />
+                    <div id="name-error" class="error"></div>
                   </div>
                   <div class="col">
                     <button type="submit" id="addProductBtn" class="btn btn-dark" style="float: right; margin-top: 30px; font-weight: bold;background-color: #1967d2;border-color: #1967d2;">
@@ -685,7 +686,10 @@
                         ">
                       <div class="form-group" style="width: 75%">
                         <select class="form-control" placeholder="Danh mục" id="category-select"  multiple="multiple"></select>
-                      <div id="error-category" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn danh mục.</div>
+                      <div id="error-category" style="color: red;
+                      font-size: 1em;
+                      width: 100%;
+                      font-weight: 600;display: none;">Chưa chọn danh mục.</div>
 
                       </div>
 
@@ -851,7 +855,10 @@
                         data-bs-target="#exampleModalColor" >
                         + Thêm màu sắc
                       </button>
-                      <div id="error-color" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn màu sắc.</div>
+                      <div id="error-color" style="color: red;
+                      font-size: 1em;
+                      width: 100%;
+                      font-weight: 600;display: none;">Chưa chọn màu sắc.</div>
 
                       <!-- Modal -->
                       <div class="modal fade" id="exampleModalColor" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -1046,7 +1053,10 @@
                       </div>
                     </div>
                   </div>
-                  <div id="error-size" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn kích cỡ.</div>
+                  <div id="error-size" style="color: red;
+                  font-size: 1em;
+                  width: 100%;
+                  font-weight: 600;display: none;">Chưa chọn kích cỡ.</div>
                   <div
                     id="root"
                     style="margin-top: 10px"
@@ -1067,7 +1077,10 @@
                       <div class="upload-button-text">Upload</div>
                     </div>
                   </div>
-                  <div id="error-image" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn ảnh.</div>
+                  <div id="error-image" style="color: red;
+                  font-size: 1em;
+                  width: 100%;
+                  font-weight: 600;display: none;">Chưa chọn ảnh.</div>
 
                   <div class="preview-modal">
                     <div class="modal-overlay"></div>
