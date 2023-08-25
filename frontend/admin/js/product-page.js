@@ -15,9 +15,9 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'id', 'title': 'Ảnh',
+            { "data": 'productImages[0].imageUrl', 'title': 'Ảnh',
             "render": function (data, type, row) {
-                    return `<img src="https://localhost:44328/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>`;
+                    return `<img src="https://localhost:44328/${data}" alt="" style="border-radius: 10%;" width=120px height=110px>`;
             }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
             { "data": 'retailPrice', 'title': 'Giá bán',
