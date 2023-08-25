@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <title>Nike Sneaker World</title>
 
-  <title>Nike Sneaker World</title>
-
-  <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet" />
+    <!-- Custom fonts for this template -->
+    <link
+      href="vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
 
   <!-- Custom styles for this template -->
   <link href="css/sb-admin-2.min.css" rel="stylesheet" />
@@ -30,6 +37,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <style>
+    :root {
+      --bs-white-blue: #f1faff;
+      --bs-blue-light: #3E97FF;
+    }
     .input-unit {
       max-width: 115px;
       margin: 0 5px;
@@ -39,39 +50,136 @@
       border: 1px dashed black;
     }
 
-    .container-unit {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+      .container-unit {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
 
-    .container-color {
-      position: relative;
-      margin: 4px;
-      display: inline-block;
-    }
+      .container-color {
+        position: relative;
+        margin: 4px;
+        display: inline-block;
+      }
 
-    .close-button {
-      display: none;
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 20px;
-      height: 20px;
-      background-color: red;
-      border: none;
-      border-radius: 50%;
-      /* Để tạo viền hình tròn */
-      font-weight: bold;
-      opacity: 0.9;
-      color: white;
-      font-size: 12px;
-      cursor: pointer;
-    }
+      .close-button {
+        display: none;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border: none;
+        border-radius: 50%;
+        /* Để tạo viền hình tròn */
+        font-weight: bold;
+        opacity: 0.9;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+      }
 
     .container-color:hover .close-button {
       display: block;
       /* Hiển thị nút khi hover vào div */
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      /* Khoảng cách giữa các tùy chọn */
+      margin-top: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      border: 2px dashed black;
+      border-radius: 5px;
+      padding: 15px 0;
+    }
+
+    .dot {
+      width: 15px;
+      height: 15px;
+      margin-left: 30px;
+      border-radius: 50%;
+      background-color: lightgray;
+      opacity: 0.5;
+      margin-right: 10px;
+      /* Khoảng cách giữa chấm tròn và chữ */
+      transition: background-color 0.3s ease;
+    }
+
+    .option.selected .dot {
+      background-color: var(--bs-blue-light);
+      /* Màu xanh cho loại giảm giá đã chọn */
+    }
+
+    .option.selected {
+      background-color: var(--bs-white-blue);
+      border-color: var(--bs-blue-light);
+      /* Màu xanh cho loại giảm giá đã chọn */
+    }
+
+    .option:hover {
+      border-color: var(--bs-blue-light);
+      background-color: var(--bs-white-blue);
+    }
+
+    .range[type="range"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      background-color: transparent;
+
+      &:focus {
+        outline-color: #f8b195;
+      }
+    }
+
+    .range[type="range"]::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 5px;
+      border-radius: 10px;
+      background-color: var(--bs-white-blue);
+      /* background: rgb(246, 114, 128);
+      background: -webkit-linear-gradient(left,
+          rgba(246, 114, 128, 1) 0%,
+          rgba(192, 108, 132, 1) 50%,
+          rgba(53, 92, 125, 1) 100%);
+      background: linear-gradient(to right,
+          rgba(246, 114, 128, 1) 0%,
+          rgba(192, 108, 132, 1) 50%,
+          rgba(53, 92, 125, 1) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f67280",
+          endColorstr="#355c7d",
+          GradientType=1); */
+    }
+
+    .range[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+
+      border-radius: 50%;
+      height: 20px;
+      width: 20px;
+      position: relative;
+      bottom: 8px;
+      background: var(--bs-blue-light);
+      background-size: 50%;
+      box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.4);
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
     }
   </style>
 </head>
@@ -87,275 +195,400 @@
         <div class="sidebar-brand-text mx-3">Sneaker World</div>
       </a>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0" />
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0" />
 
-      <!-- Divider -->
-      <hr class="sidebar-divider" />
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
 
-      <!-- Heading -->
+        <!-- Heading -->
 
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-cubes"></i>
-          <span>Quản lý sản phẩm</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="category.html">Danh mục</a>
-            <a class="collapse-item" href="color.html">Màu sắc</a>
-            <a class="collapse-item" href="size.html">Kích cỡ</a>
-            <a class="collapse-item" href="sole.html">Đế giày</a>
-            <a class="collapse-item" href="material.html">Chất liệu</a>
-            <a class="collapse-item" href="product-page.html">Sản phẩm</a>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseTwo"
+            aria-expanded="true"
+            aria-controls="collapseTwo"
+          >
+            <i class="fas fa-cubes"></i>
+            <span>Quản lý sản phẩm</span>
+          </a>
+          <div
+            id="collapseTwo"
+            class="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="category.html">Danh mục</a>
+              <a class="collapse-item" href="color.html">Màu sắc</a>
+              <a class="collapse-item" href="size.html">Kích cỡ</a>
+              <a class="collapse-item" href="sole.html">Đế giày</a>
+              <a class="collapse-item" href="material.html">Chất liệu</a>
+              <a class="collapse-item" href="product-page.html">Sản phẩm</a>
+            </div>
           </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-credit-card"></i>
-          <span>Bán hàng</span>
-        </a>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="create-bill.html">Bán hàng tại quầy</a>
-            <a class="collapse-item" href="order.html">Bán hàng Online</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseTwo"
+          >
+            <i class="fas fa-credit-card"></i>
+            <span>Bán hàng</span>
+          </a>
+          <div
+            id="collapseOne"
+            class="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="create-bill.html"
+                >Bán hàng tại quầy</a
+              >
+              <a class="collapse-item" href="order.html">Bán hàng Online</a>
+            </div>
           </div>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="bill.html">
-          <i class="fas fa-file-invoice-dollar"></i>
-          <span>Quản lý hóa đơn</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Thống kê</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="voucher.html">
-          <i class="far fa-money-bill-alt"></i>
-          <span>Khuyến mại</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fas fa-user-circle"></i>
-          <span>Quản lý tài khoản</span>
-        </a>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="staff.html">Nhân viên</a>
-            <a class="collapse-item" href="customer.html">Khách hàng</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="bill.html">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Quản lý hóa đơn</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Thống kê</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="voucher.html">
+            <i class="far fa-money-bill-alt"></i>
+            <span>Khuyến mại</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseThree"
+            aria-expanded="true"
+            aria-controls="collapseTwo"
+          >
+            <i class="fas fa-user-circle"></i>
+            <span>Quản lý tài khoản</span>
+          </a>
+          <div
+            id="collapseThree"
+            class="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="staff.html">Nhân viên</a>
+              <a class="collapse-item" href="customer.html">Khách hàng</a>
+            </div>
           </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block" />
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
-      </li>
+      </ul>
+      <!-- End of Sidebar -->
 
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block" />
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          <nav
+            class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+          >
+            <!-- Sidebar Toggle (Topbar) -->
+            <form class="form-inline">
+              <button
+                id="sidebarToggleTop"
+                class="btn btn-link d-md-none rounded-circle mr-3"
+              >
+                <i class="fa fa-bars"></i>
+              </button>
+            </form>
 
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-    </ul>
-    <!-- End of Sidebar -->
+            <!-- Topbar Search -->
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-      <!-- Main Content -->
-      <div id="content">
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-          <!-- Sidebar Toggle (Topbar) -->
-          <form class="form-inline">
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
-          </form>
-
-          <!-- Topbar Search -->
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                      aria-label="Search" aria-describedby="basic-addon2" />
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
-
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
-              <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">Alerts Center</h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+              <li class="nav-item dropdown no-arrow d-sm-none">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="searchDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-search fa-fw"></i>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
+                <!-- Dropdown - Messages -->
+                <div
+                  class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                  aria-labelledby="searchDropdown"
+                >
+                  <form class="form-inline mr-auto w-100 navbar-search">
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control bg-light border-0 small"
+                        placeholder="Search for..."
+                        aria-label="Search"
+                        aria-describedby="basic-addon2"
+                      />
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for
-                    your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-              </div>
-            </li>
+                  </form>
+                </div>
+              </li>
 
-            <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">Message Center</h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="..." />
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">
-                      Hi there! I am wondering if you can help me with a
-                      problem I've been having.
-                    </div>
-                    <div class="small text-gray-500">Emily Fowler · 58m</div>
-                  </div>
+              <!-- Nav Item - Alerts -->
+              <li class="nav-item dropdown no-arrow mx-1">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="alertsDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-bell fa-fw"></i>
+                  <!-- Counter - Alerts -->
+                  <span class="badge badge-danger badge-counter">3+</span>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="..." />
-                    <div class="status-indicator"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">
-                      I have the photos that you ordered last month, how would
-                      you like them sent to you?
+                <!-- Dropdown - Alerts -->
+                <div
+                  class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="alertsDropdown"
+                >
+                  <h6 class="dropdown-header">Alerts Center</h6>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-primary">
+                        <i class="fas fa-file-alt text-white"></i>
+                      </div>
                     </div>
-                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="..." />
-                    <div class="status-indicator bg-warning"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">
-                      Last month's report looks great, I am very happy with
-                      the progress so far, keep up the good work!
+                    <div>
+                      <div class="small text-gray-500">December 12, 2019</div>
+                      <span class="font-weight-bold"
+                        >A new monthly report is ready to download!</span
+                      >
                     </div>
-                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="..." />
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">
-                      Am I a good boy? The reason I ask is because someone
-                      told me that people say this to all dogs, even if they
-                      aren't good...
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-success">
+                        <i class="fas fa-donate text-white"></i>
+                      </div>
                     </div>
-                    <div class="small text-gray-500">
-                      Chicken the Dog · 2w
+                    <div>
+                      <div class="small text-gray-500">December 7, 2019</div>
+                      $290.29 has been deposited into your account!
                     </div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
-            </li>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-warning">
+                        <i class="fas fa-exclamation-triangle text-white"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="small text-gray-500">December 2, 2019</div>
+                      Spending Alert: We've noticed unusually high spending for
+                      your account.
+                    </div>
+                  </a>
+                  <a
+                    class="dropdown-item text-center small text-gray-500"
+                    href="#"
+                    >Show All Alerts</a
+                  >
+                </div>
+              </li>
 
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/frontend/admin/user-info.html">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Hồ sơ
+              <!-- Nav Item - Messages -->
+              <li class="nav-item dropdown no-arrow mx-1">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="messagesDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-envelope fa-fw"></i>
+                  <!-- Counter - Messages -->
+                  <span class="badge badge-danger badge-counter">7</span>
                 </a>
-                <!-- <a class="dropdown-item" href="#">
+                <!-- Dropdown - Messages -->
+                <div
+                  class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="messagesDropdown"
+                >
+                  <h6 class="dropdown-header">Message Center</h6>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <img
+                        class="rounded-circle"
+                        src="img/undraw_profile_1.svg"
+                        alt="..."
+                      />
+                      <div class="status-indicator bg-success"></div>
+                    </div>
+                    <div class="font-weight-bold">
+                      <div class="text-truncate">
+                        Hi there! I am wondering if you can help me with a
+                        problem I've been having.
+                      </div>
+                      <div class="small text-gray-500">Emily Fowler · 58m</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <img
+                        class="rounded-circle"
+                        src="img/undraw_profile_2.svg"
+                        alt="..."
+                      />
+                      <div class="status-indicator"></div>
+                    </div>
+                    <div>
+                      <div class="text-truncate">
+                        I have the photos that you ordered last month, how would
+                        you like them sent to you?
+                      </div>
+                      <div class="small text-gray-500">Jae Chun · 1d</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <img
+                        class="rounded-circle"
+                        src="img/undraw_profile_3.svg"
+                        alt="..."
+                      />
+                      <div class="status-indicator bg-warning"></div>
+                    </div>
+                    <div>
+                      <div class="text-truncate">
+                        Last month's report looks great, I am very happy with
+                        the progress so far, keep up the good work!
+                      </div>
+                      <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                    </div>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                      <img
+                        class="rounded-circle"
+                        src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                        alt="..."
+                      />
+                      <div class="status-indicator bg-success"></div>
+                    </div>
+                    <div>
+                      <div class="text-truncate">
+                        Am I a good boy? The reason I ask is because someone
+                        told me that people say this to all dogs, even if they
+                        aren't good...
+                      </div>
+                      <div class="small text-gray-500">
+                        Chicken the Dog · 2w
+                      </div>
+                    </div>
+                  </a>
+                  <a
+                    class="dropdown-item text-center small text-gray-500"
+                    href="#"
+                    >Read More Messages</a
+                  >
+                </div>
+              </li>
+
+              <div class="topbar-divider d-none d-sm-block"></div>
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                    >Admin</span
+                  >
+                  <img
+                    class="img-profile rounded-circle"
+                    src="img/undraw_profile.svg"
+                  />
+                </a>
+                <!-- Dropdown - User Information -->
+                <div
+                  class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="userDropdown"
+                >
+                  <a
+                    class="dropdown-item"
+                    href="/frontend/admin/user-info.html"
+                  >
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Hồ sơ
+                  </a>
+                  <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Giao ca
                                 </a> -->
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Đăng xuất
-                </a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <!-- End of Topbar -->
+                  <div class="dropdown-divider"></div>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#logoutModal"
+                  >
+                    <i
+                      class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+                    ></i>
+                    Đăng xuất
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -369,7 +602,7 @@
                 <div class="row">
                   <div class="col">
                     <label class="label">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="name" name="name" required/>
+                    <input type="text" class="form-control" id="name" name="name" />
                   </div>
                   <div class="col">
                     <button type="submit" id="addProductBtn" class="btn btn-dark" style="float: right; margin-top: 30px; font-weight: bold;background-color: #1967d2;border-color: #1967d2;">
@@ -381,19 +614,68 @@
                 <div class="row">
                   <div class="col">
                     <label class="label">Mô tả</label>
-                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" ></textarea>
                   </div>
                 </div>
                 <br />
+
+                <div class="row" style="background-color: white; border-radius: 10px;">
+                  <div class="col" style="margin: 5px; padding: 0;">
+                    <label class="label">Giá gốc</label>
+                    <input type="text"
+                      style="font-size: 14px; font-weight: 400;" class="form-control" id="retailPrice"
+                      name="retailPrice" onchange="formatCurrency(this, 0)"  />
+                    <span style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Thiết lập giá sản phẩm.</span>
+                  </div>
+                  <div class="row mt-3">
+                    <label class="fs-6 mb-2 fw-semibold">Loại giảm giá</label>
+                    <div class="col">
+                      <label class="option selected" onclick="selectDiscountType(0)" >
+                        <input type="radio" name="discount" value="no_discount" hidden>
+                        <div class="dot"></div>
+                        <span style="font-size: 17px; font-weight: 500;">Không giảm giá</span>
+                      </label>
+                    </div>
+                    <div class="col">
+                      <label class="option" onclick="selectDiscountType(1)">
+                        <input type="radio" name="discount" value="percen" hidden>
+                        <div class="dot"></div>
+                        <span style="font-size: 17px; font-weight: 500;">Phần trắm %</span>
+                      </label>
+                    </div>
+                    <div class="col">
+                      <label class="option" onclick="selectDiscountType(2)">
+                        <input type="radio" name="discount" value="fixed" hidden>
+                        <div class="dot"></div>
+                        <span style="font-size: 17px; font-weight: 500;">Giá chiết khấu</span>
+                      </label>
+                    </div>
+                  </div>
+                  <!-- phần trăm -->
+                  <div class="row " id="discountPercen" style="display: none;">
+                    <label class="" style="font-size: 0.90rem; font-weight: 500;">Thiết lập phần trăm giảm giá</label>
+                    <div class="d-flex align-items-start justify-content-center mb-7">
+                      <span id="rangeValue" class="fw-bold fs-1">0</span>
+                      <span class="fw-bold fs-5 mt-1 ms-2">%</span>
+                    </div>
+                    <Input class="range" type="range" name="" value="1" min="1" max="100" id="rangPercen"
+                      onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+                      <label class="mt-2" style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Thiết lập phần trăm giảm giá để áp dụng trên sản phẩm này</label>
+                  </div>
+                  <!-- chiết khấu -->
+                  <div class="row " id="discountFixed" style="display: none;">
+                    <div class="col">
+                      <label class="mb-3" style="font-size: 0.90rem; font-weight: 500;">Giá chiết khấu cố định</label>
+                    <input type="text"
+                      style="font-size: 14px; font-weight: 400;" class="form-control" id="fixedPrice"
+                      name="" onchange="formatCurrency(this, 1)" />
+                    <span style="font-size: 0.80rem; font-weight: 400; opacity: 0.6;">Đặt giá sản phẩm chiết khấu. Sản phẩm sẽ được giảm giá theo mức giá cố định đã xác định.</span>
+                    <span id="validateFixedPrice" style="font-size: 0.90rem; font-weight: 500; opacity: 0.6; color: red; display: none;">Giá chiết khấu không được lớn hơn giá gốc</span>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
-                  <div class="col">
-                    <label class="label">Giá bán</label>
-                    <input type="text" class="form-control" id="retailPrice" name="retailPrice" required/>
-                  </div>
-                  <div class="col">
-                    <label class="label">Khuyến mãi</label>
-                    <input type="text" class="form-control" id="discountRate" name="discountRate" required/>
-                  </div>
                   <div class="col">
                     <label class="label">Danh mục</label>
                     <div style="
@@ -402,7 +684,9 @@
                           justify-content: space-between;
                         ">
                       <div class="form-group" style="width: 75%">
-                        <select class="form-control" placeholder="Danh mục" id="category-select" required multiple></select>
+                        <select class="form-control" placeholder="Danh mục" id="category-select"  multiple="multiple"></select>
+                      <div id="error-category" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn danh mục.</div>
+
                       </div>
 
                       <!-- Button trigger modal -->
@@ -411,8 +695,8 @@
                       </button>
 
                       <!-- Modal -->
-                      <div class="modal fade" id="add-category" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="add-category" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -434,7 +718,8 @@
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Hủy
                               </button>
-                              <button type="button" class="btn btn-dark" id="add-category-now" style="background-color: #1967d2;border-color: #1967d2;">
+                              <button type="button" class="btn btn-dark" id="add-category-now"
+                                style="background-color: #1967d2;border-color: #1967d2;">
                                 Thêm
                               </button>
                             </div>
@@ -451,11 +736,15 @@
                           display: flex;
                           align-items: baseline;
                           justify-content: space-between;
-                        ">
-                      <div class="form-group" style="width: 85%">
-                        <select class="form-control" placeholder="Danh mục" id="sole-select" required>
-                        </select>
-                      </div>
+                        "
+                      >
+                        <div class="form-group" style="width: 85%">
+                          <select
+                            class="form-control"
+                            placeholder="Danh mục"
+                            id="sole-select"
+                          ></select>
+                        </div>
 
                       <!-- Button trigger modal -->
                       <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-sole" style="background-color: #1967d2;border-color: #1967d2;">
@@ -463,8 +752,8 @@
                       </button>
 
                       <!-- Modal -->
-                      <div class="modal fade" id="add-sole" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="add-sole" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -486,7 +775,8 @@
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Hủy
                               </button>
-                              <button type="button" class="btn btn-dark" id="add-sole-now" style="background-color: #1967d2;border-color: #1967d2;">
+                              <button type="button" class="btn btn-dark" id="add-sole-now"
+                                style="background-color: #1967d2;border-color: #1967d2;">
                                 Thêm
                               </button>
                             </div>
@@ -501,11 +791,15 @@
                           display: flex;
                           align-items: baseline;
                           justify-content: space-between;
-                        ">
-                      <div class="form-group" style="width: 85%">
-                        <select class="form-control" placeholder="Danh mục" id="material-select" required>
-                        </select>
-                      </div>
+                        "
+                      >
+                        <div class="form-group" style="width: 85%">
+                          <select
+                            class="form-control"
+                            placeholder="Danh mục"
+                            id="material-select"
+                          ></select>
+                        </div>
 
                       <!-- Button trigger modal -->
                       <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-material" style="background-color: #1967d2;border-color: #1967d2;">
@@ -553,10 +847,11 @@
                       <!-- Button trigger modal -->
                       <div id="render-color" style="display: flex;">
                       </div>
-                      <button type="button" class="btn btn-dark" data-bs-toggle="modal" style="background-color: #1967d2;border-color: #1967d2;"
-                        data-bs-target="#exampleModalColor" style="margin: 5px">
+                      <button type="button" class="btn btn-dark" data-bs-toggle="modal" style="background-color: #1967d2;border-color: #1967d2;margin-top: 10px;"
+                        data-bs-target="#exampleModalColor" >
                         + Thêm màu sắc
                       </button>
+                      <div id="error-color" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn màu sắc.</div>
 
                       <!-- Modal -->
                       <div class="modal fade" id="exampleModalColor" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -629,178 +924,326 @@
 
                         </div>
                         <div style="margin-top: 10px;">
-                          <button type="button" class="btn btn-dark" data-bs-toggle="modal" style="background-color: #1967d2;border-color: #1967d2;"
-                            data-bs-target="#exampleModalSize">
+                          <button type="button" class="btn btn-dark" data-bs-toggle="modal"
+                            style="background-color: #1967d2;border-color: #1967d2;" data-bs-target="#exampleModalSize">
                             + Thêm kích cỡ
                           </button>
                         </div>
                       </div>
 
-                      <!-- Modal -->
-                      <div class="modal fade" id="exampleModalSize" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Kích cỡ</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row">
-                                <div class="col-md-12" id="sizeContainer">
-                                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalAddSize" id="add-size-now"
-                                    style="margin-left: 3%;margin-top: 1%;">+</button>
-                                </div>
-
+                        <!-- Modal -->
+                        <div
+                          class="modal fade"
+                          id="exampleModalSize"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                  Kích cỡ
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
                               </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                              <button type="button" class="btn btn-primary" id="addSizeButton">Thêm</button>
+                              <div class="modal-body">
+                                <div class="row">
+                                  <div class="col-md-12" id="sizeContainer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-primary"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#exampleModalAddSize"
+                                      id="add-size-now"
+                                      style="margin-left: 3%; margin-top: 1%"
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Hủy
+                                </button>
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  id="addSizeButton"
+                                >
+                                  Thêm
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <!-- Modal color thêm nhanh  -->
-                      <div class="modal fade" id="exampleModalAddSize" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">
-                                Thêm Size
-                              </h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="mb-3 row">
-                                <label for="inputNameColor" class="col-sm-3 col-form-label">Số Size</label>
-                                <div class="col-sm-8">
-                                  <input type="text" class="form-control" id="numberSize" />
+                        <!-- Modal color thêm nhanh  -->
+                        <div
+                          class="modal fade"
+                          id="exampleModalAddSize"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                  Thêm Size
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="mb-3 row">
+                                  <label
+                                    for="inputNameColor"
+                                    class="col-sm-3 col-form-label"
+                                    >Số Size</label
+                                  >
+                                  <div class="col-sm-8">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      id="numberSize"
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                Hủy
-                              </button>
-                              <button type="button" class="btn btn-primary" id="add-size-now-btn">
-                                Thêm
-                              </button>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Hủy
+                                </button>
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  id="add-size-now-btn"
+                                >
+                                  Thêm
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div id="root" style="margin-top: 10px;" class="upload-container">
-                  <label class="label" style="font-weight: 600;">Ảnh</label>
-                  <div class="upload-list">
-                    <input type="file" accept="image/*" id="file-input" style="display: none" multiple />
+                  <div id="error-size" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn kích cỡ.</div>
+                  <div
+                    id="root"
+                    style="margin-top: 10px"
+                    class="upload-container"
+                  >
+                    <label class="label" style="font-weight: 600">Ảnh</label>
+                    <div class="upload-list">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="file-input"
+                        style="display: none"
+                        multiple
+                      />
+                    </div>
+                    <div class="upload-button" id="upload-button">
+                      <div class="icon">+</div>
+                      <div class="upload-button-text">Upload</div>
+                    </div>
                   </div>
-                  <div class="upload-button" id="upload-button">
-                    <div class="icon">+</div>
-                    <div class="upload-button-text">Upload</div>
-                  </div>
-                </div>
-                <div class="preview-modal">
-                  <div class="modal-overlay"></div>
-                  <div class="modal-content">
-                    <span class="modal-close-button">&times;</span>
-                    <h2 class="modal-title"></h2>
-                    <img class="preview-image" alt="example" />
-                  </div>
-                </div>
+                  <div id="error-image" style="color: red; display: none;font-size: 0.90rem; font-weight: 500; opacity: 0.6;">Chưa chọn ảnh.</div>
 
-                <!-- modal confirm delete -->
-                <div class="modal" id="confirmModal">
-                  <div class="modal-content">
-                    <p>Bạn có chắc muốn xóa ảnh này không ?</p>
-                    <button style="
+                  <div class="preview-modal">
+                    <div class="modal-overlay"></div>
+                    <div class="modal-content">
+                      <span class="modal-close-button">&times;</span>
+                      <h2 class="modal-title"></h2>
+                      <img class="preview-image" alt="example" />
+                    </div>
+                  </div>
+
+                  <!-- modal confirm delete -->
+                  <div class="modal" id="confirmModal">
+                    <div class="modal-content">
+                      <p>Bạn có chắc muốn xóa ảnh này không ?</p>
+                      <button
+                        style="
                           border-radius: 5px;
                           height: 35px;
                           width: 50px;
                           transition: background-color 0.3s ease,
                             color 0.3s ease, box-shadow 0.3s ease; /* Thêm transition */
                           border: 1px solid rgba(0, 0, 0, 0.2); /* Thêm viền nhạt */
-                        " class="modal-confirm-button" id="confirmDelete">
-                      Xóa
-                    </button>
-                    <button style="
+                        "
+                        class="modal-confirm-button"
+                        id="confirmDelete"
+                      >
+                        Xóa
+                      </button>
+                      <button
+                        style="
                           border-radius: 5px;
                           height: 35px;
                           width: 50px;
                           transition: background-color 0.3s ease,
                             color 0.3s ease, box-shadow 0.3s ease; /* Thêm transition */
                           border: 1px solid rgba(0, 0, 0, 0.2); /* Thêm viền nhạt */
-                        " class="modal-cancel-button" id="cancelDelete">
-                      Hủy
+                        "
+                        class="modal-cancel-button"
+                        id="cancelDelete"
+                      >
+                        Hủy
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="toast"
+                    id="success"
+                    role="alert"
+                    aria-live="assertive"
+                    aria-atomic="true"
+                    data-delay="2000"
+                    style="
+                      position: fixed;
+                      bottom: 1rem;
+                      right: 1rem;
+                      z-index: 1050;
+                      width: 200px;
+                    "
+                  >
+                    <div class="toast-header">
+                      <strong class="mr-auto">Thông báo</strong>
+                      <button
+                        type="button"
+                        class="ml-2 mb-1 close"
+                        data-dismiss="toast"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="toast-body">Thêm thành công</div>
+                  </div>
+
+                  <div
+                  class="toast"
+                  id="fail"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                  data-delay="2000"
+                  style="
+                    position: fixed;
+                    bottom: 1rem;
+                    right: 1rem;
+                    z-index: 1050;
+                    width: 200px;
+                  "
+                >
+                  <div class="toast-header">
+                    <strong class="mr-auto">Thông báo</strong>
+                    <button
+                      type="button"
+                      class="ml-2 mb-1 close"
+                      data-dismiss="toast"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
+                  <div class="toast-body">Thêm thất bại</div>
                 </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
+          <!-- /.container-fluid -->
         </div>
-        <!-- /.container-fluid -->
+        <!-- End of Main Content -->
       </div>
-      <!-- End of Main Content -->
+      <!-- End of Content Wrapper -->
     </div>
-    <!-- End of Content Wrapper -->
-  </div>
-  <!-- End of Page Wrapper -->
+    <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">
-            Hủy
-          </button>
-          <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Hủy
+            </button>
+            <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="/frontend/admin/js/add-product.js"></script>
-</body>
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+    <script src="/frontend/admin/js/add-product.js"></script>
+  </body>
 </html>
