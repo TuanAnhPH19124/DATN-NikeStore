@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+
 namespace Webapi.Controllers
 {
     [Route("api/[controller]")]
@@ -29,23 +30,50 @@ namespace Webapi.Controllers
             _serviceManager=serviceManager;
             _dbContext=dbContext;
         }
+   
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<ProductDtoForGet>>> GetAllProduct()
         {
             try
             {
                 var products = await _serviceManager.ProductService.GetAllProductAsync();
-
-                if (products == null || !products.Any())
+                var productDtos = products.Select(product => new ProductDtoForGet
                 {
-                    return NotFound();
-                }
-                return Ok(products);
-            }
+                    Name = product.Name,
+                    RetailPrice = product.RetailPrice,
+                    Description = product.Description,
+                    DiscountRate = product.DiscountRate,
+                    SoleId = product.SoleId,
+                    MaterialId = product.MaterialId,
+                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorDtoForGet
+                    {
+                        Id = group.Key,
+                        Images = group.Select(pi => new ImageDtoForGet
+                        {
+                            ImageUrl = pi.ImageUrl,
+                            SetAsDefault = pi.SetAsDefault
+                        }).ToList(),
+                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeDtoForGet
+                        {
+                            Id = stock.SizeId,
+                            UnitInStock = stock.UnitInStock
+                        }).ToList()
+                    }).ToList(),
+                    Categories = product.CategoryProducts.Select(category => new CategoryDtoForGet
+                    {
+                        Id = category.CategoryId
+                    }).ToList()
+                }).ToList();
 
+                return Ok(productDtos);
+            }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(new
+                {
+                    Error = ex.Message
+                });
             }
         }
 
@@ -53,14 +81,53 @@ namespace Webapi.Controllers
         [HttpGet("{Id}")]
         public async Task<ActionResult<Product>> GetProduct(string Id)
         {
-            var product = await _serviceManager.ProductService.GetByIdProduct(Id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _serviceManager.ProductService.GetByIdProduct(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                var productDto = new ProductDtoForGet
+                {
+                    Name = product.Name,
+                    RetailPrice = product.RetailPrice,
+                    Description = product.Description,
+                    DiscountRate = product.DiscountRate,
+                    SoleId = product.SoleId,
+                    MaterialId = product.MaterialId,
+                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorDtoForGet
+                    {
+                        Id = group.Key,
+                        Images = group.Select(pi => new ImageDtoForGet
+                        {
+                            ImageUrl = pi.ImageUrl,
+                            SetAsDefault = pi.SetAsDefault
+                        }).ToList(),
+                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeDtoForGet
+                        {
+                            Id = stock.SizeId,
+                            UnitInStock = stock.UnitInStock
+                        }).ToList()
+                    }).ToList(),
+                    Categories = product.CategoryProducts.Select(category => new CategoryDtoForGet
+                    {
+                        Id = category.CategoryId
+                    }).ToList()
+                };
+
+                return Ok(productDto);
             }
-            return product;
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Error = ex.Message
+                });
+            }
         }
+
 
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
@@ -174,7 +241,7 @@ namespace Webapi.Controllers
 
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-            string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+     string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
         {
             try
             {
