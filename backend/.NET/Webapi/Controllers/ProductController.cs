@@ -78,13 +78,12 @@ namespace Webapi.Controllers
         }
 
 
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDtoForGet>> GetProductById(string id)
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<Product>> GetProduct(string Id)
         {
             try
             {
-                var product = await _serviceManager.ProductService.GetByIdProduct(id);
+                var product = await _serviceManager.ProductService.GetByIdProduct(Id);
                 if (product == null)
                 {
                     return NotFound();
