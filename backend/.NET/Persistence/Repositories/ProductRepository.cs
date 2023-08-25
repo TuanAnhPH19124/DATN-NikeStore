@@ -30,17 +30,26 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<Product>> GetProductAsync()
         {
             return await _context.Products.ToListAsync();
-        } 
+        }
+     
 
         public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
         {
-            List<Product> productList = await _context.Products.ToListAsync(cancellationToken);
-            return productList;
+                return await _context.Products
+                    .Include(p => p.Stocks)
+                    .Include(p => p.CategoryProducts)
+                    .Include(p=>p.ProductImages)
+                    .ToListAsync();
         }
+
+        
         public async Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(e => e.Id == id );
-            return product;
+            return await _context.Products
+            .Include(p => p.Stocks)
+            .Include(p => p.CategoryProducts)
+            .Include(p => p.ProductImages)
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
         public async Task AddProduct(Product product)
@@ -100,5 +109,7 @@ namespace Persistence.Repositories
 
             return allProducts;
         }
+
+     
     }
 }
