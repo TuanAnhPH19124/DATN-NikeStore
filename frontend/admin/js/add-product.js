@@ -287,8 +287,8 @@ $(document).ready(function () {
         success: function (response) {
           // localStorage.setItem("productId", response.id);
           // console.log(response.id)
-          $('#success').toast('show');
           //window.location.href = "/frontend/admin/product-detail.html";
+          $('#success').toast('show');
           // reset form
           var form = $("#add-product-form")[0]; 
           form.reset();
@@ -307,8 +307,18 @@ $(document).ready(function () {
           }
         },
         error: function (response){
+          //check ảnh 
+          for (let i = 0; i < product.Colors.length; i++) {
+            console.log(product.Colors[i].Images.length)
+            if(product.Colors[i].Images.length==0){
+              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+              $('#invalid-image .toast-body').text(customMessage);
+              $('#invalid-image').toast('show');
+              return
+            }
+          }
           $('#fail').toast('show');
-          
+
         }
       });
   } else {
@@ -696,6 +706,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
 function loadSizeE() {
   var plusButtonContainer = document.getElementById("render-size");
   // Xóa tất cả các phần tử con trong containerParent
@@ -718,25 +729,28 @@ function loadSizeE() {
         newLabel.textContent = "Số lượng";
         newLabel.style = "margin: 0 10px 0 20px;"
 
+        var validationMessage = document.createElement("span");
+        validationMessage.className = 'validation-message';
+        validationMessage.textContent = ''; // Initially no message
+        validationMessage.style = "color:red;font-weight: 600;"
+
+
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
         newInput.className = 'input-unit';
-        newInput.placeholder = "Số lượng"
-        newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
-        newInput.min = 1;
-        newInput.value = 1;
+        newInput.placeholder = "Số lượng: "
+        newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
+        console.log(newInput.value)
         newInput.addEventListener('change', function () {
-          if (parseInt(newInput.value) < 0) {
+          if (parseInt(newInput.value) <= 0 || isNaN(parseInt(newInput.value))) {
             newInput.value = 1;
-          } else {
+            validationMessage.textContent = 'Số lượng là số lớn hơn hoặc bằng 1.';
             let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
-          }
-        });
-
-        newInput.addEventListener('input', function() {
-          if (newInput.value < 1) {
-            newInput.value = 1;
+          } else {
+            validationMessage.textContent = '';
+            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
           }
         });
 
@@ -757,6 +771,7 @@ function loadSizeE() {
         container.appendChild(newLabel);
         container.appendChild(newInput);
         container.appendChild(newXButton);
+        container.appendChild(validationMessage);
         plusButtonContainer.appendChild(container);
       });
     }

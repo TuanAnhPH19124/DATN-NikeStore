@@ -206,6 +206,8 @@ namespace Service
 
             var productDto = new ProductDtoForGet
             {
+                Id = product.Id,
+                Name = product.Name,
                 BarCode = product.BarCode,
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,
