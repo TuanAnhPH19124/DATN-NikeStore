@@ -75,6 +75,7 @@ $('#add-category-now').click(function () {
       success: function (response) {
         $('#success').toast('show');
         $('#add-category').modal('hide');
+
         var option_category = [];
       $.getJSON("https://localhost:44328/api/Categories", function (result) {
         for (var i = 0; i < result.length; i++) {
@@ -82,7 +83,11 @@ $('#add-category-now').click(function () {
         }
         $("#category-select").html(option_category.join(''));
       });
+
       },
+      error: function(){
+        $('#category-duplicate').toast('show')
+      }
 
     });
   }
@@ -112,14 +117,18 @@ $('#add-material-now').click(function () {
       success: function (response) {
         $('#success').toast('show');
         $('#add-material').modal('hide');
+        
         var option_material = [];
-$.getJSON("https://localhost:44328/api/Material", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#material-select").html(option_material.join(''));
-});
+        $.getJSON("https://localhost:44328/api/Material", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+          }
+          $("#material-select").html(option_material.join(''));
+        });
       },
+      error: function(){
+        $('#material-duplicate').toast('show')
+      }
     });
   }
 });
@@ -147,14 +156,19 @@ $('#add-sole-now').click(function () {
       success: function (response) {
         $('#success').toast('show');
         $('#add-sole').modal('hide');
+
         var option_sole = [];
-$.getJSON("https://localhost:44328/api/Sole", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#sole-select").html(option_sole.join(''));
-});
+        $.getJSON("https://localhost:44328/api/Sole", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+          }
+          $("#sole-select").html(option_sole.join(''));
+        });
+
       },
+      error: function(){
+        $('#sole-duplicate').toast('show')
+      }
     });
   }
 });
@@ -668,12 +682,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
-            error: function () {
-              console.error('Error fetching data.');
+            error: function(){
+              $('#color-duplicate').toast('show')
             }
-          });
+          }); 
           $('#exampleModalColor').modal('show');
         },
+        error: function(){
+          $('#color-duplicate').toast('show')
+        }
       });
     }
   });
@@ -874,6 +891,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           $('#exampleModalSize').modal('show');
         },
+        error: function(){
+          $('#size-duplicate').toast('show')
+        }
       });
     }
   });
