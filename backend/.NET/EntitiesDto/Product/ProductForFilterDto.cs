@@ -22,5 +22,6 @@ namespace EntitiesDto.Product
         public int MaterialId { get; set; }
         public List<StockDto> Stocks { get; set; }
         public List<CategoryProductDto> CategoryProducts { get; set; }
+       
     }
 }

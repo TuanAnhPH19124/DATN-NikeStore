@@ -1,6 +1,8 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto.Images;
 using EntitiesDto.Product;
+using EntitiesDto.Stock;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,103 +32,26 @@ namespace Webapi.Controllers
             _serviceManager=serviceManager;
             _dbContext=dbContext;
         }
-   
+
+
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDtoForGet>>> GetAllProduct()
+        public async Task<IActionResult> GetAllProductsForDisplayAsync()
         {
-            try
-            {
-                var products = await _serviceManager.ProductService.GetAllProductAsync();
-                var productDtos = products.Select(product => new ProductDtoForGet
-                {
-                    Name = product.Name,
-                    RetailPrice = product.RetailPrice,
-                    Description = product.Description,
-                    DiscountRate = product.DiscountRate,
-                    SoleId = product.SoleId,
-                    MaterialId = product.MaterialId,
-                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorDtoForGet
-                    {
-                        Id = group.Key,
-                        Images = group.Select(pi => new ImageDtoForGet
-                        {
-                            ImageUrl = pi.ImageUrl,
-                            SetAsDefault = pi.SetAsDefault
-                        }).ToList(),
-                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeDtoForGet
-                        {
-                            Id = stock.SizeId,
-                            UnitInStock = stock.UnitInStock
-                        }).ToList()
-                    }).ToList(),
-                    Categories = product.CategoryProducts.Select(category => new CategoryDtoForGet
-                    {
-                        Id = category.CategoryId
-                    }).ToList()
-                }).ToList();
+            var productsForDisplay = await _serviceManager.ProductService.GetAllProductAsync();
 
-                return Ok(productDtos);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Error = ex.Message
-                });
-            }
+            return Ok(productsForDisplay);
         }
 
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Product>> GetProduct(string Id)
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
-            try
-            {
-                var product = await _serviceManager.ProductService.GetByIdProduct(Id);
-                if (product == null)
-                {
-                    return NotFound();
-                }
+            var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
 
-                var productDto = new ProductDtoForGet
-                {
-                    Name = product.Name,
-                    RetailPrice = product.RetailPrice,
-                    Description = product.Description,
-                    DiscountRate = product.DiscountRate,
-                    SoleId = product.SoleId,
-                    MaterialId = product.MaterialId,
-                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorDtoForGet
-                    {
-                        Id = group.Key,
-                        Images = group.Select(pi => new ImageDtoForGet
-                        {
-                            ImageUrl = pi.ImageUrl,
-                            SetAsDefault = pi.SetAsDefault
-                        }).ToList(),
-                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeDtoForGet
-                        {
-                            Id = stock.SizeId,
-                            UnitInStock = stock.UnitInStock
-                        }).ToList()
-                    }).ToList(),
-                    Categories = product.CategoryProducts.Select(category => new CategoryDtoForGet
-                    {
-                        Id = category.CategoryId
-                    }).ToList()
-                };
 
-                return Ok(productDto);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Error = ex.Message
-                });
-            }
-        }
+
+
 
 
         [HttpPost]
