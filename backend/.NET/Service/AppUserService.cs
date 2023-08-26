@@ -143,12 +143,10 @@ namespace Service
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("hoangnam868.oppo@gmail.com", "hdkrwihunpaaqugh"),
+                    Credentials = new NetworkCredential("nikesneakerw@gmail.com", "kxsdwillelpulshc"),
                     EnableSsl = true,
                 };
-
                 var mailMessage = new MailMessage("your.email@yourprovider.com", toEmail, "Đặt lại mật khẩu", emailBody);
-
                 smtpClient.Send(mailMessage);
                 return true;
             }

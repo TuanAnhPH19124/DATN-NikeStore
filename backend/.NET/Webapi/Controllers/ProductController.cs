@@ -49,7 +49,6 @@ namespace Webapi.Controllers
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
-
         }
 
 
