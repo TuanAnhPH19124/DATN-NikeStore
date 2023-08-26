@@ -1,3 +1,4 @@
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace EntitiesDto.Order
 {
-    public class OrderPostRequestDto
+    public class OrderAtStorePostRequestDto
     {
+        [Required]
+        public string UserId { get; set; }
         [Required(ErrorMessage = "Thiếu Địa chỉ nhận hàng")]
         public string Address { get; set; }
         [Required(ErrorMessage = "Thiếu số điện thoại")]
@@ -18,8 +21,13 @@ namespace EntitiesDto.Order
         public int PaymentMethod { get; set; }
         public double Amount { get; set; }
         public string CustomerName { get; set; } = string.Empty;
-        public string VoucherId { get; set; }
-        public string UserId { get; set; }
+        public string VoucherId { get; set; } = null;
         public List<OrderItemPostRequestDto> OrderItems { get; set; }
+    
+    }
+
+    public class OrderPostRequestDto : OrderAtStorePostRequestDto
+    {
+        
     }
 }

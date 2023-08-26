@@ -20,16 +20,15 @@ $(document).ready(function () {
                     return `<img src="https://localhost:44328/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>`;
             }},
             { "data": 'name', 'title': 'Tên sản phẩm' },
-            { "data": 'costPrice', 'title': 'Giá nhập',
+            { "data": 'retailPrice', 'title': 'Giá bán',
             "render": function (data, type, row) {
-                    return data+" VND";
-            } },
-            { "data": 'retailPrice', 'title': 'Giá bán' },
+                return data+" VND";
+        }  },
             {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == 1) {
-                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kinh doanh</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;" >Kinh doanh</span>';
                     } else {
                         return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kinh doanh</span>';
                     }
@@ -38,7 +37,7 @@ $(document).ready(function () {
             {
                 "title": "Thao tác",
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 }
             },
         ],

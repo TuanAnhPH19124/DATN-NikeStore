@@ -1,8 +1,9 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var staffTable = $('#staff-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/Employee",
+            "url": "https://localhost:44328/api/Employee/Get",
             "dataType": "json",
             "dataSrc": ""
         },
@@ -12,11 +13,17 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'fullName', "title": "Họ và tên" },
-            { "data": 'snn', "title": "Số căn cước" },
             { "data": 'phoneNumber', "title": "Số điện thoại" },
+            { "data": 'fullName', "title": "Họ và tên" },
+            { "data": 'gender', "title": "Giới tính", "render": function (data, type, row) {
+                if (data == true) {
+                    return '<span class="badge badge-pill badge-primary" style="padding:10px;">Nam</span>';
+                } else {
+                    return '<span class="badge badge-pill badge-danger" style="padding:10px;">Nữ</span>';
+                }
+            }},
             {
-                "data": 'modifiedDate', "title": "Ngày thay đổi",
+                "data": 'dateOfBirth', "title": "Ngày sinh",
                 "render": function (data, type, full, meta) {
                     var dateObj = new Date(data);
                     var day = dateObj.getUTCDate();
@@ -26,7 +33,6 @@ $(document).ready(function () {
                     return formattedDate;
                 }
             },
-            { "data": 'role', "title": "Vai trò" },
             {
                 "data": 'status', "title": "Trạng thái", "render": function (data, type, row) {
                     if (data == true) {
@@ -69,18 +75,41 @@ $(document).ready(function () {
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            fullName: $("#fullName").val(),
-            snn: $("#snn").val(),
-            phoneNumber: $("#phoneNumber").val(),
-            role: $("#role").val(),
-            password: "1",
-            modifiedDate: new Date,
-            status: true,
+            "employeeId": $("#employeeId").val(),
+            "snn": $("#snn").val(),
+            "fullName": $("#fullName").val(),
+            "phoneNumber": $("#phoneNumber").val(),
+            "dateOfBirth": $("#dateOfBirth").val(),
+            "gender": $("#gender").val(),
+            "homeTown":  $("#homeTown").val(),
+            "address":  $("#address").val(),
+            "relativeName":  $("#relativeName").val(),
+            "relativePhoneNumber":  $("#relativePhoneNumber").val(),
+            "status":  $("#status").prop('checked'),
         };
+
+                //convert nomal date to ISO 8601 date
+                [startDay, startMonth, startYear] = formData.dateOfBirth.split('/');
+                try {
+                    formData.dateOfBirth = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
+                } catch (error) {
+                    formData.dateOfBirth = ""
+                }
+        // add thong tin
         $.ajax({
             url: "https://localhost:44328/api/Employee",
             type: "POST",
             data: JSON.stringify(formData),
+            contentType: "application/json",
+            success: function (response) {
+                window.location.href = `/frontend/admin/staff.html`;
+            },
+        });
+        //add tk nhan vien
+        $.ajax({
+            url: "https://localhost:44328/api/Authentication/CreateEmployeeAccount",
+            type: "POST",
+            data: JSON.stringify(formData.phoneNumber),
             contentType: "application/json",
             success: function (response) {
                 window.location.href = `/frontend/admin/staff.html`;
@@ -150,12 +179,17 @@ $(document).ready(function () {
 
     $('#staff-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
-        let staffId = $('#staff-table').DataTable().row(this).data().employeeId;
+        let staffId = $('#staff-table').DataTable().row(this).data().id;
         if (staffId !== null) {
             localStorage.setItem("staffId", staffId);
+            console.log(staffId)
             window.location.href = `/frontend/admin/update-staff.html`;
         }
     });
 });
-
+$(function () {
+    $('.date').datepicker({
+        format: 'dd/mm/yyyy',
+    });
+});
 

@@ -20,16 +20,38 @@ $(document).ready(function () {
             id: id,
             name: $("#name").val(),
         };
-        $.ajax({
-            url: "https://localhost:44328/api/Color/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                window.location.href = "/frontend/admin/color.html";
+        if (confirm(`Bạn có muốn sửa thành màu ${formData.name} không?`)) {
+            if(formData.name.trim()==""){
+                return
+            }
+            $.ajax({
+                url: "https://localhost:44328/api/Color/" + id,
+                type: "PUT",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $('#success').toast('show')
+                },
+                error: function () {
+                    $('#fail').toast('show')
+                },
+            });
+        } else {
+            return
+        }
+    });
+    $("#update-color-form").validate({
+        rules: {
+            "name": {
+                required: true,
             },
-        });
+        },
+        messages: {
+            "name": {
+                required: "Mời bạn nhập Tên màu",
+            },
+        },
     });
 });
 

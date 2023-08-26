@@ -1,13 +1,18 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto.Product;
+using EntitiesDto.Stock;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +22,7 @@ namespace Service
     internal sealed class ProductService : IProductService
     {
         private readonly IRepositoryManger _repositoryManger;
+
 
 
         public ProductService(IRepositoryManger repositoryManger)
@@ -54,20 +60,22 @@ namespace Service
 
         public async Task<Product> CreateAsync(Product product)
         {
-            _repositoryManger.ProductRepository.AddProduct(product);
+            await _repositoryManger.ProductRepository.AddProduct(product);
+
+            #region tạo ảnh barcode
+            var qrcode = new UploadBarCode();
+            product.BarCode = qrcode.generateAndUploadQRCode(product.Id);
+            #endregion
 
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
             return product;
-
-
         }
 
 
-        public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
-        {
-            List<Product> productList = await _repositoryManger.ProductRepository.GetAllProductAsync(cancellationToken);
-            return productList;
-        }
+
+
+
+
 
         public async Task<Product> GetByIdProduct(string id, CancellationToken cancellationToken = default)
         {
@@ -88,9 +96,7 @@ namespace Service
             // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
             existingProduct.Name = updatedProduct.Name;
             existingProduct.RetailPrice = updatedProduct.RetailPrice;
-            existingProduct.CostPrice = updatedProduct.CostPrice;
             existingProduct.Description = updatedProduct.Description;
-            existingProduct.Brand = updatedProduct.Brand;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
             existingProduct.Status = updatedProduct.Status;
 
@@ -103,13 +109,50 @@ namespace Service
             return existingProduct;
         }
 
+        // Trong ProductService.cs
 
+        public async Task<List<ProductForFilterDto>> FilterProductsAsync(
+      string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        {
+            var products = await _repositoryManger.ProductRepository.FilterProductsAsync(
+                sizeId, colorId, categoryId, materialId, soleId);
+
+            var productDTOs = products.Select(product => new ProductForFilterDto
+            {
+
+                // Sao chép các thuộc tính khác từ product
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId
+                    // Sao chép các thuộc tính khác từ stock
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
+        public async Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default)
+        {
+          return  await _repositoryManger.ProductRepository.GetAllProductAsync();
+        }
     }
-
-
-
-
-
 }
+
+
+
+
+
+
+    
 
 

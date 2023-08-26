@@ -7,7 +7,15 @@
                 url: uri
             });
         };
-    }
+
+        this.getProduct = function (Id){
+            let uri = apiUrl + '/api/Product/' + Id;
+            return $http({
+                method: 'GET',
+                url: uri
+            });
+        };
+    };
     productService.$inject = ['$http', 'apiUrl'];
     angular.module("app").service("productService", productService);
 }());

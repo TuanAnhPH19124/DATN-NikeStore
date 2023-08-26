@@ -27,5 +27,7 @@ namespace Domain.Repositories
         IProductRateRepository ProductRateRepository { get; }
         IShoppingCartRepository ShoppingCartRepository { get; }
         ICategoryProductRepository CategoryProductRepository { get; }
+        IMaterialRepository MaterialRepository { get; }
+        ISoleRepository SoleRepository { get; }
   }
 }

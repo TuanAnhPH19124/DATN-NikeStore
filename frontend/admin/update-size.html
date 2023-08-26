@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>Nike Sneaker World</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -37,15 +37,16 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #030e2c;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <img src="/frontend/admin/image/nike-48.png" alt="">
-                <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
+                <img src="/frontend/admin/image/nike-48.png" alt=""><br>
+                <!-- <div class="sidebar-brand-text mx-3">Sneaker World</div> -->
             </a>
-
+            <div class="sidebar-brand-text mx-3" style="color: white; font-weight: bold; text-align: center;font-size: 20px;">Nike Sneaker World</div>
             <!-- Divider -->
+            <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider my-0">
 
 
@@ -66,6 +67,8 @@
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
                         <a class="collapse-item" href="size.html">Kích cỡ</a>
+                        <a class="collapse-item" href="sole.html">Đế giày</a>
+                        <a class="collapse-item" href="material.html">Chất liệu</a>
                         <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
@@ -78,7 +81,7 @@
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="create-bill.html">Bán hàng tại quầy</a>
                         <a class="collapse-item" href="order.html">Bán hàng Online</a>
                     </div>
                 </div>
@@ -94,17 +97,10 @@
                     <span>Thống kê</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link"  href="voucher.html">
                     <i class="far fa-money-bill-alt"></i>
                     <span>Khuyến mại</span>
                 </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -304,14 +300,14 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/frontend/admin/user-info.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Giao ca
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -329,25 +325,25 @@
                 <div class="container-fluid">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title">Cập nhật size</h2>
+                            <h2 class="modal-title">Cập nhật kích cỡ</h2>
                         </div>
                         <div class="modal-body">
                             <form id="update-size-form">
                                 <div class="form-group">
-                                    <label>Kích cỡ</label>
+                                    <label style="font-weight: 600;">Kích cỡ</label>
                                     <input type="text" class="form-control" id="numberSize" name="numberSize"
                                         aria-describedby="emailHelp" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label>Mô tả</label>
+                                    <label style="font-weight: 600;">Mô tả</label>
                                     <input type="text" class="form-control" id="description" name="description"
                                         aria-describedby="emailHelp" placeholder="">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Xác
+                                <button type="submit" class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;">Xác
                                     nhận</button>
 
                                 <!-- thông báo -->
-                                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                                <div class="toast" id="success" role="alert" aria-live="assertive" aria-atomic="true"
                                     data-delay="2000" style="position: fixed;
                                 bottom: 1rem;
                                 right: 1rem;
@@ -362,6 +358,21 @@
                                     <div class="toast-body">
                                         Cập nhật thành công
                                     </div>
+                                </div>
+
+                                <div class="toast" id="fail" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                                style="position: fixed;
+                                            bottom: 1rem;
+                                            right: 1rem;
+                                            z-index: 1050;">
+                                <div class="toast-header">
+                                    <strong class="mr-auto">Thông báo</strong>
+                                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="toast-body">
+                                    Kích cỡ đã tồn tại
                                 </div>
                             </form>
                         </div>
@@ -389,15 +400,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -416,6 +427,7 @@
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>

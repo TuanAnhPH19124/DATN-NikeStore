@@ -1,5 +1,5 @@
 .form-control{
-    width: 400px;
+    width: 200;
 }
 form{
     display: flex;
@@ -25,9 +25,31 @@ tr:hover td { background: rgb(187, 173, 173); }
 #category-table th {
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #4e73df;
+    background-color: #1967d2;
     color: white;
 }
 #btn{
     padding: 2px 10px;
 }
+.error {
+    color: red;
+    font-size: 1em;
+    width: 100%;
+ }
+ #category-table_filter label{
+    font-weight: 600;
+ }
+ #category-table_length label{
+    font-weight: 600;
+ }
+ #category-table_info {
+    font-weight: 600;
+ }
+ .collapse-item{
+    font-weight: 500;
+    font-size: 17px;
+ }
+ .nav-item span{
+    font-weight: 600;
+    font-size: 17px;
+ }

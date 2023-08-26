@@ -3,8 +3,9 @@ namespace Domain.Enums
     public enum OrderStatus
     {
         Confirm,
-        Shipping,
-        Returned,
-        Done
+        HAS_BEEN_PAID,
+        SHIPPING,
+        RETURNED,
+        DONE
     }
 }

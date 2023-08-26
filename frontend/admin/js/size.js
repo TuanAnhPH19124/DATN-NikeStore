@@ -1,5 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var sizeTable = $('#size-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Size/Get",
@@ -13,11 +14,11 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'numberSize', "title": "Kích cỡ size" },
+            { "data": 'numberSize', "title": "Kích cỡ" },
             { "data": 'description', "title": "Mô tả" },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
@@ -51,7 +52,9 @@ $(document).ready(function () {
             numberSize: $("#numberSize").val(),
             description: ""
         };
-
+        if(formData.numberSize.trim(" ")==""){
+            return
+        }
         if (confirm(`Bạn có muốn thêm size ${formData.numberSize} không?`)) {
             $.ajax({
                 url: "https://localhost:44328/api/Size",
@@ -59,7 +62,10 @@ $(document).ready(function () {
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
-                    $('.toast').toast('show')
+                    $('#success').toast('show')
+                },
+                error: function () {
+                    $('#fail').toast('show')
                 },
             });
         } else {
@@ -73,6 +79,23 @@ $(document).ready(function () {
             localStorage.setItem("sizeId", sizeId);
             window.location.href = `/frontend/admin/update-size.html`;
         }
+    });
+    $.validator.addMethod("onlyContaiNum", function (value, element) {
+        return value.match(/^[0-9]+$/) != null;
+    });
+    $("#add-size-form").validate({
+        rules: {
+            "numberSize": {
+                required: true,
+                onlyContaiNum: true
+            },
+        },
+        messages: {
+            "numberSize": {
+                required: "Mời bạn nhập Số size",
+                onlyContaiNum: "Size là số không chứa ký tự"
+            },
+        },
     });
 });
 

@@ -1,5 +1,6 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
+    $.fn.dataTableExt.sErrMode = 'mute';
     var voucherTable = $('#voucher-table').DataTable({
         "ajax": {
             "url": "https://localhost:44328/api/Voucher/Get",
@@ -8,7 +9,7 @@ $(document).ready(function () {
         },
         "columns": [
             {
-                "data": 'id', "title": "ID", render: function (data, type, row, meta) {
+                "data": 'id', "title": "STT", render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
             },
@@ -47,15 +48,15 @@ $(document).ready(function () {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
                     if (data == true) {
-                        return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kích hoạt</span>';
+                        return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;">Kích hoạt</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
+                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Không kích hoạt</span>';
                     }
                 }
             },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
@@ -77,7 +78,8 @@ $(document).ready(function () {
                 "sNext": "Tiếp",
                 "sPrevious": "Trước"
             },
-          }
+          },
+          
     });
     setInterval(function () {
         voucherTable.ajax.reload();

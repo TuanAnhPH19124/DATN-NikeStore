@@ -43,14 +43,62 @@ namespace Persistence.Repositories
             return product;
         }
 
-        public async void AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
         }
 
         public async void UpdateProduct(Product product)
         {
             _context.Products.Update(product);
+        }
+
+        public async Task<List<Product>> FilterProductsAsync(
+        string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        {
+            var allProducts = await _context.Products
+                .Include(p => p.Stocks)
+                .Include(p => p.CategoryProducts)
+                .ToListAsync();
+
+            // Lọc sản phẩm theo các tham số
+
+            // Lọc theo kích thước (size)
+            if (!string.IsNullOrEmpty(sizeId))
+            {
+                allProducts = allProducts.Where(product =>
+                    product.Stocks.Any(stock => stock.SizeId == sizeId)).ToList();
+            }
+
+            // Lọc theo màu sắc (color)
+            if (!string.IsNullOrEmpty(colorId))
+            {
+                allProducts = allProducts.Where(product =>
+                    product.Stocks.Any(stock => stock.ColorId == colorId)).ToList();
+            }
+
+            // Lọc theo danh mục (category)
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                allProducts = allProducts.Where(product =>
+                    product.CategoryProducts.Any(categoryProduct => categoryProduct.CategoryId == categoryId)).ToList();
+            }
+
+            // Lọc theo chất liệu (material)
+            if (materialId.HasValue)
+            {
+                allProducts = allProducts.Where(product =>
+                    product.MaterialId == materialId).ToList();
+            }
+
+            // Lọc theo đế giày (sole)
+            if (soleId.HasValue)
+            {
+                allProducts = allProducts.Where(product =>
+                    product.SoleId == soleId).ToList();
+            }
+
+            return allProducts;
         }
     }
 }
