@@ -838,7 +838,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.text(item.numberSize);
         button.attr('data-color', item.numberSize);
         button.click(function () {
-          selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
+          selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 1 };
         });
         buttonContainer.append(button);
       });
@@ -892,7 +892,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.text(item.numberSize);
                 button.attr('data-color', item.numberSize);
                 button.click(function () {
-                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
+                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 1 };
                 });
                 buttonContainer.append(button);
               });
