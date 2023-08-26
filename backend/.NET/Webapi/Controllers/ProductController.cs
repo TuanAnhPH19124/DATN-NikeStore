@@ -50,6 +50,7 @@ namespace Webapi.Controllers
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
         }
+
             [HttpPost]
             public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
             {
@@ -102,6 +103,7 @@ namespace Webapi.Controllers
                         var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
                         transaction.Commit();
 
+
                         //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
                         return Ok();
                     }
@@ -134,6 +136,7 @@ namespace Webapi.Controllers
 
                     if (existingProduct == null)
                     {
+
                         return NotFound();
                     }
 
@@ -147,6 +150,10 @@ namespace Webapi.Controllers
                     existingProduct.SoleId = productDto.SoleId;
                     existingProduct.MaterialId = productDto.MaterialId;
 
+                        CategoryId = item.Id,
+                    }).ToList();
+
+
                     // ... Cập nhật thông tin khác của sản phẩm
 
                     await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
@@ -158,7 +165,13 @@ namespace Webapi.Controllers
                     return StatusCode(500, $"Internal server error: {ex.Message}");
                 }
             }
+
             // Tiếp tục trong ProductController
+
+
+
+        }
+
 
             [HttpGet("filter")]
             public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
@@ -176,12 +189,62 @@ namespace Webapi.Controllers
 
                     return Ok(filteredProducts);
                 }
+
                 catch (Exception ex)
+
+
+                existingProduct.Name = productDto.Name;
+                existingProduct.RetailPrice = productDto.RetailPrice;
+
+                existingProduct.Description = productDto.Description;
+
+                existingProduct.DiscountRate = productDto.DiscountRate;
+
+                existingProduct.SoleId = productDto.SoleId;
+                existingProduct.MaterialId = productDto.MaterialId;
+
+                // ... Cập nhật thông tin khác của sản phẩm
+
+                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        // Tiếp tục trong ProductController
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
+     string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        {
+            try
+            {
+                var filteredProducts = await _serviceManager.ProductService.FilterProductsAsync(
+                    sizeId, colorId, categoryId, materialId, soleId);
+
+                if (filteredProducts == null || !filteredProducts.Any())
+
                 {
                     return StatusCode(500, $"Internal server error: {ex.Message}");
                 }
             }
 
+
         }
     } 
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+    }
+}
+
+
+    
+
 

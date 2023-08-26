@@ -34,7 +34,7 @@ app.config(function ($routeProvider, $locationProvider){
       templateUrl: "../page/login/accountinfomation.html",
       controller: "authController"
     })
-    .when("/6", {
+    .when("/product", {
       templateUrl: "../page/product/product.html",
     })
     .when("/7", {
