@@ -43,80 +43,78 @@ namespace Webapi.Controllers
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
-
         }
 
-
-
-        [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
-        {
-            if (!ModelState.IsValid)
+            [HttpPost]
+            public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
             {
-                return BadRequest(ModelState);
-            }
-            var productId = string.Empty;
-            using (var transaction = _dbContext.Database.BeginTransaction())
-            {
-                try
+                if (!ModelState.IsValid)
                 {
-                    var nProduct = productAPI.Adapt<Product>();
-                    productId = nProduct.Id;
-                    nProduct.ProductImages = new List<ProductImage>();
-                    nProduct.Stocks = new List<Stock>();
-                    nProduct.CategoryProducts = new List<CategoryProduct>();
-                    var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
-
-                    foreach (var urlParent in UrList)
+                    return BadRequest(ModelState);
+                }
+                var productId = string.Empty;
+                using (var transaction = _dbContext.Database.BeginTransaction())
+                {
+                    try
                     {
-                        foreach (var urlChild in urlParent.Value)
+                        var nProduct = productAPI.Adapt<Product>();
+                        productId = nProduct.Id;
+                        nProduct.ProductImages = new List<ProductImage>();
+                        nProduct.Stocks = new List<Stock>();
+                        nProduct.CategoryProducts = new List<CategoryProduct>();
+                        var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
+
+                        foreach (var urlParent in UrList)
                         {
-                            nProduct.ProductImages.Add(new ProductImage
+                            foreach (var urlChild in urlParent.Value)
                             {
-                                ColorId = urlParent.Key,
-                                ImageUrl = urlChild.Key,
-                                SetAsDefault = urlChild.Value,
-                                ProductId = nProduct.Id
-                            });
+                                nProduct.ProductImages.Add(new ProductImage
+                                {
+                                    ColorId = urlParent.Key,
+                                    ImageUrl = urlChild.Key,
+                                    SetAsDefault = urlChild.Value,
+                                    ProductId = nProduct.Id
+                                });
+                            }
                         }
-                    }
 
-                    nProduct.Stocks = (
-                        from color in productAPI.Colors
-                        from size in color.Sizes
-                        select new Stock
+                        nProduct.Stocks = (
+                            from color in productAPI.Colors
+                            from size in color.Sizes
+                            select new Stock
+                            {
+                                UnitInStock = size.UnitInStock,
+                                ColorId = color.Id,
+                                SizeId = size.Id
+                            }
+                            ).ToList();
+
+                        nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
                         {
-                            UnitInStock = size.UnitInStock,
-                            ColorId = color.Id,
-                            SizeId = size.Id
-                        }
-                        ).ToList();
+                            CategoryId = item.Id,
+                        }).ToList();
 
-                    nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
+                        var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
+                        transaction.Commit();
+
+
+                        //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                        return Ok();
+                    }
+                    catch (Exception ex)
                     {
-                        CategoryId = item.Id,
-                    }).ToList();
-
-                    var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
-                    transaction.Commit();
-
-                    //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
-                    return Ok();
+                        UploadService.RollBack(productId);
+                        transaction.Rollback();
+                        return BadRequest(new
+                        {
+                            Error = ex.Message
+                        });
+                        throw;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    UploadService.RollBack(productId);
-                    transaction.Rollback();
-                    return BadRequest(new
-                    {
-                        Error = ex.Message
-                    });
-                    throw;
-                }
+
+
             }
-
-
-        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(string id, [FromForm] ProductUpdateAPI productAPI)
@@ -190,6 +188,54 @@ namespace Webapi.Controllers
         }
 
 
+
+
+        }
+
+
+            [HttpGet("filter")]
+            public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
+         string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+            {
+                try
+                {
+                    var filteredProducts = await _serviceManager.ProductService.FilterProductsAsync(
+                        sizeId, colorId, categoryId, materialId, soleId);
+
+                    if (filteredProducts == null || !filteredProducts.Any())
+                    {
+                        return NotFound();
+                    }
+
+                    return Ok(filteredProducts);
+                }
+
+                catch (Exception ex)
+
+
+                existingProduct.Name = productDto.Name;
+                existingProduct.RetailPrice = productDto.RetailPrice;
+
+                existingProduct.Description = productDto.Description;
+
+                existingProduct.DiscountRate = productDto.DiscountRate;
+
+                existingProduct.SoleId = productDto.SoleId;
+                existingProduct.MaterialId = productDto.MaterialId;
+
+                // ... Cập nhật thông tin khác của sản phẩm
+
+                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        // Tiếp tục trong ProductController
+
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
      string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
@@ -200,19 +246,15 @@ namespace Webapi.Controllers
                     sizeId, colorId, categoryId, materialId, soleId);
 
                 if (filteredProducts == null || !filteredProducts.Any())
-                {
-                    return NotFound();
-                }
 
-                return Ok(filteredProducts);
+                {
+                    return StatusCode(500, $"Internal server error: {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+
+
         }
-    }
-}
+    } 
 
 
 

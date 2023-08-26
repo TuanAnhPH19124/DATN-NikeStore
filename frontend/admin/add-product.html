@@ -36,6 +36,7 @@
   <link href="/frontend/admin/css/add-product.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
   <style>
     :root {
       --bs-white-blue: #f1faff;
@@ -182,6 +183,7 @@
       }
     }
   </style>
+  
 </head>
 
 <body id="page-top">
@@ -641,7 +643,7 @@
                       <label class="option" onclick="selectDiscountType(1)">
                         <input type="radio" name="discount" value="percen" hidden>
                         <div class="dot"></div>
-                        <span style="font-size: 17px; font-weight: 500;">Phần trắm %</span>
+                        <span style="font-size: 17px; font-weight: 500;">Phần trăm %</span>
                       </label>
                     </div>
                     <div class="col">
@@ -697,7 +699,23 @@
                       <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-category" style="background-color: #1967d2;border-color: #1967d2;">
                         +
                       </button>
-
+                      
+                      <div class="toast" id="category-duplicate" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                      style="position: fixed;
+                                  bottom: 1rem;
+                                  right: 1rem;
+                                  z-index: 1050;
+                                  width: 200px;">
+                      <div class="toast-header">
+                          <strong class="mr-auto">Thông báo</strong>
+                          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="toast-body">
+                          Tên Danh mục đã tồn tại
+                      </div>
+                    </div>
                       <!-- Modal -->
                       <div class="modal fade" id="add-category" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
@@ -713,7 +731,7 @@
                             <div class="modal-body">
                               <div class="mb-3 row">
                                 <label for="inputNameColor" class="col-sm-4 col-form-label">Tên danh mục</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-7">
                                   <input type="text" class="form-control" id="category-name" />
                                 </div>
                               </div>
@@ -726,7 +744,6 @@
                                 style="background-color: #1967d2;border-color: #1967d2;">
                                 Thêm
                               </button>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -754,7 +771,22 @@
                       <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-sole" style="background-color: #1967d2;border-color: #1967d2;">
                         +
                       </button>
-
+                      <div class="toast" id="sole-duplicate" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                      style="position: fixed;
+                                  bottom: 1rem;
+                                  right: 1rem;
+                                  z-index: 1050;
+                                  width: 200px;">
+                      <div class="toast-header">
+                          <strong class="mr-auto">Thông báo</strong>
+                          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="toast-body">
+                          Đế giày đã tồn tại
+                      </div>
+                    </div>
                       <!-- Modal -->
                       <div class="modal fade" id="add-sole" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
@@ -770,7 +802,7 @@
                             <div class="modal-body">
                               <div class="mb-3 row">
                                 <label for="inputNameColor" class="col-sm-4 col-form-label">Tên đế giày</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-7">
                                   <input type="text" class="form-control" id="sole-name" />
                                 </div>
                               </div>
@@ -809,7 +841,22 @@
                       <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-material" style="background-color: #1967d2;border-color: #1967d2;">
                         +
                       </button>
-
+                      <div class="toast" id="material-duplicate" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                      style="position: fixed;
+                                  bottom: 1rem;
+                                  right: 1rem;
+                                  z-index: 1050;
+                                  width: 200px;">
+                      <div class="toast-header">
+                          <strong class="mr-auto">Thông báo</strong>
+                          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="toast-body">
+                          Chất liệu đã tồn tại
+                      </div>
+                    </div>
                       <!-- Modal -->
                       <div class="modal fade" id="add-material" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -825,7 +872,7 @@
                             <div class="modal-body">
                               <div class="mb-3 row">
                                 <label for="inputNameColor" class="col-sm-4 col-form-label">Tên chất liệu</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-7">
                                   <input type="text" class="form-control" id="material-name" />
                                 </div>
                               </div>
@@ -855,6 +902,22 @@
                         data-bs-target="#exampleModalColor" >
                         + Thêm màu sắc
                       </button>
+                      <div class="toast" id="color-duplicate" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                      style="position: fixed;
+                                  bottom: 1rem;
+                                  right: 1rem;
+                                  z-index: 1050;
+                                  width: 200px;">
+                      <div class="toast-header">
+                          <strong class="mr-auto">Thông báo</strong>
+                          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="toast-body">
+                          Màu sắc đã tồn tại
+                      </div>
+                    </div>
                       <div id="error-color" style="color: red;
                       font-size: 1em;
                       width: 100%;
@@ -935,6 +998,23 @@
                             style="background-color: #1967d2;border-color: #1967d2;" data-bs-target="#exampleModalSize">
                             + Thêm kích cỡ
                           </button>
+
+                          <div class="toast" id="size-duplicate" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+                          style="position: fixed;
+                                      bottom: 1rem;
+                                      right: 1rem;
+                                      z-index: 1050;
+                                      width: 200px;">
+                          <div class="toast-header">
+                              <strong class="mr-auto">Thông báo</strong>
+                              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="toast-body">
+                              Kích cỡ đã tồn tại
+                          </div>
+                        </div>
                         </div>
                       </div>
 
@@ -1081,6 +1161,36 @@
                   font-size: 1em;
                   width: 100%;
                   font-weight: 600;display: none;">Chưa chọn ảnh.</div>
+
+                  
+                  <div
+                  class="toast"
+                  id="invalid-image"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                  data-delay="2000"
+                  style="
+                    position: fixed;
+                    bottom: 1rem;
+                    right: 1rem;
+                    z-index: 1050;
+                    width: 200px;
+                  "
+                  >
+                  <div class="toast-header">
+                    <strong class="mr-auto">Thông báo</strong>
+                    <button
+                      type="button"
+                      class="ml-2 mb-1 close"
+                      data-dismiss="toast"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="toast-body"></div>
+                  </div>
 
                   <div class="preview-modal">
                     <div class="modal-overlay"></div>
