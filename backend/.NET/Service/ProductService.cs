@@ -72,41 +72,32 @@ namespace Service
             return product;
         }
 
-
-
-
-
-
-     
-
-       
-
-        
-
-
-        public async Task<Product> UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
+        public async Task UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
         {
             var existingProduct = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
 
             if (existingProduct == null)
             {
-                throw new Exception("Product not found.");
+                throw new Exception("Sản phẩm này không tồn tại.");
             }
 
             // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
-            existingProduct.Name = updatedProduct.Name;
+   
             existingProduct.RetailPrice = updatedProduct.RetailPrice;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
             existingProduct.Status = updatedProduct.Status;
-
+            existingProduct.SoleId = updatedProduct.SoleId;
+            existingProduct.MaterialId = updatedProduct.MaterialId;
+            existingProduct.CategoryProducts = updatedProduct.CategoryProducts;
+            existingProduct.ProductImages = updatedProduct.ProductImages;
+            existingProduct.Stocks = updatedProduct.Stocks;
             // ... Cập nhật thông tin khác của sản phẩm
-            existingProduct.ModifiedDate = DateTime.UtcNow;
+            existingProduct.ModifiedDate = DateTime.Now;
             // Gọi hàm Update trong repository để cập nhật sản phẩm
             _repositoryManger.ProductRepository.UpdateProduct(existingProduct);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
 
-            return existingProduct;
         }
 
         // Trong ProductService.cs
