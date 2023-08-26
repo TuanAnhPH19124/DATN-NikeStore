@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿     using Domain.Entities;
 using EntitiesDto;
 using EntitiesDto.User;
 using Microsoft.AspNetCore.Authentication;
@@ -35,14 +35,16 @@ namespace Webapi.Controllers
         private readonly IHubContext<CustomerHub> _contextHub;
         private readonly IServiceManager _serviceManager;
 
+
+     
         public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
-    {
+        {
           _signInManager = signInManager;
           _userManager = userManager;
           _configuration = configuration;
           _contextHub = contextHub;
           _serviceManager = serviceManager;
-    }
+        }
 
         [HttpPost("CreateEmployeeAccount")]
         public async Task<IActionResult> CreateEmployeeAccount([FromBody]string phoneNumber)
@@ -309,33 +311,45 @@ namespace Webapi.Controllers
             return Ok("Dang xuat thanh cong");
         }
 
+
         [Authorize]
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordRequest)
         {
-            var currentUser = await _userManager.FindByEmailAsync(HttpContext.User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(changePasswordRequest.UserName);
 
-            if (currentUser == null)
+            if (user == null)
             {
-                return NotFound("Không tìm thấy người dùng đang đăng nhập.");
-            }
-
-            try
-            {
-                var result = await _userManager.ChangePasswordAsync(currentUser, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
-
-                if (result.Succeeded)
+                return NotFound(new
                 {
-                    return Ok(new { Message = "Đổi mật khẩu thành công." });
-                }
+                    error = "Người dùng không tồn tại!"
+                });
+            }
 
-                return BadRequest(new { Message = "Không thể đổi mật khẩu." });
-            }
-            catch (Exception ex)
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user, changePasswordRequest.CurrentPassword);
+            if (!passwordCorrect)
             {
-                return BadRequest(new { Message = ex.Message });
+                return Unauthorized(new
+                {
+                    error = "Mật khẩu hiện tại không chính xác!"
+                });
             }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, changePasswordRequest.CurrentPassword, changePasswordRequest.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                return BadRequest(new
+                {
+                    error = "Không thể thay đổi mật khẩu. Vui lòng thử lại sau."
+                });
+            }
+
+            return Ok(new
+            {
+                message = "Mật khẩu đã được thay đổi thành công."
+            });
         }
+
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
@@ -355,6 +369,8 @@ namespace Webapi.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
+
         }
 
     }

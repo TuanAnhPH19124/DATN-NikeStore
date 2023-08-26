@@ -199,21 +199,25 @@ $(document).ready(function () {
     } else {
       $('#error-category').hide();
     }
+
     if (selectedColor===-1) {
       $('#error-color').show();
     } else {
       $('#error-color').hide();
     }
+
     if (product.Colors[selectedColor].Sizes.length===0) {
       $('#error-size').show();
     } else {
       $('#error-size').hide();
     }
+
     if (product.Colors[selectedColor].Images.length===0) {
       $('#error-image').show();
     } else {
       $('#error-image').hide();
     }
+
 
     let productFormData = new FormData();
     productFormData.append('name', $("#name").val());
@@ -306,12 +310,15 @@ $("#add-product-form").validate({
   rules: {
       "name": {
           required: true,
+          noSpaces: true,
       },
       "description": {
         required: true,
+        noSpaces: true,
     },
     "retailPrice": {
       required: true,
+      noSpaces: true,
   },
   "discountRate": {
     required: true,
@@ -334,6 +341,9 @@ $("#add-product-form").validate({
   },
 });
 
+$.validator.addMethod("noSpaces", function(value, element) {
+  return value.trim() !== "";
+}, "Vui lòng không nhập toàn khoảng trắng");
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {
@@ -687,10 +697,14 @@ function loadSizeE() {
         newButton.className = 'btn btn-outline-dark';
         newButton.textContent = element.numberSize;
 
+        var newLabel = document.createElement("label");
+        newLabel.textContent = "Số lượng";
+        newLabel.style = "margin: 0 10px 0 20px;"
+
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
         newInput.className = 'input-unit';
-        newInput.placeholder = "Điền số lượng"
+        newInput.placeholder = "Số lượng"
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
         newInput.min = 1;
         newInput.value = 1;
@@ -723,6 +737,7 @@ function loadSizeE() {
         });
 
         container.appendChild(newButton);
+        container.appendChild(newLabel);
         container.appendChild(newInput);
         container.appendChild(newXButton);
         plusButtonContainer.appendChild(container);

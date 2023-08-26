@@ -1,6 +1,8 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto.Images;
 using EntitiesDto.Product;
+using EntitiesDto.Stock;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+
 namespace Webapi.Controllers
 {
     [Route("api/[controller]")]
@@ -26,84 +29,30 @@ namespace Webapi.Controllers
 
         public ProductController(IServiceManager serviceManager, AppDbContext dbContext)
         {
-            _serviceManager=serviceManager;
-            _dbContext=dbContext;
+            _serviceManager = serviceManager;
+            _dbContext = dbContext;
         }
-        private async Task<IFormFile> ConvertUrlToFormFileAsync(string imageUrl)
-        {
-            // Tải dữ liệu ảnh từ URL
-            using (var webClient = new WebClient())
-            {
-                var imageData = await webClient.DownloadDataTaskAsync(imageUrl);
-                using (var memoryStream = new MemoryStream(imageData))
-                {
-                    // Tạo đối tượng IFormFile từ dữ liệu ảnh
-                    var formFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(imageUrl));
-                    return formFile;
-                }
-            }
-        }
+
+
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductAPI>>> GetAllProduct()
+        public async Task<IActionResult> GetAllProductsForDisplayAsync()
         {
-            try
-            {
-                var products = await _serviceManager.ProductService.GetAllProductAsync();
+            var productsForDisplay = await _serviceManager.ProductService.GetAllProductAsync();
 
-                var productAPIs = products.Select(product => new ProductAPI
-                {
-
-                    Name = product.Name,
-                    RetailPrice = product.RetailPrice,
-                    Description = product.Description,
-                    DiscountRate = product.DiscountRate,
-                    SoleId = product.SoleId,
-                    MaterialId = product.MaterialId,
-                    Colors = product.ProductImages.GroupBy(pi => pi.ColorId).Select(group => new ColorAPI
-                    {
-
-                        Id = group.Key,
-                        Images = group.Select(pi => new ImageAPI
-                        {
-
-                            Image = (IFormFile)ConvertUrlToFormFileAsync(pi.ImageUrl),
-                            SetAsDefault = pi.SetAsDefault
-                        }).ToList(),
-                        Sizes = product.Stocks.Where(stock => stock.ColorId == group.Key).Select(stock => new SizeAPI
-                        {
-                            Id = stock.SizeId,
-                            UnitInStock = stock.UnitInStock
-                        }).ToList()
-                    }).ToList(),
-                    Categories = product.CategoryProducts.Select(category => new CategoryAPI
-                    {
-                        Id = category.CategoryId
-                    }).ToList()
-                }).ToList();
-
-                return Ok(productAPIs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Error = ex.Message
-                });
-            }
+            return Ok(productsForDisplay);
         }
 
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Product>> GetProduct(string Id)
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
-            var product = await _serviceManager.ProductService.GetByIdProduct(Id);
+            var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
+            return Ok(productDto);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return product;
         }
+
+
 
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
@@ -151,7 +100,7 @@ namespace Webapi.Controllers
 
                     nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
                     {
-                        CategoryId = item.Id,  
+                        CategoryId = item.Id,
                     }).ToList();
 
                     var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
@@ -171,7 +120,7 @@ namespace Webapi.Controllers
                     throw;
                 }
             }
-            
+
 
         }
 
@@ -194,11 +143,11 @@ namespace Webapi.Controllers
 
                 existingProduct.Name = productDto.Name;
                 existingProduct.RetailPrice = productDto.RetailPrice;
-               
+
                 existingProduct.Description = productDto.Description;
-        
+
                 existingProduct.DiscountRate = productDto.DiscountRate;
-     
+
                 existingProduct.SoleId = productDto.SoleId;
                 existingProduct.MaterialId = productDto.MaterialId;
 
@@ -217,7 +166,7 @@ namespace Webapi.Controllers
 
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-            string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+     string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
         {
             try
             {
@@ -236,7 +185,9 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
     }
 }
+
+    
+
 

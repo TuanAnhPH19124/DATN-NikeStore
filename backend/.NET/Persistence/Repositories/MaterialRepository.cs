@@ -34,6 +34,7 @@ namespace Persistence.Repositories
 
         public async Task AddAsync(Material material)
         {
+           
             await _context.Materials.AddAsync(material);
             await _context.SaveChangesAsync();
         }
