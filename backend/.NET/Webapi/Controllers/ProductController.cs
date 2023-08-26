@@ -1,10 +1,6 @@
 using Domain.Entities;
-using Domain.Repositories;
-using EntitiesDto.Images;
 using EntitiesDto.Product;
-using EntitiesDto.Stock;
 using Mapster;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Persistence;
@@ -12,9 +8,7 @@ using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 
@@ -122,51 +116,77 @@ namespace Webapi.Controllers
 
             }
 
-            [HttpPut("{id}")]
-            public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductAPI productDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(string id, [FromForm] ProductUpdateAPI productAPI)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != productAPI.Id)
+                return BadRequest(new
+                {
+                    error = "Id sản phẩm không khớp!"
+                });
+            var targetProduct = productAPI.Adapt<Product>();
+            targetProduct.CategoryProducts = new List<CategoryProduct>();
+            targetProduct.ProductImages = new List<ProductImage>();
+            targetProduct.Stocks = new List<Stock>();
+
+            targetProduct.CategoryProducts = productAPI.Categories.Select(p => new CategoryProduct
+            {
+                CategoryId = p.Id,
+                ProductId = id
+            }).ToList();
+
+            targetProduct.Stocks = (
+            from color in productAPI.Colors
+            from size in color.Sizes
+            select new Stock
+            {
+                UnitInStock = size.UnitInStock,
+                ColorId = color.Id,
+                SizeId = size.Id
+            }
+            ).ToList();
+
+            var tempId = Guid.NewGuid().ToString();
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    if (!ModelState.IsValid)
+                    var UrList = UploadService.UploadImages(productAPI.Colors, id, tempId);
+
+                    foreach (var urlParent in UrList)
                     {
-                        return BadRequest(ModelState);
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            targetProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = id
+                            });
+                        }
                     }
 
-                    var existingProduct = await _serviceManager.ProductService.GetByIdProduct(id);
-
-                    if (existingProduct == null)
-                    {
-
-                        return NotFound();
-                    }
-
-                    existingProduct.Name = productDto.Name;
-                    existingProduct.RetailPrice = productDto.RetailPrice;
-
-                    existingProduct.Description = productDto.Description;
-
-                    existingProduct.DiscountRate = productDto.DiscountRate;
-
-                    existingProduct.SoleId = productDto.SoleId;
-                    existingProduct.MaterialId = productDto.MaterialId;
-
-                        CategoryId = item.Id,
-                    }).ToList();
-
-
-                    // ... Cập nhật thông tin khác của sản phẩm
-
-                    await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
-
+                    await _serviceManager.ProductService.UpdateByIdProduct(id, targetProduct);
+                    transaction.Commit();
+                    UploadService.Rename(tempId, id);
                     return NoContent();
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
+                    transaction.Rollback();
+                    UploadService.RollBack(tempId);
+                    return BadRequest(new
+                    {
+                        error = ex.Message
+                    });
                 }
             }
+        }
 
-            // Tiếp tục trong ProductController
 
 
 
@@ -236,15 +256,6 @@ namespace Webapi.Controllers
         }
     } 
 
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-    }
-}
 
-
-    
 
 
