@@ -27,8 +27,6 @@ namespace Webapi.Controllers
             _dbContext = dbContext;
         }
 
-
-
         [HttpGet]
         public async Task<IActionResult> GetAllProductsForDisplayAsync()
         {
@@ -36,7 +34,6 @@ namespace Webapi.Controllers
 
             return Ok(productsForDisplay);
         }
-
 
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProductByIdAsync(string productId)
