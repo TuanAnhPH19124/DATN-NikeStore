@@ -244,8 +244,6 @@ $(document).ready(function () {
   // call api them nhan vien
   $("#add-product-form").submit(function (event) {
     event.preventDefault();
-    debugger;
-
     var selectedOptions = $("#category-select").val(); // Get selected options
 
     if (!selectedOptions || selectedOptions.length === 0) {
