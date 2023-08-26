@@ -29,8 +29,8 @@ namespace Webapi.Controllers
 
         public ProductController(IServiceManager serviceManager, AppDbContext dbContext)
         {
-            _serviceManager=serviceManager;
-            _dbContext=dbContext;
+            _serviceManager = serviceManager;
+            _dbContext = dbContext;
         }
 
 
@@ -48,9 +48,9 @@ namespace Webapi.Controllers
         public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
+            return Ok(productDto);
 
-
-
+        }
 
 
 
@@ -100,7 +100,7 @@ namespace Webapi.Controllers
 
                     nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
                     {
-                        CategoryId = item.Id,  
+                        CategoryId = item.Id,
                     }).ToList();
 
                     var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
@@ -120,7 +120,7 @@ namespace Webapi.Controllers
                     throw;
                 }
             }
-            
+
 
         }
 
@@ -143,11 +143,11 @@ namespace Webapi.Controllers
 
                 existingProduct.Name = productDto.Name;
                 existingProduct.RetailPrice = productDto.RetailPrice;
-               
+
                 existingProduct.Description = productDto.Description;
-        
+
                 existingProduct.DiscountRate = productDto.DiscountRate;
-     
+
                 existingProduct.SoleId = productDto.SoleId;
                 existingProduct.MaterialId = productDto.MaterialId;
 
@@ -185,7 +185,9 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
     }
 }
+
+    
+
 
