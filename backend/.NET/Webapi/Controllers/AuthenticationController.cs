@@ -309,9 +309,6 @@ namespace Webapi.Controllers
             return Ok("Dang xuat thanh cong");
         }
 
-        [AllowAnonymous]
-       
-
         [Authorize]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
