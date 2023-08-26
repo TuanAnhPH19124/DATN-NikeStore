@@ -48,8 +48,8 @@ namespace Webapi.Controllers
         public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
-
-
+            return Ok(productDto);
+        }
 
 
 
