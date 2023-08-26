@@ -82,6 +82,7 @@ $("#add-category-now").click(function () {
       success: function (response) {
         $("#success").toast("show");
         $("#add-category").modal("hide");
+
         var option_category = [];
         $.getJSON("https://localhost:44328/api/Categories", function (result) {
           for (var i = 0; i < result.length; i++) {
@@ -95,6 +96,10 @@ $("#add-category-now").click(function () {
           }
           $("#category-select").html(option_category.join(""));
         });
+
+      error: function () {
+        $("#category-duplicate").toast("show");
+
       },
     });
   }
@@ -129,6 +134,7 @@ $("#add-material-now").click(function () {
       success: function (response) {
         $("#success").toast("show");
         $("#add-material").modal("hide");
+
         var option_material = [];
         $.getJSON("https://localhost:44328/api/Material", function (result) {
           for (var i = 0; i < result.length; i++) {
@@ -142,6 +148,9 @@ $("#add-material-now").click(function () {
           }
           $("#material-select").html(option_material.join(""));
         });
+      error: function () {
+        $("#material-duplicate").toast("show");
+
       },
     });
   }
@@ -176,6 +185,7 @@ $("#add-sole-now").click(function () {
       success: function (response) {
         $("#success").toast("show");
         $("#add-sole").modal("hide");
+
         var option_sole = [];
         $.getJSON("https://localhost:44328/api/Sole", function (result) {
           for (var i = 0; i < result.length; i++) {
@@ -189,6 +199,11 @@ $("#add-sole-now").click(function () {
           }
           $("#sole-select").html(option_sole.join(""));
         });
+
+      },
+      error: function () {
+        $("#sole-duplicate").toast("show");
+
       },
     });
   }
@@ -207,7 +222,11 @@ var product = {
   Colors: [],
 };
 
+
+var selectedColor = 0;
+
 var selectedColor = -1;
+
 
 function objectToFormData(obj) {
   var formData = new FormData();
@@ -222,7 +241,9 @@ function objectToFormData(obj) {
 }
 // call api len datatable nhan vien
 $(document).ready(function () {
+
   // hien thi product
+
   $.ajax({
     url: "https://localhost:44328/api/Product/" + id,
     type: "GET",
@@ -232,9 +253,103 @@ $(document).ready(function () {
       $("#name").val(data.name);
       $("#description").val(data.description);
       $("#retailPrice").val(data.retailPrice);
+
+      $("#status").val(data.status);
+      $("#sole-select").val(data.soleId);
+      $("#material-select").val(data.materialId);
+
+      // hiển thị danh mục
+      // Assuming data.categoryProducts is an array of category-product associations
+      var selectedCategoryIds = data.categoryProducts.map(function (item) {
+        return item.categoryId;
+      });
+
+      var categorySelect = $("#category-select");
+      categorySelect.empty(); // Clear existing options
+
+      // Fetch available categories
+      $.getJSON("https://localhost:44328/api/Categories", function (result) {
+        // Iterate through available categories
+        result.forEach(function (category) {
+          var option = $("<option>", {
+            value: category.id,
+            text: category.name,
+          });
+
+          // Check if the current category's ID is in the selected category IDs
+          if (selectedCategoryIds.includes(category.id)) {
+            option.attr("selected", "selected");
+          }
+          categorySelect.append(option);
+        });
+      });
+
+      // hiển thị màu
+      var colorIds = data.productImages.map(function (item) {
+        return item.colorId;
+      });
+
+      // Assuming product is an object with a Colors property
+      colorIds.forEach(function (colorId) {
+        $.ajax({
+          url: "https://localhost:44328/api/Color/Get/" + colorId,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            product.Colors.push({
+              id: colorId,
+              name: data.name,
+              Images: [],
+              Sizes: [],
+            });
+            loadColorE();
+          },
+          error: function () {
+            console.log("Error retrieving data.");
+          },
+        });
+      });
+      // load Size
+      var sizeData = data.stocks.map(function (item) {
+        return {
+          sizeId: item.sizeId,
+          unitInStock: item.unitInStock,
+          colorId:item.colorId,
+        };
+      });
+      
+      sizeData.forEach(function (size) {
+        $.ajax({
+          url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data)
+
+            selectedColorText = {};
+            selectedColorText.numberSize = data.numberSize
+            selectedColorText.id = size.sizeId
+            for (let index = 0; index < sizeData.length; index++) {
+              if(sizeData[index].colorId===size.colorId){
+                selectedColorText.unitInStock = size.unitInStock
+                product.Colors[index].Sizes.push(selectedColorText);
+              }
+            }
+            loadSizeE()
+          },
+          error: function () {
+            console.log("Error retrieving data.");
+          },
+        });
+      });
+      console.log(data.stocks)
+      console.log(sizeData);
+      console.log(product);
+
       $("#sole-select").val(data.soleId);
       $("#material-select").val(data.materialId);
       //$('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
+
     },
     error: function () {
       console.log("Error retrieving data.");
@@ -244,6 +359,7 @@ $(document).ready(function () {
   // call api them nhan vien
   $("#add-product-form").submit(function (event) {
     event.preventDefault();
+
     var selectedOptions = $("#category-select").val(); // Get selected options
 
     if (!selectedOptions || selectedOptions.length === 0) {
@@ -251,16 +367,19 @@ $(document).ready(function () {
     } else {
       $("#error-category").hide();
     }
+
     if (selectedColor === -1) {
       $("#error-color").show();
     } else {
       $("#error-color").hide();
     }
+
     if (product.Colors[selectedColor].Sizes.length === 0) {
       $("#error-size").show();
     } else {
       $("#error-size").hide();
     }
+
     if (product.Colors[selectedColor].Images.length === 0) {
       $("#error-image").show();
     } else {
@@ -272,7 +391,11 @@ $(document).ready(function () {
     productFormData.append("description", $("#description").val());
     let value = $("#retailPrice").val().replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
     productFormData.append("retailPrice", value);
+
+    let value2 = 0; // Loại bỏ các ký tự không phải s
+
     let value2 = 0;
+
     if (selectTypeDiscount === 1) {
       value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
     } else if (selectTypeDiscount === 2) {
@@ -332,8 +455,11 @@ $(document).ready(function () {
         success: function (response) {
           // localStorage.setItem("productId", response.id);
           // console.log(response.id)
+
           $("#success").toast("show");
+
           //window.location.href = "/frontend/admin/product-detail.html";
+          $("#success").toast("show");
           // reset form
           var form = $("#add-product-form")[0];
           form.reset();
@@ -352,6 +478,17 @@ $(document).ready(function () {
           };
         },
         error: function (response) {
+
+          for (let i = 0; i < product.Colors.length; i++) {
+            console.log(product.Colors[i].Images.length);
+            if (product.Colors[i].Images.length == 0) {
+              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+              $("#invalid-image .toast-body").text(customMessage);
+              $("#invalid-image").toast("show");
+              return;
+            }
+          }
+
           $("#fail").toast("show");
         },
       });
@@ -365,12 +502,24 @@ $("#add-product-form").validate({
   rules: {
     name: {
       required: true,
+
+      noSpaces: true,
+    },
+    description: {
+      required: true,
+      noSpaces: true,
+    },
+    retailPrice: {
+      required: true,
+      noSpaces: true,
+
     },
     description: {
       required: true,
     },
     retailPrice: {
       required: true,
+
     },
     discountRate: {
       required: true,
@@ -379,10 +528,17 @@ $("#add-product-form").validate({
   messages: {
     name: {
       required: "Chưa nhập Tên sản phẩm",
+
     },
     description: {
       required: "Chưa nhập mô tả",
     },
+
+    },
+    description: {
+      required: "Chưa nhập mô tả",
+    },
+
     retailPrice: {
       required: "Chưa nhập giá gốc",
     },
@@ -391,6 +547,16 @@ $("#add-product-form").validate({
     },
   },
 });
+
+
+$.validator.addMethod(
+  "noSpaces",
+  function (value, element) {
+    return value.trim() !== "";
+  },
+  "Vui lòng không nhập toàn khoảng trắng"
+);
+
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {
@@ -715,10 +881,20 @@ document.addEventListener("DOMContentLoaded", function () {
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
             error: function () {
+
+              $("#color-duplicate").toast("show");
+            },
+          });
+          $("#exampleModalColor").modal("show");
+        },
+        error: function () {
+          $("#color-duplicate").toast("show");
+
               console.error("Error fetching data.");
             },
           });
           $("#exampleModalColor").modal("show");
+
         },
       });
     }
@@ -743,29 +919,62 @@ function loadSizeE() {
         newButton.className = "btn btn-outline-dark";
         newButton.textContent = element.numberSize;
 
+        var newLabel = document.createElement("label");
+        newLabel.textContent = "Số lượng";
+        newLabel.style = "margin: 0 10px 0 20px;";
+
+        var validationMessage = document.createElement("span");
+        validationMessage.className = "validation-message";
+        validationMessage.textContent = ""; // Initially no message
+        validationMessage.style = "color:red;font-weight: 600;";
+
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
         newInput.className = "input-unit";
+
+        newInput.placeholder = "Số lượng: ";
+        newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
+        console.log(product);
+        newInput.addEventListener("change", function () {
+          if (
+            parseInt(newInput.value) <= 0 ||
+            isNaN(parseInt(newInput.value))
+          ) {
+
         newInput.placeholder = "Điền số lượng";
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : "";
         newInput.min = 1;
         newInput.value = 1;
         newInput.addEventListener("change", function () {
           if (parseInt(newInput.value) < 0) {
+
             newInput.value = 1;
-          } else {
+            validationMessage.textContent =
+              "Số lượng là số lớn hơn hoặc bằng 1.";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
             );
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
               newInput.value
             );
+          } else {
+
+            validationMessage.textContent = "";
+
+            let index = product.Colors[selectedColor].Sizes.findIndex(
+              (p) => p.id === element.id
+            );
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
+              newInput.value
+            );
+
           }
         });
 
         newInput.addEventListener("input", function () {
           if (newInput.value < 1) {
             newInput.value = 1;
+
           }
         });
 
@@ -785,8 +994,10 @@ function loadSizeE() {
         });
 
         container.appendChild(newButton);
+        container.appendChild(newLabel);
         container.appendChild(newInput);
         container.appendChild(newXButton);
+        container.appendChild(validationMessage);
         plusButtonContainer.appendChild(container);
       });
     }
@@ -859,7 +1070,11 @@ document.addEventListener("DOMContentLoaded", function () {
           selectedColorText = {
             id: item.id,
             numberSize: item.numberSize,
+
+            unitInStock: 1,
+
             unitInStock: 0,
+
           };
         });
         buttonContainer.append(button);
@@ -933,6 +1148,12 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           $("#exampleModalSize").modal("show");
+
+        },
+        error: function () {
+          $("#size-duplicate").toast("show");
+
+
         },
       });
     }

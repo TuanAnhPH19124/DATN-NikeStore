@@ -77,6 +77,24 @@ $("#add-category-now").click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
+
+        $('#success').toast('show');
+        $('#add-category').modal('hide');
+
+        var option_category = [];
+      $.getJSON("https://localhost:44328/api/Categories", function (result) {
+        for (var i = 0; i < result.length; i++) {
+          option_category.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+        }
+        $("#category-select").html(option_category.join(''));
+      });
+
+      },
+      error: function(){
+        $('#category-duplicate').toast('show')
+      }
+
+
         $("#success").toast("show");
         $("#add-category").modal("hide");
         var option_category = [];
@@ -93,6 +111,7 @@ $("#add-category-now").click(function () {
           $("#category-select").html(option_category.join(""));
         });
       },
+
     });
   }
 });
@@ -124,6 +143,17 @@ $("#add-material-now").click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
+
+        $('#success').toast('show');
+        $('#add-material').modal('hide');
+        
+        var option_material = [];
+        $.getJSON("https://localhost:44328/api/Material", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+          }
+          $("#material-select").html(option_material.join(''));
+
         $("#success").toast("show");
         $("#add-material").modal("hide");
         var option_material = [];
@@ -138,8 +168,12 @@ $("#add-material-now").click(function () {
             );
           }
           $("#material-select").html(option_material.join(""));
+
         });
       },
+      error: function(){
+        $('#material-duplicate').toast('show')
+      }
     });
   }
 });
@@ -171,6 +205,19 @@ $("#add-sole-now").click(function () {
       data: JSON.stringify(formData),
       contentType: "application/json",
       success: function (response) {
+
+        $('#success').toast('show');
+        $('#add-sole').modal('hide');
+
+        var option_sole = [];
+        $.getJSON("https://localhost:44328/api/Sole", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+          }
+          $("#sole-select").html(option_sole.join(''));
+        });
+
+
         $("#success").toast("show");
         $("#add-sole").modal("hide");
         var option_sole = [];
@@ -186,7 +233,11 @@ $("#add-sole-now").click(function () {
           }
           $("#sole-select").html(option_sole.join(""));
         });
+
       },
+      error: function(){
+        $('#sole-duplicate').toast('show')
+      }
     });
   }
 });
@@ -314,8 +365,11 @@ $(document).ready(function () {
         success: function (response) {
           // localStorage.setItem("productId", response.id);
           // console.log(response.id)
+
           $("#success").toast("show");
+
           //window.location.href = "/frontend/admin/product-detail.html";
+          $('#success').toast('show');
           // reset form
           var form = $("#add-product-form")[0];
           form.reset();
@@ -336,6 +390,22 @@ $(document).ready(function () {
         error: function (response) {
           $("#fail").toast("show");
         },
+
+        error: function (response){
+          //check ảnh 
+          for (let i = 0; i < product.Colors.length; i++) {
+            console.log(product.Colors[i].Images.length)
+            if(product.Colors[i].Images.length==0){
+              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+              $('#invalid-image .toast-body').text(customMessage);
+              $('#invalid-image').toast('show');
+              return
+            }
+          }
+          $('#fail').toast('show');
+
+        }
+
       });
     } else {
       return;
@@ -707,16 +777,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
+
+            error: function(){
+              $('#color-duplicate').toast('show')
+            }
+          }); 
+          $('#exampleModalColor').modal('show');
+
             error: function () {
               console.error("Error fetching data.");
             },
           });
           $("#exampleModalColor").modal("show");
+
         },
+        error: function(){
+          $('#color-duplicate').toast('show')
+        }
       });
     }
   });
 });
+
 
 function loadSizeE() {
   var plusButtonContainer = document.getElementById("render-size");
@@ -740,8 +822,22 @@ function loadSizeE() {
         newLabel.textContent = "Số lượng";
         newLabel.style = "margin: 0 10px 0 20px;";
 
+        var validationMessage = document.createElement("span");
+        validationMessage.className = 'validation-message';
+        validationMessage.textContent = ''; // Initially no message
+        validationMessage.style = "color:red;font-weight: 600;"
+
+
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
+
+        newInput.className = 'input-unit';
+        newInput.placeholder = "Số lượng: "
+        newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
+        console.log(newInput.value)
+        newInput.addEventListener('change', function () {
+          if (parseInt(newInput.value) <= 0 || isNaN(parseInt(newInput.value))) {
+
         newInput.className = "input-unit";
         newInput.placeholder = "Số lượng";
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : "";
@@ -749,8 +845,19 @@ function loadSizeE() {
         newInput.value = 1;
         newInput.addEventListener("change", function () {
           if (parseInt(newInput.value) < 0) {
+
             newInput.value = 1;
+            validationMessage.textContent = 'Số lượng là số lớn hơn hoặc bằng 1.';
+            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
           } else {
+
+            validationMessage.textContent = '';
+            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
+          }
+        });
+
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
             );
@@ -785,6 +892,7 @@ function loadSizeE() {
         container.appendChild(newLabel);
         container.appendChild(newInput);
         container.appendChild(newXButton);
+        container.appendChild(validationMessage);
         plusButtonContainer.appendChild(container);
       });
     }
@@ -854,11 +962,15 @@ document.addEventListener("DOMContentLoaded", function () {
         button.text(item.numberSize);
         button.attr("data-color", item.numberSize);
         button.click(function () {
+
+          selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 1 };
+
           selectedColorText = {
             id: item.id,
             numberSize: item.numberSize,
             unitInStock: 0,
           };
+
         });
         buttonContainer.append(button);
       });
@@ -914,11 +1026,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.text(item.numberSize);
                 button.attr("data-color", item.numberSize);
                 button.click(function () {
+
+                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 1 };
+
                   selectedColorText = {
                     id: item.id,
                     numberSize: item.numberSize,
                     unitInStock: 0,
                   };
+
                 });
                 buttonContainer.append(button);
               });
@@ -932,6 +1048,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           $("#exampleModalSize").modal("show");
         },
+        error: function(){
+          $('#size-duplicate').toast('show')
+        }
       });
     }
   });
