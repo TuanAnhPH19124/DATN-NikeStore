@@ -919,6 +919,12 @@ function loadSizeE() {
         newButton.className = "btn btn-outline-dark";
         newButton.textContent = element.numberSize;
 
+        newButton.addEventListener("click", function(event) {
+          event.preventDefault();     // Prevent the default click behavior
+          event.stopPropagation();    // Stop the event from propagating
+          // You can optionally add some code here if you want, but it will not affect the button behavior
+      });
+
         var newLabel = document.createElement("label");
         newLabel.textContent = "Số lượng";
         newLabel.style = "margin: 0 10px 0 20px;";
