@@ -32,6 +32,10 @@ namespace Service
             Voucher voucher = await _repositoryManger.VoucherRepository.GetByIdVoucherAsync(id, cancellationToken);
             return voucher;
         }
+        public async Task<Voucher> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
+        {
+            return await _repositoryManger.VoucherRepository.GetByCodeAsync(code, cancellationToken);
+        }
         public async Task<Voucher> CreateAsync(Voucher voucher)
         {
             await _repositoryManger.VoucherRepository.AddVoucher(voucher);
