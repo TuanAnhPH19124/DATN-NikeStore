@@ -96,10 +96,9 @@ $("#add-category-now").click(function () {
           }
           $("#category-select").html(option_category.join(""));
         });
-
+      },
       error: function () {
         $("#category-duplicate").toast("show");
-
       },
     });
   }
@@ -148,9 +147,9 @@ $("#add-material-now").click(function () {
           }
           $("#material-select").html(option_material.join(""));
         });
+      },
       error: function () {
         $("#material-duplicate").toast("show");
-
       },
     });
   }
@@ -199,11 +198,9 @@ $("#add-sole-now").click(function () {
           }
           $("#sole-select").html(option_sole.join(""));
         });
-
       },
       error: function () {
         $("#sole-duplicate").toast("show");
-
       },
     });
   }
@@ -222,11 +219,7 @@ var product = {
   Colors: [],
 };
 
-
 var selectedColor = 0;
-
-var selectedColor = -1;
-
 
 function objectToFormData(obj) {
   var formData = new FormData();
@@ -241,9 +234,6 @@ function objectToFormData(obj) {
 }
 // call api len datatable nhan vien
 $(document).ready(function () {
-
-  // hien thi product
-
   $.ajax({
     url: "https://localhost:44328/api/Product/" + id,
     type: "GET",
@@ -253,7 +243,6 @@ $(document).ready(function () {
       $("#name").val(data.name);
       $("#description").val(data.description);
       $("#retailPrice").val(data.retailPrice);
-
       $("#status").val(data.status);
       $("#sole-select").val(data.soleId);
       $("#material-select").val(data.materialId);
@@ -424,11 +413,7 @@ $(document).ready(function () {
     productFormData.append("description", $("#description").val());
     let value = $("#retailPrice").val().replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
     productFormData.append("retailPrice", value);
-
     let value2 = 0; // Loại bỏ các ký tự không phải s
-
-    let value2 = 0;
-
     if (selectTypeDiscount === 1) {
       value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
     } else if (selectTypeDiscount === 2) {
@@ -488,9 +473,6 @@ $(document).ready(function () {
         success: function (response) {
           // localStorage.setItem("productId", response.id);
           // console.log(response.id)
-
-          $("#success").toast("show");
-
           //window.location.href = "/frontend/admin/product-detail.html";
           $("#success").toast("show");
           // reset form
@@ -521,7 +503,6 @@ $(document).ready(function () {
               return;
             }
           }
-
           $("#fail").toast("show");
         },
       });
@@ -535,7 +516,6 @@ $("#add-product-form").validate({
   rules: {
     name: {
       required: true,
-
       noSpaces: true,
     },
     description: {
@@ -545,14 +525,6 @@ $("#add-product-form").validate({
     retailPrice: {
       required: true,
       noSpaces: true,
-
-    },
-    description: {
-      required: true,
-    },
-    retailPrice: {
-      required: true,
-
     },
     discountRate: {
       required: true,
@@ -561,17 +533,10 @@ $("#add-product-form").validate({
   messages: {
     name: {
       required: "Chưa nhập Tên sản phẩm",
-
     },
     description: {
       required: "Chưa nhập mô tả",
     },
-
-    },
-    description: {
-      required: "Chưa nhập mô tả",
-    },
-
     retailPrice: {
       required: "Chưa nhập giá gốc",
     },
@@ -581,7 +546,6 @@ $("#add-product-form").validate({
   },
 });
 
-
 $.validator.addMethod(
   "noSpaces",
   function (value, element) {
@@ -589,7 +553,6 @@ $.validator.addMethod(
   },
   "Vui lòng không nhập toàn khoảng trắng"
 );
-
 
 // Chờ tài liệu HTML được tải xong
 document.addEventListener("DOMContentLoaded", () => {
@@ -914,7 +877,6 @@ document.addEventListener("DOMContentLoaded", function () {
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
             error: function () {
-
               $("#color-duplicate").toast("show");
             },
           });
@@ -922,12 +884,6 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         error: function () {
           $("#color-duplicate").toast("show");
-
-              console.error("Error fetching data.");
-            },
-          });
-          $("#exampleModalColor").modal("show");
-
         },
       });
     }
@@ -964,7 +920,6 @@ function loadSizeE() {
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
         newInput.className = "input-unit";
-
         newInput.placeholder = "Số lượng: ";
         newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
         console.log(product);
@@ -973,14 +928,6 @@ function loadSizeE() {
             parseInt(newInput.value) <= 0 ||
             isNaN(parseInt(newInput.value))
           ) {
-
-        newInput.placeholder = "Điền số lượng";
-        newInput.value = element.unitInStock >= 0 ? element.unitInStock : "";
-        newInput.min = 1;
-        newInput.value = 1;
-        newInput.addEventListener("change", function () {
-          if (parseInt(newInput.value) < 0) {
-
             newInput.value = 1;
             validationMessage.textContent =
               "Số lượng là số lớn hơn hoặc bằng 1.";
@@ -991,23 +938,13 @@ function loadSizeE() {
               newInput.value
             );
           } else {
-
             validationMessage.textContent = "";
-
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
             );
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
               newInput.value
             );
-
-          }
-        });
-
-        newInput.addEventListener("input", function () {
-          if (newInput.value < 1) {
-            newInput.value = 1;
-
           }
         });
 
@@ -1103,11 +1040,7 @@ document.addEventListener("DOMContentLoaded", function () {
           selectedColorText = {
             id: item.id,
             numberSize: item.numberSize,
-
             unitInStock: 1,
-
-            unitInStock: 0,
-
           };
         });
         buttonContainer.append(button);
@@ -1181,12 +1114,9 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           $("#exampleModalSize").modal("show");
-
         },
         error: function () {
           $("#size-duplicate").toast("show");
-
-
         },
       });
     }
