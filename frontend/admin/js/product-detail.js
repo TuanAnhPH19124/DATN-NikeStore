@@ -285,10 +285,10 @@ $(document).ready(function () {
       });
 
       // hiển thị màu
-      var colorIds = data.productImages.map(function (item) {
+      var colorIds = [...new Set(data.productImages.map(function (item) {
         return item.colorId;
-      });
-
+      }))];
+      
       // Assuming product is an object with a Colors property
       colorIds.forEach(function (colorId) {
         $.ajax({
@@ -296,6 +296,8 @@ $(document).ready(function () {
           type: "GET",
           dataType: "json",
           success: function (data) {
+            console.log(data.id)
+            console.log(colorId)
             product.Colors.push({
               id: colorId,
               name: data.name,
@@ -303,6 +305,29 @@ $(document).ready(function () {
               Sizes: [],
             });
             loadColorE();
+
+            const imageLink =
+            "https://localhost:44328/Uploads/0264e876-2606-4f11-84ba-f362af759193/5751c48f-f4d8-4f75-b25b-4e1b868901d4/32db1144-06e5-4ab1-ada1-d23a28a8d98a.jpg"; // Replace with the actual image link
+  
+          // Convert the image URL into a Blob (You might need to fetch the image)
+          fetch(imageLink)
+            .then((response) => response.blob())
+            .then((blob) => {
+              // Create a new File or Blob object with the blob and other necessary information
+              const newImage = new File([blob], "image.jpg", {
+                type: "image/jpeg",
+              });
+  
+              // Rest of your code for adding the new image
+              if (product.Colors[selectedColor]) {
+                product.Colors[selectedColor].Images.push({
+                  file: newImage,
+                  setAsDefault: false,
+                });
+              }
+              
+              loadImageE();
+            });
           },
           error: function () {
             console.log("Error retrieving data.");
@@ -317,7 +342,6 @@ $(document).ready(function () {
           colorId:item.colorId,
         };
       });
-      
       var promises = [];
 
       sizeData.forEach(function (size) {
@@ -334,15 +358,14 @@ $(document).ready(function () {
               id: size.sizeId,
               unitInStock: size.unitInStock,
             };
-
+            console.log(sizeData.length)
             // Find the correct color index based on colorId
-            for (let index = 0; index < sizeData.length; index++) {
-              if (sizeData[index].colorId === size.colorId) {
+            for (let i = 0; i < sizeData.length; i++) {
+              if (product.Colors[i].id === size.colorId) {
                 selectedColorText.unitInStock = size.unitInStock;
-                product.Colors[index].Sizes.push(selectedColorText);
+                product.Colors[i].Sizes.push(selectedColorText);
               }
             }
-
             // Push selectedColorText to the Sizes array of the corresponding color
           })
           .catch(function () {
@@ -356,37 +379,10 @@ $(document).ready(function () {
       Promise.all(promises).then(function () {
         loadSizeE(); // This will be called after all requests are finished
         // Assuming you have an imageLink as you mentioned earlier
-        const imageLink =
-          "https://localhost:44328/Uploads/0264e876-2606-4f11-84ba-f362af759193/5751c48f-f4d8-4f75-b25b-4e1b868901d4/32db1144-06e5-4ab1-ada1-d23a28a8d98a.jpg"; // Replace with the actual image link
 
-        // Convert the image URL into a Blob (You might need to fetch the image)
-        fetch(imageLink)
-          .then((response) => response.blob())
-          .then((blob) => {
-            // Create a new File or Blob object with the blob and other necessary information
-            const newImage = new File([blob], "image.jpg", {
-              type: "image/jpeg",
-            });
-
-            // Rest of your code for adding the new image
-            if (product.Colors[selectedColor]) {
-              product.Colors[selectedColor].Images.push({
-                file: newImage,
-                setAsDefault: false,
-              });
-            }
-            loadImageE();
-          });
+          console.log(data)
+          console.log(product);
       });
-
-      console.log(data.stocks)
-      console.log(sizeData);
-      console.log(product);
-
-      $("#sole-select").val(data.soleId);
-      $("#material-select").val(data.materialId);
-      //$('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
-
     },
     error: function () {
       console.log("Error retrieving data.");
