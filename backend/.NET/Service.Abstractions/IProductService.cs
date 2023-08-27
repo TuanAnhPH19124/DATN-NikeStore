@@ -20,5 +20,6 @@ namespace Service.Abstractions
         Task<List<ProductForFilterDto>> FilterProductsAsync(
       string sizeId, string colorId, string categoryId, int? materialId, int? soleId);
         Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken = default);
     }
 }
