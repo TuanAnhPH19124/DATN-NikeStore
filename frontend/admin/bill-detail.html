@@ -39,7 +39,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #030e2c;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -329,55 +329,34 @@
                             <h2 class="modal-title">Thông tin đơn hàng</h2>
                         </div>
                         <div class="modal-body">
-                            <form id="update-employee-form">
-
+                            <div id="update-employee-form">
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Tên khách hàng</label>
-                                            <input type="text" class="form-control" id="employeeId" name="employeeId"
-                                                aria-describedby="emailHelp" placeholder="" >
-                                        </div>
+                                    <div class="col-md-4">                                       
+                                            <label>Tên khách hàng:</label>
+                                            <input type="text" class="form-control" id="employeeId" name="employeeId" aria-describedby="emailHelp">
                                     </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="snn">Địa chỉ</label>
-                                            <input type="text" class="form-control" id="fullName" placeholder="" name="fullName">
-                                        </div>
+                                    <div class="col-md-4">                                      
+                                        <label>Số điện thoại:</label>
+                                        <input type="text" class="form-control" id="snn" placeholder="" name="snn">
                                     </div>
+                                    <div class="col-md-4">                                       
+                                            <label for="snn">Địa chỉ:</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName">
+                                    </div>                                  
                                 </div>
-
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Số điện thoại</label>
-                                            <input type="text" class="form-control" id="snn" placeholder="" 
-                                                name="snn">
-                                        </div>
+                                    <div class="col-md-4">                                      
+                                            <label>Tổng tiền:</label>
+                                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
                                     </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Tổng tiền</label>
-                                            <input type="text" class="form-control" id="phoneNumber" placeholder="" 
-                                                name="phoneNumber">
-                                        </div>
+                                    <div class="col-md-4">                                        
+                                            <label>Người tạo:</label>
+                                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Người tạo</label>
-                                            <input type="text" class="form-control" id="phoneNumber" placeholder="" 
-                                                name="phoneNumber">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="dateOfBirth">Ngày tạo</label>
+                                    <div class="col-md-4">                                     
+                                            <label for="dateOfBirth">Ngày tạo:</label>
                                             <div class="input-group date" id="datepicker">
-                                                <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth"
-                                                    autocomplete="off">
+                                                <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth" autocomplete="off">
                                                 <span class="input-group-append">
                                                     <span class="input-group-text bg-white">
                                                         <i class="fa fa-calendar"></i>
@@ -386,26 +365,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Mã giảm giá áp dụng</label>
-                                            <input type="text" class="form-control" id="homeTown" placeholder=""
-                                                name="homeTown">
-                                        </div>
+                                    <div class="col-md-4">                                     
+                                            <label>Mã giảm giá áp dụng:</label>
+                                            <input type="text" class="form-control" id="homeTown" name="homeTown">
                                     </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Ghi chú</label>
-                                            <input type="text" class="form-control" id="address" placeholder=""
-                                                name="address">
-                                        </div>
+                                    <div class="col-md-4">
+                                            <label>Ghi chú:</label>
+                                            <input type="text" class="form-control" id="address" name="address">
                                     </div>
                                 </div>
-
-                            </form>
+                            </div>
+                            </form> <br>                       
                             <table class="table" id="myTable">
                                 <thead class="thead-light">
                                     <tr>
