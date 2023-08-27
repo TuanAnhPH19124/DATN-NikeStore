@@ -16,6 +16,7 @@ namespace Domain.Repositories
         void UpdateProduct(Product product);
         Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default);
         Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<List<Product>> GetAllProductImageAsync(CancellationToken cancellationToken = default);
         Task<List<Product>> FilterProductsAsync(
        string sizeId, string colorId, string categoryId, int? materialId, int? soleId);
     }

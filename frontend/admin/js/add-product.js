@@ -75,6 +75,7 @@ $('#add-category-now').click(function () {
       success: function (response) {
         $('#success').toast('show');
         $('#add-category').modal('hide');
+
         var option_category = [];
       $.getJSON("https://localhost:44328/api/Categories", function (result) {
         for (var i = 0; i < result.length; i++) {
@@ -82,7 +83,11 @@ $('#add-category-now').click(function () {
         }
         $("#category-select").html(option_category.join(''));
       });
+
       },
+      error: function(){
+        $('#category-duplicate').toast('show')
+      }
 
     });
   }
@@ -112,14 +117,18 @@ $('#add-material-now').click(function () {
       success: function (response) {
         $('#success').toast('show');
         $('#add-material').modal('hide');
+        
         var option_material = [];
-$.getJSON("https://localhost:44328/api/Material", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#material-select").html(option_material.join(''));
-});
+        $.getJSON("https://localhost:44328/api/Material", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_material.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+          }
+          $("#material-select").html(option_material.join(''));
+        });
       },
+      error: function(){
+        $('#material-duplicate').toast('show')
+      }
     });
   }
 });
@@ -147,14 +156,19 @@ $('#add-sole-now').click(function () {
       success: function (response) {
         $('#success').toast('show');
         $('#add-sole').modal('hide');
+
         var option_sole = [];
-$.getJSON("https://localhost:44328/api/Sole", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
-  }
-  $("#sole-select").html(option_sole.join(''));
-});
+        $.getJSON("https://localhost:44328/api/Sole", function (result) {
+          for (var i = 0; i < result.length; i++) {
+            option_sole.push('<option value="', result[i].id, '">', result[i].name, '</option>');
+          }
+          $("#sole-select").html(option_sole.join(''));
+        });
+
       },
+      error: function(){
+        $('#sole-duplicate').toast('show')
+      }
     });
   }
 });
@@ -273,8 +287,8 @@ $(document).ready(function () {
         success: function (response) {
           // localStorage.setItem("productId", response.id);
           // console.log(response.id)
-          $('#success').toast('show');
           //window.location.href = "/frontend/admin/product-detail.html";
+          $('#success').toast('show');
           // reset form
           var form = $("#add-product-form")[0]; 
           form.reset();
@@ -292,17 +306,29 @@ $(document).ready(function () {
             "Colors": []
           }
         },
-        error: function (response){
+        error: function (xhr){
+          //check ảnh 
+          for (let i = 0; i < product.Colors.length; i++) {
+            console.log(product.Colors[i].Images.length)
+            if(product.Colors[i].Images.length==0){
+              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+              $('#invalid-image .toast-body').text(customMessage);
+              $('#invalid-image').toast('show');
+              return
+            }
+          }
+          if(xhr.responseJSON.error==="An error occurred while updating the entries. See the inner exception for details."){
+            var customMessage = `Thêm thất bại - Tên sản phẩm đã tồn tại`;
+            $('#name-duplicate .toast-body').text(customMessage);
+            $('#name-duplicate').toast('show');
+            return
+          }
           $('#fail').toast('show');
-          
         }
       });
   } else {
       return
   }
-
-
-
   });
 });
 
@@ -668,16 +694,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
-            error: function () {
-              console.error('Error fetching data.');
+            error: function(){
+              $('#color-duplicate').toast('show')
             }
-          });
+          }); 
           $('#exampleModalColor').modal('show');
         },
+        error: function(){
+          $('#color-duplicate').toast('show')
+        }
       });
     }
   });
 });
+
 
 function loadSizeE() {
   var plusButtonContainer = document.getElementById("render-size");
@@ -701,25 +731,28 @@ function loadSizeE() {
         newLabel.textContent = "Số lượng";
         newLabel.style = "margin: 0 10px 0 20px;"
 
+        var validationMessage = document.createElement("span");
+        validationMessage.className = 'validation-message';
+        validationMessage.textContent = ''; // Initially no message
+        validationMessage.style = "color:red;font-weight: 600;"
+
+
         // thêm ô điền số lượng
         var newInput = document.createElement("input");
         newInput.className = 'input-unit';
-        newInput.placeholder = "Số lượng"
-        newInput.value = element.unitInStock >= 0 ? element.unitInStock : '';
-        newInput.min = 1;
-        newInput.value = 1;
+        newInput.placeholder = "Số lượng: "
+        newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
+        console.log(newInput.value)
         newInput.addEventListener('change', function () {
-          if (parseInt(newInput.value) < 0) {
+          if (parseInt(newInput.value) <= 0 || isNaN(parseInt(newInput.value))) {
             newInput.value = 1;
-          } else {
+            validationMessage.textContent = 'Số lượng là số lớn hơn hoặc bằng 1.';
             let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
-          }
-        });
-
-        newInput.addEventListener('input', function() {
-          if (newInput.value < 1) {
-            newInput.value = 1;
+          } else {
+            validationMessage.textContent = '';
+            let index = product.Colors[selectedColor].Sizes.findIndex(p => p.id === element.id);
+            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(newInput.value);
           }
         });
 
@@ -740,6 +773,7 @@ function loadSizeE() {
         container.appendChild(newLabel);
         container.appendChild(newInput);
         container.appendChild(newXButton);
+        container.appendChild(validationMessage);
         plusButtonContainer.appendChild(container);
       });
     }
@@ -806,7 +840,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.text(item.numberSize);
         button.attr('data-color', item.numberSize);
         button.click(function () {
-          selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
+          selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 1 };
         });
         buttonContainer.append(button);
       });
@@ -860,7 +894,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.text(item.numberSize);
                 button.attr('data-color', item.numberSize);
                 button.click(function () {
-                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 0 };
+                  selectedColorText = { id: item.id, numberSize: item.numberSize, unitInStock: 1 };
                 });
                 buttonContainer.append(button);
               });
@@ -874,17 +908,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
           $('#exampleModalSize').modal('show');
         },
+        error: function(){
+          $('#size-duplicate').toast('show')
+        }
       });
     }
   });
 });
-
-
-
-
-
-
-
-
-
-

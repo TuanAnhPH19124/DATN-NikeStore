@@ -1,10 +1,6 @@
 using Domain.Entities;
-using Domain.Repositories;
-using EntitiesDto.Images;
 using EntitiesDto.Product;
-using EntitiesDto.Stock;
 using Mapster;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Persistence;
@@ -12,9 +8,7 @@ using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 
@@ -29,11 +23,9 @@ namespace Webapi.Controllers
 
         public ProductController(IServiceManager serviceManager, AppDbContext dbContext)
         {
-            _serviceManager=serviceManager;
-            _dbContext=dbContext;
+            _serviceManager = serviceManager;
+            _dbContext = dbContext;
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllProductsForDisplayAsync()
@@ -43,16 +35,19 @@ namespace Webapi.Controllers
             return Ok(productsForDisplay);
         }
 
+        [HttpGet("1Image")]
+        public async Task<IActionResult> GetAllProductsForDisplayImageAsync()
+        { 
+            var product = await _serviceManager.ProductService.GetAllProductImageAsync();
+            return Ok(product);
+        }
 
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
-
-
-
-
-
+            return Ok(productDto);
+        }
 
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
@@ -100,11 +95,12 @@ namespace Webapi.Controllers
 
                     nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
                     {
-                        CategoryId = item.Id,  
+                        CategoryId = item.Id,
                     }).ToList();
 
                     var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
                     transaction.Commit();
+
 
                     //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
                     return Ok();
@@ -120,49 +116,78 @@ namespace Webapi.Controllers
                     throw;
                 }
             }
-            
-
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductAPI productDto)
+        public async Task<IActionResult> UpdateProduct(string id, [FromForm] ProductUpdateAPI productAPI)
         {
-            try
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != productAPI.Id)
+                return BadRequest(new
+                {
+                    error = "Id sản phẩm không khớp!"
+                });
+            var targetProduct = productAPI.Adapt<Product>();
+            targetProduct.CategoryProducts = new List<CategoryProduct>();
+            targetProduct.ProductImages = new List<ProductImage>();
+            targetProduct.Stocks = new List<Stock>();
+
+            targetProduct.CategoryProducts = productAPI.Categories.Select(p => new CategoryProduct
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                CategoryId = p.Id,
+                ProductId = id
+            }).ToList();
 
-                var existingProduct = await _serviceManager.ProductService.GetByIdProduct(id);
-
-                if (existingProduct == null)
-                {
-                    return NotFound();
-                }
-
-                existingProduct.Name = productDto.Name;
-                existingProduct.RetailPrice = productDto.RetailPrice;
-               
-                existingProduct.Description = productDto.Description;
-        
-                existingProduct.DiscountRate = productDto.DiscountRate;
-     
-                existingProduct.SoleId = productDto.SoleId;
-                existingProduct.MaterialId = productDto.MaterialId;
-
-                // ... Cập nhật thông tin khác của sản phẩm
-
-                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
-
-                return NoContent();
+            targetProduct.Stocks = (
+            from color in productAPI.Colors
+            from size in color.Sizes
+            select new Stock
+            {
+                UnitInStock = size.UnitInStock,
+                ColorId = color.Id,
+                SizeId = size.Id
             }
-            catch (Exception ex)
+            ).ToList();
+
+            var tempId = Guid.NewGuid().ToString();
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                try
+                {
+                    var UrList = UploadService.UploadImages(productAPI.Colors, id, tempId);
+
+                    foreach (var urlParent in UrList)
+                    {
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            targetProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = id
+                            });
+                        }
+                    }
+
+                    await _serviceManager.ProductService.UpdateByIdProduct(id, targetProduct);
+                    transaction.Commit();
+                    UploadService.Rename(tempId, id);
+                    return NoContent();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    UploadService.RollBack(tempId);
+                    return BadRequest(new
+                    {
+                        error = ex.Message
+                    });
+                }
             }
         }
-        // Tiếp tục trong ProductController
 
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
@@ -185,7 +210,9 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
     }
 }
+
+
+
 

@@ -72,41 +72,32 @@ namespace Service
             return product;
         }
 
-
-
-
-
-
-     
-
-       
-
-        
-
-
-        public async Task<Product> UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
+        public async Task UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
         {
             var existingProduct = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
 
             if (existingProduct == null)
             {
-                throw new Exception("Product not found.");
+                throw new Exception("Sản phẩm này không tồn tại.");
             }
 
             // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
-            existingProduct.Name = updatedProduct.Name;
+   
             existingProduct.RetailPrice = updatedProduct.RetailPrice;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
             existingProduct.Status = updatedProduct.Status;
-
+            existingProduct.SoleId = updatedProduct.SoleId;
+            existingProduct.MaterialId = updatedProduct.MaterialId;
+            existingProduct.CategoryProducts = updatedProduct.CategoryProducts;
+            existingProduct.ProductImages = updatedProduct.ProductImages;
+            existingProduct.Stocks = updatedProduct.Stocks;
             // ... Cập nhật thông tin khác của sản phẩm
-            existingProduct.ModifiedDate = DateTime.UtcNow;
+            existingProduct.ModifiedDate = DateTime.Now;
             // Gọi hàm Update trong repository để cập nhật sản phẩm
             _repositoryManger.ProductRepository.UpdateProduct(existingProduct);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
 
-            return existingProduct;
         }
 
         // Trong ProductService.cs
@@ -147,10 +138,57 @@ namespace Service
 
             var productDTOs = products.Select(product => new ProductDtoForGet
             {
+                Id = product.Id,
+                Name = product.Name,
                 BarCode = product.BarCode,
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,
                 Status = product.Status,              
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
+        public async Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken)
+        {
+            var products = await _repositoryManger.ProductRepository.GetAllProductImageAsync();
+
+            var productDTOs = products.Select(product => new ProductDtoForGet
+            {
+                Id = product.Id,
+                Name = product.Name,
+                BarCode = product.BarCode,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                Status = product.Status,
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
@@ -204,6 +242,8 @@ namespace Service
 
             var productDto = new ProductDtoForGet
             {
+                Id = product.Id,
+                Name = product.Name,
                 BarCode = product.BarCode,
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,

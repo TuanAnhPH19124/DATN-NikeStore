@@ -72,7 +72,6 @@
   list-style-type: none;
   align-items: center;
   margin: 0;
-  padding: 0 30px;
   overflow: hidden;
 }
 
@@ -127,6 +126,32 @@
 .container_search button:hover{
   background-color: var(--bc-gray-light-hover); 
 }
+
+.nav-end a {
+  margin-left: 10px;
+}
+
+.container-cart {
+  position: relative;
+  margin-left: 20px;
+}
+.container-cart span{
+  position: absolute;
+  left: 12px;
+  font-size: var(--fs-12px);
+  bottom: 2px;
+  z-index: -1;
+}
+
+.container-cart .span-9p {
+  left: 9px;
+}
+.container-wishlist{
+  margin-left: 20px;
+}
+
+
+
 
 
 
