@@ -277,7 +277,13 @@ $(document).ready(function () {
       var colorIds = [...new Set(data.productImages.map(function (item) {
         return item.colorId;
       }))];
-      
+      var images = data.productImages.map(function (item) {
+        return {
+          colorId : item.colorId,
+          imageUrl : item.imageUrl,
+        };
+      });
+      console.log(images)
       // Assuming product is an object with a Colors property
       colorIds.forEach(function (colorId) {
         $.ajax({
@@ -294,29 +300,31 @@ $(document).ready(function () {
               Sizes: [],
             });
             loadColorE();
-
-            const imageLink =
-            "https://localhost:44328/Uploads/0264e876-2606-4f11-84ba-f362af759193/5751c48f-f4d8-4f75-b25b-4e1b868901d4/32db1144-06e5-4ab1-ada1-d23a28a8d98a.jpg"; // Replace with the actual image link
-  
-          // Convert the image URL into a Blob (You might need to fetch the image)
-          fetch(imageLink)
-            .then((response) => response.blob())
-            .then((blob) => {
-              // Create a new File or Blob object with the blob and other necessary information
-              const newImage = new File([blob], "image.jpg", {
-                type: "image/jpeg",
-              });
-  
-              // Rest of your code for adding the new image
-              if (product.Colors[selectedColor]) {
-                product.Colors[selectedColor].Images.push({
-                  file: newImage,
-                  setAsDefault: false,
+            for (let i = 0; i < product.Colors.length; i++) {
+              if (product.Colors[i].id === colorId) {
+                const imagesForColor = images.filter(image => image.colorId === colorId);
+                
+                imagesForColor.forEach(imageData => {
+                  const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
+            
+                  fetch(imageLink)
+                    .then(response => response.blob())
+                    .then(blob => {
+                      const newImage = new File([blob], "image.jpg", {
+                        type: "image/jpeg",
+                      });
+            
+                      product.Colors[i].Images.push({
+                        file: newImage,
+                        setAsDefault: false,
+                      });
+            
+                      loadImageE();
+                    });
                 });
               }
-              
-              loadImageE();
-            });
+            }
+            
           },
           error: function () {
             console.log("Error retrieving data.");
