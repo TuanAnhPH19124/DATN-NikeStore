@@ -91,13 +91,10 @@ namespace Webapi
         {
             app.UseCors();
 
-<<<<<<< HEAD
-            DatabaseMigration.StartMigration(app);
-            SeedingDatabase.Start(app).Wait();
-=======
+
             //DatabaseMigration.StartMigration(app);
-           // SeedingDatabase.Start(app).Wait();
->>>>>>> b156bb383c7d221ffef2605bc5283a64da9f9df9
+            //SeedingDatabase.Start(app).Wait();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
