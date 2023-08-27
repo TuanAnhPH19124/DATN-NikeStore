@@ -43,11 +43,9 @@ namespace EntitiesDto.Product
     public class ProductUpdateAPI
     {
         public string Id { get; set; }
-        public DateTime ModifiedDate { get; set; }
         public string Name { get; set; }
         public Status Status { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string BarCode { get; set; }
         public double RetailPrice { get; set; }
         public string Description { get; set; }
         public int DiscountRate { get; set; } 

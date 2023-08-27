@@ -417,6 +417,8 @@ $(document).ready(function () {
     }
 
     let productFormData = new FormData();
+    productFormData.append("id", id);
+    productFormData.append("status", Number($("#status").val()));
     productFormData.append("name", $("#name").val());
     productFormData.append("description", $("#description").val());
     let value = $("#retailPrice").val().replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
@@ -471,10 +473,10 @@ $(document).ready(function () {
       console.log(pair[0] + ": " + pair[1]);
     }
 
-    if (confirm(`Bạn có muốn thêm sản phẩm này không?`)) {
+    if (confirm(`Bạn có muốn cập nhật sản phẩm này không?`)) {
       $.ajax({
-        url: "https://localhost:44328/api/Product",
-        type: "POST",
+        url: "https://localhost:44328/api/Product/"+id,
+        type: "PUT",
         data: productFormData,
         processData: false,
         contentType: false,
@@ -502,6 +504,7 @@ $(document).ready(function () {
         },
         error: function (response) {
           //check ảnh
+          console.log(response)
           for (let i = 0; i < product.Colors.length; i++) {
             console.log(product.Colors[i].Images.length);
             if (product.Colors[i].Images.length == 0) {
