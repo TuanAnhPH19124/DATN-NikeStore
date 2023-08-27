@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,16 @@ namespace Persistence.Repositories
                     .ToListAsync();
         }
 
-        
+        public async Task<List<Product>> GetAllProductImageAsync(CancellationToken cancellationToken = default)
+        {
+            var products =  await _context.Products
+                .Include(p => p.Stocks)
+                .Include(p => p.CategoryProducts)
+                .Include(p => p.ProductImages.OrderBy(pi => pi.Id).Take(1))
+                .ToListAsync();
+            return products;
+        }
+
         public async Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             return await _context.Products
