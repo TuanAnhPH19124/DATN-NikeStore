@@ -242,7 +242,12 @@ $(document).ready(function () {
       console.log(JSON.stringify(data));
       $("#name").val(data.name);
       $("#description").val(data.description);
-      $("#retailPrice").val(data.retailPrice);
+      
+      $("#retailPrice").val(Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(data.retailPrice));
+
       $("#status").val(data.status);
       $("#sole-select").val(data.soleId);
       $("#material-select").val(data.materialId);

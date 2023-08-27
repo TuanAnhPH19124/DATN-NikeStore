@@ -29,7 +29,10 @@ $(document).ready(function () {
         data: "retailPrice",
         title: "Giá bán",
         render: function (data, type, row) {
-          return (data).toLocaleString();
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);;
         },
       },
       {
