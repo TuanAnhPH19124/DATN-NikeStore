@@ -314,73 +314,35 @@ $(document).ready(function () {
         return {
           sizeId: item.sizeId,
           unitInStock: item.unitInStock,
-          colorId: item.colorId,
+          colorId:item.colorId,
         };
       });
-
-      var promises = [];
-
+      
       sizeData.forEach(function (size) {
-        var promise = $.ajax({
+        $.ajax({
           url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
           type: "GET",
           dataType: "json",
-        })
-          .then(function (data) {
-            console.log(data);
+          success: function (data) {
+            console.log(data)
 
-            var selectedColorText = {
-              numberSize: data.numberSize,
-              id: size.sizeId,
-              unitInStock: size.unitInStock,
-            };
-
-            // Find the correct color index based on colorId
+            selectedColorText = {};
+            selectedColorText.numberSize = data.numberSize
+            selectedColorText.id = size.sizeId
             for (let index = 0; index < sizeData.length; index++) {
-              if (sizeData[index].colorId === size.colorId) {
-                selectedColorText.unitInStock = size.unitInStock;
+              if(sizeData[index].colorId===size.colorId){
+                selectedColorText.unitInStock = size.unitInStock
                 product.Colors[index].Sizes.push(selectedColorText);
               }
             }
-
-            // Push selectedColorText to the Sizes array of the corresponding color
-          })
-          .catch(function () {
+            loadSizeE()
+          },
+          error: function () {
             console.log("Error retrieving data.");
-          });
-
-        promises.push(promise);
+          },
+        });
       });
-
-      // Wait for all AJAX requests to complete
-      Promise.all(promises).then(function () {
-        loadSizeE(); // This will be called after all requests are finished
-        // Assuming you have an imageLink as you mentioned earlier
-        const imageLink =
-          "https://localhost:44328/Uploads/0264e876-2606-4f11-84ba-f362af759193/5751c48f-f4d8-4f75-b25b-4e1b868901d4/32db1144-06e5-4ab1-ada1-d23a28a8d98a.jpg"; // Replace with the actual image link
-
-        // Convert the image URL into a Blob (You might need to fetch the image)
-        fetch(imageLink)
-          .then((response) => response.blob())
-          .then((blob) => {
-            // Create a new File or Blob object with the blob and other necessary information
-            const newImage = new File([blob], "image.jpg", {
-              type: "image/jpeg",
-            });
-
-            // Rest of your code for adding the new image
-            if (product.Colors[selectedColor]) {
-              product.Colors[selectedColor].Images.push({
-                file: newImage,
-                setAsDefault: false,
-              });
-            }
-
-            loadImageE();
-          });
-      });
-
-      console.log(data.stocks);
+      console.log(data.stocks)
       console.log(sizeData);
       console.log(product);
 
@@ -515,7 +477,7 @@ $(document).ready(function () {
             Colors: [],
           };
         },
-        error: function (xhr, status) {
+        error: function (response) {
           //check ảnh
           for (let i = 0; i < product.Colors.length; i++) {
             console.log(product.Colors[i].Images.length);

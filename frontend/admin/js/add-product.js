@@ -387,7 +387,7 @@ $(document).ready(function () {
             Colors: [],
           };
         },
-        error: function (xhr,status){
+        error: function (response){
           //check ảnh 
           for (let i = 0; i < product.Colors.length; i++) {
             console.log(product.Colors[i].Images.length)
@@ -397,12 +397,6 @@ $(document).ready(function () {
               $('#invalid-image').toast('show');
               return
             }
-          }
-          if(xhr.responseJSON.error==="An error occurred while updating the entries. See the inner exception for details."){
-            var customMessage = `Tên sản phẩm ${product.name} trùng`;
-            $('#name-duplicate .toast-body').text(customMessage);
-            $('#name-duplicate').toast('show');
-            return
           }
           $('#fail').toast('show');
 
