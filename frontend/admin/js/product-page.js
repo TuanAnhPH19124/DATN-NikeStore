@@ -29,7 +29,7 @@ $(document).ready(function () {
         data: "retailPrice",
         title: "Giá bán",
         render: function (data, type, row) {
-          return data + " VND";
+          return (data).toLocaleString();
         },
       },
       {

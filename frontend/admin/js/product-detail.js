@@ -298,6 +298,7 @@ $(document).ready(function () {
               name: data.name,
               Images: [],
               Sizes: [],
+              NotDelete: true
             });
             loadColorE();
             for (let i = 0; i < product.Colors.length; i++) {
@@ -353,13 +354,13 @@ $(document).ready(function () {
             var selectedColorText = {
               numberSize: data.numberSize,
               id: size.sizeId,
-              unitInStock: size.unitInStock,
             };
             console.log(sizeData.length)
             // Find the correct color index based on colorId
             for (let i = 0; i < sizeData.length; i++) {
               if (product.Colors[i].id === size.colorId) {
                 selectedColorText.unitInStock = size.unitInStock;
+                selectedColorText.NotDelete = true
                 product.Colors[i].Sizes.push(selectedColorText);
               }
             }
@@ -606,22 +607,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Lắng nghe sự kiện thay đổi tập tin tải lên
-  const fileInput = document.getElementById("file-input");
-  fileInput.addEventListener("change", (event) => {
-    const files = event.target.files;
-    for (const file of files) {
-      if (file.type.startsWith("image/")) {
-        // fileList.push(file);
-        // ảnh thêm vào api
-        const newImage = { file: file, setAsDefault: false };
-        product.Colors[selectedColor].Images.push(newImage);
-        //  product.Colors[0].Images.push(newImage);
-        loadImageE();
+
+    // Lắng nghe sự kiện thay đổi tập tin tải lên
+    const fileInput = document.getElementById("file-input");
+    fileInput.addEventListener("change", (event) => {
+      const files = event.target.files;
+      const maxImagesPerColor = 6;
+  
+      const imagesToAdd = [];
+      const remainingSlots = maxImagesPerColor - product.Colors[selectedColor].Images.length;
+  
+      for (const file of files) {
+        if (file.type.startsWith("image/") && imagesToAdd.length < remainingSlots) {
+          const newImage = { file: file, setAsDefault: false };
+          imagesToAdd.push(newImage);
+        }
       }
-    }
-    fileInput.value = ""; // Reset file input
-  });
+  
+      product.Colors[selectedColor].Images.push(...imagesToAdd);
+      loadImageE();
+      fileInput.value = ""; // Reset file input
+    });
 });
 
 function handleDelete(file) {
@@ -712,7 +718,7 @@ function loadColorE() {
     product.Colors.forEach((color) => {
       var newDiv = document.createElement("div");
       newDiv.className = "container-color";
-
+    
       var newButton = document.createElement("button");
       newButton.type = "button";
       newButton.className = "btn btn-outline-dark";
@@ -723,32 +729,38 @@ function loadColorE() {
         loadSizeE();
         loadImageE();
       });
-
-      var newRemoveBtn = document.createElement("button");
-      newRemoveBtn.className = "close-button";
-      newRemoveBtn.textContent = " x ";
-      newRemoveBtn.id = color.id;
-      newRemoveBtn.addEventListener("click", function (e) {
-        let index = findIndexById(product.Colors, e.target.id);
-        product.Colors.splice(index, 1);
-        console.log(product);
-        if (product.Colors.length === 0) {
-          selectedColor = -1;
-          clearE();
-        } else {
-          selectedColor = 0;
-          loadColorE();
-          loadSizeE();
-          loadImageE();
-        }
-      });
-
+    
       newDiv.appendChild(newButton);
-      newDiv.appendChild(newRemoveBtn);
-
+    
+      // Check if color.NotDelete is true, if not, create and append the remove button
+      if (!color.NotDelete) {
+        var newRemoveBtn = document.createElement("button");
+        newRemoveBtn.className = "close-button";
+        newRemoveBtn.textContent = " x ";
+        newRemoveBtn.id = color.id;
+        newRemoveBtn.addEventListener("click", function (e) {
+          let index = findIndexById(product.Colors, e.target.id);
+          product.Colors.splice(index, 1);
+          console.log(product);
+          if (product.Colors.length === 0) {
+            selectedColor = -1;
+            clearE();
+          } else {
+            selectedColor = 0;
+            loadColorE();
+            loadSizeE();
+            loadImageE();
+          }
+        });
+    
+        newDiv.appendChild(newRemoveBtn);
+      }
+    
       plusButtonContainer.appendChild(newDiv);
     });
+    
   }
+
 }
 
 function isIdExists(id, array) {
@@ -913,33 +925,31 @@ function loadSizeE() {
       product.Colors[selectedColor].Sizes.forEach((element) => {
         var container = document.createElement("div");
         container.className = "container-unit";
-
-        // thêm ô hiển thị size
+  
         var newButton = document.createElement("button");
         newButton.className = "btn btn-outline-dark";
         newButton.textContent = element.numberSize;
-
+  
         newButton.addEventListener("click", function(event) {
-          event.preventDefault();     // Prevent the default click behavior
-          event.stopPropagation();    // Stop the event from propagating
-          // You can optionally add some code here if you want, but it will not affect the button behavior
-      });
-
+          event.preventDefault();
+          event.stopPropagation();
+          // Your optional code here
+        });
+  
         var newLabel = document.createElement("label");
         newLabel.textContent = "Số lượng";
         newLabel.style = "margin: 0 10px 0 20px;";
-
+  
         var validationMessage = document.createElement("span");
         validationMessage.className = "validation-message";
         validationMessage.textContent = ""; // Initially no message
         validationMessage.style = "color:red;font-weight: 600;";
-
-        // thêm ô điền số lượng
+  
         var newInput = document.createElement("input");
         newInput.className = "input-unit";
         newInput.placeholder = "Số lượng: ";
         newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
-        console.log(product);
+  
         newInput.addEventListener("change", function () {
           if (
             parseInt(newInput.value) <= 0 ||
@@ -964,31 +974,37 @@ function loadSizeE() {
             );
           }
         });
-
-        // thêm nút x bỏ
-        var newXButton = document.createElement("button");
-        newXButton.type = "button";
-        newXButton.className = "btn btn-danger";
-        newXButton.textContent = "x";
-        newXButton.addEventListener("click", function () {
-          if (confirm("Bạn có muốn xóa thuộc tính này?")) {
-            let index = product.Colors[selectedColor].Sizes.findIndex(
-              (p) => p.id === element.id
-            );
-            product.Colors[selectedColor].Sizes.splice(index, 1);
-            loadSizeE();
-          }
-        });
-
+  
         container.appendChild(newButton);
         container.appendChild(newLabel);
         container.appendChild(newInput);
-        container.appendChild(newXButton);
         container.appendChild(validationMessage);
+  
+        // Check if element.NotDelete is false, if not, create and append the "x" button
+        if (!element.NotDelete) {
+          var newXButton = document.createElement("button");
+          newXButton.type = "button";
+          newXButton.className = "btn btn-danger";
+          newXButton.textContent = "x";
+          newXButton.addEventListener("click", function () {
+            if (confirm("Bạn có muốn xóa thuộc tính này?")) {
+              let index = product.Colors[selectedColor].Sizes.findIndex(
+                (p) => p.id === element.id
+              );
+              product.Colors[selectedColor].Sizes.splice(index, 1);
+              loadSizeE();
+            }
+          });
+  
+          container.appendChild(newXButton);
+        }
+  
         plusButtonContainer.appendChild(container);
       });
     }
   }
+  
+  
 }
 
 // add size
