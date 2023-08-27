@@ -387,7 +387,7 @@ $(document).ready(function () {
             Colors: [],
           };
         },
-        error: function (response){
+        error: function (xhr){
           //check ảnh 
           for (let i = 0; i < product.Colors.length; i++) {
             console.log(product.Colors[i].Images.length)
@@ -398,14 +398,19 @@ $(document).ready(function () {
               return
             }
           }
+          if(xhr.responseJSON.error==="An error occurred while updating the entries. See the inner exception for details."){
+            var customMessage = `Thêm thất bại - Tên sản phẩm đã tồn tại`;
+            $('#name-duplicate .toast-body').text(customMessage);
+            $('#name-duplicate').toast('show');
+            return
+          }
           $('#fail').toast('show');
-
         }
 
       });
-    } else {
-      return;
-    }
+  } else {
+      return
+  }
   });
 });
 
