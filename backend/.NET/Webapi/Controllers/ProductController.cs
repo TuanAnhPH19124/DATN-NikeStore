@@ -1,10 +1,6 @@
 using Domain.Entities;
-using Domain.Repositories;
-using EntitiesDto.Images;
 using EntitiesDto.Product;
-using EntitiesDto.Stock;
 using Mapster;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Persistence;
@@ -12,9 +8,7 @@ using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 
@@ -33,8 +27,6 @@ namespace Webapi.Controllers
             _dbContext = dbContext;
         }
 
-
-
         [HttpGet]
         public async Task<IActionResult> GetAllProductsForDisplayAsync()
         {
@@ -43,7 +35,6 @@ namespace Webapi.Controllers
             return Ok(productsForDisplay);
         }
 
-
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProductByIdAsync(string productId)
         {
@@ -51,170 +42,145 @@ namespace Webapi.Controllers
             return Ok(productDto);
         }
 
-            [HttpPost]
-            public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
+        [HttpPost]
+        public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
+        {
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var productId = string.Empty;
-                using (var transaction = _dbContext.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var nProduct = productAPI.Adapt<Product>();
-                        productId = nProduct.Id;
-                        nProduct.ProductImages = new List<ProductImage>();
-                        nProduct.Stocks = new List<Stock>();
-                        nProduct.CategoryProducts = new List<CategoryProduct>();
-                        var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
-
-                        foreach (var urlParent in UrList)
-                        {
-                            foreach (var urlChild in urlParent.Value)
-                            {
-                                nProduct.ProductImages.Add(new ProductImage
-                                {
-                                    ColorId = urlParent.Key,
-                                    ImageUrl = urlChild.Key,
-                                    SetAsDefault = urlChild.Value,
-                                    ProductId = nProduct.Id
-                                });
-                            }
-                        }
-
-                        nProduct.Stocks = (
-                            from color in productAPI.Colors
-                            from size in color.Sizes
-                            select new Stock
-                            {
-                                UnitInStock = size.UnitInStock,
-                                ColorId = color.Id,
-                                SizeId = size.Id
-                            }
-                            ).ToList();
-
-                        nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
-                        {
-                            CategoryId = item.Id,
-                        }).ToList();
-
-                        var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
-                        transaction.Commit();
-
-
-                        //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
-                        return Ok();
-                    }
-                    catch (Exception ex)
-                    {
-                        UploadService.RollBack(productId);
-                        transaction.Rollback();
-                        return BadRequest(new
-                        {
-                            Error = ex.Message
-                        });
-                        throw;
-                    }
-                }
-
-
+                return BadRequest(ModelState);
             }
-
-            [HttpPut("{id}")]
-            public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductAPI productDto)
+            var productId = string.Empty;
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    if (!ModelState.IsValid)
+                    var nProduct = productAPI.Adapt<Product>();
+                    productId = nProduct.Id;
+                    nProduct.ProductImages = new List<ProductImage>();
+                    nProduct.Stocks = new List<Stock>();
+                    nProduct.CategoryProducts = new List<CategoryProduct>();
+                    var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
+
+                    foreach (var urlParent in UrList)
                     {
-                        return BadRequest(ModelState);
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            nProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = nProduct.Id
+                            });
+                        }
                     }
 
-                    var existingProduct = await _serviceManager.ProductService.GetByIdProduct(id);
+                    nProduct.Stocks = (
+                        from color in productAPI.Colors
+                        from size in color.Sizes
+                        select new Stock
+                        {
+                            UnitInStock = size.UnitInStock,
+                            ColorId = color.Id,
+                            SizeId = size.Id
+                        }
+                        ).ToList();
 
-                    if (existingProduct == null)
+                    nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
                     {
-
-                        return NotFound();
-                    }
-
-                    existingProduct.Name = productDto.Name;
-                    existingProduct.RetailPrice = productDto.RetailPrice;
-
-                    existingProduct.Description = productDto.Description;
-
-                    existingProduct.DiscountRate = productDto.DiscountRate;
-
-                    existingProduct.SoleId = productDto.SoleId;
-                    existingProduct.MaterialId = productDto.MaterialId;
-
                         CategoryId = item.Id,
                     }).ToList();
 
+                    var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
+                    transaction.Commit();
 
-                    // ... Cập nhật thông tin khác của sản phẩm
 
-                    await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
+                    //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    UploadService.RollBack(productId);
+                    transaction.Rollback();
+                    return BadRequest(new
+                    {
+                        Error = ex.Message
+                    });
+                    throw;
+                }
+            }
+        }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(string id, [FromForm] ProductUpdateAPI productAPI)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != productAPI.Id)
+                return BadRequest(new
+                {
+                    error = "Id sản phẩm không khớp!"
+                });
+            var targetProduct = productAPI.Adapt<Product>();
+            targetProduct.CategoryProducts = new List<CategoryProduct>();
+            targetProduct.ProductImages = new List<ProductImage>();
+            targetProduct.Stocks = new List<Stock>();
+
+            targetProduct.CategoryProducts = productAPI.Categories.Select(p => new CategoryProduct
+            {
+                CategoryId = p.Id,
+                ProductId = id
+            }).ToList();
+
+            targetProduct.Stocks = (
+            from color in productAPI.Colors
+            from size in color.Sizes
+            select new Stock
+            {
+                UnitInStock = size.UnitInStock,
+                ColorId = color.Id,
+                SizeId = size.Id
+            }
+            ).ToList();
+
+            var tempId = Guid.NewGuid().ToString();
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var UrList = UploadService.UploadImages(productAPI.Colors, id, tempId);
+
+                    foreach (var urlParent in UrList)
+                    {
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            targetProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = id
+                            });
+                        }
+                    }
+
+                    await _serviceManager.ProductService.UpdateByIdProduct(id, targetProduct);
+                    transaction.Commit();
+                    UploadService.Rename(tempId, id);
                     return NoContent();
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
-                }
-            }
-
-            // Tiếp tục trong ProductController
-
-
-
-        }
-
-
-            [HttpGet("filter")]
-            public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-         string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
-            {
-                try
-                {
-                    var filteredProducts = await _serviceManager.ProductService.FilterProductsAsync(
-                        sizeId, colorId, categoryId, materialId, soleId);
-
-                    if (filteredProducts == null || !filteredProducts.Any())
+                    transaction.Rollback();
+                    UploadService.RollBack(tempId);
+                    return BadRequest(new
                     {
-                        return NotFound();
-                    }
-
-                    return Ok(filteredProducts);
+                        error = ex.Message
+                    });
                 }
-
-                catch (Exception ex)
-
-
-                existingProduct.Name = productDto.Name;
-                existingProduct.RetailPrice = productDto.RetailPrice;
-
-                existingProduct.Description = productDto.Description;
-
-                existingProduct.DiscountRate = productDto.DiscountRate;
-
-                existingProduct.SoleId = productDto.SoleId;
-                existingProduct.MaterialId = productDto.MaterialId;
-
-                // ... Cập nhật thông tin khác của sản phẩm
-
-                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        // Tiếp tục trong ProductController
 
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
@@ -226,16 +192,12 @@ namespace Webapi.Controllers
                     sizeId, colorId, categoryId, materialId, soleId);
 
                 if (filteredProducts == null || !filteredProducts.Any())
-
                 {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
+                    return NotFound();
                 }
+
+                return Ok(filteredProducts);
             }
-
-
-        }
-    } 
-
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
@@ -245,6 +207,5 @@ namespace Webapi.Controllers
 }
 
 
-    
 
 

@@ -16,7 +16,7 @@ namespace Service.Abstractions
         Task<Product> CreateAsync(Product product);
         Task<List<ProductDtoForGet>> GetAllProductAsync(CancellationToken cancellationToken = default);
         Task<Product> GetByIdProduct(string id, CancellationToken cancellationToken = default);
-        Task<Product> UpdateByIdProduct(string id, Product product, CancellationToken cancellationToken = default);
+        Task UpdateByIdProduct(string id, Product product, CancellationToken cancellationToken = default);
         Task<List<ProductForFilterDto>> FilterProductsAsync(
       string sizeId, string colorId, string categoryId, int? materialId, int? soleId);
         Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default);

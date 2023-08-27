@@ -11,11 +11,15 @@ namespace Persistence.Ultilities
 {
     public static class UploadService
     {
-        public static Dictionary<string, Dictionary<string, bool>> UploadImages(IEnumerable<ColorAPI> colors, string productId)
+        public static Dictionary<string, Dictionary<string, bool>> UploadImages(IEnumerable<ColorAPI> colors, string productId, string tempId = null)
         {
             var urlList = new Dictionary<string, Dictionary<string, bool>>();
+
             var uploadSource = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", productId);
-            
+
+            if (tempId != null)
+                uploadSource = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", tempId);
+
             try
             {
                 foreach (var color in colors)
@@ -74,6 +78,30 @@ namespace Persistence.Ultilities
             {
                 throw;
             }
+        }
+
+        public static void Rename(string tempId, string productId)
+        {
+            // current name folder
+            var oldFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", tempId);
+
+            // new name for the folder
+            var newFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", productId);
+
+            try
+            {
+                if (!Directory.Exists(oldFolder))
+                    throw new Exception("Lỗi, thư mục ảnh sản phẩm không có sẵn.");
+                if (Directory.Exists(newFolder))
+                    Directory.Delete(newFolder, true);
+               
+                Directory.Move(oldFolder, newFolder);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
     }
 }
