@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\backend",
+    "\\backend\\.NET",
+    "\\backend\\Backend-NikeStore"
   ],
-  "SelectedNode": "\\.NET.sln",
+  "SelectedNode": "\\backend\\.NET\\.NET.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -34,6 +34,13 @@ namespace Webapi.Controllers
             return Ok(productsForDisplay);
         }
 
+        [HttpGet("1Image")]
+        public async Task<IActionResult> GetAllProductsForDisplayImageAsync()
+        { 
+            var product = await _serviceManager.ProductService.GetAllProductImageAsync();
+            return Ok(product);
+        }
+
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProductByIdAsync(string productId)
         {

@@ -204,6 +204,95 @@ namespace Service
             return productDTOs;
         }
 
+        public async Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken)
+        {
+            var products = await _repositoryManger.ProductRepository.GetAllProductImageAsync();
+
+            var productDTOs = products.Select(product => new ProductDtoForGet
+            {
+                Id = product.Id,
+                Name = product.Name,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                Status = product.Status,              
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
+        public async Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken)
+        {
+            var products = await _repositoryManger.ProductRepository.GetAllProductImageAsync();
+
+            var productDTOs = products.Select(product => new ProductDtoForGet
+            {
+                Id = product.Id,
+                Name = product.Name,
+                BarCode = product.BarCode,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                Status = product.Status,
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
         public async Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var product = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
