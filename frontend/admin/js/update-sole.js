@@ -34,6 +34,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (response) {
                     $('#success').toast('show')
+                    window.location.href = `/frontend/admin/sole.html`;
                 },
                 error: function () {
                     $('#fail').toast('show')

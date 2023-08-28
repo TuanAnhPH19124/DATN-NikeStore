@@ -187,6 +187,7 @@ namespace Service
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
+                Status = product.Status,
 
                 Stocks = product.Stocks.Select(stock => new StockDto
                 {
@@ -278,8 +279,10 @@ namespace Service
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,
                 DiscountRate = product.DiscountRate,
+                DiscountType = product.DiscountType,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
+                Status = product.Status,
 
                 Stocks = product.Stocks.Select(stock => new StockDto
                 {

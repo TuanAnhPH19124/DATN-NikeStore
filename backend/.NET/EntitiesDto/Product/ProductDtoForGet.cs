@@ -18,6 +18,7 @@ namespace EntitiesDto.Product
         public double RetailPrice { get; set; }
         public string Description { get; set; }
         public int DiscountRate { get; set; }
+        public DiscountType DiscountType { get; set; }
         public int SoleId { get; set; }
         public int MaterialId { get; set; }
         public List<StockDto> Stocks { get; set; }
