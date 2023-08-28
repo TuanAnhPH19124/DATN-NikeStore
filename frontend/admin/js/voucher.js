@@ -1,209 +1,220 @@
 // call api len datatable nhan vien
 $(document).ready(function () {
-    $.fn.dataTableExt.sErrMode = 'mute';
-    var voucherTable = $('#voucher-table').DataTable({
-        "ajax": {
-            "url": "https://localhost:44328/api/Voucher/Get",
-            "dataType": "json",
-            "dataSrc": "",
+  $.fn.dataTableExt.sErrMode = "mute";
+  var voucherTable = $("#voucher-table").DataTable({
+    ajax: {
+      url: "https://localhost:44328/api/Voucher/Get",
+      dataType: "json",
+      dataSrc: "",
+    },
+    columns: [
+      {
+        data: "id",
+        title: "STT",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
         },
-        "columns": [
-            {
-                "data": 'id', "title": "STT", render: function (data, type, row, meta) {
-                    return meta.row + 1;
-                }
-            },
-            { "data": 'code', "title": "Mã" },
-            { "data": 'value', "title": "Giá trị" },
-            {
-                "data": null,
-                "title": "Thời gian",
-                "render": function (data, type, full, meta) {
-                    var dateObj1 = new Date(full.startDate);
-                    var day1 = dateObj1.getUTCDate();
-                    var month1 = dateObj1.getUTCMonth() + 1;
-                    var year1 = dateObj1.getUTCFullYear();
-                    var formattedDate = `${day1}/${month1}/${year1}`;
-
-                    var dateObj2 = new Date(full.endDate);
-                    var day2 = dateObj2.getUTCDate();
-                    var month2 = dateObj2.getUTCMonth() + 1;
-                    var year2 = dateObj2.getUTCFullYear();
-                    var formattedDate2 = `${day2}/${month2}/${year2}`;
-                    return `<span class="badge badge-pill badge-success" style="padding:10px;">${formattedDate + '-' + formattedDate2}</span>`;
-                }
-            },
-            {
-                "data": 'createdDate', "title": "Ngày tạo",
-                "render": function (data, type, full, meta) {
-                    var dateObj = new Date(data);
-                    var day = dateObj.getUTCDate();
-                    var month = dateObj.getUTCMonth() + 1;
-                    var year = dateObj.getUTCFullYear();
-                    var formattedDate = `${day}/${month}/${year}`;
-                    return formattedDate;
-                }
-            },
-            {
-                "data": 'status', "title": "Trạng thái",
-                "render": function (data, type, row) {
-                    if (data == true) {
-                        return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;">Kích hoạt</span>';
-                    } else {
-                        return '<span class="badge badge-pill badge-danger" style="padding:10px;">Không kích hoạt</span>';
-                    }
-                }
-            },
-            {
-                "render": function () {
-                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
-                },
-                "title": "Thao tác"
-            },
-        ],
-        rowCallback: function(row, data) {
-            $(row).find('td').css('vertical-align', 'middle');
-          },
-          "language": {
-            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-            "lengthMenu": "Hiển thị _MENU_ bản ghi",
-            "sSearch": "Tìm kiếm:",
-            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
-            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
-            "sZeroRecords": "Không có data cần tìm",
-            "sEmptyTable": "Không có data trong bảng",
-            "oPaginate": {
-                "sFirst": "Đầu",
-                "sLast": "Cuối",
-                "sNext": "Tiếp",
-                "sPrevious": "Trước"
-            },
-          },
-          
-    });
-    setInterval(function () {
-        voucherTable.ajax.reload();
-    }, 2500);
-    // call api them nhan vien
-    $('#add-voucher-form').submit(function (event) {
-        event.preventDefault()
-        var formData = {
-            code: $("#code").val(),
-            value: $("#value").val(),
-            description: $("#description").val(),
-            startDate: $("#startDate").val(),
-            endDate: $("#endDate").val(),
-            createdDate: new Date,
-            status: true,
-        };
-
-        //convert nomal date to ISO 8601 date
-        [startDay, startMonth, startYear] = formData.startDate.split('/');
-        [endDay, endMonth, endYear] = formData.endDate.split('/');
-        try {
-            formData.startDate = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
-            formData.endDate = new Date(`${endYear}-${endMonth}-${endDay}`).toISOString();
-        } catch (error) {
-            formData.startDate = ""
-            formData.endDate = ""
-        }
-
-        $.ajax({
-            url: "https://localhost:44328/api/Voucher",
-            type: "POST",
-            data: JSON.stringify(formData),
-            contentType: "application/json",
-            success: function (response) {
-                console.log(response)
-                $('.toast').toast('show')
-            },
-        });
-    });
-    // custom validate 
-    $.validator.addMethod("nameContainOnlyChar", function (value, element) {
-        return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
-    });
-    $.validator.addMethod("valueContainOnlyNum", function (value, element) {
-        return value.match(/[^0-9]/) == null;
-    });
-    $.validator.addMethod("compare2Date", function (value, element) {
-        var parts1 = $("#startDate").val().split("/");
-        var parts2 = $("#endDate").val().split("/");
-
-        var year1 = parseInt(parts1[2], 10) + 2000; // Convert 2-digit year to 4-digit year
-        var year2 = parseInt(parts2[2], 10) + 2000;
-
-        var month1 = parseInt(parts1[1], 10) - 1; // JavaScript months are zero-indexed
-        var month2 = parseInt(parts2[1], 10) - 1;
-
-        var day1 = parseInt(parts1[0], 10);
-        var day2 = parseInt(parts2[0], 10);
-
-        var jsDate1 = new Date(year1, month1, day1);
-        var jsDate2 = new Date(year2, month2, day2);
-        return jsDate1 <= jsDate2
-
-    });
-
-    // add validate
-    $("#add-voucher-form").validate({
-        rules: {
-            "code": {
-                required: true,
-                maxlength: 15,
-            },
-            "value": {
-                required: true,
-                valueContainOnlyNum: true,
-            },
-            "description": {
-                maxlength: 20
-            },
-            "startDate": {
-                required: true,
-                compare2Date: true,
-            },
-            "endDate": {
-                required: true,
-                compare2Date: true,
-            },
+      },
+      { data: "code", title: "Mã" },
+      {
+        data: "value",
+        title: "Giá trị",
+        render: function (data, type, full, meta) {
+          return data+" %";
         },
-        messages: {
-            "code": {
-                required: "Bạn phải nhập Mã giảm giá",
-                maxlength: "Mã giảm giá không quá 15 ký tự",
-            },
-            "value": {
-                required: "Bạn phải nhập số căn cước",
-                valueContainOnlyNum: "Giá trị là số, không chứa ký tự",
-            },
-            "description": {
-                maxlength: "Mô tả không được quá 20 ký tự"
-            },
-            "startDate": {
-                required: "Nhập ngày bắt đầu",
-                compare2Date: "Ngày bắt đầu không thể lớn hơn ngày kết thúc",
-            },
-            "endDate": {
-                required: "Nhập ngày kết thúc",
-                compare2Date: "Ngày bắt đầu không thể lớn hơn ngày kết thúc",
-            },
-        },
-    });
+      },
+      {
+        data: null,
+        title: "Thời gian",
+        render: function (data, type, full, meta) {
+          var dateObj1 = new Date(full.startDate);
+          var day1 = dateObj1.getUTCDate();
+          var month1 = dateObj1.getUTCMonth() + 1;
+          var year1 = dateObj1.getUTCFullYear();
+          var formattedDate = `${day1}/${month1}/${year1}`;
 
+          var dateObj2 = new Date(full.endDate);
+          var day2 = dateObj2.getUTCDate();
+          var month2 = dateObj2.getUTCMonth() + 1;
+          var year2 = dateObj2.getUTCFullYear();
+          var formattedDate2 = `${day2}/${month2}/${year2}`;
+          return `<span class="badge badge-pill badge-success" style="padding:10px;">${
+            formattedDate + "-" + formattedDate2
+          }</span>`;
+        },
+      },
+      {
+        data: "createdDate",
+        title: "Ngày tạo",
+        render: function (data, type, full, meta) {
+          var dateObj = new Date(data);
+          var day = dateObj.getUTCDate();
+          var month = dateObj.getUTCMonth() + 1;
+          var year = dateObj.getUTCFullYear();
+          var formattedDate = `${day}/${month}/${year}`;
+          return formattedDate;
+        },
+      },
+      {
+        data: "status",
+        title: "Trạng thái",
+        render: function (data, type, row) {
+          if (data == true) {
+            return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;">Kích hoạt</span>';
+          } else {
+            return '<span class="badge badge-pill badge-danger" style="padding:10px;">Không kích hoạt</span>';
+          }
+        },
+      },
+      {
+        render: function () {
+          return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
+        },
+        title: "Thao tác",
+      },
+    ],
+    rowCallback: function (row, data) {
+      $(row).find("td").css("vertical-align", "middle");
+    },
+    language: {
+      sInfo: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+      lengthMenu: "Hiển thị _MENU_ bản ghi",
+      sSearch: "Tìm kiếm:",
+      sInfoFiltered: "(lọc từ _MAX_ bản ghi)",
+      sInfoEmpty: "Hiển thị 0 đến 0 trong 0 bản ghi",
+      sZeroRecords: "Không có data cần tìm",
+      sEmptyTable: "Không có data trong bảng",
+      oPaginate: {
+        sFirst: "Đầu",
+        sLast: "Cuối",
+        sNext: "Tiếp",
+        sPrevious: "Trước",
+      },
+    },
+  });
+  // call api them nhan vien
+  $("#add-voucher-form").submit(function (event) {
+    event.preventDefault();
+    var formData = {
+      code: $("#code").val(),
+      value: $("#value").val(),
+      description: $("#description").val(),
+      startDate: $("#startDate").val(),
+      endDate: $("#endDate").val(),
+      createdDate: new Date().toISOString(),
+      status: true,
+    };
+
+    var startComponents = formData.startDate.split("/");
+    var endComponents = formData.endDate.split("/");
+    try {
+      var startDate = new Date(
+        `${startComponents[2]}-${startComponents[1]}-${startComponents[0]}`
+      );
+      var endDate = new Date(
+        `${endComponents[2]}-${endComponents[1]}-${endComponents[0]}`
+      );
+
+      formData.startDate = startDate.toISOString();
+      formData.endDate = endDate.toISOString();
+    } catch (error) {
+      formData.startDate = "";
+      formData.endDate = "";
+    }
+
+    if (startDate > endDate) {
+      $("#date-error").show();
+      return;
+    }else{
+      $("#date-error").hide();
+    }
+    
+    if (confirm(`Bạn có muốn thêm voucher ${formData.code} không?`)) {
+      $.ajax({
+        url: "https://localhost:44328/api/Voucher",
+        type: "POST",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function (response) {
+          console.log(response);
+  
+          $("#modal-add-voucher").modal("hide");
+          $("#success").toast("show");
+          $("#add-voucher-form")[0].reset();
+        },
+        error: function (xhr, status, error) {
+          console.error(error);
+          // Handle error here (e.g., display error message to the user)
+        },
+      });
+  } else {
+      return
+  }
+  });
+
+  // custom validate
+  $.validator.addMethod("nameContainOnlyChar", function (value, element) {
+    return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
+  });
+  $.validator.addMethod("valueContainOnlyNum", function (value, element) {
+    return value.match(/[^0-9]/) == null;
+  });
+  $.validator.addMethod("value100", function (value, element) {
+    return /^\d+$/.test(value) && parseInt(value, 10) >= 1 && parseInt(value, 10) <= 100;
+  });
+  // add validate
+  $("#add-voucher-form").validate({
+    rules: {
+      code: {
+        required: true,
+        maxlength: 15,
+      },
+      value: {
+        required: true,
+        value100: true
+      },
+      description: {
+        maxlength: 20,
+      },
+      startDate: {
+        required: true,
+      },
+      endDate: {
+        required: true,
+      },
+    },
+    messages: {
+      code: {
+        required: "Bạn phải nhập Mã giảm giá",
+        maxlength: "Mã giảm giá không quá 15 ký tự",
+      },
+      value: {
+        required: "Bạn phải nhập số căn cước",
+        value100: "Giá trị là sô nằm trong khoảng từ 1-100"
+      },
+      description: {
+        maxlength: "Mô tả không được quá 20 ký tự",
+      },
+      startDate: {
+        required: "Nhập ngày bắt đầu",
+      },
+      endDate: {
+        required: "Nhập ngày kết thúc",
+      },
+    },
+  });
 });
 $(function () {
-    $('.date').datepicker({
-        format: 'dd/mm/yyyy',
-    });
+  $(".date").datepicker({
+    format: "dd/mm/yyyy",
+  });
 });
 
-$('#voucher-table tbody').on('click', 'tr', function (e) {
-    e.preventDefault();
-    let voucherId = $('#voucher-table').DataTable().row(this).data().id;
-    if (voucherId !== null) {
-        localStorage.setItem("voucherId", voucherId);
-        window.location.href = `/frontend/admin/update-voucher.html`;
-    }
+$("#voucher-table tbody").on("click", "tr", function (e) {
+  e.preventDefault();
+  let voucherId = $("#voucher-table").DataTable().row(this).data().id;
+  if (voucherId !== null) {
+    localStorage.setItem("voucherId", voucherId);
+    window.location.href = `/frontend/admin/update-voucher.html`;
+  }
 });
-

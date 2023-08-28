@@ -52,18 +52,72 @@ $(document).ready(function () {
             formData.startDate = ""
             formData.endDate = ""
         }
-        $.ajax({
-            url: "https://localhost:44328/api/Voucher/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                window.location.href = "/frontend/admin/voucher.html";
-
-            },
-        });
+        if (confirm(`Bạn có muốn cập nhật voucher không?`)) {
+            $.ajax({
+                url: "https://localhost:44328/api/Voucher/" + id,
+                type: "PUT",
+                data: JSON.stringify(formData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/frontend/admin/update-voucher.html";
+                },
+            });
+        } else {
+            return
+        }
     });
+      // custom validate
+  $.validator.addMethod("nameContainOnlyChar", function (value, element) {
+    return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
+  });
+  $.validator.addMethod("valueContainOnlyNum", function (value, element) {
+    return value.match(/[^0-9]/) == null;
+  });
+  $.validator.addMethod("value100", function (value, element) {
+    return /^\d+$/.test(value) && parseInt(value, 10) >= 1 && parseInt(value, 10) <= 100;
+  }, "Please enter a valid number between 1 and 100.");
+  // add validate
+  $("#update-voucher-form").validate({
+    rules: {
+      code: {
+        required: true,
+        maxlength: 15,
+      },
+      value: {
+        required: true,
+        value100: true
+      },
+      description: {
+        maxlength: 20,
+      },
+      startDate: {
+        required: true,
+      },
+      endDate: {
+        required: true,
+      },
+    },
+    messages: {
+      code: {
+        required: "Bạn phải nhập Mã giảm giá",
+        maxlength: "Mã giảm giá không quá 15 ký tự",
+      },
+      value: {
+        required: "Bạn phải nhập số căn cước",
+        value100: "Giá trị là sô nằm trong khoảng từ 1-100"
+      },
+      description: {
+        maxlength: "Mô tả không được quá 20 ký tự",
+      },
+      startDate: {
+        required: "Nhập ngày bắt đầu",
+      },
+      endDate: {
+        required: "Nhập ngày kết thúc",
+      },
+    },
+  });
 });
 
 $(function () {
