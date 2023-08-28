@@ -52,16 +52,20 @@ $(document).ready(function () {
                   } catch (error) {
                       formData.dateOfBirth = ""
                   }
-        $.ajax({
-            url: "https://localhost:44328/api/Employee/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-               // window.location.href = "/frontend/admin/staff.html";
-            },
-        });
+                  if (confirm(`Bạn có muốn cập nhật nhân viên không?`)) {
+                    $.ajax({
+                        url: "https://localhost:44328/api/Employee/" + id,
+                        type: "PUT",
+                        data: JSON.stringify(formData),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            window.location.href = "/frontend/admin/staff.html";
+                        },
+                    });
+                  } else {
+                    return;
+                  }
     });
     // custom validate 
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {
@@ -82,6 +86,26 @@ $(document).ready(function () {
     // add validate
     $("#update-employee-form").validate({
         rules: {
+            "employeeId": {
+                required: true,
+            },
+            "dateOfBirth": {
+                required: true,
+            },
+            "homeTown": {
+                required: true,
+            },
+            "address": {
+                required: true,
+            },
+            "relativeName": {
+                required: true,
+            },
+            "relativePhoneNumber": {
+                required: true,
+                phoneNumContainOnlyNum: true,
+                onlyContain10Char: true,
+            },
             "fullName": {
                 required: true,
                 maxlength: 30,
@@ -99,12 +123,29 @@ $(document).ready(function () {
             },
             "role": {
                 required: true,
-            },
-            "password": {
-                required: true,
             }
         },
         messages: {
+            "employeeId": {
+                required: "Bạn phải nhập mã nhân viên",
+            },
+            "dateOfBirth": {
+                required: "Bạn phải nhập ngày sinh",
+            },
+            "homeTown": {
+                required: "Bạn phải nhập Quê quán",
+            },
+            "address": {
+                required: "Bạn phải nhập Địa chỉ hiện tại",
+            },
+            "relativeName": {
+                required: "Bạn phải nhập tên người thân",
+            },
+            "relativePhoneNumber": {
+                required: "Bạn phải nhập số điện thoại người thân",
+                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
+                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
+            },
             "fullName": {
                 required: "Bạn phải nhập họ và tên",
                 maxlength: "Hãy nhập tối đa 30 ký tự",
@@ -122,9 +163,6 @@ $(document).ready(function () {
             },
             "role": {
                 required: "Bạn phải nhập tên vai trò",
-            },
-            "password": {
-                required: "Không được để trống mật khẩu",
             }
         },
     });

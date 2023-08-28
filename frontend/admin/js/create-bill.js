@@ -107,40 +107,119 @@ $(document).ready(function () {
     }
   }
 
-  // Gọi API và xử lý dữ liệu
-  fetch("https://localhost:44328/api/Product/active")
-    .then((response) => response.json())
-    .then((data) => {
-      // Lặp qua dữ liệu từ API và cập nhật bảng HTML
-      const tableBody = document.querySelector("#product-table tbody");
+  // // Gọi API và xử lý dữ liệu
+  // fetch("https://localhost:44328/api/Product/active")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // Lặp qua dữ liệu từ API và cập nhật bảng HTML
+  //     const tableBody = document.querySelector("#product-table tbody");
 
-      data.forEach((product) => {
-        const row = document.createElement("tr");
+  //     data.forEach((product) => {
+  //       const row = document.createElement("tr");
 
-        row.innerHTML = `
-                    <td>${product.id}</td>
-                    <td><img src="${product.productImages}" 
-        }" class="product-image"></td>
-                    <td>${product.name}</td>
-                    <td>${product.discountRate}</td>
-                    <td><span class="status-badge ${
-                      product.status === "out-of-stock"
-                        ? "out-of-stock"
-                        : "in-stock"
-                    }">${
-          product.status === "out-of-stock" ? "Ngừng kinh doanh" : "Kinh doanh"
-        }</span></td>
-                    <td>
-                        <button type="button" class="btn btn-warning">
-                            Chọn
-                        </button>
-                    </td>
-                `;
+  //       row.innerHTML = `
+  //                   <td>${product.id}</td>
+  //                   <td><img src="${product.productImages}" 
+  //       }" class="product-image"></td>
+  //                   <td>${product.name}</td>
+  //                   <td>${product.discountRate}</td>
+  //                   <td><span class="status-badge ${
+  //                     product.status === "out-of-stock"
+  //                       ? "out-of-stock"
+  //                       : "in-stock"
+  //                   }">${
+  //         product.status === "out-of-stock" ? "Ngừng kinh doanh" : "Kinh doanh"
+  //       }</span></td>
+  //                   <td>
+  //                       <button type="button" class="btn btn-warning">
+  //                           Chọn
+  //                       </button>
+  //                   </td>
+  //               `;
 
-        tableBody.appendChild(row);
-      });
-    })
-    .catch((error) => {
-      console.error("Lỗi khi gọi API:", error);
-    });
+  //       tableBody.appendChild(row);
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     console.error("Lỗi khi gọi API:", error);
+  //   });
+  $("#productData").DataTable({
+    ajax: {
+      url: "https://localhost:44328/api/Product/active",
+      dataType: "json",
+      dataSrc: "",
+    },
+    columns: [
+      {
+        data: "id",
+        title: "STT",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      {
+        data: "productImages[0].imageUrl",
+        title: "Ảnh",
+        render: function (data, type, row) {
+          return `<img src="https://localhost:44328/${data}" alt="" style="border-radius: 10%;" width=120px height=110px>`;
+        },
+      },
+      { data: "name", title: "Tên sản phẩm" },
+      {
+        data: "retailPrice",
+        title: "Giá gốc",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
+      {
+        data: "discountRate",
+        title: "Giá bán",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
+      {
+        data: "status",
+        title: "Trạng thái",
+        render: function (data, type, row) {
+          if (data == 1) {
+            return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;" >Kinh doanh</span>';
+          } else {
+            return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kinh doanh</span>';
+          }
+        },
+      },
+      {
+        title: "Thao tác",
+        render: function () {
+          return '<td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nested-modal">Chọn</button></td>';
+        },
+      },
+    ],
+    rowCallback: function (row, data) {
+      $(row).find("td").css("vertical-align", "middle");
+    },
+    language: {
+      sInfo: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+      lengthMenu: "Hiển thị _MENU_ bản ghi",
+      sSearch: "Tìm kiếm:",
+      sInfoFiltered: "(lọc từ _MAX_ bản ghi)",
+      sInfoEmpty: "Hiển thị 0 đến 0 trong 0 bản ghi",
+      sZeroRecords: "Không có data cần tìm",
+      sEmptyTable: "Không có data trong bảng",
+      oPaginate: {
+        sFirst: "Đầu",
+        sLast: "Cuối",
+        sNext: "Tiếp",
+        sPrevious: "Trước",
+      },
+    },
+  });
 });

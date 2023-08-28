@@ -335,12 +335,28 @@
                             </span>
                             <span class="text">Tạo tài khoản</span>
                         </a>
+                        <div class="toast" id="success" role="alert" aria-live="assertive" aria-atomic="true"
+                        data-delay="2000" style="position: fixed;
+                    bottom: 1rem;
+                    left: 1rem;
+                    z-index: 1050;">
+                        <div class="toast-header">
+                            <strong class="mr-auto">Thành công</strong>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                            Thêm thành công
+                        </div>
+                    </div>
                     </div>
 
                     <!-- Button trigger modal -->
 
                     <!-- Modal -->
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="add-employee-modal"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -401,13 +417,13 @@
                                                 <div class="form-group">
                                                     <label for="dateOfBirth" style="font-weight: 600;">Ngày sinh</label>
                                                     <div class="input-group date" id="datepicker">
-                                                        <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth"
-                                                            autocomplete="off">
                                                         <span class="input-group-append">
                                                             <span class="input-group-text bg-white">
                                                                 <i class="fa fa-calendar"></i>
                                                             </span>
                                                         </span>
+                                                        <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth"
+                                                            autocomplete="off">
                                                     </div>
                                                 </div>
                                             </div>
@@ -446,10 +462,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label style="font-weight: 600;">Trạng thái</label>
-                                            <input type="checkbox" id="status" placeholder="" name="status">
-                                        </div>
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -458,22 +470,6 @@
                                                 nhận</button>
                                         </div>
                                         <!-- thông báo -->
-                                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-                                            data-delay="2000" style="position: fixed;
-                                        bottom: 1rem;
-                                        right: 1rem;
-                                        z-index: 1050;">
-                                            <div class="toast-header">
-                                                <strong class="mr-auto">Thành công</strong>
-                                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="toast-body">
-                                                Thêm thành công
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>

@@ -450,6 +450,8 @@ $(document).ready(function () {
       value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
     } else if (selectTypeDiscount === 2) {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
+    }else{
+      value2 = value
     }
     productFormData.append("discountRate", value2);
     productFormData.append("discountType", selectTypeDiscount);
