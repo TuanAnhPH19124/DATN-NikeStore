@@ -248,8 +248,6 @@ namespace Service
             return productDTOs;
         }
 
-    
-
         public async Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var product = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);

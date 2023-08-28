@@ -49,9 +49,9 @@ namespace Webapi.Controllers
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
+                  
         }
-            return Ok(productDto);
-        }
+
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveProductsAsync()
         {
@@ -63,9 +63,6 @@ namespace Webapi.Controllers
 
             return Ok(activeProducts);
         }
-
-
-
 
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
