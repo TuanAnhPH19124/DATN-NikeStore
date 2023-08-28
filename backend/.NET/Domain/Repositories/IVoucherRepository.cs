@@ -12,6 +12,7 @@ namespace Domain.Repositories
     {
         Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default);
         Task<Voucher> GetByIdVoucherAsync(string id, CancellationToken cancellationToken = default);
+        Task<Voucher> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
         Task AddVoucher(Voucher voucher);
         Task UpdateVoucher(string id, Voucher voucher);
     }

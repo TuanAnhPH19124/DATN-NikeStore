@@ -426,6 +426,9 @@ namespace Persistence.Migrations
                     b.Property<int>("DiscountRate")
                         .HasColumnType("integer");
 
+                    b.Property<int>("DiscountType")
+                        .HasColumnType("integer");
+
                     b.Property<int>("MaterialId")
                         .HasColumnType("integer");
 
@@ -725,6 +728,9 @@ namespace Persistence.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("Vouchers");
                 });

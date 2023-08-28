@@ -62,20 +62,47 @@ namespace Webapi.Controllers
             return voucher;
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
+        //{
+        //    try
+        //    {
+        //        var voucher = voucherDto.Adapt<Voucher>();
+        //        await _serviceManager.VoucherService.CreateAsync(voucher);
+        //        return CreatedAtAction(nameof(GetByIdVoucher), new { id = voucher.Id }, voucher);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode((int)HttpStatusCode.Conflict, ex);
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
         {
-            try
+            if (voucherDto == null)
             {
-                var voucher = voucherDto.Adapt<Voucher>();
-                await _serviceManager.VoucherService.CreateAsync(voucher);
-                return CreatedAtAction(nameof(GetByIdVoucher), new { id = voucher.Id }, voucher);
+                return BadRequest("Sole object is null");
             }
-            catch (Exception ex)
+
+            var existingVoucher = await _serviceManager.VoucherService.GetByCodeAsync(voucherDto.Code);
+            if (existingVoucher != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
+                return Conflict("Code Voucher with the same Name already exists");
             }
+
+            var voucher = new Voucher
+            {
+                Code = voucherDto.Code,
+                Value = voucherDto.Value,
+                Description = voucherDto.Description,
+                StartDate = voucherDto.StartDate, 
+                EndDate = voucherDto.EndDate,
+                Status= voucherDto.Status,
+                CreatedDate = voucherDto.CreatedDate
+            };
+            await _serviceManager.VoucherService.CreateAsync(voucher);
+            return CreatedAtAction("GetByIdVoucher", new { id = voucher.Id }, voucher);
         }
 
         [HttpPut("{id}")]

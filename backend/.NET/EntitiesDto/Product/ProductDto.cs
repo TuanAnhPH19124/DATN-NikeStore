@@ -1,5 +1,6 @@
 ﻿using Domain.Enums;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace EntitiesDto.Product
@@ -11,7 +12,7 @@ namespace EntitiesDto.Product
      
         public string Description { get; set; }
         public Brands Brand { get; set; }
-        public int DiscountRate { get; set; } = 1;
+        public int DiscountRate { get; set; }
         
         public int SoleId { get; set; }
         public int MaterialId { get; set; }
@@ -35,8 +36,51 @@ namespace EntitiesDto.Product
         public IFormFile Image { get; set; }
         public bool SetAsDefault { get; set; }
     }
+    public class ProductUpdateAPI
+    {
+        public string Id { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string Name { get; set; }
+        public Status Status { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string BarCode { get; set; }
+        public double RetailPrice { get; set; }
+        public string Description { get; set; }
+        public int DiscountRate { get; set; } 
+        public int SoleId { get; set; }
+        public int MaterialId { get; set; }
+        public List<CategoryAPI> Categories { get; set; }
+        public List<ColorAPI> Colors { get; set; }
+    }
+    public class ProductFilterOptionAPI
+    {
+        public List<CategoryAPI> Categories { get; set; } = null;
+        public List<GenderAPI> Genders { get; set; } = null;
+        public List<SizeFilterAPI> Sizes { get; set; } = null;
+        public List<ColorFilterAPI> Colors { get; set; } = null;
+        public SortBy? SortBy { get; set; } = null;
+        public bool? Sale { get; set; } = null;
+    }
+    public class GenderAPI
+    {
+        public int Id { get; set; }
+    }
+    public class SizeFilterAPI
+    {
+        public string Id { get; set; }
+    }
+    public class ColorFilterAPI
+    {
+        public string Id { get; set; }
+    }
     public class CategoryAPI
     {
         public string Id { get; set; }
     }
+
+
+
+
+
+
 }

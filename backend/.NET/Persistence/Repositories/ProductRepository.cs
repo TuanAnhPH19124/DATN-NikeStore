@@ -1,6 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto.Product;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +44,16 @@ namespace Persistence.Repositories
                     .ToListAsync();
         }
 
-        
+        public async Task<List<Product>> GetAllProductImageAsync(CancellationToken cancellationToken = default)
+        {
+            var products =  await _context.Products
+                .Include(p => p.Stocks)
+                .Include(p => p.CategoryProducts)
+                .Include(p => p.ProductImages.OrderBy(pi => pi.Id).Take(1))
+                .ToListAsync();
+            return products;
+        }
+
         public async Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             return await _context.Products
@@ -57,7 +68,7 @@ namespace Persistence.Repositories
             await _context.Products.AddAsync(product);
         }
 
-        public async void UpdateProduct(Product product)
+        public void UpdateProduct(Product product)
         {
             _context.Products.Update(product);
         }
@@ -110,6 +121,14 @@ namespace Persistence.Repositories
             return allProducts;
         }
 
-     
+        public async Task<IEnumerable<Product>> GetProductByFilterAndSort(IQueryable<Product> query)
+        {
+            return await query.ToListAsync();
+        }
+
+        public IQueryable<Product> GetAllProductsQuery()
+        {
+            return _context.Products.Include(p => p.CategoryProducts).Include(p => p.ProductImages).Include(p => p.Stocks).AsQueryable();
+        }
     }
 }

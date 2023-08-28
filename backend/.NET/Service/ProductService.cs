@@ -3,18 +3,11 @@ using Domain.Repositories;
 using EntitiesDto.Images;
 using EntitiesDto.Product;
 using EntitiesDto.Stock;
-using Mapster;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -72,78 +65,192 @@ namespace Service
             return product;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-        public async Task<Product> UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
+        public async Task UpdateByIdProduct(string id, Product updatedProduct, CancellationToken cancellationToken = default)
         {
             var existingProduct = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
 
             if (existingProduct == null)
             {
-                throw new Exception("Product not found.");
+                throw new Exception("Sản phẩm này không tồn tại.");
             }
 
             // Cập nhật thông tin cơ bản của sản phẩm từ updatedProduct
-            existingProduct.Name = updatedProduct.Name;
+
             existingProduct.RetailPrice = updatedProduct.RetailPrice;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
             existingProduct.Status = updatedProduct.Status;
-
+            existingProduct.SoleId = updatedProduct.SoleId;
+            existingProduct.MaterialId = updatedProduct.MaterialId;
+            existingProduct.CategoryProducts = updatedProduct.CategoryProducts;
+            existingProduct.ProductImages = updatedProduct.ProductImages;
+            existingProduct.Stocks = updatedProduct.Stocks;
             // ... Cập nhật thông tin khác của sản phẩm
-            existingProduct.ModifiedDate = DateTime.UtcNow;
+            existingProduct.ModifiedDate = DateTime.Now;
             // Gọi hàm Update trong repository để cập nhật sản phẩm
             _repositoryManger.ProductRepository.UpdateProduct(existingProduct);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
 
-            return existingProduct;
         }
 
         // Trong ProductService.cs
 
-        public async Task<List<ProductForFilterDto>> FilterProductsAsync(
-      string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        public async Task<IEnumerable<ProductDtoForGet>> FilterProductsAsync(ProductFilterOptionAPI options)
         {
-            var products = await _repositoryManger.ProductRepository.FilterProductsAsync(
-                sizeId, colorId, categoryId, materialId, soleId);
-
-            var productDTOs = products.Select(product => new ProductForFilterDto
+            var query = _repositoryManger.ProductRepository.GetAllProductsQuery();
+            if (options.Categories != null && options.Categories.Any())
             {
+                var categoryIds = options.Categories.Select(p => p.Id).ToList();
+                query = query.Where(p => p.CategoryProducts.Any(cp => categoryIds.Contains(cp.CategoryId)));
+            }
 
-                // Sao chép các thuộc tính khác từ product
+            if (options.SortBy.HasValue)
+            {
+                switch (options.SortBy.Value)
+                {
+                    case Domain.Enums.SortBy.ASCENDING:
+                        query = query.OrderBy(p => p.RetailPrice).ThenBy(p => p.DiscountRate);
+                        break;
+                    case Domain.Enums.SortBy.DESCENDING:
+                        query = query.OrderByDescending(p => p.RetailPrice).ThenByDescending(p => p.DiscountRate);
+                        break;
+                    case Domain.Enums.SortBy.NEWEST:
+                        query = query.OrderBy(p => p.CreatedDate);
+                        break;
+                    case Domain.Enums.SortBy.FEATURED:
+                        break;
+                }
+            }
+
+            var productLists = await _repositoryManger.ProductRepository.GetProductByFilterAndSort(query);
+
+            var productDTOs = productLists.Select(product => new ProductDtoForGet
+            {
+                Id = product.Id,
+                Name = product.Name,
+                RetailPrice = product.RetailPrice,
+                DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
 
                 Stocks = product.Stocks.Select(stock => new StockDto
                 {
                     SizeId = stock.SizeId,
-                    ColorId = stock.ColorId
-                    // Sao chép các thuộc tính khác từ stock
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
                 }).ToList(),
 
                 CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
                 {
+                    ProductId = categoryProduct.ProductId,
                     CategoryId = categoryProduct.CategoryId
                     // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
                 }).ToList()
             }).ToList();
-
             return productDTOs;
         }
 
         public async Task<List<ProductDtoForGet>> GetAllProductAsync(CancellationToken cancellationToken)
         {
             var products = await _repositoryManger.ProductRepository.GetAllProductAsync();
+
+            var productDTOs = products.Select(product => new ProductDtoForGet
+            {
+                Id = product.Id,
+                Name = product.Name,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
+        public async Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken)
+        {
+            var products = await _repositoryManger.ProductRepository.GetAllProductImageAsync();
+
+            var productDTOs = products.Select(product => new ProductDtoForGet
+            {
+                Id = product.Id,
+                Name = product.Name,
+                RetailPrice = product.RetailPrice,
+                Description = product.Description,
+                Status = product.Status,
+                DiscountRate = product.DiscountRate,
+                SoleId = product.SoleId,
+                MaterialId = product.MaterialId,
+
+                Stocks = product.Stocks.Select(stock => new StockDto
+                {
+                    SizeId = stock.SizeId,
+                    ColorId = stock.ColorId,
+                    UnitInStock = stock.UnitInStock,
+                    ProductId = stock.ProductId
+                }).ToList(),
+
+                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
+                {
+                    ProductId = categoryProduct.ProductId,
+                    CategoryId = categoryProduct.CategoryId
+                    // Sao chép các thuộc tính khác từ categoryProduct
+                }).ToList(),
+
+                ProductImages = product.ProductImages.Select(image => new ProductImageDto
+                {
+                    Id = image.Id,
+                    ImageUrl = image.ImageUrl,
+                    SetAsDefault = image.SetAsDefault,
+                    ProductId = image.ProductId,
+                    ColorId = image.ColorId
+                    // Sao chép các thuộc tính khác từ image
+                }).ToList()
+            }).ToList();
+
+            return productDTOs;
+        }
+
+        public async Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken)
+        {
+            var products = await _repositoryManger.ProductRepository.GetAllProductImageAsync();
 
             var productDTOs = products.Select(product => new ProductDtoForGet
             {
@@ -186,12 +293,6 @@ namespace Service
             return productDTOs;
         }
 
-        Task<Product> IProductService.GetByIdProduct(string id, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public async Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var product = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
@@ -204,10 +305,10 @@ namespace Service
 
             var productDto = new ProductDtoForGet
             {
-                BarCode = product.BarCode,
+                Id = product.Id,
+                Name = product.Name,
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,
-                Status = product.Status,
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
@@ -257,6 +358,10 @@ namespace Service
             return productDto;
         }
 
+        public Task<Product> GetByIdProduct(string id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

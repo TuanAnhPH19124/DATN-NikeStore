@@ -146,9 +146,7 @@ namespace Service
                     Credentials = new NetworkCredential("nikesneakerw@gmail.com", "kxsdwillelpulshc"),
                     EnableSsl = true,
                 };
-
                 var mailMessage = new MailMessage("your.email@yourprovider.com", toEmail, "Đặt lại mật khẩu", emailBody);
-
                 smtpClient.Send(mailMessage);
                 return true;
             }
