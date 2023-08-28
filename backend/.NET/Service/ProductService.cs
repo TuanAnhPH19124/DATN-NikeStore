@@ -214,7 +214,7 @@ namespace Service
                 Name = product.Name,
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,
-                Status = product.Status,              
+                Status = product.Status,
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
@@ -247,7 +247,6 @@ namespace Service
 
             return productDTOs;
         }
-
 
         public async Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
         {
@@ -295,6 +294,22 @@ namespace Service
                 }).ToList()
             };
 
+            // Thêm các ảnh mới vào danh sách ProductImages
+            var additionalImages = new List<ProductImageDto>();
+
+            // Thêm các ảnh mới vào danh sách additionalImages, ví dụ:
+            additionalImages.Add(new ProductImageDto
+            {
+                Id = product.Id, // Đặt Id cho ảnh mới
+                ImageUrl = "URL của ảnh mới",
+                SetAsDefault = false, // Đặt giá trị mặc định cho SetAsDefault
+                ProductId = product.Id,
+                ColorId = null // Đặt giá trị ColorId nếu có
+            });
+
+            // Thêm additionalImages vào danh sách ProductImages
+            productDto.ProductImages.AddRange(additionalImages);
+
             return productDto;
         }
 
@@ -304,6 +319,7 @@ namespace Service
         }
     }
 }
+
 
 
 
