@@ -9,7 +9,6 @@
     <meta name="author" content="">
 
     <title>Nike Sneaker World</title>
-
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -396,7 +395,7 @@
                                                     </div>
                                                     </div>
                                                     <div class="col-md-9 text-right">
-                                                    <button type="button" class="btn btn-primary" id="searchButton" style="margin-right: 10px;">Tìm kiếm</button>
+                                                    <button type="button" class="btn btn-primary" id="" style="margin-right: 10px;">Tìm kiếm</button>
                                                     <button type="button" class="btn btn-danger" id="resetButton">Làm mới</button>
                                                     </div>
                                                 </div>
@@ -470,42 +469,21 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <table id="product-table" class="table table-bordered">
+                                                <div id="product-table-container"><table id="product-table" class="table table-bordered">
                                                     <thead>
                                                     <tr>
                                                         <th scope="col">STT</th>
                                                         <th scope="col">Ảnh</th>
                                                         <th scope="col">Tên</th>
                                                         <th scope="col">Giá bán</th>
-                                                        <th scope="col">Kích thước</th>
-                                                        <th scope="col">Số lượng</th>
-                                                        <th scope="col">Màu sắc</th>
                                                         <th scope="col">Trạng thái</th>
                                                         <th scope="col">Hành động</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <td>1</td>
-                                                        <td><img src="path_to_image2.jpg" alt="Ảnh sản phẩm 2" class="product-image"></td>
-                                                        <td>Sản phẩm B</td>
-                                                        <td>250.000đ</td>
-                                                        <td>Size M</td>
-                                                        <td>8</td>
-                                                        <td><div class="color-square" style="background-color: red;"> .</div></td>
-                                                        <td><span class="status-badge out-of-stock">Hết hàng</span></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-warning">
-                                                                Chọn
-                                                            </button>
-                                                        </td>              
-                                                        </tr>
+                                                    <tbody>                                                       
                                                         <!-- Thêm dữ liệu sản phẩm khác tương tự -->
-                                                    </tbody>
-                                                    
-                                                </table>
-                                                
-                                                
+                                                    </tbody>                                                   
+                                                </table></div>                                                                                                                                        
                                                 </div>
                                             </div>
                                             </div>
@@ -1015,116 +993,7 @@
     });
   </script>
 
-<script>
-    $(document).ready(function() {
-      let tabCount = 0;
-      const maxTabs = 5;
-      
-      // Khôi phục danh sách hoá đơn từ Local Storage khi tải lại trang
-      restoreInvoicesFromLocalStorage();
-      
-      $('#addInvoiceBtn').on('click', function() {
-        if (tabCount >= maxTabs) {
-          return;
-        }
-    
-        tabCount++;
-        const newTabId = `invoice${tabCount}`;
-        const newTabContent = `
-          <div id="${newTabId}" class="container tab-pane">
-            <h3>Hoá Đơn ${tabCount}</h3>
-            <ul id="productsList${tabCount}" class="list-group">                 
-            </ul>
-          </div>
-        `;
-    
-        $('#invoiceTabs .nav-item').removeClass('active');
-        $('#invoiceTabs .tab-content .tab-pane').removeClass('active');
-    
-        $('#invoiceTabs').append(`
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn ${tabCount} <span class="close-tab" data-index="${tabCount}">✕</span></a>
-          </li>
-        `);
-        
-        $('#invoiceTabContent').append(newTabContent);
-        $('[data-toggle="tooltip"]').tooltip();
-        
-        // Lưu danh sách hoá đơn vào Local Storage sau khi thêm hoá đơn
-        saveInvoicesToLocalStorage();
-        
-        // Kích hoạt hoá đơn vừa tạo
-        $(`#${newTabId}`).addClass('active');
-        $(`#invoiceTabs a[href="#${newTabId}"]`).parent().addClass('active');
-      });
-    
-      $('#invoiceTabs').on('click', 'a.nav-link', function() {
-        $('#invoiceTabs .nav-item').removeClass('active');
-        $(this).parent().addClass('active');
-        $('#invoiceTabContent .tab-pane').removeClass('active');
-        $($(this).attr('href')).addClass('active');
-      });
-    
-      $('#invoiceTabs').on('mouseenter', 'a.nav-link', function() {
-        $(this).tooltip('show');
-      });
-    
-      $('#invoiceTabs').on('mouseleave', 'a.nav-link', function() {
-        $(this).tooltip('hide');
-      });
-    
-      $('#invoiceTabs').on('click', '.close-tab', function(e) {
-        e.stopPropagation();
-        const tabIndex = $(this).data('index');
-        if (confirm(`Bạn có muốn xoá hoá đơn ${tabIndex} không?`)) {
-          $(`#invoice${tabIndex}`).remove();
-          $(this).parent().parent().remove();
-          tabCount--;
-          
-          // Lưu danh sách hoá đơn vào Local Storage sau khi xoá hoá đơn
-          saveInvoicesToLocalStorage();
-        }
-      });
-    
-      $('[data-toggle="tooltip"]').tooltip({
-        placement: 'bottom',
-        trigger: 'hover'
-      });
-      
-      function saveInvoicesToLocalStorage() {
-        const invoices = [];
-        for (let i = 1; i <= tabCount; i++) {
-          invoices.push($(`#invoice${i}`).html());
-        }
-        localStorage.setItem('invoices', JSON.stringify(invoices));
-      }
-    
-      function restoreInvoicesFromLocalStorage() {
-        const invoices = JSON.parse(localStorage.getItem('invoices'));
-        if (invoices && invoices.length > 0) {
-          tabCount = invoices.length;
-          invoices.forEach((invoiceContent, index) => {
-            const tabIndex = index + 1;
-            const newTabId = `invoice${tabIndex}`;
-            $('#invoiceTabs').append(`
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn ${tabIndex} <span class="close-tab" data-index="${tabIndex}">✕</span></a>
-              </li>
-            `);
-            $('#invoiceTabContent').append(`
-              <div id="${newTabId}" class="container tab-pane">${invoiceContent}</div>
-            `);
-          });
 
-          // Kích hoạt tab hoá đơn đã tạo trước đó
-          const activeTabIndex = $('#invoiceTabs .nav-item.active a.nav-link').attr('href');
-          if (activeTabIndex) {
-            $(activeTabIndex).addClass('active');
-          }
-        }
-      }
-    });
-  </script>
 
 <!-- camera -->
 
