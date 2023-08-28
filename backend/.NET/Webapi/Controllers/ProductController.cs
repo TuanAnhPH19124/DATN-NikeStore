@@ -50,8 +50,8 @@ namespace Webapi.Controllers
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
         }
-            return Ok(productDto);
-        }
+       
+        
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveProductsAsync()
         {
