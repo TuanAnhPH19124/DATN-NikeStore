@@ -13,7 +13,7 @@ namespace EntitiesDto.Product
     {
         public string Id { get; set; }
         public string Name { get; set; }
-
+        public Status Status { get; set; }
         public double RetailPrice { get; set; }
         public string Description { get; set; }
         public int DiscountRate { get; set; }
