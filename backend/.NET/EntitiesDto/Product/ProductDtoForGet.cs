@@ -17,7 +17,7 @@ namespace EntitiesDto.Product
         public double RetailPrice { get; set; }
         public string Description { get; set; }
         public int DiscountRate { get; set; }
-
+        public Status Status { get; set; } = Status.ACTIVE;
         public int SoleId { get; set; }
         public int MaterialId { get; set; }
         public List<StockDto> Stocks { get; set; }
