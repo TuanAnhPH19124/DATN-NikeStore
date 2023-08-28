@@ -174,7 +174,7 @@ namespace Service
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
-
+                Status= product.Status,
                 Stocks = product.Stocks.Select(stock => new StockDto
                 {
                     SizeId = stock.SizeId,

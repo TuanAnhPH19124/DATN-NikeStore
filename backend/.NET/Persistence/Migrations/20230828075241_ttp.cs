@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class init : Migration
+    public partial class ttp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -877,6 +877,12 @@ namespace Persistence.Migrations
                 name: "IX_Tag_Name",
                 table: "Tag",
                 column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vouchers_Code",
+                table: "Vouchers",
+                column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
