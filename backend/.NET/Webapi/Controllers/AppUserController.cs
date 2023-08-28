@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Net;
 using Mapster;
 using EntitiesDto.User;
+using Microsoft.AspNetCore.Identity;
 
 namespace Webapi.Controllers
 {
@@ -21,10 +22,11 @@ namespace Webapi.Controllers
     public class AppUserController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-
-        public AppUserController(IServiceManager serviceManager)
+        private readonly UserManager<AppUser> _userManager;
+        public AppUserController(IServiceManager serviceManager, UserManager<AppUser> userManager)
         {
             _serviceManager = serviceManager;
+            _userManager = userManager;
         }
 
         [HttpGet("Get")]
@@ -46,6 +48,13 @@ namespace Webapi.Controllers
 
         }
 
+        [HttpGet("GetUsersWithUserRole")]
+        public IActionResult GetUsersWithUserRole()
+        {
+            var usersWithUserRole = _userManager.GetUsersInRoleAsync("User").Result;
+
+            return Ok(usersWithUserRole);
+        }
 
         [HttpGet("Get/{Id}")]
         public async Task<ActionResult<AppUser>> GetByIdAppUser(string Id)
