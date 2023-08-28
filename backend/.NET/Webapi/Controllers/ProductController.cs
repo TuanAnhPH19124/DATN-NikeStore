@@ -1,4 +1,7 @@
 using Domain.Entities;
+using Domain.Enums;
+using Domain.Repositories;
+using EntitiesDto.Images;
 using EntitiesDto.Product;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +50,22 @@ namespace Webapi.Controllers
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
         }
+            return Ok(productDto);
+        }
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveProductsAsync()
+        {
+            var products = await _serviceManager.ProductService.GetAllProductAsync();
+
+            var activeProducts = products
+                .Where(product => product.Status == Status.ACTIVE) // Lọc ra các sản phẩm có trạng thái là Active
+                .ToList();
+
+            return Ok(activeProducts);
+        }
+
+
+
 
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
