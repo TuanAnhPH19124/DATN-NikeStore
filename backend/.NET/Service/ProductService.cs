@@ -104,6 +104,18 @@ namespace Service
                 query = query.Where(p => p.CategoryProducts.Any(cp => categoryIds.Contains(cp.CategoryId)));
             }
 
+            if (options.Colors != null && options.Colors.Any())
+            {
+                var colorIds = options.Colors.Select(c => c.Id).ToList();
+                query = query.Where(p => p.Stocks.Any(pi => colorIds.Contains(pi.ColorId)));
+            }
+
+            if (options.Sizes != null && options.Sizes.Any())
+            {
+                var sizeIds = options.Sizes.Select(s => s.Id).ToList();
+                query = query.Where(p => p.Stocks.Any(s => sizeIds.Contains(s.SizeId)));
+            }
+
             if (options.SortBy.HasValue)
             {
                 switch (options.SortBy.Value)
@@ -115,7 +127,7 @@ namespace Service
                         query = query.OrderByDescending(p => p.RetailPrice).ThenByDescending(p => p.DiscountRate);
                         break;
                     case Domain.Enums.SortBy.NEWEST:
-                        query = query.OrderBy(p => p.CreatedDate);
+                        query = query.OrderByDescending(p => p.CreatedDate);
                         break;
                     case Domain.Enums.SortBy.FEATURED:
                         break;
@@ -128,6 +140,7 @@ namespace Service
             {
                 Id = product.Id,
                 Name = product.Name,
+                Status = product.Status,
                 RetailPrice = product.RetailPrice,
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
@@ -213,53 +226,8 @@ namespace Service
                 Id = product.Id,
                 Name = product.Name,
                 RetailPrice = product.RetailPrice,
-                Description = product.Description,
-                Status = product.Status,              
-                DiscountRate = product.DiscountRate,
-                SoleId = product.SoleId,
-                MaterialId = product.MaterialId,
-
-                Stocks = product.Stocks.Select(stock => new StockDto
-                {
-                    SizeId = stock.SizeId,
-                    ColorId = stock.ColorId,
-                    UnitInStock = stock.UnitInStock,
-                    ProductId = stock.ProductId
-                }).ToList(),
-
-                CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
-                {
-                    ProductId = categoryProduct.ProductId,
-                    CategoryId = categoryProduct.CategoryId
-                    // Sao chép các thuộc tính khác từ categoryProduct
-                }).ToList(),
-
-                ProductImages = product.ProductImages.Select(image => new ProductImageDto
-                {
-                    Id = image.Id,
-                    ImageUrl = image.ImageUrl,
-                    SetAsDefault = image.SetAsDefault,
-                    ProductId = image.ProductId,
-                    ColorId = image.ColorId
-                    // Sao chép các thuộc tính khác từ image
-                }).ToList()
-            }).ToList();
-
-            return productDTOs;
-        }
-
-        public async Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken)
-        {
-            var products = await _repositoryManger.ProductRepository.GetAllProductImageAsync();
-
-            var productDTOs = products.Select(product => new ProductDtoForGet
-            {
-                Id = product.Id,
-                Name = product.Name,
-                BarCode = product.BarCode,
-                RetailPrice = product.RetailPrice,
-                Description = product.Description,
                 Status = product.Status,
+                Description = product.Description,           
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
