@@ -273,6 +273,7 @@ $(document).ready(function () {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
     }
     productFormData.append("discountRate", value2);
+    productFormData.append("discountType", selectTypeDiscount);
     productFormData.append("soleId", $("#sole-select").val());
     productFormData.append("materialId", $("#material-select").val());
     productFormData.append("status", 1);
@@ -457,22 +458,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Lắng nghe sự kiện thay đổi tập tin tải lên
-  const fileInput = document.getElementById("file-input");
-  fileInput.addEventListener("change", (event) => {
-    const files = event.target.files;
-    for (const file of files) {
-      if (file.type.startsWith("image/")) {
-        // fileList.push(file);
-        // ảnh thêm vào api
-        const newImage = { file: file, setAsDefault: false };
-        product.Colors[selectedColor].Images.push(newImage);
-        //  product.Colors[0].Images.push(newImage);
-        loadImageE();
+    // Lắng nghe sự kiện thay đổi tập tin tải lên
+    const fileInput = document.getElementById("file-input");
+    fileInput.addEventListener("change", (event) => {
+      const files = event.target.files;
+      const maxImagesPerColor = 6;
+  
+      const imagesToAdd = [];
+      const remainingSlots = maxImagesPerColor - product.Colors[selectedColor].Images.length;
+  
+      for (const file of files) {
+        if (file.type.startsWith("image/") && imagesToAdd.length < remainingSlots) {
+          const newImage = { file: file, setAsDefault: false };
+          imagesToAdd.push(newImage);
+        }
       }
-    }
-    fileInput.value = ""; // Reset file input
-  });
+  
+      product.Colors[selectedColor].Images.push(...imagesToAdd);
+      loadImageE();
+      fileInput.value = ""; // Reset file input
+    });
 });
 
 function handleDelete(file) {
@@ -488,7 +493,7 @@ function handleDelete(file) {
     loadImageE();
   }
 }
-
+// start
 function loadImageE() {
   const uploadList = document.querySelector(".upload-list");
   const dynamicDivs = uploadList.querySelectorAll(".preview-container");
@@ -497,11 +502,12 @@ function loadImageE() {
   dynamicDivs.forEach((dy) => {
     uploadList.removeChild(dy);
   });
-
   if (selectedColor !== -1) {
     // Kiểm tra nếu danh sách hình ảnh đã đạt đến giới hạn
     if (product.Colors[selectedColor].Images.length === 6) {
       uploadButton.style.display = "none"; // Ẩn nút "Upload"
+    }else{
+      uploadButton.style.display = "flex";
     }
 
     if (product.Colors[selectedColor].Images.length !== 0) {
@@ -528,7 +534,7 @@ function loadImageE() {
     }
   }
 }
-
+//end
 function findIndexById(array, id) {
   for (var i = 0; i < array.length; i++) {
     if (array[i].id === id) {
@@ -769,6 +775,12 @@ function loadSizeE() {
         var newButton = document.createElement("button");
         newButton.className = "btn btn-outline-dark";
         newButton.textContent = element.numberSize;
+
+        newButton.addEventListener("click", function(event) {
+          event.preventDefault();     // Prevent the default click behavior
+          event.stopPropagation();    // Stop the event from propagating
+          // You can optionally add some code here if you want, but it will not affect the button behavior
+      });
 
         var newLabel = document.createElement("label");
         newLabel.textContent = "Số lượng";
