@@ -319,11 +319,11 @@
                 </nav>
                 <!-- Tạo hoá đơn -->
                 <div class="THD" style="padding-left: 1100px; padding-bottom: 20px;">
-                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn">
+                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn" id="createInvoiceButton" onclick="createInvoice()">
                 <span class="icon text-white-50">
                     <i class="fa-solid fa-plus"></i>
                 </span>
-                <span class="text">Tạo hoá đơn</span>
+                <span class="text" >Tạo hoá đơn</span>
                 </a>
                 </div>
                 <!-- End of Topbar -->
@@ -357,12 +357,18 @@
                                     <span class="text">Qr code sản phẩm</span>
                                   </a>
                                   <!-- button thêm sản phẩm -->
-                                  <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product">
-                                    <span class="icon text-white-50">
-                                      <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="text">Thêm sản phẩm</span>
+
+
+
+                                  <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product" style="display: none;">
+                                      <span class="icon text-white-50">
+                                          <i class="fa fa-plus"></i>
+                                      </span>
+                                      <span class="text">Thêm sản phẩm</span>
                                   </a>
+                                  
+
+                                
                                 <!-- Modal -->
                                 <div class="modal fade" id="modal-add-camera">
                                     <div class="modal-dialog modal-lg">
@@ -496,21 +502,19 @@
                                                         <td><span class="status-badge out-of-stock">Hết hàng</span></td>
                                                         <td>
                                                             <button type="button" class="btn btn-warning">
-                                                                Chọn
+                                                                <a href="detail-product.html">Chọn</a>
                                                             </button>
                                                         </td>              
                                                         </tr>
                                                         <!-- Thêm dữ liệu sản phẩm khác tương tự -->
-                                                    </tbody>
-                                                    
-                                                </table>
-                                                
-                                                
+                                                    </tbody>                                                  
+                                                </table>                                                                                           
                                                 </div>
                                             </div>
                                             </div>
                                         </div>
                           
+                                        
                                 <div class="modal fade" id="modal-add-product" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -988,6 +992,49 @@
           margin-left: 5px;
         }
       </style>
+
+<script>
+    var hasInvoice = false; // Biến để theo dõi trạng thái hoá đơn
+
+    // Function to enable the "Thêm sản phẩm" button
+    function enableAddProductButton() {
+        var addProductButton = document.getElementById("addProductButton");
+        addProductButton.style.display = "block"; // Hiển thị button
+    }
+
+    // Function to disable the "Thêm sản phẩm" button
+    function disableAddProductButton() {
+        var addProductButton = document.getElementById("addProductButton");
+        addProductButton.style.display = "none"; // Ẩn button
+    }
+
+    // Function to handle the creation of hoá đơn
+    function createInvoice() {
+        // Your code to create the invoice
+        // ...
+
+        // Update the state
+        hasInvoice = true;
+
+        // Call the function to enable the "Thêm sản phẩm" button
+        enableAddProductButton();
+    }
+
+    // Function to handle the deletion of hoá đơn
+    function deleteInvoice() {
+        // Your code to delete the invoice
+        // ...
+
+        // Update the state
+        hasInvoice = false;
+
+        // Call the function to disable the "Thêm sản phẩm" button
+        disableAddProductButton();
+    }
+</script>
+
+
+
 
 <!-- sản phẩm -->
 <script>
