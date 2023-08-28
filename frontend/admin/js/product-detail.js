@@ -242,11 +242,22 @@ $(document).ready(function () {
       console.log(JSON.stringify(data));
       $("#name").val(data.name);
       $("#description").val(data.description);
-      
+
       $("#retailPrice").val(Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
       }).format(data.retailPrice));
+
+      selectTypeDiscount=data.discountType
+      selectDiscountType(selectTypeDiscount)
+
+      $("#fixedPrice").val(Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(data.discountRate));
+      
+      $('#rangPercen').val(((data.retailPrice-data.discountRate)/data.retailPrice)*100); // Set the range value
+      $('#rangeValue').text(((data.retailPrice-data.discountRate)/data.retailPrice)*100); // Update the displayed value
 
       $("#status").val(data.status);
       $("#sole-select").val(data.soleId);
@@ -436,6 +447,7 @@ $(document).ready(function () {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
     }
     productFormData.append("discountRate", value2);
+    productFormData.append("discountType", selectTypeDiscount);
     productFormData.append("soleId", $("#sole-select").val());
     productFormData.append("materialId", $("#material-select").val());
     productFormData.append("status", 1);
@@ -507,6 +519,8 @@ $(document).ready(function () {
             Categories: [],
             Colors: [],
           };
+          window.location.href = `/frontend/admin/product-page.html`;
+
         },
         error: function (response) {
           //check ảnh

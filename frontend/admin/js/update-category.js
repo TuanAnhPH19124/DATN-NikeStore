@@ -28,6 +28,7 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
+                    window.location.href = `/frontend/admin/category.html`;
                     $('#success').toast('show')
                 },
                 error: function () {

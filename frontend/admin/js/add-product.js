@@ -273,6 +273,7 @@ $(document).ready(function () {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
     }
     productFormData.append("discountRate", value2);
+    productFormData.append("discountType", selectTypeDiscount);
     productFormData.append("soleId", $("#sole-select").val());
     productFormData.append("materialId", $("#material-select").val());
     productFormData.append("status", 1);

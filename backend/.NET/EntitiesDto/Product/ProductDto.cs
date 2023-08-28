@@ -13,7 +13,7 @@ namespace EntitiesDto.Product
         public string Description { get; set; }
         public Brands Brand { get; set; }
         public int DiscountRate { get; set; }
-        
+        public DiscountType DiscountType { get; set; }  
         public int SoleId { get; set; }
         public int MaterialId { get; set; }
         public List<ColorAPI> Colors { get; set; }
