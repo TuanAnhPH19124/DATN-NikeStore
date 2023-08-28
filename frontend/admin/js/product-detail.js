@@ -251,14 +251,19 @@ $(document).ready(function () {
       selectTypeDiscount=data.discountType
       selectDiscountType(selectTypeDiscount)
 
-      $("#fixedPrice").val(Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      }).format(data.discountRate));
-      
-      $('#rangPercen').val(((data.retailPrice-data.discountRate)/data.retailPrice)*100); // Set the range value
-      $('#rangeValue').text(((data.retailPrice-data.discountRate)/data.retailPrice)*100); // Update the displayed value
+      if(data.discountType===1){
+        $('#rangPercen').val(((data.retailPrice-data.discountRate)/data.retailPrice)*100); // Set the range value
+        $('#rangeValue').text(((data.retailPrice-data.discountRate)/data.retailPrice)*100); // Update the displayed value
+      }
 
+      if(data.discountType===2){
+        $("#fixedPrice").val(Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(data.discountRate));
+      }
+
+    
       $("#status").val(data.status);
       $("#sole-select").val(data.soleId);
       $("#material-select").val(data.materialId);
