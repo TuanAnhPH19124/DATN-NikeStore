@@ -284,13 +284,12 @@
 		<div class="col-md-9 px-5">
 			<div class="product-sort-container">
 				<span>Sắp xếp theo: </span>
-				<select class="" >
-					<option></option>
-					<option>Hàng với về</option>
-					<option>Top thịnh hành</option>
-					<option>Khuyến mại</option>
-					<option>Giá từ thấp đến cao</option>
-					<option>Giá từ cao đến thấp</option>
+				<select ng-model="sortBy">
+					<option value=""></option>
+					<option value="2">Hàng với về</option>
+					<option value="3">Top thịnh hành</option>
+					<option value="0">Giá từ thấp đến cao</option>
+					<option value="1">Giá từ cao đến thấp</option>
 				</select>
 			</div>
 			<div class="product-list-container">
