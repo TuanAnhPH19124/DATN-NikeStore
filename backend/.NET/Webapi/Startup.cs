@@ -91,6 +91,7 @@ namespace Webapi
         {
             app.UseCors();
 
+
             //DatabaseMigration.StartMigration(app);
             //SeedingDatabase.Start(app).Wait();
 
