@@ -18,5 +18,8 @@ namespace Domain.Repositories
         Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default);
         Task<List<Product>> FilterProductsAsync(
        string sizeId, string colorId, string categoryId, int? materialId, int? soleId);
+        //Task<IEnumerable<Product>> GetProductByFilterAndSort( options);
+        IQueryable<Product> GetAllProductsQuery();
+        Task<IEnumerable<Product>> GetProductByFilterAndSort(IQueryable<Product> query);
     }
 }

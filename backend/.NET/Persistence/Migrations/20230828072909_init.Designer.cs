@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230824112356_ok")]
-    partial class ok
+    [Migration("20230828072909_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -426,6 +426,9 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("DiscountRate")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DiscountType")
                         .HasColumnType("integer");
 
                     b.Property<int>("MaterialId")

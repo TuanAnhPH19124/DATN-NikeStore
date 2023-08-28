@@ -426,6 +426,9 @@ namespace Persistence.Migrations
                     b.Property<int>("DiscountRate")
                         .HasColumnType("integer");
 
+                    b.Property<int>("DiscountType")
+                        .HasColumnType("integer");
+
                     b.Property<int>("MaterialId")
                         .HasColumnType("integer");
 

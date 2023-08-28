@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace Webapi.Controllers
 {
     [Route("api/[controller]")]
@@ -183,25 +182,10 @@ namespace Webapi.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-     string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        public async Task<ActionResult> FilterProducts([FromQuery] ProductFilterOptionAPI options)
         {
-            try
-            {
-                var filteredProducts = await _serviceManager.ProductService.FilterProductsAsync(
-                    sizeId, colorId, categoryId, materialId, soleId);
-
-                if (filteredProducts == null || !filteredProducts.Any())
-                {
-                    return NotFound();
-                }
-
-                return Ok(filteredProducts);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var products = await _serviceManager.ProductService.FilterProductsAsync(options);
+            return Ok(products);
         }
     }
 }

@@ -5,6 +5,7 @@
   --bc-gray-light: #eeeded;
   --bc-gray-light-hover: #cdc9c9;
   --tc-black: #000000;
+  --tc-success: #48a541;
   --fs-12px: 12px;
   --fs-14px: 14px;
   --fs-16px: 16px;
@@ -173,8 +174,7 @@
 
 .header-main,
 nav ul,
-.right-main,
-.price {
+.right-main {
   display: flex;
   align-items: center;
 }

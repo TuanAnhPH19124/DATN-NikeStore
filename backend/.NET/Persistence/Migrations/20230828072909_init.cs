@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class ok : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -372,6 +372,7 @@ namespace Persistence.Migrations
                     DiscountRate = table.Column<int>(type: "integer", nullable: false),
                     SoleId = table.Column<int>(type: "integer", nullable: false),
                     MaterialId = table.Column<int>(type: "integer", nullable: false),
+                    DiscountType = table.Column<int>(type: "integer", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),

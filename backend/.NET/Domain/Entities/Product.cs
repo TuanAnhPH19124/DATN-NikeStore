@@ -15,9 +15,10 @@ namespace Domain.Entities
         public string BarCode { get; set; }
         public double RetailPrice { get; set; }
         public string Description { get; set; }
-        public int DiscountRate { get; set; } = 1;
+        public int DiscountRate { get; set; } 
         public int SoleId { get; set; }
         public int MaterialId { get; set; }
+        public DiscountType DiscountType { get; set; }
 
         public virtual Material Material { get; set; }
         public virtual Sole Sole { get; set; }

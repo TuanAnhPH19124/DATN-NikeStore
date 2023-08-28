@@ -13,12 +13,10 @@ namespace EntitiesDto.Product
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string BarCode { get; set; }
 
         public double RetailPrice { get; set; }
         public string Description { get; set; }
-        public Status Status { get; set; } = Status.ACTIVE;
-        public int DiscountRate { get; set; } = 1;
+        public int DiscountRate { get; set; }
 
         public int SoleId { get; set; }
         public int MaterialId { get; set; }
