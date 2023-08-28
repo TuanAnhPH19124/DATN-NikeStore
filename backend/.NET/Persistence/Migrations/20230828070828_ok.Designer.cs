@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230824112356_ok")]
+    [Migration("20230828070828_ok")]
     partial class ok
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -727,6 +727,9 @@ namespace Persistence.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("Vouchers");
                 });

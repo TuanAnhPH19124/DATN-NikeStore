@@ -38,23 +38,29 @@ $(document).ready(function () {
           var month2 = dateObj2.getUTCMonth() + 1;
           var year2 = dateObj2.getUTCFullYear();
           var formattedDate2 = `${day2}/${month2}/${year2}`;
-          return `<span class="badge badge-pill badge-success" style="padding:10px;">${
-            formattedDate + "-" + formattedDate2
-          }</span>`;
+          if(full.status===true){
+            return `<span class="badge badge-pill badge-success" style="padding:10px;">${
+              formattedDate + "-" + formattedDate2
+            }</span>`;
+          }else{
+            return `<span class="badge badge-pill badge-danger" style="padding:10px;">${
+              formattedDate + "-" + formattedDate2
+            }</span>`;
+          }
         },
       },
-      {
-        data: "createdDate",
-        title: "Ngày tạo",
-        render: function (data, type, full, meta) {
-          var dateObj = new Date(data);
-          var day = dateObj.getUTCDate();
-          var month = dateObj.getUTCMonth() + 1;
-          var year = dateObj.getUTCFullYear();
-          var formattedDate = `${day}/${month}/${year}`;
-          return formattedDate;
-        },
-      },
+      // {
+      //   data: "createdDate",
+      //   title: "Ngày tạo",
+      //   render: function (data, type, full, meta) {
+      //     var dateObj = new Date(data);
+      //     var day = dateObj.getUTCDate();
+      //     var month = dateObj.getUTCMonth() + 1;
+      //     var year = dateObj.getUTCFullYear();
+      //     var formattedDate = `${day}/${month}/${year}`;
+      //     return formattedDate;
+      //   },
+      // },
       {
         data: "status",
         title: "Trạng thái",
@@ -96,17 +102,17 @@ $(document).ready(function () {
   $("#add-voucher-form").submit(function (event) {
     event.preventDefault();
     var formData = {
-      code: $("#code").val(),
+      code: $("#code").val().trim(),
       value: $("#value").val(),
       description: $("#description").val(),
       startDate: $("#startDate").val(),
       endDate: $("#endDate").val(),
-      createdDate: new Date().toISOString(),
       status: true,
     };
-
+  
     var startComponents = formData.startDate.split("/");
     var endComponents = formData.endDate.split("/");
+  
     try {
       var startDate = new Date(
         `${startComponents[2]}-${startComponents[1]}-${startComponents[0]}`
@@ -114,21 +120,32 @@ $(document).ready(function () {
       var endDate = new Date(
         `${endComponents[2]}-${endComponents[1]}-${endComponents[0]}`
       );
-
+  
+      // Adjust for local time zone offset
+      startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+      endDate.setMinutes(endDate.getMinutes() - endDate.getTimezoneOffset());
+  
       formData.startDate = startDate.toISOString();
       formData.endDate = endDate.toISOString();
+      
     } catch (error) {
       formData.startDate = "";
       formData.endDate = "";
     }
-
+  
     if (startDate > endDate) {
       $("#date-error").show();
       return;
-    }else{
+    } else {
       $("#date-error").hide();
     }
+    if (/^\d+$/.test(formData.value) && parseInt(formData.value, 10) >= 1 && parseInt(formData.value, 10) <= 100) {
+      // Validation passed
+    } else {
+      return
+    }
     
+
     if (confirm(`Bạn có muốn thêm voucher ${formData.code} không?`)) {
       $.ajax({
         url: "https://localhost:44328/api/Voucher",
@@ -141,16 +158,19 @@ $(document).ready(function () {
           $("#modal-add-voucher").modal("hide");
           $("#success").toast("show");
           $("#add-voucher-form")[0].reset();
+          voucherTable.ajax.reload();
         },
         error: function (xhr, status, error) {
-          console.error(error);
-          // Handle error here (e.g., display error message to the user)
+          if (xhr.responseText === "Code Voucher with the same Name already exists") {
+            $("#fail").toast("show");
+          }
         },
       });
-  } else {
-      return
-  }
+    } else {
+      return;
+    }
   });
+  
 
   // custom validate
   $.validator.addMethod("nameContainOnlyChar", function (value, element) {
@@ -189,7 +209,7 @@ $(document).ready(function () {
         maxlength: "Mã giảm giá không quá 15 ký tự",
       },
       value: {
-        required: "Bạn phải nhập số căn cước",
+        required: "Bạn phải nhập giá trị giảm giá",
         value100: "Giá trị là sô nằm trong khoảng từ 1-100"
       },
       description: {
