@@ -1,4 +1,7 @@
 using Domain.Entities;
+using Domain.Enums;
+using Domain.Repositories;
+using EntitiesDto.Images;
 using EntitiesDto.Product;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 
 namespace Webapi.Controllers
 {
@@ -47,6 +49,19 @@ namespace Webapi.Controllers
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
+                  
+        }
+
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveProductsAsync()
+        {
+            var products = await _serviceManager.ProductService.GetAllProductImageAsync();
+
+            var activeProducts = products
+                .Where(product => product.Status == Status.ACTIVE) // Lọc ra các sản phẩm có trạng thái là Active
+                .ToList();
+
+            return Ok(activeProducts);
         }
 
         [HttpPost]
@@ -190,25 +205,10 @@ namespace Webapi.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(
-     string sizeId, string colorId, string categoryId, int? materialId, int? soleId)
+        public async Task<ActionResult> FilterProducts([FromQuery] ProductFilterOptionAPI options)
         {
-            try
-            {
-                var filteredProducts = await _serviceManager.ProductService.FilterProductsAsync(
-                    sizeId, colorId, categoryId, materialId, soleId);
-
-                if (filteredProducts == null || !filteredProducts.Any())
-                {
-                    return NotFound();
-                }
-
-                return Ok(filteredProducts);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var products = await _serviceManager.ProductService.FilterProductsAsync(options);
+            return Ok(products);
         }
     }
 }

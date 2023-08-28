@@ -31,7 +31,7 @@
 
 
 
-.product-item image,.product-item span {
+.product-item image {
     display: block;
 }
 
@@ -44,16 +44,37 @@
     text-decoration:none ;
 }
 
+.product-item .name, .product-item .category, .product-item .color{
+    display: block;
+}
+
 .product-item .name, .product-item .price{
     color: var(--tc-black);
+    
 }
 
 .product-item .color, .product-item .category{
     color: var(--tc-black);
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .product-item .price{
     margin-top: 10px;
 }
 
+.show-discount{
+    display: inline-block;
+    color: var(--tc-black);
+}
+
+.strike-through {
+    text-decoration: line-through;
+    color: var(--tc-black);
+    opacity: 0.6;
+}
+
+.percenOff{
+    color: var(--tc-success);
+    margin-top: 5px;
+    font-size: var(--fs-16px);
+}

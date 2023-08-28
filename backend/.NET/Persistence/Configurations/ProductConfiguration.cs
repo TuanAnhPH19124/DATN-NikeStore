@@ -17,6 +17,9 @@ namespace Persistence.Configurations
             builder.Property(p => p.RetailPrice).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.ModifiedDate).IsRequired(false);
+            builder.Property(p => p.DiscountRate).IsRequired();
+            builder.Property(p => p.DiscountType).IsRequired();
+
 
             builder.HasMany(p => p.CategoryProducts)
                 .WithOne(p => p.Product)
