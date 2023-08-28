@@ -79,6 +79,7 @@ namespace Service
             existingProduct.RetailPrice = updatedProduct.RetailPrice;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
+            existingProduct.DiscountType = updatedProduct.DiscountType;
             existingProduct.Status = updatedProduct.Status;
             existingProduct.SoleId = updatedProduct.SoleId;
             existingProduct.MaterialId = updatedProduct.MaterialId;

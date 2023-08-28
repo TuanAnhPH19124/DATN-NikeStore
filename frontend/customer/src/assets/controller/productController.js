@@ -2,7 +2,7 @@
     var productController = function (e, l, productService, apiUrl) {
         e.products = [];
 
-        e.
+        e.sortBy = "";
 
         e.countColors = function (array) {
             let countColor = new Set();
