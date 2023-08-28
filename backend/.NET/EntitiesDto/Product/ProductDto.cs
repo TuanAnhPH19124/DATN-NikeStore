@@ -36,10 +36,6 @@ namespace EntitiesDto.Product
         public IFormFile Image { get; set; }
         public bool SetAsDefault { get; set; }
     }
-    public class CategoryAPI
-    {
-        public string Id { get; set; }
-    }
     public class ProductUpdateAPI
     {
         public string Id { get; set; }
@@ -53,6 +49,31 @@ namespace EntitiesDto.Product
         public int MaterialId { get; set; }
         public List<CategoryAPI> Categories { get; set; }
         public List<ColorAPI> Colors { get; set; }
+    }
+    public class ProductFilterOptionAPI
+    {
+        public List<CategoryAPI> Categories { get; set; } = null;
+        public List<GenderAPI> Genders { get; set; } = null;
+        public List<SizeFilterAPI> Sizes { get; set; } = null;
+        public List<ColorFilterAPI> Colors { get; set; } = null;
+        public SortBy? SortBy { get; set; } = null;
+        public bool? Sale { get; set; } = null;
+    }
+    public class GenderAPI
+    {
+        public int Id { get; set; }
+    }
+    public class SizeFilterAPI
+    {
+        public string Id { get; set; }
+    }
+    public class ColorFilterAPI
+    {
+        public string Id { get; set; }
+    }
+    public class CategoryAPI
+    {
+        public string Id { get; set; }
     }
 
 
