@@ -49,13 +49,15 @@ namespace Webapi.Controllers
         {
             var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
             return Ok(productDto);
+                  
         }
+
        
         
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveProductsAsync()
         {
-            var products = await _serviceManager.ProductService.GetAllProductAsync();
+            var products = await _serviceManager.ProductService.GetAllProductImageAsync();
 
             var activeProducts = products
                 .Where(product => product.Status == Status.ACTIVE) // Lọc ra các sản phẩm có trạng thái là Active
@@ -63,9 +65,6 @@ namespace Webapi.Controllers
 
             return Ok(activeProducts);
         }
-
-
-
 
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)

@@ -79,6 +79,7 @@ namespace Service
             existingProduct.RetailPrice = updatedProduct.RetailPrice;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.DiscountRate = updatedProduct.DiscountRate;
+            existingProduct.DiscountType = updatedProduct.DiscountType;
             existingProduct.Status = updatedProduct.Status;
             existingProduct.SoleId = updatedProduct.SoleId;
             existingProduct.MaterialId = updatedProduct.MaterialId;
@@ -104,6 +105,18 @@ namespace Service
                 query = query.Where(p => p.CategoryProducts.Any(cp => categoryIds.Contains(cp.CategoryId)));
             }
 
+            if (options.Colors != null && options.Colors.Any())
+            {
+                var colorIds = options.Colors.Select(c => c.Id).ToList();
+                query = query.Where(p => p.Stocks.Any(pi => colorIds.Contains(pi.ColorId)));
+            }
+
+            if (options.Sizes != null && options.Sizes.Any())
+            {
+                var sizeIds = options.Sizes.Select(s => s.Id).ToList();
+                query = query.Where(p => p.Stocks.Any(s => sizeIds.Contains(s.SizeId)));
+            }
+
             if (options.SortBy.HasValue)
             {
                 switch (options.SortBy.Value)
@@ -115,7 +128,7 @@ namespace Service
                         query = query.OrderByDescending(p => p.RetailPrice).ThenByDescending(p => p.DiscountRate);
                         break;
                     case Domain.Enums.SortBy.NEWEST:
-                        query = query.OrderBy(p => p.CreatedDate);
+                        query = query.OrderByDescending(p => p.CreatedDate);
                         break;
                     case Domain.Enums.SortBy.FEATURED:
                         break;
@@ -128,6 +141,7 @@ namespace Service
             {
                 Id = product.Id,
                 Name = product.Name,
+                Status = product.Status,
                 RetailPrice = product.RetailPrice,
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
@@ -174,8 +188,7 @@ namespace Service
                 DiscountRate = product.DiscountRate,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
-                Status=product.Status,
-
+                Status= product.Status,
                 Stocks = product.Stocks.Select(stock => new StockDto
                 {
                     SizeId = stock.SizeId,
@@ -249,8 +262,6 @@ namespace Service
             return productDTOs;
         }
 
-    
-
         public async Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var product = await _repositoryManger.ProductRepository.GetByIdAsync(id, cancellationToken);
@@ -268,6 +279,7 @@ namespace Service
                 RetailPrice = product.RetailPrice,
                 Description = product.Description,
                 DiscountRate = product.DiscountRate,
+                DiscountType = product.DiscountType,
                 SoleId = product.SoleId,
                 MaterialId = product.MaterialId,
                 Status = product.Status,

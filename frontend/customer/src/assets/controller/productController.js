@@ -1,6 +1,9 @@
 (function () {
     var productController = function (e, l, productService, apiUrl) {
         e.products = [];
+
+        e.sortBy = "";
+
         e.countColors = function (array) {
             let countColor = new Set();
             array.forEach(img => {
@@ -8,6 +11,7 @@
             });
             return countColor.size;
         };
+
         e.formatPrice = function (price) {
             let numericValue = parseInt(price, 10);
             if (!isNaN(numericValue)) {
