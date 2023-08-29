@@ -106,6 +106,19 @@ $(document).ready(function () {
       }
     }
   }
+  const decrementButton = document.getElementById("decrement");
+const incrementButton = document.getElementById("increment");
+const quantityInput = document.getElementById("quantity");
+
+decrementButton.addEventListener("click", () => {
+    if (parseInt(quantityInput.value) > 1) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+});
+
+incrementButton.addEventListener("click", () => {
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+});
 
   // // Gọi API và xử lý dữ liệu
   // fetch("https://localhost:44328/api/Product/active")
@@ -199,7 +212,7 @@ $(document).ready(function () {
       {
         title: "Thao tác",
         render: function () {
-          return '<td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nested-modal">Chọn</button></td>';
+          return '<td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productDetailModal">Chọn</button></td>';
         },
       },
     ],
@@ -222,4 +235,257 @@ $(document).ready(function () {
       },
     },
   });
+  $('#productData tbody').on('click', 'tr', function (e) {
+    let selectedProduct = $('#productData').DataTable().row(this).data().id;
+    if (selectedProduct !== null) {
+        localStorage.setItem("selectedProduct", selectedProduct);
+        const id = localStorage.getItem("selectedProduct");
+        console.log(id) 
+        $.ajax({
+          url: "https://localhost:44328/api/Product/" + id,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(JSON.stringify(data));
+            $('#name').text(data.name);
+            $('#discountRate').text(Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(data.discountRate));
+            // $('#costPrice').text(data.costPrice+ "VND");
+            // $('#status').val(data.status);
+            // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
+
+            var colorIds = [...new Set(data.productImages.map(function (item) {
+              return item.colorId;
+            }))];
+            var images = data.productImages.map(function (item) {
+              return {
+                colorId : item.colorId,
+                imageUrl : item.imageUrl,
+              };
+            });
+            console.log(images)
+
+            colorIds.forEach(function (colorId) {
+              $.ajax({
+                url: "https://localhost:44328/api/Color/Get/" + colorId,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                  console.log(data)
+                  console.log(colorId)
+                  product.Colors.push({
+                    id: colorId,
+                    name: data.name,
+                    Images: [],
+                    Sizes: [],
+                  });
+                  console.log(product)
+                  loadColorE();
+                  for (let i = 0; i < product.Colors.length; i++) {
+                    if (product.Colors[i].id === colorId) {
+                      const imagesForColor = images.filter(image => image.colorId === colorId);
+                      
+                      imagesForColor.forEach(imageData => {
+                        const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
+                  
+                        fetch(imageLink)
+                          .then(response => response.blob())
+                          .then(blob => {
+                            const newImage = new File([blob], "image.jpg", {
+                              type: "image/jpeg",
+                            });
+                  
+                            product.Colors[i].Images.push({
+                              file: newImage,
+                              setAsDefault: false,
+                            });
+                  
+                            loadImageE();
+                          });
+                      });
+                    }
+                  }
+                },
+                error: function () {
+                  console.log("Error retrieving data.");
+                },
+              });
+            });
+            
+            var sizeData = data.stocks.map(function (item) {
+              return {
+                sizeId: item.sizeId,
+                unitInStock: item.unitInStock,
+                colorId:item.colorId,
+              };
+            });
+
+            var promises = [];
+
+            sizeData.forEach(function (size) {
+              var promise = $.ajax({
+                url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+                type: "GET",
+                dataType: "json",
+              })
+                .then(function (data) {
+                  console.log(data);
+      
+                  var selectedColorText = {
+                    numberSize: data.numberSize,
+                    id: size.sizeId,
+                  };
+                  console.log(sizeData.length)
+                  // Find the correct color index based on colorId
+                  for (let i = 0; i < sizeData.length; i++) {
+                    if (product.Colors[i].id === size.colorId) {
+                      selectedColorText.unitInStock = size.unitInStock;
+                      product.Colors[i].Sizes.push(selectedColorText);
+                    }
+                  }
+                  // Push selectedColorText to the Sizes array of the corresponding color
+                })
+                .catch(function () {
+                  console.log("Error retrieving data.");
+                });
+      
+              promises.push(promise);
+            });
+      
+            // Wait for all AJAX requests to complete
+            Promise.all(promises).then(function () {
+              loadSizeE(); // This will be called after all requests are finished
+              // Assuming you have an imageLink as you mentioned earlier
+      
+                console.log(data)
+                console.log(product);
+            });
+          },
+          error: function () {
+            console.log("Error retrieving data.");
+          }
+        });
+    }
+  });
+});
+var product = {
+  retailPrice: 0,
+  description: "",
+  status: 1,
+  brand: 1,
+  discountRate: 0,
+  soleId: 0,
+  materialId: 0,
+  name: "",
+  Categories: [],
+  Colors: [],
+};
+
+var selectedColor = 0;
+
+function findIndexById(array, id) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].id === id) {
+      return i; // Trả về chỉ số khi tìm thấy phần tử có id tương ứng
+    }
+  }
+  return -1; // Trả về -1 nếu không tìm thấy phần tử
+}
+function loadColorE() {
+  const plusButtonContainer = document.getElementById("render-color");
+  plusButtonContainer.innerHTML = "";
+
+  if (product.Colors.length !== 0) {
+    product.Colors.forEach((color) => {
+      var newDiv = document.createElement("div");
+      newDiv.className = "container-color";
+    
+      var newButton = document.createElement("button");
+      newButton.type = "button";
+      newButton.className = "btn btn-outline-dark";
+      newButton.id = color.id;
+      newButton.textContent = color.name;
+      newButton.addEventListener("click", function (e) {
+        selectedColor = findIndexById(product.Colors, e.target.id);
+        console.log(selectedColor)
+        loadSizeE();
+        loadImageE();
+      });
+      newDiv.appendChild(newButton);
+      plusButtonContainer.appendChild(newDiv);
+    });
+  }
+}
+function loadSizeE() {
+  var plusButtonContainer = document.getElementById("render-size");
+  // Xóa tất cả các phần tử con trong containerParent
+  while (plusButtonContainer.firstChild) {
+    plusButtonContainer.removeChild(plusButtonContainer.firstChild);
+  }
+
+  if (product.Colors.length !== 0) {
+    if (product.Colors[selectedColor].Sizes.length !== 0) {
+      product.Colors[selectedColor].Sizes.forEach((element) => {
+        var container = document.createElement("div");
+        container.className = "container-unit";
+  
+        var newButton = document.createElement("button");
+        newButton.className = "btn btn-outline-dark";
+        newButton.textContent = element.numberSize;
+  
+        newButton.addEventListener("click", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          console.log(element)
+          $("#product-instock").text(`Còn ${element.unitInStock} sản phẩm`);
+          // Your optional code here
+        });
+        container.appendChild(newButton);
+        plusButtonContainer.appendChild(container);
+      });
+    }
+  }
+}
+function loadImageE() {
+  const uploadList = document.querySelector(".upload-list");
+  const dynamicDivs = uploadList.querySelectorAll(".preview-container");
+
+
+  dynamicDivs.forEach((dy) => {
+    uploadList.removeChild(dy);
+  });
+
+  if (selectedColor !== -1) {
+    if (product.Colors[selectedColor].Images.length !== 0) {
+      product.Colors[selectedColor].Images.forEach((img) => {
+        const previewContainer = document.createElement("div");
+        previewContainer.className = "preview-container";
+        const previewImage = document.createElement("img");
+        previewImage.src = URL.createObjectURL(img.file);
+        previewImage.alt = "Preview";
+        previewImage.className = "preview-image";
+        previewImage.style = " width: 150px;height: 150px;border-radius: 8px;"
+
+        previewContainer.appendChild(previewImage);
+        uploadList.appendChild(previewContainer);
+      });
+    }
+  }
+}
+// reset product khi đóng modal
+$("#productDetailModal").on("hide.bs.modal", function () {
+   product = {
+    retailPrice: 0,
+    description: "",
+    status: 1,
+    brand: 1,
+    discountRate: 0,
+    soleId: 0,
+    materialId: 0,
+    name: "",
+    Categories: [],
+    Colors: [],
+  };
 });

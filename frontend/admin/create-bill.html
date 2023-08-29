@@ -489,21 +489,55 @@
                                             </div>
                                             </div>
                                         </div>
-                                        <div class="modal fade" id="nested-modal" tabindex="-1" role="dialog" aria-labelledby="nested-modal-label" aria-hidden="true" style="width: 99%;">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="nested-modal-label">Nested Modal Title</h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
+                                        <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content" style="max-width: 98%;">
                                                     <div class="modal-body">
-                                                        <!-- Nested modal content here -->
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
+
+                                                        <div class="row">
+                                                            <div class="col-md-7">
+                                                                <div
+                                                                id="root"
+                                                                style="margin-top: 10px"
+                                                                class="upload-container"
+                                                              >
+                                                                <div class="upload-list" style="display: flex; flex-wrap: wrap;gap: 40px;margin-left: 80px;margin-top:50px">
+                                                                </div>
+                                                                
+                                                                
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="product-details">
+                                                                    <!-- HTML -->
+                                                                <!-- HTML -->
+                                                                <div class="product-info">
+                                                                    <h3 id="name">NIKE ARI FORC ONE LOW 1</h3>
+                                                                    <p style="font-weight: 700;">Giá bán: <span id="discountRate" style="font-weight: bold;color: red;"></span></p>
+                                                                    <div class="color-squares">
+                                                                        <p style="font-weight: 700;">Màu sắc:</p>
+                                                                        <div class="color-buttons" id="render-color">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="size-squares">
+                                                                        <p style="font-weight: 700;">Kích cỡ:</p>
+                                                                        <div class="size-buttons" id="render-size">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="product-instock">
+                                                                    </div>
+                                                                    <div class="quantity-input" style="font-weight: 700;">Thêm số lượng:
+                                                                        <div>
+                                                                            <button id="decrement"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> - </button>
+                                                                            <input type="text" id="quantity" value="1" style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;">
+                                                                            <button id="increment"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> + </button>
+                                                                        </div>
+                                                                    </div>                   
+                                                                    <button class="btn btn-primary" id="addToCart">Thêm vào giỏ hàng</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -528,70 +562,6 @@
                                                             <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
                                                                 <tbody id="tbody">                                                         
                                                                 </tbody>
-                                                                <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-body" id="product-detail">
-                                                                                <div class="img">
-                                                                                    <img id="output"
-                                                                                        alt="" width="400" height="400">
-                                                                                </div>
-                                                                                <div>
-                                                                                    <h4 class="product-title" id="name">
-                                                                                        <p>Tên sản phẩm</p>
-                                                                                    </h4>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Giá nhập: 
-                                                                                        </div>
-                                                                                        <div id="costPrice">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Giá bán:
-                                                                                        </div>
-                                                                                        <div id="retailPrice">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Màu:
-                                                                                        </div>
-                                                                                        <div id="productColor">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Size:
-                                                                                        </div>
-                                                                                        <div id="productSize">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="size" >
-                                                                                        <div class="title" >
-                                                                                            <p class="label">Số lượng</p>
-                                                                                            <div class="input-number">
-                                                                                                <button onclick="decrement()" class="btn btn-primary">-</button>
-                                                                                                <div class="form-outline">
-                                                                                                    <input type="number" id="number" name="number"  value="0" class="form-control" value="0" />
-                                                                                                </div>
-                                                                                                <button onclick="increment()" class="btn btn-primary">+</button>
-                                                                                            </div>
-                                                                                            <div class="instock">
-                                                                                                Còn 0 sản
-                                                                                                phẩm
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <button type="button" onclick="addToCart()"
-                                                                                                    class="btn btn-primary">Thêm
-                                                                                                    vào giỏ
-                                                                                                    hàng</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
                                                             </table>
                                                         </div>
                                                     </div>
