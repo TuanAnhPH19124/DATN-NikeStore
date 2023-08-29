@@ -107,18 +107,37 @@ $(document).ready(function () {
     }
   }
   const decrementButton = document.getElementById("decrement");
-const incrementButton = document.getElementById("increment");
-const quantityInput = document.getElementById("quantity");
-
-decrementButton.addEventListener("click", () => {
-    if (parseInt(quantityInput.value) > 1) {
-        quantityInput.value = parseInt(quantityInput.value) - 1;
+  const incrementButton = document.getElementById("increment");
+  const quantityInput = document.getElementById("quantity");
+  quantityInput.addEventListener("change", function () {
+    const inputValue = parseFloat(quantityInput.value);
+    if (isNaN(inputValue) || inputValue <= 1) {
+      quantityInput.value = 1;
     }
-});
+    if (inputValue >= instock) {
+      quantityInput.value = instock;
+    }
+  });
+  decrementButton.addEventListener("click", function () {
+    let inputValue = parseFloat(quantityInput.value);
+    inputValue--;
+    if (inputValue <= 1) {
+      inputValue = 1;
+    }
+    if (inputValue >= instock) {
+      quantityInput.value = instock;
+    }
+    quantityInput.value = inputValue;
+  });
 
-incrementButton.addEventListener("click", () => {
-    quantityInput.value = parseInt(quantityInput.value) + 1;
-});
+  incrementButton.addEventListener("click", function () {
+    let inputValue = parseFloat(quantityInput.value);
+    inputValue++;
+    quantityInput.value = inputValue;
+    if (inputValue >= instock) {
+      quantityInput.value = instock;
+    }
+  });
 
   // // Gọi API và xử lý dữ liệu
   // fetch("https://localhost:44328/api/Product/active")
@@ -132,7 +151,7 @@ incrementButton.addEventListener("click", () => {
 
   //       row.innerHTML = `
   //                   <td>${product.id}</td>
-  //                   <td><img src="${product.productImages}" 
+  //                   <td><img src="${product.productImages}"
   //       }" class="product-image"></td>
   //                   <td>${product.name}</td>
   //                   <td>${product.discountRate}</td>
@@ -235,138 +254,157 @@ incrementButton.addEventListener("click", () => {
       },
     },
   });
-  $('#productData tbody').on('click', 'tr', function (e) {
-    let selectedProduct = $('#productData').DataTable().row(this).data().id;
+  $("#productData tbody").on("click", "tr", function (e) {
+    let selectedProduct = $("#productData").DataTable().row(this).data().id;
     if (selectedProduct !== null) {
-        localStorage.setItem("selectedProduct", selectedProduct);
-        const id = localStorage.getItem("selectedProduct");
-        console.log(id) 
-        $.ajax({
-          url: "https://localhost:44328/api/Product/" + id,
-          type: "GET",
-          dataType: "json",
-          success: function (data) {
-            console.log(JSON.stringify(data));
-            $('#name').text(data.name);
-            $('#discountRate').text(Intl.NumberFormat("vi-VN", {
+      localStorage.setItem("selectedProduct", selectedProduct);
+      const id = localStorage.getItem("selectedProduct");
+      console.log(id);
+      $.ajax({
+        url: "https://localhost:44328/api/Product/" + id,
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          console.log(JSON.stringify(data));
+          $("#name").text(data.name);
+          $("#discountRate").text(
+            Intl.NumberFormat("vi-VN", {
               style: "currency",
               currency: "VND",
-            }).format(data.discountRate));
-            // $('#costPrice').text(data.costPrice+ "VND");
-            // $('#status').val(data.status);
-            // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
+            }).format(data.discountRate)
+          );
+          // $('#costPrice').text(data.costPrice+ "VND");
+          // $('#status').val(data.status);
+          // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
 
-            var colorIds = [...new Set(data.productImages.map(function (item) {
-              return item.colorId;
-            }))];
-            var images = data.productImages.map(function (item) {
-              return {
-                colorId : item.colorId,
-                imageUrl : item.imageUrl,
-              };
-            });
-            console.log(images)
-
-            colorIds.forEach(function (colorId) {
-              $.ajax({
-                url: "https://localhost:44328/api/Color/Get/" + colorId,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                  console.log(data)
-                  console.log(colorId)
-                  product.Colors.push({
-                    id: colorId,
-                    name: data.name,
-                    Images: [],
-                    Sizes: [],
-                  });
-                  console.log(product)
-                  loadColorE();
-                  for (let i = 0; i < product.Colors.length; i++) {
-                    if (product.Colors[i].id === colorId) {
-                      const imagesForColor = images.filter(image => image.colorId === colorId);
-                      
-                      imagesForColor.forEach(imageData => {
-                        const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
-                  
-                        fetch(imageLink)
-                          .then(response => response.blob())
-                          .then(blob => {
-                            const newImage = new File([blob], "image.jpg", {
-                              type: "image/jpeg",
-                            });
-                  
-                            product.Colors[i].Images.push({
-                              file: newImage,
-                              setAsDefault: false,
-                            });
-                  
-                            loadImageE();
-                          });
-                      });
-                    }
-                  }
-                },
-                error: function () {
-                  console.log("Error retrieving data.");
-                },
-              });
-            });
-            
-            var sizeData = data.stocks.map(function (item) {
-              return {
-                sizeId: item.sizeId,
-                unitInStock: item.unitInStock,
-                colorId:item.colorId,
-              };
-            });
-
-            var promises = [];
-
-            sizeData.forEach(function (size) {
-              var promise = $.ajax({
-                url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
-                type: "GET",
-                dataType: "json",
+          var colorIds = [
+            ...new Set(
+              data.productImages.map(function (item) {
+                return item.colorId;
               })
-                .then(function (data) {
-                  console.log(data);
-      
-                  var selectedColorText = {
-                    numberSize: data.numberSize,
-                    id: size.sizeId,
-                  };
-                  console.log(sizeData.length)
-                  // Find the correct color index based on colorId
-                  for (let i = 0; i < sizeData.length; i++) {
-                    if (product.Colors[i].id === size.colorId) {
-                      selectedColorText.unitInStock = size.unitInStock;
-                      product.Colors[i].Sizes.push(selectedColorText);
-                    }
-                  }
-                  // Push selectedColorText to the Sizes array of the corresponding color
-                })
-                .catch(function () {
-                  console.log("Error retrieving data.");
+            ),
+          ];
+          var images = data.productImages.map(function (item) {
+            return {
+              colorId: item.colorId,
+              imageUrl: item.imageUrl,
+            };
+          });
+          console.log(images);
+
+          colorIds.forEach(function (colorId) {
+            $.ajax({
+              url: "https://localhost:44328/api/Color/Get/" + colorId,
+              type: "GET",
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                console.log(colorId);
+                product.Colors.push({
+                  id: colorId,
+                  name: data.name,
+                  Images: [],
+                  Sizes: [],
                 });
-      
-              promises.push(promise);
-            });
-      
-            // Wait for all AJAX requests to complete
-            Promise.all(promises).then(function () {
-              loadSizeE(); // This will be called after all requests are finished
-              // Assuming you have an imageLink as you mentioned earlier
-      
-                console.log(data)
                 console.log(product);
+                loadColorE();
+                for (let i = 0; i < product.Colors.length; i++) {
+                  if (product.Colors[i].id === colorId) {
+                    const imagesForColor = images.filter(
+                      (image) => image.colorId === colorId
+                    );
+
+                    imagesForColor.forEach((imageData) => {
+                      const imageLink =
+                        "https://localhost:44328/" +
+                        imageData.imageUrl.replace(/\\/g, "/");
+
+                      fetch(imageLink)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                          const newImage = new File([blob], "image.jpg", {
+                            type: "image/jpeg",
+                          });
+
+                          product.Colors[i].Images.push({
+                            file: newImage,
+                            setAsDefault: false,
+                          });
+
+                          loadImageE();
+                        });
+                    });
+                  }
+                }
+              },
+              error: function () {
+                console.log("Error retrieving data.");
+              },
             });
-          },
-          error: function () {
-            console.log("Error retrieving data.");
-          }
-        });
+          });
+
+          var sizeData = data.stocks.map(function (item) {
+            return {
+              sizeId: item.sizeId,
+              unitInStock: item.unitInStock,
+              colorId: item.colorId,
+            };
+          });
+
+          var promises = [];
+
+          sizeData.forEach(function (size) {
+            var promise = $.ajax({
+              url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+              type: "GET",
+              dataType: "json",
+            })
+              .then(function (data) {
+                console.log(data);
+
+                var selectedColorText = {
+                  numberSize: data.numberSize,
+                  id: size.sizeId,
+                };
+                console.log(sizeData.length);
+                // Find the correct color index based on colorId
+                for (let i = 0; i < sizeData.length; i++) {
+                  if (product.Colors[i].id === size.colorId) {
+                    selectedColorText.unitInStock = size.unitInStock;
+                    product.Colors[i].Sizes.push(selectedColorText);
+                  }
+                }
+                // Push selectedColorText to the Sizes array of the corresponding color
+              })
+              .catch(function () {
+                console.log("Error retrieving data.");
+              });
+
+            promises.push(promise);
+          });
+
+          // Wait for all AJAX requests to complete
+          Promise.all(promises).then(function () {
+            loadSizeE(); // This will be called after all requests are finished
+            // Assuming you have an imageLink as you mentioned earlier
+
+            console.log(data);
+            console.log(product);
+            $("#product-instock").hide();
+            $("#quantity-input").hide();
+            $("#addToCart").hide();
+          });
+          $("#addToCart").click(function() {
+            addToCartItem.name = data.name
+            addToCartItem.amount =   $("#quantity").val();
+            addToCartItem.total = addToCartItem.amount*data.discountRate
+            console.log(addToCartItem)
+          });
+        },
+        error: function () {
+          console.log("Error retrieving data.");
+        },
+      });
     }
   });
 });
@@ -382,8 +420,17 @@ var product = {
   Categories: [],
   Colors: [],
 };
+var addToCartItem = {
+  name: "",
+  color: "",
+  size: 0,
+  amount: 0,
+  total: 0
+}
+
 
 var selectedColor = 0;
+var instock = 0;
 
 function findIndexById(array, id) {
   for (var i = 0; i < array.length; i++) {
@@ -401,17 +448,28 @@ function loadColorE() {
     product.Colors.forEach((color) => {
       var newDiv = document.createElement("div");
       newDiv.className = "container-color";
-    
+
       var newButton = document.createElement("button");
       newButton.type = "button";
-      newButton.className = "btn btn-outline-dark";
+      newButton.className = "btn btn-outline-dark color";
       newButton.id = color.id;
       newButton.textContent = color.name;
       newButton.addEventListener("click", function (e) {
+        var buttons = document.getElementsByClassName("btn-outline-dark color");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.remove("active");
+        }
+      
+        // Thêm lớp active cho nút được bấm
+        newButton.classList.add("active");
+
         selectedColor = findIndexById(product.Colors, e.target.id);
-        console.log(selectedColor)
+        addToCartItem.color = color.name
         loadSizeE();
         loadImageE();
+        $("#product-instock").hide();
+        $("#quantity-input").hide();
+        $("#addToCart").hide();
       });
       newDiv.appendChild(newButton);
       plusButtonContainer.appendChild(newDiv);
@@ -430,17 +488,29 @@ function loadSizeE() {
       product.Colors[selectedColor].Sizes.forEach((element) => {
         var container = document.createElement("div");
         container.className = "container-unit";
-  
+
         var newButton = document.createElement("button");
-        newButton.className = "btn btn-outline-dark";
+        newButton.className = "btn btn-outline-dark size";
         newButton.textContent = element.numberSize;
-  
-        newButton.addEventListener("click", function(event) {
+
+        newButton.addEventListener("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
-          console.log(element)
+          var buttons = document.getElementsByClassName("btn-outline-dark size");
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+          }
+        
+          // Thêm lớp active cho nút được bấm
+          newButton.classList.add("active");
+          instock = element.unitInStock;
+          addToCartItem.size = element.numberSize
+          console.log(instock);
+          $("#product-instock").show();
           $("#product-instock").text(`Còn ${element.unitInStock} sản phẩm`);
-          // Your optional code here
+          $("#quantity-input").show();
+          $("#addToCart").show();
+          $("#quantity").val(1);
         });
         container.appendChild(newButton);
         plusButtonContainer.appendChild(container);
@@ -451,7 +521,6 @@ function loadSizeE() {
 function loadImageE() {
   const uploadList = document.querySelector(".upload-list");
   const dynamicDivs = uploadList.querySelectorAll(".preview-container");
-
 
   dynamicDivs.forEach((dy) => {
     uploadList.removeChild(dy);
@@ -466,7 +535,7 @@ function loadImageE() {
         previewImage.src = URL.createObjectURL(img.file);
         previewImage.alt = "Preview";
         previewImage.className = "preview-image";
-        previewImage.style = " width: 150px;height: 150px;border-radius: 8px;"
+        previewImage.style = " width: 150px;height: 150px;border-radius: 8px;";
 
         previewContainer.appendChild(previewImage);
         uploadList.appendChild(previewContainer);
@@ -476,7 +545,10 @@ function loadImageE() {
 }
 // reset product khi đóng modal
 $("#productDetailModal").on("hide.bs.modal", function () {
-   product = {
+  $("#modal-add-product").css("overflow-y", "auto");
+  $("#product-instock").hide();
+  $("#quantity-input").hide();
+  product = {
     retailPrice: 0,
     description: "",
     status: 1,

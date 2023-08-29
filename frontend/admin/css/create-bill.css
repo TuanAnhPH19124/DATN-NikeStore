@@ -293,3 +293,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     height: 100%;
 }
+.btn-outline-dark.active {
+  background-color: black;
+  color: white;
+}
