@@ -318,11 +318,11 @@
                 </nav>
                 <!-- Tạo hoá đơn -->
                 <div class="THD" style="padding-left: 1100px; padding-bottom: 20px;">
-                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn">
+                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn" id="createInvoiceButton" onclick="createInvoice()">
                 <span class="icon text-white-50">
                     <i class="fa-solid fa-plus"></i>
                 </span>
-                <span class="text">Tạo hoá đơn</span>
+                <span class="text" >Tạo hoá đơn</span>
                 </a>
                 </div>
                 <!-- End of Topbar -->
@@ -356,22 +356,28 @@
                                     <span class="text">Qr code sản phẩm</span>
                                   </a>
                                   <!-- button thêm sản phẩm -->
-                                  <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product">
-                                    <span class="icon text-white-50">
-                                      <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="text">Thêm sản phẩm</span>
+
+
+
+                                  <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product" style="display: none;">
+                                      <span class="icon text-white-50">
+                                          <i class="fa fa-plus"></i>
+                                      </span>
+                                      <span class="text">Thêm sản phẩm</span>
                                   </a>
+                                  
+
+                                
                                 <!-- Modal -->
                                 <div class="modal fade" id="modal-add-camera">
-                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-dialog modal-lg" style="width: 46%;height: 80px;">
                                       <div class="modal-content">
                                         <div class="modal-header">
                                           <h4 class="modal-title">Quét mã vạch sản phẩm</h4>
                                           <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
-                                          <div id="scanner-container">
+                                          <div id="scanner-container" >
                                             <div id="scanner"></div>
                                           </div>
                                         </div>
@@ -469,26 +475,75 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <div id="product-table-container"><table id="product-table" class="table table-bordered">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">STT</th>
-                                                        <th scope="col">Ảnh</th>
-                                                        <th scope="col">Tên</th>
-                                                        <th scope="col">Giá bán</th>
-                                                        <th scope="col">Trạng thái</th>
-                                                        <th scope="col">Hành động</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>                                                       
-                                                        <!-- Thêm dữ liệu sản phẩm khác tương tự -->
-                                                    </tbody>                                                   
-                                                </table></div>                                                                                                                                        
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
+                                                                <tbody id="tbody">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                                                      
                                                 </div>
                                             </div>
                                             </div>
                                         </div>
+                                        <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content" style="max-width: 98%;">
+                                                    <div class="modal-body">
+
+                                                        <div class="row">
+                                                            <div class="col-md-7">
+                                                                <div
+                                                                id="root"
+                                                                style="margin-top: 10px"
+                                                                class="upload-container"
+                                                              >
+                                                                <div class="upload-list" style="display: flex; flex-wrap: wrap;gap: 40px;margin-left: 80px;margin-top:50px">
+                                                                </div>
+                                                                
+                                                                
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="product-details">
+                                                                    <!-- HTML -->
+                                                                <!-- HTML -->
+                                                                <div class="product-info">
+                                                                    <h3 id="name">NIKE ARI FORC ONE LOW 1</h3>
+                                                                    <p style="font-weight: 700;">Giá bán: <span id="discountRate" style="font-weight: bold;color: red;"></span></p>
+                                                                    <div class="color-squares">
+                                                                        <p style="font-weight: 700;">Màu sắc:</p>
+                                                                        <div class="color-buttons" id="render-color">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="size-squares">
+                                                                        <p style="font-weight: 700;">Kích cỡ:</p>
+                                                                        <div class="size-buttons" id="render-size">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="product-instock">
+                                                                    </div>
+                                                                    <div class="quantity-input" style="font-weight: 700;">Thêm số lượng:
+                                                                        <div>
+                                                                            <button id="decrement"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> - </button>
+                                                                            <input type="text" id="quantity" value="1" style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;">
+                                                                            <button id="increment"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> + </button>
+                                                                        </div>
+                                                                    </div>                   
+                                                                    <button class="btn btn-primary" id="addToCart">Thêm vào giỏ hàng</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                           
+                                        
                                 <div class="modal fade" id="modal-add-product" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -507,70 +562,6 @@
                                                             <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
                                                                 <tbody id="tbody">                                                         
                                                                 </tbody>
-                                                                <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-body" id="product-detail">
-                                                                                <div class="img">
-                                                                                    <img id="output"
-                                                                                        alt="" width="400" height="400">
-                                                                                </div>
-                                                                                <div>
-                                                                                    <h4 class="product-title" id="name">
-                                                                                        <p>Tên sản phẩm</p>
-                                                                                    </h4>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Giá nhập: 
-                                                                                        </div>
-                                                                                        <div id="costPrice">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Giá bán:
-                                                                                        </div>
-                                                                                        <div id="retailPrice">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Màu:
-                                                                                        </div>
-                                                                                        <div id="productColor">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Size:
-                                                                                        </div>
-                                                                                        <div id="productSize">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="size" >
-                                                                                        <div class="title" >
-                                                                                            <p class="label">Số lượng</p>
-                                                                                            <div class="input-number">
-                                                                                                <button onclick="decrement()" class="btn btn-primary">-</button>
-                                                                                                <div class="form-outline">
-                                                                                                    <input type="number" id="number" name="number"  value="0" class="form-control" value="0" />
-                                                                                                </div>
-                                                                                                <button onclick="increment()" class="btn btn-primary">+</button>
-                                                                                            </div>
-                                                                                            <div class="instock">
-                                                                                                Còn 0 sản
-                                                                                                phẩm
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <button type="button" onclick="addToCart()"
-                                                                                                    class="btn btn-primary">Thêm
-                                                                                                    vào giỏ
-                                                                                                    hàng</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
                                                             </table>
                                                         </div>
                                                     </div>
@@ -588,11 +579,12 @@
                             <table class="table" id="myTable">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">Ảnh</th>
+                                        <th scope="col">STT</th>
                                         <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col">Màu sắc</th>
+                                        <th scope="col">Kích thước</th>
                                         <th scope="col">Số lượng</th>
-                                        <th scope="col">Số tiền</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Thành tiền</th>
                                     </tr>
                                 </thead>
                                 <tbody >
@@ -600,6 +592,13 @@
                                 </tbody>
                                 <tfoot>
                                     <!-- tổng tiền sẽ ra đây -->
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Tổng tiền</th>
+                                    </tr>
                                 </tfoot>
                             </table>
                         </div>
@@ -966,6 +965,49 @@
           margin-left: 5px;
         }
       </style>
+
+<script>
+    var hasInvoice = false; // Biến để theo dõi trạng thái hoá đơn
+
+    // Function to enable the "Thêm sản phẩm" button
+    function enableAddProductButton() {
+        var addProductButton = document.getElementById("addProductButton");
+        addProductButton.style.display = "block"; // Hiển thị button
+    }
+
+    // Function to disable the "Thêm sản phẩm" button
+    function disableAddProductButton() {
+        var addProductButton = document.getElementById("addProductButton");
+        addProductButton.style.display = "none"; // Ẩn button
+    }
+
+    // Function to handle the creation of hoá đơn
+    function createInvoice() {
+        // Your code to create the invoice
+        // ...
+
+        // Update the state
+        hasInvoice = true;
+
+        // Call the function to enable the "Thêm sản phẩm" button
+        enableAddProductButton();
+    }
+
+    // Function to handle the deletion of hoá đơn
+    function deleteInvoice() {
+        // Your code to delete the invoice
+        // ...
+
+        // Update the state
+        hasInvoice = false;
+
+        // Call the function to disable the "Thêm sản phẩm" button
+        disableAddProductButton();
+    }
+</script>
+
+
+
 
 <!-- sản phẩm -->
 <script>

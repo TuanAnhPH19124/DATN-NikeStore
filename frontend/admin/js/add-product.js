@@ -271,6 +271,8 @@ $(document).ready(function () {
       value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
     } else if (selectTypeDiscount === 2) {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
+    }else{
+      value2 = value
     }
     productFormData.append("discountRate", value2);
     productFormData.append("discountType", selectTypeDiscount);
@@ -751,6 +753,44 @@ document.addEventListener("DOMContentLoaded", function () {
           $("#exampleModalColor").modal("show");
         },
         error: function () {
+          $.ajax({
+            url: "https://localhost:44328/api/Color/Get",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              var buttonContainer = $("#colorContainer");
+              var addButton = buttonContainer.find("#add-now-btn"); // Get the "add-now-btn" button
+              var buttonsToKeep = buttonContainer.find(
+                ".btn:not(#add-now-btn)"
+              ); // Get all buttons except "add-now-btn"
+
+              buttonContainer.empty(); // Empty the container
+
+              // Append the buttons you want to keep
+              buttonsToKeep.each(function () {
+                buttonContainer.append($(this));
+              });
+              data.forEach(function (item) {
+                var button = $("<button></button>");
+                button.attr("type", "button");
+                button.addClass("btn btn-outline-dark");
+                button.css("margin-left", "3%");
+                button.css("margin-top", "1%");
+                button.text(item.name);
+                button.attr("data-color", item.name);
+                button.attr("id", item.id);
+                button.click(function () {
+                  selectedColorText = { id: item.id, text: item.name };
+                });
+                buttonContainer.append(button);
+              });
+
+              buttonContainer.append(addButton); // Append the "add-now-btn" button back
+            },
+            error: function () {
+              $("#color-duplicate").toast("show");
+            },
+          });
           $("#color-duplicate").toast("show");
         },
       });
@@ -990,6 +1030,48 @@ document.addEventListener("DOMContentLoaded", function () {
           $("#exampleModalSize").modal("show");
         },
         error: function () {
+          $.ajax({
+            url: "https://localhost:44328/api/Size/Get",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              var buttonContainer = $("#sizeContainer");
+              var addButton = buttonContainer.find("#add-size-now"); // Get the "add-now-btn" button
+              var buttonsToKeep = buttonContainer.find(
+                ".btn:not(#add-size-now)"
+              ); // Get all buttons except "add-now-btn"
+
+              buttonContainer.empty(); // Empty the container
+
+              // Append the buttons you want to keep
+              buttonsToKeep.each(function () {
+                buttonContainer.append($(this));
+              });
+
+              data.forEach(function (item) {
+                var button = $("<button></button>");
+                button.attr("type", "button");
+                button.addClass("btn btn-outline-dark");
+                button.css("margin-left", "3%");
+                button.css("margin-top", "1%");
+                button.text(item.numberSize);
+                button.attr("data-color", item.numberSize);
+                button.click(function () {
+                  selectedColorText = {
+                    id: item.id,
+                    numberSize: item.numberSize,
+                    unitInStock: 1,
+                  };
+                });
+                buttonContainer.append(button);
+              });
+
+              buttonContainer.append(addButton); // Append the "add-now-btn" button back
+            },
+            error: function () {
+              console.error("Error fetching data.");
+            },
+          });
           $("#size-duplicate").toast("show");
         },
       });
