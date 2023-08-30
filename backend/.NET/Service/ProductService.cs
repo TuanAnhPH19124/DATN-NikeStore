@@ -309,7 +309,6 @@ namespace Service
                     // Sao chép các thuộc tính khác từ image
                 }).ToList()
             };
-
             return productDto;
         }
 

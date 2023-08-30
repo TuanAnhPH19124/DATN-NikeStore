@@ -536,66 +536,37 @@
                                             </div>
                                         </div>
                           
-                                        
-                                <div class="modal fade" id="modal-add-product" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm sản phẩm</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="card shadow mb-4">
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
-                                                                <tbody id="tbody">                                                         
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                
+                            </div>
+                            <div class="container">
+                                <ul class="nav nav-tabs" id="invoiceTabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="true">Hoá Đơn</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="">
+                                    <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>TÊN SẢN PHẨM</th>
+                                                    <th>SỐ LƯỢNG</th>
+                                                    <th>SIZE</th>
+                                                    <th>MÀU</th>
+                                                    <th>GIÁ TIỀN</th>
+                                                    <th>TỔNG TIỀN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="productsList">
+                                                <td>
+                                                    <!-- DATA SẼ TRUYỀN VÀO  -->
+                                                </td>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true"></span>
-                                </button>
-                            </div>
-                            <table class="table" id="myTable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">STT</th>
-                                        <th scope="col">Tên sản phẩm</th>
-                                        <th scope="col">Màu sắc</th>
-                                        <th scope="col">Kích thước</th>
-                                        <th scope="col">Giá bán</th>
-                                        <th scope="col">Số lượng</th>
-                                        <th scope="col">Thành tiền</th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    <!-- sản phẩm sẽ ra đây -->
-                                </tbody>
-                                <tfoot>
-                                    <!-- tổng tiền sẽ ra đây -->
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>Tổng tiền</th>
-                                        <th id="total-bill"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
                         </div>
                     </div>
                     <div class="modal-content">
