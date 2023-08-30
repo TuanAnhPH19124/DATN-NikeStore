@@ -353,3 +353,7 @@ input::-webkit-inner-spin-button {
 .col label{
   font-weight: 600;
 }
+.btn-outline-dark.active {
+  background-color: black;
+  color: white;
+}
