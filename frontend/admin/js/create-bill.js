@@ -231,7 +231,7 @@ $(document).ready(function () {
       {
         title: "Thao tác",
         render: function () {
-          return '<td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productDetailModal">Chọn</button></td>';
+          return '<td><button type="button" class="btn btn-outline-primary">Chọn</button></td>';
         },
       },
     ],
@@ -260,6 +260,7 @@ $(document).ready(function () {
       localStorage.setItem("selectedProduct", selectedProduct);
       const id = localStorage.getItem("selectedProduct");
       console.log(id);
+      $("#productDetailModal").modal("show");
       $.ajax({
         url: "https://localhost:44328/api/Product/" + id,
         type: "GET",
@@ -278,128 +279,99 @@ $(document).ready(function () {
           // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
 
           var colorIds = [
-            ...new Set(
-              data.productImages.map(function (item) {
-                return item.colorId;
-              })
-            ),
+            ...new Set(data.productImages.map((item) => item.colorId)),
           ];
-          var images = data.productImages.map(function (item) {
-            return {
-              colorId: item.colorId,
-              imageUrl: item.imageUrl,
-            };
-          });
+          var images = data.productImages.map((item) => ({
+            colorId: item.colorId,
+            imageUrl: item.imageUrl,
+          }));
           console.log(images);
 
-          colorIds.forEach(function (colorId) {
+          // Fetch color data and process images for each color
+          var colorPromises = colorIds.map((colorId) =>
             $.ajax({
               url: "https://localhost:44328/api/Color/Get/" + colorId,
               type: "GET",
               dataType: "json",
-              success: function (data) {
-                console.log(data);
-                console.log(colorId);
-                product.Colors.push({
-                  id: colorId,
-                  name: data.name,
-                  Images: [],
-                  Sizes: [],
-                });
-                console.log(product);
-                loadColorE();
-                for (let i = 0; i < product.Colors.length; i++) {
-                  if (product.Colors[i].id === colorId) {
-                    const imagesForColor = images.filter(
-                      (image) => image.colorId === colorId
-                    );
+            }).then(function (colorData) {
+              console.log(colorData);
+              console.log(colorId);
 
-                    imagesForColor.forEach((imageData) => {
-                      const imageLink =
-                        "https://localhost:44328/" +
-                        imageData.imageUrl.replace(/\\/g, "/");
+              var colorEntry = {
+                id: colorId,
+                name: colorData.name,
+                Images: [],
+                Sizes: [],
+              };
 
-                      fetch(imageLink)
-                        .then((response) => response.blob())
-                        .then((blob) => {
-                          const newImage = new File([blob], "image.jpg", {
-                            type: "image/jpeg",
-                          });
+              product.Colors.push(colorEntry);
+              console.log(product);
 
-                          product.Colors[i].Images.push({
-                            file: newImage,
-                            setAsDefault: false,
-                          });
+              var imagesForColor = images.filter(
+                (image) => image.colorId === colorId
+              );
 
-                          loadImageE();
-                        });
+              var imagePromises = imagesForColor.map((imageData) =>
+                fetch(
+                  "https://localhost:44328/" +
+                    imageData.imageUrl.replace(/\\/g, "/")
+                )
+                  .then((response) => response.blob())
+                  .then((blob) => {
+                    var newImage = new File([blob], "image.jpg", {
+                      type: "image/jpeg",
                     });
-                  }
-                }
-              },
-              error: function () {
-                console.log("Error retrieving data.");
-              },
-            });
-          });
 
-          var sizeData = data.stocks.map(function (item) {
-            return {
-              sizeId: item.sizeId,
-              unitInStock: item.unitInStock,
-              colorId: item.colorId,
-            };
-          });
+                    colorEntry.Images.push({
+                      file: newImage,
+                      setAsDefault: false,
+                    });
 
-          var promises = [];
+                    loadImageE();
+                  })
+              );
 
-          sizeData.forEach(function (size) {
-            var promise = $.ajax({
+              return Promise.all(imagePromises);
+            })
+          );
+
+          // Fetch size data and update color sizes
+          var sizePromises = data.stocks.map((size) =>
+            $.ajax({
               url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
               type: "GET",
               dataType: "json",
+            }).then(function (sizeData) {
+              console.log(sizeData);
+
+              var selectedColorText = {
+                numberSize: sizeData.numberSize,
+                id: size.sizeId,
+              };
+
+              var colorIndex = product.Colors.findIndex(
+                (color) => color.id === size.colorId
+              );
+              if (colorIndex !== -1) {
+                selectedColorText.unitInStock = size.unitInStock;
+                product.Colors[colorIndex].Sizes.push(selectedColorText);
+              }
             })
-              .then(function (data) {
-                console.log(data);
-
-                var selectedColorText = {
-                  numberSize: data.numberSize,
-                  id: size.sizeId,
-                };
-                console.log(sizeData.length);
-                // Find the correct color index based on colorId
-                for (let i = 0; i < sizeData.length; i++) {
-                  if (product.Colors[i].id === size.colorId) {
-                    selectedColorText.unitInStock = size.unitInStock;
-                    product.Colors[i].Sizes.push(selectedColorText);
-                  }
-                }
-                // Push selectedColorText to the Sizes array of the corresponding color
-              })
-              .catch(function () {
-                console.log("Error retrieving data.");
-              });
-
-            promises.push(promise);
-          });
+          );
 
           // Wait for all AJAX requests to complete
-          Promise.all(promises).then(function () {
-            loadSizeE(); // This will be called after all requests are finished
-            // Assuming you have an imageLink as you mentioned earlier
-
+          Promise.all([...colorPromises, ...sizePromises]).then(function () {
+            loadColorE();
+            loadSizeE();
             console.log(data);
             console.log(product);
             $("#product-instock").hide();
             $("#quantity-input").hide();
             $("#addToCart").hide();
           });
-          $("#addToCart").click(function() {
-            addToCartItem.name = data.name
-            addToCartItem.amount =   $("#quantity").val();
-            addToCartItem.total = addToCartItem.amount*data.discountRate
-            console.log(addToCartItem)
-          });
+          addToCartItem.id = data.id;
+          addToCartItem.name = data.name;
+          addToCartItem.price = data.discountRate;
         },
         error: function () {
           console.log("Error retrieving data.");
@@ -407,6 +379,92 @@ $(document).ready(function () {
       });
     }
   });
+  var customerTable = $("#customer-table").DataTable({
+    ajax: {
+      url: "https://localhost:44328/api/AppUser/GetUsersWithUserRole",
+      dataType: "json",
+      dataSrc: "",
+    },
+    columns: [
+      {
+        data: "id",
+        title: "STT",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "email", title: "Email" },
+      { data: "phoneNumber", title: "SĐT" },
+      { data: "fullName", title: "Họ và tên" },
+      {
+        data: "modifiedDate",
+        title: "Ngày tạo",
+        render: function (data, type, full, meta) {
+          var dateObj = new Date(data);
+          var day = dateObj.getUTCDate();
+          var month = dateObj.getUTCMonth() + 1;
+          var year = dateObj.getUTCFullYear();
+          var formattedDate = `${day}/${month}/${year}`;
+          return formattedDate;
+        },
+      },
+      {
+        data: "status",
+        title: "Trạng thái",
+        render: function (data, type, row) {
+          if (data == 1) {
+            return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;">Kích hoạt</span>';
+          } else {
+            return '<span class="badge badge-pill badge-danger" style="padding:10px;">Đã hủy</span>';
+          }
+        },
+      },
+      {
+        title: "Thao tác",
+        render: function () {
+          return '<td><button type="button" class="btn btn-outline-primary">Chọn</button></td>';
+        },
+      },
+    ],
+    rowCallback: function (row, data) {
+      $(row).find("td").css("vertical-align", "middle");
+    },
+    language: {
+      sInfo: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+      lengthMenu: "Hiển thị _MENU_ bản ghi",
+      sSearch: "Tìm kiếm:",
+      sInfoFiltered: "(lọc từ _MAX_ bản ghi)",
+      sInfoEmpty: "Hiển thị 0 đến 0 trong 0 bản ghi",
+      sZeroRecords: "Không có data cần tìm",
+      sEmptyTable: "Không có data trong bảng",
+      oPaginate: {
+        sFirst: "Đầu",
+        sLast: "Cuối",
+        sNext: "Tiếp",
+        sPrevious: "Trước",
+      },
+    },
+  });
+  $('#customer-table tbody').on('click', 'tr', function (e) {
+    e.preventDefault();
+    let customerId = $('#customer-table').DataTable().row(this).data().id;
+    if (customerId !== null) {
+        $.ajax({
+            url: `https://localhost:44328/api/AppUser/Get/${customerId}`,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                $("#customer-name").text(data.fullName)
+                $("#customer-email").text(data.email)
+                $("#customer-phone").text(data.phoneNumber)
+                $(".hidden-info").show()
+                $("#account-modal").modal("hide");
+            },
+        });
+    }
+});
 });
 var product = {
   retailPrice: 0,
@@ -421,13 +479,14 @@ var product = {
   Colors: [],
 };
 var addToCartItem = {
+  id: "",
   name: "",
   color: "",
   size: 0,
+  price: 0,
   amount: 0,
-  total: 0
-}
-
+  total: 0,
+};
 
 var selectedColor = 0;
 var instock = 0;
@@ -459,12 +518,12 @@ function loadColorE() {
         for (var i = 0; i < buttons.length; i++) {
           buttons[i].classList.remove("active");
         }
-      
+
         // Thêm lớp active cho nút được bấm
         newButton.classList.add("active");
 
         selectedColor = findIndexById(product.Colors, e.target.id);
-        addToCartItem.color = color.name
+        addToCartItem.color = color.name;
         loadSizeE();
         loadImageE();
         $("#product-instock").hide();
@@ -496,15 +555,17 @@ function loadSizeE() {
         newButton.addEventListener("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
-          var buttons = document.getElementsByClassName("btn-outline-dark size");
+          var buttons = document.getElementsByClassName(
+            "btn-outline-dark size"
+          );
           for (var i = 0; i < buttons.length; i++) {
             buttons[i].classList.remove("active");
           }
-        
+
           // Thêm lớp active cho nút được bấm
           newButton.classList.add("active");
           instock = element.unitInStock;
-          addToCartItem.size = element.numberSize
+          addToCartItem.size = element.numberSize;
           console.log(instock);
           $("#product-instock").show();
           $("#product-instock").text(`Còn ${element.unitInStock} sản phẩm`);
@@ -543,6 +604,49 @@ function loadImageE() {
     }
   }
 }
+$("#addToCart").click(function () {
+  addToCartItem.amount = Number($("#quantity").val());
+  addToCartItem.total = addToCartItem.amount * addToCartItem.price;
+  var data = addToCartItem;
+  console.log(addToCartItem);
+  var tbody = $("#myTable tbody");
+
+  // Generate a unique identifier for the item (combination of ID, color, and size)
+  var itemIdentifier = data.id + "_" + data.color + "_" + data.size;
+
+  // Find existing item with the same identifier in the cart
+  var existingItem = tbody.find("tr[data-id='" + itemIdentifier + "']");
+
+  if (existingItem.length > 0) {
+    // Update existing item's quantity and total
+    var existingAmount = parseInt(existingItem.find("td:eq(5)").text());
+    var newAmount = parseInt(data.amount);
+    var totalAmount = existingAmount + newAmount;
+
+    existingItem.find("td:eq(5)").text(totalAmount);
+    existingItem.find("td:eq(6)").text(totalAmount * data.total);
+  } else {
+    // Create a new row
+    var newRow = $("<tr>");
+
+    // Set data-id attribute on the row for matching
+    newRow.attr("data-id", itemIdentifier);
+    // Create and append td cells with data values
+    newRow.append(
+      $("<td>").text(tbody.children().length + 1), // STT (Auto-increment)
+      $("<td>").text(data.name), // Tên sản phẩm
+      $("<td>").text(data.color), // Màu sắc
+      $("<td>").text(data.size), // Kích thước
+      $("<td>").text(data.price), // Kích thước
+      $("<td>").text(data.amount), // Số lượng
+      $("<td>").text(data.amount * data.total) // Thành tiền
+    );
+
+    // Append the new row to the tbody
+    tbody.append(newRow);
+  }
+});
+
 // reset product khi đóng modal
 $("#productDetailModal").on("hide.bs.modal", function () {
   $("#modal-add-product").css("overflow-y", "auto");
