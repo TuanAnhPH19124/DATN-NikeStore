@@ -337,14 +337,10 @@
                             data-target="" style="margin-right: 20px;">
                             <span class="text">Danh sách</span>
                         </a>
-                        </div>
-                        <div class="container">
-                            <ul class="nav nav-tabs" id="invoiceTabs">
-                            </ul>
-                            
-                            <div class="tab-content" id="invoiceTabContent">
-                            </div>
-                          </div>
+                        </div>                     
+
+                        
+
                         <div class="modal-body" >
                             <div class="add-btn">
                                 <!-- button camera -->
@@ -357,16 +353,13 @@
                                   </a>
                                   <!-- button thêm sản phẩm -->
 
-
-
-                                  <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product" style="display: none;">
+                                  <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product">
                                       <span class="icon text-white-50">
                                           <i class="fa fa-plus"></i>
                                       </span>
                                       <span class="text">Thêm sản phẩm</span>
                                   </a>
                                   
-
                                 
                                 <!-- Modal -->
                                 <div class="modal fade" id="modal-add-camera">
@@ -795,105 +788,7 @@
         }
       </style>
 
-<script>
-    var hasInvoice = false; // Biến để theo dõi trạng thái hoá đơn
-
-    // Function to enable the "Thêm sản phẩm" button
-    function enableAddProductButton() {
-        var addProductButton = document.getElementById("addProductButton");
-        addProductButton.style.display = "block"; // Hiển thị button
-    }
-
-    // Function to disable the "Thêm sản phẩm" button
-    function disableAddProductButton() {
-        var addProductButton = document.getElementById("addProductButton");
-        addProductButton.style.display = "none"; // Ẩn button
-    }
-
-    // Function to handle the creation of hoá đơn
-    function createInvoice() {
-        // Your code to create the invoice
-        // ...
-
-        // Update the state
-        hasInvoice = true;
-
-        // Call the function to enable the "Thêm sản phẩm" button
-        enableAddProductButton();
-    }
-
-    // Function to handle the deletion of hoá đơn
-    function deleteInvoice() {
-        // Your code to delete the invoice
-        // ...
-
-        // Update the state
-        hasInvoice = false;
-
-        // Call the function to disable the "Thêm sản phẩm" button
-        disableAddProductButton();
-    }
-</script>
-
-
-
-
-<!-- sản phẩm -->
-<script>
-    $(document).ready(function() {
-      $('#searchButton').click(function() {
-        // Lấy dữ liệu từ các input và select
-        const stt = $('#productName').val();
-        const productSize = $('#productSize').val();
-        const productColor = $('#productColor').val();
-        
-        // Thêm dữ liệu sản phẩm vào bảng
-        $('#product-table tbody').append(`
-          <tr>
-            <td>${stt}</td>
-            <td><!-- Thêm hình ảnh --></td>
-            <td>${productName}</td>
-            <td><!-- Thêm giá bán --></td>
-            <td><!-- Thêm số lượng --></td>
-            <td>${productColor}</td>
-            <td><!-- Thêm trạng thái --></td>
-            <td><!-- Thêm nút Sửa và Xoá --></td>
-          </tr>
-        `);
-      });
-    });
-  </script>
-
-
-
 <!-- camera -->
-
-<script>
-    $('#modal-add-camera').on('shown.bs.modal', function () {
-      // Khởi tạo quét mã vạch ở đây
-      Quagga.init({
-        inputStream: {
-          name: "Live",
-          type: "LiveStream",
-          target: document.querySelector('#scanner')    // Chọn phần tử để hiển thị camera
-        },
-        decoder: {
-          readers: ["code_128_reader"]    // Chọn loại mã vạch cần quét (ở đây là Code 128)
-        }
-      }, function(err) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        Quagga.start();
-      });
-    });
-  
-    $('#modal-add-camera').on('hidden.bs.modal', function () {
-      // Dừng quét mã vạch khi đóng modal
-      Quagga.stop();
-    });
-  </script>
   
 
     <!-- JS -->
