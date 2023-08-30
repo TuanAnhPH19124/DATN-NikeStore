@@ -255,10 +255,15 @@ $(document).ready(function () {
       $("#error-size").hide();
     }
 
-    if (product.Colors[selectedColor].Images.length === 0) {
-      $("#error-image").show();
-    } else {
-      $("#error-image").hide();
+    //check ảnh
+    for (let i = 0; i < product.Colors.length; i++) {
+      console.log(product.Colors[i].Images.length);
+      if (product.Colors[i].Images.length == 0) {
+        var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+        $("#invalid-image .toast-body").text(customMessage);
+        $("#invalid-image").toast("show");
+        return;
+      }
     }
 
     let productFormData = new FormData();
@@ -271,8 +276,8 @@ $(document).ready(function () {
       value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
     } else if (selectTypeDiscount === 2) {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
-    }else{
-      value2 = value
+    } else {
+      value2 = value;
     }
     productFormData.append("discountRate", value2);
     productFormData.append("discountType", selectTypeDiscount);
@@ -349,16 +354,6 @@ $(document).ready(function () {
           };
         },
         error: function (xhr) {
-          //check ảnh
-          for (let i = 0; i < product.Colors.length; i++) {
-            console.log(product.Colors[i].Images.length);
-            if (product.Colors[i].Images.length == 0) {
-              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
-              $("#invalid-image .toast-body").text(customMessage);
-              $("#invalid-image").toast("show");
-              return;
-            }
-          }
           if (
             xhr.responseJSON.error ===
             "An error occurred while updating the entries. See the inner exception for details."
@@ -460,26 +455,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-    // Lắng nghe sự kiện thay đổi tập tin tải lên
-    const fileInput = document.getElementById("file-input");
-    fileInput.addEventListener("change", (event) => {
-      const files = event.target.files;
-      const maxImagesPerColor = 6;
-  
-      const imagesToAdd = [];
-      const remainingSlots = maxImagesPerColor - product.Colors[selectedColor].Images.length;
-  
-      for (const file of files) {
-        if (file.type.startsWith("image/") && imagesToAdd.length < remainingSlots) {
-          const newImage = { file: file, setAsDefault: false };
-          imagesToAdd.push(newImage);
-        }
+  // Lắng nghe sự kiện thay đổi tập tin tải lên
+  const fileInput = document.getElementById("file-input");
+  fileInput.addEventListener("change", (event) => {
+    const files = event.target.files;
+    const maxImagesPerColor = 6;
+
+    const imagesToAdd = [];
+    const remainingSlots =
+      maxImagesPerColor - product.Colors[selectedColor].Images.length;
+
+    for (const file of files) {
+      if (
+        file.type.startsWith("image/") &&
+        imagesToAdd.length < remainingSlots
+      ) {
+        const newImage = { file: file, setAsDefault: false };
+        imagesToAdd.push(newImage);
       }
-  
-      product.Colors[selectedColor].Images.push(...imagesToAdd);
-      loadImageE();
-      fileInput.value = ""; // Reset file input
-    });
+    }
+
+    product.Colors[selectedColor].Images.push(...imagesToAdd);
+    loadImageE();
+    fileInput.value = ""; // Reset file input
+  });
 });
 
 function handleDelete(file) {
@@ -508,7 +507,7 @@ function loadImageE() {
     // Kiểm tra nếu danh sách hình ảnh đã đạt đến giới hạn
     if (product.Colors[selectedColor].Images.length === 6) {
       uploadButton.style.display = "none"; // Ẩn nút "Upload"
-    }else{
+    } else {
       uploadButton.style.display = "flex";
     }
 
@@ -574,10 +573,17 @@ function loadColorE() {
 
       var newButton = document.createElement("button");
       newButton.type = "button";
-      newButton.className = "btn btn-outline-dark";
+      newButton.className = "btn btn-outline-dark color";
       newButton.id = color.id;
       newButton.textContent = color.name;
       newButton.addEventListener("click", function (e) {
+        var buttons = document.getElementsByClassName("btn-outline-dark color");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.remove("active");
+        }
+
+        // Thêm lớp active cho nút được bấm
+        newButton.classList.add("active");
         selectedColor = findIndexById(product.Colors, e.target.id);
         loadSizeE();
         loadImageE();
@@ -683,6 +689,11 @@ document.addEventListener("DOMContentLoaded", function () {
         button.attr("id", item.id);
         button.click(function () {
           selectedColorText = { id: item.id, text: item.name };
+          // Remove the "active" class from all buttons
+          $(".btn-outline-dark").removeClass("active");
+
+          // Add the "active" class to the clicked button
+          $(this).addClass("active");
         });
         buttonContainer.append(button);
       });
@@ -740,6 +751,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.attr("id", item.id);
                 button.click(function () {
                   selectedColorText = { id: item.id, text: item.name };
+                  // Remove the "active" class from all buttons
+                  $(".btn-outline-dark").removeClass("active");
+
+                  // Add the "active" class to the clicked button
+                  $(this).addClass("active");
                 });
                 buttonContainer.append(button);
               });
@@ -816,11 +832,11 @@ function loadSizeE() {
         newButton.className = "btn btn-outline-dark";
         newButton.textContent = element.numberSize;
 
-        newButton.addEventListener("click", function(event) {
-          event.preventDefault();     // Prevent the default click behavior
-          event.stopPropagation();    // Stop the event from propagating
+        newButton.addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent the default click behavior
+          event.stopPropagation(); // Stop the event from propagating
           // You can optionally add some code here if you want, but it will not affect the button behavior
-      });
+        });
 
         var newLabel = document.createElement("label");
         newLabel.textContent = "Số lượng";
@@ -956,6 +972,11 @@ document.addEventListener("DOMContentLoaded", function () {
             numberSize: item.numberSize,
             unitInStock: 1,
           };
+          // Remove the "active" class from all buttons
+          $(".btn-outline-dark").removeClass("active");
+
+          // Add the "active" class to the clicked button
+          $(this).addClass("active");
         });
         buttonContainer.append(button);
       });
@@ -1016,6 +1037,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     numberSize: item.numberSize,
                     unitInStock: 1,
                   };
+                  // Remove the "active" class from all buttons
+                  $(".btn-outline-dark").removeClass("active");
+
+                  // Add the "active" class to the clicked button
+                  $(this).addClass("active");
                 });
                 buttonContainer.append(button);
               });

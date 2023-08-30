@@ -432,10 +432,14 @@ $(document).ready(function () {
       $("#error-size").hide();
     }
 
-    if (product.Colors[selectedColor].Images.length === 0) {
-      $("#error-image").show();
-    } else {
-      $("#error-image").hide();
+    for (let i = 0; i < product.Colors.length; i++) {
+      console.log(product.Colors[i].Images.length);
+      if (product.Colors[i].Images.length == 0) {
+        var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+        $("#invalid-image .toast-body").text(customMessage);
+        $("#invalid-image").toast("show");
+        return;
+      }
     }
 
     let productFormData = new FormData();
@@ -532,15 +536,6 @@ $(document).ready(function () {
         error: function (response) {
           //check ảnh
           console.log(response)
-          for (let i = 0; i < product.Colors.length; i++) {
-            console.log(product.Colors[i].Images.length);
-            if (product.Colors[i].Images.length == 0) {
-              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
-              $("#invalid-image .toast-body").text(customMessage);
-              $("#invalid-image").toast("show");
-              return;
-            }
-          }
           $("#fail").toast("show");
         },
       });
