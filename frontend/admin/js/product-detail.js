@@ -432,10 +432,14 @@ $(document).ready(function () {
       $("#error-size").hide();
     }
 
-    if (product.Colors[selectedColor].Images.length === 0) {
-      $("#error-image").show();
-    } else {
-      $("#error-image").hide();
+    for (let i = 0; i < product.Colors.length; i++) {
+      console.log(product.Colors[i].Images.length);
+      if (product.Colors[i].Images.length == 0) {
+        var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
+        $("#invalid-image .toast-body").text(customMessage);
+        $("#invalid-image").toast("show");
+        return;
+      }
     }
 
     let productFormData = new FormData();
@@ -450,6 +454,8 @@ $(document).ready(function () {
       value2 = value - (parseInt($("#rangPercen").val()) * value) / 100;
     } else if (selectTypeDiscount === 2) {
       value2 = parseInt($("#fixedPrice").val().replace(/[^\d]/g, ""));
+    }else{
+      value2 = value
     }
     productFormData.append("discountRate", value2);
     productFormData.append("discountType", selectTypeDiscount);
@@ -530,15 +536,6 @@ $(document).ready(function () {
         error: function (response) {
           //check ảnh
           console.log(response)
-          for (let i = 0; i < product.Colors.length; i++) {
-            console.log(product.Colors[i].Images.length);
-            if (product.Colors[i].Images.length == 0) {
-              var customMessage = `Sản phẩm màu ${product.Colors[i].name} chưa có ảnh`;
-              $("#invalid-image .toast-body").text(customMessage);
-              $("#invalid-image").toast("show");
-              return;
-            }
-          }
           $("#fail").toast("show");
         },
       });
@@ -681,6 +678,8 @@ function loadImageE() {
     // Kiểm tra nếu danh sách hình ảnh đã đạt đến giới hạn
     if (product.Colors[selectedColor].Images.length === 6) {
       uploadButton.style.display = "none"; // Ẩn nút "Upload"
+    }else{
+      uploadButton.style.display = "flex";
     }
 
     if (product.Colors[selectedColor].Images.length !== 0) {
@@ -930,6 +929,44 @@ document.addEventListener("DOMContentLoaded", function () {
           $("#exampleModalColor").modal("show");
         },
         error: function () {
+          $.ajax({
+            url: "https://localhost:44328/api/Color/Get",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              var buttonContainer = $("#colorContainer");
+              var addButton = buttonContainer.find("#add-now-btn"); // Get the "add-now-btn" button
+              var buttonsToKeep = buttonContainer.find(
+                ".btn:not(#add-now-btn)"
+              ); // Get all buttons except "add-now-btn"
+
+              buttonContainer.empty(); // Empty the container
+
+              // Append the buttons you want to keep
+              buttonsToKeep.each(function () {
+                buttonContainer.append($(this));
+              });
+              data.forEach(function (item) {
+                var button = $("<button></button>");
+                button.attr("type", "button");
+                button.addClass("btn btn-outline-dark");
+                button.css("margin-left", "3%");
+                button.css("margin-top", "1%");
+                button.text(item.name);
+                button.attr("data-color", item.name);
+                button.attr("id", item.id);
+                button.click(function () {
+                  selectedColorText = { id: item.id, text: item.name };
+                });
+                buttonContainer.append(button);
+              });
+
+              buttonContainer.append(addButton); // Append the "add-now-btn" button back
+            },
+            error: function () {
+              $("#color-duplicate").toast("show");
+            },
+          });
           $("#color-duplicate").toast("show");
         },
       });
@@ -1174,6 +1211,48 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         error: function () {
           $("#size-duplicate").toast("show");
+          $.ajax({
+            url: "https://localhost:44328/api/Size/Get",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              var buttonContainer = $("#sizeContainer");
+              var addButton = buttonContainer.find("#add-size-now"); // Get the "add-now-btn" button
+              var buttonsToKeep = buttonContainer.find(
+                ".btn:not(#add-size-now)"
+              ); // Get all buttons except "add-now-btn"
+
+              buttonContainer.empty(); // Empty the container
+
+              // Append the buttons you want to keep
+              buttonsToKeep.each(function () {
+                buttonContainer.append($(this));
+              });
+
+              data.forEach(function (item) {
+                var button = $("<button></button>");
+                button.attr("type", "button");
+                button.addClass("btn btn-outline-dark");
+                button.css("margin-left", "3%");
+                button.css("margin-top", "1%");
+                button.text(item.numberSize);
+                button.attr("data-color", item.numberSize);
+                button.click(function () {
+                  selectedColorText = {
+                    id: item.id,
+                    numberSize: item.numberSize,
+                    unitInStock: 0,
+                  };
+                });
+                buttonContainer.append(button);
+              });
+
+              buttonContainer.append(addButton); // Append the "add-now-btn" button back
+            },
+            error: function () {
+              console.error("Error fetching data.");
+            },
+          });
         },
       });
     }
