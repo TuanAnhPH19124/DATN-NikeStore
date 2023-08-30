@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>Nike Sneaker World</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,6 +27,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link href="/frontend/admin/css/update-staff.css" rel="stylesheet">
 
 </head>
@@ -37,15 +39,16 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #030e2c;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <img src="/frontend/admin/image/nike-48.png" alt="">
-                <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
+                <img src="/frontend/admin/image/nike-48.png" alt=""><br>
+                <!-- <div class="sidebar-brand-text mx-3">Sneaker World</div> -->
             </a>
-
+            <div class="sidebar-brand-text mx-3" style="color: white; font-weight: bold; text-align: center;font-size: 20px;">Nike Sneaker World</div>
             <!-- Divider -->
+            <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider my-0">
 
 
@@ -66,6 +69,8 @@
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
                         <a class="collapse-item" href="size.html">Kích cỡ</a>
+                        <a class="collapse-item" href="sole.html">Đế giày</a>
+                        <a class="collapse-item" href="material.html">Chất liệu</a>
                         <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
@@ -78,7 +83,7 @@
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="create-bill.html">Bán hàng tại quầy</a>
                         <a class="collapse-item" href="order.html">Bán hàng Online</a>
                     </div>
                 </div>
@@ -94,17 +99,10 @@
                     <span>Thống kê</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link"  href="voucher.html">
                     <i class="far fa-money-bill-alt"></i>
                     <span>Khuyến mại</span>
                 </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -304,14 +302,14 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/frontend/admin/user-info.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Giao ca
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -329,41 +327,111 @@
                 <div class="container-fluid">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title">Cập nhật tài khoản</h2>
+                            <h2 class="modal-title" style="margin: auto;color: #5a5c69;">Cập nhật tài khoản</h2>
                         </div>
                         <div class="modal-body">
                             <form id="update-employee-form">
-                                <div class="form-group">
-                                    <label>Họ và tên</label>
-                                    <input type="text" class="form-control" id="fullName" name="fullName"
-                                        aria-describedby="emailHelp" placeholder="">
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">Mã nhân viên</label>
+                                            <input type="text" class="form-control" id="employeeId" name="employeeId"
+                                                aria-describedby="emailHelp" placeholder="" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label for="snn" style="font-weight: 600;">Họ và tên</label>
+                                            <input type="text" class="form-control" id="fullName" placeholder="" name="fullName">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">Số căn cước</label>
+                                            <input type="text" class="form-control" id="snn" placeholder="" disabled
+                                                name="snn">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder="" disabled
+                                                name="phoneNumber">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                    <label style="font-weight: 600;">Giới tính</label>
+                                        <div class="form-group" style="width: 80%;">
+                                            <select class="form-control" placeholder="Trạng thái" id="gender"
+                                                name="gender">
+                                                <option value="1">Nam</option>
+                                                <option value="0">Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label for="dateOfBirth" style="font-weight: 600;">Ngày sinh</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth"
+                                                    autocomplete="off">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">Quê quán</label>
+                                            <input type="text" class="form-control" id="homeTown" placeholder=""
+                                                name="homeTown">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">Địa chỉ hiện tại</label>
+                                            <input type="text" class="form-control" id="address" placeholder=""
+                                                name="address">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">Người thân</label>
+                                            <input type="text" class="form-control" id="relativeName" placeholder=""
+                                                name="relativeName">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="width: 80%;">
+                                            <label style="font-weight: 600;">SĐT người thân</label>
+                                            <input type="text" class="form-control" id="relativePhoneNumber" placeholder=""
+                                                name="relativePhoneNumber">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="snn">Số căn cước</label>
-                                    <input type="text" class="form-control" id="snn" placeholder="" name="snn">
-                                </div>
-                                <div class="form-group">
-                                    <label>Số điện thoại</label>
-                                    <input type="text" class="form-control" id="phoneNumber" placeholder=""
-                                        name="phoneNumber">
-                                </div>
-                                <div class="form-group">
-                                    <label>Mật khẩu</label>
-                                    <input type="text" class="form-control" id="password" placeholder=""
-                                        name="password">
-                                </div>
-                                <div class="form-group">
-                                    <label>Vai trò</label>
-                                    <input type="text" class="form-control" id="role" placeholder="" name="role">
-                                </div>
-                                <div class="form-group">
-                                    <label>Trạng thái</label>
+                                    <label style="font-weight: 600;">Trạng thái</label>
                                     <input type="checkbox" id="status" placeholder="" name="status">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Xác
-                                    nhận</button>
-
+                                    <button type="submit" class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;">Xác
+                                        nhận</button>
                                 <!-- thông báo -->
                                 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
                                     data-delay="2000" style="position: fixed;
@@ -378,7 +446,7 @@
                                         </button>
                                     </div>
                                     <div class="toast-body">
-                                        Cập nhật thành công
+                                        Thêm thành công
                                     </div>
                                 </div>
                             </form>
@@ -407,15 +475,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -438,6 +506,8 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/frontend/admin/js/update-staff.js"></script>
 
 

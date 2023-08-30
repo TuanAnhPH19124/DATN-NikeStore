@@ -14,8 +14,11 @@ namespace Service.Abstractions
         Task<IEnumerable<Product>> SelectByCategoryOnCacheAsync(string categoryId);
         Task<IEnumerable<Product>> SelectProductOnCacheAsync();
         Task<Product> CreateAsync(Product product);
-        Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default);
+        Task<List<ProductDtoForGet>> GetAllProductAsync(CancellationToken cancellationToken = default);
         Task<Product> GetByIdProduct(string id, CancellationToken cancellationToken = default);
-        Task<Product> UpdateByIdProduct(string id, Product product, CancellationToken cancellationToken = default);
+        Task UpdateByIdProduct(string id, Product product, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ProductDtoForGet>> FilterProductsAsync(ProductFilterOptionAPI options);
+        Task<ProductDtoForGet> GetProductByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<List<ProductDtoForGet>> GetAllProductImageAsync(CancellationToken cancellationToken = default);
     }
 }

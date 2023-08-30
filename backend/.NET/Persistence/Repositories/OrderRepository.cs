@@ -1,64 +1,106 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-  internal sealed class OrderRepository : IOrderRepository
-  {
-    private readonly AppDbContext _context;
-
-    public OrderRepository(AppDbContext context)
+    internal sealed class OrderRepository : IOrderRepository
     {
-      _context = context;
-    }
+        private readonly AppDbContext _context;
 
-    public async Task Post(Order order)
-    {
-      using (var transaction = await _context.Database.BeginTransactionAsync())
-      {
-        try
+        public OrderRepository(AppDbContext context)
         {
-          await _context.AddAsync(order);
-          await _context.SaveChangesAsync();
-          await transaction.CommitAsync();
+            _context = context;
         }
-        catch (System.Exception)
-        {
-          await transaction.RollbackAsync();
-          throw;
-        }
-      }
-    }
 
-    public async Task<Order> SelectById(string id)
-    {
-      return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
-    }
+        public async Task Post(Order order)
+        {
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await _context.AddAsync(order);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (System.Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
 
-    public async Task<string> Update(string id, Order order)
-    {
-      using (var transaction = await _context.Database.BeginTransactionAsync()){
-        try
+        public async Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default)
         {
-          var currentOrder = await SelectById(id);
-          currentOrder.Status = order.Status;
-          currentOrder.ModifiedDate = order.ModifiedDate;
-          _context.Orders.Update(currentOrder);
-          await _context.SaveChangesAsync();
-          await transaction.CommitAsync();
-          return currentOrder.Id;
+            var orderList = await _context.Orders.Include(p => p.OrderItems).ToListAsync(cancellationToken);
+
+            var orderDTOList = orderList.Select(order => new OrderDto
+            {
+                Id = order.Id,
+                Address = order.Address,
+                PhoneNumber = order.PhoneNumber,
+                Status = order.Status,
+                Note = order.Note,
+                Paymethod = order.Paymethod,
+                Amount = order.Amount,
+                CustomerName = order.CustomerName,
+                DateCreated = order.DateCreated,
+                PassivedDate = order.PassivedDate,
+                ModifiedDate = order.ModifiedDate,
+                UserId = order.UserId,
+                VoucherId = order.VoucherId,
+                OrderItems = order.OrderItems.Select(item => new OrderItemDto
+                {
+                    OrderId = item.OrderId,
+                    ProductId = item.ProductId,
+                    ColorId = item.ColorId,
+                    SizeId = item.SizeId,
+                    OrderDate = item.OrderDate,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice
+                }).ToList()
+            }).ToList();
+            return orderDTOList;
         }
-        catch (System.Exception)
+
+        public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
         {
-          await transaction.RollbackAsync();
-          throw;
+            return await _context.Orders.Include(p => p.Id == id).FirstOrDefaultAsync(p => p.Id == id);
         }
-      }
+        public async Task<Order> SelectById(string id)
+            {
+                return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
+            }
+
+        public async Task<string> Update(string id, Order order)
+        {
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var currentOrder = await SelectById(id);
+                    currentOrder.Status = order.Status;
+                    currentOrder.ModifiedDate = order.ModifiedDate;
+                    _context.Orders.Update(currentOrder);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return currentOrder.Id;
+                }
+                catch (System.Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
     }
-  }
 }

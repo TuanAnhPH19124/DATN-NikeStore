@@ -11,6 +11,7 @@ using System.Linq;
 using EntitiesDto.Product;
 using Mapster;
 
+
 namespace Webapi.Controllers
 {
     [Route("api/[controller]")]
@@ -59,17 +60,26 @@ namespace Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSize(SizeDto sizeDto)
         {
-            try
+            if (sizeDto == null)
             {
-                var size = sizeDto.Adapt<Size>();
-                await _serviceManager.SizeService.CreateAsync(size);
-                return CreatedAtAction(nameof(GetByIdSize), new {id = size.Id}, size);
+                return BadRequest("Sole object is null");
             }
-            catch (Exception ex)
+
+            var existingSize = await _serviceManager.SizeService.GetByNumberSizeAsync(sizeDto.NumberSize);
+            if (existingSize != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
+                return Conflict("Size with the same NumberSize already exists");
             }
-        }
+
+            var size = new Size
+            {
+                NumberSize = sizeDto.NumberSize,
+                Description = sizeDto.Description
+            };
+
+            await _serviceManager.SizeService.CreateAsync(size);
+            return CreatedAtAction("GetByIdSize", new { Id = size.Id}, size);
+        }      
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSize(string id, SizeDtoUpdate sizeDtoUpdate)

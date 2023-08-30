@@ -1,12 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
@@ -20,14 +14,16 @@ namespace Persistence.Configurations
             builder.HasIndex(p => p.BarCode).IsUnique();
             builder.Property(p => p.Name).IsRequired();
             builder.HasIndex(p => p.Name).IsUnique();
-            builder.Property(p => p.CostPrice).IsRequired();
             builder.Property(p => p.RetailPrice).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.ModifiedDate).IsRequired(false);
+            builder.Property(p => p.DiscountRate).IsRequired();
+            builder.Property(p => p.DiscountType).IsRequired();
 
-            builder.HasMany(p => p.Categories)
-                   .WithMany(p => p.Products)
-                   .UsingEntity(p => p.ToTable("ProductCategory"));
+
+            builder.HasMany(p => p.CategoryProducts)
+                .WithOne(p => p.Product)
+                .HasForeignKey(p => p.ProductId);
 
             builder.HasMany(p => p.Tags)
                    .WithMany(p => p.Products)
@@ -41,12 +37,20 @@ namespace Persistence.Configurations
                    .WithOne(p => p.Product)
                    .HasForeignKey(p => p.ProductId);
             builder.HasMany(p => p.OrderItems)
-            .WithOne(p => p.Product)
-            .HasForeignKey(p => p.ProductId);
+                    .WithOne(p => p.Product)
+                    .HasForeignKey(p => p.ProductId);
 
             builder.HasMany(x => x.ShoppingCartItems)
-            .WithOne(x => x.Product)
-            .HasForeignKey(x => x.ProductId);
+                    .WithOne(x => x.Product)
+                    .HasForeignKey(x => x.ProductId);
+
+            builder.HasOne(p => p.Sole)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.SoleId);
+
+            builder.HasOne(p => p.Material)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.MaterialId);
         }
     }
 }

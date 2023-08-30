@@ -1,111 +1,80 @@
-.icon-control {
-    margin-top: 5px;
-    float: right;
-    font-size: 80%;
+.product-sort-container{
+    display: flex;
+    justify-content: end;
 }
-.btn-light {
-    border-color: #e4e4e4;
-}
-.list-menu {
-    list-style: none;
-    margin: 0;
-    padding-left: 0;
-}
-.list-menu a {
-    color: #343a40;
-}
-.list-menu ul li a:hover {
-    text-decoration: none;
-}
-.card-product-grid .info-wrap {
-    overflow: hidden;
-    padding: 18px 20px;
-}
-[class*='card-product'] a.title {
-    color: #212529;
-    display: block;
-}
-.card-product-grid:hover .btn-overlay {
-    opacity: 1;
-}
-.card-header .title:hover{
-    text-decoration: none;
-}
-.card-header{
-    background-color: white;
-}
-.card-product-grid .btn-overlay {
-    -webkit-transition: .5s;
-    transition: .5s;
-    opacity: 0;
-    left: 0;
-    bottom: 0;
-    color: #fff;
-    width: 100%;
-    padding: 5px 0;
-    text-align: center;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.5);
-}
-.img-wrap {
-    overflow: hidden;
+
+.product-sort-container select{
+    appearance: none; /* Ẩn giao diện mặc định của select */
+    -webkit-appearance: none; /* Safari */
+    background: transparent; /* Độ rộng và chiều cao của select */
+    padding: 5px 20px 5px 5px; /* Thêm padding để giữ khoảng cách với mũi tên */
+    border: none; /* Xóa border */
+    outline: none; /* Xóa outline */
+    cursor: pointer; /* Đổi con trỏ chuột thành dấu mũi tên */
     position: relative;
+    opacity: 0.5;
 }
-.info-wrap .title:hover{
-    text-decoration: none;
+
+.product-sort-container select::after{
+    content: "<"; /* Biểu tượng mũi tên (Unicode) */
+    color: black;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
-.info-wrap .paynowA button{
-    width: 200px;
-    margin-top: 10px;
-    border-radius: 25px;
-    background-color: #212529;
-    border: 1px solid #212529;
+
+.scrollable {
+    overflow-y: auto;
+    max-height: 500px; /* Đặt chiều cao tối đa của phần để cho phép cuộn khi nội dung vượt quá */
 }
-.info-wrap .paynowA a{
-    color: rgb(255, 0, 0);
-}
-.info-wrap .paynowA a:hover{
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-}
-.img-fluid{
+
+
+
+.product-item image {
     display: block;
-    padding-top: 8px;
-    transition: all .6s ease;
 }
-.img-fluid:hover{
-    transform: scale(1.3);
+
+.product-item a {
+    padding: 5px;
+
 }
-.info-wrap a{
-    font-size: 18px;
+
+.product-item a:hover {
+    text-decoration:none ;
 }
-.product-links1{
-    list-style: none !important;
-    right: 20px;
-    top: 15px;
-    position: absolute;
+
+.product-item .name, .product-item .category, .product-item .color{
+    display: block;
 }
-.product-links1 li a{
-    color: #e43a3a;
-    font-size: 20px;
+
+.product-item .name, .product-item .price{
+    color: var(--tc-black);
+    
 }
-.product-links1 li a:hover{
-    color: #ff7700;
+
+.product-item .color, .product-item .category{
+    color: var(--tc-black);
+    opacity: 0.6;
 }
-.product-links-cart1{
-    list-style: none !important;
-    right: 20px;
-    bottom: 60px;
-    position: absolute;
+
+.product-item .price{
+    margin-top: 10px;
 }
-.product-links-cart1 li a{
-    color: gray;
-    font-size: 20px;
+
+.show-discount{
+    display: inline-block;
+    color: var(--tc-black);
 }
-.product-links-cart1 li a:hover{
-    color: #ce3838;
+
+.strike-through {
+    text-decoration: line-through;
+    color: var(--tc-black);
+    opacity: 0.6;
 }
-.info-wrap span.price{
-    font-size: 20px;
-    font-weight: 600;
+
+.percenOff{
+    color: var(--tc-success);
+    margin-top: 5px;
+    font-size: var(--fs-16px);
 }

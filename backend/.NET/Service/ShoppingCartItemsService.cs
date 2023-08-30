@@ -35,8 +35,12 @@ namespace Service
         public async Task<IEnumerable<Data.ShoppingCartItemData>> GetByUserIdAsync(string userId)
         {
             var cart =  await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
-            var listCarts = cart.ShoppingCartItems.Adapt<List<Data.ShoppingCartItemData>>();
-            return listCarts;
+            if (cart != null)
+            {
+                var listCarts = cart.ShoppingCartItems.Adapt<List<Data.ShoppingCartItemData>>();
+                return listCarts;
+            }
+            return null;
         }
 
         public async Task UpdatePutAsync(string Id, Boolean isQuantity)

@@ -53,7 +53,7 @@ namespace Webapi.Controllers
             var check = await _serviceManager.ShoppingCartItemsService.checkProduct(newCartItem.ProductId, get);
             if (check != null)
             {
-                check.Quantity++;
+                check.Quantity += newCartItem.Quantity;
                 await _serviceManager.ShoppingCartItemsService.UpdateCartItemAsync(check.Id, check);
             }
             else
@@ -66,7 +66,7 @@ namespace Webapi.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCartItemQuantity([FromBody] Dto.ShoppingCartItemsDto shoppingCartItemsDto)
         {
-            await _serviceManager.ShoppingCartItemsService.UpdatePutAsync(shoppingCartItemsDto.ShoppingCartId, shoppingCartItemsDto.IsQuantity);
+            //await _serviceManager.ShoppingCartItemsService.UpdatePutAsync(shoppingCartItemsDto.ShoppingCartId, shoppingCartItemsDto.IsQuantity);
             return Ok();
         }
 

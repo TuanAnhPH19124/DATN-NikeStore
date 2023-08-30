@@ -1,29 +1,27 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Models;
 using Domain.Repositories;
 using EntitiesDto;
 using EntitiesDto.User;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.Extensions.Configuration;
-using RestSharp;
-using RestSharp.Authenticators;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
+using System.Net;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace Service
 {
     internal sealed class AppUserService : IAppUserService
     {
         private readonly IRepositoryManger _repositoryManger;
-       
+
 
         public AppUserService(IRepositoryManger repositoryManger)
         {
@@ -64,7 +62,7 @@ namespace Service
                 //send email
 
                 var result = SendEmail(body, new_user.Email);
-                
+
                 if (result)
                 {
                     return new AuthResult()
@@ -104,7 +102,7 @@ namespace Service
 
         public async Task<AppUser> GetauthenticationByLogin(AppUserForLogin appUser, CancellationToken cancellationToken = default)
         {
-            return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Email, appUser.Password);
+            return await _repositoryManger.AppUserRepository.AuthticationUserWithLogin(appUser.Account, appUser.Password);
         }
 
         public async Task<AppUser> GetByIdAsync(string id)
@@ -114,7 +112,7 @@ namespace Service
 
         public async Task<AuthResult> Login(AppUserForLogin user)
         {
-            var user_exist = await _repositoryManger.AppUserRepository.FindByEmailAsync(user.Email);
+            var user_exist = await _repositoryManger.AppUserRepository.FindByEmailAsync(user.Account);
 
             if (user_exist != null)
             {
@@ -138,32 +136,26 @@ namespace Service
             throw new Exception("Tài khoản không tồn tại");
         }
 
-        public bool SendEmail(string body,string email)
+        public bool SendEmail(string emailBody, string toEmail)
         {
-            RestClient client = new RestClient(new RestClientOptions
+            try
             {
-                BaseUrl = new Uri("https://api.mailgun.net/v3"),
-                Authenticator = new HttpBasicAuthenticator("api", "1433d69b025f2bbaac2b0b8639a08b59-5d9bd83c-dffd1e65")
-            });
-
-            RestRequest request = new RestRequest();
-            request.AddParameter("domain", "sandbox3de508ca506941de806c80cc9e093f15.mailgun.org", ParameterType.UrlSegment);
-            request.Resource = "{domain}/messages";
-            request.AddParameter("from", "Nike store <postmaster@sandbox3de508ca506941de806c80cc9e093f15.mailgun.org>");
-            request.AddParameter("to", email);
-            request.AddParameter("subject", "Email Verification");
-            request.AddParameter("text", body);
-            request.Method = Method.Post;
-
-            var response = client.Execute(request);
-
-            return response.IsSuccessful;
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("nikesneakerw@gmail.com", "kxsdwillelpulshc"),
+                    EnableSsl = true,
+                };
+                var mailMessage = new MailMessage("your.email@yourprovider.com", toEmail, "Đặt lại mật khẩu", emailBody);
+                smtpClient.Send(mailMessage);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-
-
-        ////////////////////
-       
         public async Task<List<AppUser>> GetAllAppUserAsync(CancellationToken cancellationToken = default)
         {
             List<AppUser> appUserList = await _repositoryManger.AppUserRepository.GetAllAppUserAsync(cancellationToken);
@@ -186,7 +178,7 @@ namespace Service
             else
             {
                 existingAppUser.FullName = appUser.FullName;
-                existingAppUser.PhoneNumber= appUser.PhoneNumber;   
+                existingAppUser.PhoneNumber= appUser.PhoneNumber;
                 existingAppUser.AvatarUrl= appUser.AvatarUrl;
                 await _repositoryManger.AppUserRepository.UpdateAppUser(existingAppUser);
                 return existingAppUser;
@@ -203,8 +195,8 @@ namespace Service
             else
             {
                 existingAppUser.Status= appUser.Status;
-                await _repositoryManger.AppUserRepository.UpdateAppUserbyAdmin(existingAppUser);             
-                return existingAppUser;             
+                await _repositoryManger.AppUserRepository.UpdateAppUserbyAdmin(existingAppUser);
+                return existingAppUser;
             }
         }
 
@@ -213,13 +205,98 @@ namespace Service
             var isCorrectPassword = await _repositoryManger.AppUserRepository.CheckPassword(user, currentPassword);
             if (!isCorrectPassword)
             {
-                throw new Exception("Mật khẩu hiện tại không chính xác.");
+                // Trả về kết quả không thành công thay vì ném exception
+                return IdentityResult.Failed(new IdentityError { Description = "Mật khẩu hiện tại không chính xác." });
             }
 
             // Thay đổi mật khẩu mới
             var result = await _repositoryManger.AppUserRepository.ChangePasswordAsync(user, currentPassword, newPassword);
 
+            if (!result.Succeeded)
+            {
+                // Xử lý trường hợp thay đổi mật khẩu không thành công
+                // Trả về kết quả không thành công hoặc thực hiện các xử lý khác
+                return result;
+            }
+
+            // Trả về kết quả thành công
             return result;
+        }
+
+
+        private string GenerateRandomPassword(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?";
+            var random = new Random();
+            var newPassword = new string(Enumerable.Repeat(chars, length - 3) // Số ký tự - 3 (để để 3 ký tự đặc biệt, chữ hoa và chữ thường)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            // Thêm ít nhất 1 ký tự đặc biệt
+            var specialChars = "!@#$%^&*()_+[]{}|;:,.<>?";
+            newPassword += specialChars[random.Next(specialChars.Length)];
+
+            // Thêm ít nhất 1 chữ viết hoa
+            var upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            newPassword += upperCaseChars[random.Next(upperCaseChars.Length)];
+
+            // Trộn ngẫu nhiên lại để đảm bảo tính ngẫu nhiên của mật khẩu
+            var shuffledPassword = new string(newPassword.ToCharArray().OrderBy(c => random.Next()).ToArray());
+
+            return shuffledPassword;
+        }
+        
+        public async Task<AuthResult> ForgotPassword(string email)
+        {
+            var user = await _repositoryManger.AppUserRepository.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new AuthResult
+                {
+                    Result = false,
+                    Error = new List<string> { "Không tìm thấy người dùng với địa chỉ email này." }
+                };
+            }
+
+            var newPassword = GenerateRandomPassword(10);
+
+            var token = await _repositoryManger.AppUserRepository.GeneratePasswordResetTokenAsync(user);
+            var resetResult = await _repositoryManger.AppUserRepository.ResetPasswordAsync(user, token, newPassword);
+
+            if (!resetResult.Succeeded)
+            {
+                return new AuthResult
+                {
+                    Result = false,
+                    Error = new List<string> { "Không thể đặt lại mật khẩu." }
+                };
+            }
+
+            var emailBody = $"Mật khẩu mới của bạn là: {newPassword} Vui lòng đăng nhập và thay đổi mật khẩu sau khi đăng nhập.";
+
+            var isEmailSent =  SendEmail(emailBody, user.Email);
+           
+
+            if (!isEmailSent)
+            {
+                return new AuthResult
+                {
+                    Result = false,
+                    Error = new List<string> { "Gửi email thất bại." }
+                };
+            }
+
+            return new AuthResult
+            {
+                Result = true
+            };
+        }
+
+        public async Task<AppUserPhoneDto> GetUserByPhoneNumber(string phoneNumber)
+        {
+            var user = await _repositoryManger.AppUserRepository.GetByPhoneAsync(phoneNumber);
+            if (user == null)
+                return null;
+            return user;
         }
     }
 }

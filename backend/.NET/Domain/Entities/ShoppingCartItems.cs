@@ -11,7 +11,7 @@ namespace Domain.Entities
     public class ShoppingCartItems
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 1;
         public string ProductId { get; set; }
         public Product Product { get; set; }
 

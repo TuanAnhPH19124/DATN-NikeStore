@@ -2,15 +2,13 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
-
+    <title>Nike Sneaker World</title>
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -21,10 +19,18 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+
     <!-- get date and bold fe -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="/frontend/admin/css/create-bill.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
@@ -36,17 +42,17 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #030e2c;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <img src="/frontend/admin/image/nike-48.png" alt="">
-                <div class="sidebar-brand-text mx-3">NIKE ADMIN</div>
+                <img src="/frontend/admin/image/nike-48.png" alt=""><br>
+                <!-- <div class="sidebar-brand-text mx-3">Sneaker World</div> -->
             </a>
-
+            <div class="sidebar-brand-text mx-3" style="color: white; font-weight: bold; text-align: center;font-size: 20px;">Nike Sneaker World</div>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
+            <hr class="sidebar-divider my-0">
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -65,6 +71,8 @@
                         <a class="collapse-item" href="category.html">Danh mục</a>
                         <a class="collapse-item" href="color.html">Màu sắc</a>
                         <a class="collapse-item" href="size.html">Kích cỡ</a>
+                        <a class="collapse-item" href="sole.html">Đế giày</a>
+                        <a class="collapse-item" href="material.html">Chất liệu</a>
                         <a class="collapse-item" href="product-page.html">Sản phẩm</a>
                     </div>
                 </div>
@@ -77,7 +85,7 @@
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="sell-product.html">Bán hàng tại quầy</a>
+                        <a class="collapse-item" href="create-bill.html">Bán hàng tại quầy</a>
                         <a class="collapse-item" href="order.html">Bán hàng Online</a>
                     </div>
                 </div>
@@ -93,17 +101,10 @@
                     <span>Thống kê</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link"  href="voucher.html">
                     <i class="far fa-money-bill-alt"></i>
                     <span>Khuyến mại</span>
                 </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="voucher.html">Mã giảm giá</a>
-                        <a class="collapse-item" href="member-offer.html">Ưu đãi thành viên</a>
-                    </div>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
@@ -302,13 +303,9 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/frontend/admin/user-info.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Giao ca
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -317,30 +314,236 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
+                <!-- Tạo hoá đơn -->
+                <div class="THD" style="padding-left: 1100px; padding-bottom: 20px;">
+                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn" id="createInvoiceButton" onclick="createInvoice()">
+                <span class="icon text-white-50">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <span class="text" >Tạo hoá đơn</span>
+                </a>
+                </div>
                 <!-- End of Topbar -->
-
+                
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                    <div class="nav nav-tabs"></div>
+                    <div class="tab-content"></div>
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Tạo đơn hàng</h5>
+                            <a href="bill.html" class="btn btn-primary btn-icon-split" data-toggle=""
+                            data-target="" style="margin-right: 20px;">
+                            <span class="text">Danh sách</span>
+                        </a>
                         </div>
-                        <div class="modal-body">
+                        <div class="container">
+                            <ul class="nav nav-tabs" id="invoiceTabs">
+                            </ul>
+                            
+                            <div class="tab-content" id="invoiceTabContent">
+                            </div>
+                          </div>
+                        <div class="modal-body" >
                             <div class="add-btn">
-                                <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal"
-                                    data-target="#modal-add-product">
+                                <!-- button camera -->
+                                <a href="#" class="btn btn-primary btn-icon-split"
+                                 data-toggle="modal" data-target="#modal-add-camera" style="margin-right: 10px;">
                                     <span class="icon text-white-50">
-                                        <i class="fa fa-plus"></i>
+                                      <i class="fa-solid fa-qrcode"></i>
                                     </span>
-                                    <span class="text" data-toggle="modal" data-target="#modal-add-product">Thêm sản
-                                        phẩm</span>
-                                </a>
+                                    <span class="text">Qr code sản phẩm</span>
+                                  </a>
+                                  <!-- button thêm sản phẩm -->
+
+
+
+                                  <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product" style="display: none;">
+                                      <span class="icon text-white-50">
+                                          <i class="fa fa-plus"></i>
+                                      </span>
+                                      <span class="text">Thêm sản phẩm</span>
+                                  </a>
+                                  
+
+                                
                                 <!-- Modal -->
+                                <div class="modal fade" id="modal-add-camera">
+                                    <div class="modal-dialog modal-lg" style="width: 46%;height: 80px;">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">Quét mã vạch sản phẩm</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div id="scanner-container" >
+                                            <div id="scanner"></div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Modal Thêm sản phẩm -->
+                                    <!-- Modal Thêm sản phẩm -->
+                                        <div class="modal fade" id="modal-add-product">
+                                            <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h4 class="modal-title">Thêm sản phẩm</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="productName" placeholder="Nhập tên sản phẩm" style="width: 900px;">
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-9 text-right">
+                                                    <button type="button" class="btn btn-primary" id="" style="margin-right: 10px;">Tìm kiếm</button>
+                                                    <button type="button" class="btn btn-danger" id="resetButton">Làm mới</button>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="productSize">Kích thước:</label>
+                                                        <select class="form-control" id="productSize">
+                                                        <option>Selected 1</option>
+                                                        <option>Selected 2</option>
+                                                        <option>Selected 3</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="productColor">Màu sắc:</label>
+                                                        <select class="form-control" id="productColor">
+                                                            <option>Selected 1</option>
+                                                            <option>Selected 2</option>
+                                                            <option>Selected 3</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="productColor">chất liệu:</label>
+                                                        <select class="form-control" id="">
+                                                            <option>Selected 1</option>
+                                                            <option>Selected 2</option>
+                                                            <option>Selected 3</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="productColor">Đế giày:</label>
+                                                        <select class="form-control" id="">
+                                                            <option>Selected 1</option>
+                                                            <option>Selected 2</option>
+                                                            <option>Selected 3</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="productColor">Thể loại:</label>
+                                                        <select class="form-control" id="">
+                                                            <option>Selected 1</option>
+                                                            <option>Selected 2</option>
+                                                            <option>Selected 3</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                        <label for="productColor">Giới tính:</label>
+                                                        <select class="form-control" id="">
+                                                            <option>Selected 1</option>
+                                                        <option>Selected 2</option>
+                                                        <option>Selected 3</option>
+                                                        </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="productPriceRange">Khoảng giá:</label>
+                                                        <input type="range" class="form-control-range" id="productPriceRange">
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
+                                                                <tbody id="tbody">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                                                      
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content" style="max-width: 98%;">
+                                                    <div class="modal-body">
+
+                                                        <div class="row">
+                                                            <div class="col-md-7">
+                                                                <div
+                                                                id="root"
+                                                                style="margin-top: 10px"
+                                                                class="upload-container"
+                                                              >
+                                                                <div class="upload-list" style="display: flex; flex-wrap: wrap;gap: 40px;margin-left: 80px;margin-top:50px">
+                                                                </div>
+                                                                
+                                                                
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="product-details">
+                                                                    <!-- HTML -->
+                                                                <!-- HTML -->
+                                                                <div class="product-info">
+                                                                    <h3 id="name">NIKE ARI FORC ONE LOW 1</h3>
+                                                                    <p style="font-weight: 700;">Giá bán: <span id="discountRate" style="font-weight: bold;color: red;"></span></p>
+                                                                    <div class="color-squares">
+                                                                        <p style="font-weight: 700;">Màu sắc:</p>
+                                                                        <div class="color-buttons" id="render-color">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="size-squares">
+                                                                        <p style="font-weight: 700;">Kích cỡ:</p>
+                                                                        <div class="size-buttons" id="render-size">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="product-instock">
+                                                                    </div>
+                                                                    <div class="quantity-input" id="quantity-input" style="font-weight: 700;">Thêm số lượng:
+                                                                        <div>
+                                                                            <button id="decrement"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> - </button>
+                                                                            <input type="number" id="quantity" value="1" style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;">
+                                                                            <button id="increment"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> + </button>
+                                                                        </div>
+                                                                    </div>                   
+                                                                    <button class="btn btn-primary" id="addToCart" >Thêm vào giỏ hàng</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                          
+                                        
                                 <div class="modal fade" id="modal-add-product" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -353,202 +556,11 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="select">
-                                                    <div class="form-filter">
-                                                        <label for="exampleFormControlSelect1">Danh mục:</label>
-                                                        <select class="form-control" id="exampleFormControlSelect1">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-filter">
-                                                        <label for="exampleFormControlSelect2">Hãng:</label>
-                                                        <select class="form-control" id="exampleFormControlSelect2">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-filter">
-                                                        <label for="exampleFormControlSelect3">Màu sắc:</label>
-                                                        <select class="form-control" id="exampleFormControlSelect3">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
                                                 <div class="card shadow mb-4">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
-                                                            <table class="table table-bordered" id="dataTable"
-                                                                width="100%" cellspacing="0">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Ảnh</th>
-                                                                        <th>ID</th>
-                                                                        <th>Tên sản phẩm</th>
-                                                                        <th>Giá</th>
-                                                                        <th>Thao tác</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Tiger Nixon</td>
-                                                                        <td>System Architect</td>
-                                                                        <td>Edinburgh</td>
-                                                                        <td>61</td>
-                                                                        <td>2011/04/25</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Garrett Winters</td>
-                                                                        <td>Accountant</td>
-                                                                        <td>Tokyo</td>
-                                                                        <td>63</td>
-                                                                        <td>2011/07/25</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="img">
-                                                                                <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
-                                                                                    alt="" width="200" height="200">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>Junior Technical Author</td>
-                                                                        <td>San Francisco</td>
-                                                                        <td>66</td>
-                                                                        <td>
-                                                                            <button type="button"
-                                                                                class="btn btn-outline-primary"
-                                                                                data-toggle="modal"
-                                                                                data-target="#productModal">Chọn</button>
-                                                                            <!-- Modal -->
-                                                                            <div class="modal fade" id="productModal"
-                                                                                tabindex="-1" role="dialog"
-                                                                                aria-labelledby="exampleModalLabel"
-                                                                                aria-hidden="true">
-                                                                                <div class="modal-dialog"
-                                                                                    role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-body"
-                                                                                            id="product-detail">
-                                                                                            <div class="img">
-                                                                                                <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
-                                                                                                    alt="" width="400"
-                                                                                                    height="400">
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <h4
-                                                                                                    class="product-title">
-                                                                                                    Tên sản phẩm gì đó
-                                                                                                </h4>
-                                                                                                <div
-                                                                                                    class="product-info">
-                                                                                                    <div>Thương hiệu
-                                                                                                    </div>
-                                                                                                    <div>Thương hiệu
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div
-                                                                                                    class="product-info">
-                                                                                                    <div>Danh mục
-                                                                                                    </div>
-                                                                                                    <div>Danh mục
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div
-                                                                                                    class="product-info">
-                                                                                                    <div>1 tỉ gói mè
-                                                                                                        (Giá)
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="size">
-                                                                                                    <div class="title">
-                                                                                                        Size
-                                                                                                        <div class="btn-group btn-group-toggle"
-                                                                                                            data-toggle="buttons">
-                                                                                                            <label
-                                                                                                                class="btn btn-outline-primary btn-toggle">
-                                                                                                                <input
-                                                                                                                    type="radio"
-                                                                                                                    name="options"
-                                                                                                                    id="option1"
-                                                                                                                    autocomplete="off">
-                                                                                                                1
-                                                                                                            </label>
-                                                                                                            <label
-                                                                                                                class="btn btn-outline-primary btn-toggle">
-                                                                                                                <input
-                                                                                                                    type="radio"
-                                                                                                                    name="options"
-                                                                                                                    id="option2"
-                                                                                                                    autocomplete="off">
-                                                                                                                2
-                                                                                                            </label>
-                                                                                                            <label
-                                                                                                                class="btn btn-outline-primary btn-toggle">
-                                                                                                                <input
-                                                                                                                    type="radio"
-                                                                                                                    name="options"
-                                                                                                                    id="option3"
-                                                                                                                    autocomplete="off">
-                                                                                                                3
-                                                                                                            </label>
-                                                                                                        </div>
-                                                                                                        <div
-                                                                                                            class="input-number">
-                                                                                                            <button
-                                                                                                                onclick="decrement()"
-                                                                                                                class="btn btn-primary">-</button>
-                                                                                                            <div
-                                                                                                                class="form-outline">
-                                                                                                                <input
-                                                                                                                    type="number"
-                                                                                                                    id="number"
-                                                                                                                    name="number"
-                                                                                                                    class="form-control"
-                                                                                                                    value="0" />
-                                                                                                            </div>
-                                                                                                            <button
-                                                                                                                onclick="increment()"
-                                                                                                                class="btn btn-primary">+</button>
-                                                                                                        </div>
-                                                                                                        <div
-                                                                                                            class="instock">
-                                                                                                            Còn n sản
-                                                                                                            phẩm
-                                                                                                        </div>
-                                                                                                        <div>
-                                                                                                            <button
-                                                                                                                type="button"
-                                                                                                                onclick="$('#productModal').modal('hide');"
-                                                                                                                class="btn btn-primary">Thêm
-                                                                                                                vào giỏ
-                                                                                                                hàng</button>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Cedric Kelly</td>
-                                                                        <td>Senior Javascript Developer</td>
-                                                                        <td>Edinburgh</td>
-                                                                        <td>22</td>
-                                                                        <td>2012/03/29</td>
-                                                                    </tr>
+                                                            <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
+                                                                <tbody id="tbody">                                                         
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -564,41 +576,28 @@
                                     <span aria-hidden="true"></span>
                                 </button>
                             </div>
-                            <table class="table">
+                            <table class="table" id="myTable">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col">Màu sắc</th>
+                                        <th scope="col">Kích thước</th>
                                         <th scope="col">Số lượng</th>
-                                        <th scope="col">Số tiền</th>
-                                        <th scope="col">Thao tác</th>
+                                        <th scope="col">Thành tiền</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
+                                <tbody >
+                                    <!-- sản phẩm sẽ ra đây -->
                                 </tbody>
                                 <tfoot>
+                                    <!-- tổng tiền sẽ ra đây -->
                                     <tr>
-                                        <th scope="row"></th>
-                                        <td></td>
-                                        <td>Tổng tiền:</td>
-                                        <td>1000000</td>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Tổng tiền</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -677,6 +676,8 @@
                                                                         <td>Junior Technical Author</td>
                                                                         <td>San Francisco</td>
                                                                         <td>66</td>
+                                                                        <td>2011/07/25</td>
+                                                                        <td>61</td>
                                                                         <td>
                                                                             <button type="button"
                                                                                 class="btn btn-outline-primary"
@@ -794,8 +795,6 @@
                                                                                 </div>
                                                                             </div>
                                                                         </td>
-                                                                        <td>61</td>
-                                                                        <td>2011/04/25</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Cedric Kelly</td>
@@ -834,43 +833,37 @@
                                     <div class="customer-info" id="customer-info" style="visibility: hidden;">
                                         <form>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Họ và tên</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                                <label for="exampleInputEmail1" class="label">Họ và tên</label>
+                                                <input type="email" class="form-control" id="customerName"
                                                     aria-describedby="emailHelp" placeholder="">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputPassword1">Số điện thoại</label>
-                                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                                <label for="exampleInputPassword1" class="label">Số điện thoại</label>
+                                                <input type="text" class="form-control" id="phoneNumber"
                                                     placeholder="">
                                             </div>
-                                            <div class="form-address">
-                                                <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option value="" disabled selected hidden>Tỉnh/Thành
-                                                    </option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                                <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option value="" disabled selected hidden>Quận/Huyện
-                                                    </option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                                <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option value="" disabled selected hidden>Phường/Xã</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
                                             <div class="form-group">
-                                                <label for="exampleInputPassword1">Địa chỉ</label>
-                                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                                <label for="exampleInputPassword1" class="label">Địa chỉ</label>
+                                                <input type="text" class="form-control" id="address" placeholder="">
+                                            </div>
+                                            <div class="form-group">                                              
+                                                <label for="district" class="label">Tỉnh</label>
+                                                <select class="form-control" id="district">
+                                                </select>
+                                            </div> 
+                                            <div class="form-group">                                              
+                                                <label for="district" class="label">Quận/Huyện</label>
+                                                <select class="form-control" id="district">
+                                                </select>
+                                            </div> 
+                                            <div class="form-group">                                              
+                                                <label for="district" class="label">Xã/Phường</label>
+                                                <select class="form-control" id="district">
+                                                </select>
+                                            </div>                                                                                                                      
+                                            <div class="form-group">
+                                                    <label for="exampleInputPassword1" class="label">Ghi chú</label>
+                                                    <input type="text" class="form-control" id="note"
                                                     placeholder="">
                                             </div>
                                         </form>
@@ -884,112 +877,32 @@
                                                 </label>
                                                 <label for="">Giao hàng</label>
                                             </div>
-                                            <div class="discount-btn">
-                                                <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option disabled selected hidden>Mã giảm giá</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                                <div class="discount-rate">
-                                                    <div class="add-btn">
-                                                        <a href="#" class="btn btn-primary btn-icon-split"
-                                                            data-toggle="modal" data-target="#discount-modal">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fa fa-plus"></i>
-                                                            </span>
-                                                            <span class="text" data-toggle="modal"
-                                                                data-target="#discount-modal">Chọn mã giảm giá</span>
-                                                        </a>
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="discount-modal" tabindex="-1"
-                                                            role="dialog" aria-labelledby="exampleModalLabel"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">
-                                                                            Chọn mã giảm giá</h5>
-                                                                        <button type="button" class="close"
-                                                                            data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <table class="table">
-                                                                            <thead class="thead-light">
-                                                                                <tr>
-                                                                                    <th scope="col">Sản phẩm</th>
-                                                                                    <th scope="col">Số lượng</th>
-                                                                                    <th scope="col">Số tiền</th>
-                                                                                    <th scope="col">Thao tác</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th scope="row">1</th>
-                                                                                    <td>Mark</td>
-                                                                                    <td>Otto</td>
-                                                                                    <td>@mdo</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th scope="row">2</th>
-                                                                                    <td>Jacob</td>
-                                                                                    <td>Thornton</td>
-                                                                                    <td>@fat</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th scope="row">3</th>
-                                                                                    <td>Larry</td>
-                                                                                    <td>the Bird</td>
-                                                                                    <td>@twitter</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                            <tfoot>
-                                                                                <tr>
-                                                                                    <th scope="row"></th>
-                                                                                    <td></td>
-                                                                                    <td>Tổng tiền:</td>
-                                                                                    <td>1000000</td>
-                                                                                </tr>
-                                                                            </tfoot>
-                                                                        </table>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">Close</button>
-                                                                        <button type="button"
-                                                                            class="btn btn-primary">Save
-                                                                            changes</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <form>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Tiền hàng:</label>
-                                                    <label for="exampleInputEmail1">3,600,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Mã giảm giá:</label>
+                                                    <select class="form-control" id="voucher-select">
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Phí vận chuyển:</label>
-                                                    <label for="exampleInputEmail1">67,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Tiền hàng:</label>
+                                                    <label for="exampleInputEmail1" id="total">0 VND</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Giảm giá:</label>
-                                                    <label for="exampleInputEmail1">0 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Phí vận chuyển:</label>
+                                                    <label for="exampleInputEmail1">0 VND</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Quyền lọi thành
+                                                    <label for="exampleInputEmail1" class="label">Giảm giá:</label>
+                                                    <label for="exampleInputEmail1" id="discount-price">0 VND</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1" class="label">Quyền lợi thành
                                                         viên:</label>
-                                                    <label for="exampleInputEmail1">72,000 đ</label>
+                                                    <label for="exampleInputEmail1">0 VND</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Tổng số tiền:</label>
-                                                    <label for="exampleInputEmail1">3,595,000 đ</label>
+                                                    <label for="exampleInputEmail1" class="label">Tổng số tiền:</label>
+                                                    <label for="exampleInputEmail1" id="sum">0 VND</label>
                                                 </div>
                                             </form>
                                     </div>
@@ -997,9 +910,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary"><a href="/frontend/admin/order.html"
-                                    style="color: #fff;text-decoration: none;">Xác
-                                    nhận</a>
+                            <button type="button" class="btn btn-primary" id="create-bill">
+                                Xác nhận
                             </button>
                         </div>
                     </div>
@@ -1025,24 +937,137 @@
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style="max-width: 500px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng xuất?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
+
+    <style>
+        .nav-link.active {
+          background-color: #f0f0f0;
+        }
+        .close-tab {
+          cursor: pointer;
+          margin-left: 5px;
+        }
+      </style>
+
+<script>
+    var hasInvoice = false; // Biến để theo dõi trạng thái hoá đơn
+
+    // Function to enable the "Thêm sản phẩm" button
+    function enableAddProductButton() {
+        var addProductButton = document.getElementById("addProductButton");
+        addProductButton.style.display = "block"; // Hiển thị button
+    }
+
+    // Function to disable the "Thêm sản phẩm" button
+    function disableAddProductButton() {
+        var addProductButton = document.getElementById("addProductButton");
+        addProductButton.style.display = "none"; // Ẩn button
+    }
+
+    // Function to handle the creation of hoá đơn
+    function createInvoice() {
+        // Your code to create the invoice
+        // ...
+
+        // Update the state
+        hasInvoice = true;
+
+        // Call the function to enable the "Thêm sản phẩm" button
+        enableAddProductButton();
+    }
+
+    // Function to handle the deletion of hoá đơn
+    function deleteInvoice() {
+        // Your code to delete the invoice
+        // ...
+
+        // Update the state
+        hasInvoice = false;
+
+        // Call the function to disable the "Thêm sản phẩm" button
+        disableAddProductButton();
+    }
+</script>
+
+
+
+
+<!-- sản phẩm -->
+<script>
+    $(document).ready(function() {
+      $('#searchButton').click(function() {
+        // Lấy dữ liệu từ các input và select
+        const stt = $('#productName').val();
+        const productSize = $('#productSize').val();
+        const productColor = $('#productColor').val();
+        
+        // Thêm dữ liệu sản phẩm vào bảng
+        $('#product-table tbody').append(`
+          <tr>
+            <td>${stt}</td>
+            <td><!-- Thêm hình ảnh --></td>
+            <td>${productName}</td>
+            <td><!-- Thêm giá bán --></td>
+            <td><!-- Thêm số lượng --></td>
+            <td>${productColor}</td>
+            <td><!-- Thêm trạng thái --></td>
+            <td><!-- Thêm nút Sửa và Xoá --></td>
+          </tr>
+        `);
+      });
+    });
+  </script>
+
+
+
+<!-- camera -->
+
+<script>
+    $('#modal-add-camera').on('shown.bs.modal', function () {
+      // Khởi tạo quét mã vạch ở đây
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: document.querySelector('#scanner')    // Chọn phần tử để hiển thị camera
+        },
+        decoder: {
+          readers: ["code_128_reader"]    // Chọn loại mã vạch cần quét (ở đây là Code 128)
+        }
+      }, function(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        Quagga.start();
+      });
+    });
+  
+    $('#modal-add-camera').on('hidden.bs.modal', function () {
+      // Dừng quét mã vạch khi đóng modal
+      Quagga.stop();
+    });
+  </script>
+  
+
+    <!-- JS -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -1062,5 +1087,4 @@
 
 
 </body>
-
 </html>

@@ -5,10 +5,15 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Service;
 using Service.Abstractions;
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Webapi.Hubs;
+using Domain.DTOs;
+using System.Threading;
 
 namespace Webapi.Controllers
 {
@@ -28,6 +33,44 @@ namespace Webapi.Controllers
             _hubContext=hubContext;
         }
 
+        [HttpPost("PayAtStore")]
+        public async Task<IActionResult> PayAtStore([FromBody] OrderAtStorePostRequestDto orderPost)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return await Task.FromResult(BadRequest(new { Errors = errors }));
+            }
+            try
+            {
+                await _service.OrderService.PostNewOrderAtStore(orderPost);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetAllOrder()
+        {
+            try
+            {
+                var order = await _service.OrderService.GetAllOrderAsync();
+                if (order == null || !order.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpPost("pay")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
         {
@@ -38,7 +81,7 @@ namespace Webapi.Controllers
                     #region Thanh toán vnpay
 
                     #endregion
-                    return Ok();
+                 
                 }
                 #region Đẩy dữ liệu vào db
                 try
@@ -78,6 +121,18 @@ namespace Webapi.Controllers
                 
                 throw;
             }
+        }
+
+        [HttpGet("Get/{Id}")]
+        public async Task<ActionResult<Order>> GetByIdOrder(string Id)
+        {
+            var order = await _service.OrderService.GetByIdOrderAsync(Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return order;
         }
     }
 }

@@ -43,3 +43,40 @@ table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !importan
     color: #000000;
     height: 34px;
 }
+#bill-table {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+#bill-table th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#bill-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+#bill-table th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #1967d2;
+    color: white;
+}
+.collapse-item{
+    font-weight: 500;
+    font-size: 17px;
+ }
+ .nav-item span{
+    font-weight: 600;
+    font-size: 17px;
+ }
+ #bill-table_filter label{
+    font-weight: 600;
+ }
+ #bill-table_length label{
+    font-weight: 600;
+ }
+ #bill-table_info {
+    font-weight: 600;
+ }

@@ -40,7 +40,7 @@ table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !importan
  /* css table */
 #customer-table {
     font-family: Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     border-collapse: collapse;
     width: 100%;
     text-align: center;
@@ -55,6 +55,26 @@ table.dataTable{clear:both;margin-top:6px !important;margin-bottom:6px !importan
 #customer-table th {
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #4e73df;
+    background-color: #1967d2;
     color: white;
 }
+#btn{
+    padding: 2px 10px;
+}
+.collapse-item{
+    font-weight: 500;
+    font-size: 17px;
+ }
+ .nav-item span{
+    font-weight: 600;
+    font-size: 17px;
+ }
+ #customer-table_filter label{
+    font-weight: 600;
+ }
+ #customer-table_length label{
+    font-weight: 600;
+ }
+ #customer-table_info {
+    font-weight: 600;
+ }
