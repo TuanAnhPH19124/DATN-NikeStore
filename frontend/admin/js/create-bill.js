@@ -1,111 +1,156 @@
+$('#modal-add-camera').on('shown.bs.modal', function () {
+      // Khởi tạo quét mã vạch ở đây
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: document.querySelector('#scanner')    // Chọn phần tử để hiển thị camera
+        },
+        decoder: {
+          readers: ["code_128_reader"]    // Chọn loại mã vạch cần quét (ở đây là Code 128)
+        }
+      }, function(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        Quagga.start();
+      });
+    });
+  
+    $('#modal-add-camera').on('hidden.bs.modal', function () {
+      // Dừng quét mã vạch khi đóng modal
+      Quagga.stop();
+});
+
+// JS TẠO HOÁ ĐƠN
 $(document).ready(function () {
-  let tabCount = 0;
-  const maxTabs = 5;
+  let tabCount = 1;
+  const maxTabs = 4;
 
   // Khôi phục danh sách hoá đơn từ Local Storage khi tải lại trang
   restoreInvoicesFromLocalStorage();
 
   $("#addInvoiceBtn").on("click", function () {
-    if (tabCount >= maxTabs) {
-      return;
-    }
+      if (tabCount >= maxTabs) {
+          alert("Bạn đã đạt tới số lượng tối đa của hoá đơn (5 hoá đơn).");
+          return;
+      }
 
-    tabCount++;
-    const newTabId = `invoice${tabCount}`;
-    const newTabContent = `
-      <div id="${newTabId}" class="container tab-pane">
-        <ul id="productsList${tabCount}" class="list-group">                 
-        </ul>
-      </div>
-    `;
+      tabCount++;
+      const newTabId = `invoice${tabCount}`;
+      const newTabContent = `
+          <div id="${newTabId}" class="container tab-pane">
+              <table class="product-table">
+                  <thead>
+                      <tr>
+                          <th>STT</th>
+                          <th>Tên sản phẩm</th>
+                          <th>Số lượng</th>
+                          <th>Size</th>
+                          <th>Màu</th>
+                          <th>Giá tiền</th>
+                          <th>Tổng tiền</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <!-- Điền dữ liệu sản phẩm ở đây -->
+                  </tbody>
+              </table>
+          </div>
+      `;
 
-    $("#invoiceTabs .nav-item").removeClass("active");
-    $("#invoiceTabs .tab-content .tab-pane").removeClass("active");
+      $("#invoiceTabs .nav-item").removeClass("active");
+      $("#invoiceTabs .tab-content .tab-pane").removeClass("active");
 
-    $("#invoiceTabs").append(`
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn <span class="close-tab" data-index="${tabCount}">✕</span></a>
-      </li>
-    `);
+      $("#invoiceTabs").append(`
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn <span class="close-tab" data-index="${tabCount}">✕</span></a>
+          </li>
+      `);
 
-    $("#invoiceTabContent").append(newTabContent);
-    $('[data-toggle="tooltip"]').tooltip();
+      $("#invoiceTabContent").append(newTabContent);
+      $('[data-toggle="tooltip"]').tooltip();
 
-    // Lưu danh sách hoá đơn vào Local Storage sau khi thêm hoá đơn
-    saveInvoicesToLocalStorage();
+      // Lưu danh sách hoá đơn vào Local Storage sau khi thêm hoá đơn
+      saveInvoicesToLocalStorage();
 
-    // Kích hoạt hoá đơn vừa tạo
-    $(`#${newTabId}`).addClass("active");
-    $(`#invoiceTabs a[href="#${newTabId}"]`).parent().addClass("active");
+      // Kích hoạt hoá đơn vừa tạo
+      $(`#${newTabId}`).addClass("active");
+      $(`#invoiceTabs a[href="#${newTabId}"]`).parent().addClass("active");
   });
 
   $("#invoiceTabs").on("click", "a.nav-link", function () {
-    $("#invoiceTabs .nav-item").removeClass("active");
-    $(this).parent().addClass("active");
-    $("#invoiceTabContent .tab-pane").removeClass("active");
-    $($(this).attr("href")).addClass("active");
+      $("#invoiceTabs .nav-item").removeClass("active");
+      $(this).parent().addClass("active");
+      $("#invoiceTabContent .tab-pane").removeClass("active");
+      $($(this).attr("href")).addClass("active");
   });
 
   $("#invoiceTabs").on("mouseenter", "a.nav-link", function () {
-    $(this).tooltip("show");
+      $(this).tooltip("show");
   });
 
   $("#invoiceTabs").on("mouseleave", "a.nav-link", function () {
-    $(this).tooltip("hide");
+      $(this).tooltip("hide");
   });
 
   $("#invoiceTabs").on("click", ".close-tab", function (e) {
-    e.stopPropagation();
-    const tabIndex = $(this).data("index");
-    if (confirm(`Bạn có muốn xoá hoá đơn không?`)) {
-      $(`#invoice${tabIndex}`).remove();
-      $(this).parent().parent().remove();
-      tabCount--;
+      e.stopPropagation();
+      const tabIndex = $(this).data("index");
+      if (confirm(`Bạn có muốn xoá hoá đơn không?`)) {
+          $(`#invoice${tabIndex}`).remove();
+          $(this).parent().parent().remove();
+          tabCount--;
 
-      // Lưu danh sách hoá đơn vào Local Storage sau khi xoá hoá đơn
-      saveInvoicesToLocalStorage();
-    }
+          // Lưu danh sách hoá đơn vào Local Storage sau khi xoá hoá đơn
+          saveInvoicesToLocalStorage();
+      }
   });
 
   $('[data-toggle="tooltip"]').tooltip({
-    placement: "bottom",
-    trigger: "hover",
+      placement: "bottom",
+      trigger: "hover",
   });
 
   function saveInvoicesToLocalStorage() {
-    const invoices = [];
-    for (let i = 1; i <= tabCount; i++) {
-      invoices.push($(`#invoice${i}`).html());
-    }
-    localStorage.setItem("invoices", JSON.stringify(invoices));
+      const invoices = [];
+      for (let i = 1; i <= tabCount; i++) {
+          invoices.push($(`#invoice${i}`).html());
+      }
+      localStorage.setItem("invoices", JSON.stringify(invoices));
   }
 
   function restoreInvoicesFromLocalStorage() {
-    const invoices = JSON.parse(localStorage.getItem("invoices"));
-    if (invoices && invoices.length > 0) {
-      tabCount = invoices.length;
-      invoices.forEach((invoiceContent, index) => {
-        const tabIndex = index + 1;
-        const newTabId = `invoice${tabIndex}`;
-        $("#invoiceTabs").append(`
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn<span class="close-tab" data-index="${tabIndex}">✕</span></a>
-          </li>
-        `);
-        $("#invoiceTabContent").append(`
-          <div id="${newTabId}" class="container tab-pane">${invoiceContent}</div>
-        `);
-      });
+      const invoices = JSON.parse(localStorage.getItem("invoices"));
+      if (invoices && invoices.length > 0) {
+          tabCount = invoices.length;
+          invoices.forEach((invoiceContent, index) => {
+              const tabIndex = index + 1;
+              const newTabId = `invoice${tabIndex}`;
+              $("#invoiceTabs").append(`
+                  <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn<span class="close-tab" data-index="${tabIndex}">✕</span></a>
+                  </li>
+              `);
+              $("#invoiceTabContent").append(`
+                  <div id="${newTabId}" class="container tab-pane">${invoiceContent}</div>
+              `);
+          });
 
-      // Kích hoạt tab hoá đơn đã tạo trước đó
-      const activeTabIndex = $("#invoiceTabs .nav-item.active a.nav-link").attr(
-        "href"
-      );
-      if (activeTabIndex) {
-        $(activeTabIndex).addClass("active");
+          // Kích hoạt tab hoá đơn đã tạo trước đó
+          const activeTabIndex = $("#invoiceTabs .nav-item.active a.nav-link").attr(
+              "href"
+          );
+          if (activeTabIndex) {
+              $(activeTabIndex).addClass("active");
+          }
       }
-    }
   }
+});
+  // END JS TẠO HOÁ ĐƠN
+
+
   const decrementButton = document.getElementById("decrement");
   const incrementButton = document.getElementById("increment");
   const quantityInput = document.getElementById("quantity");
@@ -138,6 +183,7 @@ $(document).ready(function () {
       quantityInput.value = instock;
     }
   });
+
 
   // // Gọi API và xử lý dữ liệu
   // fetch("https://localhost:44328/api/Product/active")
@@ -407,7 +453,7 @@ $(document).ready(function () {
       });
     }
   });
-});
+
 var product = {
   retailPrice: 0,
   description: "",
