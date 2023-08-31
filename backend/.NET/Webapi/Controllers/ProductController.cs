@@ -55,7 +55,7 @@ namespace Webapi.Controllers
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveProductsAsync()
         {
-            var products = await _serviceManager.ProductService.GetAllProductAsync();
+            var products = await _serviceManager.ProductService.GetAllProductImageAsync();
 
             var activeProducts = products
                 .Where(product => product.Status == Status.ACTIVE) // Lọc ra các sản phẩm có trạng thái là Active

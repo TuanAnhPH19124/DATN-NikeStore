@@ -1,324 +1,609 @@
-const id = localStorage.getItem("user-id");
-function closeModal(modalId) {
-    $(modalId).modal('hide');
-  }
-  window.addEventListener('load', function() {
-    localStorage.removeItem('cart');
-  });
-  function selectButton(button) {
-    // Deselect all buttons in the group
-    var buttons = button.parentElement.children;
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].classList.remove("selected");
-    }
-
-    // Select the clicked button
-    button.classList.add("selected");
-  }
-  function increment() {
-    const input = document.getElementById("number");
-    let newValue = parseInt(input.value) + 1;
-    if(isNaN(newValue)){
-      newValue=1;
-    }
-    if(newValue> $('.stock').text()){
-      newValue=$('.stock').text();
-    }
-    input.value = newValue;
-  }
-
-  function decrement() {
-    const input = document.getElementById("number");
-    let newValue = parseInt(input.value) - 1;
-    if(newValue<=0||isNaN(newValue)){
-      newValue=0;
-    }
-    input.value = newValue;
-  }
-  $('#productModal').on('shown.bs.modal', function() {
-    $(this).find('#productModal').focus();
- });
- function myFunction() {
-  var x = document.getElementById('customer-info');
-  console.log(x.style.visibility)
-  if (x.style.visibility == 'hidden') {
-    x.style.visibility = 'visible';
-  } else {
-    x.style.visibility = 'hidden';
-  }
-}
-//call api
-var option_voucher = [];
-$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
-  for (var i = 0; i < result.length; i++) {
-    option_voucher.push('<option value="', result[i].id, '">', result[i].code, '</option>');
-  }
-  $("#voucher-select").html(option_voucher.join(''));
-});
-$('#voucher-select').on('change', function() {
-  const id = $(this).val();
-  $.ajax({
-    url: "https://localhost:44328/api/Voucher/Get/" + id,
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-        console.log(JSON.stringify(data));
-        
-        var discount_price = $('#discount-price').text(((data.value*$("#total").text())/100));
-        if(discount_price[0].innerHTML=="NaN"){
-          document.getElementById("discount-price").innerHTML = 0+' VND';
-          return
-        }
-        $('#sum').text((($("#total").text())-discount_price[0].innerHTML)+" VND");
-        document.getElementById("discount-price").innerHTML = discount_price[0].innerHTML+' VND';
-    },
-    error: function () {
-        console.log("Error retrieving data.");
-    }
-});
-});
-
-$('#create-bill').click(function (event) {
-  event.preventDefault()
-  var formData = {
-    "address": $("#address").val(),
-    "phoneNumber": $("#phoneNumber").val(),
-    "note": $("#note").val(),
-    "paymentMethod": 0,
-    "amount": $('#sum').text().replace(/\s/g, "").replace("VND", ""),
-    "customerName":  $("#customerName").val(),
-    "voucherId": $("#voucher-select").val(),
-    "orderItems": JSON.parse(localStorage.getItem("cart")),
-    status: 1,
-    userId: id
-  };
-  $.ajax({
-      url: "https://localhost:44328/api/Orders/PayAtStore",
-      type: "POST",
-      data: JSON.stringify(formData),
-      contentType: "application/json",
-      success: function (response) {
-        window.location.href = `/frontend/admin/bill.html`;
-      },
-  });
-});
-$(document).ready(function () {
-  $('#productData').DataTable({
-      "ajax": {
-          "url": "https://localhost:44328/api/Product",
-          "dataType": "json",
-          "dataSrc": ""
-      },
-      "columns": [
-          {
-              "data": 'id', 'title': 'STT', render: function (data, type, row, meta) {
-                  return meta.row + 1;
-              }
-          },
-          { "data": 'id', 'title': 'Ảnh',
-          "render": function (data, type, row) {
-                  return `<img src="/backend/.NET/Webapi/wwwroot/Images/${data}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>`;
-          }},
-          { "data": 'name', 'title': 'Tên sản phẩm' },
-          { "data": 'costPrice', 'title': 'Giá nhập',
-          "render": function (data, type, row) {
-                  return data+" VND";
-          } },
-          { "data": 'retailPrice', 'title': 'Giá bán',
-          "render": function (data, type, row) {
-            return data+" VND";
-    } },
-          {
-              "data": 'status', "title": "Trạng thái",
-              "render": function (data, type, row) {
-                  if (data == 1) {
-                      return '<span class="badge badge-pill badge-primary" style="padding:10px;">Kinh doanh</span>';
-                  } else {
-                      return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kinh doanh</span>';
-                  }
-              }
-          },
-          {
-              "title": "Thao tác",
-              "render": function () {
-                  return '<td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productModal">Chọn</button></td>';
-              }
-          },
-      ],
-      rowCallback: function(row, data) {
-          $(row).find('td').css('vertical-align', 'middle');
+$('#modal-add-camera').on('shown.bs.modal', function () {
+      // Khởi tạo quét mã vạch ở đây
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: document.querySelector('#scanner')    // Chọn phần tử để hiển thị camera
         },
-        "language": {
-          "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-          "lengthMenu": "Hiển thị _MENU_ bản ghi",
-          "sSearch": "Tìm kiếm:",
-          "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
-          "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
-          "sZeroRecords": "Không có data cần tìm",
-          "sEmptyTable": "Không có data trong bảng",
-          "oPaginate": {
-              "sFirst": "Đầu",
-              "sLast": "Cuối",
-              "sNext": "Tiếp",
-              "sPrevious": "Trước"
-          },
+        decoder: {
+          readers: ["code_128_reader"]    // Chọn loại mã vạch cần quét (ở đây là Code 128)
         }
-  });
+      }, function(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        Quagga.start();
+      });
+    });
+  
+    $('#modal-add-camera').on('hidden.bs.modal', function () {
+      // Dừng quét mã vạch khi đóng modal
+      Quagga.stop();
 });
-$('#productData tbody').on('click', 'tr', function (e) {
-  let selectedProduct = $('#productData').DataTable().row(this).data().id;
-  if (selectedProduct !== null) {
+
+// JS TẠO HOÁ ĐƠN
+$(document).ready(function () {
+  let tabCount = 1;
+  const maxTabs = 4;
+
+  // Khôi phục danh sách hoá đơn từ Local Storage khi tải lại trang
+  restoreInvoicesFromLocalStorage();
+
+  $("#addInvoiceBtn").on("click", function () {
+      if (tabCount >= maxTabs) {
+          alert("Bạn đã đạt tới số lượng tối đa của hoá đơn (5 hoá đơn).");
+          return;
+      }
+
+      tabCount++;
+      const newTabId = `invoice${tabCount}`;
+      // const newTabContent = `
+      //     <div id="${newTabId}" class="container tab-pane">
+      //         <table class="product-table">
+      //             <thead>
+      //                 <tr>
+      //                     <th>STT</th>
+      //                     <th>Tên sản phẩm</th>
+      //                     <th>Số lượng</th>
+      //                     <th>Size</th>
+      //                     <th>Màu</th>
+      //                     <th>Giá tiền</th>
+      //                     <th>Tổng tiền</th>
+      //                 </tr>
+      //             </thead>
+      //             <tbody>
+      //                 <!-- Điền dữ liệu sản phẩm ở đây -->
+      //             </tbody>
+      //         </table>
+      //     </div>
+      // `;
+
+      $("#invoiceTabs .nav-item").removeClass("active");
+      $("#invoiceTabs .tab-content .tab-pane").removeClass("active");
+
+      $("#invoiceTabs").append(`
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn <span class="close-tab" data-index="${tabCount}">✕</span></a>
+          </li>
+      `);
+
+      $("#invoiceTabContent").append(newTabContent);
+      $('[data-toggle="tooltip"]').tooltip();
+
+      // Lưu danh sách hoá đơn vào Local Storage sau khi thêm hoá đơn
+      saveInvoicesToLocalStorage();
+
+      // Kích hoạt hoá đơn vừa tạo
+      $(`#${newTabId}`).addClass("active");
+      $(`#invoiceTabs a[href="#${newTabId}"]`).parent().addClass("active");
+  });
+
+  $("#invoiceTabs").on("click", "a.nav-link", function () {
+      $("#invoiceTabs .nav-item").removeClass("active");
+      $(this).parent().addClass("active");
+      $("#invoiceTabContent .tab-pane").removeClass("active");
+      $($(this).attr("href")).addClass("active");
+  });
+
+  $("#invoiceTabs").on("mouseenter", "a.nav-link", function () {
+      $(this).tooltip("show");
+  });
+
+  $("#invoiceTabs").on("mouseleave", "a.nav-link", function () {
+      $(this).tooltip("hide");
+  });
+
+  $("#invoiceTabs").on("click", ".close-tab", function (e) {
+      e.stopPropagation();
+      const tabIndex = $(this).data("index");
+      if (confirm(`Bạn có muốn xoá hoá đơn không?`)) {
+          $(`#invoice${tabIndex}`).remove();
+          $(this).parent().parent().remove();
+          tabCount--;
+
+          // Lưu danh sách hoá đơn vào Local Storage sau khi xoá hoá đơn
+          saveInvoicesToLocalStorage();
+      }
+  });
+
+  $('[data-toggle="tooltip"]').tooltip({
+      placement: "bottom",
+      trigger: "hover",
+  });
+
+  function saveInvoicesToLocalStorage() {
+      const invoices = [];
+      for (let i = 1; i <= tabCount; i++) {
+          invoices.push($(`#invoice${i}`).html());
+      }
+      localStorage.setItem("invoices", JSON.stringify(invoices));
+  }
+
+  function restoreInvoicesFromLocalStorage() {
+      const invoices = JSON.parse(localStorage.getItem("invoices"));
+      if (invoices && invoices.length > 0) {
+          tabCount = invoices.length;
+          invoices.forEach((invoiceContent, index) => {
+              const tabIndex = index + 1;
+              const newTabId = `invoice${tabIndex}`;
+              $("#invoiceTabs").append(`
+                  <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn<span class="close-tab" data-index="${tabIndex}">✕</span></a>
+                  </li>
+              `);
+              $("#invoiceTabContent").append(`
+                  <div id="${newTabId}" class="container tab-pane">${invoiceContent}</div>
+              `);
+          });
+
+          // Kích hoạt tab hoá đơn đã tạo trước đó
+          const activeTabIndex = $("#invoiceTabs .nav-item.active a.nav-link").attr(
+              "href"
+          );
+          if (activeTabIndex) {
+              $(activeTabIndex).addClass("active");
+          }
+      }
+  }
+});
+  // END JS TẠO HOÁ ĐƠN
+
+
+  const decrementButton = document.getElementById("decrement");
+  const incrementButton = document.getElementById("increment");
+  const quantityInput = document.getElementById("quantity");
+  quantityInput.addEventListener("change", function () {
+    const inputValue = parseFloat(quantityInput.value);
+    if (isNaN(inputValue) || inputValue <= 1) {
+      quantityInput.value = 1;
+    }
+    if (inputValue >= instock) {
+      quantityInput.value = instock;
+    }
+  });
+  decrementButton.addEventListener("click", function () {
+    let inputValue = parseFloat(quantityInput.value);
+    inputValue--;
+    if (inputValue <= 1) {
+      inputValue = 1;
+    }
+    if (inputValue >= instock) {
+      quantityInput.value = instock;
+    }
+    quantityInput.value = inputValue;
+  });
+
+  incrementButton.addEventListener("click", function () {
+    let inputValue = parseFloat(quantityInput.value);
+    inputValue++;
+    quantityInput.value = inputValue;
+    if (inputValue >= instock) {
+      quantityInput.value = instock;
+    }
+  });
+
+
+  // // Gọi API và xử lý dữ liệu
+  // fetch("https://localhost:44328/api/Product/active")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // Lặp qua dữ liệu từ API và cập nhật bảng HTML
+  //     const tableBody = document.querySelector("#product-table tbody");
+
+  //     data.forEach((product) => {
+  //       const row = document.createElement("tr");
+
+  //       row.innerHTML = `
+  //                   <td>${product.id}</td>
+  //                   <td><img src="${product.productImages}"
+  //       }" class="product-image"></td>
+  //                   <td>${product.name}</td>
+  //                   <td>${product.discountRate}</td>
+  //                   <td><span class="status-badge ${
+  //                     product.status === "out-of-stock"
+  //                       ? "out-of-stock"
+  //                       : "in-stock"
+  //                   }">${
+  //         product.status === "out-of-stock" ? "Ngừng kinh doanh" : "Kinh doanh"
+  //       }</span></td>
+  //                   <td>
+  //                       <button type="button" class="btn btn-warning">
+  //                           Chọn
+  //                       </button>
+  //                   </td>
+  //               `;
+
+  //       tableBody.appendChild(row);
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     console.error("Lỗi khi gọi API:", error);
+  //   });
+  $("#productData").DataTable({
+    ajax: {
+      url: "https://localhost:44328/api/Product/active",
+      dataType: "json",
+      dataSrc: "",
+    },
+    columns: [
+      {
+        data: "id",
+        title: "STT",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      {
+        data: "productImages[0].imageUrl",
+        title: "Ảnh",
+        render: function (data, type, row) {
+          return `<img src="https://localhost:44328/${data}" alt="" style="border-radius: 10%;" width=120px height=110px>`;
+        },
+      },
+      { data: "name", title: "Tên sản phẩm" },
+      {
+        data: "retailPrice",
+        title: "Giá gốc",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
+      {
+        data: "discountRate",
+        title: "Giá bán",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
+      {
+        data: "status",
+        title: "Trạng thái",
+        render: function (data, type, row) {
+          if (data == 1) {
+            return '<span class="badge badge-pill badge-primary" style="padding:10px;background-color: #1967d2;border-color: #1967d2;" >Kinh doanh</span>';
+          } else {
+            return '<span class="badge badge-pill badge-danger" style="padding:10px;">Ngừng kinh doanh</span>';
+          }
+        },
+      },
+      {
+        title: "Thao tác",
+        render: function () {
+          return '<td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#productDetailModal">Chọn</button></td>';
+        },
+      },
+    ],
+    rowCallback: function (row, data) {
+      $(row).find("td").css("vertical-align", "middle");
+    },
+    language: {
+      sInfo: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+      lengthMenu: "Hiển thị _MENU_ bản ghi",
+      sSearch: "Tìm kiếm:",
+      sInfoFiltered: "(lọc từ _MAX_ bản ghi)",
+      sInfoEmpty: "Hiển thị 0 đến 0 trong 0 bản ghi",
+      sZeroRecords: "Không có data cần tìm",
+      sEmptyTable: "Không có data trong bảng",
+      oPaginate: {
+        sFirst: "Đầu",
+        sLast: "Cuối",
+        sNext: "Tiếp",
+        sPrevious: "Trước",
+      },
+    },
+  });
+  $("#productData tbody").on("click", "tr", function (e) {
+    let selectedProduct = $("#productData").DataTable().row(this).data().id;
+    if (selectedProduct !== null) {
       localStorage.setItem("selectedProduct", selectedProduct);
       const id = localStorage.getItem("selectedProduct");
-      console.log(id) 
+      console.log(id);
       $.ajax({
         url: "https://localhost:44328/api/Product/" + id,
         type: "GET",
         dataType: "json",
         success: function (data) {
           console.log(JSON.stringify(data));
-          $('#name').text(data.name);
-          $('#description').val(data.description);
-          $('#retailPrice').text(data.retailPrice+" VND");
-          $('#costPrice').text(data.costPrice+ "VND");
-          $('#status').val(data.status);
-          $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
-          
+          $("#name").text(data.name);
+          $("#discountRate").text(
+            Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(data.discountRate)
+          );
+          // $('#costPrice').text(data.costPrice+ "VND");
+          // $('#status').val(data.status);
+          // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
+
+          var colorIds = [
+            ...new Set(
+              data.productImages.map(function (item) {
+                return item.colorId;
+              })
+            ),
+          ];
+          var images = data.productImages.map(function (item) {
+            return {
+              colorId: item.colorId,
+              imageUrl: item.imageUrl,
+            };
+          });
+          console.log(images);
+
+          colorIds.forEach(function (colorId) {
+            $.ajax({
+              url: "https://localhost:44328/api/Color/Get/" + colorId,
+              type: "GET",
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                console.log(colorId);
+                product.Colors.push({
+                  id: colorId,
+                  name: data.name,
+                  Images: [],
+                  Sizes: [],
+                });
+                console.log(product);
+                loadColorE();
+                for (let i = 0; i < product.Colors.length; i++) {
+                  if (product.Colors[i].id === colorId) {
+                    const imagesForColor = images.filter(
+                      (image) => image.colorId === colorId
+                    );
+
+                    imagesForColor.forEach((imageData) => {
+                      const imageLink =
+                        "https://localhost:44328/" +
+                        imageData.imageUrl.replace(/\\/g, "/");
+
+                      fetch(imageLink)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                          const newImage = new File([blob], "image.jpg", {
+                            type: "image/jpeg",
+                          });
+
+                          product.Colors[i].Images.push({
+                            file: newImage,
+                            setAsDefault: false,
+                          });
+
+                          loadImageE();
+                        });
+                    });
+                  }
+                }
+              },
+              error: function () {
+                console.log("Error retrieving data.");
+              },
+            });
+          });
+
+          var sizeData = data.stocks.map(function (item) {
+            return {
+              sizeId: item.sizeId,
+              unitInStock: item.unitInStock,
+              colorId: item.colorId,
+            };
+          });
+
+          var promises = [];
+
+          sizeData.forEach(function (size) {
+            var promise = $.ajax({
+              url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+              type: "GET",
+              dataType: "json",
+            })
+              .then(function (data) {
+                console.log(data);
+
+                var selectedColorText = {
+                  numberSize: data.numberSize,
+                  id: size.sizeId,
+                };
+                console.log(sizeData.length);
+                // Find the correct color index based on colorId
+                for (let i = 0; i < sizeData.length; i++) {
+                  if (product.Colors[i].id === size.colorId) {
+                    selectedColorText.unitInStock = size.unitInStock;
+                    product.Colors[i].Sizes.push(selectedColorText);
+                  }
+                }
+                // Push selectedColorText to the Sizes array of the corresponding color
+              })
+              .catch(function () {
+                console.log("Error retrieving data.");
+              });
+
+            promises.push(promise);
+          });
+
+          // Wait for all AJAX requests to complete
+          Promise.all(promises).then(function () {
+            loadSizeE(); // This will be called after all requests are finished
+            // Assuming you have an imageLink as you mentioned earlier
+
+            console.log(data);
+            console.log(product);
+            $("#product-instock").hide();
+            $("#quantity-input").hide();
+            $("#addToCart").hide();
+          });
+          $("#addToCart").click(function() {
+            addToCartItem.name = data.name
+            addToCartItem.amount =   $("#quantity").val();
+            addToCartItem.total = addToCartItem.amount*data.discountRate
+            console.log(addToCartItem)
+          });
         },
         error: function () {
           console.log("Error retrieving data.");
-        }
-      });
-      $.ajax({
-        url: "https://localhost:44328/api/Stock/" + id,
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-          console.log(response)
-          // call Mầu
-          $.ajax({
-            url: "https://localhost:44328/api/Color/Get/" + response.colorId,
-            type: "GET",
-            dataType: "json",
-            success: function (response) {
-              console.log(response)
-              
-              $('#productColor').text(response.name);
-            },
-            error: function () {
-                console.log("Error retrieving data.");
-            }
-        });
-        // call Size
-        $.ajax({
-          url: "https://localhost:44328/api/Size/Get/" + response.sizeId,
-          type: "GET",
-          dataType: "json",
-          success: function (response) {
-            console.log(response)
-            
-            $('#productSize').text(response.numberSize);
-          },
-          error: function () {
-              console.log("Error retrieving data.");
-          }
-      });
-
-      $('.instock').html(`Còn <span class="stock">${response.unitInStock}</span> sản phẩm`).css('font-weight', 'bold');
-      $('.instock .stock').css('color', 'red').css('font-weight', 'bold');
-
         },
-        error: function () {
-            console.log("Error retrieving data.");
+      });
+    }
+  });
+
+var product = {
+  retailPrice: 0,
+  description: "",
+  status: 1,
+  brand: 1,
+  discountRate: 0,
+  soleId: 0,
+  materialId: 0,
+  name: "",
+  Categories: [],
+  Colors: [],
+};
+var addToCartItem = {
+  name: "",
+  color: "",
+  size: 0,
+  amount: 0,
+  total: 0
+}
+
+
+var selectedColor = 0;
+var instock = 0;
+
+function findIndexById(array, id) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].id === id) {
+      return i; // Trả về chỉ số khi tìm thấy phần tử có id tương ứng
+    }
+  }
+  return -1; // Trả về -1 nếu không tìm thấy phần tử
+}
+function loadColorE() {
+  const plusButtonContainer = document.getElementById("render-color");
+  plusButtonContainer.innerHTML = "";
+
+  if (product.Colors.length !== 0) {
+    product.Colors.forEach((color) => {
+      var newDiv = document.createElement("div");
+      newDiv.className = "container-color";
+
+      var newButton = document.createElement("button");
+      newButton.type = "button";
+      newButton.className = "btn btn-outline-dark color";
+      newButton.id = color.id;
+      newButton.textContent = color.name;
+      newButton.addEventListener("click", function (e) {
+        var buttons = document.getElementsByClassName("btn-outline-dark color");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.remove("active");
         }
+      
+        // Thêm lớp active cho nút được bấm
+        newButton.classList.add("active");
+
+        selectedColor = findIndexById(product.Colors, e.target.id);
+        addToCartItem.color = color.name
+        loadSizeE();
+        loadImageE();
+        $("#product-instock").hide();
+        $("#quantity-input").hide();
+        $("#addToCart").hide();
+      });
+      newDiv.appendChild(newButton);
+      plusButtonContainer.appendChild(newDiv);
     });
   }
-});
-function addToCart(){
-  const id = localStorage.getItem("selectedProduct");
-  $.ajax({
-    url: "https://localhost:44328/api/Stock/"+id,
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-        console.log(JSON.stringify(data));
-        try{
-          deleteItem(id)
-        }finally{
-          const oldCart = localStorage.getItem("cart");
-          $('#productModal').modal('hide');
-          const obj = JSON.parse(oldCart);
-        
-          const arr = [];
-          for (const key in obj) {
-            arr.push(obj[key]);
+}
+function loadSizeE() {
+  var plusButtonContainer = document.getElementById("render-size");
+  // Xóa tất cả các phần tử con trong containerParent
+  while (plusButtonContainer.firstChild) {
+    plusButtonContainer.removeChild(plusButtonContainer.firstChild);
+  }
+
+  if (product.Colors.length !== 0) {
+    if (product.Colors[selectedColor].Sizes.length !== 0) {
+      product.Colors[selectedColor].Sizes.forEach((element) => {
+        var container = document.createElement("div");
+        container.className = "container-unit";
+
+        var newButton = document.createElement("button");
+        newButton.className = "btn btn-outline-dark size";
+        newButton.textContent = element.numberSize;
+
+        newButton.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          var buttons = document.getElementsByClassName("btn-outline-dark size");
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
           }
-
-          // thêm sp vào localStorage
-          arr.push({
-            "productId": id,
-            "unitPrice": $("#retailPrice").text().replace(/\s/g, "").replace("VND", ""),
-            "quantity": $("#number").val(),
-            "name": $("#name").text(),
-            "productId": data.productId,
-            "colorId": data.colorId,
-          });
-          var cartJson = JSON.stringify(arr)
-          localStorage.setItem("cart",cartJson)
-          
-          // đẩy ra html
-          pushHTML();
-          // Đăng ký sự kiện click cho các nút xóa sản phẩm
-        }
-    },
-});
-}
-document.addEventListener('click', function(event) {
-  if (event.target && event.target.matches('.btn-danger')) {
-      var productId = event.target.getAttribute('data-product-id');
-      deleteItem(productId);
+        
+          // Thêm lớp active cho nút được bấm
+          newButton.classList.add("active");
+          instock = element.unitInStock;
+          addToCartItem.size = element.numberSize
+          console.log(instock);
+          $("#product-instock").show();
+          $("#product-instock").text(`Còn ${element.unitInStock} sản phẩm`);
+          $("#quantity-input").show();
+          $("#addToCart").show();
+          $("#quantity").val(1);
+        });
+        container.appendChild(newButton);
+        plusButtonContainer.appendChild(container);
+      });
+    }
   }
-});
-function deleteItem(id){
-  console.log(id)
-  const oldCart = localStorage.getItem("cart");
-  const obj = JSON.parse(oldCart);
-  
-  const productIdToDelete = id;
+}
+function loadImageE() {
+  const uploadList = document.querySelector(".upload-list");
+  const dynamicDivs = uploadList.querySelectorAll(".preview-container");
 
-  const newArray = obj.filter(item => item.productId !== productIdToDelete);
-  localStorage.removeItem('cart');
-  var cartJson = JSON.stringify(newArray)
-  localStorage.setItem("cart",cartJson)
-  pushHTML();
-  console.log(newArray);
-}
-function pushHTML(){
-  const data = JSON.parse(localStorage.getItem("cart"));
-  console.log(data)
-  var html = '';
-  var totalPrice=0;
-  var html = '';
-  
-  for (var i = 0; i < data.length; i++) {
-      html += '<tr>';
-      html += `<td><img src="https://localhost:44328/Images/${data[i].productId}.jpg" alt="" style="border-radius: 10%;" width=120px height=110px>  </td>`;
-      html += `<td style="vertical-align: middle;">${data[i].name}</td>`;
-      html += `<td style="vertical-align: middle;"> ${data[i].quantity} đôi</td>`;
-      html += `<td style="vertical-align: middle;">${Number(data[i].quantity) * Number(data[i].unitPrice)} VND</td>`;
-      html += `<td style="vertical-align: middle;"><button class="btn btn-danger" id="btn${data[i].productId}" data-product-id="${data[i].productId}"><i class="fa fa-times" aria-hidden="true"></i></button></td>`;
-      html += '</tr>';
-      totalPrice += data[i].quantity * data[i].unitPrice;
+  dynamicDivs.forEach((dy) => {
+    uploadList.removeChild(dy);
+  });
+
+  if (selectedColor !== -1) {
+    if (product.Colors[selectedColor].Images.length !== 0) {
+      product.Colors[selectedColor].Images.forEach((img) => {
+        const previewContainer = document.createElement("div");
+        previewContainer.className = "preview-container";
+        const previewImage = document.createElement("img");
+        previewImage.src = URL.createObjectURL(img.file);
+        previewImage.alt = "Preview";
+        previewImage.className = "preview-image";
+        previewImage.style = " width: 150px;height: 150px;border-radius: 8px;";
+
+        previewContainer.appendChild(previewImage);
+        uploadList.appendChild(previewContainer);
+      });
+    }
   }
-  
-  var total = `<tr>
-    <th scope="row"></th>
-    <td></td>
-    <td>Tổng tiền:</td>
-    <td>${totalPrice+" VND"}</td>
-  </tr>`
-  $('#myTable tbody').html(html); 
-  $('tfoot').html(total); 
-  $('#total').html(totalPrice);
-  $('#sum').html(totalPrice+" VND");
 }
+// reset product khi đóng modal
+$("#productDetailModal").on("hide.bs.modal", function () {
+  $("#modal-add-product").css("overflow-y", "auto");
+  $("#product-instock").hide();
+  $("#quantity-input").hide();
+  product = {
+    retailPrice: 0,
+    description: "",
+    status: 1,
+    brand: 1,
+    discountRate: 0,
+    soleId: 0,
+    materialId: 0,
+    name: "",
+    Categories: [],
+    Colors: [],
+  };
+});

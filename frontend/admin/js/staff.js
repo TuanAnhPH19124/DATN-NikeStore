@@ -85,7 +85,7 @@ $(document).ready(function () {
             "address":  $("#address").val(),
             "relativeName":  $("#relativeName").val(),
             "relativePhoneNumber":  $("#relativePhoneNumber").val(),
-            "status":  $("#status").prop('checked'),
+            "status": true,
         };
 
                 //convert nomal date to ISO 8601 date
@@ -96,25 +96,37 @@ $(document).ready(function () {
                     formData.dateOfBirth = ""
                 }
         // add thong tin
-        $.ajax({
-            url: "https://localhost:44328/api/Employee",
-            type: "POST",
-            data: JSON.stringify(formData),
-            contentType: "application/json",
-            success: function (response) {
-                window.location.href = `/frontend/admin/staff.html`;
-            },
-        });
-        //add tk nhan vien
-        $.ajax({
-            url: "https://localhost:44328/api/Authentication/CreateEmployeeAccount",
-            type: "POST",
-            data: JSON.stringify(formData.phoneNumber),
-            contentType: "application/json",
-            success: function (response) {
-                window.location.href = `/frontend/admin/staff.html`;
-            },
-        });
+
+        if (confirm(`Bạn có muốn thêm nhân viên ${formData.fullName} không?`)) {
+            $.ajax({
+                url: "https://localhost:44328/api/Employee",
+                type: "POST",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (response) {
+                    $("#add-employee-modal").modal("hide");
+                    $("#success").toast("show");
+                    $("#add-employee-form")[0].reset();
+                    staffTable.ajax.reload();
+                },
+            });
+            //add tk nhan vien
+            $.ajax({
+                url: "https://localhost:44328/api/Authentication/CreateEmployeeAccount",
+                type: "POST",
+                data: JSON.stringify(formData.phoneNumber),
+                contentType: "application/json",
+                success: function (response) {
+                    $("#add-employee-modal").modal("hide");
+                    $("#success").toast("show");
+                    $("#add-employee-form")[0].reset();
+                    staffTable.ajax.reload();
+                },
+            });
+          } else {
+            return;
+          }
+        
     });
     // custom validate 
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {
@@ -135,6 +147,26 @@ $(document).ready(function () {
     // add validate
     $("#add-employee-form").validate({
         rules: {
+            "employeeId": {
+                required: true,
+            },
+            "dateOfBirth": {
+                required: true,
+            },
+            "homeTown": {
+                required: true,
+            },
+            "address": {
+                required: true,
+            },
+            "relativeName": {
+                required: true,
+            },
+            "relativePhoneNumber": {
+                required: true,
+                phoneNumContainOnlyNum: true,
+                onlyContain10Char: true,
+            },
             "fullName": {
                 required: true,
                 maxlength: 30,
@@ -155,6 +187,26 @@ $(document).ready(function () {
             }
         },
         messages: {
+            "employeeId": {
+                required: "Bạn phải nhập mã nhân viên",
+            },
+            "dateOfBirth": {
+                required: "Bạn phải nhập ngày sinh",
+            },
+            "homeTown": {
+                required: "Bạn phải nhập Quê quán",
+            },
+            "address": {
+                required: "Bạn phải nhập Địa chỉ hiện tại",
+            },
+            "relativeName": {
+                required: "Bạn phải nhập tên người thân",
+            },
+            "relativePhoneNumber": {
+                required: "Bạn phải nhập số điện thoại người thân",
+                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
+                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
+            },
             "fullName": {
                 required: "Bạn phải nhập họ và tên",
                 maxlength: "Hãy nhập tối đa 30 ký tự",

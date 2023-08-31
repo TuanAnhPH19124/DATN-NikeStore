@@ -27,12 +27,22 @@ $(document).ready(function () {
       { data: "name", title: "Tên sản phẩm" },
       {
         data: "retailPrice",
+        title: "Giá gốc",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
+      {
+        data: "discountRate",
         title: "Giá bán",
         render: function (data, type, row) {
           return Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
-          }).format(data);;
+          }).format(data);
         },
       },
       {

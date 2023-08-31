@@ -9,7 +9,6 @@
     <meta name="author" content="">
 
     <title>Nike Sneaker World</title>
-
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -319,11 +318,11 @@
                 </nav>
                 <!-- Tạo hoá đơn -->
                 <div class="THD" style="padding-left: 1100px; padding-bottom: 20px;">
-                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn">
+                    <a href="#" class="btn btn-primary btn-icon-split" id="addInvoiceBtn" id="createInvoiceButton" onclick="createInvoice()">
                 <span class="icon text-white-50">
                     <i class="fa-solid fa-plus"></i>
                 </span>
-                <span class="text">Tạo hoá đơn</span>
+                <span class="text" >Tạo hoá đơn</span>
                 </a>
                 </div>
                 <!-- End of Topbar -->
@@ -336,16 +335,12 @@
                         <div class="modal-header">
                             <a href="bill.html" class="btn btn-primary btn-icon-split" data-toggle=""
                             data-target="" style="margin-right: 20px;">
-                            <span class="text">Danh sách</span>
+                            <span class="icon text-white-50">
+                                <i class="fa-solid fa-list-ul"></i>
+                              </span>
+                            <span class="text">Danh sách hoá đơn</span>
                         </a>
-                        </div>
-                        <div class="container">
-                            <ul class="nav nav-tabs" id="invoiceTabs">
-                            </ul>
-                            
-                            <div class="tab-content" id="invoiceTabContent">
-                            </div>
-                          </div>
+                        </div>                     
                         <div class="modal-body" >
                             <div class="add-btn">
                                 <!-- button camera -->
@@ -357,22 +352,25 @@
                                     <span class="text">Qr code sản phẩm</span>
                                   </a>
                                   <!-- button thêm sản phẩm -->
-                                  <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product">
-                                    <span class="icon text-white-50">
-                                      <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="text">Thêm sản phẩm</span>
+
+                                  <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product">
+                                      <span class="icon text-white-50">
+                                          <i class="fa fa-plus"></i>
+                                      </span>
+                                      <span class="text">Thêm sản phẩm</span>
                                   </a>
+                                  
+                                
                                 <!-- Modal -->
                                 <div class="modal fade" id="modal-add-camera">
-                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-dialog modal-lg" style="width: 46%;height: 80px;">
                                       <div class="modal-content">
                                         <div class="modal-header">
                                           <h4 class="modal-title">Quét mã vạch sản phẩm</h4>
                                           <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
-                                          <div id="scanner-container">
+                                          <div id="scanner-container" >
                                             <div id="scanner"></div>
                                           </div>
                                         </div>
@@ -396,7 +394,7 @@
                                                     </div>
                                                     </div>
                                                     <div class="col-md-9 text-right">
-                                                    <button type="button" class="btn btn-primary" id="searchButton" style="margin-right: 10px;">Tìm kiếm</button>
+                                                    <button type="button" class="btn btn-primary" id="" style="margin-right: 10px;">Tìm kiếm</button>
                                                     <button type="button" class="btn btn-danger" id="resetButton">Làm mới</button>
                                                     </div>
                                                 </div>
@@ -470,160 +468,105 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <table id="product-table" class="table table-bordered">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">STT</th>
-                                                        <th scope="col">Ảnh</th>
-                                                        <th scope="col">Tên</th>
-                                                        <th scope="col">Giá bán</th>
-                                                        <th scope="col">Kích thước</th>
-                                                        <th scope="col">Số lượng</th>
-                                                        <th scope="col">Màu sắc</th>
-                                                        <th scope="col">Trạng thái</th>
-                                                        <th scope="col">Hành động</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <td>1</td>
-                                                        <td><img src="path_to_image2.jpg" alt="Ảnh sản phẩm 2" class="product-image"></td>
-                                                        <td>Sản phẩm B</td>
-                                                        <td>250.000đ</td>
-                                                        <td>Size M</td>
-                                                        <td>8</td>
-                                                        <td><div class="color-square" style="background-color: red;"> .</div></td>
-                                                        <td><span class="status-badge out-of-stock">Hết hàng</span></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-warning">
-                                                                Chọn
-                                                            </button>
-                                                        </td>              
-                                                        </tr>
-                                                        <!-- Thêm dữ liệu sản phẩm khác tương tự -->
-                                                    </tbody>
-                                                    
-                                                </table>
-                                                
-                                                
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                          
-                                <div class="modal fade" id="modal-add-product" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm sản phẩm</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
                                                 <div class="card shadow mb-4">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
                                                             <table class="table table-bordered" id="productData" width="100%" cellspacing="0">
-                                                                <tbody id="tbody">                                                         
+                                                                <tbody id="tbody">
                                                                 </tbody>
-                                                                <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-body" id="product-detail">
-                                                                                <div class="img">
-                                                                                    <img id="output"
-                                                                                        alt="" width="400" height="400">
-                                                                                </div>
-                                                                                <div>
-                                                                                    <h4 class="product-title" id="name">
-                                                                                        <p>Tên sản phẩm</p>
-                                                                                    </h4>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Giá nhập: 
-                                                                                        </div>
-                                                                                        <div id="costPrice">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Giá bán:
-                                                                                        </div>
-                                                                                        <div id="retailPrice">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Màu:
-                                                                                        </div>
-                                                                                        <div id="productColor">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="product-info">
-                                                                                        <div class="label">Size:
-                                                                                        </div>
-                                                                                        <div id="productSize">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="size" >
-                                                                                        <div class="title" >
-                                                                                            <p class="label">Số lượng</p>
-                                                                                            <div class="input-number">
-                                                                                                <button onclick="decrement()" class="btn btn-primary">-</button>
-                                                                                                <div class="form-outline">
-                                                                                                    <input type="number" id="number" name="number"  value="0" class="form-control" value="0" />
-                                                                                                </div>
-                                                                                                <button onclick="increment()" class="btn btn-primary">+</button>
-                                                                                            </div>
-                                                                                            <div class="instock">
-                                                                                                Còn 0 sản
-                                                                                                phẩm
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <button type="button" onclick="addToCart()"
-                                                                                                    class="btn btn-primary">Thêm
-                                                                                                    vào giỏ
-                                                                                                    hàng</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                                                      
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content" style="max-width: 98%;">
+                                                    <div class="modal-body">
+
+                                                        <div class="row">
+                                                            <div class="col-md-7">
+                                                                <div
+                                                                id="root"
+                                                                style="margin-top: 10px"
+                                                                class="upload-container"
+                                                              >
+                                                                <div class="upload-list" style="display: flex; flex-wrap: wrap;gap: 40px;margin-left: 80px;margin-top:50px">
+                                                                </div>
+                                                                
+                                                                
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="product-details">
+                                                                    <!-- HTML -->
+                                                                <!-- HTML -->
+                                                                <div class="product-info">
+                                                                    <h3 id="name">NIKE ARI FORC ONE LOW 1</h3>
+                                                                    <p style="font-weight: 700;">Giá bán: <span id="discountRate" style="font-weight: bold;color: red;"></span></p>
+                                                                    <div class="color-squares">
+                                                                        <p style="font-weight: 700;">Màu sắc:</p>
+                                                                        <div class="color-buttons" id="render-color">
                                                                         </div>
                                                                     </div>
+                                                                    <div class="size-squares">
+                                                                        <p style="font-weight: 700;">Kích cỡ:</p>
+                                                                        <div class="size-buttons" id="render-size">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="product-instock">
+                                                                    </div>
+                                                                    <div class="quantity-input" id="quantity-input" style="font-weight: 700;">Thêm số lượng:
+                                                                        <div>
+                                                                            <button id="decrement"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> - </button>
+                                                                            <input type="number" id="quantity" value="1" style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;">
+                                                                            <button id="increment"  style="width: 70px; border: 1px solid gray; border-radius: 10px; text-align: center;"> + </button>
+                                                                        </div>
+                                                                    </div>                   
+                                                                    <button class="btn btn-primary" id="addToCart" >Thêm vào giỏ hàng</button>
+                                                                    </div>
                                                                 </div>
-                                                            </table>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                          
+                                
+                            </div>
+                            <div class="container">
+                                <ul class="nav nav-tabs" id="invoiceTabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="invoice-tab" data-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="true">Hoá đơn</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="">
+                                    <div class="tab-pane fade show active" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>TÊN SẢN PHẨM</th>
+                                                    <th>SỐ LƯỢNG</th>
+                                                    <th>SIZE</th>
+                                                    <th>MÀU</th>
+                                                    <th>GIÁ TIỀN</th>
+                                                    <th>TỔNG TIỀN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="productsList">
+                                                <td>
+                                                    <!-- DATA SẼ TRUYỀN VÀO  -->
+                                                </td>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true"></span>
-                                </button>
-                            </div>
-                            <table class="table" id="myTable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Ảnh</th>
-                                        <th scope="col">Tên sản phẩm</th>
-                                        <th scope="col">Số lượng</th>
-                                        <th scope="col">Số tiền</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    <!-- sản phẩm sẽ ra đây -->
-                                </tbody>
-                                <tfoot>
-                                    <!-- tổng tiền sẽ ra đây -->
-                                </tfoot>
-                            </table>
                         </div>
                     </div>
                     <div class="modal-content">
@@ -989,171 +932,7 @@
         }
       </style>
 
-<!-- sản phẩm -->
-<script>
-    $(document).ready(function() {
-      $('#searchButton').click(function() {
-        // Lấy dữ liệu từ các input và select
-        const stt = $('#productName').val();
-        const productSize = $('#productSize').val();
-        const productColor = $('#productColor').val();
-        
-        // Thêm dữ liệu sản phẩm vào bảng
-        $('#product-table tbody').append(`
-          <tr>
-            <td>${stt}</td>
-            <td><!-- Thêm hình ảnh --></td>
-            <td>${productName}</td>
-            <td><!-- Thêm giá bán --></td>
-            <td><!-- Thêm số lượng --></td>
-            <td>${productColor}</td>
-            <td><!-- Thêm trạng thái --></td>
-            <td><!-- Thêm nút Sửa và Xoá --></td>
-          </tr>
-        `);
-      });
-    });
-  </script>
-
-<script>
-    $(document).ready(function() {
-      let tabCount = 0;
-      const maxTabs = 5;
-      
-      // Khôi phục danh sách hoá đơn từ Local Storage khi tải lại trang
-      restoreInvoicesFromLocalStorage();
-      
-      $('#addInvoiceBtn').on('click', function() {
-        if (tabCount >= maxTabs) {
-          return;
-        }
-    
-        tabCount++;
-        const newTabId = `invoice${tabCount}`;
-        const newTabContent = `
-          <div id="${newTabId}" class="container tab-pane">
-            <h3>Hoá Đơn ${tabCount}</h3>
-            <ul id="productsList${tabCount}" class="list-group">                 
-            </ul>
-          </div>
-        `;
-    
-        $('#invoiceTabs .nav-item').removeClass('active');
-        $('#invoiceTabs .tab-content .tab-pane').removeClass('active');
-    
-        $('#invoiceTabs').append(`
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn ${tabCount} <span class="close-tab" data-index="${tabCount}">✕</span></a>
-          </li>
-        `);
-        
-        $('#invoiceTabContent').append(newTabContent);
-        $('[data-toggle="tooltip"]').tooltip();
-        
-        // Lưu danh sách hoá đơn vào Local Storage sau khi thêm hoá đơn
-        saveInvoicesToLocalStorage();
-        
-        // Kích hoạt hoá đơn vừa tạo
-        $(`#${newTabId}`).addClass('active');
-        $(`#invoiceTabs a[href="#${newTabId}"]`).parent().addClass('active');
-      });
-    
-      $('#invoiceTabs').on('click', 'a.nav-link', function() {
-        $('#invoiceTabs .nav-item').removeClass('active');
-        $(this).parent().addClass('active');
-        $('#invoiceTabContent .tab-pane').removeClass('active');
-        $($(this).attr('href')).addClass('active');
-      });
-    
-      $('#invoiceTabs').on('mouseenter', 'a.nav-link', function() {
-        $(this).tooltip('show');
-      });
-    
-      $('#invoiceTabs').on('mouseleave', 'a.nav-link', function() {
-        $(this).tooltip('hide');
-      });
-    
-      $('#invoiceTabs').on('click', '.close-tab', function(e) {
-        e.stopPropagation();
-        const tabIndex = $(this).data('index');
-        if (confirm(`Bạn có muốn xoá hoá đơn ${tabIndex} không?`)) {
-          $(`#invoice${tabIndex}`).remove();
-          $(this).parent().parent().remove();
-          tabCount--;
-          
-          // Lưu danh sách hoá đơn vào Local Storage sau khi xoá hoá đơn
-          saveInvoicesToLocalStorage();
-        }
-      });
-    
-      $('[data-toggle="tooltip"]').tooltip({
-        placement: 'bottom',
-        trigger: 'hover'
-      });
-      
-      function saveInvoicesToLocalStorage() {
-        const invoices = [];
-        for (let i = 1; i <= tabCount; i++) {
-          invoices.push($(`#invoice${i}`).html());
-        }
-        localStorage.setItem('invoices', JSON.stringify(invoices));
-      }
-    
-      function restoreInvoicesFromLocalStorage() {
-        const invoices = JSON.parse(localStorage.getItem('invoices'));
-        if (invoices && invoices.length > 0) {
-          tabCount = invoices.length;
-          invoices.forEach((invoiceContent, index) => {
-            const tabIndex = index + 1;
-            const newTabId = `invoice${tabIndex}`;
-            $('#invoiceTabs').append(`
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#${newTabId}">Hoá Đơn ${tabIndex} <span class="close-tab" data-index="${tabIndex}">✕</span></a>
-              </li>
-            `);
-            $('#invoiceTabContent').append(`
-              <div id="${newTabId}" class="container tab-pane">${invoiceContent}</div>
-            `);
-          });
-
-          // Kích hoạt tab hoá đơn đã tạo trước đó
-          const activeTabIndex = $('#invoiceTabs .nav-item.active a.nav-link').attr('href');
-          if (activeTabIndex) {
-            $(activeTabIndex).addClass('active');
-          }
-        }
-      }
-    });
-  </script>
-
 <!-- camera -->
-
-<script>
-    $('#modal-add-camera').on('shown.bs.modal', function () {
-      // Khởi tạo quét mã vạch ở đây
-      Quagga.init({
-        inputStream: {
-          name: "Live",
-          type: "LiveStream",
-          target: document.querySelector('#scanner')    // Chọn phần tử để hiển thị camera
-        },
-        decoder: {
-          readers: ["code_128_reader"]    // Chọn loại mã vạch cần quét (ở đây là Code 128)
-        }
-      }, function(err) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        Quagga.start();
-      });
-    });
-  
-    $('#modal-add-camera').on('hidden.bs.modal', function () {
-      // Dừng quét mã vạch khi đóng modal
-      Quagga.stop();
-    });
-  </script>
   
 
     <!-- JS -->
