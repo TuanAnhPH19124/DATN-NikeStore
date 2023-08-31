@@ -39,26 +39,26 @@ $(document).ready(function () {
 
       tabCount++;
       const newTabId = `invoice${tabCount}`;
-      const newTabContent = `
-          <div id="${newTabId}" class="container tab-pane">
-              <table class="product-table">
-                  <thead>
-                      <tr>
-                          <th>STT</th>
-                          <th>Tên sản phẩm</th>
-                          <th>Số lượng</th>
-                          <th>Size</th>
-                          <th>Màu</th>
-                          <th>Giá tiền</th>
-                          <th>Tổng tiền</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <!-- Điền dữ liệu sản phẩm ở đây -->
-                  </tbody>
-              </table>
-          </div>
-      `;
+      // const newTabContent = `
+      //     <div id="${newTabId}" class="container tab-pane">
+      //         <table class="product-table">
+      //             <thead>
+      //                 <tr>
+      //                     <th>STT</th>
+      //                     <th>Tên sản phẩm</th>
+      //                     <th>Số lượng</th>
+      //                     <th>Size</th>
+      //                     <th>Màu</th>
+      //                     <th>Giá tiền</th>
+      //                     <th>Tổng tiền</th>
+      //                 </tr>
+      //             </thead>
+      //             <tbody>
+      //                 <!-- Điền dữ liệu sản phẩm ở đây -->
+      //             </tbody>
+      //         </table>
+      //     </div>
+      // `;
 
       $("#invoiceTabs .nav-item").removeClass("active");
       $("#invoiceTabs .tab-content .tab-pane").removeClass("active");
