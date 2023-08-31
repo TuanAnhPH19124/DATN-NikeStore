@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230828103945_phongtttt")]
-    partial class phongtttt
+    [Migration("20230831115239_ptt")]
+    partial class ptt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -719,6 +719,9 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
