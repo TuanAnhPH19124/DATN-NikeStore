@@ -1,50 +1,71 @@
 <!-- MODAL -->
 <section class="container">
-  <div class="detal">
-    <div class="card mb-4" ng-repeat="cart in carts">
-      <div class="card-body p-4">
-        <div class="row align-items-center">
-          <input type="checkbox" ng-model="cart.isSelected">
-          <div class="col-md-2">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp" class="img-fluid"
-              alt="Generic placeholder image">
-          </div>
-          <div class="col-md-2 d-flex justify-content-center">
+  <div class="row">
+    <div class="col-9">
+      <div class="banner-freeship">
+        <div class="freeship-infomation">
+          <h4>Miễn phí vận chuyển</h4>
+          <span>Áp dụng cho những đơn hàng 5.000.000 trở lên</span>
+        </div>
+        <button>x</button>
+      </div>
+      <h1>Giỏ hàng</h1>
+      <div class="cart-item" ng-repeat="cart in carts">
+        <div>
+          <img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
+        </div>
+        <div class="main-item">
+          <div class="product-infomation">
+            <h3>{{cart.product.name}}</h3>
+            <p>{{cart.colorName}}</p>
             <div>
-              <p class="small text-muted mb-4 pb-2"></p>
-              <p class="lead fw-normal mb-0">{{ cart.product.name }}</p>
+              <label for="size">Kích cỡ</label>
+              <select name="" id="size">
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              <label for="quantity">Số lượng</label>
+              <select name="" id="quantity" ng-model="cart.quantity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+
+              </select>
             </div>
+            <button>Remove</button>
           </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <div>
-              <p class="small text-muted mb-4 pb-2">{{ cart.quantity }}</p>
-              <p class="lead fw-normal mb-0">1</p>
-            </div>
-          </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <div>
-              <p class="small text-muted mb-4 pb-2">Giá tiền</p>
-              <p class="lead fw-normal mb-0">{{ cart.product.retailPrice }} đ</p>
-              <p>giá khuyến mãi {{ cart.product.retailPrice * cart.product.discountRate / 100 }} đ</p>
-            </div>
-          </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <div>
-              <p class="small text-muted mb-4 pb-2">Tổng tiền</p>
-              <p class="lead fw-normal mb-0">{{ cart.product.retailPrice * cart.product.discountRate / 100 * cart.quantity }} đ</p>
-            </div>
+          <div class="product-price">
+            <span>{{cart.product.retailPrice}}đ</span>
+            <span>{{cart.product.discountRate}}đ</span>
           </div>
         </div>
       </div>
     </div>
+    <div class="col-3">
+      <h1>Tạm tính</h1>
+      <div class="subtotal">
+        <p>Tổng phụ</p>
+        <p>{{totalAmount()}}</p>
+      </div>
+      <div class="Delivery ">
+        <p>Phí vận chuyển</p>
+        <p ng-show="deliveryFee() < 5000000">{{deliveryFee()}}</p>
+        <p ng-show="deliveryFee() === 0">Miễn phí</p>
+      </div>
+      <div class="total">
+        <p>Tổng cộng</p>
+        <p>{{ totalAmount() + deliveryFee() }}</p>
+      </div>
+      <a href="#/pay" class="btn btn-dark">Thanh toán</a>
+    </div>
   </div>
-  <div style="text-align: right; font-size: 24px; font-weight: bold;">
-    <a href="#13" type="button" class="btn btn-primary" ng-click="goToPayment()">Thanh toán</a>
-    <p>Tổng cộng</p>
-    <p style="color: brown;">{{totalAmount()}} đ</p>
-  </div>
-  <br>
-  <hr>
 </section>
 
 <section>

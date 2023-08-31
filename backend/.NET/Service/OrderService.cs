@@ -1,14 +1,12 @@
-using Domain.DTOs;
+﻿using Domain.DTOs;
 using Domain.Entities;
-using Domain.Enums;
 using Domain.Repositories;
 using EntitiesDto.Order;
 using Mapster;
-using Persistence.Repositories;
 using Service.Abstractions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,43 +22,105 @@ namespace Service
         }
 
         public async Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default)
-        {          
+        {
             var orderList = await _manager.OrderRepository.GetAllOrderAsync(cancellationToken);
             return orderList;
         }
         public async Task PostAndSendNontification(OrderPostRequestDto orderDto)
         {
             var order = orderDto.Adapt<Order>();
-            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>(); 
+            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>();
             await _manager.OrderRepository.Post(order);
         }
 
         public async Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto)
         {
-            try
+            #region Add new order
+            var order = new Order
             {
-                #region Add new order
-                var order = orderDto.Adapt<Order>();
-                order.Status = ((int)OrderStatus.HAS_BEEN_PAID);
-                order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>();
-                await _manager.OrderRepository.Post(order);
-
-                #endregion
-
-                #region Update UnitOfStock in stock table
-                var orderItemsQuantity = await _manager.OrderItemsRepository.SelectItemByOrderId(order.Id);
-                var StockList = await GetOrderItemsQuantityAsync(order.Id);
-                await _manager.StockRepository.UpdateRange(StockList);
-                Console.WriteLine("Update unit of stock successfully.");
-
-                #endregion
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+                Address = orderDto.Address,
+                PhoneNumber = orderDto.PhoneNumber,
+                CustomerName = orderDto.CustomerName,
+                Note = orderDto.Note,
+                VoucherId = orderDto.VoucherId,
+                Paymethod = orderDto.PaymentMethod,
+                Amount = orderDto.Amount,
+            };
             
+            if (orderDto.Shipping)
+            {
+                order.OrderStatuses = new List<OrderStatus>()
+                {
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.CONFIRM,
+                        Time = DateTime.Now,
+                        Note = "Đã thanh toán tại quầy"
+                    },
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
+                        Time = DateTime.Now,
+                        Note = "Chờ vận chuyển"
+                    },
+                };
+            }
+            else
+            {
+                order.OrderStatuses = new List<OrderStatus>()
+                {
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.CONFIRM,
+                        Time = DateTime.Now,
+                        Note = "Đã thanh toán tại quầy"
+                    },
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
+                        Time = DateTime.Now,
+                        Note = "Chờ vận chuyển"
+                    },
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.SHIPPING,
+                        Time = DateTime.Now,
+                        Note = "Đang vận chuyển"
+                    },
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.DELIVERIED,
+                        Time = DateTime.Now,
+                        Note = "Đã nhận hàng"
+                    },
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.DONE,
+                        Time = DateTime.Now,
+                        Note = "Đơn hàng hoàn tất"
+                    },
+                };
+            }
+
+            order.OrderItems = orderDto.OrderItems.Select(p => new OrderItem
+            {
+                ProductId = p.ProductId,
+                ColorId = p.ColorId,
+                SizeId = p.SizeId,
+                Quantity = p.Quantity,
+                UnitPrice = p.UnitPrice
+            }).ToList();
+            
+            await _manager.OrderRepository.Post(order);
+            #endregion
+
+            #region Update UnitOfStock in stock table
+            var StockList = await GetOrderItemsQuantityAsync(order.OrderItems);
+            _manager.StockRepository.UpdateRange(StockList);
+            Console.WriteLine("Cập nhật số lượng sản phâm thành công.");
+            #endregion
+
+            await _manager.UnitOfWork.SaveChangeAsync();
         }
 
         public async Task UpdateOrderOnConfirm(string id, object order)
@@ -73,17 +133,7 @@ namespace Service
                 #endregion
 
                 #region Update UnitOfStock in Stock table
-                var orderQuanities = await _manager.OrderItemsRepository.SelectItemByOrderId(orderId);
-                var StockList = new List<Stock>();
-                foreach (var orderQuantity in orderQuanities)
-                {
-                    var currentUnitOfStock = await _manager.StockRepository.SelectById(orderQuantity.ProductId);
-                    if (currentUnitOfStock == null) throw new System.Exception($"There are something wrong! Could not find the stock with ProducId {orderQuantity.ProductId}, ColorId {orderQuantity.ColorId}, SizeId {orderQuantity.SizeId}.");
-                    currentUnitOfStock.UnitInStock -= orderQuantity.Quantity;
-                    StockList.Add(currentUnitOfStock);
-                }
-                await _manager.StockRepository.UpdateRange(StockList);
-                Console.WriteLine("Update unit of stock successfully.");
+               
                 #endregion
             }
             catch (System.Exception)
@@ -94,13 +144,12 @@ namespace Service
 
         }
 
-        public async Task<List<Stock>> GetOrderItemsQuantityAsync(string orderId)
+        public async Task<List<Stock>> GetOrderItemsQuantityAsync(IEnumerable<OrderItem> orderItems)
         {
-            var orderQuanities = await _manager.OrderItemsRepository.SelectItemByOrderId(orderId);
             var StockList = new List<Stock>();
-            foreach (var orderQuantity in orderQuanities)
+            foreach (var orderQuantity in orderItems)
             {
-                var currentUnitOfStock = await _manager.StockRepository.SelectById(orderQuantity.ProductId);
+                var currentUnitOfStock = await _manager.StockRepository.SelectByVariantId(orderQuantity.ProductId, orderQuantity.ColorId, orderQuantity.SizeId);
                 if (currentUnitOfStock == null) throw new System.Exception($"There are something wrong! Could not find the stock with ProducId {orderQuantity.ProductId}, ColorId {orderQuantity.ColorId}, SizeId {orderQuantity.SizeId}.");
                 currentUnitOfStock.UnitInStock -= orderQuantity.Quantity;
                 StockList.Add(currentUnitOfStock);
@@ -110,7 +159,7 @@ namespace Service
         }
 
         public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
-        {       
+        {
             return await _manager.OrderRepository.GetByIdOrderAsync(id, cancellationToken);
         }
     }

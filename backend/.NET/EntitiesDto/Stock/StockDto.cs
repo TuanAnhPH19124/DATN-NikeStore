@@ -9,6 +9,8 @@ namespace EntitiesDto.Stock
     public class StockDto
     {
         public string ProductId { get; set; }
+        public int NumberSize { get; set; }
+        public string StockId { get; set; }
         public string ColorId { get; set; }
         public string SizeId { get; set; }
         public int UnitInStock { get; set; }

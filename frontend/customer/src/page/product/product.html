@@ -2,34 +2,26 @@
 	<div class="row">
 		<div class="col-md-3 scrollable">
 			<div class="card">
-				<article class="filter-group">
-					<header class="card-header">
-						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h5 class="title" style="padding-top: 15px; color: black; font-weight: bold;">DANH MỤC</h5>
-						</a>
-					</header>
-					<div class="filter-content collapse show" id="collapse_1">
-						<div class="card-body">
-							<form class="pb-3">
-								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Tìm kiếm">
-									<div class="input-group-append">
-										<button class="btn btn-light" type="button"><i
-												class="fa fa-search"></i></button>
-									</div>
-								</div>
-							</form>
-							<ul class="list-menu"
-								style="color: rgb(54, 51, 51); text-decoration: none; font-size: 18px;">
-								<li><a href="#"> Sản Phẩm Mới </a></li>
-								<li><a href="#"> Hàng Mới Về </a></li>
-								<li><a href="#"> Top Thịnh Hành </a></li>
-								<li><a href="#"> Giá Từ Thấp Đến Cao </a></li>
-								<li><a href="#"> Giá Từ Cao Đến Thấp </a></li>
-							</ul>
-						</div> <!-- card-body.// -->
-					</div>
-				</article> <!-- filter-group  .// -->
+
+				<article>
+					<label>Danh mục</label>
+					<div ng-repeat="category in categories">
+						<label>
+							<input type="checkbox" ng-model="category.selected" ng-change="onSelectChange()">
+							{{ category.name }}
+						</label>
+					</div>	
+				</article>
+
+				<article>
+					<label>Giới tính</label>
+					<div ng-repeat="gender in genders">
+						<label>
+							<input type="checkbox" ng-model="gender.selected" ng-change="onSelectChange()">
+							{{ gender.name }}
+						</label>
+					</div>					
+				</article>
 				<article class="filter-group">
 					<header class="card-header"
 						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
@@ -277,14 +269,13 @@
 						</div><!-- card-body.// -->
 					</div>
 				</article> <!-- filter-group .// -->
-
 			</div> <!-- card.// -->
 		</div>
 
 		<div class="col-md-9 px-5">
 			<div class="product-sort-container">
 				<span>Sắp xếp theo: </span>
-				<select ng-model="sortBy">
+				<select ng-model="sortBy" ng-change="onSelectChange()">
 					<option value=""></option>
 					<option value="2">Hàng với về</option>
 					<option value="3">Top thịnh hành</option>
@@ -308,7 +299,7 @@
 								<span class="price"
 									ng-class="{'strike-through': product.discountRate > 0 && product.discountRate !== product.retailPrice}">{{formatPrice(product.retailPrice)}}</span>
 							</div>
-							<span class="percenOff">Giảm {{calculatePercenOff(product.discountRate,
+							<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice" class="percenOff">Giảm {{calculatePercenOff(product.discountRate,
 								product.retailPrice)}}%</span>
 						</a>
 					</div>

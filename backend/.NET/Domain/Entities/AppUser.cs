@@ -19,8 +19,8 @@ namespace Domain.Entities
 
         public Employee Employee { get; set; }
         public virtual List<Order> Orders { get; set; }
-        public virtual IEnumerable<ShoppingCarts> ShoppingCarts { get; set; }
+        public virtual IEnumerable<ShoppingCartItems> ShoppingCartItems { get; set; }
         public virtual IEnumerable<Address> Addresses { get; set; }
-        public virtual ICollection<ProductRate> ProductRate { get; set; }
+        public virtual IEnumerable<ProductRate> ProductRate { get; set; }
     }
 }

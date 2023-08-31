@@ -24,10 +24,10 @@ namespace Persistence.Repositories
         // doanh so ban hang trong 1 khoang thoi gian
         public async Task<decimal> GetTotalRevenueInTimeRange(DateTime startDate, DateTime endDate)
         {
-            decimal totalRevenue = (decimal)await _context.OrderItems
-                .Where(p => p.OrderDate >= startDate && p.OrderDate <= endDate)
-                .SumAsync(p => p.Quantity * p.UnitPrice);
-            return totalRevenue;
+            //decimal totalRevenue = (decimal)await _context.OrderItems
+            //    .Where(p => p.OrderDate >= startDate && p.OrderDate <= endDate)
+            //    .SumAsync(p => p.Quantity * p.UnitPrice);
+            return 0;
         }
         //So luong da ban cua 1 sp
         public async Task<int> GetAmountByProductId(string productId)

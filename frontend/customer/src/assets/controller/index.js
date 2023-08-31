@@ -62,7 +62,7 @@ app.config(function ($routeProvider, $locationProvider){
       templateUrl: "../page/index/favoriteproduct.html",
       controller: "wishListController"
     })
-    .when("/pay/:type", {
+    .when("/pay", {
       templateUrl: "../page/cart/pay.html",
       controller: "orderController"
     })

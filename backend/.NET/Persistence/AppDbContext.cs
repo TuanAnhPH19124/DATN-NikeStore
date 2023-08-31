@@ -54,10 +54,11 @@ namespace Persistence
             .HasKey(pr => new { pr.AppUserId, pr.ProductId });
 
         }
-
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Sole> Soles { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -68,7 +69,6 @@ namespace Persistence
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<WishLists> WishLists { get; set; }
