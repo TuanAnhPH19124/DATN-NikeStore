@@ -9,18 +9,14 @@ namespace EntitiesDto.Order
 {
     public class OrderAtStorePostRequestDto
     {
-        [Required]
-        public string UserId { get; set; }
-        [Required(ErrorMessage = "Thiếu Địa chỉ nhận hàng")]
-        public string Address { get; set; }
-        [Required(ErrorMessage = "Thiếu số điện thoại")]
+        public string UserId { get; set; } = null;
+        public string Address { get; set; } = null;
         [MaxLength(10, ErrorMessage = "Số diện thoại không được nhiều hơn 10 số")]
-        public string PhoneNumber { get; set; }
-        public string Note { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn phương thức thanh toán")]
+        public string PhoneNumber { get; set; } = null;
+        public string Note { get; set; } = null;
         public int PaymentMethod { get; set; }
         public double Amount { get; set; }
-        public string CustomerName { get; set; } = string.Empty;
+        //public string CustomerName { get; set; } = string.Empty;
         public string VoucherId { get; set; } = null;
         public List<OrderItemPostRequestDto> OrderItems { get; set; }
     

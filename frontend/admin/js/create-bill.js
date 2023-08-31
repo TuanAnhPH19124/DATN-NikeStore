@@ -25,46 +25,124 @@ $("#modal-add-camera").on("hidden.bs.modal", function () {
   // Dừng quét mã vạch khi đóng modal
   Quagga.stop();
 });
-
+function myFunction() {
+  var x = document.getElementById("customer-info");
+  console.log(x.style.visibility);
+  if (x.style.visibility == "hidden") {
+    x.style.visibility = "visible";
+  } else {
+    x.style.visibility = "hidden";
+  }
+}
 // JS TẠO HOÁ ĐƠN
 $(document).ready(function () {
-  let tabCount = 1;
+  let tabCount = 0;
   const maxTabs = 4;
 
+  // call tỉnh
+  var option_province = [];
+  $.ajax({
+    url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+    type: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+    dataType: "json",
+    success: function (result) {
+      console.log(result.data.length);
+      for (var i = 0; i < result.data.length; i++) {
+        option_province.push(
+          '<option value="',
+          result.data[i].ProvinceID, // Use the correct property name for ProvinceID
+          '">',
+          result.data[i].ProvinceName, // Use the correct property name for ProvinceName
+          "</option>"
+        );
+      }
+      $("#province").html(option_province.join(""));
+    },
+    error: function (error) {
+      console.error("Error fetching provinces:", error);
+    },
+  });
+
+  function setFirstTabActive() {
+    $("#invoiceTabs .nav-item").removeClass("active");
+    $("#invoiceTabs .tab-content .tab-pane").removeClass("active show");
+
+    const firstTabLink = $("#invoiceTabs .nav-item:first-child .nav-link");
+    const firstTabContent = $(firstTabLink.attr("href"));
+
+    firstTabLink.addClass("active");
+    firstTabContent.addClass("show active");
+  }
+
+  // Call the function to set the first tab as active
+  setFirstTabActive();
   // Khôi phục danh sách hoá đơn từ Local Storage khi tải lại trang
   restoreInvoicesFromLocalStorage();
 
   $("#addInvoiceBtn").on("click", function () {
+
+    fetchAllProvince().then(data=>console.log(data))
+
+    fetchAllProvinceDistricts(201).then((data) => {
+      console.log(data);
+    });
+
+    fetchAllProvinceWard(1804).then(data=>{
+      console.log(data);
+    })
+
+    // to_district_id, to_ward_code
+    fetchAllMoneyShip(3695,90768).then((data) => {
+      console.log(data);
+    });
+    fetchAllDayShip(1452, 21012).then((data) => {
+      console.log(data);
+    });
+
     if (tabCount >= maxTabs) {
       alert("Bạn đã đạt tới số lượng tối đa của hoá đơn (5 hoá đơn).");
       return;
     }
-
+    arr.push([]);
+    console.log(arr);
     tabCount++;
     const newTabId = `invoice${tabCount}`;
     const newTabContent = `
-          <div id="${newTabId}" class="container tab-pane">
-              <table class="product-table">
-                  <thead>
-                      <tr>
-                          <th>STT</th>
-                          <th>Tên sản phẩm</th>
-                          <th>Số lượng</th>
-                          <th>Size</th>
-                          <th>Màu</th>
-                          <th>Giá tiền</th>
-                          <th>Tổng tiền</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <!-- Điền dữ liệu sản phẩm ở đây -->
-                  </tbody>
-              </table>
+          <div id="${newTabId}" class="tab-pane"  role="tabpanel" aria-labelledby="invoice-tab">
+          <table class="table">
+          <thead>
+              <tr>
+                  <th>STT</th>
+                  <th>TÊN SẢN PHẨM</th>
+                  <th>MÀU</th>
+                  <th>SIZE</th>
+                  <th>GIÁ TIỀN</th>
+                  <th>SỐ LƯỢNG</th>
+                  <th>THÀNH TIỀN</th>
+              </tr>
+          </thead>
+          <tbody id="productsList">
+          </tbody>
+          <tfoot>
+              <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>TỔNG TIỀN</th>
+                  <th id="total-bill${tabCount}"></th>
+              </tr>
+          </tfoot>
+      </table>
           </div>
       `;
 
     $("#invoiceTabs .nav-item").removeClass("active");
-    $("#invoiceTabs .tab-content .tab-pane").removeClass("active");
+    $("#invoiceTabs .tab-content .tab-pane").removeClass("active show");
 
     $("#invoiceTabs").append(`
           <li class="nav-item">
@@ -74,12 +152,11 @@ $(document).ready(function () {
 
     $("#invoiceTabContent").append(newTabContent);
     $('[data-toggle="tooltip"]').tooltip();
-
     // Lưu danh sách hoá đơn vào Local Storage sau khi thêm hoá đơn
     saveInvoicesToLocalStorage();
-
+    $(`#invoiceTabs a[href="#${newTabId}"]`).tab("show");
     // Kích hoạt hoá đơn vừa tạo
-    $(`#${newTabId}`).addClass("active");
+    $(`#${newTabId}`).addClass("show active"); // "show" is important for Bootstrap 4
     $(`#invoiceTabs a[href="#${newTabId}"]`).parent().addClass("active");
   });
 
@@ -88,6 +165,12 @@ $(document).ready(function () {
     $(this).parent().addClass("active");
     $("#invoiceTabContent .tab-pane").removeClass("active");
     $($(this).attr("href")).addClass("active");
+    var parts = this.href.split(/[\/#]/);
+    var lastPart = parts[parts.length - 1];
+    var matches = lastPart.match(/\d+/);
+    var lastNumber = parseInt(matches[0]);
+    selectedOrder = lastNumber;
+    console.log(selectedOrder);
   });
 
   $("#invoiceTabs").on("mouseenter", "a.nav-link", function () {
@@ -101,15 +184,30 @@ $(document).ready(function () {
   $("#invoiceTabs").on("click", ".close-tab", function (e) {
     e.stopPropagation();
     const tabIndex = $(this).data("index");
-    if (confirm(`Bạn có muốn xoá hoá đơn không?`)) {
+    if (confirm("Bạn có muốn xoá hoá đơn không?")) {
       $(`#invoice${tabIndex}`).remove();
       $(this).parent().parent().remove();
       tabCount--;
-
-      // Lưu danh sách hoá đơn vào Local Storage sau khi xoá hoá đơn
-      saveInvoicesToLocalStorage();
+      updateTabIndices(); // Update tab indices
+      removeInvoiceFromLocalStorage(tabIndex);
+      arr.splice(tabIndex - 1, 1); // Corrected index for array splice
+      setFirstTabActive();
     }
   });
+
+  function removeInvoiceFromLocalStorage(invoiceIndex) {
+    const invoices = JSON.parse(localStorage.getItem("invoices"));
+    if (invoices && invoices.length > 0) {
+      invoices.splice(invoiceIndex - 1, 1); // Remove the specific invoice
+      localStorage.setItem("invoices", JSON.stringify(invoices));
+    }
+  }
+
+  function updateTabIndices() {
+    $(".close-tab").each(function (index) {
+      $(this).data("index", index + 1);
+    });
+  }
 
   $('[data-toggle="tooltip"]').tooltip({
     placement: "bottom",
@@ -121,6 +219,7 @@ $(document).ready(function () {
     for (let i = 1; i <= tabCount; i++) {
       invoices.push($(`#invoice${i}`).html());
     }
+
     localStorage.setItem("invoices", JSON.stringify(invoices));
   }
 
@@ -537,9 +636,9 @@ var addToCartItem = {
 };
 
 var selectedColor = 0;
+var selectedOrder = 0;
 var instock = 0;
-const arr = [];
-
+const arr = [[]];
 
 function findIndexById(array, id) {
   for (var i = 0; i < array.length; i++) {
@@ -661,7 +760,7 @@ $("#addToCart").click(function () {
   addToCartItem.total = addToCartItem.amount * addToCartItem.price;
   var data = addToCartItem;
   console.log(addToCartItem);
-  var tbody = $("#myTable tbody");
+  var tbody = $(`#invoice${selectedOrder} tbody`);
 
   // Generate a unique identifier for the item (combination of ID, color, and size)
   var itemIdentifier = data.id + "_" + data.color + "_" + data.size;
@@ -673,13 +772,22 @@ $("#addToCart").click(function () {
     // Update existing item's quantity and total
     var existingAmount = parseInt(existingItem.find("td:eq(5)").text());
     var newAmount = parseInt(data.amount);
-    var totalAmount = existingAmount + newAmount;
 
+    var totalAmount = existingAmount + newAmount;
+    //check so luong
+    if (existingAmount >= instock) {
+      totalAmount = instock;
+    }
     existingItem.find("td:eq(5)").text(totalAmount);
 
     // Calculate the updated "Thành tiền" value
     var updatedRowTotal = totalAmount * data.price;
-    existingItem.find("td:eq(6)").text(updatedRowTotal);
+    existingItem.find("td:eq(6)").text(
+      Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(updatedRowTotal)
+    );
   } else {
     // Create a new row
     var newRow = $("<tr>");
@@ -689,29 +797,56 @@ $("#addToCart").click(function () {
 
     // Calculate the "Thành tiền" for the new row
     var newRowTotal = data.amount * data.price;
-
     // Create and append td cells with data values
+
+    var deleteButton = $("<button>")
+      .addClass("delete-button")
+      .text("Delete")
+      .click(function () {
+        $(this).closest("tr").remove();
+      });
+
     newRow.append(
       $("<td>").text(tbody.children().length + 1), // STT (Auto-increment)
       $("<td>").text(data.name), // Tên sản phẩm
       $("<td>").text(data.color), // Màu sắc
       $("<td>").text(data.size), // Kích thước
-      $("<td>").text(data.price), // Kích thước
+      $("<td>").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(data.price)
+      ), // Kích thước
       $("<td>").text(data.amount), // Số lượng
-      $("<td>").text(newRowTotal) // Thành tiền for the new row
+      $("<td>").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(newRowTotal)
+      ), // Thành tiền for the new row
+      $("<td>").append(deleteButton)
     );
 
     tbody.append(newRow);
   }
   var totalSum = 0;
 
-  $("#myTable tbody tr").each(function () {
+  $(`#invoice${selectedOrder} tbody tr`).each(function () {
     var rowTotalCell = $(this).find("td:eq(6)");
-    var rowTotal = parseFloat(rowTotalCell.text());
-    totalSum += rowTotal;
-  });
+    console.log(rowTotalCell.text());
 
-  $("#total-bill").text(totalSum);
+    var rowTotal = parseFloat(rowTotalCell.text().replace(/[.,₫]/g, ""));
+    if (!isNaN(rowTotal)) {
+      totalSum += rowTotal;
+    }
+  });
+  console.log(totalSum);
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
 
   $.ajax({
     url: "https://localhost:44328/api/Product/" + addToCartItem.id,
@@ -720,17 +855,27 @@ $("#addToCart").click(function () {
     success: function (data) {
       console.log(data.stocks);
       $("#productDetailModal").modal("hide");
+      console.log(arr);
 
-      var existingItem = arr.find(function(item) {
-        return item.productId === addToCartItem.id &&
-               item.sizeId ===  addToCartItem.sizeId &&
-               item.colorId ===  addToCartItem.colorId;
+      var existingItemIndex = arr[selectedOrder].findIndex(function (item) {
+        return (
+          item.productId === addToCartItem.id &&
+          item.sizeId === addToCartItem.sizeId &&
+          item.colorId === addToCartItem.colorId
+        );
       });
-
-      if (existingItem) {
-        existingItem.quantity += parseInt($("#quantity").val(), 10);
+      console.log(existingItemIndex);
+      if (existingItemIndex !== -1) {
+        arr[selectedOrder][existingItemIndex].quantity += parseInt(
+          $("#quantity").val(),
+          10
+        );
+        // Kiểm tra số lượng tồn kho và cập nhật số lượng nếu cần
+        if (arr[selectedOrder][existingItemIndex].quantity >= instock) {
+          arr[selectedOrder][existingItemIndex].quantity = instock;
+        }
       } else {
-        arr.push({
+        arr[selectedOrder].push({
           unitPrice: $("#discountRate").text(),
           quantity: parseInt($("#quantity").val(), 10),
           name: $("#name").text(),
@@ -742,7 +887,6 @@ $("#addToCart").click(function () {
       console.log(arr);
     },
   });
-  
 });
 
 // reset product khi đóng modal
@@ -763,3 +907,92 @@ $("#productDetailModal").on("hide.bs.modal", function () {
     Colors: [],
   };
 });
+
+// giao hành nhanh
+// tỉnh
+function fetchAllProvince() {
+  return fetch(
+    "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+    {
+      method: "GET",
+      headers: {
+        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+//  quận huyện
+function fetchAllProvinceDistricts(codeProvince) {
+  const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${codeProvince}`;
+
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+// Phường/Xã
+function fetchAllProvinceWard(codeDistrict) {
+  const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${codeDistrict}`;
+
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+// ngày ship hàng
+function fetchAllDayShip(to_district_id, to_ward_code) {
+  const url =
+    `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime` +
+    `?from_district_id=1485&from_ward_code=1A0607&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&service_id=53320`;
+
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      shop_id: "4374133",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+// giá tiền ship
+function fetchAllMoneyShip(to_district_id, to_ward_code) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      shop_id: "4374133",
+    },
+    // Construct the URL with query parameters
+    url: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_type_id=2&
+    insurance_value=&coupon=&from_district_id=1485&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&height=15&length=15&weight=1000&width=15`,
+  };
+
+  return fetch(requestOptions.url, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}

@@ -9,7 +9,7 @@ namespace Domain.Entities
     [Table("OrderItems")]
     public class OrderItem
     {
-        public string OrderId { get; set; }
+        public string OrderId { get; set; } = Guid.NewGuid().ToString();
         public Order Order { get; set; }
         public string ProductId { get; set; }
         public Product Product { get; set; }
