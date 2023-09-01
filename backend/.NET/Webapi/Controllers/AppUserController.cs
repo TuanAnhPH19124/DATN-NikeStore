@@ -14,6 +14,7 @@ using System.Net;
 using Mapster;
 using EntitiesDto.User;
 using Microsoft.AspNetCore.Identity;
+using Domain.Enums;
 
 namespace Webapi.Controllers
 {
@@ -54,6 +55,18 @@ namespace Webapi.Controllers
             var usersWithUserRole = _userManager.GetUsersInRoleAsync("User").Result;
 
             return Ok(usersWithUserRole);
+        }
+
+        [HttpGet("GetActiveUsersWithUserRole")]
+        public IActionResult GetActiveUsersWithUserRole()
+        {
+            // Lấy tất cả người dùng có vai trò "User"
+            var usersWithUserRole = _userManager.GetUsersInRoleAsync("User").Result;
+
+            // Lọc ra những người dùng đang hoạt động (Status == Status.Active)
+            var activeUsersWithUserRole = usersWithUserRole.Where(u => u.Status == Status.ACTIVE);
+
+            return Ok(activeUsersWithUserRole);
         }
 
         [HttpGet("Get/{Id}")]
