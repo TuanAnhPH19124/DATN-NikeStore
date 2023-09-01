@@ -34,37 +34,218 @@ function myFunction() {
     x.style.visibility = "hidden";
   }
 }
+function CallGiaoHang(){
+    // call tỉnh
+    var option_province = [];
+    var startedProvince = 269
+    var startedDistrict = 2264
+    var startedWard = 90816
+    $.ajax({
+      url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+      type: "GET",
+      headers: {
+        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      },
+      dataType: "json",
+      success: function (result) {
+        console.log(result.data.length);
+        for (var i = 0; i < result.data.length; i++) {
+          option_province.push(
+            '<option value="',
+            result.data[i].ProvinceID, // Use the correct property name for ProvinceID
+            '">',
+            result.data[i].ProvinceName, // Use the correct property name for ProvinceName
+            "</option>"
+          );
+        }
+        $("#province").html(option_province.join(""));
+      },
+      error: function (error) {
+        console.error("Error fetching provinces:", error);
+      },
+    });
+    var option_district = [];
+    $.ajax({
+      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${startedProvince}`,
+      type: "GET",
+      headers: {
+        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      },
+      dataType: "json",
+      success: function (result) {
+        console.log(result.data[0]);
+        for (var i = 0; i < result.data.length; i++) {
+          option_district.push(
+            '<option value="',
+            result.data[i].DistrictID, // Use the correct property name for ProvinceID
+            '">',
+            result.data[i].DistrictName, // Use the correct property name for ProvinceName
+            "</option>"
+          );
+        }
+        $("#district").html(option_district.join(""));
+      },
+      error: function (error) {
+        console.error("Error fetching provinces:", error);
+      },
+    });
+    var option_ward = [];
+    $.ajax({
+      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${startedDistrict}`,
+      type: "GET",
+      headers: {
+        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      },
+      dataType: "json",
+      success: function (result) {
+        console.log(result.data[0]);
+        for (var i = 0; i < result.data.length; i++) {
+          option_ward.push(
+            '<option value="',
+            result.data[i].WardCode, // Use the correct property name for ProvinceID
+            '">',
+            result.data[i].WardName, // Use the correct property name for ProvinceName
+            "</option>"
+          );
+        }
+        $("#ward").html(option_ward.join(""));
+      },
+      error: function (error) {
+        console.error("Error fetching provinces:", error);
+      },
+    });
+    $("#province").on("change", function () {
+      var selectedValue = $(this).val();
+      console.log(selectedValue);
+      var option_district = [];
+      $.ajax({
+        url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${selectedValue}`,
+        type: "GET",
+        headers: {
+          token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+        },
+        dataType: "json",
+        success: function (result) {
+          console.log(result.data[0]);
+          for (var i = 0; i < result.data.length; i++) {
+            option_district.push(
+              '<option value="',
+              result.data[i].DistrictID, // Use the correct property name for ProvinceID
+              '">',
+              result.data[i].DistrictName, // Use the correct property name for ProvinceName
+              "</option>"
+            );
+          }
+          $("#district").html(option_district.join(""));
+          var option_ward = [];
+          $.ajax({
+            url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${result.data[0].DistrictID}`,
+            type: "GET",
+            headers: {
+              token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+            },
+            dataType: "json",
+            success: function (result) {
+              console.log(result.data);
+              for (var i = 0; i < result.data.length; i++) {
+                option_ward.push(
+                  '<option value="',
+                  result.data[i].WardCode, // Use the correct property name for ProvinceID
+                  '">',
+                  result.data[i].WardName, // Use the correct property name for ProvinceName
+                  "</option>"
+                );
+              }
+              $("#ward").html(option_ward.join(""));
+            },
+            error: function (error) {
+              console.error("Error fetching provinces:", error);
+            },
+          });
+        },
+        error: function (error) {
+          console.error("Error fetching provinces:", error);
+        },
+      });
+    });
+    $("#district").on("change", function () {
+      var selectedValue = $(this).val();
+      console.log(selectedValue);
+  
+      var option_ward = [];
+      $.ajax({
+        url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedValue}`,
+        type: "GET",
+        headers: {
+          token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+        },
+        dataType: "json",
+        success: function (result) {
+          console.log(result.data);
+          for (var i = 0; i < result.data.length; i++) {
+            option_ward.push(
+              '<option value="',
+              result.data[i].WardCode, // Use the correct property name for ProvinceID
+              '">',
+              result.data[i].WardName, // Use the correct property name for ProvinceName
+              "</option>"
+            );
+          }
+          $("#ward").html(option_ward.join(""));
+        },
+        error: function (error) {
+          console.error("Error fetching provinces:", error);
+        },
+      });
+    });
+  
+}
+// ngày ship hàng
+function fetchAllDayShip(to_district_id, to_ward_code) {
+  const url =
+    `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime` +
+    `?from_district_id=1485&from_ward_code=1A0607&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&service_id=53320`;
+
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      shop_id: "4374133",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+// giá tiền ship
+function fetchAllMoneyShip(to_district_id, to_ward_code) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      shop_id: "4374133",
+    },
+    // Construct the URL with query parameters
+    url: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_type_id=2&
+    insurance_value=&coupon=&from_district_id=1485&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&height=15&length=15&weight=1000&width=15`,
+  };
+
+  return fetch(requestOptions.url, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+
 // JS TẠO HOÁ ĐƠN
 $(document).ready(function () {
   let tabCount = 0;
   const maxTabs = 4;
 
-  // call tỉnh
-  var option_province = [];
-  $.ajax({
-    url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
-    type: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-    },
-    dataType: "json",
-    success: function (result) {
-      console.log(result.data.length);
-      for (var i = 0; i < result.data.length; i++) {
-        option_province.push(
-          '<option value="',
-          result.data[i].ProvinceID, // Use the correct property name for ProvinceID
-          '">',
-          result.data[i].ProvinceName, // Use the correct property name for ProvinceName
-          "</option>"
-        );
-      }
-      $("#province").html(option_province.join(""));
-    },
-    error: function (error) {
-      console.error("Error fetching provinces:", error);
-    },
-  });
+  CallGiaoHang()
 
   function setFirstTabActive() {
     $("#invoiceTabs .nav-item").removeClass("active");
@@ -84,18 +265,7 @@ $(document).ready(function () {
 
   $("#addInvoiceBtn").on("click", function () {
 
-    fetchAllProvince().then(data=>console.log(data))
-
-    fetchAllProvinceDistricts(201).then((data) => {
-      console.log(data);
-    });
-
-    fetchAllProvinceWard(1804).then(data=>{
-      console.log(data);
-    })
-
-    // to_district_id, to_ward_code
-    fetchAllMoneyShip(3695,90768).then((data) => {
+    fetchAllMoneyShip(3695, 90768).then((data) => {
       console.log(data);
     });
     fetchAllDayShip(1452, 21012).then((data) => {
@@ -799,13 +969,6 @@ $("#addToCart").click(function () {
     var newRowTotal = data.amount * data.price;
     // Create and append td cells with data values
 
-    var deleteButton = $("<button>")
-      .addClass("delete-button")
-      .text("Delete")
-      .click(function () {
-        $(this).closest("tr").remove();
-      });
-
     newRow.append(
       $("<td>").text(tbody.children().length + 1), // STT (Auto-increment)
       $("<td>").text(data.name), // Tên sản phẩm
@@ -824,9 +987,8 @@ $("#addToCart").click(function () {
           currency: "VND",
         }).format(newRowTotal)
       ), // Thành tiền for the new row
-      $("<td>").append(deleteButton)
+      $("<button>").text("Delete").addClass("delete-item")
     );
-
     tbody.append(newRow);
   }
   var totalSum = 0;
@@ -876,6 +1038,7 @@ $("#addToCart").click(function () {
         }
       } else {
         arr[selectedOrder].push({
+          itemIdentifier: itemIdentifier, // Add itemIdentifier to the object
           unitPrice: $("#discountRate").text(),
           quantity: parseInt($("#quantity").val(), 10),
           name: $("#name").text(),
@@ -888,6 +1051,37 @@ $("#addToCart").click(function () {
     },
   });
 });
+$(document).on("click", ".delete-item", function () {
+  var row = $(this).closest("tr");
+  var itemIdentifier = row.attr("data-id");
+
+  // Remove the item from the UI
+  row.remove();
+
+  // Create a new inner array excluding the item to delete
+  arr[selectedOrder] = arr[selectedOrder].filter(function (item) {
+    return item.itemIdentifier !== itemIdentifier;
+  });
+
+  // Recalculate the totalSum
+  var totalSum = 0;
+  $(`#invoice${selectedOrder} tbody tr`).each(function () {
+    var rowTotalCell = $(this).find("td:eq(6)");
+    var rowTotal = parseFloat(rowTotalCell.text().replace(/[.,₫]/g, ""));
+    if (!isNaN(rowTotal)) {
+      totalSum += rowTotal;
+    }
+  });
+
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  console.log(arr);
+});
+
 
 // reset product khi đóng modal
 $("#productDetailModal").on("hide.bs.modal", function () {
@@ -908,91 +1102,3 @@ $("#productDetailModal").on("hide.bs.modal", function () {
   };
 });
 
-// giao hành nhanh
-// tỉnh
-function fetchAllProvince() {
-  return fetch(
-    "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
-    {
-      method: "GET",
-      headers: {
-        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-}
-
-//  quận huyện
-function fetchAllProvinceDistricts(codeProvince) {
-  const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${codeProvince}`;
-
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-}
-
-// Phường/Xã
-function fetchAllProvinceWard(codeDistrict) {
-  const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${codeDistrict}`;
-
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-}
-
-// ngày ship hàng
-function fetchAllDayShip(to_district_id, to_ward_code) {
-  const url =
-    `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime` +
-    `?from_district_id=1485&from_ward_code=1A0607&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&service_id=53320`;
-
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      shop_id: "4374133",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-}
-
-// giá tiền ship
-function fetchAllMoneyShip(to_district_id, to_ward_code) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      shop_id: "4374133",
-    },
-    // Construct the URL with query parameters
-    url: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_type_id=2&
-    insurance_value=&coupon=&from_district_id=1485&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&height=15&length=15&weight=1000&width=15`,
-  };
-
-  return fetch(requestOptions.url, requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-}
