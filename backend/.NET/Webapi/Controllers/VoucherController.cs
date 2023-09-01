@@ -61,22 +61,7 @@ namespace Webapi.Controllers
             }
             return voucher;
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
-        //{
-        //    try
-        //    {
-        //        var voucher = voucherDto.Adapt<Voucher>();
-        //        await _serviceManager.VoucherService.CreateAsync(voucher);
-        //        return CreatedAtAction(nameof(GetByIdVoucher), new { id = voucher.Id }, voucher);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode((int)HttpStatusCode.Conflict, ex);
-        //    }
-        //}
-
+   
         [HttpPost]
         public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
         {
@@ -96,6 +81,7 @@ namespace Webapi.Controllers
                 Code = voucherDto.Code,
                 Value = voucherDto.Value,
                 Description = voucherDto.Description,
+                Quantity = voucherDto.Quantity,
                 StartDate = voucherDto.StartDate, 
                 EndDate = voucherDto.EndDate,
                 Status= voucherDto.Status,
