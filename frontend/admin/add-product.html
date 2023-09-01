@@ -603,10 +603,15 @@
             <div class="modal-body">
               <form id="add-product-form">
                 <div class="row">
-                  <div class="col">
+                  <div class="col-6">
                     <label for="name">Tên sản phẩm</label>
                     <input type="text" class="form-control" id="name" name="name" />
                     <div id="name-error" class="error"></div>
+                  </div>
+                  <div class="col">
+                    <button type="button" onclick="window.location.href = `/frontend/admin/product-page.html`;"  class="btn btn-dark" style="float: right; margin-top: 30px; font-weight: bold;background-color: #1967d2;border-color: #1967d2;">
+                      Danh sách
+                    </button>
                   </div>
                   <div class="col">
                     <button type="submit" id="addProductBtn" class="btn btn-dark" style="float: right; margin-top: 30px; font-weight: bold;background-color: #1967d2;border-color: #1967d2;">

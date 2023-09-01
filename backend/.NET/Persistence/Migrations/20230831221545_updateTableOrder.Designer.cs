@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230831115239_ptt")]
-    partial class ptt
+    [Migration("20230831221545_updateTableOrder")]
+    partial class updateTableOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,40 +26,38 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("District")
+                    b.Property<string>("AddressLine")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Line")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ProvinceId")
+                    b.Property<int>("CityCode")
                         .HasColumnType("integer");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProvinceCode")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("SetAsDefault")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<string>("Ward")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("WardCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("toDistrictId")
+                    b.Property<int>("WardCode")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
@@ -358,9 +356,6 @@ namespace Persistence.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
@@ -378,36 +373,61 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.OrderItem", b =>
                 {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ColorId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("OrderId")
                         .HasColumnType("text");
 
                     b.Property<string>("ProductId")
                         .HasColumnType("text");
 
-                    b.Property<string>("ColorId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
                     b.Property<string>("SizeId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<double>("UnitPrice")
                         .HasColumnType("double precision");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ColorId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SizeId");
-
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("Domain.Entities.OrderStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -563,39 +583,22 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("ProductId")
-                        .IsRequired()
+                    b.Property<string>("AppUserId")
                         .HasColumnType("text");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ShoppingCartId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ShoppingCartId");
-
-                    b.ToTable("ShoppingCartItems");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AppUserId")
+                    b.Property<string>("StockId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("ShoppingCarts");
+                    b.HasIndex("StockId");
+
+                    b.ToTable("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.Size", b =>
@@ -719,9 +722,6 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
@@ -963,33 +963,26 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.OrderItem", b =>
                 {
-                    b.HasOne("Domain.Entities.Color", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorId");
-
                     b.HasOne("Domain.Entities.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("Domain.Entities.Product", "Product")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeId");
-
-                    b.Navigation("Color");
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
 
-                    b.Navigation("Size");
+            modelBuilder.Entity("Domain.Entities.OrderStatus", b =>
+                {
+                    b.HasOne("Domain.Entities.Order", "Order")
+                        .WithMany("OrderStatuses")
+                        .HasForeignKey("OrderId");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -1056,30 +1049,17 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.ShoppingCartItems", b =>
                 {
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("ShoppingCartItems")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.ShoppingCarts", "ShoppingCarts")
-                        .WithMany("ShoppingCartItems")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ShoppingCarts");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
-                {
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
-                        .WithMany("ShoppingCarts")
+                        .WithMany("ShoppingCartItems")
                         .HasForeignKey("AppUserId");
 
+                    b.HasOne("Domain.Entities.Stock", "Stock")
+                        .WithMany("ShoppingCartItems")
+                        .HasForeignKey("StockId");
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Domain.Entities.Stock", b =>
@@ -1198,7 +1178,7 @@ namespace Persistence.Migrations
 
                     b.Navigation("ProductRate");
 
-                    b.Navigation("ShoppingCarts");
+                    b.Navigation("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
@@ -1223,6 +1203,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
+
+                    b.Navigation("OrderStatuses");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -1235,14 +1217,7 @@ namespace Persistence.Migrations
 
                     b.Navigation("ProductRate");
 
-                    b.Navigation("ShoppingCartItems");
-
                     b.Navigation("Stocks");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShoppingCarts", b =>
-                {
-                    b.Navigation("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.Size", b =>
@@ -1253,6 +1228,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Sole", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Stock", b =>
+                {
+                    b.Navigation("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.Voucher", b =>

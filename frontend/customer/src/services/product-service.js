@@ -15,6 +15,16 @@
                 url: uri
             });
         };
+
+        this.getProductsByParams = function (paramsF){
+            let uri = apiUrl + '/api/Product/filter';
+            return $http({
+                method: 'GET',
+                url: uri,
+                params: paramsF
+            });
+        };
+
     };
     productService.$inject = ['$http', 'apiUrl'];
     angular.module("app").service("productService", productService);

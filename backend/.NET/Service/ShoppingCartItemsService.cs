@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto;
 using EntitiesDto.Datas;
@@ -19,57 +20,72 @@ namespace Service
         {
             _repositoryManager = repositoryManager;   
         }
-        public async Task AddCartItemAsync(ShoppingCartItems item)
-        {
-            _repositoryManager.ShoppingCartItemRepository.AddCartItemAsync(item);
-            await _repositoryManager.UnitOfWork.SaveChangeAsync();
-            
-        }
 
-        public async Task RemoveProductFromCartItemAsync(string cartItemId, string productId)
+        public async Task<ShoppingCartItems> AddToCart(ShoppingCartItemAPI item)
         {
-           await _repositoryManager.ShoppingCartItemRepository.RemoveProductFromCartItemAsync(cartItemId, productId);
-            await _repositoryManager.UnitOfWork.SaveChangeAsync();
-        }
-
-        public async Task<IEnumerable<Data.ShoppingCartItemData>> GetByUserIdAsync(string userId)
-        {
-            var cart =  await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAsync(userId);
-            if (cart != null)
+            var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAndStockId(item.AppUserId, item.StockId);
+            var newItem = new ShoppingCartItems();
+            if (checkCartExist != null)
             {
-                var listCarts = cart.ShoppingCartItems.Adapt<List<Data.ShoppingCartItemData>>();
-                return listCarts;
-            }
-            return null;
-        }
-
-        public async Task UpdatePutAsync(string Id, Boolean isQuantity)
-        {
-            var item = await _repositoryManager.ShoppingCartItemRepository.GetByIdCartItemAsync(Id);
-            if (isQuantity)
-            {
-                item.Quantity++;
+                checkCartExist.Quantity += item.Quantity;
+                _repositoryManager.ShoppingCartItemRepository.Update(checkCartExist);
+                newItem = checkCartExist;
             }
             else
             {
-                if (item.Quantity > 1)
-                {
-                    item.Quantity--;
-                }                           
+                newItem.Quantity = item.Quantity;
+                newItem.StockId = item.StockId;
+                newItem.AppUserId = item.AppUserId;
+                await _repositoryManager.ShoppingCartItemRepository.Add(newItem);
             }
-            await _repositoryManager.ShoppingCartItemRepository.UpdateCartItemAsync(Id, item);
+           
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
+            return newItem;
         }
-        public async Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems)
+
+        public async Task DeleteCart(string id)
         {
-           await _repositoryManager.ShoppingCartItemRepository.UpdateCartItemAsync(Id, shoppingCartItems);
+            var targetItem = await _repositoryManager.ShoppingCartItemRepository.GetById(id);
+            if (targetItem == null)
+                throw new Exception("Không tìm thấy giỏ hàng này.");
+
+            _repositoryManager.ShoppingCartItemRepository.Delete(targetItem);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
 
-        public async Task<ShoppingCartItems> checkProduct(string productId, string ShoppingCartId)
+        public async Task<IEnumerable<ShoppingCartDto>> GetByUserId(string userId)
         {
-          var check = await _repositoryManager.ShoppingCartItemRepository.CheckProductAsync(productId, ShoppingCartId);
-            return check;
+            var carts = await _repositoryManager.ShoppingCartItemRepository.GetByUserId(userId);
+
+            var cartsDto = carts.Select(p => new ShoppingCartDto
+            {
+                Id = p.Id,
+                Quantity = p.Quantity,
+                ColorName = p.Stock.Color.Name,
+                SizeId = p.Stock.SizeId,
+                Product = new ShoppingCartProductDto
+                {
+                    Id = p.Stock.ProductId,
+                    Name = p.Stock.Product.Name,
+                    DiscountRate = p.Stock.Product.DiscountRate,
+                    RetailPrice = p.Stock.Product.RetailPrice,
+                    ImgUrl = p.Stock.Product.ProductImages.FirstOrDefault(a => a.ColorId == p.Stock.ColorId).ImageUrl
+                }
+            }).ToList();
+            return cartsDto;
+        }
+
+        public async Task UpdateQuantity(ShoppingCartItems item)
+        {
+            var targetItem = await _repositoryManager.ShoppingCartItemRepository.GetById(item.Id);
+
+            if (targetItem == null)
+                throw new Exception("Có gì đó không đúng, không tìm thầy giỏ hàng này");
+
+            targetItem.Quantity = item.Quantity;
+
+            _repositoryManager.ShoppingCartItemRepository.Update(targetItem);
+            await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
     }
 }

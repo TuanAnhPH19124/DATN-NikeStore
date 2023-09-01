@@ -164,7 +164,7 @@ namespace Persistence.Repositories
                     Addresses = user.Addresses.Select(p => new AddressDto
                     {
                         Id = p.Id,
-                        Address = $"{p.Line}, {p.Ward}, {p.Province}, {p.District}"
+                      
                     }).ToList()
                 };
 

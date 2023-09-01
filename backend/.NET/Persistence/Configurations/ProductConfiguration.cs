@@ -40,10 +40,6 @@ namespace Persistence.Configurations
                     .WithOne(p => p.Product)
                     .HasForeignKey(p => p.ProductId);
 
-            builder.HasMany(x => x.ShoppingCartItems)
-                    .WithOne(x => x.Product)
-                    .HasForeignKey(x => x.ProductId);
-
             builder.HasOne(p => p.Sole)
                 .WithMany(p => p.Products)
                 .HasForeignKey(p => p.SoleId);

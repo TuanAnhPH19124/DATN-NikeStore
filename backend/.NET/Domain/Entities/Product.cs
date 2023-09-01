@@ -22,7 +22,6 @@ namespace Domain.Entities
 
         public virtual Material Material { get; set; }
         public virtual Sole Sole { get; set; }
-        public virtual IEnumerable<ShoppingCartItems> ShoppingCartItems { get; set; }
         public virtual List<Tag> Tags { get; set; } 
         public virtual List<Stock> Stocks { get; set; } 
         public virtual List<ProductImage> ProductImages { get; set; } 

@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var customerTable = $('#customer-table').DataTable({
         "ajax": {
-            "url": "https://localhost:44328/api/AppUser/Get",
+            "url": "https://localhost:44328/api/AppUser/GetUsersWithUserRole",
             "dataType": "json",
             "dataSrc": "",
         },
@@ -13,9 +13,8 @@ $(document).ready(function () {
                     return meta.row + 1;
                 }
             },
-            { "data": 'avatarUrl', "title": "Ảnh", },
-            { "data": 'userName', "title": "Tên tài khoản", },
             { "data": 'email', "title": "Email", },
+            { "data": 'phoneNumber', "title": "SĐT", },
             { "data": 'fullName', "title": "Họ và tên", },
             { "data": 'modifiedDate', "title": "Ngày tạo",
             "render": function (data, type, full, meta) {
@@ -26,8 +25,6 @@ $(document).ready(function () {
                 var formattedDate = `${day}/${month}/${year}`;
                 return formattedDate;
             } },
-            { "data": 'loyaltyPoint', "title": "Điểm", },
-            { "data": 'rank', "title": "Hạng", },
             {
                 "data": 'status', "title": "Trạng thái",
                 "render": function (data, type, row) {
@@ -69,9 +66,6 @@ $(document).ready(function () {
             },
           }
     });
-    setInterval(function () {
-        customerTable.ajax.reload();
-    }, 2500);
     //add event click datatable
 
     $('#customer-table tbody').on('click', 'tr', function (e) {
@@ -84,31 +78,7 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    if (data.status == 1) {
-                        var changedStatus = 0
-                    } else {
-                        var changedStatus = 1
-                    }
-
-                    var formData = {
-                        status: changedStatus,
-                        id: customerId
-                    };
-                    if (confirm(`Bạn có muốn thay đổi trạng thái của tài khoản ${data.userName} không?`)) {
-                        $.ajax({
-                            url: `https://localhost:44328/api/AppUser/${customerId}/UpdateUserByAdmin`,
-                            type: "PUT",
-                            data: JSON.stringify(formData),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (response) {
-                                $('.toast').toast('show')
-                            },
-                        });
-                    } else {
-                        return
-                    }
-
+                    
                 },
             });
 

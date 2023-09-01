@@ -10,7 +10,7 @@
                 <li><a href="#">Trợ giúp</a></li>
                 <li>
                     <a href="#/accountDetail">
-                        <span>Chào, Nguyễn Tuấn Anh</span>
+                        <span>Chào, {{getUserName()}}</span>
                         <i class="fa-solid fa-user"></i>
                     </a>
                 </li>
@@ -47,8 +47,8 @@
                     </div>
                     <div class="container-cart">
                         <a href="#/cart"><img src="../assets/img/logo/shopping-bag.png" alt="Giỏ hàng"></a>
-                        <!-- <span class="span-9p">0+</span> -->
-                        <span>1</span>
+                        <span ng-show="cartCounter() >= 10" class="span-9p">9+</span>
+                        <span ng-show="cartCounter() > 0 && cartCounter() < 10" >{{cartCounter()}}</span>
                     </div>
                    
                 </div>
