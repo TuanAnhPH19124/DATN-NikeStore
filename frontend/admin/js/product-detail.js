@@ -738,15 +738,21 @@ function loadColorE() {
   plusButtonContainer.innerHTML = "";
 
   if (product.Colors.length !== 0) {
-    product.Colors.forEach((color) => {
+    product.Colors.forEach((color, index) => { // Add index parameter
       var newDiv = document.createElement("div");
       newDiv.className = "container-color";
-    
+
       var newButton = document.createElement("button");
       newButton.type = "button";
       newButton.className = "btn btn-outline-dark pick-color";
       newButton.id = color.id;
       newButton.textContent = color.name;
+
+      // Add "active" class to the first button
+      if (index === 0) {
+        newButton.classList.add("active");
+      }
+
       newButton.addEventListener("click", function (e) {
         var buttons = document.getElementsByClassName("btn-outline-dark pick-color");
         for (var i = 0; i < buttons.length; i++) {
@@ -759,9 +765,9 @@ function loadColorE() {
         loadSizeE();
         loadImageE();
       });
-    
+
       newDiv.appendChild(newButton);
-    
+
       // Check if color.NotDelete is true, if not, create and append the remove button
       if (!color.NotDelete) {
         var newRemoveBtn = document.createElement("button");
@@ -782,16 +788,16 @@ function loadColorE() {
             loadImageE();
           }
         });
-    
+
         newDiv.appendChild(newRemoveBtn);
       }
-    
+
       plusButtonContainer.appendChild(newDiv);
     });
-    
-  }
 
+  }
 }
+
 
 function isIdExists(id, array) {
   return array.some(function (item) {

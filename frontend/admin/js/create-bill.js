@@ -594,97 +594,112 @@ $("#productData tbody").on("click", "tr", function (e) {
         // $('#status').val(data.status);
         // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
 
-        var colorIds = [
-          ...new Set(data.productImages.map((item) => item.colorId)),
-        ];
-        var images = data.productImages.map((item) => ({
-          colorId: item.colorId,
-          imageUrl: item.imageUrl,
-        }));
-        console.log(images);
-
-        // Fetch color data and process images for each color
-        var colorPromises = colorIds.map((colorId) =>
-          $.ajax({
-            url: "https://localhost:44328/api/Color/Get/" + colorId,
-            type: "GET",
-            dataType: "json",
-          }).then(function (colorData) {
-            console.log(colorData);
-            console.log(colorId);
-
-            var colorEntry = {
+      // hiển thị màu
+      var colorIds = [...new Set(data.productImages.map(function (item) {
+        return item.colorId;
+      }))];
+      var images = data.productImages.map(function (item) {
+        return {
+          colorId : item.colorId,
+          imageUrl : item.imageUrl,
+        };
+      });
+      console.log(images)
+      // Assuming product is an object with a Colors property
+      colorIds.forEach(function (colorId) {
+        $.ajax({
+          url: "https://localhost:44328/api/Color/Get/" + colorId,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data.id)
+            console.log(colorId)
+            product.Colors.push({
               id: colorId,
-              name: colorData.name,
+              name: data.name,
               Images: [],
               Sizes: [],
-            };
+            });
+            loadColorE();
+            for (let i = 0; i < product.Colors.length; i++) {
+              if (product.Colors[i].id === colorId) {
+                const imagesForColor = images.filter(image => image.colorId === colorId);
+                
+                imagesForColor.forEach(imageData => {
+                  const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
+            
+                  fetch(imageLink)
+                    .then(response => response.blob())
+                    .then(blob => {
+                      const newImage = new File([blob], "image.jpg", {
+                        type: "image/jpeg",
+                      });
+            
+                      product.Colors[i].Images.push({
+                        file: newImage,
+                        setAsDefault: false,
+                      });
+            
+                      loadImageE();
+                    });
+                });
+              }
+            }
+            
+          },
+          error: function () {
+            console.log("Error retrieving data.");
+          },
+        });
+      });
+      // load Size
+      var sizeData = data.stocks.map(function (item) {
+        return {
+          sizeId: item.sizeId,
+          unitInStock: item.unitInStock,
+          colorId:item.colorId,
+        };
+      });
+      var promises = [];
 
-            product.Colors.push(colorEntry);
-            console.log(product);
-
-            var imagesForColor = images.filter(
-              (image) => image.colorId === colorId
-            );
-
-            var imagePromises = imagesForColor.map((imageData) =>
-              fetch(
-                "https://localhost:44328/" +
-                  imageData.imageUrl.replace(/\\/g, "/")
-              )
-                .then((response) => response.blob())
-                .then((blob) => {
-                  var newImage = new File([blob], "image.jpg", {
-                    type: "image/jpeg",
-                  });
-
-                  colorEntry.Images.push({
-                    file: newImage,
-                    setAsDefault: false,
-                  });
-
-                  loadImageE();
-                })
-            );
-
-            return Promise.all(imagePromises);
-          })
-        );
-
-        // Fetch size data and update color sizes
-        var sizePromises = data.stocks.map((size) =>
-          $.ajax({
-            url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
-            type: "GET",
-            dataType: "json",
-          }).then(function (sizeData) {
-            console.log(sizeData);
+      sizeData.forEach(function (size) {
+        var promise = $.ajax({
+          url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+          type: "GET",
+          dataType: "json",
+        })
+          .then(function (data) {
+            console.log(data);
 
             var selectedColorText = {
-              numberSize: sizeData.numberSize,
+              numberSize: data.numberSize,
               id: size.sizeId,
             };
-
-            var colorIndex = product.Colors.findIndex(
-              (color) => color.id === size.colorId
-            );
-            if (colorIndex !== -1) {
-              selectedColorText.unitInStock = size.unitInStock;
-              product.Colors[colorIndex].Sizes.push(selectedColorText);
+            console.log(sizeData.length)
+            // Find the correct color index based on colorId
+            for (let i = 0; i < sizeData.length; i++) {
+              if (product.Colors[i].id === size.colorId) {
+                selectedColorText.unitInStock = size.unitInStock;
+                product.Colors[i].Sizes.push(selectedColorText);
+              }
             }
+            // Push selectedColorText to the Sizes array of the corresponding color
           })
-        );
+          .catch(function () {
+            console.log("Error retrieving data.");
+          });
 
-        // Wait for all AJAX requests to complete
-        Promise.all([...colorPromises, ...sizePromises]).then(function () {
-          loadColorE();
-          loadSizeE();
-          console.log(data);
+        promises.push(promise);
+      });
+
+      // Wait for all AJAX requests to complete
+      Promise.all(promises).then(function () {
+        loadSizeE(); // This will be called after all requests are finished
+        // Assuming you have an imageLink as you mentioned earlier
+
+          console.log(data)
           console.log(product);
-          $("#product-instock").hide();
-          $("#quantity-input").hide();
-          $("#addToCart").hide();
-        });
+      });
         addToCartItem.id = data.id;
         addToCartItem.name = data.name;
         addToCartItem.price = data.discountRate;
@@ -823,7 +838,7 @@ function loadColorE() {
   plusButtonContainer.innerHTML = "";
 
   if (product.Colors.length !== 0) {
-    product.Colors.forEach((color) => {
+    product.Colors.forEach((color, index) => {
       var newDiv = document.createElement("div");
       newDiv.className = "container-color";
 
@@ -832,6 +847,20 @@ function loadColorE() {
       newButton.className = "btn btn-outline-dark color";
       newButton.id = color.id;
       newButton.textContent = color.name;
+
+      // Add "active" class to the first button
+      if (index === 0) {
+        newButton.classList.add("active");
+        selectedColor = findIndexById(product.Colors, color.id);
+        addToCartItem.color = color.name;
+        addToCartItem.colorId = color.id;
+        loadSizeE();
+        loadImageE();
+        $("#product-instock").hide();
+        $("#quantity-input").hide();
+        $("#addToCart").hide();
+      }
+
       newButton.addEventListener("click", function (e) {
         var buttons = document.getElementsByClassName("btn-outline-dark color");
         for (var i = 0; i < buttons.length; i++) {
@@ -855,6 +884,7 @@ function loadColorE() {
     });
   }
 }
+
 function loadSizeE() {
   var plusButtonContainer = document.getElementById("render-size");
   // Xóa tất cả các phần tử con trong containerParent
