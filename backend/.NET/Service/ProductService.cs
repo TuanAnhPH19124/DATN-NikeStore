@@ -100,10 +100,8 @@ namespace Service
         {
             var query = _repositoryManger.ProductRepository.GetAllProductsQuery();
             if (options.Categories != null && options.Categories.Any())
-            {
-                var categoryIds = options.Categories.Select(p => p.Id).ToList();
-                query = query.Where(p => p.CategoryProducts.Any(cp => categoryIds.Contains(cp.CategoryId)));
-            }
+                query = query.Where(p => p.CategoryProducts.Any(cp => options.Categories.Contains(cp.CategoryId)));
+    
 
             if (options.Colors != null && options.Colors.Any())
             {
@@ -152,7 +150,7 @@ namespace Service
                     SizeId = stock.SizeId,
                     ColorId = stock.ColorId,
                     UnitInStock = stock.UnitInStock,
-                    ProductId = stock.ProductId
+                    StockId = stock.StockId
                 }).ToList(),
 
                 CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
@@ -164,10 +162,8 @@ namespace Service
 
                 ProductImages = product.ProductImages.Select(image => new ProductImageDto
                 {
-                    Id = image.Id,
                     ImageUrl = image.ImageUrl,
                     SetAsDefault = image.SetAsDefault,
-                    ProductId = image.ProductId,
                     ColorId = image.ColorId
                     // Sao chép các thuộc tính khác từ image
                 }).ToList()
@@ -194,7 +190,7 @@ namespace Service
                     SizeId = stock.SizeId,
                     ColorId = stock.ColorId,
                     UnitInStock = stock.UnitInStock,
-                    ProductId = stock.ProductId
+                    StockId = stock.StockId
                 }).ToList(),
 
                 CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
@@ -206,10 +202,8 @@ namespace Service
 
                 ProductImages = product.ProductImages.Select(image => new ProductImageDto
                 {
-                    Id = image.Id,
                     ImageUrl = image.ImageUrl,
                     SetAsDefault = image.SetAsDefault,
-                    ProductId = image.ProductId,
                     ColorId = image.ColorId
                     // Sao chép các thuộc tính khác từ image
                 }).ToList()
@@ -238,7 +232,7 @@ namespace Service
                     SizeId = stock.SizeId,
                     ColorId = stock.ColorId,
                     UnitInStock = stock.UnitInStock,
-                    ProductId = stock.ProductId
+                    StockId = stock.StockId
                 }).ToList(),
 
                 CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
@@ -250,10 +244,8 @@ namespace Service
 
                 ProductImages = product.ProductImages.Select(image => new ProductImageDto
                 {
-                    Id = image.Id,
                     ImageUrl = image.ImageUrl,
                     SetAsDefault = image.SetAsDefault,
-                    ProductId = image.ProductId,
                     ColorId = image.ColorId
                     // Sao chép các thuộc tính khác từ image
                 }).ToList()
@@ -268,7 +260,6 @@ namespace Service
 
             if (product == null)
             {
-                // Xử lý nếu sản phẩm không tồn tại
                 return null;
             }
 
@@ -286,10 +277,11 @@ namespace Service
 
                 Stocks = product.Stocks.Select(stock => new StockDto
                 {
+                    NumberSize = stock.Size.NumberSize,
                     SizeId = stock.SizeId,
                     ColorId = stock.ColorId,
                     UnitInStock = stock.UnitInStock,
-                    ProductId = stock.ProductId
+                    StockId = stock.StockId
                 }).ToList(),
 
                 CategoryProducts = product.CategoryProducts.Select(categoryProduct => new CategoryProductDto
@@ -300,16 +292,12 @@ namespace Service
                 }).ToList(),
 
                 ProductImages = product.ProductImages.Select(image => new ProductImageDto
-                {
-                    Id = image.Id,
+                {               
                     ImageUrl = image.ImageUrl,
                     SetAsDefault = image.SetAsDefault,
-                    ProductId = image.ProductId,
                     ColorId = image.ColorId
-                    // Sao chép các thuộc tính khác từ image
                 }).ToList()
             };
-
             return productDto;
         }
 

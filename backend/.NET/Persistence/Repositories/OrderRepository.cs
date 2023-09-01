@@ -1,12 +1,9 @@
 using Domain.DTOs;
 using Domain.Entities;
 using Domain.Repositories;
-using EntitiesDto;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,20 +20,7 @@ namespace Persistence.Repositories
 
         public async Task Post(Order order)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    await _context.AddAsync(order);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch (System.Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
+            await _context.AddAsync(order);
         }
 
         public async Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default)
@@ -48,7 +32,6 @@ namespace Persistence.Repositories
                 Id = order.Id,
                 Address = order.Address,
                 PhoneNumber = order.PhoneNumber,
-                Status = order.Status,
                 Note = order.Note,
                 Paymethod = order.Paymethod,
                 Amount = order.Amount,
@@ -64,7 +47,6 @@ namespace Persistence.Repositories
                     ProductId = item.ProductId,
                     ColorId = item.ColorId,
                     SizeId = item.SizeId,
-                    OrderDate = item.OrderDate,
                     Quantity = item.Quantity,
                     UnitPrice = item.UnitPrice
                 }).ToList()
@@ -77,9 +59,9 @@ namespace Persistence.Repositories
             return await _context.Orders.Include(p => p.Id == id).FirstOrDefaultAsync(p => p.Id == id);
         }
         public async Task<Order> SelectById(string id)
-            {
-                return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
-            }
+        {
+            return await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
+        }
 
         public async Task<string> Update(string id, Order order)
         {
@@ -88,7 +70,6 @@ namespace Persistence.Repositories
                 try
                 {
                     var currentOrder = await SelectById(id);
-                    currentOrder.Status = order.Status;
                     currentOrder.ModifiedDate = order.ModifiedDate;
                     _context.Orders.Update(currentOrder);
                     await _context.SaveChangesAsync();

@@ -9,18 +9,16 @@ namespace Domain.Entities
     [Table("OrderItems")]
     public class OrderItem
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string OrderId { get; set; }
-        public Order Order { get; set; }
         public string ProductId { get; set; }
-        public Product Product { get; set; }
         public string ColorId { get; set; }
-        public Color Color { get; set; }
         public string SizeId { get; set; }
-        public Size Size { get; set; }
-        public DateTime OrderDate { get; set; }
-
-
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
+
+        public Product Product { get; set; }
+        public Order Order { get; set; }
+
     }
 }

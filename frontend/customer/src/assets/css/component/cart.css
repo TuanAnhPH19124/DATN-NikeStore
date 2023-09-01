@@ -1,23 +1,19 @@
-.title-cart {
-    text-align: center;
-    padding-top: 50px;
-    font-size:  30px;
-    font-weight: bold
+.banner-freeship{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--bc-gray-light);
+    padding: 5px;
 }
-.pay-cart {
-    padding-top: 20px;
-    text-align: center;
-    padding-bottom: 50px;
+.cart-item{
+    border-bottom: 1px solid var(--bc-gray-light);
+    padding: 20px 0;
+    display: flex;
 }
-.pay-cart a{
-    width: 200px;
+
+.main-item{
+    display: flex;
+    justify-content: space-between;
 }
-.pay-cart a:hover{
-    color: white;
-}
-.more{
-    padding-top: 30px;
-    text-decoration: none;
-    font-size: 20px;
-    text-align: center;
+.product-price{
+   
 }

@@ -17,8 +17,9 @@ namespace Domain.Entities
         public string ProductId { get; set; }
         public string ColorId { get; set; }
         public string SizeId { get; set; }
-        public Product Product { get; set; }
-        public Color Color { get; set; }
-        public Size Size { get; set; }
+        public virtual Product Product { get; set; }
+        public virtual Color Color { get; set; }
+        public virtual Size Size { get; set; }
+        public virtual List<ShoppingCartItems> ShoppingCartItems { get; set; }
     }
 }

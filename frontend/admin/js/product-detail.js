@@ -744,10 +744,17 @@ function loadColorE() {
     
       var newButton = document.createElement("button");
       newButton.type = "button";
-      newButton.className = "btn btn-outline-dark";
+      newButton.className = "btn btn-outline-dark pick-color";
       newButton.id = color.id;
       newButton.textContent = color.name;
       newButton.addEventListener("click", function (e) {
+        var buttons = document.getElementsByClassName("btn-outline-dark pick-color");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.remove("active");
+        }
+
+        // Thêm lớp active cho nút được bấm
+        newButton.classList.add("active");
         selectedColor = findIndexById(product.Colors, e.target.id);
         loadSizeE();
         loadImageE();
@@ -822,6 +829,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     selectedColorText = {};
     $("#exampleModalColor").modal("hide");
+    var buttons = document.getElementsByClassName("btn-outline-dark pick-color");
+    buttons[buttons.length-1].classList.add("active");
+    // reset màu chọn khi thêm
+    var buttons = document.getElementsByClassName("btn btn-outline-dark add-color");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove("active");
+    }
+    var buttons = document.getElementsByClassName("btn btn-outline-dark after-add-color");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove("active");
+    }
   });
 
   $("#exampleModalColor").on("show.bs.modal", function (event) {
@@ -851,7 +869,7 @@ document.addEventListener("DOMContentLoaded", function () {
       data.forEach(function (item) {
         var button = $("<button></button>");
         button.attr("type", "button");
-        button.addClass("btn btn-outline-dark");
+        button.addClass("btn btn-outline-dark add-color");
         button.css("margin-left", "3%");
         button.css("margin-top", "1%");
         button.text(item.name);
@@ -859,6 +877,12 @@ document.addEventListener("DOMContentLoaded", function () {
         button.attr("id", item.id);
         button.click(function () {
           selectedColorText = { id: item.id, text: item.name };
+          var buttons = document.getElementsByClassName("btn-outline-dark add-color");
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+          }
+  
+          $(this).addClass("active");
         });
         buttonContainer.append(button);
       });
@@ -908,7 +932,7 @@ document.addEventListener("DOMContentLoaded", function () {
               data.forEach(function (item) {
                 var button = $("<button></button>");
                 button.attr("type", "button");
-                button.addClass("btn btn-outline-dark");
+                button.addClass("btn btn-outline-dark add-color");
                 button.css("margin-left", "3%");
                 button.css("margin-top", "1%");
                 button.text(item.name);
@@ -916,6 +940,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.attr("id", item.id);
                 button.click(function () {
                   selectedColorText = { id: item.id, text: item.name };
+                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-color");
+                  for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                  }
+          
+                  $(this).addClass("active");
                 });
                 buttonContainer.append(button);
               });
@@ -949,13 +979,19 @@ document.addEventListener("DOMContentLoaded", function () {
               data.forEach(function (item) {
                 var button = $("<button></button>");
                 button.attr("type", "button");
-                button.addClass("btn btn-outline-dark");
+                button.addClass("btn btn-outline-dark add-color");
                 button.css("margin-left", "3%");
                 button.css("margin-top", "1%");
                 button.text(item.name);
                 button.attr("data-color", item.name);
                 button.attr("id", item.id);
                 button.click(function () {
+                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-color");
+                  for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                  }
+          
+                  $(this).addClass("active");
                   selectedColorText = { id: item.id, text: item.name };
                 });
                 buttonContainer.append(button);
@@ -1125,7 +1161,7 @@ document.addEventListener("DOMContentLoaded", function () {
       data.forEach(function (item) {
         var button = $("<button></button>");
         button.attr("type", "button");
-        button.addClass("btn btn-outline-dark");
+        button.addClass("btn btn-outline-dark pick-size");
         button.css("margin-left", "3%");
         button.css("margin-top", "1%");
         button.text(item.numberSize);
@@ -1136,6 +1172,12 @@ document.addEventListener("DOMContentLoaded", function () {
             numberSize: item.numberSize,
             unitInStock: 1,
           };
+          var buttons = document.getElementsByClassName("btn-outline-dark pick-size");
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+          }
+  
+          $(this).addClass("active");
         });
         buttonContainer.append(button);
       });
@@ -1185,7 +1227,7 @@ document.addEventListener("DOMContentLoaded", function () {
               data.forEach(function (item) {
                 var button = $("<button></button>");
                 button.attr("type", "button");
-                button.addClass("btn btn-outline-dark");
+                button.addClass("btn btn-outline-dark after-add-size");
                 button.css("margin-left", "3%");
                 button.css("margin-top", "1%");
                 button.text(item.numberSize);
@@ -1196,6 +1238,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     numberSize: item.numberSize,
                     unitInStock: 0,
                   };
+                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-size");
+                  for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                  }
+          
+                  $(this).addClass("active");
                 });
                 buttonContainer.append(button);
               });
@@ -1232,7 +1280,7 @@ document.addEventListener("DOMContentLoaded", function () {
               data.forEach(function (item) {
                 var button = $("<button></button>");
                 button.attr("type", "button");
-                button.addClass("btn btn-outline-dark");
+                button.addClass("btn btn-outline-dark after-add-size");
                 button.css("margin-left", "3%");
                 button.css("margin-top", "1%");
                 button.text(item.numberSize);
@@ -1243,6 +1291,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     numberSize: item.numberSize,
                     unitInStock: 0,
                   };
+                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-size");
+                  for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                  }
+          
+                  $(this).addClass("active");
                 });
                 buttonContainer.append(button);
               });

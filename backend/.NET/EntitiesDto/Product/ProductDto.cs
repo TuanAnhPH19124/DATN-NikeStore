@@ -54,7 +54,7 @@ namespace EntitiesDto.Product
     }
     public class ProductFilterOptionAPI
     {
-        public List<CategoryAPI> Categories { get; set; } = null;
+        public List<string> Categories { get; set; } = null;
         public List<GenderAPI> Genders { get; set; } = null;
         public List<SizeFilterAPI> Sizes { get; set; } = null;
         public List<ColorFilterAPI> Colors { get; set; } = null;
@@ -63,7 +63,7 @@ namespace EntitiesDto.Product
     }
     public class GenderAPI
     {
-        public int Id { get; set; }
+        public Gender Id { get; set; }
     }
     public class SizeFilterAPI
     {

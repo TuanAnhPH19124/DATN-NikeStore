@@ -54,6 +54,7 @@ namespace Service
                 existingVoucher.Code = voucher.Code;
                 existingVoucher.Value = voucher.Value;
                 existingVoucher.Description = voucher.Description;
+                existingVoucher.Quantity = voucher.Quantity;
                 existingVoucher.StartDate = voucher.StartDate;
                 existingVoucher.EndDate = voucher.EndDate;
                 existingVoucher.Status = voucher.Status;
