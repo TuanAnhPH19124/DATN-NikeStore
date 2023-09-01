@@ -1,8 +1,32 @@
 (function () {
-    var productController = function (e, l, productService, apiUrl) {
+    var productController = function (e, l, productService, categoryService, apiUrl) {
         e.products = [];
-
+        e.categories = [];
+        e.sale = false;
         e.sortBy = "";
+        e.genders = [
+            {id: 0, name: "Nam", selected: false},
+            {id: 1, name: "Nữ", selected: false},
+            {id: 2, name: "Unisex", selected: false},
+        ]
+        e.onSelectChange = function() {
+            console.log('run filter');
+            getProductsByFilter();
+        };
+
+        function getProductsByFilter(){
+            let params = {};
+            params.sortBy = e.sortBy;
+            params.sale = true;
+            params.categories = e.categories.filter(item => item.selected).map(selected => selected.id);
+            productService.getProductsByParams(params)
+            .then(function (response){
+                e.products = response.data;
+            })
+            .catch(function (data){
+                console.log(data);
+            });
+        }
 
         e.countColors = function (array) {
             let countColor = new Set();
@@ -36,15 +60,27 @@
             productService.getProducts()
                 .then(function (response) {
                     e.products = response.data;
-                    console.log(response.data);
                 })
-                .catch();
+                .catch(function (data){
+                    console.log(data);
+                });
+            
+            categoryService.getCategories()
+            .then(function (response){
+                e.categories = response.data;
+                e.categories.forEach(function (item){
+                    item.selected = false;
+                })
+            })
+            .catch(function (data){
+                console.log(data);
+            });
         }
 
 
         constructor();
     };
 
-    productController.$inject = ['$scope', '$location', 'productService', 'apiUrl'];
+    productController.$inject = ['$scope', '$location', 'productService', 'categoryService','apiUrl'];
     angular.module("app").controller("productController", productController);
 }())

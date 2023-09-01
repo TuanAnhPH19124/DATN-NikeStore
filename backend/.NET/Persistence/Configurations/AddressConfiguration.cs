@@ -14,13 +14,13 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Line).IsRequired();
-            builder.Property(p => p.District).IsRequired();
-            builder.Property(p => p.Province).IsRequired();
-            builder.Property(p => p.Ward).IsRequired();
-            builder.Property(p => p.ProvinceId).IsRequired();
-            builder.Property(p => p.toDistrictId).IsRequired();
+            builder.Property(p => p.FullName).IsRequired();
+            builder.Property(p => p.AddressLine).IsRequired();
             builder.Property(p => p.WardCode).IsRequired();
+            builder.Property(p => p.CityCode).IsRequired();
+            builder.Property(p => p.ProvinceCode).IsRequired();
+            builder.Property(p => p.PhoneNumber).IsRequired();
+            builder.Property(p => p.SetAsDefault).IsRequired();
 
             builder.HasOne(p => p.AppUser)
                 .WithMany(p => p.Addresses)

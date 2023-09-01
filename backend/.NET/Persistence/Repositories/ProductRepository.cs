@@ -57,7 +57,7 @@ namespace Persistence.Repositories
         public async Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             return await _context.Products
-            .Include(p => p.Stocks)
+            .Include(p => p.Stocks).ThenInclude(p => p.Size)
             .Include(p => p.CategoryProducts)
             .Include(p => p.ProductImages)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);

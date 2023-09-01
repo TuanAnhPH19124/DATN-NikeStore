@@ -10,14 +10,13 @@ namespace Domain.Entities
     public class Address
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Line { get; set; }
-        public string District { get; set; }
-        public string Province { get; set; }
-        public string Ward { get; set; }
-        public int ProvinceId { get; set; }
-        public int toDistrictId { get; set; }
-        public string WardCode { get; set; }
-
+        public string FullName { get; set; }
+        public string AddressLine { get; set; }
+        public int CityCode { get; set; }
+        public int ProvinceCode { get; set; }
+        public int WardCode { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool SetAsDefault { get; set; }
         public string UserId { get; set; }
         public virtual AppUser AppUser { get; set; }
     }

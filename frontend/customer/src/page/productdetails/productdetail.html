@@ -5,15 +5,11 @@
     <div class="row">
         <div class="col-md-5">
             <div class="img">
-                <img src="/frontend/customer/src/assets/img/product/21 (2).jpg"
+                <img src="{{getImgUrl(colors[selectedColor].images[selectedImg])}}"
                     style="width: 90%; padding-left: 50px; padding-bottom: 30px;">
             </div>
-
             <div class="hover-container">
-                <div><img src="/frontend/customer/src/assets/img/product/3.jpg"></div>
-                <div><img src="/frontend/customer/src/assets/img/product/5.jpg"></div>
-                <div><img src="/frontend/customer/src/assets/img/product/10.jpg"></div>
-                <div><img src="/frontend/customer/src/assets/img/product/13.jpg"></div>
+                <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
             </div>
         </div>
         <div class="col-md-7">
@@ -23,28 +19,46 @@
                 <p style="font-weight: bold;font-size: 20px;">{{ product.retailPrice }} đ </p>
                 <p style="font-size: 18px;">Thương hiệu: Nike Air Jordan | Mã sản phẩm: FPT2002-34</p>
                 <p style="font-size: 18px;">Tình trạng: Còn hàng</p>
-                <h4>Chọn size:</h4>
-                <div>
-                    <button type="button" class="btn btn-outline-secondary">36</button>
-                    <button type="button" class="btn btn-outline-secondary">37</button>
-                    <button type="button" class="btn btn-outline-secondary">38</button>
-                    <button type="button" class="btn btn-outline-secondary">39</button>
-                    <button type="button" class="btn btn-outline-secondary">40</button>
+
+
+                <div ng-repeat="color in colors">
+                    <button ng-click="setSelectedColor(color.id)">
+                        <img src="{{getImgUrl(color.images[0])}}" width="80px" alt="">
+                    </button>
                 </div>
-                <div style="margin-top: 10px;">
-                    <button type="button" class="btn btn-outline-secondary">41</button>
-                    <button type="button" class="btn btn-outline-secondary">42</button>
-                    <button type="button" class="btn btn-outline-secondary">43</button>
-                    <button type="button" class="btn btn-outline-secondary">44</button>
-                    <button type="button" class="btn btn-outline-secondary">45</button>
+
+
+                <div ng-class="{validator: errorMg}">
+                    <h4>Chọn size:</h4>
+                    <span ng-show="errorMg" style="display: block; color: red;">{{errorMg}}</span>
+
+                    <div ng-repeat="size in colors[selectedColor].sizes | orderBy: 'numberSize'"
+                        style="display: inline-block;">
+                        <button type="button" class="btn btn-primary "
+                            ng-class="{ 'btn-dark': size.id === selectedSize }"
+                            ng-click="setSelectedSize(size.id)">{{size.numberSize}}</button>
+                    </div>
                 </div>
+
             </div>
+            <span>Số lượng tồn: {{colors[selectedColor].sizes[selectedSizeIndex].unit}}</span>
+
             <p>
-                <input
-                    style="padding: 0 16px; border: 1px solid #c3b8b8; height: 48px; border-radius: 5px; width: 23%; color: rgb(76, 75, 72); margin-right: 10px;padding-bottom: 5px;"
-                    type="number" placeholder="Nhập số lượng" min="0" ng-model="quantity">
+                <select name="" id="" ng-model="quantity" ng-change="checkUnit()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+
                 <button type="button" class="btn btn-dark btn-lg" style="border-radius: 5px"
-                    ng-click="addToCartE(product.id)">THÊM GIỎ HÀNG</button>
+                    ng-click="addToCartE()">THÊM GIỎ HÀNG</button>
             </p>
         </div>
     </div>

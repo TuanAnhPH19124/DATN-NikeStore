@@ -1,19 +1,25 @@
 (function(){
-    var cartsController = function (e, l, authService, cartService, jwtHelper, orderFactory){
+    var cartsController = function (e, l, authService, cartService, jwtHelper, orderFactory, apiUrl){
         e.carts = [];
         e.totalAmount = function () {
             var total = 0
-            for (let i = 0; i < e.carts.length; i++) {
-                if (e.carts[i].isSelected)
-                    total += (e.carts[i].product.retailPrice * e.carts[i].product.discountRate / 100) * e.carts[i].quantity;
-            }
+            e.carts.forEach(cart => {
+                total += cart.product.discountRate;
+            });
             return total;
         };
 
-        e.goToPayment = function () {
-            let selectedItems = e.carts.filter(item => item.isSelected === true);
-            orderFactory.setSelectedItems(selectedItems);
-            l.path('/pay/1');
+        e.deliveryFee = function (){
+            if (e.totalAmount() > 5000000){
+                return 0;
+            }else{
+                return 100000;
+            }
+        }
+
+        e.getImgUrl = function (path){
+            const imgUrl = new URL(path, apiUrl);
+            return imgUrl.href;
         }
 
         function constructor() {
@@ -24,12 +30,8 @@
                 let tokenDecode = jwtHelper.decodeToken(token);
                 cartService.getCarts(tokenDecode.Id)
                 .then(function(response){
-                    debugger;
                     e.carts = response.data;
-                    e.carts.forEach(function(item) {
-                        item.isSelected = false;
-                    });
-                    console.log(e.carts);
+
                 })
                 .catch(function(data){
                     console.log(data);
@@ -38,6 +40,6 @@
         }
         constructor();
     }
-    cartsController.$inject = ['$scope', '$location', 'authService', 'cartService', 'jwtHelper', 'orderFactory'];
+    cartsController.$inject = ['$scope', '$location', 'authService', 'cartService', 'jwtHelper', 'orderFactory', 'apiUrl'];
     angular.module("app").controller("cartsController", cartsController);
 }());
