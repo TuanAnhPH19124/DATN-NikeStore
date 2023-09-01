@@ -48,7 +48,7 @@ $(document).ready(function () {
     $('#add-color-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            name: $("#name").val(),
+            name: $("#name").val().trim(),
         };
         if(formData.name.trim(" ")==""){
             return

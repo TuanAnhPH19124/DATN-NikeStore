@@ -34,39 +34,92 @@ function myFunction() {
     x.style.visibility = "hidden";
   }
 }
-function CallGiaoHang(){
-    // call tỉnh
-    var option_province = [];
-    var startedProvince = 269
-    var startedDistrict = 2264
-    var startedWard = 90816
-    $.ajax({
-      url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
-      type: "GET",
-      headers: {
-        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      },
-      dataType: "json",
-      success: function (result) {
-        console.log(result.data.length);
-        for (var i = 0; i < result.data.length; i++) {
-          option_province.push(
-            '<option value="',
-            result.data[i].ProvinceID, // Use the correct property name for ProvinceID
-            '">',
-            result.data[i].ProvinceName, // Use the correct property name for ProvinceName
-            "</option>"
-          );
-        }
-        $("#province").html(option_province.join(""));
-      },
-      error: function (error) {
-        console.error("Error fetching provinces:", error);
-      },
-    });
+function CallGiaoHang() {
+  // call tỉnh
+  var option_province = [];
+  var startedProvince = 269;
+  var startedDistrict = 2264;
+  var startedWard = 90816;
+  $.ajax({
+    url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+    type: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+    dataType: "json",
+    success: function (result) {
+      console.log(result.data);
+      for (var i = 0; i < result.data.length; i++) {
+        option_province.push(
+          '<option value="',
+          result.data[i].ProvinceID, // Use the correct property name for ProvinceID
+          '">',
+          result.data[i].ProvinceName, // Use the correct property name for ProvinceName
+          "</option>"
+        );
+      }
+      $("#province").html(option_province.join(""));
+    },
+    error: function (error) {
+      console.error("Error fetching provinces:", error);
+    },
+  });
+  var option_district = [];
+  $.ajax({
+    url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${startedProvince}`,
+    type: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+    dataType: "json",
+    success: function (result) {
+      console.log(result.data[0]);
+      for (var i = 0; i < result.data.length; i++) {
+        option_district.push(
+          '<option value="',
+          result.data[i].DistrictID, // Use the correct property name for ProvinceID
+          '">',
+          result.data[i].DistrictName, // Use the correct property name for ProvinceName
+          "</option>"
+        );
+      }
+      $("#district").html(option_district.join(""));
+    },
+    error: function (error) {
+      console.error("Error fetching provinces:", error);
+    },
+  });
+  var option_ward = [];
+  $.ajax({
+    url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${startedDistrict}`,
+    type: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+    dataType: "json",
+    success: function (result) {
+      console.log(result.data[0]);
+      for (var i = 0; i < result.data.length; i++) {
+        option_ward.push(
+          '<option value="',
+          result.data[i].WardCode, // Use the correct property name for ProvinceID
+          '">',
+          result.data[i].WardName, // Use the correct property name for ProvinceName
+          "</option>"
+        );
+      }
+      $("#ward").html(option_ward.join(""));
+    },
+    error: function (error) {
+      console.error("Error fetching provinces:", error);
+    },
+  });
+  $("#province").on("change", function () {
+    var selectedValue = $(this).val();
+    console.log(selectedValue);
     var option_district = [];
     $.ajax({
-      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${startedProvince}`,
+      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${selectedValue}`,
       type: "GET",
       headers: {
         token: "d73043b1-2777-11ee-b394-8ac29577e80e",
@@ -84,21 +137,58 @@ function CallGiaoHang(){
           );
         }
         $("#district").html(option_district.join(""));
+        var option_ward = [];
+        $.ajax({
+          url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${result.data[0].DistrictID}`,
+          type: "GET",
+          headers: {
+            token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+          },
+          dataType: "json",
+          success: function (result) {
+            console.log(result.data);
+            for (var i = 0; i < result.data.length; i++) {
+              option_ward.push(
+                '<option value="',
+                result.data[i].WardCode, // Use the correct property name for ProvinceID
+                '">',
+                result.data[i].WardName, // Use the correct property name for ProvinceName
+                "</option>"
+              );
+            }
+            $("#ward").html(option_ward.join(""));
+          },
+          error: function (error) {
+            console.error("Error fetching provinces:", error);
+          },
+        });
       },
       error: function (error) {
         console.error("Error fetching provinces:", error);
       },
     });
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        $("#ship-fee").text(data.data.total);
+      } else {
+        $("#ship-fee").text(0);
+      }
+    });
+  });
+  $("#district").on("change", function () {
+    var selectedValue = $(this).val();
+    console.log(selectedValue);
+
     var option_ward = [];
     $.ajax({
-      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${startedDistrict}`,
+      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedValue}`,
       type: "GET",
       headers: {
         token: "d73043b1-2777-11ee-b394-8ac29577e80e",
       },
       dataType: "json",
       success: function (result) {
-        console.log(result.data[0]);
+        console.log(result.data);
         for (var i = 0; i < result.data.length; i++) {
           option_ward.push(
             '<option value="',
@@ -114,91 +204,25 @@ function CallGiaoHang(){
         console.error("Error fetching provinces:", error);
       },
     });
-    $("#province").on("change", function () {
-      var selectedValue = $(this).val();
-      console.log(selectedValue);
-      var option_district = [];
-      $.ajax({
-        url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${selectedValue}`,
-        type: "GET",
-        headers: {
-          token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-        },
-        dataType: "json",
-        success: function (result) {
-          console.log(result.data[0]);
-          for (var i = 0; i < result.data.length; i++) {
-            option_district.push(
-              '<option value="',
-              result.data[i].DistrictID, // Use the correct property name for ProvinceID
-              '">',
-              result.data[i].DistrictName, // Use the correct property name for ProvinceName
-              "</option>"
-            );
-          }
-          $("#district").html(option_district.join(""));
-          var option_ward = [];
-          $.ajax({
-            url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${result.data[0].DistrictID}`,
-            type: "GET",
-            headers: {
-              token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-            },
-            dataType: "json",
-            success: function (result) {
-              console.log(result.data);
-              for (var i = 0; i < result.data.length; i++) {
-                option_ward.push(
-                  '<option value="',
-                  result.data[i].WardCode, // Use the correct property name for ProvinceID
-                  '">',
-                  result.data[i].WardName, // Use the correct property name for ProvinceName
-                  "</option>"
-                );
-              }
-              $("#ward").html(option_ward.join(""));
-            },
-            error: function (error) {
-              console.error("Error fetching provinces:", error);
-            },
-          });
-        },
-        error: function (error) {
-          console.error("Error fetching provinces:", error);
-        },
-      });
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        $("#ship-fee").text(data.data.total);
+      } else {
+        $("#ship-fee").text(0);
+      }
     });
-    $("#district").on("change", function () {
-      var selectedValue = $(this).val();
-      console.log(selectedValue);
-  
-      var option_ward = [];
-      $.ajax({
-        url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedValue}`,
-        type: "GET",
-        headers: {
-          token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-        },
-        dataType: "json",
-        success: function (result) {
-          console.log(result.data);
-          for (var i = 0; i < result.data.length; i++) {
-            option_ward.push(
-              '<option value="',
-              result.data[i].WardCode, // Use the correct property name for ProvinceID
-              '">',
-              result.data[i].WardName, // Use the correct property name for ProvinceName
-              "</option>"
-            );
-          }
-          $("#ward").html(option_ward.join(""));
-        },
-        error: function (error) {
-          console.error("Error fetching provinces:", error);
-        },
-      });
+  });
+  $("#ward").on("change", function () {
+    var selectedValue = $(this).val();
+    console.log(selectedValue);
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        $("#ship-fee").text(data.data.total);
+      } else {
+        $("#ship-fee").text(0);
+      }
     });
-  
+  });
 }
 // ngày ship hàng
 function fetchAllDayShip(to_district_id, to_ward_code) {
@@ -239,13 +263,12 @@ function fetchAllMoneyShip(to_district_id, to_ward_code) {
     });
 }
 
-
 // JS TẠO HOÁ ĐƠN
 $(document).ready(function () {
   let tabCount = 0;
   const maxTabs = 4;
 
-  CallGiaoHang()
+  CallGiaoHang();
 
   function setFirstTabActive() {
     $("#invoiceTabs .nav-item").removeClass("active");
@@ -264,7 +287,6 @@ $(document).ready(function () {
   restoreInvoicesFromLocalStorage();
 
   $("#addInvoiceBtn").on("click", function () {
-
     fetchAllMoneyShip(3695, 90768).then((data) => {
       console.log(data);
     });
@@ -594,112 +616,119 @@ $("#productData tbody").on("click", "tr", function (e) {
         // $('#status').val(data.status);
         // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
 
-      // hiển thị màu
-      var colorIds = [...new Set(data.productImages.map(function (item) {
-        return item.colorId;
-      }))];
-      var images = data.productImages.map(function (item) {
-        return {
-          colorId : item.colorId,
-          imageUrl : item.imageUrl,
-        };
-      });
-      console.log(images)
-      // Assuming product is an object with a Colors property
-      colorIds.forEach(function (colorId) {
-        $.ajax({
-          url: "https://localhost:44328/api/Color/Get/" + colorId,
-          type: "GET",
-          dataType: "json",
-          success: function (data) {
-            console.log(data.id)
-            console.log(colorId)
-            product.Colors.push({
-              id: colorId,
-              name: data.name,
-              Images: [],
-              Sizes: [],
-            });
-            loadColorE();
-            for (let i = 0; i < product.Colors.length; i++) {
-              if (product.Colors[i].id === colorId) {
-                const imagesForColor = images.filter(image => image.colorId === colorId);
-                
-                imagesForColor.forEach(imageData => {
-                  const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
-            
-                  fetch(imageLink)
-                    .then(response => response.blob())
-                    .then(blob => {
-                      const newImage = new File([blob], "image.jpg", {
-                        type: "image/jpeg",
-                      });
-            
-                      product.Colors[i].Images.push({
-                        file: newImage,
-                        setAsDefault: false,
-                      });
-            
-                      loadImageE();
-                    });
-                });
-              }
-            }
-            
-          },
-          error: function () {
-            console.log("Error retrieving data.");
-          },
+        // hiển thị màu
+        var colorIds = [
+          ...new Set(
+            data.productImages.map(function (item) {
+              return item.colorId;
+            })
+          ),
+        ];
+        var images = data.productImages.map(function (item) {
+          return {
+            colorId: item.colorId,
+            imageUrl: item.imageUrl,
+          };
         });
-      });
-      // load Size
-      var sizeData = data.stocks.map(function (item) {
-        return {
-          sizeId: item.sizeId,
-          unitInStock: item.unitInStock,
-          colorId:item.colorId,
-        };
-      });
-      var promises = [];
+        console.log(images);
+        // Assuming product is an object with a Colors property
+        colorIds.forEach(function (colorId) {
+          $.ajax({
+            url: "https://localhost:44328/api/Color/Get/" + colorId,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+              console.log(data.id);
+              console.log(colorId);
+              product.Colors.push({
+                id: colorId,
+                name: data.name,
+                Images: [],
+                Sizes: [],
+              });
+              loadColorE();
+              for (let i = 0; i < product.Colors.length; i++) {
+                if (product.Colors[i].id === colorId) {
+                  const imagesForColor = images.filter(
+                    (image) => image.colorId === colorId
+                  );
 
-      sizeData.forEach(function (size) {
-        var promise = $.ajax({
-          url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
-          type: "GET",
-          dataType: "json",
-        })
-          .then(function (data) {
-            console.log(data);
+                  imagesForColor.forEach((imageData) => {
+                    const imageLink =
+                      "https://localhost:44328/" +
+                      imageData.imageUrl.replace(/\\/g, "/");
 
-            var selectedColorText = {
-              numberSize: data.numberSize,
-              id: size.sizeId,
-            };
-            console.log(sizeData.length)
-            // Find the correct color index based on colorId
-            for (let i = 0; i < sizeData.length; i++) {
-              if (product.Colors[i].id === size.colorId) {
-                selectedColorText.unitInStock = size.unitInStock;
-                product.Colors[i].Sizes.push(selectedColorText);
+                    fetch(imageLink)
+                      .then((response) => response.blob())
+                      .then((blob) => {
+                        const newImage = new File([blob], "image.jpg", {
+                          type: "image/jpeg",
+                        });
+
+                        product.Colors[i].Images.push({
+                          file: newImage,
+                          setAsDefault: false,
+                        });
+
+                        loadImageE();
+                      });
+                  });
+                }
               }
-            }
-            // Push selectedColorText to the Sizes array of the corresponding color
-          })
-          .catch(function () {
-            console.log("Error retrieving data.");
+            },
+            error: function () {
+              console.log("Error retrieving data.");
+            },
           });
+        });
+        // load Size
+        var sizeData = data.stocks.map(function (item) {
+          return {
+            sizeId: item.sizeId,
+            unitInStock: item.unitInStock,
+            colorId: item.colorId,
+          };
+        });
+        var promises = [];
 
-        promises.push(promise);
-      });
+        sizeData.forEach(function (size) {
+          var promise = $.ajax({
+            url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+            type: "GET",
+            dataType: "json",
+          })
+            .then(function (data) {
+              console.log(data);
 
-      // Wait for all AJAX requests to complete
-      Promise.all(promises).then(function () {
-        loadSizeE(); // This will be called after all requests are finished
-        // Assuming you have an imageLink as you mentioned earlier
+              var selectedColorText = {
+                numberSize: data.numberSize,
+                id: size.sizeId,
+              };
+              console.log(sizeData.length);
+              // Find the correct color index based on colorId
+              for (let i = 0; i < sizeData.length; i++) {
+                if (product.Colors[i].id === size.colorId) {
+                  selectedColorText.unitInStock = size.unitInStock;
+                  product.Colors[i].Sizes.push(selectedColorText);
+                }
+              }
+              // Push selectedColorText to the Sizes array of the corresponding color
+            })
+            .catch(function () {
+              console.log("Error retrieving data.");
+            });
 
-          console.log(data)
+          promises.push(promise);
+        });
+
+        // Wait for all AJAX requests to complete
+        Promise.all(promises).then(function () {
+          loadSizeE(); // This will be called after all requests are finished
+          // Assuming you have an imageLink as you mentioned earlier
+
+          console.log(data);
           console.log(product);
-      });
+        });
         addToCartItem.id = data.id;
         addToCartItem.name = data.name;
         addToCartItem.price = data.discountRate;
@@ -920,9 +949,15 @@ function loadSizeE() {
           console.log(instock);
           $("#product-instock").show();
           $("#product-instock").text(`Còn ${element.unitInStock} sản phẩm`);
-          $("#quantity-input").show();
-          $("#addToCart").show();
-          $("#quantity").val(1);
+          if (element.unitInStock !== 0) {
+            $("#quantity-input").show();
+            $("#addToCart").show();
+            $("#quantity").val(1);
+          } else {
+            $("#quantity-input").hide();
+            $("#addToCart").hide();
+            $("#quantity").val(0);
+          }
         });
         container.appendChild(newButton);
         plusButtonContainer.appendChild(container);
@@ -955,6 +990,69 @@ function loadImageE() {
     }
   }
 }
+var option_voucher = [];
+// Add a default option with a value of -1 and "Select a voucher" text
+option_voucher.push('<option value="-1">Không áp dụng</option>');
+$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_voucher.push(
+      '<option value="',
+      result[i].id,
+      '">',
+      result[i].code,
+      "</option>"
+    );
+  }
+  $("#voucher-select").html(option_voucher.join(""));
+});
+
+$("#voucher-select").on("change", function () {
+  if (this.value == -1) {
+    var dongAmountString = $("#total").text();
+    var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+    $("#discount-price").text("0");
+    $("#sum").text(
+      Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(parseFloat(cleanedString))
+    );
+  }
+  if ($("#total").text() !== "0") {
+    const id = $(this).val();
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + id,
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(cleanedString) -
+              (data.value * parseFloat(cleanedString)) / 100
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+});
 $("#addToCart").click(function () {
   addToCartItem.amount = Number($("#quantity").val());
   addToCartItem.total = addToCartItem.amount * addToCartItem.price;
@@ -1039,6 +1137,18 @@ $("#addToCart").click(function () {
       currency: "VND",
     }).format(totalSum)
   );
+  $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
 
   $.ajax({
     url: "https://localhost:44328/api/Product/" + addToCartItem.id,
@@ -1069,7 +1179,11 @@ $("#addToCart").click(function () {
       } else {
         arr[selectedOrder].push({
           itemIdentifier: itemIdentifier, // Add itemIdentifier to the object
-          unitPrice: $("#discountRate").text(),
+          unitPrice: parseFloat(
+            $("#discountRate")
+              .text()
+              .replace(/[^0-9.]/g, "")
+          ),
           quantity: parseInt($("#quantity").val(), 10),
           name: $("#name").text(),
           productId: addToCartItem.id,
@@ -1111,8 +1225,116 @@ $(document).on("click", ".delete-item", function () {
   );
   console.log(arr);
 });
+function clearTableAndData() {
+  // Clear the table by removing all rows
+  $(`#invoice${selectedOrder} tbody tr`).remove();
 
+  // Reset the total sum to 0
+  var totalSum = 0;
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
 
+  // Reset the 'total', and 'sum' elements if needed
+  $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+
+  // Clear the 'arr' variable
+  arr[selectedOrder] = [];
+}
+
+// You can call this function whenever you need to clear the table and data
+// For example, you can call it when the user clicks a "Clear" button or performs a specific action.
+// clearTableAndData();
+
+$("#create-bill").click(function (event) {
+  event.preventDefault();
+  const outputJSON = JSON.stringify(arr[selectedOrder], null, 2);
+  console.log(outputJSON);
+  var formData = {
+    address: "",
+    phoneNumber: $("#customer-phone").text(),
+    customerName: $("#customer-name").text(),
+    voucherId: $("#voucher-select").val(),
+    orderItems: JSON.parse(outputJSON),
+    amount: parseInt($("#sum").text().replace(/\D/g, "")),
+  };
+  if ($("#delivery").prop("checked") === true) {
+    formData = {
+      address: $("#address").val(),
+      phoneNumber: $("#phoneNumber").val(),
+      customerName: $("#customerName").val(),
+      voucherId: $("#voucher-select").val(),
+      note: $("#note").val(),
+      orderItems: JSON.parse(outputJSON),
+      amount: parseInt($("#sum").text().replace(/\D/g, "")),
+    };
+    fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+      console.log(data);
+    });
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      console.log(data.data.total);
+    });
+  }
+  if (formData.voucherId === "-1") {
+    formData.voucherId = null;
+  }
+  $.ajax({
+    url: "https://localhost:44328/api/Orders/PayAtStore",
+    type: "POST",
+    data: JSON.stringify(formData),
+    contentType: "application/json",
+    success: function (response) {
+      //window.location.href = `/frontend/admin/bill.html`;
+      clearTableAndData();
+      console.log(arr);
+    },
+  });
+});
+$("#delivery").on("change", function () {
+  fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+    if ($("#delivery").prop("checked")) {
+      $("#ship-fee").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(data.data.total)
+      );
+    } else {
+      $("#ship-fee").text(0);
+    }
+  });
+  fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+    if ($("#delivery").prop("checked")) {
+      console.log(data.data.leadtime);
+      // Create a new Date object and pass the timestamp as milliseconds
+      var date = new Date(data.data.leadtime * 1000);
+
+      // Extract the components of the date
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+      var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+      // Create a formatted date string in the desired format (day/month/year)
+      var formattedDate = day + "/" + month + "/" + year;
+
+      console.log(formattedDate);
+    }
+  });
+});
 // reset product khi đóng modal
 $("#productDetailModal").on("hide.bs.modal", function () {
   $("#modal-add-product").css("overflow-y", "auto");
@@ -1131,4 +1353,3 @@ $("#productDetailModal").on("hide.bs.modal", function () {
     Colors: [],
   };
 });
-

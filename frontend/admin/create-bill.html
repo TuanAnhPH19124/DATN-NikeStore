@@ -643,28 +643,26 @@
                                                 <input type="text" class="form-control" id="phoneNumber"
                                                     placeholder="">
                                             </div>
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <label for="province" class="label">Tỉnh</label>
-                                                    <select class="form-control" id="province" style="width: 110%;">
-                                                        <!-- Options for province dropdown -->
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <label for="district" class="label">Quận/Huyện</label>
-                                                    <select class="form-control" id="district" style="width: 110%;">
-                                                        <!-- Options for district dropdown based on selected province -->
-                                                    </select>
-                                                </div>
-                                                <div class="col-3">
-                                                    <label for="ward" class="label">Phường/Xã</label>
-                                                    <select class="form-control" id="ward" style="width: 100%;">
-                                                        <!-- Options for ward dropdown based on selected district -->
-                                                    </select>
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="province" class="label">Tỉnh</label>
+                                                <select class="form-control" id="province" >
+                                                    <!-- Options for province dropdown -->
+                                                </select>
                                             </div>
-                                               
-                                            <div class="form-group" style="padding-top: 10px;">
+                                            <div class="form-group">
+                                                <label for="district" class="label">Quận/Huyện</label>
+                                                <select class="form-control" id="district" >
+                                                    <!-- Options for district dropdown based on selected province -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ward" class="label">Phường/Xã</label>
+                                                <select class="form-control" id="ward" >
+                                                    <!-- Options for ward dropdown based on selected district -->
+                                                </select>
+                                            </div>
+                                        
+                                            <div class="form-group">
                                                 <label for="exampleInputPassword1" class="label">Địa chỉ</label>
                                                 <input type="text" class="form-control" id="address" placeholder="">
                                             </div>                                                                                                                  
@@ -679,7 +677,7 @@
                                         <h3>Thông tin thanh toán</h4>
                                             <div class="toggle-btn">
                                                 <label class="switch">
-                                                    <input type="checkbox" onclick="myFunction()">
+                                                    <input id="delivery" type="checkbox" onclick="myFunction()">
                                                     <span class="slider round"></span>
                                                 </label>
                                                 <label for="">Giao hàng</label>
@@ -692,24 +690,24 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Tiền hàng:</label>
-                                                    <label for="exampleInputEmail1" id="total">0 VND</label>
+                                                    <label for="exampleInputEmail1" id="total">0</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Phí vận chuyển:</label>
-                                                    <label for="exampleInputEmail1">0 VND</label>
+                                                    <label for="exampleInputEmail1" id="ship-fee">0</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Giảm giá:</label>
-                                                    <label for="exampleInputEmail1" id="discount-price">0 VND</label>
+                                                    <label for="exampleInputEmail1" id="discount-price">0</label>
                                                 </div>
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Quyền lợi thành
                                                         viên:</label>
                                                     <label for="exampleInputEmail1">0 VND</label>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Tổng số tiền:</label>
-                                                    <label for="exampleInputEmail1" id="sum">0 VND</label>
+                                                    <label for="exampleInputEmail1" id="sum">0</label>
                                                 </div>
                                             </form>
                                     </div>

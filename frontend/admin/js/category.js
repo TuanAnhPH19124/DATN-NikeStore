@@ -46,7 +46,7 @@ $(document).ready(function () {
     $('#add-category-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            name: $("#name").val(),
+            name: $("#name").val().trim(),
         };
         if(formData.name.trim(" ")==""){
             return
