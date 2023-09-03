@@ -167,11 +167,55 @@ function CallGiaoHang() {
         console.error("Error fetching provinces:", error);
       },
     });
+
     fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
       if ($("#delivery").prop("checked")) {
-        $("#ship-fee").text(data.data.total);
+        $("#ship-fee").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data.data.total)
+        );
       } else {
         $("#ship-fee").text(0);
+      }
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var shippingFee = parseFloat(
+        $("#ship-fee")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee + shippingFee))
+      );
+    });
+    fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        console.log(data.data.leadtime);
+        // Create a new Date object and pass the timestamp as milliseconds
+        var date = new Date(data.data.leadtime * 1000);
+
+        // Extract the components of the date
+        var year = date.getFullYear();
+        var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+        var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+        // Create a formatted date string in the desired format (day/month/year)
+        var formattedDate = day + "/" + month + "/" + year;
+        $("#delivery-date").text(formattedDate);
+        console.log(formattedDate);
       }
     });
   });
@@ -180,46 +224,143 @@ function CallGiaoHang() {
     console.log(selectedValue);
 
     var option_ward = [];
-    $.ajax({
-      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedValue}`,
-      type: "GET",
-      headers: {
-        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      },
-      dataType: "json",
-      success: function (result) {
-        console.log(result.data);
-        for (var i = 0; i < result.data.length; i++) {
-          option_ward.push(
-            '<option value="',
-            result.data[i].WardCode, // Use the correct property name for ProvinceID
-            '">',
-            result.data[i].WardName, // Use the correct property name for ProvinceName
-            "</option>"
-          );
-        }
-        $("#ward").html(option_ward.join(""));
-      },
-      error: function (error) {
-        console.error("Error fetching provinces:", error);
-      },
+
+    // Create a promise for the AJAX request
+    var ajaxPromise = new Promise(function (resolve, reject) {
+      $.ajax({
+        url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedValue}`,
+        type: "GET",
+        headers: {
+          token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+        },
+        dataType: "json",
+        success: function (result) {
+          console.log(result.data);
+          for (var i = 0; i < result.data.length; i++) {
+            option_ward.push(
+              '<option value="',
+              result.data[i].WardCode, // Use the correct property name for ProvinceID
+              '">',
+              result.data[i].WardName, // Use the correct property name for ProvinceName
+              "</option>"
+            );
+          }
+          $("#ward").html(option_ward.join(""));
+          resolve(); // Resolve the promise when the AJAX request is successful
+        },
+        error: function (error) {
+          console.error("Error fetching provinces:", error);
+          reject(error); // Reject the promise if there is an error
+        },
+      });
     });
-    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
-      if ($("#delivery").prop("checked")) {
-        $("#ship-fee").text(data.data.total);
-      } else {
-        $("#ship-fee").text(0);
-      }
+
+    // Wait for the AJAX request to complete, then execute the following code
+    ajaxPromise.then(function () {
+      fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+        if ($("#delivery").prop("checked")) {
+          $("#ship-fee").text(
+            Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(data.data.total)
+          );
+        } else {
+          $("#ship-fee").text(0);
+        }
+        var productFee = parseFloat(
+          $("#total")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        var discountFee = parseFloat(
+          $("#discount-price")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(parseFloat(productFee - discountFee + shippingFee))
+        );
+      });
+      fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+        if ($("#delivery").prop("checked")) {
+          console.log(data.data.leadtime);
+          // Create a new Date object and pass the timestamp as milliseconds
+          var date = new Date(data.data.leadtime * 1000);
+
+          // Extract the components of the date
+          var year = date.getFullYear();
+          var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+          var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+          // Create a formatted date string in the desired format (day/month/year)
+          var formattedDate = day + "/" + month + "/" + year;
+          $("#delivery-date").text(formattedDate);
+          console.log(formattedDate);
+        }
+      });
     });
   });
+
   $("#ward").on("change", function () {
     var selectedValue = $(this).val();
     console.log(selectedValue);
     fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
       if ($("#delivery").prop("checked")) {
-        $("#ship-fee").text(data.data.total);
+        $("#ship-fee").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data.data.total)
+        );
       } else {
         $("#ship-fee").text(0);
+      }
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var shippingFee = parseFloat(
+        $("#ship-fee")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee + shippingFee))
+      );
+    });
+    fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        console.log(data.data.leadtime);
+        // Create a new Date object and pass the timestamp as milliseconds
+        var date = new Date(data.data.leadtime * 1000);
+
+        // Extract the components of the date
+        var year = date.getFullYear();
+        var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+        var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+        // Create a formatted date string in the desired format (day/month/year)
+        var formattedDate = day + "/" + month + "/" + year;
+        $("#delivery-date").text(formattedDate);
+        console.log(formattedDate);
       }
     });
   });
@@ -363,6 +504,82 @@ $(document).ready(function () {
     var lastNumber = parseInt(matches[0]);
     selectedOrder = lastNumber;
     console.log(selectedOrder);
+      // Recalculate the totalSum
+  var totalSum = 0;
+  $(`#invoice${selectedOrder} tbody tr`).each(function () {
+    var rowTotalCell = $(this).find("td:eq(6)");
+    var rowTotal = parseFloat(rowTotalCell.text().replace(/[.,₫]/g, ""));
+    if (!isNaN(rowTotal)) {
+      totalSum += rowTotal;
+    }
+  });
+
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+    $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  if($("#voucher-select").val()==-1){
+      $(`#dicscount-price`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(0)
+  );
+  }else{
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + $("#voucher-select").val(),
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  
+  console.log(arr);
   });
 
   $("#invoiceTabs").on("mouseenter", "a.nav-link", function () {
@@ -819,7 +1036,9 @@ $("#customer-table tbody").on("click", "tr", function (e) {
         $("#customer-name").text(data.fullName);
         $("#customer-email").text(data.email);
         $("#customer-phone").text(data.phoneNumber);
+        $("#customer-id").text(data.id);
         $(".hidden-info").show();
+        $("#customer-id").hide();
         $("#account-modal").modal("hide");
       },
     });
@@ -1010,12 +1229,17 @@ $("#voucher-select").on("change", function () {
   if (this.value == -1) {
     var dongAmountString = $("#total").text();
     var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-    $("#discount-price").text("0");
+    $("#discount-price").text("0 ₫");
+    var shippingFee = parseFloat(
+      $("#ship-fee")
+        .text()
+        .replace(/[^0-9]/g, "")
+    );
     $("#sum").text(
       Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
-      }).format(parseFloat(cleanedString))
+      }).format(parseFloat(cleanedString) + shippingFee)
     );
   }
   if ($("#total").text() !== "0") {
@@ -1036,14 +1260,19 @@ $("#voucher-select").on("change", function () {
             currency: "VND",
           }).format(dongAmountNumber)
         );
-
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
         $("#sum").text(
           Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
           }).format(
-            parseFloat(cleanedString) -
-              (data.value * parseFloat(cleanedString)) / 100
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
           )
         );
       },
@@ -1115,8 +1344,12 @@ $("#addToCart").click(function () {
           currency: "VND",
         }).format(newRowTotal)
       ), // Thành tiền for the new row
-      $("<button>").text("Delete").addClass("delete-item")
-    );
+      $("<button>")
+      .text("X")
+      .addClass("btn btn-danger delete-item")
+      .css({
+        marginTop: "5px", // Add a 5px margin-top
+      }));
     tbody.append(newRow);
   }
   var totalSum = 0;
@@ -1137,12 +1370,59 @@ $("#addToCart").click(function () {
       currency: "VND",
     }).format(totalSum)
   );
+
   $(`#total`).text(
     Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     }).format(totalSum)
   );
+  if($("#voucher-select").val()==-1){
+      $(`#dicscount-price`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(0)
+  );
+  }else{
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + $("#voucher-select").val(),
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+
   $(`#sum`).text(
     Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -1202,6 +1482,11 @@ $(document).on("click", ".delete-item", function () {
   // Remove the item from the UI
   row.remove();
 
+  // Ensure arr[selectedOrder] is defined and initialized as an array
+  if (!Array.isArray(arr[selectedOrder])) {
+    arr[selectedOrder] = [];
+  }
+
   // Create a new inner array excluding the item to delete
   arr[selectedOrder] = arr[selectedOrder].filter(function (item) {
     return item.itemIdentifier !== itemIdentifier;
@@ -1223,8 +1508,68 @@ $(document).on("click", ".delete-item", function () {
       currency: "VND",
     }).format(totalSum)
   );
+  $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  if($("#voucher-select").val()==-1){
+      $(`#dicscount-price`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(0)
+  );
+  }else{
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + $("#voucher-select").val(),
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  
   console.log(arr);
 });
+
 function clearTableAndData() {
   // Clear the table by removing all rows
   $(`#invoice${selectedOrder} tbody tr`).remove();
@@ -1265,6 +1610,8 @@ $("#create-bill").click(function (event) {
   const outputJSON = JSON.stringify(arr[selectedOrder], null, 2);
   console.log(outputJSON);
   var formData = {
+    userId: $("#customer-id").text(),
+    employeeId: localStorage.getItem("user-id"),
     address: "",
     phoneNumber: $("#customer-phone").text(),
     customerName: $("#customer-name").text(),
@@ -1274,7 +1621,15 @@ $("#create-bill").click(function (event) {
   };
   if ($("#delivery").prop("checked") === true) {
     formData = {
-      address: $("#address").val(),
+      userId: $("#customer-id").text(),
+      employeeId: localStorage.getItem("user-id"),
+      address:
+        $("#address").val() +
+        $("#ward option:selected").text() +
+        ", " +
+        $("#district option:selected").text() +
+        ", " +
+        $("#province option:selected").text(),
       phoneNumber: $("#phoneNumber").val(),
       customerName: $("#customerName").val(),
       voucherId: $("#voucher-select").val(),
@@ -1289,9 +1644,23 @@ $("#create-bill").click(function (event) {
       console.log(data.data.total);
     });
   }
+  validateForm()
   if (formData.voucherId === "-1") {
     formData.voucherId = null;
   }
+  if(formData.userId===""){
+    formData.userId =null
+  }
+  if(formData.customerName===""){
+    return
+  }
+  if(formData.phoneNumber===""){
+    return
+  }
+  if (!idContainOnlyNum(phoneNumber.value) || !onlyContain10Char(phoneNumber.value)) {
+    return;
+  }
+  
   $.ajax({
     url: "https://localhost:44328/api/Orders/PayAtStore",
     type: "POST",
@@ -1300,11 +1669,32 @@ $("#create-bill").click(function (event) {
     success: function (response) {
       //window.location.href = `/frontend/admin/bill.html`;
       clearTableAndData();
+      $("#customer-name").text("Khách lẻ");
+      $("#customer-email").text("");
+      $("#customer-phone").text("");
+      $("#customer-id").text("");
+      $(".hidden-info").hide();
+      $("#customer-id").text("");
+      // 
+      $("#delivery-field")[0].reset();
+      $("#delivery").prop("checked",false)
+      
+      var x = document.getElementById("customer-info");
+      x.style.visibility = "hidden";
+      $("#delivery-field").hide()
+      $("#delivery-info").hide()
+      
+      $("#voucher-select").val(-1)
+      $("#total").text("0 ₫");
+      $("#ship-fee").text("0 ₫");
+      $("#discount-price").text("0 ₫");
+      $("#sum").text("0 ₫");
       console.log(arr);
     },
   });
 });
 $("#delivery").on("change", function () {
+  $("#delivery-field").show()
   fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
     if ($("#delivery").prop("checked")) {
       $("#ship-fee").text(
@@ -1313,8 +1703,46 @@ $("#delivery").on("change", function () {
           currency: "VND",
         }).format(data.data.total)
       );
+      var shippingFee = parseFloat(
+        $("#ship-fee")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee + shippingFee))
+      );
     } else {
-      $("#ship-fee").text(0);
+      $("#ship-fee").text("0 ₫");
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee))
+      );
+      $("#delivery-info").hide();
     }
   });
   fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
@@ -1329,8 +1757,9 @@ $("#delivery").on("change", function () {
       var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
 
       // Create a formatted date string in the desired format (day/month/year)
+      $("#delivery-info").show();
       var formattedDate = day + "/" + month + "/" + year;
-
+      $("#delivery-date").text(formattedDate);
       console.log(formattedDate);
     }
   });
@@ -1353,3 +1782,38 @@ $("#productDetailModal").on("hide.bs.modal", function () {
     Colors: [],
   };
 });
+
+function idContainOnlyNum(value) {
+  return value.match(/[^0-9]/) === null;
+}
+
+function onlyContain10Char(value) {
+  return value.match(/^\w{10}$/) !== null;
+}
+
+
+function validateForm() {
+  // Get form inputs
+  var validateName = document.getElementById('validateName');
+  var customerName = document.getElementById('customerName');
+
+  var validatePhone = document.getElementById('validatePhone');
+  var phoneNumber = document.getElementById('phoneNumber');
+  
+  if (customerName.value.length == 0) {
+    validateName.style.display = "block"
+  } else {
+    validateName.style.display = "none";
+  }
+  if (phoneNumber.value.length == 0) {
+    validatePhone.style.display = "block";
+  } else {
+    validatePhone.style.display = "none";
+  }
+if (idContainOnlyNum(phoneNumber.value)==true&&onlyContain10Char(phoneNumber.value)==true) {
+  validatePhone.style.display = "none";
+} else {
+  validatePhone.style.display = "block";
+  validatePhone.innerText = "Số điện thoại không hợp lệ";
+}
+}

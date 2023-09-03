@@ -392,10 +392,10 @@
                                 <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending1" role="tab" aria-controls="tabPending" aria-selected="false">Chờ vận chuyển    </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-completed" data-toggle="tab" href="#tabCompleted" role="tab" aria-controls="tabCompleted" aria-selected="false">Hoàn thành</a>
+                                <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending" role="tab" aria-controls="tabPending" aria-selected="false">Đang vận chuyển</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-paid" data-toggle="tab" href="#tabPaid" role="tab" aria-controls="tabPaid" aria-selected="false">Thanh toán</a>
+                                <a class="nav-link" id="tab-completed" data-toggle="tab" href="#tabCompleted" role="tab" aria-controls="tabCompleted" aria-selected="false">Thành công</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-cancelled" data-toggle="tab" href="#tabCancelled" role="tab" aria-controls="tabCancelled" aria-selected="false">Huỷ</a>
@@ -405,36 +405,8 @@
                             <!-- Tab "Tất cả" -->
                             <div class="tab-pane fade show active" id="tabAll" role="tabpanel" aria-labelledby="tab-all">
                                 <!-- Bảng dữ liệu -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>5345454351</td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                                <table class="table table-bordered" id="bill-table" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>

@@ -387,87 +387,6 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" id="productName" placeholder="Nhập tên sản phẩm" style="width: 900px;">
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-9 text-right">
-                                                    <button type="button" class="btn btn-primary" id="" style="margin-right: 10px;">Tìm kiếm</button>
-                                                    <button type="button" class="btn btn-danger" id="resetButton">Làm mới</button>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="productSize">Kích thước:</label>
-                                                        <select class="form-control" id="productSize">
-                                                        <option>Selected 1</option>
-                                                        <option>Selected 2</option>
-                                                        <option>Selected 3</option>
-                                                        </select>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="productColor">Màu sắc:</label>
-                                                        <select class="form-control" id="productColor">
-                                                            <option>Selected 1</option>
-                                                            <option>Selected 2</option>
-                                                            <option>Selected 3</option>
-                                                        </select>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="productColor">chất liệu:</label>
-                                                        <select class="form-control" id="">
-                                                            <option>Selected 1</option>
-                                                            <option>Selected 2</option>
-                                                            <option>Selected 3</option>
-                                                        </select>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="productColor">Đế giày:</label>
-                                                        <select class="form-control" id="">
-                                                            <option>Selected 1</option>
-                                                            <option>Selected 2</option>
-                                                            <option>Selected 3</option>
-                                                        </select>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="productColor">Thể loại:</label>
-                                                        <select class="form-control" id="">
-                                                            <option>Selected 1</option>
-                                                            <option>Selected 2</option>
-                                                            <option>Selected 3</option>
-                                                        </select>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group">
-                                                        <label for="productColor">Giới tính:</label>
-                                                        <select class="form-control" id="">
-                                                            <option>Selected 1</option>
-                                                        <option>Selected 2</option>
-                                                        <option>Selected 3</option>
-                                                        </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="productPriceRange">Khoảng giá:</label>
-                                                        <input type="range" class="form-control-range" id="productPriceRange">
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                                <br>
                                                 <div class="card shadow mb-4">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
@@ -617,10 +536,11 @@
                             <div class="footer">
                                 <div>Tên khách hàng</div>
                                 <span id="customer-name">Khách lẻ</span>
+                                <span id="customer-id" class="hidden-info" style="display: none;"></span>
                                 <div class="hidden-info" style="display: none;">Email</div>
-                                <span id="customer-email" class="hidden-info" style="display: none;">Khách lẻ</span>
+                                <span id="customer-email" class="hidden-info" style="display: none;"></span>
                                 <div class="hidden-info" style="display: none;">SĐT</div>
-                                <span id="customer-phone" class="hidden-info" style="display: none;">Khách lẻ</span>
+                                <span id="customer-phone" class="hidden-info" style="display: none;"></span>
                             </div>
                         </div>
                     </div>
@@ -632,16 +552,18 @@
                             <div class="choose-customer">
                                 <div class="footer-customer">
                                     <div class="customer-info" id="customer-info" style="visibility: hidden;">
-                                        <form>
+                                        <form id="delivery-field">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1" class="label">Họ và tên</label>
                                                 <input type="email" class="form-control" id="customerName"
                                                     aria-describedby="emailHelp" placeholder="">
+                                                    <span id="validateName" style="font-size: 0.90rem; font-weight: 600;  color: red; display: none;">Bạn phải điền thông tin</span>
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1" class="label">Số điện thoại</label>
                                                 <input type="text" class="form-control" id="phoneNumber"
                                                     placeholder="">
+                                                    <span id="validatePhone" style="font-size: 0.90rem; font-weight: 600;  color: red; display: none;">Bạn phải điền thông tin</span>
                                             </div>
                                             <div class="form-group">
                                                 <label for="province" class="label">Tỉnh</label>
@@ -690,15 +612,15 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Tiền hàng:</label>
-                                                    <label for="exampleInputEmail1" id="total">0</label>
+                                                    <label for="exampleInputEmail1" id="total">0 ₫</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Phí vận chuyển:</label>
-                                                    <label for="exampleInputEmail1" id="ship-fee">0</label>
+                                                    <label for="exampleInputEmail1" id="ship-fee">0 ₫</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Giảm giá:</label>
-                                                    <label for="exampleInputEmail1" id="discount-price">0</label>
+                                                    <label for="exampleInputEmail1" id="discount-price">0 ₫</label>
                                                 </div>
                                                 <!-- <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Quyền lợi thành
@@ -707,7 +629,19 @@
                                                 </div> -->
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1" class="label">Tổng số tiền:</label>
-                                                    <label for="exampleInputEmail1" id="sum">0</label>
+                                                    <label for="exampleInputEmail1" id="sum">0 ₫</label>
+                                                </div>
+                                                <div id="delivery-info" style="display: none;">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1" class="label">Thời gian nhận hàng dự kiến:</label>
+                                                        <label for="exampleInputEmail1" id="delivery-date" style="    font-weight: 700;
+                                                        color: red;"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1" class="label">Đơn vị vận chuyển:</label>
+                                                        <label for="exampleInputEmail1" style="    font-weight: 700;
+                                                        color: red;">Giao hàng nhanh</label>
+                                                    </div>
                                                 </div>
                                             </form>
                                     </div>
@@ -787,7 +721,6 @@
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="js/create-bill.js"></script>

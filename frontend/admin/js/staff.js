@@ -68,23 +68,18 @@ $(document).ready(function () {
             },
           }
     });
-    setInterval(function () {
-        staffTable.ajax.reload();
-    }, 2500);
+
     // call api them nhan vien
     $('#add-employee-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            "employeeId": $("#employeeId").val(),
+            "email": $("#email").val(),
             "snn": $("#snn").val(),
             "fullName": $("#fullName").val(),
             "phoneNumber": $("#phoneNumber").val(),
             "dateOfBirth": $("#dateOfBirth").val(),
             "gender": $("#gender").val(),
             "homeTown":  $("#homeTown").val(),
-            "address":  $("#address").val(),
-            "relativeName":  $("#relativeName").val(),
-            "relativePhoneNumber":  $("#relativePhoneNumber").val(),
             "status": true,
         };
 
@@ -98,6 +93,18 @@ $(document).ready(function () {
         // add thong tin
 
         if (confirm(`Bạn có muốn thêm nhân viên ${formData.fullName} không?`)) {
+            //add tk nhan vien
+            if (!isValidEmail(formData.email)) {
+               return
+            } 
+            $.ajax({
+                url: `https://localhost:44328/api/Authentication/CreateEmployeeAccount?email=${formData.email}`,
+                type: "POST",
+                data: JSON.stringify(formData.phoneNumber),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response.user.id)
+                    formData.appUserId = response.user.id
             $.ajax({
                 url: "https://localhost:44328/api/Employee",
                 type: "POST",
@@ -110,17 +117,6 @@ $(document).ready(function () {
                     staffTable.ajax.reload();
                 },
             });
-            //add tk nhan vien
-            $.ajax({
-                url: "https://localhost:44328/api/Authentication/CreateEmployeeAccount",
-                type: "POST",
-                data: JSON.stringify(formData.phoneNumber),
-                contentType: "application/json",
-                success: function (response) {
-                    $("#add-employee-modal").modal("hide");
-                    $("#success").toast("show");
-                    $("#add-employee-form")[0].reset();
-                    staffTable.ajax.reload();
                 },
             });
           } else {
@@ -144,28 +140,28 @@ $(document).ready(function () {
     $.validator.addMethod("onlyContain12Char", function (value, element) {
         return value.match(/^\w{12}$/) != null;
     });
+    $.validator.addMethod("validateEmail", function (value, element) {
+        // Regular expression for a valid email address
+        var emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        return emailRegex.test(value);
+    });
+    function isValidEmail(value) {
+    // Regular expression for a valid email address
+    var emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    return emailRegex.test(value);
+}
     // add validate
     $("#add-employee-form").validate({
         rules: {
-            "employeeId": {
+            "email": {
                 required: true,
+                validateEmail: true
             },
             "dateOfBirth": {
                 required: true,
             },
             "homeTown": {
                 required: true,
-            },
-            "address": {
-                required: true,
-            },
-            "relativeName": {
-                required: true,
-            },
-            "relativePhoneNumber": {
-                required: true,
-                phoneNumContainOnlyNum: true,
-                onlyContain10Char: true,
             },
             "fullName": {
                 required: true,
@@ -187,25 +183,15 @@ $(document).ready(function () {
             }
         },
         messages: {
-            "employeeId": {
-                required: "Bạn phải nhập mã nhân viên",
+            "email": {
+                required: "Bạn phải nhập email",
+                validateEmail: "Email không hợp lệ"
             },
             "dateOfBirth": {
                 required: "Bạn phải nhập ngày sinh",
             },
             "homeTown": {
                 required: "Bạn phải nhập Quê quán",
-            },
-            "address": {
-                required: "Bạn phải nhập Địa chỉ hiện tại",
-            },
-            "relativeName": {
-                required: "Bạn phải nhập tên người thân",
-            },
-            "relativePhoneNumber": {
-                required: "Bạn phải nhập số điện thoại người thân",
-                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
-                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
             },
             "fullName": {
                 required: "Bạn phải nhập họ và tên",

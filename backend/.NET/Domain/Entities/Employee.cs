@@ -11,7 +11,6 @@ namespace Domain.Entities
     {
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string EmployeeId { get; set; }
 
         [Required(ErrorMessage = "Căn cước công dân là bắt buộc")]
         [RegularExpression(@"^\d+$", ErrorMessage = "Căn cước phải là số")]
@@ -31,15 +30,6 @@ namespace Domain.Entities
 
         [Required(ErrorMessage = "Quê quán là bắt buộc")]
         public string HomeTown { get; set; }
-
-        [Required(ErrorMessage = "Địa chỉ liên hệ là bắt buộc")]
-        public string Address { get; set; }
-
-        [Required(ErrorMessage = "Tên người thân là bắt buộc")]
-        public string RelativeName { get; set; }
-
-        [Required(ErrorMessage = "Số điện thoại người thân là bắt buộc")]
-        public string RelativePhoneNumber { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
