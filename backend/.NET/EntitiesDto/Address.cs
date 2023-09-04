@@ -10,6 +10,8 @@ namespace EntitiesDto
     public class AddressAPI
     {
         [Required]
+        public string UserId { get; set; }
+        [Required]
         public string FullName { get; set; }
 
         [Required]
@@ -22,7 +24,7 @@ namespace EntitiesDto
         public int ProvinceCode { get; set; }
 
         [Required]
-        public int WardCode { get; set; }
+        public string WardCode { get; set; }
 
         [Required]
         [StringLength(10, ErrorMessage = "Số điện thoại phải đủ 10 số")]

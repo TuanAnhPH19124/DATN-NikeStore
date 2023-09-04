@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230901110354_ok")]
-    partial class ok
+    [Migration("20230903202543_update-table-address")]
+    partial class updatetableaddress
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,9 @@ namespace Persistence.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<int>("WardCode")
-                        .HasColumnType("integer");
+                    b.Property<string>("WardCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

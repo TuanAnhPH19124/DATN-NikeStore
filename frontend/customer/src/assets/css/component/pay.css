@@ -4,7 +4,42 @@
     align-items: center;
 }
 
+.checkout-address-existing{
+    border: 1px solid var(--bc-gray-light);
+    width: 100%;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.checkout-address-existing:hover{
+    border-color: black;
+}
+
+.checkout-address-infomation p {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+.checkout-address-existing-updateBtn{
+    background-color: transparent;
+    color: var(--bc-gray-light-hover);
+    border: none;
+}
+
+
 .checkout-product{
     display: flex;
 
+}
+
+.border_address{
+    border: 1px solid black;
+}
+
+.step-intro-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

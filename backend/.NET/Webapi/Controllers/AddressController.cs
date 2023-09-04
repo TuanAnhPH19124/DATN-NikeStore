@@ -18,26 +18,21 @@ namespace Webapi.Controllers
 
         public AddressController(AppDbContext dbContext, IServiceManager serviceManager)
         {
-            _dbContext=dbContext;
-            _serviceManager=serviceManager;
-        }
-
-        [HttpGet]
-        public string[] Get()
-        {
-            return new string[] { "value1", "value2" };
+            _dbContext = dbContext;
+            _serviceManager = serviceManager;
         }
 
         // GET api/<AddressController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+        [HttpGet("{userId}")]
+        public async Task<ActionResult> Get(string userId)
+        {       
+            var addresses = await _serviceManager.AddressService.GetByUserId(userId);
+            return Ok(addresses);
         }
 
         // POST api/<AddressController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody]AddressAPI address)
+        public async Task<ActionResult> Post([FromBody] AddressAPI address)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
