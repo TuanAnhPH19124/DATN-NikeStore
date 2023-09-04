@@ -6,7 +6,7 @@ namespace Domain.Enums
         PENDING_SHIP= 1,
         SHIPPING = 2,
         DELIVERIED = 3,
-        DONE = 4,
-        DECLINE = 5
+      
+        DECLINE = 4
     }
 }

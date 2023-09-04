@@ -15,6 +15,7 @@ using Webapi.Hubs;
 using Domain.DTOs;
 using System.Threading;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Webapi.Controllers
 {
@@ -79,6 +80,116 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        [HttpGet("Confirm")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetConfirmedOrders()
+        {
+            try
+            {
+                var confirmedOrders = await _dbContext.Orders
+                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.CONFIRM))
+                    .ToListAsync();
+
+                if (confirmedOrders == null || !confirmedOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(confirmedOrders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("PendingShip")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetPendingShipOrders()
+        {
+            try
+            {
+                var pendingShipOrders = await _dbContext.Orders
+                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.PENDING_SHIP))
+                    .ToListAsync();
+
+                if (pendingShipOrders == null || !pendingShipOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(pendingShipOrders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("Shipping")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetShippingOrders()
+        {
+            try
+            {
+                var shippingOrders = await _dbContext.Orders
+                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.SHIPPING))
+                    .ToListAsync();
+
+                if (shippingOrders == null || !shippingOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(shippingOrders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("Delivered")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetDeliveredOrders()
+        {
+            try
+            {
+                var deliveredOrders = await _dbContext.Orders
+                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.DELIVERIED))
+                    .ToListAsync();
+
+                if (deliveredOrders == null || !deliveredOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(deliveredOrders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("Decline")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetDeclinedOrders()
+        {
+            try
+            {
+                var declineOrders = await _dbContext.Orders
+                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.DECLINE))
+                    .ToListAsync();
+
+                if (declineOrders == null || !declineOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(declineOrders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
         [HttpPost("pay")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
