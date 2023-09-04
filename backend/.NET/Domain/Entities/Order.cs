@@ -19,6 +19,7 @@ namespace Domain.Entities
         public DateTime PassivedDate { get; set; } 
         public DateTime ModifiedDate { get; set; }
         public string UserId { get; set; }
+        public string EmployeeId { get; set; }
         public string VoucherId { get; set; }
 
 

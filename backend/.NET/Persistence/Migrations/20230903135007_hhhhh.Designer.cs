@@ -10,13 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230903202543_update-table-address.Designer.cs
-    [Migration("20230903202543_update-table-address")]
-    partial class updatetableaddress
-========
-    [Migration("20230903090820_hhhh")]
-    partial class hhhh
->>>>>>>> Call-API-for-ADMIN:backend/.NET/Persistence/Migrations/20230903090820_hhhh.Designer.cs
+    [Migration("20230903135007_hhhhh")]
+    partial class hhhhh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,9 +50,8 @@ namespace Persistence.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<string>("WardCode")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("WardCode")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -219,10 +213,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("AppUserId")
                         .HasColumnType("text");
 
@@ -250,14 +240,6 @@ namespace Persistence.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("RelativeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("RelativePhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 

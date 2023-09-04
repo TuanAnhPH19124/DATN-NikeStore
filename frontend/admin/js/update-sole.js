@@ -19,7 +19,7 @@ $(document).ready(function () {
         event.preventDefault()
         var formData = {
             id: id,
-            name: $("#name").val(),
+            name: $("#name").val().trim(),
             description: $("#description").val(),
         };
         if (confirm(`Bạn có muốn sửa đế ${formData.name} không?`)) {

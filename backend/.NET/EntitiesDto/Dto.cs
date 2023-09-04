@@ -31,7 +31,6 @@ namespace EntitiesDto
 
         public class EmployeeDto
         {
-            public string EmployeeId { get; set; }
 
             [Required(ErrorMessage = "Căn cước công dân là bắt buộc")]
             [RegularExpression(@"^\d+$", ErrorMessage = "Căn cước phải là số")]
@@ -52,22 +51,13 @@ namespace EntitiesDto
             [Required(ErrorMessage = "Quê quán là bắt buộc")]
             public string HomeTown { get; set; }
 
-            [Required(ErrorMessage = "Địa chỉ liên hệ là bắt buộc")]
-            public string Address { get; set; }
-
-            [Required(ErrorMessage = "Tên người thân là bắt buộc")]
-            public string RelativeName { get; set; }
-
-            [Required(ErrorMessage = "Số điện thoại người thân là bắt buộc")]
-            public string RelativePhoneNumber { get; set; }
-
             public bool Status { get; set; }
+            public string AppUserId { get; set; }
         }
 
         public class UpdateEmployeeDto
         {
             public string Id { get; set; }
-            public string EmployeeId { get; set; }
 
             [Required(ErrorMessage = "Căn cước công dân là bắt buộc")]
             [RegularExpression(@"^\d+$", ErrorMessage = "Căn cước phải là số")]
@@ -87,15 +77,6 @@ namespace EntitiesDto
 
             [Required(ErrorMessage = "Quê quán là bắt buộc")]
             public string HomeTown { get; set; }
-
-            [Required(ErrorMessage = "Địa chỉ liên hệ là bắt buộc")]
-            public string Address { get; set; }
-
-            [Required(ErrorMessage = "Tên người thân là bắt buộc")]
-            public string RelativeName { get; set; }
-
-            [Required(ErrorMessage = "Số điện thoại người thân là bắt buộc")]
-            public string RelativePhoneNumber { get; set; }
 
             public DateTime ModifiedDate { get; set; } = DateTime.Now;
 

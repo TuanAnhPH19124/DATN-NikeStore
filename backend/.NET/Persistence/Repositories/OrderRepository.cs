@@ -40,6 +40,7 @@ namespace Persistence.Repositories
                 PassivedDate = order.PassivedDate,
                 ModifiedDate = order.ModifiedDate,
                 UserId = order.UserId,
+                EmployeeId = order.EmployeeId,
                 VoucherId = order.VoucherId,
                 OrderItems = order.OrderItems.Select(item => new OrderItemDto
                 {

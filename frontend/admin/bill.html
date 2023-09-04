@@ -319,61 +319,6 @@
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                
-                <div class="container">
-                    <i class="fa-solid fa-list-check"></i> 
-                    <span style="font-weight: bold; font-size: 24px;margin-left: 5px;"> Quản lý hoá đơn</span>
-                </div>
-                <!-- Ô tìm kiếm và bộ lọc -->
-                <div class="container" style="background-color: white;">
-                    <div>
-                        <br>
-                        <i class="fa-solid fa-filter"></i> <span style="font-size: 20px;">Bộ lọc</span>
-                    </div>
-                    <hr>
-                    <div class="search-and-filter">
-                        <div class="row">                         
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm hoá đơn ...">
-                            </div>
-                            <div class="" style="margin-right: 10px;">
-                                <button class="btn btn-primary">Tìm kiếm</button>
-                            </div>
-                            <div class="" style="margin-right: 193px; margin-bottom: 20px;">
-                                <button class="btn btn-danger">Làm mới</button>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="/frontend/admin/create-bill.html" class="btn btn-primary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="text">Tạo đơn hàng</span>
-                                </a>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="col-md-3">
-                                <label for="startDate" style="font-weight: bold;">Từ ngày:</label>
-                                <input type="date" class="form-control" id="startDate">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="endDate" style="font-weight: bold;">Đến ngày:</label>
-                                <input type="date" class="form-control" id="endDate">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="orderType" style="font-weight: bold;">Loại đơn:</label>
-                                <select class="form-control" id="orderType">
-                                    <option>Tại quầy</option>
-                                    <option>Online</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div><br>
-                </div>
-                    <br>
                     <!-- Bảng danh sách đơn hàng -->
                     <div class="container" style="background-color: white; padding-top: 20px; padding-bottom: 15px;">
                         <div>
@@ -392,10 +337,10 @@
                                 <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending1" role="tab" aria-controls="tabPending" aria-selected="false">Chờ vận chuyển    </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-completed" data-toggle="tab" href="#tabCompleted" role="tab" aria-controls="tabCompleted" aria-selected="false">Hoàn thành</a>
+                                <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending" role="tab" aria-controls="tabPending" aria-selected="false">Đang vận chuyển</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-paid" data-toggle="tab" href="#tabPaid" role="tab" aria-controls="tabPaid" aria-selected="false">Thanh toán</a>
+                                <a class="nav-link" id="tab-completed" data-toggle="tab" href="#tabCompleted" role="tab" aria-controls="tabCompleted" aria-selected="false">Thành công</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-cancelled" data-toggle="tab" href="#tabCancelled" role="tab" aria-controls="tabCancelled" aria-selected="false">Huỷ</a>
@@ -405,36 +350,8 @@
                             <!-- Tab "Tất cả" -->
                             <div class="tab-pane fade show active" id="tabAll" role="tabpanel" aria-labelledby="tab-all">
                                 <!-- Bảng dữ liệu -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>5345454351</td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                                <table class="table table-bordered" id="bill-table" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>

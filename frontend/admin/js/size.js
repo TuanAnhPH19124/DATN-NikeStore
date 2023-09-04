@@ -49,7 +49,7 @@ $(document).ready(function () {
     $('#add-size-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            numberSize: $("#numberSize").val(),
+            numberSize: $("#numberSize").val().trim(),
             description: ""
         };
         if(formData.numberSize.trim(" ")==""){
@@ -65,6 +65,9 @@ $(document).ready(function () {
                     $('#success').toast('show')
                 },
                 error: function () {
+                    if (formData.numberSize.match(/^[0-9]+$/) === null) {
+                        return
+                    }
                     $('#fail').toast('show')
                 },
             });

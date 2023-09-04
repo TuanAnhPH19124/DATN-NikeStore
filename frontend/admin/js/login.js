@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#login-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            userName: $("#userName").val(),
+            account: $("#userName").val(),
             password: $("#password").val(),
         };
         $.ajax({
@@ -47,7 +47,7 @@ $(document).ready(function () {
         },
         messages: {
             "userName": {
-                required: "Mời bạn nhập UserName",
+                required: "Mời bạn nhập tài khoản",
             },
             "password": {
                 required: "Mời bạn nhập mật khẩu",
