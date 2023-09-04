@@ -1,7 +1,7 @@
 (function (){
     var addressService = function (http, url){
         this.getAdresses = function (userId){
-            let uri = url + "/api/Address" + userId;
+            let uri = url + "/api/Address/" + userId;
             return http({
                 method: 'GET',
                 url: uri

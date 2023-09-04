@@ -48,8 +48,9 @@ namespace Persistence.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<int>("WardCode")
-                        .HasColumnType("integer");
+                    b.Property<string>("WardCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -211,10 +212,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("AppUserId")
                         .HasColumnType("text");
 
@@ -223,9 +220,6 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -242,14 +236,6 @@ namespace Persistence.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("RelativeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("RelativePhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -337,6 +323,9 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");

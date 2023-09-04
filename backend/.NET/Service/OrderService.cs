@@ -42,6 +42,8 @@ namespace Service
                 PhoneNumber = orderDto.PhoneNumber,
                 CustomerName = orderDto.CustomerName,
                 Note = orderDto.Note,
+                UserId = orderDto.UserId,
+                EmployeeId = orderDto.EmployeeId,
                 VoucherId = orderDto.VoucherId,
                 Paymethod = orderDto.PaymentMethod,
                 Amount = orderDto.Amount,
@@ -92,12 +94,6 @@ namespace Service
                         Status = Domain.Enums.StatusOrder.DELIVERIED,
                         Time = DateTime.Now,
                         Note = "Đã nhận hàng"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.DONE,
-                        Time = DateTime.Now,
-                        Note = "Đơn hàng hoàn tất"
                     },
                 };
             }

@@ -13,6 +13,8 @@ namespace EntitiesDto.Order
         public string PhoneNumber { get; set; } = null;
         public string CustomerName { get; set; } = null;
         public string Note { get; set; } = null;
+        public string UserId { get; set; } = null;
+        public string EmployeeId { get; set; } = null;
         public string VoucherId { get; set; } = null;
         [Required(ErrorMessage = "Yêu cầu Shipping để tiếp nhận vận chuyển")]
         public bool Shipping { get; set; } 

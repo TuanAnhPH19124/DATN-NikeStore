@@ -10,8 +10,13 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230901110354_ok")]
-    partial class ok
+<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230903202543_update-table-address.Designer.cs
+    [Migration("20230903202543_update-table-address")]
+    partial class updatetableaddress
+========
+    [Migration("20230903090820_hhhh")]
+    partial class hhhh
+>>>>>>>> Call-API-for-ADMIN:backend/.NET/Persistence/Migrations/20230903090820_hhhh.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +55,9 @@ namespace Persistence.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<int>("WardCode")
-                        .HasColumnType("integer");
+                    b.Property<string>("WardCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -339,6 +345,9 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");

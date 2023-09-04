@@ -1,99 +1,157 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <div class="checkout-step-block">
+            <div class="checkout-step-block" ng-show="step === 1">
                 <div class="checkout-address">
-                    <h1>Điền thông tin họ tên và địa chỉ:</h1>
-                    <div class="checkout-address-existing">
-                        <div class="checkout-address-infomation">
-                            <p>Họ và tên</p>
-                            <p>địa chỉ</p>
-                            <p>số điện thoại</p>
-                        </div>
-                        <div class="checkout-address-btnUpdate">
-                            <button>Cập nhật</button>
-                        </div>
+                    <h1>Thông tin địa chỉ giao hàng của bạn:</h1>
+                    <div ng-repeat="address in addressCustomer">
+                        <button class="checkout-address-existing" ng-class="{'border_address': address.selected}"
+                            ng-click="selectAddress(address.id)">
+                            <div class="checkout-address-infomation">
+                                <p>{{ address.fullName }}</p>
+                                <p>{{ address.addressLine }}</p>
+                                <p>{{ address.phoneNumber }}</p>
+                            </div>
+                            <input type="button" class="checkout-address-existing-updateBtn"
+                                ng-click="updateAddress($event)" value="Cập nhật">
+                        </button>
                     </div>
-                    <form name="form" class="css-form" novalidate>
-                        <label>Name:
-                          <input type="text" ng-model="user.name" name="uName" required="" />
-                        </label>
-                        <br />
-                        <div ng-show="form.$submitted || form.uName.$touched">
-                          <div ng-show="form.uName.$error.required">Tell us your name.</div>
-                        </div>
-                    
-                        <label>E-mail:
-                          <input type="email" ng-model="user.email" name="uEmail" required="" />
-                        </label>
-                        <br />
-                        <div ng-show="form.$submitted || form.uEmail.$touched">
-                          <span ng-show="form.uEmail.$error.required">Tell us your email.</span>
-                          <span ng-show="form.uEmail.$error.email">This is not a valid email.</span>
-                        </div>
-                    
-                        Gender:
-                        <label><input type="radio" ng-model="user.gender" value="male" />male</label>
-                        <label><input type="radio" ng-model="user.gender" value="female" />female</label>
-                        <br />
-                        <label>
-                        <input type="checkbox" ng-model="user.agree" name="userAgree" required="" />
-                    
-                        I agree:
-                        </label>
-                        <input ng-show="user.agree" type="text" ng-model="user.agreeSign" required="" />
-                        <br />
-                        <div ng-show="form.$submitted || form.userAgree.$touched">
-                          <div ng-show="!user.agree || !user.agreeSign">Please agree and sign.</div>
-                        </div>
-                    
-                        <input type="button" ng-click="reset(form)" value="Reset" />
-                        <input type="submit" ng-click="update(user)" value="Save" />
-                      </form>
-                    <button class="btn btn-dark">Thêm địa chỉ</button>
+
+                    <div ng-hide="showForm === false">
+                        <button class="btn btn-dark" ng-click="showForm = false">x</button>
+                        <form name="form" ng-if="showForm" novalidate>
+                            <label>Họ và tên:
+                                <input type="text" ng-model="newAddress.fullName" name="aName" required="" />
+                            </label>
+                            <br />
+                            <div ng-show="form.$submitted || form.aName.$touched">
+                                <div ng-show="form.aName.$error.required">Xin hãy điền tên.</div>
+                            </div>
+                            <!-- <label>E-mail:
+                                <input type="email" ng-model="user.email" name="uEmail" required="" />
+                            </label>
+                            <br />
+                            <div ng-show="form.$submitted || form.uEmail.$touched">
+                                <span ng-show="form.uEmail.$error.required">Tell us your email.</span>
+                                <span ng-show="form.uEmail.$error.email">This is not a valid email.</span>
+                            </div> -->
+
+                            <label>Địa chỉ:
+                                <input type="text" name="aLine" ng-model="newAddress.addressLine" required="">
+                            </label>
+                            <div ng-show="form.$submitted || form.aLine.$touched">
+                                <div ng-show="form.aLine.$error.required">Xin hãy điền địa chỉ.</div>
+                            </div>
+                            <br>
+                            <label>Tỉnh:
+                                <select name="aProvince" ng-model="newAddress.cityCode"
+                                    ng-change="getDistricts(newAddress.cityCode)" required="">
+                                    <option ng-repeat="province in provices" value="{{province.ProvinceID}}">
+                                        {{province.NameExtension[1]}}</option>
+                                </select>
+                            </label>
+                            <div ng-show="form.$submitted || form.aProvince.$touched">
+                                <div ng-show="form.aProvince.$error.required">Xin hãy chọn tỉnh thành.</div>
+                            </div>
+                            <br>
+                            <label>Quận:
+                                <select name="aDistrict" ng-model="newAddress.provinceCode"
+                                    ng-change="getWards(newAddress.provinceCode)" required="">
+                                    <option ng-repeat="district in districts" value="{{district.DistrictID}}">{{
+                                        district.NameExtension[0] }}</option>
+                                </select>
+                            </label>
+                            <div ng-show="form.$submitted || form.aDistrict.$touched">
+                                <div ng-show="form.aDistrict.$error.required">Xin hãy chọn quận huyện.</div>
+                            </div>
+                            <br>
+                            <label>Phường:
+                                <select name="aWard" ng-model="newAddress.wardCode" required="">
+                                    <option ng-repeat="ward in wards" value="{{ward.WardCode}}">{{ ward.NameExtension[0]
+                                        }}</option>
+                                </select>
+                            </label>
+                            <div ng-show="form.$submitted || form.aWard.$touched">
+                                <div ng-show="form.aWard.$error.required">Xin hãy chọn phường.</div>
+                            </div>
+                            <br>
+                            <label>Số điện thoại
+                                <input type="tel" name="aPhone" ng-model="newAddress.phoneNumber" required="">
+                            </label>
+                            <div ng-show="form.$submitted || form.aPhone.$touched">
+                                <div ng-show="form.aPhone.$error.required">Xin điền số điện thoại.</div>
+                            </div>
+
+                            <label><input type="checkbox" ng-model="newAddress.setAsDefault"> Đặt làm địa chỉ mặc định
+                            </label>
+
+                            <input type="button" ng-click="reset(form)" value="Reset" />
+                            <input type="submit" ng-click="save(newAddress)" value="Save" />
+                        </form>
+                    </div>
+                    <button class="btn btn-dark" ng-click="showForm = true">Thêm địa chỉ</button>
                 </div>
                 <div class="checkout-contact">
                     <h1>Thông tin liên lạc của bạn là gì?</h1>
-                    <div>
-                        <label for="e-input">Email</label>
-                        <input type="email" id="e-input">
-                    </div>
-                    <div>
-                        <label for="p-input">Số diện thoại</label>
-                        <input type="tel" id="p-input">
-                    </div>
+                    <form name="infoForm" ng-submit="step = step + 1">
+                        <label>Email:
+                            <input type="email" ng-model="userInformation.email" name="iEmail" required>
+                        </label>
+                        <br />
+                        <div ng-show="infoForm.$submitted || infoForm.iEmail.$touched">
+                            <span ng-show="infoForm.iEmail.$error.required">Vui lòng điền Email của bạn.</span>
+                            <span ng-show="infoForm.iEmail.$error.email">Vui lòng điền Email hợp lệ</span>
+                        </div>
+                        <label>Số điện thoại:
+                            <input type="tel" ng-model="userInformation.phoneNumber" name="iPhone" required>
+                        </label>
+                        <br />
+                        <div ng-show="infoForm.$submitted || infoForm.iPhone.$touched">
+                            <span ng-show="infoForm.iPhone.$error.required">vui lòng điền số điện thoại.</span>
+                        </div>
+
+                        <label>
+                            <input type="checkbox" ng-model="agree" required> Tôi đã đọc điều khoản và đồng ý
+                        </label>
+                        <br />
+                        <input type="submit" value="Tiếp tục" ng-disabled="! agree" ng-click="nextToShippingService()"
+                            class="btn btn-dark">
+                    </form>
                 </div>
-                <div class="checkout-confirm">
-                    <input type="checkbox">Tôi đã đọc điều khoản và đồng ý
-                    <button class="btn btn-dark">Tiếp tục</button>
+            </div>
+            <div ng-show="step === 2">
+                <h1>Bạn muốn sử dụng dịch vụ vận chuyển nào?</h1>
+                <div ng-repeat="shippingService in avalibleShippingService">
+                    <p>{{ shippingService.short_name }}</p>
+                    <p>{{ shippingService.totalFee }}</p>
                 </div>
             </div>
             <div class="step-intro">
                 <div class="step-1">
-                    <div>
+                    <div class="step-intro-head">
                         <h1>Giao hàng</h1>
-                        <button>Chỉnh sửa</button>
+                        <button ng-show="step > 1" ng-click="step = 1">Chỉnh sửa</button>
                     </div>
-                    <div>
-                        <p>Họ và tên</p>
-                        <p>Địa chỉ</p>
-                        <p>email</p>
-                        <p>số điện thoại</p>
+                    <div ng-show="step > 1">
+                        <p>{{ addressCustomer[selectedIndex].fullName }}</p>
+                        <p>{{ addressCustomer[selectedIndex].addressLine }}</p>
+                        <p>{{ userInformation.email }}</p>
+                        <p>{{ userInformation.phoneNumber }}</p>
                     </div>
                 </div>
                 <div class="step-2">
-                    <div>
+                    <div class="step-intro-head">
                         <h1>vận chuyển</h1>
-                        <button>chỉnh sửa</button>
+                        <button ng-show="step > 2">chỉnh sửa</button>
                     </div>
-                    <div>
+                    <div ng-show="step !== 2">
                         <p>250.000đ Vận chuyển</p>
                         <p>Đợt vận chuyển lần một</p>
                         <p>Thứ 3, ngày 15 tháng 9 năm 2023</p>
                     </div>
                 </div>
                 <div class="step-3">
-                    <div>
+                    <div class="step-intro-head">
                         <h1>Hóa đơn</h1>
                         <button>Chỉnh sửa</button>
                     </div>
@@ -125,7 +183,8 @@
             </div>
             <p>Nhận hàng vào thứ 4 ngày 6 tháng 9 năm 2023</p>
             <div class="checkout-product" ng-repeat="cart in carts ">
-                <div><img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="cart.product.name"></div>
+                <div><img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="cart.product.name">
+                </div>
                 <div>
                     <p>{{cart.product.name}}</p>
                     <p>số lượng {{cart.quantity}}</p>
