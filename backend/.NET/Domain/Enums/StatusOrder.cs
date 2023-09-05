@@ -1,12 +1,11 @@
-namespace Domain.Enums
+﻿namespace Domain.Enums
 {
     public enum StatusOrder
     {
-        READY_TO_PICK = 0,
-        CONFIRM = 1,
-        PENDING_SHIP= 2,
-        SHIPPING = 3,
-        DELIVERIED = 4,
-        DECLINE = 5
+        CONFIRM = 0,  //đã thanh toán
+        PENDING_SHIP = 1,  //chuẩn bị ship
+        SHIPPING = 2, //đang ship
+        DELIVERIED = 3,  //thành công
+        DECLINE = 4  //hủy
     }
 }
