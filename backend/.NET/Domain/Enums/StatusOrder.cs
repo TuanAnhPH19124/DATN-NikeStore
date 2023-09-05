@@ -2,10 +2,11 @@ namespace Domain.Enums
 {
     public enum StatusOrder
     {
-        CONFIRM = 0,
-        PENDING_SHIP= 1,
-        SHIPPING = 2,
-        DELIVERIED = 3,
-        DECLINE = 4
+        READY_TO_PICK = 0,
+        CONFIRM = 1,
+        PENDING_SHIP= 2,
+        SHIPPING = 3,
+        DELIVERIED = 4,
+        DECLINE = 5
     }
 }

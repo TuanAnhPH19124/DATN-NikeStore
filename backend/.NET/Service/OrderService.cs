@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Repositories;
 using EntitiesDto.Order;
 using Mapster;
@@ -26,10 +27,22 @@ namespace Service
             var orderList = await _manager.OrderRepository.GetAllOrderAsync(cancellationToken);
             return orderList;
         }
-        public async Task PostAndSendNontification(OrderPostRequestDto orderDto)
+        public async Task CreateNewOnlineOrder(OrderPostRequestDto orderDto)
         {
-            var order = orderDto.Adapt<Order>();
-            order.OrderItems = orderDto.OrderItems.Adapt<List<OrderItem>>();
+            var order = new Order
+            {
+                Address = orderDto.Address,
+                PhoneNumber = orderDto.PhoneNumber,
+                CustomerName = orderDto.CustomerName,
+                Note = orderDto.Note,
+                UserId = orderDto.UserId,
+                EmployeeId = orderDto.EmployeeId,
+                VoucherId = orderDto.VoucherId,
+                Paymethod = orderDto.PaymentMethod,
+                Amount = orderDto.Amount,
+
+            };
+           
             await _manager.OrderRepository.Post(order);
         }
 
@@ -47,6 +60,7 @@ namespace Service
                 VoucherId = orderDto.VoucherId,
                 Paymethod = orderDto.PaymentMethod,
                 Amount = orderDto.Amount,
+                
             };
             
             if (orderDto.Shipping)
