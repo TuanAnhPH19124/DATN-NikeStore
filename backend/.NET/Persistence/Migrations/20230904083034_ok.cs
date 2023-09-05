@@ -4,11 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-<<<<<<<< HEAD:backend/.NET/Persistence/Migrations/20230902093844_init.cs
-    public partial class init : Migration
-========
-    public partial class hhh : Migration
->>>>>>>> Call-API-for-ADMIN:backend/.NET/Persistence/Migrations/20230901073616_hhh.cs
+    public partial class ok : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -216,7 +212,7 @@ namespace Persistence.Migrations
                     AddressLine = table.Column<string>(type: "text", nullable: false),
                     CityCode = table.Column<int>(type: "integer", nullable: false),
                     ProvinceCode = table.Column<int>(type: "integer", nullable: false),
-                    WardCode = table.Column<int>(type: "integer", nullable: false),
+                    WardCode = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     SetAsDefault = table.Column<bool>(type: "boolean", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: true)
@@ -322,16 +318,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    EmployeeId = table.Column<string>(type: "text", nullable: true),
                     SNN = table.Column<string>(type: "text", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Gender = table.Column<int>(type: "integer", nullable: false),
                     HomeTown = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    RelativeName = table.Column<string>(type: "text", nullable: false),
-                    RelativePhoneNumber = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
@@ -397,6 +389,7 @@ namespace Persistence.Migrations
                     PassivedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: true),
+                    EmployeeId = table.Column<string>(type: "text", nullable: true),
                     VoucherId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

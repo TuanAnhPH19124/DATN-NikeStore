@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Domain.DTOs
         public string EmployeeId { get; set; }
         public string VoucherId { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
+        public List<OrderStatusDto> OrderStatus { get; set; }
     }
 
     public class OrderItemDto
@@ -32,5 +34,11 @@ namespace Domain.DTOs
         public string SizeId { get; set; }
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
+    }
+    public class OrderStatusDto
+    {
+        public string OrderId { get; set; }
+        public Domain.Enums.StatusOrder Status { get; set; }
+    
     }
 }

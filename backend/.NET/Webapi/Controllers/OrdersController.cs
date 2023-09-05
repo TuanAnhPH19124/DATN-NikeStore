@@ -80,21 +80,28 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("Confirm")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetConfirmedOrders()
+
+        [HttpGet("GetConfirmedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetConfirmedOrders()
         {
             try
             {
-                var confirmedOrders = await _dbContext.Orders
-                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.CONFIRM))
-                    .ToListAsync();
-
+                var confirmedOrders = await _service.OrderService.GetAllOrderAsync();
                 if (confirmedOrders == null || !confirmedOrders.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(confirmedOrders);
+                var confirmedOrdersByStatus = confirmedOrders
+                    .Where(order => order.OrderStatus.Any(c=>c.Status == StatusOrder.CONFIRM))
+                    .ToList();
+
+                if (!confirmedOrdersByStatus.Any())
+                {
+                    return NotFound("No confirmed orders found.");
+                }
+
+                return Ok(confirmedOrdersByStatus);
             }
             catch (Exception ex)
             {
@@ -102,21 +109,28 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("PendingShip")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetPendingShipOrders()
+
+        [HttpGet("GetPendingShipOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetPendingShipOrders()
         {
             try
             {
-                var pendingShipOrders = await _dbContext.Orders
-                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.PENDING_SHIP))
-                    .ToListAsync();
-
+                var pendingShipOrders = await _service.OrderService.GetAllOrderAsync();
                 if (pendingShipOrders == null || !pendingShipOrders.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(pendingShipOrders);
+                var pendingShipOrdersByStatus = pendingShipOrders
+                   .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.PENDING_SHIP))
+                    .ToList();
+
+                if (!pendingShipOrdersByStatus.Any())
+                {
+                    return NotFound("No pending ship orders found.");
+                }
+
+                return Ok(pendingShipOrdersByStatus);
             }
             catch (Exception ex)
             {
@@ -124,21 +138,27 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("Shipping")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetShippingOrders()
+        [HttpGet("GetShippingOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetShippingOrders()
         {
             try
             {
-                var shippingOrders = await _dbContext.Orders
-                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.SHIPPING))
-                    .ToListAsync();
-
+                var shippingOrders = await _service.OrderService.GetAllOrderAsync();
                 if (shippingOrders == null || !shippingOrders.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(shippingOrders);
+                var shippingOrdersByStatus = shippingOrders
+                   .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.SHIPPING))
+                    .ToList();
+
+                if (!shippingOrdersByStatus.Any())
+                {
+                    return NotFound("No shipping orders found.");
+                }
+
+                return Ok(shippingOrdersByStatus);
             }
             catch (Exception ex)
             {
@@ -146,21 +166,27 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("Delivered")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetDeliveredOrders()
+        [HttpGet("GetDeliveredOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeliveredOrders()
         {
             try
             {
-                var deliveredOrders = await _dbContext.Orders
-                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.DELIVERIED))
-                    .ToListAsync();
-
+                var deliveredOrders = await _service.OrderService.GetAllOrderAsync();
                 if (deliveredOrders == null || !deliveredOrders.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(deliveredOrders);
+                var deliveredOrdersByStatus = deliveredOrders
+                    .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.DELIVERIED))
+                    .ToList();
+
+                if (!deliveredOrdersByStatus.Any())
+                {
+                    return NotFound("No delivered orders found.");
+                }
+
+                return Ok(deliveredOrdersByStatus);
             }
             catch (Exception ex)
             {
@@ -168,21 +194,28 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("Decline")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetDeclinedOrders()
+
+        [HttpGet("GetDeclinedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeclinedOrders()
         {
             try
             {
-                var declineOrders = await _dbContext.Orders
-                    .Where(o => o.OrderStatuses.Any(os => os.Status == StatusOrder.DECLINE))
-                    .ToListAsync();
-
-                if (declineOrders == null || !declineOrders.Any())
+                var declinedOrders = await _service.OrderService.GetAllOrderAsync();
+                if (declinedOrders == null || !declinedOrders.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(declineOrders);
+                var declinedOrdersByStatus = declinedOrders
+                  .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.DECLINE))
+                    .ToList();
+
+                if (!declinedOrdersByStatus.Any())
+                {
+                    return NotFound("No declined orders found.");
+                }
+
+                return Ok(declinedOrdersByStatus);
             }
             catch (Exception ex)
             {
