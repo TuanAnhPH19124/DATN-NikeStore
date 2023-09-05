@@ -59,12 +59,6 @@ namespace Service
                         Time = DateTime.Now,
                         Note = "Đã thanh toán tại quầy"
                     },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
-                        Time = DateTime.Now,
-                        Note = "Chờ vận chuyển"
-                    },
                 };
             }
             else
@@ -75,26 +69,8 @@ namespace Service
                     {
                         Status = Domain.Enums.StatusOrder.CONFIRM,
                         Time = DateTime.Now,
-                        Note = "Đã thanh toán tại quầy"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
-                        Time = DateTime.Now,
-                        Note = "Chờ vận chuyển"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.SHIPPING,
-                        Time = DateTime.Now,
-                        Note = "Đang vận chuyển"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.DELIVERIED,
-                        Time = DateTime.Now,
-                        Note = "Đã nhận hàng"
-                    },
+                        Note = "Thành công"
+                    },                 
                 };
             }
 

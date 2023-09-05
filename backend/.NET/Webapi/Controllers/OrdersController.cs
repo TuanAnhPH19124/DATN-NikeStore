@@ -123,7 +123,7 @@ namespace Webapi.Controllers
                 #region Gửi Thông báo đến người đặt
                     
                 #endregion
-                return Ok(new { Message = "Xác nhận đơn hàng thành công"});
+                return Ok(new { Message = "Đã cập nhật trạng thái đơn hàng"});
             }
             catch (System.Exception)
             {
