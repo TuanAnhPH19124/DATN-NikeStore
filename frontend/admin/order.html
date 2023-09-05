@@ -29,7 +29,7 @@
     <link href="/frontend/admin/css/order.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="icon" type="image/x-icon" href="../admin/image/icons8-sneakers-35.png" />
-
+    
 </head>
 
 <body id="page-top">
@@ -330,7 +330,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="main">
-                                <ul>
+                                <ul id="status-list">
                                     <li>
                                         <i class="icon uil uil-capture"></i>
                                         <div class="progres one">
@@ -371,13 +371,12 @@
                                         </div>
                                         <p class="text">Hủy</p>
                                     </li>
-
                                 </ul>
                             </div>
                             <div class="order-btn">
                                 <div class="left-btn">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#confirm">Xác nhận</button>
+                                        data-target="#confirm" id="confirm">Xác nhận</button>
                                     <div class="modal fade" id="confirm" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -406,9 +405,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-danger">Hủy đơn</button>
+                                    <button type="button" class="btn btn-danger" id="cancel">Hủy đơn</button>
                                 </div>
-                                <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                <!-- <button type="button" class="btn btn-secondary" data-toggle="modal"
                                     data-target="#detail">Chi tiết</button>
                                 <div class="modal fade" id="detail" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -452,7 +451,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="modal-body">
