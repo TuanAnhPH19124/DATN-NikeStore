@@ -1,10 +1,10 @@
-.checkout-address-existing, .checkout-summary{
+.checkout-address-existing, .checkout-summary, .checkout-product, .checkout-shipping-infomation{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.checkout-address-existing{
+.checkout-address-existing, .checkout-shipping-avaliable, .checkout-payment-avaliable{
     border: 1px solid var(--bc-gray-light);
     width: 100%;
     padding: 10px;
@@ -13,7 +13,7 @@
     margin-bottom: 10px;
 }
 
-.checkout-address-existing:hover{
+.checkout-address-existing:hover, .checkout-shipping-avaliable:hover, .checkout-payment-avaliable:hover{
     border-color: black;
 }
 
@@ -28,12 +28,6 @@
     border: none;
 }
 
-
-.checkout-product{
-    display: flex;
-
-}
-
 .border_address{
     border: 1px solid black;
 }
@@ -42,4 +36,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.checkout-shipping-infomation-title p{
+    text-align: left;
 }

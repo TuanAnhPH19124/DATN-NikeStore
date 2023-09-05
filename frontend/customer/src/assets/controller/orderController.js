@@ -1,5 +1,13 @@
 (function () {
-    var orderController = function (e, r, l, orderFactory, productService, authService, jwtHelper, cartService, apiUrl, addressService, ghnServices) {
+    var orderController = function (
+        e, r, l, orderFactory, productService, authService, jwtHelper, cartService, apiUrl, addressService, ghnServices,
+        guidService,
+        cloudFlareService,
+        vnpayService,
+        $window
+    ) {
+        // const uuid = require('uuid');
+        // e.uuid = require('uuid');
         e.step = 1;
         e.addressCustomer = [];
         e.userInformation = {};
@@ -12,7 +20,17 @@
         e.wards = [];
         e.shop = {};
         e.avalibleShippingService = [];
-        e.totalServiceFee = 0;
+        e.selectedShippingServiceIndex = -1;
+        e.cdn_cgi_trace = null;
+
+
+        e.selectShippingService = function (service) {
+            e.avalibleShippingService.forEach(item => {
+                item.selected = false;
+            })
+            e.selectedShippingServiceIndex = e.avalibleShippingService.indexOf(service);
+            e.avalibleShippingService[e.selectedShippingServiceIndex].selected = true;
+        }
 
         e.selectAddress = function (id) {
             for (let i = 0; i < e.addressCustomer.length; i++) {
@@ -152,56 +170,158 @@
                 "from_district": e.shop.shops[0].district_id,
                 "to_district": e.addressCustomer[e.selectedIndex].provinceCode
             }
+            e.selectedShippingServiceIndex = -1;
             ghnServices.getAvalibleServices(data)
                 .then(function (response) {
                     e.avalibleShippingService = response.data.data;
                     e.avalibleShippingService.forEach(item => {
-                        e.getAvaliableServiceFee(item.service_type_id);
-                        item.totalFee = e.totalServiceFee;
+                        let data = e.getAvaliableServiceFeeData(item.service_type_id);
+                        ghnServices.getServiceFee(data)
+                            .then(function (response) {
+                                item.totalFee = response.data.data.total;
+                            }, function (response) {
+                                console.log(response);
+                            })
+                        data = e.getLeadTimeData(item.service_id);
+                        ghnServices.getLeadTime(data)
+                            .then(function (response) {
+                                item.leadTime = response.data.data.leadtime;
+                            }, function (response) {
+                                console.log(response.data);
+                            })
+                        item.selected = false;
                     })
                 }, function (response) {
                     console.log(response.data);
                 })
         }
 
-        e.getAvaliableServiceFee = function (service_type_id) {
-            return new Promise(function (resolve, reject){
-                if (service_type_id !== undefined && e.avalibleShippingService.length !== 0) {
-                    let data = {
-                        "service_type_id": service_type_id,
-                        "from_district_id": e.shop.shops[0].district_id,
-                        "from_ward_code" : e.shop.shops[0].ward_code,
-                        "to_district_id": e.addressCustomer[e.selectedIndex].provinceCode,
-                        "to_ward_code": e.addressCustomer[e.selectedIndex].wardCode,
-                        "height": 20,
-                        "length": 30,
-                        "weight": 2000,
-                        "width": 40,
-                        "insurance_value": 0,
-                        "coupon": null,
-                    };
-                    if (service_type_id === 5) {
-                        data.items = e.carts.map(item => {
-                            return {
-                                "name": item.product.name,
-                                "quantity": item.quantity,
-                                "height": 20,
-                                "weight": 2000,
-                                "length": 20,
-                                "width": 20
-                            }
-                        });
-                    }
-                 
-                    ghnServices.getServiceFee(data)
-                    .then(function (response){
-                        resolve(response.data.data.total);
-                    }, function(response){
-                        console.log(response);
-                        reject(response);
-                    })
+        e.convertTimestampToDateString = function (timestamp) {
+            const daysOfWeek = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+
+            const date = new Date(timestamp * 1000); // Lưu ý: timestamp được biểu diễn bằng mili giây nên nhân với 1000
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, ''); // Tháng bắt đầu từ 0, nên cộng thêm 1
+            const day = date.getDate().toString().padStart(2, '');
+            const dayOfWeek = daysOfWeek[date.getDay()];
+            // Trả về định dạng ngày tháng
+            return `${dayOfWeek}, Ngày ${day} tháng ${month} năm ${year}`;
+        }
+
+        e.getAvaliableServiceFeeData = function (service_type_id) {
+            var data = null;
+            if (service_type_id !== undefined && e.avalibleShippingService.length !== 0) {
+                data = {
+                    "service_type_id": service_type_id,
+                    "from_district_id": e.shop.shops[0].district_id,
+                    "from_ward_code": e.shop.shops[0].ward_code,
+                    "to_district_id": e.addressCustomer[e.selectedIndex].provinceCode,
+                    "to_ward_code": e.addressCustomer[e.selectedIndex].wardCode,
+                    "height": 20,
+                    "length": 30,
+                    "weight": 2000,
+                    "width": 40,
+                    "insurance_value": 0,
+                    "coupon": null,
+                };
+                if (service_type_id === 5) {
+                    data.items = e.carts.map(item => {
+                        return {
+                            "name": item.product.name,
+                            "quantity": item.quantity,
+                            "height": 20,
+                            "weight": 2000,
+                            "length": 20,
+                            "width": 20
+                        }
+                    });
                 }
-            });
+            }
+            return data;
+        }
+
+        e.getLeadTimeData = function (service_id) {
+            var data = {
+                "from_district_id": e.shop.shops[0].district_id,
+                "from_ward_code": e.shop.shops[0].ward_code,
+                "to_district_id": e.addressCustomer[e.selectedIndex].provinceCode,
+                "to_ward_code": e.addressCustomer[e.selectedIndex].wardCode,
+                "service_id": service_id
+            }
+            return data;
+
+        }
+
+        function getCurrentDateTimeInGMT7Format() {
+            // const timeZoneOffSet = 7 * 60;
+            const now = new Date();
+
+            // now.setMinutes(now.getMinutes() + timeZoneOffSet);
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const formatDatetime = `${year}${month}${day}${hours}${minutes}${seconds}`;
+            return formatDatetime;
+        }
+
+        function getExpireDateInGMT7Format() {
+            const now = new Date();
+
+            // Thêm 15 phút
+            now.setMinutes(now.getMinutes() + 15);
+
+            // Cộng thêm múi giờ  
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            const expireDatetime = `${year}${month}${day}${hours}${minutes}${seconds}`;
+            return expireDatetime;
+        }
+
+        e.payDeliveried = function () {
+
+        }
+
+        e.vnpay = function () {
+            var vnp_Amount = (e.subtotal() + e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee) * 100;
+            var vnp_Command = 'pay';
+            var vnp_CreateDate = getCurrentDateTimeInGMT7Format();
+            var vnp_CurrCode = 'VND';
+            var vnp_IpAddr = e.cdn_cgi_trace.ip;
+            var vnp_Locale = 'vn';
+            var vnp_OrderInfo = "Thanh toan hoa don " + (vnp_Amount / 100) + " VND";
+            var vnp_OrderType = 'other';
+            var vnp_ReturnUrl = 'https://sandbox.vnpayment.vn/tryitnow/Home/VnPayReturn';
+            var vnp_TmnCode = 'S29P0U7A';
+            var vnp_TxnRef = guidService.generateGuid().toString();
+            var vnp_Version = '2.1.0';
+            var vnp_SecureHash = 'VXTCXWAGUTDABTTTUYINYCNPQPXJLLAS';
+            var vnp_ExpireDate = getExpireDateInGMT7Format();
+           
+            var urlPayRedirect = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html' + 
+            '?vnp_Amount=' + vnp_Amount +
+            '&vnp_Command=' + vnp_Command +
+            '&vnp_CreateDate=' + vnp_CreateDate +
+            '&vnp_CurrCode=' + vnp_CurrCode +
+            '&vnp_IpAddr=' + vnp_IpAddr +
+            '&vnp_Locale=' + vnp_Locale +
+            '&vnp_OrderInfo=' + encodeURIComponent(vnp_OrderInfo) +
+            '&vnp_OrderType=' + vnp_OrderType +
+            '&vnp_ReturnUrl=' + encodeURIComponent(vnp_ReturnUrl) +
+            '&vnp_TmnCode=' + vnp_TmnCode +
+            '&vnp_TxnRef=' + vnp_TxnRef +
+            '&vnp_SecureHash=' + vnp_SecureHash +
+            '&vnp_ExpireDate=' + vnp_ExpireDate +
+            '&vnp_Version=' + vnp_Version;
+            
+            $window.open(urlPayRedirect, '_blank');
         }
 
         function constructor() {
@@ -230,6 +350,16 @@
                     }, function (response) {
                         console.log(response.data);
                     })
+                cloudFlareService.getIPAddr()
+                    .then(function (response) {
+                        e.cdn_cgi_trace = response.data.trim().split('\n').reduce(function (obj, pair) {
+                            pair = pair.split('=');
+                            return obj[pair[0]] = pair[1], obj;
+                        }, {});
+
+                    }, function (response) {
+                        console.log(response);
+                    })
             } else {
                 l.path('/signin');
             }
@@ -238,6 +368,6 @@
 
         constructor();
     }
-    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices'];
+    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window'];
     angular.module("app").controller("orderController", orderController);
 }());

@@ -227,31 +227,30 @@ namespace Webapi.Controllers
         [HttpPost("pay")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
         {
-            if (ModelState.IsValid)
-            {
-                if (orderDto.PaymentMethod == ((int)PayMethod.Vnpay))
-                {
-                    #region Thanh toán vnpay
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
 
-                    #endregion
-                 
-                }
-                #region Đẩy dữ liệu vào db
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
                 try
                 {
-                    await _service.OrderService.PostAndSendNontification(orderDto);
+                    await _service.OrderService.CreateNewOnlineOrder(orderDto);
                     #region thông báo
                     await _hubContext.Clients.Group(ManagerHub.managerGroup).SendAsync("ReceiveMessage", "Khách hàng vừa đặt hàng cần xác nhận đơn hàng");
                     #endregion
-                    return Ok();
+                    transaction.Commit();
                 }
                 catch (System.Exception)
                 {
+                    transaction.Rollback();
                     throw;
                 }
-                #endregion
             }
-            return BadRequest();
+
+            
+            return Ok();    
+                              
         }
 
 
