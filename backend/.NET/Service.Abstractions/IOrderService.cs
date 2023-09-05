@@ -11,7 +11,7 @@ namespace Service.Abstractions
 {
     public interface IOrderService
     {
-        Task PostAndSendNontification(OrderPostRequestDto orderDto);
+        Task CreateNewOnlineOrder(OrderPostRequestDto orderDto);
 
         Task UpdateOrderOnConfirm(string id ,object order);
         Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto);
