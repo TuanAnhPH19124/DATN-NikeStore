@@ -94,13 +94,13 @@ namespace Service
                     //},
                 };
             }
-            else
+           else
             {
                 order.OrderStatuses = new List<OrderStatus>()
                 {
                     new OrderStatus
                     {
-                        Status = Domain.Enums.StatusOrder.CONFIRM,
+                        Status = Domain.Enums.StatusOrder.DELIVERIED,
                         Time = DateTime.Now,
                         Note = "Thành công"
                     }
@@ -190,7 +190,7 @@ namespace Service
                 VoucherId = order.VoucherId,
                 OrderStatuses = order.OrderStatuses.Select(p=>new OrderStatusDto
                 {
-                    Id=p.Id,
+                  
                     OrderId=p.OrderId,
                     Status=p.Status,
                     Time=p.Time,

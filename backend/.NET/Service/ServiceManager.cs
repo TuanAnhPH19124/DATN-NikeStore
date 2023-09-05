@@ -25,7 +25,7 @@ namespace Service
         private readonly Lazy<IStockService> _lazyStockService;
         private readonly Lazy<ISoleService> _lazySoleService;
         private readonly Lazy<IAddressService> _lazyAddressService;
-
+        private readonly Lazy<IOrderStatusService> _lazyOrderStatusService;
 
 
         private readonly Lazy<IMaterialService> _lazyMaterialService;
@@ -51,6 +51,7 @@ namespace Service
 
             _lazyMaterialService = new Lazy<IMaterialService>(() => new MaterialService(repositoryManger));
             _lazyAddressService = new Lazy<IAddressService>(() => new AddressService(repositoryManger));
+            _lazyOrderStatusService = new Lazy<IOrderStatusService>(() => new OrderStatusService(repositoryManger));
         }
 
         public IAppUserService AppUserService => _lazyAppUserService.Value;
@@ -84,6 +85,7 @@ namespace Service
         public ISoleService SoleService => _lazySoleService.Value;
 
         public IAddressService AddressService => _lazyAddressService.Value;
+        public IOrderStatusService OrderStatusService => _lazyOrderStatusService.Value;
     }
     
 }

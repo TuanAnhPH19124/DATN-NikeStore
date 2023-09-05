@@ -29,6 +29,7 @@ namespace Persistence.Repositories
         private readonly Lazy<IAddressRepository> _lazyAddressRepository;
         private readonly Lazy<IMaterialRepository> _lazyMaterialRepository;
         private readonly Lazy<ISoleRepository> _lazySoleRepository;
+        private readonly Lazy<IOrderStatusRepository> _lazyOrderStatusRepository;
 
 
         public RepositoryManager(AppDbContext context, UserManager<AppUser> userManager, IConfiguration configuration, IConnectionMultiplexer redis)
@@ -55,7 +56,7 @@ namespace Persistence.Repositories
              _lazyMaterialRepository = new Lazy<IMaterialRepository>(() => new MaterialRepository(context));
             _lazyAddressRepository = new Lazy<IAddressRepository>(() => new AddressRepository(context));
             _lazyMaterialRepository = new Lazy<IMaterialRepository>(() => new MaterialRepository(context));
-
+            _lazyOrderStatusRepository = new Lazy<IOrderStatusRepository>(() => new OrderStatusRepository(context));
         }
 
         public IAppUserRepository AppUserRepository => _lazyAppUserRepository.Value;
@@ -96,5 +97,6 @@ namespace Persistence.Repositories
         public ISoleRepository SoleRepository => _lazySoleRepository.Value;
 
         public IAddressRepository AddressRepository => _lazyAddressRepository.Value;
+        public IOrderStatusRepository OrderStatusRepository => _lazyOrderStatusRepository.Value;
     }
 }
