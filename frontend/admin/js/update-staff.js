@@ -9,7 +9,6 @@ $(document).ready(function () {
         success: function (data) {
             console.log(JSON.stringify(data));
             $('#fullName').val(data.fullName);
-            $('#employeeId').val(data.employeeId);
             var dateObj1 = new Date(data.dateOfBirth);
             var day1 = dateObj1.getUTCDate();
             var month1 = dateObj1.getUTCMonth() + 1;
@@ -20,10 +19,19 @@ $(document).ready(function () {
             $('#phoneNumber').val(data.phoneNumber);
             $('#status').prop('checked', data.status);
             $('#homeTown').val(data.homeTown);
-            $('#address').val(data.address);
-            $('#relativeName').val(data.relativeName);
-            $('#relativePhoneNumber').val(data.relativePhoneNumber);
 
+            $.ajax({
+                url: "https://localhost:44328/api/AppUser/Get/" + data.appUserId,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#email").val(data.email)
+                },
+                error: function () {
+                    console.log("Error retrieving data.");
+                }
+            });
         },
         error: function () {
             console.log("Error retrieving data.");
@@ -33,16 +41,12 @@ $(document).ready(function () {
         event.preventDefault()
         var formData = {
             id : id,
-            "employeeId": $("#employeeId").val(),
             "snn": $("#snn").val(),
             "fullName": $("#fullName").val(),
             "phoneNumber": $("#phoneNumber").val(),
             "dateOfBirth": $("#dateOfBirth").val(),
             "gender": $("#gender").val(),
             "homeTown":  $("#homeTown").val(),
-            "address":  $("#address").val(),
-            "relativeName":  $("#relativeName").val(),
-            "relativePhoneNumber":  $("#relativePhoneNumber").val(),
             "status":  $("#status").prop('checked'),
         };
                   //convert nomal date to ISO 8601 date
@@ -86,25 +90,11 @@ $(document).ready(function () {
     // add validate
     $("#update-employee-form").validate({
         rules: {
-            "employeeId": {
-                required: true,
-            },
             "dateOfBirth": {
                 required: true,
             },
             "homeTown": {
                 required: true,
-            },
-            "address": {
-                required: true,
-            },
-            "relativeName": {
-                required: true,
-            },
-            "relativePhoneNumber": {
-                required: true,
-                phoneNumContainOnlyNum: true,
-                onlyContain10Char: true,
             },
             "fullName": {
                 required: true,
@@ -126,25 +116,11 @@ $(document).ready(function () {
             }
         },
         messages: {
-            "employeeId": {
-                required: "Bạn phải nhập mã nhân viên",
-            },
             "dateOfBirth": {
                 required: "Bạn phải nhập ngày sinh",
             },
             "homeTown": {
                 required: "Bạn phải nhập Quê quán",
-            },
-            "address": {
-                required: "Bạn phải nhập Địa chỉ hiện tại",
-            },
-            "relativeName": {
-                required: "Bạn phải nhập tên người thân",
-            },
-            "relativePhoneNumber": {
-                required: "Bạn phải nhập số điện thoại người thân",
-                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
-                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
             },
             "fullName": {
                 required: "Bạn phải nhập họ và tên",

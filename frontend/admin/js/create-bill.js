@@ -34,13 +34,12 @@ function myFunction() {
     x.style.visibility = "hidden";
   }
 }
-// JS TẠO HOÁ ĐƠN
-$(document).ready(function () {
-  let tabCount = 0;
-  const maxTabs = 4;
-
+function CallGiaoHang() {
   // call tỉnh
   var option_province = [];
+  var startedProvince = 269;
+  var startedDistrict = 2264;
+  var startedWard = 90816;
   $.ajax({
     url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
     type: "GET",
@@ -49,7 +48,7 @@ $(document).ready(function () {
     },
     dataType: "json",
     success: function (result) {
-      console.log(result.data.length);
+      console.log(result.data);
       for (var i = 0; i < result.data.length; i++) {
         option_province.push(
           '<option value="',
@@ -65,6 +64,352 @@ $(document).ready(function () {
       console.error("Error fetching provinces:", error);
     },
   });
+  var option_district = [];
+  $.ajax({
+    url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${startedProvince}`,
+    type: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+    dataType: "json",
+    success: function (result) {
+      console.log(result.data[0]);
+      for (var i = 0; i < result.data.length; i++) {
+        option_district.push(
+          '<option value="',
+          result.data[i].DistrictID, // Use the correct property name for ProvinceID
+          '">',
+          result.data[i].DistrictName, // Use the correct property name for ProvinceName
+          "</option>"
+        );
+      }
+      $("#district").html(option_district.join(""));
+    },
+    error: function (error) {
+      console.error("Error fetching provinces:", error);
+    },
+  });
+  var option_ward = [];
+  $.ajax({
+    url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${startedDistrict}`,
+    type: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+    },
+    dataType: "json",
+    success: function (result) {
+      console.log(result.data[0]);
+      for (var i = 0; i < result.data.length; i++) {
+        option_ward.push(
+          '<option value="',
+          result.data[i].WardCode, // Use the correct property name for ProvinceID
+          '">',
+          result.data[i].WardName, // Use the correct property name for ProvinceName
+          "</option>"
+        );
+      }
+      $("#ward").html(option_ward.join(""));
+    },
+    error: function (error) {
+      console.error("Error fetching provinces:", error);
+    },
+  });
+  $("#province").on("change", function () {
+    var selectedValue = $(this).val();
+    console.log(selectedValue);
+    var option_district = [];
+    $.ajax({
+      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${selectedValue}`,
+      type: "GET",
+      headers: {
+        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      },
+      dataType: "json",
+      success: function (result) {
+        console.log(result.data[0]);
+        for (var i = 0; i < result.data.length; i++) {
+          option_district.push(
+            '<option value="',
+            result.data[i].DistrictID, // Use the correct property name for ProvinceID
+            '">',
+            result.data[i].DistrictName, // Use the correct property name for ProvinceName
+            "</option>"
+          );
+        }
+        $("#district").html(option_district.join(""));
+        var option_ward = [];
+        $.ajax({
+          url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${result.data[0].DistrictID}`,
+          type: "GET",
+          headers: {
+            token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+          },
+          dataType: "json",
+          success: function (result) {
+            console.log(result.data);
+            for (var i = 0; i < result.data.length; i++) {
+              option_ward.push(
+                '<option value="',
+                result.data[i].WardCode, // Use the correct property name for ProvinceID
+                '">',
+                result.data[i].WardName, // Use the correct property name for ProvinceName
+                "</option>"
+              );
+            }
+            $("#ward").html(option_ward.join(""));
+          },
+          error: function (error) {
+            console.error("Error fetching provinces:", error);
+          },
+        });
+      },
+      error: function (error) {
+        console.error("Error fetching provinces:", error);
+      },
+    });
+
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        $("#ship-fee").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data.data.total)
+        );
+      } else {
+        $("#ship-fee").text(0);
+      }
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var shippingFee = parseFloat(
+        $("#ship-fee")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee + shippingFee))
+      );
+    });
+    fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        console.log(data.data.leadtime);
+        // Create a new Date object and pass the timestamp as milliseconds
+        var date = new Date(data.data.leadtime * 1000);
+
+        // Extract the components of the date
+        var year = date.getFullYear();
+        var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+        var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+        // Create a formatted date string in the desired format (day/month/year)
+        var formattedDate = day + "/" + month + "/" + year;
+        $("#delivery-date").text(formattedDate);
+        console.log(formattedDate);
+      }
+    });
+  });
+  $("#district").on("change", function () {
+    var selectedValue = $(this).val();
+    console.log(selectedValue);
+
+    var option_ward = [];
+
+    // Create a promise for the AJAX request
+    var ajaxPromise = new Promise(function (resolve, reject) {
+      $.ajax({
+        url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedValue}`,
+        type: "GET",
+        headers: {
+          token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+        },
+        dataType: "json",
+        success: function (result) {
+          console.log(result.data);
+          for (var i = 0; i < result.data.length; i++) {
+            option_ward.push(
+              '<option value="',
+              result.data[i].WardCode, // Use the correct property name for ProvinceID
+              '">',
+              result.data[i].WardName, // Use the correct property name for ProvinceName
+              "</option>"
+            );
+          }
+          $("#ward").html(option_ward.join(""));
+          resolve(); // Resolve the promise when the AJAX request is successful
+        },
+        error: function (error) {
+          console.error("Error fetching provinces:", error);
+          reject(error); // Reject the promise if there is an error
+        },
+      });
+    });
+
+    // Wait for the AJAX request to complete, then execute the following code
+    ajaxPromise.then(function () {
+      fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+        if ($("#delivery").prop("checked")) {
+          $("#ship-fee").text(
+            Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(data.data.total)
+          );
+        } else {
+          $("#ship-fee").text(0);
+        }
+        var productFee = parseFloat(
+          $("#total")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        var discountFee = parseFloat(
+          $("#discount-price")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(parseFloat(productFee - discountFee + shippingFee))
+        );
+      });
+      fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+        if ($("#delivery").prop("checked")) {
+          console.log(data.data.leadtime);
+          // Create a new Date object and pass the timestamp as milliseconds
+          var date = new Date(data.data.leadtime * 1000);
+
+          // Extract the components of the date
+          var year = date.getFullYear();
+          var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+          var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+          // Create a formatted date string in the desired format (day/month/year)
+          var formattedDate = day + "/" + month + "/" + year;
+          $("#delivery-date").text(formattedDate);
+          console.log(formattedDate);
+        }
+      });
+    });
+  });
+
+  $("#ward").on("change", function () {
+    var selectedValue = $(this).val();
+    console.log(selectedValue);
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        $("#ship-fee").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data.data.total)
+        );
+      } else {
+        $("#ship-fee").text(0);
+      }
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var shippingFee = parseFloat(
+        $("#ship-fee")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee + shippingFee))
+      );
+    });
+    fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+      if ($("#delivery").prop("checked")) {
+        console.log(data.data.leadtime);
+        // Create a new Date object and pass the timestamp as milliseconds
+        var date = new Date(data.data.leadtime * 1000);
+
+        // Extract the components of the date
+        var year = date.getFullYear();
+        var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+        var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+        // Create a formatted date string in the desired format (day/month/year)
+        var formattedDate = day + "/" + month + "/" + year;
+        $("#delivery-date").text(formattedDate);
+        console.log(formattedDate);
+      }
+    });
+  });
+}
+// ngày ship hàng
+function fetchAllDayShip(to_district_id, to_ward_code) {
+  const url =
+    `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime` +
+    `?from_district_id=1485&from_ward_code=1A0607&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&service_id=53320`;
+
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      shop_id: "4374133",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+// giá tiền ship
+function fetchAllMoneyShip(to_district_id, to_ward_code) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
+      shop_id: "4374133",
+    },
+    // Construct the URL with query parameters
+    url: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_type_id=2&
+    insurance_value=&coupon=&from_district_id=1485&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&height=15&length=15&weight=1000&width=15`,
+  };
+
+  return fetch(requestOptions.url, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+}
+
+// JS TẠO HOÁ ĐƠN
+$(document).ready(function () {
+  let tabCount = 0;
+  const maxTabs = 4;
+
+  CallGiaoHang();
 
   function setFirstTabActive() {
     $("#invoiceTabs .nav-item").removeClass("active");
@@ -83,19 +428,7 @@ $(document).ready(function () {
   restoreInvoicesFromLocalStorage();
 
   $("#addInvoiceBtn").on("click", function () {
-
-    fetchAllProvince().then(data=>console.log(data))
-
-    fetchAllProvinceDistricts(201).then((data) => {
-      console.log(data);
-    });
-
-    fetchAllProvinceWard(1804).then(data=>{
-      console.log(data);
-    })
-
-    // to_district_id, to_ward_code
-    fetchAllMoneyShip(3695,90768).then((data) => {
+    fetchAllMoneyShip(3695, 90768).then((data) => {
       console.log(data);
     });
     fetchAllDayShip(1452, 21012).then((data) => {
@@ -171,6 +504,82 @@ $(document).ready(function () {
     var lastNumber = parseInt(matches[0]);
     selectedOrder = lastNumber;
     console.log(selectedOrder);
+      // Recalculate the totalSum
+  var totalSum = 0;
+  $(`#invoice${selectedOrder} tbody tr`).each(function () {
+    var rowTotalCell = $(this).find("td:eq(6)");
+    var rowTotal = parseFloat(rowTotalCell.text().replace(/[.,₫]/g, ""));
+    if (!isNaN(rowTotal)) {
+      totalSum += rowTotal;
+    }
+  });
+
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+    $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  if($("#voucher-select").val()==-1){
+      $(`#dicscount-price`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(0)
+  );
+  }else{
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + $("#voucher-select").val(),
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  
+  console.log(arr);
   });
 
   $("#invoiceTabs").on("mouseenter", "a.nav-link", function () {
@@ -424,96 +833,118 @@ $("#productData tbody").on("click", "tr", function (e) {
         // $('#status').val(data.status);
         // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
 
+        // hiển thị màu
         var colorIds = [
-          ...new Set(data.productImages.map((item) => item.colorId)),
+          ...new Set(
+            data.productImages.map(function (item) {
+              return item.colorId;
+            })
+          ),
         ];
-        var images = data.productImages.map((item) => ({
-          colorId: item.colorId,
-          imageUrl: item.imageUrl,
-        }));
+        var images = data.productImages.map(function (item) {
+          return {
+            colorId: item.colorId,
+            imageUrl: item.imageUrl,
+          };
+        });
         console.log(images);
-
-        // Fetch color data and process images for each color
-        var colorPromises = colorIds.map((colorId) =>
+        // Assuming product is an object with a Colors property
+        colorIds.forEach(function (colorId) {
           $.ajax({
             url: "https://localhost:44328/api/Color/Get/" + colorId,
             type: "GET",
             dataType: "json",
-          }).then(function (colorData) {
-            console.log(colorData);
-            console.log(colorId);
+            success: function (data) {
+              console.log(data.id);
+              console.log(colorId);
+              product.Colors.push({
+                id: colorId,
+                name: data.name,
+                Images: [],
+                Sizes: [],
+              });
+              loadColorE();
+              for (let i = 0; i < product.Colors.length; i++) {
+                if (product.Colors[i].id === colorId) {
+                  const imagesForColor = images.filter(
+                    (image) => image.colorId === colorId
+                  );
 
-            var colorEntry = {
-              id: colorId,
-              name: colorData.name,
-              Images: [],
-              Sizes: [],
-            };
+                  imagesForColor.forEach((imageData) => {
+                    const imageLink =
+                      "https://localhost:44328/" +
+                      imageData.imageUrl.replace(/\\/g, "/");
 
-            product.Colors.push(colorEntry);
-            console.log(product);
+                    fetch(imageLink)
+                      .then((response) => response.blob())
+                      .then((blob) => {
+                        const newImage = new File([blob], "image.jpg", {
+                          type: "image/jpeg",
+                        });
 
-            var imagesForColor = images.filter(
-              (image) => image.colorId === colorId
-            );
+                        product.Colors[i].Images.push({
+                          file: newImage,
+                          setAsDefault: false,
+                        });
 
-            var imagePromises = imagesForColor.map((imageData) =>
-              fetch(
-                "https://localhost:44328/" +
-                  imageData.imageUrl.replace(/\\/g, "/")
-              )
-                .then((response) => response.blob())
-                .then((blob) => {
-                  var newImage = new File([blob], "image.jpg", {
-                    type: "image/jpeg",
+                        loadImageE();
+                      });
                   });
+                }
+              }
+            },
+            error: function () {
+              console.log("Error retrieving data.");
+            },
+          });
+        });
+        // load Size
+        var sizeData = data.stocks.map(function (item) {
+          return {
+            sizeId: item.sizeId,
+            unitInStock: item.unitInStock,
+            colorId: item.colorId,
+          };
+        });
+        var promises = [];
 
-                  colorEntry.Images.push({
-                    file: newImage,
-                    setAsDefault: false,
-                  });
-
-                  loadImageE();
-                })
-            );
-
-            return Promise.all(imagePromises);
-          })
-        );
-
-        // Fetch size data and update color sizes
-        var sizePromises = data.stocks.map((size) =>
-          $.ajax({
+        sizeData.forEach(function (size) {
+          var promise = $.ajax({
             url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
             type: "GET",
             dataType: "json",
-          }).then(function (sizeData) {
-            console.log(sizeData);
-
-            var selectedColorText = {
-              numberSize: sizeData.numberSize,
-              id: size.sizeId,
-            };
-
-            var colorIndex = product.Colors.findIndex(
-              (color) => color.id === size.colorId
-            );
-            if (colorIndex !== -1) {
-              selectedColorText.unitInStock = size.unitInStock;
-              product.Colors[colorIndex].Sizes.push(selectedColorText);
-            }
           })
-        );
+            .then(function (data) {
+              console.log(data);
+
+              var selectedColorText = {
+                numberSize: data.numberSize,
+                id: size.sizeId,
+              };
+              console.log(sizeData.length);
+              // Find the correct color index based on colorId
+              for (let i = 0; i < sizeData.length; i++) {
+                if (product.Colors[i].id === size.colorId) {
+                  selectedColorText.unitInStock = size.unitInStock;
+                  product.Colors[i].Sizes.push(selectedColorText);
+                }
+              }
+              // Push selectedColorText to the Sizes array of the corresponding color
+            })
+            .catch(function () {
+              console.log("Error retrieving data.");
+            });
+
+          promises.push(promise);
+        });
 
         // Wait for all AJAX requests to complete
-        Promise.all([...colorPromises, ...sizePromises]).then(function () {
-          loadColorE();
-          loadSizeE();
+        Promise.all(promises).then(function () {
+          loadSizeE(); // This will be called after all requests are finished
+          // Assuming you have an imageLink as you mentioned earlier
+
           console.log(data);
           console.log(product);
-          $("#product-instock").hide();
-          $("#quantity-input").hide();
-          $("#addToCart").hide();
         });
         addToCartItem.id = data.id;
         addToCartItem.name = data.name;
@@ -605,7 +1036,9 @@ $("#customer-table tbody").on("click", "tr", function (e) {
         $("#customer-name").text(data.fullName);
         $("#customer-email").text(data.email);
         $("#customer-phone").text(data.phoneNumber);
+        $("#customer-id").text(data.id);
         $(".hidden-info").show();
+        $("#customer-id").hide();
         $("#account-modal").modal("hide");
       },
     });
@@ -653,7 +1086,7 @@ function loadColorE() {
   plusButtonContainer.innerHTML = "";
 
   if (product.Colors.length !== 0) {
-    product.Colors.forEach((color) => {
+    product.Colors.forEach((color, index) => {
       var newDiv = document.createElement("div");
       newDiv.className = "container-color";
 
@@ -662,6 +1095,20 @@ function loadColorE() {
       newButton.className = "btn btn-outline-dark color";
       newButton.id = color.id;
       newButton.textContent = color.name;
+
+      // Add "active" class to the first button
+      if (index === 0) {
+        newButton.classList.add("active");
+        selectedColor = findIndexById(product.Colors, color.id);
+        addToCartItem.color = color.name;
+        addToCartItem.colorId = color.id;
+        loadSizeE();
+        loadImageE();
+        $("#product-instock").hide();
+        $("#quantity-input").hide();
+        $("#addToCart").hide();
+      }
+
       newButton.addEventListener("click", function (e) {
         var buttons = document.getElementsByClassName("btn-outline-dark color");
         for (var i = 0; i < buttons.length; i++) {
@@ -685,6 +1132,7 @@ function loadColorE() {
     });
   }
 }
+
 function loadSizeE() {
   var plusButtonContainer = document.getElementById("render-size");
   // Xóa tất cả các phần tử con trong containerParent
@@ -720,9 +1168,15 @@ function loadSizeE() {
           console.log(instock);
           $("#product-instock").show();
           $("#product-instock").text(`Còn ${element.unitInStock} sản phẩm`);
-          $("#quantity-input").show();
-          $("#addToCart").show();
-          $("#quantity").val(1);
+          if (element.unitInStock !== 0) {
+            $("#quantity-input").show();
+            $("#addToCart").show();
+            $("#quantity").val(1);
+          } else {
+            $("#quantity-input").hide();
+            $("#addToCart").hide();
+            $("#quantity").val(0);
+          }
         });
         container.appendChild(newButton);
         plusButtonContainer.appendChild(container);
@@ -755,6 +1209,79 @@ function loadImageE() {
     }
   }
 }
+var option_voucher = [];
+// Add a default option with a value of -1 and "Select a voucher" text
+option_voucher.push('<option value="-1">Không áp dụng</option>');
+$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    option_voucher.push(
+      '<option value="',
+      result[i].id,
+      '">',
+      result[i].code,
+      "</option>"
+    );
+  }
+  $("#voucher-select").html(option_voucher.join(""));
+});
+
+$("#voucher-select").on("change", function () {
+  if (this.value == -1) {
+    var dongAmountString = $("#total").text();
+    var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+    $("#discount-price").text("0 ₫");
+    var shippingFee = parseFloat(
+      $("#ship-fee")
+        .text()
+        .replace(/[^0-9]/g, "")
+    );
+    $("#sum").text(
+      Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(parseFloat(cleanedString) + shippingFee)
+    );
+  }
+  if ($("#total").text() !== "0") {
+    const id = $(this).val();
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + id,
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+});
 $("#addToCart").click(function () {
   addToCartItem.amount = Number($("#quantity").val());
   addToCartItem.total = addToCartItem.amount * addToCartItem.price;
@@ -799,13 +1326,6 @@ $("#addToCart").click(function () {
     var newRowTotal = data.amount * data.price;
     // Create and append td cells with data values
 
-    var deleteButton = $("<button>")
-      .addClass("delete-button")
-      .text("Delete")
-      .click(function () {
-        $(this).closest("tr").remove();
-      });
-
     newRow.append(
       $("<td>").text(tbody.children().length + 1), // STT (Auto-increment)
       $("<td>").text(data.name), // Tên sản phẩm
@@ -824,9 +1344,12 @@ $("#addToCart").click(function () {
           currency: "VND",
         }).format(newRowTotal)
       ), // Thành tiền for the new row
-      $("<td>").append(deleteButton)
-    );
-
+      $("<button>")
+      .text("X")
+      .addClass("btn btn-danger delete-item")
+      .css({
+        marginTop: "5px", // Add a 5px margin-top
+      }));
     tbody.append(newRow);
   }
   var totalSum = 0;
@@ -842,6 +1365,65 @@ $("#addToCart").click(function () {
   });
   console.log(totalSum);
   $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+
+  $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  if($("#voucher-select").val()==-1){
+      $(`#dicscount-price`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(0)
+  );
+  }else{
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + $("#voucher-select").val(),
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+
+  $(`#sum`).text(
     Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
@@ -876,7 +1458,12 @@ $("#addToCart").click(function () {
         }
       } else {
         arr[selectedOrder].push({
-          unitPrice: $("#discountRate").text(),
+          itemIdentifier: itemIdentifier, // Add itemIdentifier to the object
+          unitPrice: parseFloat(
+            $("#discountRate")
+              .text()
+              .replace(/[^0-9.]/g, "")
+          ),
           quantity: parseInt($("#quantity").val(), 10),
           name: $("#name").text(),
           productId: addToCartItem.id,
@@ -888,7 +1475,295 @@ $("#addToCart").click(function () {
     },
   });
 });
+$(document).on("click", ".delete-item", function () {
+  var row = $(this).closest("tr");
+  var itemIdentifier = row.attr("data-id");
 
+  // Remove the item from the UI
+  row.remove();
+
+  // Ensure arr[selectedOrder] is defined and initialized as an array
+  if (!Array.isArray(arr[selectedOrder])) {
+    arr[selectedOrder] = [];
+  }
+
+  // Create a new inner array excluding the item to delete
+  arr[selectedOrder] = arr[selectedOrder].filter(function (item) {
+    return item.itemIdentifier !== itemIdentifier;
+  });
+
+  // Recalculate the totalSum
+  var totalSum = 0;
+  $(`#invoice${selectedOrder} tbody tr`).each(function () {
+    var rowTotalCell = $(this).find("td:eq(6)");
+    var rowTotal = parseFloat(rowTotalCell.text().replace(/[.,₫]/g, ""));
+    if (!isNaN(rowTotal)) {
+      totalSum += rowTotal;
+    }
+  });
+
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  if($("#voucher-select").val()==-1){
+      $(`#dicscount-price`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(0)
+  );
+  }else{
+    $.ajax({
+      url: "https://localhost:44328/api/Voucher/Get/" + $("#voucher-select").val(),
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(JSON.stringify(data));
+        var dongAmountString = $("#total").text();
+        var cleanedString = dongAmountString.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+        var dongAmountNumber = (data.value * parseFloat(cleanedString)) / 100; // Parse the cleaned string to a number
+
+        $("#discount-price").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(dongAmountNumber)
+        );
+        var shippingFee = parseFloat(
+          $("#ship-fee")
+            .text()
+            .replace(/[^0-9]/g, "")
+        );
+        $("#sum").text(
+          Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            parseFloat(
+              cleanedString - (data.value * parseFloat(cleanedString)) / 100
+            ) + shippingFee
+          )
+        );
+      },
+      error: function () {
+        console.log("Error retrieving data.");
+      },
+    });
+  }
+
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  
+  console.log(arr);
+});
+
+function clearTableAndData() {
+  // Clear the table by removing all rows
+  $(`#invoice${selectedOrder} tbody tr`).remove();
+
+  // Reset the total sum to 0
+  var totalSum = 0;
+  $(`#total-bill${selectedOrder}`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+
+  // Reset the 'total', and 'sum' elements if needed
+  $(`#total`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+  $(`#sum`).text(
+    Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(totalSum)
+  );
+
+  // Clear the 'arr' variable
+  arr[selectedOrder] = [];
+}
+
+// You can call this function whenever you need to clear the table and data
+// For example, you can call it when the user clicks a "Clear" button or performs a specific action.
+// clearTableAndData();
+
+$("#create-bill").click(function (event) {
+  event.preventDefault();
+  const outputJSON = JSON.stringify(arr[selectedOrder], null, 2);
+  console.log(outputJSON);
+  var formData = {
+    userId: $("#customer-id").text(),
+    employeeId: localStorage.getItem("user-id"),
+    address: "",
+    phoneNumber: $("#customer-phone").text(),
+    customerName: $("#customer-name").text(),
+    voucherId: $("#voucher-select").val(),
+    orderItems: JSON.parse(outputJSON),
+    amount: parseInt($("#sum").text().replace(/\D/g, "")),
+  };
+  if ($("#delivery").prop("checked") === true) {
+    formData = {
+      userId: $("#customer-id").text(),
+      employeeId: localStorage.getItem("user-id"),
+      address:
+        $("#address").val() +
+        $("#ward option:selected").text() +
+        ", " +
+        $("#district option:selected").text() +
+        ", " +
+        $("#province option:selected").text(),
+      phoneNumber: $("#phoneNumber").val(),
+      customerName: $("#customerName").val(),
+      voucherId: $("#voucher-select").val(),
+      note: $("#note").val(),
+      orderItems: JSON.parse(outputJSON),
+      amount: parseInt($("#sum").text().replace(/\D/g, "")),
+    };
+    fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+      console.log(data);
+    });
+    fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+      console.log(data.data.total);
+    });
+  }
+  validateForm()
+  if (formData.voucherId === "-1") {
+    formData.voucherId = null;
+  }
+  if(formData.userId===""){
+    formData.userId =null
+  }
+  if(formData.customerName===""){
+    return
+  }
+  if(formData.phoneNumber===""){
+    return
+  }
+  if (!idContainOnlyNum(phoneNumber.value) || !onlyContain10Char(phoneNumber.value)) {
+    return;
+  }
+  
+  $.ajax({
+    url: "https://localhost:44328/api/Orders/PayAtStore",
+    type: "POST",
+    data: JSON.stringify(formData),
+    contentType: "application/json",
+    success: function (response) {
+      //window.location.href = `/frontend/admin/bill.html`;
+      clearTableAndData();
+      $("#customer-name").text("Khách lẻ");
+      $("#customer-email").text("");
+      $("#customer-phone").text("");
+      $("#customer-id").text("");
+      $(".hidden-info").hide();
+      $("#customer-id").text("");
+      // 
+      $("#delivery-field")[0].reset();
+      $("#delivery").prop("checked",false)
+      
+      var x = document.getElementById("customer-info");
+      x.style.visibility = "hidden";
+      $("#delivery-field").hide()
+      $("#delivery-info").hide()
+      
+      $("#voucher-select").val(-1)
+      $("#total").text("0 ₫");
+      $("#ship-fee").text("0 ₫");
+      $("#discount-price").text("0 ₫");
+      $("#sum").text("0 ₫");
+      console.log(arr);
+    },
+  });
+});
+$("#delivery").on("change", function () {
+  $("#delivery-field").show()
+  fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
+    if ($("#delivery").prop("checked")) {
+      $("#ship-fee").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(data.data.total)
+      );
+      var shippingFee = parseFloat(
+        $("#ship-fee")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee + shippingFee))
+      );
+    } else {
+      $("#ship-fee").text("0 ₫");
+      var productFee = parseFloat(
+        $("#total")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      var discountFee = parseFloat(
+        $("#discount-price")
+          .text()
+          .replace(/[^0-9]/g, "")
+      );
+      $("#sum").text(
+        Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(parseFloat(productFee - discountFee))
+      );
+      $("#delivery-info").hide();
+    }
+  });
+  fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
+    if ($("#delivery").prop("checked")) {
+      console.log(data.data.leadtime);
+      // Create a new Date object and pass the timestamp as milliseconds
+      var date = new Date(data.data.leadtime * 1000);
+
+      // Extract the components of the date
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2); // Correctly format the month
+      var day = ("0" + date.getDate()).slice(-2); // Correctly format the day
+
+      // Create a formatted date string in the desired format (day/month/year)
+      $("#delivery-info").show();
+      var formattedDate = day + "/" + month + "/" + year;
+      $("#delivery-date").text(formattedDate);
+      console.log(formattedDate);
+    }
+  });
+});
 // reset product khi đóng modal
 $("#productDetailModal").on("hide.bs.modal", function () {
   $("#modal-add-product").css("overflow-y", "auto");
@@ -908,91 +1783,37 @@ $("#productDetailModal").on("hide.bs.modal", function () {
   };
 });
 
-// giao hành nhanh
-// tỉnh
-function fetchAllProvince() {
-  return fetch(
-    "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
-    {
-      method: "GET",
-      headers: {
-        token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+function idContainOnlyNum(value) {
+  return value.match(/[^0-9]/) === null;
 }
 
-//  quận huyện
-function fetchAllProvinceDistricts(codeProvince) {
-  const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${codeProvince}`;
-
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+function onlyContain10Char(value) {
+  return value.match(/^\w{10}$/) !== null;
 }
 
-// Phường/Xã
-function fetchAllProvinceWard(codeDistrict) {
-  const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${codeDistrict}`;
 
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+function validateForm() {
+  // Get form inputs
+  var validateName = document.getElementById('validateName');
+  var customerName = document.getElementById('customerName');
+
+  var validatePhone = document.getElementById('validatePhone');
+  var phoneNumber = document.getElementById('phoneNumber');
+  
+  if (customerName.value.length == 0) {
+    validateName.style.display = "block"
+  } else {
+    validateName.style.display = "none";
+  }
+  if (phoneNumber.value.length == 0) {
+    validatePhone.style.display = "block";
+  } else {
+    validatePhone.style.display = "none";
+  }
+if (idContainOnlyNum(phoneNumber.value)==true&&onlyContain10Char(phoneNumber.value)==true) {
+  validatePhone.style.display = "none";
+} else {
+  validatePhone.style.display = "block";
+  validatePhone.innerText = "Số điện thoại không hợp lệ";
 }
-
-// ngày ship hàng
-function fetchAllDayShip(to_district_id, to_ward_code) {
-  const url =
-    `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime` +
-    `?from_district_id=1485&from_ward_code=1A0607&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&service_id=53320`;
-
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      shop_id: "4374133",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-}
-
-// giá tiền ship
-function fetchAllMoneyShip(to_district_id, to_ward_code) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      token: "d73043b1-2777-11ee-b394-8ac29577e80e",
-      shop_id: "4374133",
-    },
-    // Construct the URL with query parameters
-    url: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?service_type_id=2&
-    insurance_value=&coupon=&from_district_id=1485&to_district_id=${to_district_id}&to_ward_code=${to_ward_code}&height=15&length=15&weight=1000&width=15`,
-  };
-
-  return fetch(requestOptions.url, requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
 }

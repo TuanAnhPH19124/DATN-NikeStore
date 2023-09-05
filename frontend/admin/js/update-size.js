@@ -19,7 +19,7 @@ $(document).ready(function () {
         event.preventDefault()
         var formData = {
             id: id,
-            numberSize: $("#numberSize").val(),
+            numberSize: $("#numberSize").val().trim(),
             description: $("#description").val(),
         };
         if (confirm(`Bạn có muốn sửa thành size ${formData.numberSize} không?`)) {
@@ -35,6 +35,9 @@ $(document).ready(function () {
 
                 },
                 error: function () {
+                    if (formData.numberSize.match(/^[0-9]+$/) === null) {
+                        return
+                    }
                     $('#fail').toast('show')
                 },
             });
@@ -42,15 +45,20 @@ $(document).ready(function () {
             return
         }
     });
+    $.validator.addMethod("onlyContaiNum", function (value, element) {
+        return value.match(/^[0-9]+$/) != null;
+    });
     $("#update-size-form").validate({
         rules: {
             "numberSize": {
                 required: true,
+                onlyContaiNum: true
             },
         },
         messages: {
             "numberSize": {
                 required: "Mời bạn nhập kích cỡ",
+                onlyContaiNum: "Size là số không chứa ký tự"
             },
         },
     });

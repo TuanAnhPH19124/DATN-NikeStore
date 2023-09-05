@@ -46,7 +46,7 @@ $(document).ready(function () {
     $('#add-sole-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            name: $("#name").val(),
+            name: $("#name").val().trim(),
             description: ""
         };
         if(formData.name.trim(" ")==""){

@@ -61,9 +61,6 @@ namespace Persistence.Repositories
             emp.DateOfBirth = employees.DateOfBirth;
             emp.Gender = employees.Gender;
             emp.HomeTown = employees.HomeTown;
-            emp.Address = employees.Address;
-            emp.RelativeName = employees.RelativeName;
-            emp.RelativePhoneNumber = employees.RelativePhoneNumber;
             emp.Status = employees.Status;
 
             using (var transaction = _appDbContext.Database.BeginTransaction())

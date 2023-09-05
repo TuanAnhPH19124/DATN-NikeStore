@@ -18,7 +18,7 @@ $(document).ready(function () {
         event.preventDefault()
         var formData = {
             id: id,
-            name: $("#name").val(),
+            name: $("#name").val().trim(),
         };
         if (confirm(`Bạn có muốn sửa danh mục thành ${formData.name} không?`)) {
             $.ajax({
