@@ -62,7 +62,7 @@ namespace Persistence.Repositories
 
         public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await _context.Orders.Include(p => p.Id == id).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Orders.Include(p => p.OrderItems).Include(p=>p.OrderStatuses).FirstOrDefaultAsync(p => p.Id == id);
         }
         public async Task<Order> SelectById(string id)
         {

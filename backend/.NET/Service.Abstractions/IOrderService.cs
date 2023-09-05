@@ -16,6 +16,6 @@ namespace Service.Abstractions
         Task UpdateOrderOnConfirm(string id ,object order);
         Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto);
         Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default);
-        Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default);
+        Task<OrderDto> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default);
     }
 }

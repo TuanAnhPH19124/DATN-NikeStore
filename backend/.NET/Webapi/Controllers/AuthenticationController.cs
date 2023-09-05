@@ -47,7 +47,7 @@ namespace Webapi.Controllers
         }
 
         [HttpPost("CreateEmployeeAccount")]
-        public async Task<IActionResult> CreateEmployeeAccount([FromBody]string phoneNumber,string email)
+        public async Task<IActionResult> CreateEmployeeAccount([FromBody]string phoneNumber,string email,string fullName)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +56,9 @@ namespace Webapi.Controllers
                     PhoneNumber = phoneNumber,
                     Error = "Không được bỏ trống số điện thoại!",
                     Email = email,
-                    ErrorEmail = "Không được bỏ trống email"
+                    ErrorEmail = "Không được bỏ trống email",
+                    FullName = email,
+                    ErrorFullName = "Không được bỏ trống Họ tên"
                 });
             }
 
@@ -75,7 +77,8 @@ namespace Webapi.Controllers
             {
                 UserName = userName,
                 PhoneNumber = phoneNumber,
-                Email = email
+                Email = email,
+                FullName = fullName
             };
             var passWord = "!123@Abc";
             var newUserResponse = await _userManager.CreateAsync(newUser, passWord);
