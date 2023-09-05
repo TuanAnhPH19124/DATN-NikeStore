@@ -27,12 +27,12 @@ namespace Domain.DTOs
     }
     public class OrderStatusDto
     {
-        public string Id { get; set; } 
+       
         public string OrderId { get; set; }
         public Domain.Enums.StatusOrder Status { get; set; }
         public DateTime Time { get; set; }
         public string Note { get; set; }
-        public List<OrderStatusDto> OrderStatus { get; set; }
+       
     }
     public class OrderItemDto
     {
@@ -43,10 +43,5 @@ namespace Domain.DTOs
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
     }
-    public class OrderStatusDto
-    {
-        public string OrderId { get; set; }
-        public Domain.Enums.StatusOrder Status { get; set; }
-    
-    }
+ 
 }

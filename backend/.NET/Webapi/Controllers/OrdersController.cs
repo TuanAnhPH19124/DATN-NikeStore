@@ -93,7 +93,7 @@ namespace Webapi.Controllers
                 }
 
                 var confirmedOrdersByStatus = confirmedOrders
-                    .Where(order => order.OrderStatus.Any(c=>c.Status == StatusOrder.CONFIRM))
+                    .Where(order => order.OrderStatuses.Any(c=>c.Status == StatusOrder.CONFIRM))
                     .ToList();
 
                 if (!confirmedOrdersByStatus.Any())
@@ -122,7 +122,7 @@ namespace Webapi.Controllers
                 }
 
                 var pendingShipOrdersByStatus = pendingShipOrders
-                   .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.PENDING_SHIP))
+                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.PENDING_SHIP))
                     .ToList();
 
                 if (!pendingShipOrdersByStatus.Any())
@@ -150,7 +150,7 @@ namespace Webapi.Controllers
                 }
 
                 var shippingOrdersByStatus = shippingOrders
-                   .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.SHIPPING))
+                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.SHIPPING))
                     .ToList();
 
                 if (!shippingOrdersByStatus.Any())
@@ -178,7 +178,7 @@ namespace Webapi.Controllers
                 }
 
                 var deliveredOrdersByStatus = deliveredOrders
-                    .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.DELIVERIED))
+                    .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DELIVERIED))
                     .ToList();
 
                 if (!deliveredOrdersByStatus.Any())
@@ -207,7 +207,7 @@ namespace Webapi.Controllers
                 }
 
                 var declinedOrdersByStatus = declinedOrders
-                  .Where(order => order.OrderStatus.Any(c => c.Status == StatusOrder.DECLINE))
+                  .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DECLINE))
                     .ToList();
 
                 if (!declinedOrdersByStatus.Any())

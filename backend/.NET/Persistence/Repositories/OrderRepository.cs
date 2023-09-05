@@ -41,7 +41,7 @@ namespace Persistence.Repositories
                 UserId = order.UserId,
                 EmployeeId = order.EmployeeId,
                 VoucherId = order.VoucherId,
-                OrderStatus = order.OrderStatuses.Select(item => new OrderStatusDto
+                OrderStatuses = order.OrderStatuses.Select(item => new OrderStatusDto
                 {
                     OrderId = item.OrderId,
                     Status = item.Status
