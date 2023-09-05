@@ -98,7 +98,7 @@ $(document).ready(function () {
                return
             } 
             $.ajax({
-                url: `https://localhost:44328/api/Authentication/CreateEmployeeAccount?email=${formData.email}`,
+                url: `https://localhost:44328/api/Authentication/CreateEmployeeAccount?email=${formData.email}&fullName=${formData.fullName}`,
                 type: "POST",
                 data: JSON.stringify(formData.phoneNumber),
                 contentType: "application/json",

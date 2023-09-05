@@ -140,9 +140,9 @@ $(document).ready(function () {
 });
 $("#bill-table tbody").on("click", "tr", function (e) {
   e.preventDefault();
-  window.location.href = `/frontend/admin/bill-detail.html`;
+  let billId = $("#bill-table").DataTable().row(this).data().id;
   if (billId !== null) {
-    let billId = $("#bill-table").DataTable().row(this).data().id;
     localStorage.setItem("billId", billId);
+    window.location.href = `/frontend/admin/order.html`;
   }
 });

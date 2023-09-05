@@ -133,7 +133,7 @@ namespace Webapi.Controllers
         }
 
         [HttpGet("Get/{Id}")]
-        public async Task<ActionResult<Order>> GetByIdOrder(string Id)
+        public async Task<ActionResult> GetByIdOrder(string Id)
         {
             var order = await _service.OrderService.GetByIdOrderAsync(Id);
 
@@ -141,7 +141,7 @@ namespace Webapi.Controllers
             {
                 return NotFound();
             }
-            return order;
+            return Ok(order);
         }
     }
 }

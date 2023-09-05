@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs;
 using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
 using EntitiesDto.Order;
 using Mapster;
 using Service.Abstractions;
@@ -57,14 +58,26 @@ namespace Service
                     {
                         Status = Domain.Enums.StatusOrder.CONFIRM,
                         Time = DateTime.Now,
-                        Note = "Đã thanh toán tại quầy"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
-                        Time = DateTime.Now,
-                        Note = "Chờ vận chuyển"
-                    },
+                        Note = "Đã thanh toán"
+                    }
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.PENDING_SHIP,
+                    //    Time = DateTime.Now,
+                    //    Note = "Chờ vận chuyển"
+                    //},
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.SHIPPING,
+                    //    Time = DateTime.Now,
+                    //    Note = "Đang vận chuyển"
+                    //},
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.DELIVERIED,
+                    //    Time = DateTime.Now,
+                    //    Note = "Thành công"
+                    //},
                 };
             }
             else
@@ -75,26 +88,14 @@ namespace Service
                     {
                         Status = Domain.Enums.StatusOrder.CONFIRM,
                         Time = DateTime.Now,
-                        Note = "Đã thanh toán tại quầy"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
-                        Time = DateTime.Now,
-                        Note = "Chờ vận chuyển"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.SHIPPING,
-                        Time = DateTime.Now,
-                        Note = "Đang vận chuyển"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.DELIVERIED,
-                        Time = DateTime.Now,
-                        Note = "Đã nhận hàng"
-                    },
+                        Note = "Thành công"
+                    }
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.DELIVERIED,
+                    //    Time = DateTime.Now,
+                    //    Note = "Thành công"
+                    //},
                 };
             }
 
@@ -154,9 +155,45 @@ namespace Service
             return StockList;
         }
 
-        public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<OrderDto> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await _manager.OrderRepository.GetByIdOrderAsync(id, cancellationToken);
+           var order = await _manager.OrderRepository.GetByIdOrderAsync(id, cancellationToken);
+
+            var orderDto = new OrderDto
+            {
+                Id = order.Id,
+                Address = order.Address,
+                PhoneNumber = order.PhoneNumber,
+                Note = order.Note,
+                Paymethod = order.Paymethod,
+                Amount = order.Amount,
+                CustomerName = order.CustomerName,
+                DateCreated = order.DateCreated,
+                PassivedDate = order.PassivedDate,
+                ModifiedDate = order.ModifiedDate,
+                UserId = order.UserId,
+                EmployeeId = order.EmployeeId,
+                VoucherId = order.VoucherId,
+                OrderStatuses = order.OrderStatuses.Select(p=>new OrderStatusDto
+                {
+                    Id=p.Id,
+                    OrderId=p.OrderId,
+                    Status=p.Status,
+                    Time=p.Time,
+                    Note=p.Note,
+                }).ToList(),
+                OrderItems = order.OrderItems.Select(p => new OrderItemDto
+                {
+                    OrderId = p.OrderId,
+                    ProductId = p.ProductId,
+                    ColorId = p.ColorId,
+                    SizeId  = p.SizeId,
+                    Quantity = p.Quantity,
+                    UnitPrice = p.UnitPrice,
+                }).ToList()
+            };
+
+            return orderDto;
         }
     }
 }

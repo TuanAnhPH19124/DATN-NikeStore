@@ -325,48 +325,51 @@
                 <div class="container-fluid">
 
                     <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Thông tin đơn hàng</h2>
+                        </div>
                         <div class="modal-body">
                             <div class="main">
                                 <ul>
                                     <li>
                                         <i class="icon uil uil-capture"></i>
                                         <div class="progres one">
-                                            <p>1</p>
+                                            <p></p>
                                             <i class="uil uil-check"></i>
                                         </div>
-                                        <p class="text">Add To Cart</p>
+                                        <p class="text">Đã thanh toán</p>
                                     </li>
                                     <li>
                                         <i class="icon uil uil-clipboard-notes"></i>
                                         <div class="progres two">
-                                            <p>2</p>
+                                            <p></p>
                                             <i class="uil uil-check"></i>
                                         </div>
-                                        <p class="text">Fill Details</p>
+                                        <p class="text">Chờ vận chuyển</p>
                                     </li>
                                     <li>
                                         <i class="icon uil uil-credit-card"></i>
                                         <div class="progres three">
-                                            <p>3</p>
+                                            <p></p>
                                             <i class="uil uil-check"></i>
                                         </div>
-                                        <p class="text">Make Payment</p>
+                                        <p class="text">Đang vận chuyển</p>
                                     </li>
                                     <li>
                                         <i class="icon uil uil-exchange"></i>
                                         <div class="progres four">
-                                            <p>4</p>
+                                            <p></p>
                                             <i class="uil uil-check"></i>
                                         </div>
-                                        <p class="text">Order in Progress</p>
+                                        <p class="text">Thành công</p>
                                     </li>
                                     <li>
                                         <i class="icon uil uil-map-marker"></i>
                                         <div class="progres five">
-                                            <p>5</p>
+                                            <p></p>
                                             <i class="uil uil-check"></i>
                                         </div>
-                                        <p class="text">Order Arrived</p>
+                                        <p class="text">Hủy</p>
                                     </li>
 
                                 </ul>
@@ -452,519 +455,69 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Thông tin đơn hàng</h5>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#exampleModal">
-                                Cập nhập
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Cập nhật đơn hàng</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Họ và tên</label>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                                        aria-describedby="emailHelp" placeholder="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Số điện thoại</label>
-                                                    <input type="text" class="form-control" id="exampleInputPassword1"
-                                                        placeholder="">
-                                                </div>
-                                                <div class="form-group" id="form-address">
-                                                    <select class="form-control" id="exampleFormControlSelect1">
-                                                        <option value="" disabled selected hidden>Tỉnh/Thành
-                                                        </option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                    <select class="form-control" id="exampleFormControlSelect1">
-                                                        <option value="" disabled selected hidden>Quận/Huyện
-                                                        </option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                    <select class="form-control" id="exampleFormControlSelect1">
-                                                        <option value="" disabled selected hidden>Phường/Xã</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Địa chỉ</label>
-                                                    <input type="text" class="form-control" id="exampleInputPassword1"
-                                                        placeholder="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleFormControlTextarea1">Mô tả</label>
-                                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                        rows="3"></textarea>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Cập nhật</button>
+                        <div class="modal-body">
+                            <div id="update-employee-form">
+                                <div class="row">
+                                    <div class="col-md-4">                                       
+                                            <label>Tên khách hàng:</label>
+                                            <input type="text" class="form-control" id="customerName" name="customerName" aria-describedby="emailHelp" disabled>
+                                    </div>
+                                    <div class="col-md-4">                                      
+                                        <label>Số điện thoại:</label>
+                                        <input type="text" class="form-control" id="phoneNumber" placeholder="" name="phoneNumber" disabled>
+                                    </div>
+                                    <div class="col-md-4">                                       
+                                            <label for="snn">Địa chỉ:</label>
+                                            <input type="text" class="form-control" id="address" name="address" disabled>
+                                    </div>                                  
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">                                     
+                                        <label>Mã giảm giá áp dụng:</label>
+                                        <input type="text" class="form-control" id="voucherId" name="voucherId" disabled>
+                                </div>
+                                    <div class="col-md-4">                                        
+                                            <label>Người tạo:</label>
+                                            <input type="text" class="form-control" id="employeeId" name="employeeId" disabled>
+                                    </div>
+                                    <div class="col-md-4">                                     
+                                            <label for="dateOfBirth">Ngày tạo:</label>
+                                            <div class="input-group date" id="dateCreated">
+                                                <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth" autocomplete="off" disabled>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                            <label>Ghi chú:</label>
+                                            <input type="text" class="form-control" id="note" name="note" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Tổng số tiền:</label>
+                                        <input type="text" class="form-control" id="amount" name="amount" disabled>
+                                </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-body">
-                            <div class="detail-info">
-                                <div class="info">
-                                    <div class="detail">
-                                        <div class="lable">Trạng thái:</div>
-                                        <div class="lable">Đang chờ xác nhận</div>
-                                    </div>
-                                    <div class="detail">
-                                        <div class="lable">Loại:</div>
-                                        <div class="lable">Giao hàng:</div>
-                                    </div>
-                                    <div class="detail">
-                                        <div class="lable">Mã đơn hàng:</div>
-                                        <div class="lable">1233123213123</div>
-                                    </div>
-                                </div>
-                                <div class="info">
-                                    <div class="detail">
-                                        <div class="lable">Họ và tên:</div>
-                                        <div class="lable">Việt Hà</div>
-                                    </div>
-                                    <div class="detail">
-                                        <div class="lable">Số điện thoại:</div>
-                                        <div class="lable">0981033419</div>
-                                    </div>
-                                    <div class="detail">
-                                        <div class="lable">Email:</div>
-                                        <div class="lable">abc@gmail.com</div>
-                                    </div>
-                                    <div class="detail">
-                                        <div class="lable">Địa chỉ:</div>
-                                        <div class="lable">abc, xyz</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Lịch sử thanh toán</h5>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payment">
-                                Xác nhận thanh toán
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="payment" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh toán</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Số tiền</label>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                                        aria-describedby="emailHelp">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Mô tả</label>
-                                                    <input type="text" class="form-control" id="exampleInputPassword1">
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Tiền mặt</button>
-                                            <button type="button" class="btn btn-primary">Chuyển khoản</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-body">
-                            Không có dữ liệu
-                        </div>
-                    </div>
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <table class="table">
+                            </form> <br>                       
+                            <table class="table" id="orderItemsTable">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Màu sắc</th>
+                                        <th>Kích cỡ</th>
+                                        <th>Số lượng</th>
+                                        <th>Số tiền</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row" style="width: 200px;"><img style="width: 200px;"
-                                                src="https://media.istockphoto.com/id/1249496770/vi/anh/gi%C3%A0y-ch%E1%BA%A1y-b%E1%BB%99.jpg?s=2048x2048&w=is&k=20&c=_w_Env8RLauB23hmSlInzaPPzEfWoEzzQhfvnohmcOY="
-                                                alt=""></th>
-                                        <td class="item-info">
-                                            <div>
-                                                <div>
-                                                    Giày mlb mule dia monogram new york
-                                                </div>
-                                                <div>
-                                                    1,200,000 đ
-                                                </div>
-                                                <div>
-                                                    Size: 42
-                                                </div>
-                                                <div>
-                                                    x 3
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="vertical-align: middle;">3,600,000 đ</td>
-                                        <td style="vertical-align: middle;text-align: center;">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#updateModal">Cập nhật</button>
-
-                                            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th scope="row" style="width: 200px;"><img
-                                                                                style="width: 200px;"
-                                                                                src="https://media.istockphoto.com/id/1249496770/vi/anh/gi%C3%A0y-ch%E1%BA%A1y-b%E1%BB%99.jpg?s=2048x2048&w=is&k=20&c=_w_Env8RLauB23hmSlInzaPPzEfWoEzzQhfvnohmcOY="
-                                                                                alt=""></th>
-                                                                        <td class="item-info">
-                                                                            <div>
-                                                                                <div>
-                                                                                    Giày mlb mule dia monogram new york
-                                                                                </div>
-                                                                                <div>
-                                                                                    1,200,000 đ
-                                                                                </div>
-                                                                                <div>
-                                                                                    Size: 42
-                                                                                </div>
-                                                                                <div>
-                                                                                    x 3
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td style="vertical-align: middle;">3,600,000 đ
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="input-number">
-                                                            <button onclick="decrement()"
-                                                                class="btn btn-primary">-</button>
-                                                            <div class="form-outline">
-                                                                <input type="number" id="number" name="number"
-                                                                    class="form-control" value="0" />
-                                                            </div>
-                                                            <button onclick="increment()"
-                                                                class="btn btn-primary">+</button>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlTextarea1">Mô tả</label>
-                                                            <textarea class="form-control"
-                                                                id="exampleFormControlTextarea1" rows="3"></textarea>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary">Cập
-                                                                nhật</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="btn btn-danger">Hủy</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
                                 </tbody>
                             </table>
-                            <div class="footer">
-                                <div>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#addModal">Thêm sản phẩm</button>
-
-                                    <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm sản phẩm
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="select">
-                                                        <div class="form-filter">
-                                                            <label for="exampleFormControlSelect1">Danh mục:</label>
-                                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-filter">
-                                                            <label for="exampleFormControlSelect2">Hãng:</label>
-                                                            <select class="form-control" id="exampleFormControlSelect2">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-filter">
-                                                            <label for="exampleFormControlSelect3">Màu sắc:</label>
-                                                            <select class="form-control" id="exampleFormControlSelect3">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card shadow mb-4">
-                                                        <div class="card-body">
-                                                            <div class="table-responsive">
-                                                                <table class="table table-bordered" id="dataTable"
-                                                                    width="100%" cellspacing="0">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Ảnh</th>
-                                                                            <th>ID</th>
-                                                                            <th>Tên sản phẩm</th>
-                                                                            <th>Giá</th>
-                                                                            <th>Thao tác</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>Tiger Nixon</td>
-                                                                            <td>System Architect</td>
-                                                                            <td>Edinburgh</td>
-                                                                            <td>61</td>
-                                                                            <td>2011/04/25</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Garrett Winters</td>
-                                                                            <td>Accountant</td>
-                                                                            <td>Tokyo</td>
-                                                                            <td>63</td>
-                                                                            <td>2011/07/25</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div class="img">
-                                                                                    <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
-                                                                                        alt="" width="200" height="200">
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>Junior Technical Author</td>
-                                                                            <td>San Francisco</td>
-                                                                            <td>66</td>
-                                                                            <td>
-                                                                                <button type="button"
-                                                                                    class="btn btn-outline-primary"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#productModal">Chọn</button>
-                                                                                <!-- Modal -->
-                                                                                <div class="modal fade"
-                                                                                    id="productModal" tabindex="-1"
-                                                                                    role="dialog"
-                                                                                    aria-labelledby="exampleModalLabel"
-                                                                                    aria-hidden="true">
-                                                                                    <div class="modal-dialog"
-                                                                                        role="document">
-                                                                                        <div class="modal-content">
-                                                                                            <div class="modal-body"
-                                                                                                id="product-detail">
-                                                                                                <div class="img">
-                                                                                                    <img src="https://cdn.shopify.com/s/files/1/0456/5070/6581/products/GW8336-1.jpg?v=1674033701"
-                                                                                                        alt=""
-                                                                                                        width="400"
-                                                                                                        height="400">
-                                                                                                </div>
-                                                                                                <div>
-                                                                                                    <h4
-                                                                                                        class="product-title">
-                                                                                                        Tên sản phẩm gì
-                                                                                                        đó
-                                                                                                    </h4>
-                                                                                                    <div
-                                                                                                        class="product-info">
-                                                                                                        <div>Thương hiệu
-                                                                                                        </div>
-                                                                                                        <div>Thương hiệu
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="product-info">
-                                                                                                        <div>Danh mục
-                                                                                                        </div>
-                                                                                                        <div>Danh mục
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="product-info">
-                                                                                                        <div>1 tỉ gói mè
-                                                                                                            (Giá)
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="size">
-                                                                                                        <div
-                                                                                                            class="title">
-                                                                                                            Size
-                                                                                                            <div class="btn-group btn-group-toggle"
-                                                                                                                data-toggle="buttons">
-                                                                                                                <label
-                                                                                                                    class="btn btn-outline-primary btn-toggle">
-                                                                                                                    <input
-                                                                                                                        type="radio"
-                                                                                                                        name="options"
-                                                                                                                        id="option1"
-                                                                                                                        autocomplete="off">
-                                                                                                                    1
-                                                                                                                </label>
-                                                                                                                <label
-                                                                                                                    class="btn btn-outline-primary btn-toggle">
-                                                                                                                    <input
-                                                                                                                        type="radio"
-                                                                                                                        name="options"
-                                                                                                                        id="option2"
-                                                                                                                        autocomplete="off">
-                                                                                                                    2
-                                                                                                                </label>
-                                                                                                                <label
-                                                                                                                    class="btn btn-outline-primary btn-toggle">
-                                                                                                                    <input
-                                                                                                                        type="radio"
-                                                                                                                        name="options"
-                                                                                                                        id="option3"
-                                                                                                                        autocomplete="off">
-                                                                                                                    3
-                                                                                                                </label>
-                                                                                                            </div>
-                                                                                                            <div
-                                                                                                                class="input-number">
-                                                                                                                <button
-                                                                                                                    onclick="decrement()"
-                                                                                                                    class="btn btn-primary">-</button>
-                                                                                                                <div
-                                                                                                                    class="form-outline">
-                                                                                                                    <input
-                                                                                                                        type="number"
-                                                                                                                        id="number"
-                                                                                                                        name="number"
-                                                                                                                        class="form-control"
-                                                                                                                        value="0" />
-                                                                                                                </div>
-                                                                                                                <button
-                                                                                                                    onclick="increment()"
-                                                                                                                    class="btn btn-primary">+</button>
-                                                                                                            </div>
-                                                                                                            <div
-                                                                                                                class="instock">
-                                                                                                                Còn n
-                                                                                                                sản
-                                                                                                                phẩm
-                                                                                                            </div>
-                                                                                                            <div>
-                                                                                                                <button
-                                                                                                                    type="button"
-                                                                                                                    onclick="$('#productModal').modal('hide');"
-                                                                                                                    class="btn btn-primary">Thêm
-                                                                                                                    vào
-                                                                                                                    giỏ
-                                                                                                                    hàng</button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Cedric Kelly</td>
-                                                                            <td>Senior Javascript Developer</td>
-                                                                            <td>Edinburgh</td>
-                                                                            <td>22</td>
-                                                                            <td>2012/03/29</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="total">
-                                    <div class="total-info">
-                                        <div>Tiền hàng</div>
-                                        <div>3,600,000 đ</div>
-                                    </div>
-                                    <div class="total-info">
-                                        <div>Phí vận chuyển</div>
-                                        <div>66,500 đ</div>
-                                    </div>
-                                    <div class="total-info">
-                                        <div>Giảm giá</div>
-                                        <div>100,000 đ</div>
-                                    </div>
-                                    <div class="total-info">
-                                        <div>Quyền lợi thành viên</div>
-                                        <div>72,000 đ</div>
-                                    </div>
-                                    <div class="total-info">
-                                        <div>Tổng số tiền</div>
-                                        <div>3.494,500 đ</div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
