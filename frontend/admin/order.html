@@ -376,7 +376,7 @@
                             <div class="order-btn">
                                 <div class="left-btn">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#confirm" id="confirm">Xác nhận</button>
+                                        data-target="#confirm" id="confirm-outer-btn">Xác nhận</button>
                                     <div class="modal fade" id="confirm" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -394,13 +394,13 @@
                                                         <div class="form-group">
                                                             <label for="exampleFormControlTextarea1">Ghi chú</label>
                                                             <textarea class="form-control"
-                                                                id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                                id="note" rows="3"></textarea>
                                                         </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                                        onclick="update()">Xác nhận</button>
+                                                        onclick="update()" id="update-status">Xác nhận</button>
                                                 </div>
                                             </div>
                                         </div>
