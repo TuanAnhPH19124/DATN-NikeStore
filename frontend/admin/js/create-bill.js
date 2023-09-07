@@ -1831,3 +1831,17 @@ if (idContainOnlyNum(phoneNumber.value)==true&&onlyContain10Char(phoneNumber.val
   validatePhone.innerText = "Số điện thoại không hợp lệ";
 }
 }
+
+const id_user = localStorage.getItem("user-id")
+$.ajax({
+    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
+    type: "GET",
+    contentType: "application/json",
+    success: function (data) {
+        console.log(data.fullName)
+        $("#fullName").text(data.fullName)
+    },
+    error: function () {
+
+    },
+});

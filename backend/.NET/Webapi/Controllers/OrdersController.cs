@@ -207,7 +207,7 @@ namespace Webapi.Controllers
                 }
 
                 var declinedOrdersByStatus = declinedOrders
-                  .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DECLINE))
+                  .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.CANCELED))
                     .ToList();
 
                 if (!declinedOrdersByStatus.Any())
