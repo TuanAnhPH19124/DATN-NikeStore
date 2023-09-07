@@ -36,6 +36,10 @@ namespace Persistence.Configurations
             builder.HasMany(p => p.OrderItems)
             .WithOne(p => p.Order)
             .HasForeignKey(p => p.OrderId);
+
+            builder.HasOne(o => o.address)
+                .WithMany(a => a.Orders)
+                .HasForeignKey(o => o.AddressId);
         }
     }
 }

@@ -108,6 +108,28 @@ namespace Webapi.Controllers
                 }
             }
         }
-    
+
+
+        [HttpDelete("clear/{id}")]
+        public async Task<ActionResult> DeleteRange(string id){
+            if (string.IsNullOrEmpty(id))
+                return BadRequest(new { Error = "Không tìm thấy Id giỏ hàng, yêu cầu Id giỏ hàng." });
+
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _serviceManager.ShoppingCartItemsService.ClearCart(id);
+                    transaction.Commit();
+                    return NoContent();
+                }
+                catch (System.Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(ex.Message);
+                    throw;
+                }
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EntitiesDto.Order
 {
-    public class OrderAtStorePostRequestDto
+    public class OrderPostRequestDto
     {
         public string Address { get; set; } = null;
         public string PhoneNumber { get; set; } = null;
@@ -16,8 +16,8 @@ namespace EntitiesDto.Order
         public string UserId { get; set; } = null;
         public string EmployeeId { get; set; } = null;
         public string VoucherId { get; set; } = null;
-        [Required(ErrorMessage = "Yêu cầu Shipping để tiếp nhận vận chuyển")]
-        public bool Shipping { get; set; } 
+        public string AddressId { get; set; } = null;
+      
         [Required(ErrorMessage = "Vui lòng chọn phương thức thanh toán")]
         public int PaymentMethod { get; set; }
         [Required]
@@ -26,8 +26,9 @@ namespace EntitiesDto.Order
     
     }
 
-    public class OrderPostRequestDto : OrderAtStorePostRequestDto
+    public class OrderAtStorePostRequestDto  : OrderPostRequestDto
     {
-        
+        [Required(ErrorMessage = "Yêu cầu Shipping để tiếp nhận vận chuyển")]
+        public bool Shipping { get; set; } 
     }
 }

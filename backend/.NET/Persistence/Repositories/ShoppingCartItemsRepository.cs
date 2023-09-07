@@ -29,6 +29,16 @@ namespace Persistence.Repositories
             _dbcontext.ShoppingCartItems.Remove(item);
         }
 
+        public void DeleteRange(List<ShoppingCartItems> items)
+        {
+            _dbcontext.ShoppingCartItems.RemoveRange(items);
+        }
+
+        public async Task<IEnumerable<ShoppingCartItems>> GetAllById(string userId)
+        {
+            return await _dbcontext.ShoppingCartItems.Where(p => p.AppUserId == userId).ToListAsync();
+        }
+
         public async Task<ShoppingCartItems> GetById(string id)
         {
             return await _dbcontext.ShoppingCartItems.FindAsync(id);

@@ -25,6 +25,10 @@ namespace Persistence.Configurations
             builder.HasOne(p => p.AppUser)
                 .WithMany(p => p.Addresses)
                 .HasForeignKey(p => p.UserId);
+
+            builder.HasMany(o => o.Orders)
+                .WithOne(a => a.address)
+                .HasForeignKey(o => o.AddressId);
         }
     }
 }

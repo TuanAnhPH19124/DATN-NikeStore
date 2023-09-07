@@ -16,5 +16,6 @@ namespace Service.Abstractions
         Task<ShoppingCartItems> AddToCart(ShoppingCartItemAPI item);
         Task UpdateQuantity(ShoppingCartItems item);
         Task DeleteCart(string id);
+        Task ClearCart(string id);
     }
 }

@@ -1,4 +1,3 @@
-
 var app = angular.module("app", ["ngRoute", "angular-jwt"]);
 app.constant("apiUrl", 'https://localhost:44328');
 app.directive("headerPage", function () {
@@ -6,17 +5,17 @@ app.directive("headerPage", function () {
     restrict: 'E',
     templateUrl: '../directives/header-page.html',
     controller: "headerController"
-    
-}
+
+  }
 })
-app.directive("productPrimary", function(){
-  return{
+app.directive("productPrimary", function () {
+  return {
     restrict: 'E',
     templateUrl: '../directives/product-primary.html'
   }
 })
-app.config(function ($routeProvider, $locationProvider){
-    $locationProvider.hashPrefix(""); 
+app.config(function ($routeProvider, $locationProvider) {
+  $locationProvider.hashPrefix("");
   $routeProvider
     .when("/index", {
       templateUrl: "../page/index/index.html",

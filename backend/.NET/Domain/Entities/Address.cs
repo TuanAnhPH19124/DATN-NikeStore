@@ -19,5 +19,6 @@ namespace Domain.Entities
         public bool SetAsDefault { get; set; }
         public string UserId { get; set; }
         public virtual AppUser AppUser { get; set; }
+        public virtual ICollection<Order> Orders {get;set;}
     }
 }

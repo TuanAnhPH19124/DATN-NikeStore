@@ -20,7 +20,7 @@ namespace Persistence.Repositories
 
         public async Task Post(Order order)
         {
-            await _context.AddAsync(order);
+            await _context.Orders.AddAsync(order);
         }
 
         public async Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default)
