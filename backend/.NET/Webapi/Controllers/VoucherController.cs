@@ -66,9 +66,9 @@ namespace Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
         {
-            if (voucherDto == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Sole object is null");
+                return BadRequest(ModelState);
             }
 
             var existingVoucher = await _serviceManager.VoucherService.GetByCodeAsync(voucherDto.Code);
