@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Mapster;
+using System.Linq.Expressions;
 
 namespace Webapi.Controllers
 {
@@ -65,9 +66,9 @@ namespace Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
         {
-            if (voucherDto == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Sole object is null");
+                return BadRequest(ModelState);
             }
 
             var existingVoucher = await _serviceManager.VoucherService.GetByCodeAsync(voucherDto.Code);
@@ -80,8 +81,8 @@ namespace Webapi.Controllers
             {
                 Code = voucherDto.Code,
                 Value = voucherDto.Value,
+                Expression= voucherDto.Expression,
                 Description = voucherDto.Description,
-                Quantity = voucherDto.Quantity,
                 StartDate = voucherDto.StartDate, 
                 EndDate = voucherDto.EndDate,
                 Status= voucherDto.Status,
