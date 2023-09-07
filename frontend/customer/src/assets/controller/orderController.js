@@ -4,7 +4,8 @@
         guidService,
         cloudFlareService,
         vnpayService,
-        $window
+        $window,
+        orderService
     ) {
         // const uuid = require('uuid');
         // e.uuid = require('uuid');
@@ -285,8 +286,42 @@
             return expireDatetime;
         }
 
-        e.payDeliveried = function () {
+        e.createOrder = function (paymethod){
+            let token = authService.getToken();
+            let tokenDecode = jwtHelper.decodeToken(token);
+            let oItems = e.carts.map(item =>{
+                return {
+                    productId: item.product.id,
+                    colorId: item.colorId,
+                    sizeId: item.sizeId,
+                    unitPrice: item.product.discountRate,
+                    quantity: item.quantity
+                }
+            }); 
+            let data = {
+                addressId: e.addressCustomer[e.selectedIndex].id,
+                userId: tokenDecode.Id,
+                note: null,
+                voucherId: null,
+                employeeId: null,
+                paymentMethod: paymethod,
+                amount: e.subtotal() + e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee,
+                orderItems: oItems
+            }
 
+            console.log(data);
+            console.log(e.carts);
+            orderService.createOrder(data)
+            .then(function (response){
+                cartService.clearCart(tokenDecode.Id)
+                .then(function (response){
+                    l.path('/index');
+                }, function(response){
+                    console.log(response.data);
+                })
+            }, function(response){
+                console.log(response.data);
+            })
         }
 
         e.vnpay = function () {
@@ -368,6 +403,6 @@
 
         constructor();
     }
-    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window'];
+    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
     angular.module("app").controller("orderController", orderController);
 }());

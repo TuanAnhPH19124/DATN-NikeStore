@@ -15,6 +15,14 @@
                 url: uri,
                 data: data
             }) 
+        };
+
+        this.clearCart = function (id){
+            let uri = apiUrl + "/api/ShoppingCarts/clear/" + id;
+            return http({
+                method: 'DELETE',
+                url: uri,
+            }) 
         }
     }
     cartService.$inject = ['$http', 'apiUrl']

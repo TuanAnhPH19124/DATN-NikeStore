@@ -222,15 +222,13 @@ namespace Webapi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
-        [HttpPost("pay")]
+    
+        [HttpPost("payOneline")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
         {
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
-
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
@@ -240,17 +238,14 @@ namespace Webapi.Controllers
                     await _hubContext.Clients.Group(ManagerHub.managerGroup).SendAsync("ReceiveMessage", "Khách hàng vừa đặt hàng cần xác nhận đơn hàng");
                     #endregion
                     transaction.Commit();
+                    return Ok();    
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
                     transaction.Rollback();
-                    throw;
+                    return BadRequest(ex.Message);
                 }
             }
-
-            
-            return Ok();    
-                              
         }
 
 
