@@ -15,6 +15,7 @@ using Webapi.Hubs;
 using Domain.DTOs;
 using System.Threading;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Webapi.Controllers
 {
@@ -80,6 +81,292 @@ namespace Webapi.Controllers
             }
         }
 
+        [HttpGet("GetConfirmedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetConfirmedOrders()
+        {
+            try
+            {
+                var confirmedOrders = await _service.OrderService.GetAllOrderAsync();
+                if (confirmedOrders == null || !confirmedOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var confirmedOrdersByStatus = confirmedOrders
+                    .Where(order => order.OrderStatuses.Any(c=>c.Status == StatusOrder.CONFIRM))
+                    .ToList();
+
+                if (!confirmedOrdersByStatus.Any())
+                {
+                    return NotFound("No confirmed orders found.");
+                }
+
+                return Ok(confirmedOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetPendingShipOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetPendingShipOrders()
+        {
+            try
+            {
+                var pendingShipOrders = await _service.OrderService.GetAllOrderAsync();
+                if (pendingShipOrders == null || !pendingShipOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var pendingShipOrdersByStatus = pendingShipOrders
+                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.PENDING_SHIP))
+                    .ToList();
+
+                if (!pendingShipOrdersByStatus.Any())
+                {
+                    return NotFound("No pending ship orders found.");
+                }
+
+                return Ok(pendingShipOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetShippingOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetShippingOrders()
+        {
+            try
+            {
+                var shippingOrders = await _service.OrderService.GetAllOrderAsync();
+                if (shippingOrders == null || !shippingOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var shippingOrdersByStatus = shippingOrders
+                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.SHIPPING))
+                    .ToList();
+
+                if (!shippingOrdersByStatus.Any())
+                {
+                    return NotFound("No shipping orders found.");
+                }
+
+                return Ok(shippingOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetDeliveredOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeliveredOrders()
+        {
+            try
+            {
+                var deliveredOrders = await _service.OrderService.GetAllOrderAsync();
+                if (deliveredOrders == null || !deliveredOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var deliveredOrdersByStatus = deliveredOrders
+                    .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DELIVERIED))
+                    .ToList();
+
+                if (!deliveredOrdersByStatus.Any())
+                {
+                    return NotFound("No delivered orders found.");
+                }
+
+                return Ok(deliveredOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetDeclinedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeclinedOrders()
+        {
+            try
+            {
+                var declinedOrders = await _service.OrderService.GetAllOrderAsync();
+                if (declinedOrders == null || !declinedOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var declinedOrdersByStatus = declinedOrders
+                  .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DECLINE))
+                    .ToList();
+
+                if (!declinedOrdersByStatus.Any())
+                {
+                    return NotFound("No declined orders found.");
+                }
+
+                return Ok(declinedOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetConfirmedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetConfirmedOrders()
+        {
+            try
+            {
+                var confirmedOrders = await _service.OrderService.GetAllOrderAsync();
+                if (confirmedOrders == null || !confirmedOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var confirmedOrdersByStatus = confirmedOrders
+                    .Where(order => order.OrderStatuses.Any(c=>c.Status == StatusOrder.CONFIRM))
+                    .ToList();
+
+                if (!confirmedOrdersByStatus.Any())
+                {
+                    return NotFound("No confirmed orders found.");
+                }
+
+                return Ok(confirmedOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetPendingShipOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetPendingShipOrders()
+        {
+            try
+            {
+                var pendingShipOrders = await _service.OrderService.GetAllOrderAsync();
+                if (pendingShipOrders == null || !pendingShipOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var pendingShipOrdersByStatus = pendingShipOrders
+                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.PENDING_SHIP))
+                    .ToList();
+
+                if (!pendingShipOrdersByStatus.Any())
+                {
+                    return NotFound("No pending ship orders found.");
+                }
+
+                return Ok(pendingShipOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetShippingOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetShippingOrders()
+        {
+            try
+            {
+                var shippingOrders = await _service.OrderService.GetAllOrderAsync();
+                if (shippingOrders == null || !shippingOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var shippingOrdersByStatus = shippingOrders
+                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.SHIPPING))
+                    .ToList();
+
+                if (!shippingOrdersByStatus.Any())
+                {
+                    return NotFound("No shipping orders found.");
+                }
+
+                return Ok(shippingOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetDeliveredOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeliveredOrders()
+        {
+            try
+            {
+                var deliveredOrders = await _service.OrderService.GetAllOrderAsync();
+                if (deliveredOrders == null || !deliveredOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var deliveredOrdersByStatus = deliveredOrders
+                    .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DELIVERIED))
+                    .ToList();
+
+                if (!deliveredOrdersByStatus.Any())
+                {
+                    return NotFound("No delivered orders found.");
+                }
+
+                return Ok(deliveredOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("GetDeclinedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeclinedOrders()
+        {
+            try
+            {
+                var declinedOrders = await _service.OrderService.GetAllOrderAsync();
+                if (declinedOrders == null || !declinedOrders.Any())
+                {
+                    return NotFound();
+                }
+
+                var declinedOrdersByStatus = declinedOrders
+                  .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DECLINE))
+                    .ToList();
+
+                if (!declinedOrdersByStatus.Any())
+                {
+                    return NotFound("No declined orders found.");
+                }
+
+                return Ok(declinedOrdersByStatus);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         [HttpPost("payOneline")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
         {
@@ -128,7 +415,7 @@ namespace Webapi.Controllers
         }
 
         [HttpGet("Get/{Id}")]
-        public async Task<ActionResult<Order>> GetByIdOrder(string Id)
+        public async Task<ActionResult> GetByIdOrder(string Id)
         {
             var order = await _service.OrderService.GetByIdOrderAsync(Id);
 
@@ -136,7 +423,7 @@ namespace Webapi.Controllers
             {
                 return NotFound();
             }
-            return order;
+            return Ok(order);
         }
     }
 }

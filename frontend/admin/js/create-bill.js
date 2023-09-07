@@ -1625,7 +1625,7 @@ $("#create-bill").click(function (event) {
       userId: $("#customer-id").text(),
       employeeId: localStorage.getItem("user-id"),
       address:
-        $("#address").val() +
+        $("#address").val()+", " +
         $("#ward option:selected").text() +
         ", " +
         $("#district option:selected").text() +
@@ -1652,19 +1652,21 @@ $("#create-bill").click(function (event) {
   if(formData.userId===""){
     formData.userId =null
   }
+  if($("#delivery").prop("checked")==true){
+    formData.shipping = true
+  }else{
+    formData.shipping = false
+  }
   // var checkBox = document.getElementById("delivery");
   // var giaTriBoolean = checkBox.checked;
   // console.log(giaTriBoolean)
   if(formData.customerName===""){
-  console.log(formData)
     return
   }
   if(formData.phoneNumber===""&&$("#delivery").prop("checked")==true){
-  console.log(formData)
     return
   }
   if (!idContainOnlyNum(formData.phoneNumber) || !onlyContain10Char(formData.phoneNumber)&&$("#delivery").prop("checked")==true) {
-  console.log(formData)
     return;
   }
   if (confirm(`Bạn có muốn thanh toán hóa đơn này không?`)) {
