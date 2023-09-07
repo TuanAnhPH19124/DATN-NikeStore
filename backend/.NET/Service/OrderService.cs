@@ -30,6 +30,7 @@ namespace Service
         }
         public async Task CreateNewOnlineOrder(OrderPostRequestDto orderDto)
         {
+            #region add new order
             var order = new Order
             {
                 Address = orderDto.Address,
@@ -41,10 +42,30 @@ namespace Service
                 VoucherId = orderDto.VoucherId,
                 Paymethod = orderDto.PaymentMethod,
                 Amount = orderDto.Amount,
-
+                AddressId = orderDto.AddressId,
+                OrderStatuses = new List<OrderStatus>(){
+                    new OrderStatus{
+                        Status = StatusOrder.CONFIRM,
+                        Time = DateTime.Now,
+                        Note = "Chờ xác nhận"
+                    }
+                },
+                OrderItems = orderDto.OrderItems.Select(p => new OrderItem{
+                    ProductId = p.ProductId,
+                    ColorId = p.ColorId,
+                    SizeId = p.SizeId,
+                    Quantity = p.Quantity,
+                    UnitPrice = p.UnitPrice
+                }).ToList()
             };
-           
             await _manager.OrderRepository.Post(order);
+            #endregion
+            #region Update UnitOfStock in stock table
+            var StockList = await GetOrderItemsQuantityAsync(order.OrderItems);
+            _manager.StockRepository.UpdateRange(StockList);
+            Console.WriteLine("Cập nhật số lượng sản phâm thành công.");
+            #endregion
+            await _manager.UnitOfWork.SaveChangeAsync();
         }
 
         public async Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto)
