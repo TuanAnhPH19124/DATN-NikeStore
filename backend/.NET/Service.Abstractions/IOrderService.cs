@@ -11,11 +11,11 @@ namespace Service.Abstractions
 {
     public interface IOrderService
     {
-        Task PostAndSendNontification(OrderPostRequestDto orderDto);
+        Task CreateNewOnlineOrder(OrderPostRequestDto orderDto);
 
         Task UpdateOrderOnConfirm(string id ,object order);
         Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto);
         Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default);
-        Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default);
+        Task<OrderDto> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default);
     }
 }

@@ -28,5 +28,6 @@ namespace Service.Abstractions
         IMaterialService MaterialService { get; }
         ISoleService SoleService { get; }
         IAddressService AddressService { get; }
+        IOrderStatusService OrderStatusService { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto;
 using Mapster;
@@ -23,9 +24,34 @@ namespace Service
         public async Task AddNew(AddressAPI address)
         {
             var newAddress = address.Adapt<Address>();
-          
+            if (address.SetAsDefault){
+                var addresses = await _repositoryManger.AddressRepository.GetByUserId(address.UserId);
+                foreach (var item in addresses)
+                {
+                    item.SetAsDefault = false;
+                }
+                _repositoryManger.AddressRepository.UpdateRange(addresses.ToList());
+            }
             await _repositoryManger.AddressRepository.Add(newAddress);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
+        }
+
+        public async Task<IEnumerable<AddressDto>> GetByUserId(string id)
+        {
+            var addresses = await _repositoryManger.AddressRepository.GetByUserId(id);
+
+            var addressesDto = addresses.Select(p => new AddressDto{
+                Id = p.Id,
+                AddressLine = p.AddressLine,
+                PhoneNumber = p.PhoneNumber,
+                CityCode = p.CityCode,
+                ProvinceCode = p.ProvinceCode,
+                WardCode = p.WardCode,
+                FullName = p.FullName,
+                SetAsDefault = p.SetAsDefault
+            }).ToList();
+
+            return addressesDto;
         }
     }
 }

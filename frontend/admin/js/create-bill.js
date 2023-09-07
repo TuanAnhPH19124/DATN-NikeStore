@@ -1469,6 +1469,7 @@ $("#addToCart").click(function () {
           productId: addToCartItem.id,
           colorId: addToCartItem.colorId,
           sizeId: addToCartItem.sizeId,
+          unitPrice: addToCartItem.price
         });
       }
       console.log(arr);
@@ -1624,7 +1625,7 @@ $("#create-bill").click(function (event) {
       userId: $("#customer-id").text(),
       employeeId: localStorage.getItem("user-id"),
       address:
-        $("#address").val() +
+        $("#address").val()+", " +
         $("#ward option:selected").text() +
         ", " +
         $("#district option:selected").text() +
@@ -1651,49 +1652,62 @@ $("#create-bill").click(function (event) {
   if(formData.userId===""){
     formData.userId =null
   }
+  if($("#delivery").prop("checked")==true){
+    formData.shipping = true
+  }else{
+    formData.shipping = false
+  }
+  // var checkBox = document.getElementById("delivery");
+  // var giaTriBoolean = checkBox.checked;
+  // console.log(giaTriBoolean)
   if(formData.customerName===""){
     return
   }
-  if(formData.phoneNumber===""){
+  if(formData.phoneNumber===""&&$("#delivery").prop("checked")==true){
     return
   }
-  if (!idContainOnlyNum(phoneNumber.value) || !onlyContain10Char(phoneNumber.value)) {
+  if (!idContainOnlyNum(formData.phoneNumber) || !onlyContain10Char(formData.phoneNumber)&&$("#delivery").prop("checked")==true) {
     return;
   }
-  
-  $.ajax({
-    url: "https://localhost:44328/api/Orders/PayAtStore",
-    type: "POST",
-    data: JSON.stringify(formData),
-    contentType: "application/json",
-    success: function (response) {
-      //window.location.href = `/frontend/admin/bill.html`;
-      clearTableAndData();
-      $("#customer-name").text("Khách lẻ");
-      $("#customer-email").text("");
-      $("#customer-phone").text("");
-      $("#customer-id").text("");
-      $(".hidden-info").hide();
-      $("#customer-id").text("");
-      // 
-      $("#delivery-field")[0].reset();
-      $("#delivery").prop("checked",false)
-      
-      var x = document.getElementById("customer-info");
-      x.style.visibility = "hidden";
-      $("#delivery-field").hide()
-      $("#delivery-info").hide()
-      
-      $("#voucher-select").val(-1)
-      $("#total").text("0 ₫");
-      $("#ship-fee").text("0 ₫");
-      $("#discount-price").text("0 ₫");
-      $("#sum").text("0 ₫");
-      console.log(arr);
-    },
-  });
+  if (confirm(`Bạn có muốn thanh toán hóa đơn này không?`)) {
+    $.ajax({
+      url: "https://localhost:44328/api/Orders/PayAtStore",
+      type: "POST",
+      data: JSON.stringify(formData),
+      contentType: "application/json",
+      success: function (response) {
+        //window.location.href = `/frontend/admin/bill.html`;
+        clearTableAndData();
+        $("#customer-name").text("Khách lẻ");
+        $("#customer-email").text("");
+        $("#customer-phone").text("");
+        $("#customer-id").text("");
+        $(".hidden-info").hide();
+        $("#customer-id").text("");
+        // 
+        $("#delivery-field")[0].reset();
+        $("#delivery").prop("checked",false)
+        
+        var x = document.getElementById("customer-info");
+        x.style.visibility = "hidden";
+        $("#delivery-field").hide()
+        $("#delivery-info").hide()
+        
+        $("#voucher-select").val(-1)
+        $("#total").text("0 ₫");
+        $("#ship-fee").text("0 ₫");
+        $("#discount-price").text("0 ₫");
+        $("#sum").text("0 ₫");
+        console.log(arr);
+      },
+    });
+} else {
+    return
+}
+
 });
 $("#delivery").on("change", function () {
+  console.log($("#delivery").prop("checked"))
   $("#delivery-field").show()
   fetchAllMoneyShip($("#district").val(), $("#ward").val()).then((data) => {
     if ($("#delivery").prop("checked")) {

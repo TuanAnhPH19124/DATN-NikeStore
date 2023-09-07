@@ -1,10 +1,43 @@
-.checkout-address-existing, .checkout-summary{
+.checkout-address-existing, .checkout-summary, .checkout-product, .checkout-shipping-infomation{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.checkout-product{
-    display: flex;
+.checkout-address-existing, .checkout-shipping-avaliable, .checkout-payment-avaliable{
+    border: 1px solid var(--bc-gray-light);
+    width: 100%;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
 
+.checkout-address-existing:hover, .checkout-shipping-avaliable:hover, .checkout-payment-avaliable:hover{
+    border-color: black;
+}
+
+.checkout-address-infomation p {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+.checkout-address-existing-updateBtn{
+    background-color: transparent;
+    color: var(--bc-gray-light-hover);
+    border: none;
+}
+
+.border_address{
+    border: 1px solid black;
+}
+
+.step-intro-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkout-shipping-infomation-title p{
+    text-align: left;
 }

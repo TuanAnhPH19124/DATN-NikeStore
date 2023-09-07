@@ -22,7 +22,12 @@ namespace Domain.DTOs
     public class AddressDto
     {
         public string Id { get; set; }
-        public string Address { get; set; }
-
+        public string AddressLine { get; set; }
+        public int CityCode { get; set; }
+        public int ProvinceCode { get; set; }
+        public string WardCode { get; set; }
+        public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool SetAsDefault { get; set; }
     }
 }
