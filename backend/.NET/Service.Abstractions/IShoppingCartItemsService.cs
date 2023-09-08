@@ -14,7 +14,7 @@ namespace Service.Abstractions
     {
         Task<IEnumerable<ShoppingCartDto>> GetByUserId(string userId);
         Task<ShoppingCartItems> AddToCart(ShoppingCartItemAPI item);
-        Task UpdateQuantity(ShoppingCartItems item);
+        Task UpdateQuantity(ShoppingCartItemPutAPI item);
         Task DeleteCart(string id);
         Task ClearCart(string id);
     }

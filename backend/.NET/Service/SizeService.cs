@@ -56,5 +56,12 @@ namespace Service
                 return existingSize;
             }
         }
+
+        public async Task<List<Size>> GetSizeForProduct(string productId, string colorId)
+        {
+            var sizes = await _repositoryManger.SizeRepository.GetSizeForProduct(productId, colorId);
+            return sizes;
+        }
+
     }
 }

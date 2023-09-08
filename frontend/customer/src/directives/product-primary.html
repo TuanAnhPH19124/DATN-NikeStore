@@ -1,5 +1,9 @@
-<div class="boxProduct" ng-repeat="product in products | limitTo: 4">
-    <a href="#/productDetail/{{product.id}}"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
+<link rel="stylesheet" href="../assets/css/component/product-primary.css">
+<link rel="stylesheet" href="../assets/css/js/product-primary.js">
+
+<div class="product-container">
+    <div class="boxProduct" ng-repeat="product in products | limitTo: 4">
+        <a href="#/productDetail/{{product.id}}"><img src="/frontend/customer/src/assets/img/product/2.jpg"></a>
     <div class="card-badge">New</div>      
     <ul class="product-links">
         <li><button type="button" class="viewheart"><i class="fa-solid fa-heart" title="Thêm vào yêu thích" ng-click="addToWishListE(product.id)"></i></button></li>               
@@ -16,5 +20,6 @@
     <div class="priceI">
         <span>{{product.retailPrice}} đ</span>                                                        
         <span class="strike"><del></del></span>  
+    </div>
     </div>
 </div>

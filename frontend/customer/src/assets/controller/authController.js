@@ -58,7 +58,7 @@
         e.signOutE = function (){
             authService.setLogOut();
             authService.clearSession();
-            l.path('/');
+            l.path('/index');
         }
 
         function constructor(){
