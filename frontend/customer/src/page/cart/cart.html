@@ -14,11 +14,11 @@
           <img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
         </div>
         <div class="main-item">
-          <div class="product-infomation">        
-            <div  class="product-price">
-              <h3>Tên sản phẩm: {{cart.product.name}}</h3>           
-              <button class="remove-button" ng-click="removeItem(cart)"><i class="fa-solid fa-xmark"></i></button> 
-            </div>                        
+          <div class="product-infomation"> 
+            <div class="product-price">
+              <h3>Tên sản phẩm: {{cart.product.name}}</h3>  
+              <button class="remove-button" ng-click="removeItem(cart)"><i class="fa-solid fa-xmark"></i></button>  
+            </div>                                        
             <p>Màu sắc: {{cart.colorName}}</p>
             <label for="size" style="margin-right: 100px;">Kích cỡ:</label>                 
             <label for="quantity">Số lượng:</label> 
@@ -28,9 +28,10 @@
                     style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;"min="1" max="10" maxlength="10">
             <button class="quantity-button" ng-click="incrementQuantity()"
                 style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>                 
+          </div>
           <div class="product-price">           
             <span style="color: rgb(255, 0, 0);margin-right: 20px;">{{cart.product.discountRate}}đ</span>
-            <del style="color: rgb(163, 158, 158);">{{cart.product.retailPrice}}đ</del> 
+            <del style="color: rgb(163, 158, 158);">{{cart.product.retailPrice}}đ</del>    
           </div>     
         </div>
       </div>
