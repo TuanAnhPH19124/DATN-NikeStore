@@ -526,6 +526,28 @@ $(document).ready(function () {
       currency: "VND",
     }).format(totalSum)
   );
+  var option_voucher = [];
+// Add a default option with a value of -1 and "Select a voucher" text
+option_voucher.push('<option value="-1">Không áp dụng</option>');
+$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    var productFee = parseFloat(
+      $("#total")
+        .text()
+        .replace(/[^0-9]/g, "")
+    );
+    if(result[i].expression <= productFee){
+      option_voucher.push(
+        '<option value="',
+        result[i].id,
+        '">',
+        result[i].code,
+        "</option>"
+      );
+    }
+  }
+  $("#voucher-select").html(option_voucher.join(""));
+});
   if($("#voucher-select").val()==-1){
       $(`#dicscount-price`).text(
     Intl.NumberFormat("vi-VN", {
@@ -1214,13 +1236,20 @@ var option_voucher = [];
 option_voucher.push('<option value="-1">Không áp dụng</option>');
 $.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
   for (var i = 0; i < result.length; i++) {
-    option_voucher.push(
-      '<option value="',
-      result[i].id,
-      '">',
-      result[i].code,
-      "</option>"
+    var productFee = parseFloat(
+      $("#total")
+        .text()
+        .replace(/[^0-9]/g, "")
     );
+    if(result[i].expression <= productFee){
+      option_voucher.push(
+        '<option value="',
+        result[i].id,
+        '">',
+        result[i].code,
+        "</option>"
+      );
+    }
   }
   $("#voucher-select").html(option_voucher.join(""));
 });
@@ -1377,6 +1406,28 @@ $("#addToCart").click(function () {
       currency: "VND",
     }).format(totalSum)
   );
+  var option_voucher = [];
+// Add a default option with a value of -1 and "Select a voucher" text
+option_voucher.push('<option value="-1">Không áp dụng</option>');
+$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    var productFee = parseFloat(
+      $("#total")
+        .text()
+        .replace(/[^0-9]/g, "")
+    );
+    if(result[i].expression <= productFee){
+      option_voucher.push(
+        '<option value="',
+        result[i].id,
+        '">',
+        result[i].code,
+        "</option>"
+      );
+    }
+  }
+  $("#voucher-select").html(option_voucher.join(""));
+});
   if($("#voucher-select").val()==-1){
       $(`#dicscount-price`).text(
     Intl.NumberFormat("vi-VN", {
@@ -1515,6 +1566,28 @@ $(document).on("click", ".delete-item", function () {
       currency: "VND",
     }).format(totalSum)
   );
+  var option_voucher = [];
+// Add a default option with a value of -1 and "Select a voucher" text
+option_voucher.push('<option value="-1">Không áp dụng</option>');
+$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    var productFee = parseFloat(
+      $("#total")
+        .text()
+        .replace(/[^0-9]/g, "")
+    );
+    if(result[i].expression <= productFee){
+      option_voucher.push(
+        '<option value="',
+        result[i].id,
+        '">',
+        result[i].code,
+        "</option>"
+      );
+    }
+  }
+  $("#voucher-select").html(option_voucher.join(""));
+});
   if($("#voucher-select").val()==-1){
       $(`#dicscount-price`).text(
     Intl.NumberFormat("vi-VN", {
@@ -1591,6 +1664,28 @@ function clearTableAndData() {
       currency: "VND",
     }).format(totalSum)
   );
+  var option_voucher = [];
+// Add a default option with a value of -1 and "Select a voucher" text
+option_voucher.push('<option value="-1">Không áp dụng</option>');
+$.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
+  for (var i = 0; i < result.length; i++) {
+    var productFee = parseFloat(
+      $("#total")
+        .text()
+        .replace(/[^0-9]/g, "")
+    );
+    if(result[i].expression <= productFee){
+      option_voucher.push(
+        '<option value="',
+        result[i].id,
+        '">',
+        result[i].code,
+        "</option>"
+      );
+    }
+  }
+  $("#voucher-select").html(option_voucher.join(""));
+});
   $(`#sum`).text(
     Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -1831,3 +1926,18 @@ if (idContainOnlyNum(phoneNumber.value)==true&&onlyContain10Char(phoneNumber.val
   validatePhone.innerText = "Số điện thoại không hợp lệ";
 }
 }
+
+const id_user = localStorage.getItem("user-id")
+$.ajax({
+    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
+    type: "GET",
+    contentType: "application/json",
+    success: function (data) {
+        console.log(data.fullName)
+        $("#fullName").text(data.fullName)
+    },
+    error: function () {
+
+    },
+});
+

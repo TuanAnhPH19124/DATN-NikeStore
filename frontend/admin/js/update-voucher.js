@@ -11,6 +11,10 @@ $(document).ready(function () {
       $("#code").val(data.code);
       $("#value").val(data.value);
       $("#description").val(data.description);
+      $("#expression").val(Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(data.expression));
       var dateObj1 = new Date(data.startDate);
       var day1 = dateObj1.getUTCDate();
       var month1 = dateObj1.getUTCMonth() + 1;
@@ -36,6 +40,7 @@ $(document).ready(function () {
       id: id,
       code: $("#code").val().trim(),
       value: Number($("#value").val()),
+      expression: parseInt($("#expression").val().replace(/[^\d]/g, ''), 10),
       description: $("#description").val(),
       startDate: $("#startDate").val(),
       endDate: $("#endDate").val(),
@@ -118,6 +123,9 @@ $(document).ready(function () {
         required: true,
         value100: true,
       },
+      expression: {
+        required: true,
+      },
       description: {
         maxlength: 20,
       },
@@ -137,6 +145,9 @@ $(document).ready(function () {
         required: "Bạn phải nhập số căn cước",
         value100: "Giá trị là sô nằm trong khoảng từ 1-100",
       },
+      expression: {
+        required: "Bạn phải nhập giá trị tối thiểu",
+      },
       description: {
         maxlength: "Mô tả không được quá 20 ký tự",
       },
@@ -155,3 +166,24 @@ $(function () {
     format: "dd/mm/yyyy",
   });
 });
+function formatCurrency(input, type) {
+  let value = input.value.replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
+
+  if (type === 1) {
+    let basePrice = parseInt($("#retailPrice").val().replace(/[^\d]/g, ""));
+    if (parseInt(value) > basePrice) {
+      value = 0;
+    }
+  }
+
+  let numericValue = parseInt(value, 10);
+  if (!isNaN(numericValue)) {
+    const formattedValue = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(numericValue);
+    input.value = formattedValue;
+  } else {
+    input.value = "";
+  }
+}
