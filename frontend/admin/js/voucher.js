@@ -1,4 +1,25 @@
 // call api len datatable nhan vien
+function formatCurrency(input, type) {
+  let value = input.value.replace(/[^\d]/g, ""); // Loại bỏ các ký tự không phải s
+
+  if (type === 1) {
+    let basePrice = parseInt($("#retailPrice").val().replace(/[^\d]/g, ""));
+    if (parseInt(value) > basePrice) {
+      value = 0;
+    }
+  }
+
+  let numericValue = parseInt(value, 10);
+  if (!isNaN(numericValue)) {
+    const formattedValue = new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(numericValue);
+    input.value = formattedValue;
+  } else {
+    input.value = "";
+  }
+}
 $(document).ready(function () {
   $.fn.dataTableExt.sErrMode = "mute";
   var voucherTable = $("#voucher-table").DataTable({
@@ -21,6 +42,16 @@ $(document).ready(function () {
         title: "Giá trị",
         render: function (data, type, full, meta) {
           return data+" %";
+        },
+      },
+      {
+        data: "expression",
+        title: "Đơn hàng tối thiểu",
+        render: function (data, type, full, meta) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
         },
       },
       {
@@ -104,6 +135,7 @@ $(document).ready(function () {
     var formData = {
       code: $("#code").val().trim(),
       value: $("#value").val(),
+      expression: parseInt($("#expression").val().replace(/[^\d]/g, ''), 10),
       description: $("#description").val(),
       startDate: $("#startDate").val(),
       endDate: $("#endDate").val(),
@@ -193,6 +225,9 @@ $(document).ready(function () {
         required: true,
         value100: true
       },
+      expression: {
+        required: true,
+      },
       description: {
         maxlength: 20,
       },
@@ -211,6 +246,9 @@ $(document).ready(function () {
       value: {
         required: "Bạn phải nhập giá trị giảm giá",
         value100: "Giá trị là sô nằm trong khoảng từ 1-100"
+      },
+      expression: {
+        required: "Bạn phải nhập giá trị tối thiểu",
       },
       description: {
         maxlength: "Mô tả không được quá 20 ký tự",
@@ -238,3 +276,17 @@ $("#voucher-table tbody").on("click", "tr", function (e) {
     window.location.href = `/frontend/admin/update-voucher.html`;
   }
 });
+const id_user = localStorage.getItem("user-id")
+$.ajax({
+    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
+    type: "GET",
+    contentType: "application/json",
+    success: function (data) {
+        console.log(data.fullName)
+        $("#fullName").text(data.fullName)
+    },
+    error: function () {
+
+    },
+});
+
