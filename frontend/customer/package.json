@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "angular-jwt": "^0.1.11"
+    "angular-jwt": "^0.1.11",
+    "uuid": "^9.0.0"
   }
 }

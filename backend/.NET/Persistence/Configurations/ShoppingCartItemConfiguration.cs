@@ -13,14 +13,9 @@ namespace Persistence.Configurations
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Quantity).IsRequired();
-            builder.Property(x => x.ProductId).IsRequired();
-            builder.Property(x => x.ShoppingCartId).IsRequired();
-            builder.HasOne(x => x.ShoppingCarts)
-            .WithMany(x => x.ShoppingCartItems)
-            .HasForeignKey(x => x.ShoppingCartId);
-            builder.HasOne(x => x.Product)
-            .WithMany(x => x.ShoppingCartItems)
-            .HasForeignKey(x => x.ProductId);
+            builder.HasOne(p => p.Stock)
+                .WithMany(p => p.ShoppingCartItems)
+                .HasForeignKey(p => p.StockId);
         }
     }
 }

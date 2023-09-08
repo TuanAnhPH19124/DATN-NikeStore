@@ -16,11 +16,29 @@ $(document).ready(function () {
             { "data": 'name', "title": "Danh mục" },
             {
                 "render": function () {
-                    return '<td><a class="btn btn-primary" id="btn" onclick="myFunction()">Sửa</a></td>';
+                    return '<td><a class="btn btn-primary" style="background-color: #1967d2;border-color: #1967d2;" id="btn"><i class="fa fa-wrench" aria-hidden="true"></i></a></td>';
                 },
                 "title": "Thao tác"
             },
         ],
+        rowCallback: function(row, data) {
+            $(row).find('td').css('vertical-align', 'middle');
+          },
+          "language": {
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "lengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sSearch": "Tìm kiếm:",
+            "sInfoFiltered": "(lọc từ _MAX_ bản ghi)",
+            "sInfoEmpty": "Hiển thị 0 đến 0 trong 0 bản ghi",
+            "sZeroRecords": "Không có data cần tìm",
+            "sEmptyTable": "Không có data trong bảng",
+            "oPaginate": {
+                "sFirst": "Đầu",
+                "sLast": "Cuối",
+                "sNext": "Tiếp",
+                "sPrevious": "Trước"
+            },
+          }
     });
     setInterval(function () {
         sizeTable.ajax.reload();
@@ -28,9 +46,11 @@ $(document).ready(function () {
     $('#add-category-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            name: $("#name").val(),
+            name: $("#name").val().trim(),
         };
-
+        if(formData.name.trim(" ")==""){
+            return
+        }
         if (confirm(`Bạn có muốn thêm danh mục ${formData.name} không?`)) {
             $.ajax({
                 url: "https://localhost:44328/api/Categories",
@@ -38,7 +58,10 @@ $(document).ready(function () {
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
-                    $('.toast').toast('show')
+                    $('#success').toast('show')
+                },
+                error: function () {
+                    $('#fail').toast('show')
                 },
             });
         } else {
@@ -52,6 +75,31 @@ $(document).ready(function () {
             localStorage.setItem("categoryId", categoryId);
             window.location.href = `/frontend/admin/update-category.html`;
         }
+    });
+    $("#add-category-form").validate({
+        rules: {
+            "name": {
+                required: true,
+            },
+        },
+        messages: {
+            "name": {
+                required: "Mời bạn nhập Tên danh mục",
+            },
+        },
+    });
+    const id = localStorage.getItem("user-id")
+    $.ajax({
+        url: "https://localhost:44328/api/AppUser/Get/"+id,
+        type: "GET",
+        contentType: "application/json",
+        success: function (data) {
+            console.log(data.fullName)
+            $("#fullName").text(data.fullName)
+        },
+        error: function () {
+
+        },
     });
 });
 

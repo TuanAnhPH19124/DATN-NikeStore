@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
+using EntitiesDto;
 using EntitiesDto.Datas;
 using System;
 using System.Collections.Generic;
@@ -10,11 +12,10 @@ namespace Service.Abstractions
 {
     public interface IShoppingCartItemsService
     {
-        Task<IEnumerable<Data.ShoppingCartItemData>> GetByUserIdAsync(string userId);
-        Task AddCartItemAsync(ShoppingCartItems item);
-        Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems);
-        Task UpdatePutAsync(string Id, Boolean isQuantity);
-        Task RemoveProductFromCartItemAsync(string cartItemId, string productId);
-        Task<ShoppingCartItems> checkProduct(string productId, string ShoppingCartId);
+        Task<IEnumerable<ShoppingCartDto>> GetByUserId(string userId);
+        Task<ShoppingCartItems> AddToCart(ShoppingCartItemAPI item);
+        Task UpdateQuantity(ShoppingCartItemPutAPI item);
+        Task DeleteCart(string id);
+        Task ClearCart(string id);
     }
 }

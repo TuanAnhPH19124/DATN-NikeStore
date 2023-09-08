@@ -2,7 +2,7 @@ namespace Domain.Enums
 {
     public enum PayMethod
     {
-        Cash,
-        Vnpay        
+        Cash = 0,
+        Vnpay = 1        
     }
 }

@@ -5,6 +5,7 @@ using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
+using Persistence;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -17,64 +18,118 @@ namespace Webapi.Controllers
     public class ShoppingCartsController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
+        private readonly AppDbContext _dbContext;
 
-        public ShoppingCartsController(IServiceManager serviceManager)
+        public ShoppingCartsController(IServiceManager serviceManager, AppDbContext dbContext)
         {
-            _serviceManager = serviceManager;
+            _serviceManager=serviceManager;
+            _dbContext=dbContext;
         }
 
-        
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<Data.ShoppingCartItemData>>> GetShoppingCartByUserId(string userId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(string id)
         {
-            var shoppingCart = await _serviceManager.ShoppingCartItemsService.GetByUserIdAsync(userId);
-
-            if (shoppingCart == null)
+            if (string.IsNullOrEmpty(id))
             {
-                return NotFound();
+                return BadRequest(new { Error = "Id người dụng bị mất, yêu cầu cung cấp id người dùng" });
             }
-
-            return Ok(shoppingCart);
+            var cartItems = await _serviceManager.ShoppingCartItemsService.GetByUserId(id);
+            return Ok(cartItems);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCartItemTest([FromBody] Dto.ShopppingCartPostDto item)
+        public async Task<ActionResult> Post([FromBody]ShoppingCartItemAPI item)
         {
-
-            var existingCart = await _serviceManager.ShoppingCartService.GetById(item.AppUserId);
-            if (existingCart == false)
-            {              
-                var newCart = item.Adapt<ShoppingCarts>();
-                await _serviceManager.ShoppingCartService.AddAsync(newCart);               
-            }          
-             var get = await _serviceManager.ShoppingCartService.GetShoppingCartIdByUserId(item.AppUserId);
-             var newCartItem = item.ShoppingCartItemsDto.Adapt<ShoppingCartItems>();
-             newCartItem.ShoppingCartId = get;
-            var check = await _serviceManager.ShoppingCartItemsService.checkProduct(newCartItem.ProductId, get);
-            if (check != null)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
-                check.Quantity++;
-                await _serviceManager.ShoppingCartItemsService.UpdateCartItemAsync(check.Id, check);
+                try
+                {
+                    await _serviceManager.ShoppingCartItemsService.AddToCart(item);
+                    transaction.Commit();
+                    return Ok(item);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(new { Error = ex.Message });
+                    throw;
+                }
             }
-            else
-            {
-                await _serviceManager.ShoppingCartItemsService.AddCartItemAsync(newCartItem);
-            }
-            return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateCartItemQuantity([FromBody] Dto.ShoppingCartItemsDto shoppingCartItemsDto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(string id, [FromBody]ShoppingCartItemPutAPI item)
         {
-            await _serviceManager.ShoppingCartItemsService.UpdatePutAsync(shoppingCartItemsDto.ShoppingCartId, shoppingCartItemsDto.IsQuantity);
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != item.Id)
+                return BadRequest(new { Error = "Id không hợp lệ: ID cung cấp không khớp Id của giỏ hàng." });
+
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _serviceManager.ShoppingCartItemsService.UpdateQuantity(item);
+                    transaction.Commit();
+                    return NoContent();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(new { Error = ex.Message });
+                    throw;
+                }
+            }
         }
 
-        [HttpDelete("{cartItemId}/{productId}")]
-        public async Task<IActionResult> RemoveProductFromCartItem(string cartItemId, string productId)
-        {         
-                await _serviceManager.ShoppingCartItemsService.RemoveProductFromCartItemAsync(cartItemId,productId);             
-                return Ok();         
+        [HttpDelete("{id}")]        
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest(new { Error = "Không tìm thấy Id giỏ hàng, yêu cầu Id giỏ hàng." });
+
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _serviceManager.ShoppingCartItemsService.DeleteCart(id);
+                    transaction.Commit();
+                    return NoContent();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(new { Error = ex.Message });
+                    throw;
+                }
+            }
+        }
+
+
+        [HttpDelete("clear/{id}")]
+        public async Task<ActionResult> DeleteRange(string id){
+            if (string.IsNullOrEmpty(id))
+                return BadRequest(new { Error = "Không tìm thấy Id giỏ hàng, yêu cầu Id giỏ hàng." });
+
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _serviceManager.ShoppingCartItemsService.ClearCart(id);
+                    transaction.Commit();
+                    return NoContent();
+                }
+                catch (System.Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(ex.Message);
+                    throw;
+                }
+            }
         }
     }
 }

@@ -1,15 +1,18 @@
-﻿using Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Service.Abstractions;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
-using EntitiesDto.Product;
+using Domain.Entities;
+using Domain.Enums;
 using Domain.Repositories;
+using EntitiesDto.Images;
+using EntitiesDto.Product;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using Persistence;
+using Persistence.Ultilities;
+using Service.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Webapi.Controllers
 {
@@ -18,112 +21,200 @@ namespace Webapi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-        public ProductController(IServiceManager serviceManager, IRepositoryManger repositoryManger, AppDbContext context)
+        private readonly AppDbContext _dbContext;
+
+        public ProductController(IServiceManager serviceManager, AppDbContext dbContext)
         {
             _serviceManager = serviceManager;
-
+            _dbContext = dbContext;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
+        public async Task<IActionResult> GetAllProductsForDisplayAsync()
         {
-            try
-            {
-                var products = await _serviceManager.ProductService.GetAllProductAsync();
+            var productsForDisplay = await _serviceManager.ProductService.GetAllProductAsync();
 
-                if (products == null || !products.Any())
-                {
-                    return NotFound();
-                }
-
-                return Ok(products);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(productsForDisplay);
         }
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Product>> GetProduct(string Id)
-        {
-            var product = await _serviceManager.ProductService.GetByIdProduct(Id);
+        [HttpGet("1Image")]
+        public async Task<IActionResult> GetAllProductsForDisplayImageAsync()
+        { 
+            var product = await _serviceManager.ProductService.GetAllProductImageAsync();
+            return Ok(product);
+        }
 
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return product;
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductByIdAsync(string productId)
+        {
+            var productDto = await _serviceManager.ProductService.GetProductByIdAsync(productId);
+            return Ok(productDto);
+                  
+        }
+
+       
+        
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveProductsAsync()
+        {
+            var products = await _serviceManager.ProductService.GetAllProductImageAsync();
+
+            var activeProducts = products
+                .Where(product => product.Status == Status.ACTIVE) // Lọc ra các sản phẩm có trạng thái là Active
+                .ToList();
+
+            return Ok(activeProducts);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDto productDto)
+        public async Task<ActionResult<Product>> CreateProduct([FromForm] ProductAPI productAPI)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var product = new Product
-                {
-                    Name = productDto.Name,
-                    RetailPrice = productDto.RetailPrice,
-                    CostPrice = productDto.CostPrice,
-                    Description = productDto.Description,
-                    Brand = productDto.Brand,
-                    DiscountRate = productDto.DiscountRate,
-                    Status = productDto.Status
-                };
-
-                // ... Thêm các thông tin khác vào product
-
-                var createdProduct = await _serviceManager.ProductService.CreateAsync(product);
-
-                return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+            var productId = string.Empty;
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                try
+                {
+                    var nProduct = productAPI.Adapt<Product>();
+                    productId = nProduct.Id;
+                    nProduct.ProductImages = new List<ProductImage>();
+                    nProduct.Stocks = new List<Stock>();
+                    nProduct.CategoryProducts = new List<CategoryProduct>();
+                    var UrList = UploadService.UploadImages(productAPI.Colors, nProduct.Id);
+
+                    foreach (var urlParent in UrList)
+                    {
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            nProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = nProduct.Id
+                            });
+                        }
+                    }
+
+                    nProduct.Stocks = (
+                        from color in productAPI.Colors
+                        from size in color.Sizes
+                        select new Stock
+                        {
+                            UnitInStock = size.UnitInStock,
+                            ColorId = color.Id,
+                            SizeId = size.Id
+                        }
+                        ).ToList();
+
+                    nProduct.CategoryProducts = productAPI.Categories.Select(item => new CategoryProduct
+                    {
+                        CategoryId = item.Id,
+                    }).ToList();
+
+                    var createdProduct = await _serviceManager.ProductService.CreateAsync(nProduct);
+                    transaction.Commit();
+
+
+                    //return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    UploadService.RollBack(productId);
+                    transaction.Rollback();
+                    return BadRequest(new
+                    {
+                        Error = ex.Message
+                    });
+                    throw;
+                }
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductDto productDto)
+        public async Task<IActionResult> UpdateProduct(string id, [FromForm] ProductUpdateAPI productAPI)
         {
-            try
-            {
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != productAPI.Id)
+                return BadRequest(new
                 {
-                    return BadRequest(ModelState);
-                }
+                    error = "Id sản phẩm không khớp!"
+                });
+            var targetProduct = productAPI.Adapt<Product>();
+            targetProduct.CategoryProducts = new List<CategoryProduct>();
+            targetProduct.ProductImages = new List<ProductImage>();
+            targetProduct.Stocks = new List<Stock>();
 
-                var existingProduct = await _serviceManager.ProductService.GetByIdProduct(id);
-
-                if (existingProduct == null)
-                {
-                    return NotFound();
-                }
-
-                existingProduct.Name = productDto.Name;
-                existingProduct.RetailPrice = productDto.RetailPrice;
-                existingProduct.Description = productDto.Description;
-                existingProduct.Brand = productDto.Brand;
-                existingProduct.DiscountRate = productDto.DiscountRate;
-                existingProduct.Status = productDto.Status;
-
-                // ... Cập nhật thông tin khác của sản phẩm
-
-                await _serviceManager.ProductService.UpdateByIdProduct(existingProduct.Id, existingProduct);
-
-                return NoContent();
-            }
-            catch (Exception ex)
+            targetProduct.CategoryProducts = productAPI.Categories.Select(p => new CategoryProduct
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                CategoryId = p.Id,
+                ProductId = id
+            }).ToList();
+
+            targetProduct.Stocks = (
+            from color in productAPI.Colors
+            from size in color.Sizes
+            select new Stock
+            {
+                UnitInStock = size.UnitInStock,
+                ColorId = color.Id,
+                SizeId = size.Id
             }
+            ).ToList();
+
+            var tempId = Guid.NewGuid().ToString();
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var UrList = UploadService.UploadImages(productAPI.Colors, id, tempId);
+
+                    foreach (var urlParent in UrList)
+                    {
+                        foreach (var urlChild in urlParent.Value)
+                        {
+                            targetProduct.ProductImages.Add(new ProductImage
+                            {
+                                ColorId = urlParent.Key,
+                                ImageUrl = urlChild.Key,
+                                SetAsDefault = urlChild.Value,
+                                ProductId = id
+                            });
+                        }
+                    }
+
+                    await _serviceManager.ProductService.UpdateByIdProduct(id, targetProduct);
+                    transaction.Commit();
+                    UploadService.Rename(tempId, id);
+                    return NoContent();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    UploadService.RollBack(tempId);
+                    return BadRequest(new
+                    {
+                        error = ex.Message
+                    });
+                }
+            }
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult> FilterProducts([FromQuery] ProductFilterOptionAPI options)
+        {
+            var products = await _serviceManager.ProductService.FilterProductsAsync(options);
+            return Ok(products);
         }
     }
 }
+
+
+
 

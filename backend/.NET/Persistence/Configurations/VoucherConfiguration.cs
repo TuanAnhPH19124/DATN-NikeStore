@@ -12,6 +12,7 @@ namespace Persistence.Configurations
             builder.Property(p => p.Code).IsRequired();
             builder.Property(p => p.Value).IsRequired();
             builder.Property(p => p.Description).IsRequired();
+            builder.HasIndex(p => p.Code).IsUnique();
 
             builder.HasMany(p => p.Orders)
                 .WithOne(p => p.Voucher)

@@ -47,3 +47,19 @@ information.h4{
     width: 50px;
     cursor: pointer;
 }
+
+.selectedSize{
+    background-color: black;
+}
+
+.validator{
+    border: 1px solid red;
+}
+
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

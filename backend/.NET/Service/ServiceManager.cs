@@ -23,7 +23,12 @@ namespace Service
         private readonly Lazy<IProductRateService> _lazyProductRateService;
         private readonly Lazy<ICategoryProductService> _lazyCategoryProductService;
         private readonly Lazy<IStockService> _lazyStockService;
-        private readonly Lazy<IShoppingCartService> _lazyShoppingCartService;
+        private readonly Lazy<ISoleService> _lazySoleService;
+        private readonly Lazy<IAddressService> _lazyAddressService;
+        private readonly Lazy<IOrderStatusService> _lazyOrderStatusService;
+
+
+        private readonly Lazy<IMaterialService> _lazyMaterialService;
         public ServiceManager(IRepositoryManger repositoryManger)
         {
             _lazyAppUserService = new Lazy<IAppUserService>(() => new AppUserService(repositoryManger));
@@ -41,9 +46,12 @@ namespace Service
             _lazyProductRateService = new Lazy<IProductRateService>(() => new ProductRateService(repositoryManger));
             _lazyCategoryProductService=new Lazy<ICategoryProductService>(() => new CategoryProductService(repositoryManger));
             _lazyStockService = new Lazy<IStockService>(() => new StockService(repositoryManger));
-         
-         
-            _lazyShoppingCartService = new Lazy<IShoppingCartService>(() => new ShoppingCartService(repositoryManger));
+
+            _lazySoleService=new Lazy<ISoleService>(() => new SoleService(repositoryManger));
+
+            _lazyMaterialService = new Lazy<IMaterialService>(() => new MaterialService(repositoryManger));
+            _lazyAddressService = new Lazy<IAddressService>(() => new AddressService(repositoryManger));
+            _lazyOrderStatusService = new Lazy<IOrderStatusService>(() => new OrderStatusService(repositoryManger));
         }
 
         public IAppUserService AppUserService => _lazyAppUserService.Value;
@@ -73,7 +81,11 @@ namespace Service
 
         public IStockService StockService => _lazyStockService.Value;
         
-        public IShoppingCartService ShoppingCartService => _lazyShoppingCartService.Value;
+        public IMaterialService MaterialService => _lazyMaterialService.Value;
+        public ISoleService SoleService => _lazySoleService.Value;
+
+        public IAddressService AddressService => _lazyAddressService.Value;
+        public IOrderStatusService OrderStatusService => _lazyOrderStatusService.Value;
     }
     
 }

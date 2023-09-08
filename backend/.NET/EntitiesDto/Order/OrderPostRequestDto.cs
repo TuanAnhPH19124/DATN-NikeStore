@@ -1,3 +1,4 @@
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,18 +9,26 @@ namespace EntitiesDto.Order
 {
     public class OrderPostRequestDto
     {
-        [Required(ErrorMessage = "Thiếu Địa chỉ nhận hàng")]
-        public string Address { get; set; }
-        [Required(ErrorMessage = "Thiếu số điện thoại")]
-        [MaxLength(10, ErrorMessage = "Số diện thoại không được nhiều hơn 10 số")]
-        public string PhoneNumber { get; set; }
-        public string Note { get; set; }
+        public string Address { get; set; } = null;
+        public string PhoneNumber { get; set; } = null;
+        public string CustomerName { get; set; } = null;
+        public string Note { get; set; } = null;
+        public string UserId { get; set; } = null;
+        public string EmployeeId { get; set; } = null;
+        public string VoucherId { get; set; } = null;
+        public string AddressId { get; set; } = null;
+      
         [Required(ErrorMessage = "Vui lòng chọn phương thức thanh toán")]
         public int PaymentMethod { get; set; }
+        [Required]
         public double Amount { get; set; }
-        public string CustomerName { get; set; } = string.Empty;
-        public string VoucherId { get; set; }
-        public string UserId { get; set; }
         public List<OrderItemPostRequestDto> OrderItems { get; set; }
+    
+    }
+
+    public class OrderAtStorePostRequestDto  : OrderPostRequestDto
+    {
+        [Required(ErrorMessage = "Yêu cầu Shipping để tiếp nhận vận chuyển")]
+        public bool Shipping { get; set; } 
     }
 }

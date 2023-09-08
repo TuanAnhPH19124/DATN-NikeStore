@@ -12,9 +12,15 @@ namespace Domain.Repositories
     {
         Task<IEnumerable<Product>> GetByCategoryAsync(string categoryId);
         Task<IEnumerable<Product>> GetProductAsync();
-        void AddProduct(Product product);
+        Task AddProduct(Product product);
         void UpdateProduct(Product product);
         Task<List<Product>> GetAllProductAsync(CancellationToken cancellationToken = default);
         Task<Product> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<List<Product>> GetAllProductImageAsync(CancellationToken cancellationToken = default);
+        Task<List<Product>> FilterProductsAsync(
+       string sizeId, string colorId, string categoryId, int? materialId, int? soleId);
+        //Task<IEnumerable<Product>> GetProductByFilterAndSort( options);
+        IQueryable<Product> GetAllProductsQuery();
+        Task<IEnumerable<Product>> GetProductByFilterAndSort(IQueryable<Product> query);
     }
 }

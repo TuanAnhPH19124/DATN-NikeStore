@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Mapster;
+using System.Linq.Expressions;
 
 namespace Webapi.Controllers
 {
@@ -44,6 +45,12 @@ namespace Webapi.Controllers
 
         }
 
+        [HttpGet("confirm/{code}")]
+        public async Task<IActionResult> ConfirmVoucher(string code)
+        {
+            return Ok();
+        }
+
         [HttpGet("Get/{Id}")]
         public async Task<ActionResult<Voucher>> GetByIdVoucher(string Id)
         {
@@ -55,21 +62,34 @@ namespace Webapi.Controllers
             }
             return voucher;
         }
-
-
+   
         [HttpPost]
         public async Task<IActionResult> CreateVoucher(VoucherDto voucherDto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                var voucher = voucherDto.Adapt<Voucher>();
-                await _serviceManager.VoucherService.CreateAsync(voucher);
-                return CreatedAtAction(nameof(GetByIdVoucher), new { id = voucher.Id }, voucher);
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+
+            var existingVoucher = await _serviceManager.VoucherService.GetByCodeAsync(voucherDto.Code);
+            if (existingVoucher != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
+                return Conflict("Code Voucher with the same Name already exists");
             }
+
+            var voucher = new Voucher
+            {
+                Code = voucherDto.Code,
+                Value = voucherDto.Value,
+                Expression= voucherDto.Expression,
+                Description = voucherDto.Description,
+                StartDate = voucherDto.StartDate, 
+                EndDate = voucherDto.EndDate,
+                Status= voucherDto.Status,
+                CreatedDate = voucherDto.CreatedDate
+            };
+            await _serviceManager.VoucherService.CreateAsync(voucher);
+            return CreatedAtAction("GetByIdVoucher", new { id = voucher.Id }, voucher);
         }
 
         [HttpPut("{id}")]

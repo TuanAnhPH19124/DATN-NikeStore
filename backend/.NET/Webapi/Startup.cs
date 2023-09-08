@@ -35,8 +35,7 @@ namespace Webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
-
+ 
             services.AddElasticSearch(Configuration);
 
             // services.AddWatchDogServices(option =>
@@ -91,8 +90,10 @@ namespace Webapi
         {
             app.UseCors();
 
+
             //DatabaseMigration.StartMigration(app);
             SeedingDatabase.Start(app).Wait();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

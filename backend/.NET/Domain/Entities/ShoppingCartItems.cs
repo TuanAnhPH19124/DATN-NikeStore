@@ -11,11 +11,10 @@ namespace Domain.Entities
     public class ShoppingCartItems
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public int Quantity { get; set; }
-        public string ProductId { get; set; }
-        public Product Product { get; set; }
-
-        public string ShoppingCartId { get; set; }
-        public ShoppingCarts ShoppingCarts { get; set; }
+        public int Quantity { get; set; } = 1;
+        public string StockId { get; set; }
+        public string AppUserId { get; set; }
+        public virtual Stock Stock { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }

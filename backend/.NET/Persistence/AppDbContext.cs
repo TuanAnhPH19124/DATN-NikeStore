@@ -33,8 +33,12 @@ namespace Persistence
                 .HasOne(w => w.AppUser)
                 .WithMany()
                 .HasForeignKey(w => w.AppUserId);
-         
 
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.AppUser)
+            .WithOne(u => u.Employee)
+            .HasForeignKey<Employee>(e => e.AppUserId)
+            .IsRequired(false);
 
             modelBuilder.Entity<Product>()
                  .HasMany(p => p.ProductRate)
@@ -49,21 +53,12 @@ namespace Persistence
             modelBuilder.Entity<ProductRate>()
             .HasKey(pr => new { pr.AppUserId, pr.ProductId });
 
-            // Cấu hình bảng "CategoryProduct"
-            modelBuilder.Entity<CategoryProduct>()
-              .HasKey(cp => new { cp.ProductId, cp.CategoryId });
-
-            modelBuilder.Entity<CategoryProduct>()
-                .HasOne(cp => cp.Product)
-                .WithMany(p => p.CategoryProducts)
-                .HasForeignKey(cp => cp.ProductId);
-
-            modelBuilder.Entity<CategoryProduct>()
-                .HasOne(cp => cp.Category)
-                .WithMany(c => c.CategoryProducts)
-                .HasForeignKey(cp => cp.CategoryId);
         }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<Sole> Soles { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -73,8 +68,7 @@ namespace Persistence
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ShoppingCartItems> ShoppingCartItems { get; set; }
-        public DbSet<Employees> Employees { get; set; }
-        public DbSet<ShoppingCarts> ShoppingCarts { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<WishLists> WishLists { get; set; }

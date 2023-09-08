@@ -25,6 +25,9 @@ namespace Service.Abstractions
         IProductRateService ProductRateService { get; }
         ICategoryProductService CategoryProductService { get; }
         IStockService StockService { get; }
-        IShoppingCartService ShoppingCartService { get; }
+        IMaterialService MaterialService { get; }
+        ISoleService SoleService { get; }
+        IAddressService AddressService { get; }
+        IOrderStatusService OrderStatusService { get; }
     }
 }

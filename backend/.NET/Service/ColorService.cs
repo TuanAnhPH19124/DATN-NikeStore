@@ -29,6 +29,12 @@ namespace Service
             Color color = await _repositoryManger.ColorRepository.GetByIdColorAsync(id, cancellationToken);
             return color;
         }
+
+        public async Task<Color> GetByNameColorAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await _repositoryManger.ColorRepository.GetByNameColorAsync(name, cancellationToken);        
+        }
+
         public async Task<Color> CreateAsync(Color color)
         {
             await _repositoryManger.ColorRepository.AddColor(color);

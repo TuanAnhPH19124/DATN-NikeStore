@@ -8,6 +8,7 @@ using System;
 using Domain.Entities;
 using System.Linq;
 using Mapster;
+using EntitiesDto.Sole;
 
 namespace Webapi.Controllers
 {
@@ -57,16 +58,25 @@ namespace Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateColor(ColorCreateDto colorCreateDto)
         {
-            try
+            if (colorCreateDto == null)
             {
-                var color = colorCreateDto.Adapt<Color>();
-                await _serviceManager.ColorService.CreateAsync(color);
-                return CreatedAtAction(nameof(GetByIdColor), new { id = color.Id }, color);
+                return BadRequest("Sole object is null");
             }
-            catch (Exception ex)
+
+            var existingColor = await _serviceManager.ColorService.GetByNameColorAsync(colorCreateDto.Name);
+            if (existingColor != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, ex);
+                return Conflict("Color with the same Name already exists");
             }
+
+            var color = new Color
+            {
+                Name = colorCreateDto.Name
+                
+            };
+
+            await _serviceManager.ColorService.CreateAsync(color);
+            return CreatedAtAction("GetByIdColor", new { id = color.Id }, color);
         }
 
         [HttpPut("{id}")]

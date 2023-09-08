@@ -1,174 +1,219 @@
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-  
-  <!-- The Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content"> 
-        <!-- Modal Header -->
-        <div class="modal-header" style="border-bottom: none;">
-          <h4 class="modal-title">GIỎ HÀNG</h4>
-        </div> 
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center; display: grid;">
-            <table class="table table-bordered">
-                <tbody class="table">
-                    <tr>
-                        <td>                           
-                            <img src="/frontend/customer/src/assets/img/product/1.jpg" width="80px" height="50px">                                                        
-                        </td>
-                        <td>
-                            <div class="">
-                                <a title="AIR JORDAN 1 LOW 'PANDA" name="img1">Giày Nike Jordan Panda Black White</a>
-                            </div>                           
-                        </td>
-                        <td>
-                            <div class="priceI">
-                                <span>2,300,000 đ</span>                                                        
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="checkout-step-block" ng-show="step === 1">
+                <div class="checkout-address">
+                    <h1>Thông tin địa chỉ giao hàng của bạn:</h1>
+                    <div ng-repeat="address in addressCustomer">
+                        <button class="checkout-address-existing" ng-class="{'border_address': address.selected}"
+                            ng-click="selectAddress(address.id)">
+                            <div class="checkout-address-infomation">
+                                <p>{{ address.fullName }}</p>
+                                <p>{{ address.addressLine }}</p>
+                                <p>{{ address.phoneNumber }}</p>
                             </div>
-                        </td>
-                        <td>
-                            <div class="action">
-                                
-                                <a href="" style="color: red; font-size: 24px; font-weight: 700;">X</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-              </table>
-        </div>  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a href="#10" style="color: white; text-decoration: none;">XEM GIỎ HÀNG</a></button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a href="#13" style="color: white; text-decoration: none;">THANH TOÁN</a></button>
-        </div> 
-      </div>
-    </div>
-  </div>
-<!-- MODAL -->
+                            <input type="button" class="checkout-address-existing-updateBtn"
+                                ng-click="updateAddress($event)" value="Cập nhật">
+                        </button>
+                    </div>
 
-<div class="container wrapper" style="padding-top: 80px; padding-bottom: 50px;">  
-            <div class="row cart-body">
-                <form class="form-horizontal">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
-                    <!--REVIEW ORDER-->
-                    <div class="panel panel-info">
-                        <div class="panel-body">
-                            <div class="form-group" style="padding-top: 10px;">
-                                <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="/frontend/customer/src/assets/img/product/2.jpg" />
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">AIR JORDAN 1 RETRO HIGH OG 'VOLT GOLD'</div>
-                                    <div class="col-xs-12"><h6>Số lượng:<span> 1</span></h6></div>
-                                </div>
-                                <div class="col-sm-3 col-xs-3 text-right">
-                                    <h5>2,215,00<span> đ</span></h5>
-                                </div>
+                    <div ng-hide="showForm === false">
+                        <button class="btn btn-dark" ng-click="showForm = false">x</button>
+                        <form name="form" ng-if="showForm" novalidate>
+                            <label>Họ và tên:
+                                <input type="text" ng-model="newAddress.fullName" name="aName" required="" />
+                            </label>
+                            <br />
+                            <div ng-show="form.$submitted || form.aName.$touched">
+                                <div ng-show="form.aName.$error.required">Xin hãy điền tên.</div>
                             </div>
-                            <div class="form-group"><hr /></div>
-                            <div class="form-group">
-                                <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="/frontend/customer/src/assets/img/product/1.jpg" />
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">AIR JORDAN 1 RETRO HIGH OG 'VOLT GOLD'</div>
-                                    <div class="col-xs-12"><h6>Số lượng:<span> 1</span></h6></div>
-                                </div>
-                                <div class="col-sm-3 col-xs-3 text-right">
-                                    <h5>2,215,00<span> đ</span></h5>
-                                </div>
+
+                            <label>Địa chỉ:
+                                <input type="text" name="aLine" ng-model="newAddress.addressLine" required="">
+                            </label>
+                            <div ng-show="form.$submitted || form.aLine.$touched">
+                                <div ng-show="form.aLine.$error.required">Xin hãy điền địa chỉ.</div>
                             </div>
-                            <div class="form-group"><hr /></div>
-                            <div class="form-group">
-                                <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="/frontend/customer/src/assets/img/product/5.jpg" />
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">AIR JORDAN 1 RETRO HIGH OG 'VOLT GOLD'</div>
-                                    <div class="col-xs-12">Size: 42</div>
-                                    <div class="col-xs-12"><h6>Số lượng:<span> 1</span></h6></div>
-                                </div>
-                                <div class="col-sm-3 col-xs-3 text-right">
-                                    <h5>2,215,00<span> đ</span></h5>
-                                </div>
-                            </div> <hr>
-                            <div class="form-group">
-                                <div class="col-md-6 col-xs-12">
-                                    <input type="text" name="voucher" class="form-control" placeholder="Nhập mã giảm giá" value="" />
-                                </div>
-                                <button type="button" class="btn btn-primary" style="height: 35px;"> Sử dụng </button>
-                            </div>  <hr>
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <strong>Tạm tính</strong>
-                                    <div class="pull-right"><span> 6,645,000 đ </span></div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <small>Phí vận chuyển</small>
-                                    <div class="pull-right"><span> 30,000 đ </span></div>
-                                </div>
+                            <br>
+                            <label>Tỉnh:
+                                <select name="aProvince" ng-model="newAddress.cityCode"
+                                    ng-change="getDistricts(newAddress.cityCode)" required="">
+                                    <option ng-repeat="province in provices" value="{{province.ProvinceID}}">
+                                        {{province.NameExtension[1]}}</option>
+                                </select>
+                            </label>
+                            <div ng-show="form.$submitted || form.aProvince.$touched">
+                                <div ng-show="form.aProvince.$error.required">Xin hãy chọn tỉnh thành.</div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <strong>Tổng tiền</strong>
-                                    <div class="pull-right" style="font-size: 20px; font-weight: 600; color: brown;"><span> 6,750,000 đ </span></div>
-                                </div>
+                            <br>
+                            <label>Quận:
+                                <select name="aDistrict" ng-model="newAddress.provinceCode"
+                                    ng-change="getWards(newAddress.provinceCode)" required="">
+                                    <option ng-repeat="district in districts" value="{{district.DistrictID}}">{{
+                                        district.NameExtension[0] }}</option>
+                                </select>
+                            </label>
+                            <div ng-show="form.$submitted || form.aDistrict.$touched">
+                                <div ng-show="form.aDistrict.$error.required">Xin hãy chọn quận huyện.</div>
                             </div>
-                        </div>
+                            <br>
+                            <label>Phường:
+                                <select name="aWard" ng-model="newAddress.wardCode" required="">
+                                    <option ng-repeat="ward in wards" value="{{ward.WardCode}}">{{ ward.NameExtension[0]
+                                        }}</option>
+                                </select>
+                            </label>
+                            <div ng-show="form.$submitted || form.aWard.$touched">
+                                <div ng-show="form.aWard.$error.required">Xin hãy chọn phường.</div>
+                            </div>
+                            <br>
+                            <label>Số điện thoại
+                                <input type="tel" name="aPhone" ng-model="newAddress.phoneNumber" required="">
+                            </label>
+                            <div ng-show="form.$submitted || form.aPhone.$touched">
+                                <div ng-show="form.aPhone.$error.required">Xin điền số điện thoại.</div>
+                            </div>
+
+                            <label><input type="checkbox" ng-model="newAddress.setAsDefault"> Đặt làm địa chỉ mặc định
+                            </label>
+
+                            <input type="button" ng-click="reset(form)" value="Reset" />
+                            <input type="submit" ng-click="save(newAddress)" value="Save" />
+                        </form>
                     </div>
-                    <!--REVIEW ORDER END-->
+                    <button class="btn btn-dark" ng-click="showForm = true">Thêm địa chỉ</button>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
-                    <!--SHIPPING METHOD-->
-                    <div class="panel panel-info">
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <h4>Thông tin giao hàng</h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <p style="color: gray;">Bạn đã có tài khoản? <a href="#2"> Đăng nhập</a></p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <input type="text" placeholder="Họ và tên" name="full_name" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-8 col-xs-12"><input type="text" placeholder="Email" name="email_address" class="form-control" value="" /></div>
-                                <div class="col-md-4 col-xs-12"><input type="number" placeholder="Số điện thoại" name="phone_number" class="form-control" value="" /></div>
-                            </div>
-                                                    
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <input type="text" placeholder="Địa chỉ" name="address" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-4 col-xs-12">
-                                    <input type="text" placeholder="Tỉnh / thành" name="city" class="form-control" value="" />
-                                </div>
-                                <div class="col-md-4 col-xs-12">
-                                    <input type="text" placeholder="Quận / huyện" name="city" class="form-control" value="" />
-                                </div>
-                                <div class="col-md-4 col-xs-12">
-                                    <input type="text" placeholder="Xã / phường" name="city" class="form-control" value="" />
-                                </div>
-                            </div>    
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <a href="#10" style="text-decoration: none;"><h4> Giỏ hàng </h4></a>
-                                    <button type="button" class="btn btn-primary" style="height: 35px;">Thêm phương thước thanh toán</button>
-                                </div>
-                            </div>                    
+                <div class="checkout-contact">
+                    <h1>Thông tin liên lạc của bạn là gì?</h1>
+                    <form name="infoForm" ng-submit="step = step + 1">
+                        <label>Email:
+                            <input type="email" ng-model="userInformation.email" name="iEmail" required>
+                        </label>
+                        <br />
+                        <div ng-show="infoForm.$submitted || infoForm.iEmail.$touched">
+                            <span ng-show="infoForm.iEmail.$error.required">Vui lòng điền Email của bạn.</span>
+                            <span ng-show="infoForm.iEmail.$error.email">Vui lòng điền Email hợp lệ</span>
                         </div>
-                    </div>
-                    <!--SHIPPING METHOD END-->
-                </div>              
-                </form>
+                        <label>Số điện thoại:
+                            <input type="tel" ng-model="userInformation.phoneNumber" name="iPhone" required>
+                        </label>
+                        <br />
+                        <div ng-show="infoForm.$submitted || infoForm.iPhone.$touched">
+                            <span ng-show="infoForm.iPhone.$error.required">vui lòng điền số điện thoại.</span>
+                        </div>
+
+                        <label>
+                            <input type="checkbox" ng-model="agree" required> Tôi đã đọc điều khoản và đồng ý
+                        </label>
+                        <br />
+                        <input type="submit" value="Tiếp tục" ng-disabled="! agree" ng-click="nextToShippingService()"
+                            class="btn btn-dark">
+                    </form>
+                </div>
             </div>
+            <div ng-show="step === 2">
+                <h1>Bạn muốn sử dụng dịch vụ vận chuyển nào?</h1>
+                <div ng-repeat="shippingService in avalibleShippingService">
+                    <button class="checkout-shipping-avaliable" ng-class="{'border_address': shippingService.selected}"
+                        ng-click="selectShippingService(shippingService)">
+                        <div class="checkout-shipping-infomation">
+                            <div class="checkout-shipping-infomation-title">
+                                <p>{{ shippingService.short_name }}</p>
+                                <p>Ngày nhận hàng dự kiến: {{ convertTimestampToDateString(shippingService.leadTime) }}
+                                </p>
+                            </div>
+                            <p>{{ shippingService.totalFee }} đ</p>
+                        </div>
+                    </button>
+                </div>
+                <button ng-disabled="selectedShippingServiceIndex === -1" ng-click="step = step+1"
+                    class="btn btn-dark">Tiếp tục</button>
+            </div>
+
+            <div ng-show="step === 3">
+                <div class="input-group">
+                    <h1>Bạn có mã giảm giá?</h1>
+                    <input type="text" class="form-control" placeholder="Mã giảm giá" aria-label="Mã giảm giá"
+                        aria-describedby="basic-addon2">
+                </div>
+                <div>
+                    <h1>Bạn muốn thanh toán như thế nào?</h1>
+                    <button class="checkout-payment-avaliable" ng-click="createOrder(0)">
+                        <span>Thanh toán khi nhận hàng</span>
+                    </button>
+                    <button class="checkout-payment-avaliable" ng-click="vnpay()">
+                        <span>Thanh toán qua VNPay</span>
+                    </button>
+                  
+                  
+                </div>
+            </div>
+
+
+            <div class="step-intro">
+                <div class="step-1">
+                    <div class="step-intro-head">
+                        <h1>Giao hàng</h1>
+                        <button ng-show="step > 1" ng-click="step = 1; selectedShippingServiceIndex = -1">Chỉnh
+                            sửa</button>
+                    </div>
+                    <div ng-show="step > 1">
+                        <p>{{ addressCustomer[selectedIndex].fullName }}</p>
+                        <p>{{ addressCustomer[selectedIndex].addressLine }}</p>
+                        <p>{{ userInformation.email }}</p>
+                        <p>{{ userInformation.phoneNumber }}</p>
+                    </div>
+                </div>
+                <div class="step-2">
+                    <div class="step-intro-head">
+                        <h1>Vận chuyển</h1>
+                        <button ng-show="step > 2">chỉnh sửa</button>
+                    </div>
+                    <div ng-show="step > 2">
+                        <p>Phí vận chuyển {{ avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ</p>
+                        <p>Đợt vận chuyển lần một</p>
+                        <p>Ngày nhận dự kiến: {{ convertTimestampToDateString(
+                            avalibleShippingService[selectedShippingServiceIndex].leadTime ) }}</p>
+                    </div>
+                </div>
+                <div class="step-3">
+                    <h1>Thanh toán</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <h1>Tổng kết hóa đơn</h1>
+            <div class="checkout-summary">
+                <p>Tổng phụ</p>
+                <p>{{subtotal()}}đ</p>
+            </div>
+            <div class="checkout-summary">
+                <p>Phí vận chuyển</p>
+                <!-- <p ng-if="deliveryFee() === 0">Miễn phí</p> -->
+                <p ng-if="selectedShippingServiceIndex !== -1">{{
+                    avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ</p>
+                <p ng-if="selectedShippingServiceIndex === -1">_</p>
+            </div>
+
+
+
+            <div class="checkout-summary">
+                <p>Tổng cộng</p>
+                <p>{{subtotal() + avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ</p>
+            </div>
+            <p ng-if="selectedShippingServiceIndex !== -1">Nhận hàng vào {{ convertTimestampToDateString(
+                avalibleShippingService[selectedShippingServiceIndex].leadTime ) }}</p>
+            <div class="checkout-product" ng-repeat="cart in carts ">
+                <div><img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="cart.product.name">
+                </div>
+                <div>
+                    <p>{{cart.product.name}}</p>
+                    <p>số lượng {{cart.quantity}}</p>
+                    <p>Kích cở </p>
+                    <p>{{cart.product.discountRate}}đ</p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+

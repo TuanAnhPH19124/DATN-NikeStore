@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,8 @@ namespace Domain.Repositories
         Task<AppUser> GetByIdAppUserAsync(string id, CancellationToken cancellationToken = default);
         Task UpdateAppUser(AppUser appUser);
         Task UpdateAppUserbyAdmin(AppUser appUser);
+        Task<string> GeneratePasswordResetTokenAsync(AppUser user);
+        Task<IdentityResult> ResetPasswordAsync(AppUser user, string token, string newPassword);
+        Task<AppUserPhoneDto> GetByPhoneAsync(string phoneNumber);
     }
 }

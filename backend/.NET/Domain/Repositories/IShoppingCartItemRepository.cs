@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,18 @@ namespace Domain.Repositories
 {
     public interface IShoppingCartItemRepository
     {
-        Task<ShoppingCarts> GetByUserIdAsync(string userId);
-        void AddCartItemAsync(ShoppingCartItems item);
-        Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems);
-        Task<ShoppingCartItems> GetByIdCartItemAsync(string Id);
-        Task RemoveProductFromCartItemAsync(string cartItemId, string productId);
-        Task<ShoppingCartItems> CheckProductAsync(string productId, string ShoppingCartId);
+        Task Add(ShoppingCartItems item);
+        Task<IEnumerable<ShoppingCartItems>> GetAllById(string userId);
+        Task<ShoppingCartItems> GetById(string id);
+
+        Task<ShoppingCartItems> GetByUserIdAndStockId(string userId, string stockId);
+
+        Task<IEnumerable<ShoppingCartItems>> GetByUserId(string userId);
+
+        void Update(ShoppingCartItems item);
+
+        void Delete(ShoppingCartItems item);
+
+        void DeleteRange(List<ShoppingCartItems> items);
     }
 }

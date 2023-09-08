@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,60 +18,45 @@ namespace Persistence.Repositories
         {
             _dbcontext = dbcontext;
         }
-        public async void AddCartItemAsync(ShoppingCartItems item)
+
+        public async Task Add(ShoppingCartItems item)
         {
-            using (var transaction = await _dbcontext.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    await _dbcontext.ShoppingCartItems.AddAsync(item);
-                    await transaction.CommitAsync();
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
-            
+            await _dbcontext.ShoppingCartItems.AddAsync(item);
         }
 
-        public async Task RemoveProductFromCartItemAsync(string cartItemId, string productId)
+        public void Delete(ShoppingCartItems item)
         {
-            var cartItem = await _dbcontext.ShoppingCartItems.FirstOrDefaultAsync(p => p.ShoppingCartId == cartItemId && p.ProductId == productId);
-
-            if (cartItem != null)
-            {
-                _dbcontext.ShoppingCartItems.Remove(cartItem);
-                await _dbcontext.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception();
-            }
+            _dbcontext.ShoppingCartItems.Remove(item);
         }
 
-        public async Task<ShoppingCarts> GetByUserIdAsync(string userId)
+        public void DeleteRange(List<ShoppingCartItems> items)
         {
-            return await _dbcontext.ShoppingCarts.Include(p=>p.ShoppingCartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(cart => cart.AppUserId == userId);
+            _dbcontext.ShoppingCartItems.RemoveRange(items);
         }
 
-        public async Task<ShoppingCartItems> GetByIdCartItemAsync(string Id)
+        public async Task<IEnumerable<ShoppingCartItems>> GetAllById(string userId)
         {
-            return await _dbcontext.ShoppingCartItems.FindAsync(Id);
+            return await _dbcontext.ShoppingCartItems.Where(p => p.AppUserId == userId).ToListAsync();
         }
-        public async Task UpdateCartItemAsync(string Id, ShoppingCartItems shoppingCartItems)
+
+        public async Task<ShoppingCartItems> GetById(string id)
         {
-            var item = await _dbcontext.ShoppingCartItems.FindAsync(Id);
-            item = shoppingCartItems;
+            return await _dbcontext.ShoppingCartItems.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<ShoppingCartItems>> GetByUserId(string userId)
+        {
+            return await _dbcontext.ShoppingCartItems.Include(p => p.Stock.Product).ThenInclude(p => p.ProductImages).Include(p => p.Stock.Color).Include(p => p.Stock.Size).Where(p => p.AppUserId == userId).ToListAsync();
+        }
+
+        public async Task<ShoppingCartItems> GetByUserIdAndStockId(string userId, string stockId)
+        {
+            return await _dbcontext.ShoppingCartItems.FirstOrDefaultAsync(p => p.AppUserId == userId && p.StockId == stockId);
+        }
+
+        public void Update(ShoppingCartItems item)
+        {
             _dbcontext.ShoppingCartItems.Update(item);
-            await _dbcontext.SaveChangesAsync();
-        }
-
-        public async Task<ShoppingCartItems> CheckProductAsync(string productId, string ShoppingCartId)
-        {
-            var check = _dbcontext.ShoppingCartItems.FirstOrDefault(p => p.ProductId == productId && p.ShoppingCartId == ShoppingCartId);
-            return check;
         }
     }
 

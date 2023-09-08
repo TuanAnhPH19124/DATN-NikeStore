@@ -3,17 +3,35 @@ console.log(id) //lay id nhan vien
 // call api chi tiet 1 nhan vien
 $(document).ready(function () {
     $.ajax({
-        url: "https://localhost:44328/api/Employee/" + id,
+        url: "https://localhost:44328/api/Employee/Get/" + id,
         type: "GET",
         dataType: "json",
         success: function (data) {
             console.log(JSON.stringify(data));
             $('#fullName').val(data.fullName);
+            var dateObj1 = new Date(data.dateOfBirth);
+            var day1 = dateObj1.getUTCDate();
+            var month1 = dateObj1.getUTCMonth() + 1;
+            var year1 = dateObj1.getUTCFullYear();
+            var formattedDate = `${day1}/${month1}/${year1}`;
+            $('#dateOfBirth').val(formattedDate);
             $('#snn').val(data.snn);
             $('#phoneNumber').val(data.phoneNumber);
-            $('#password').val(data.password);
             $('#status').prop('checked', data.status);
-            $('#role').val(data.role);
+            $('#homeTown').val(data.homeTown);
+
+            $.ajax({
+                url: "https://localhost:44328/api/AppUser/Get/" + data.appUserId,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#email").val(data.email)
+                },
+                error: function () {
+                    console.log("Error retrieving data.");
+                }
+            });
         },
         error: function () {
             console.log("Error retrieving data.");
@@ -22,26 +40,36 @@ $(document).ready(function () {
     $('#update-employee-form').submit(function (event) {
         event.preventDefault()
         var formData = {
-            employeeId: id,
-            fullName: $("#fullName").val(),
-            snn: $("#snn").val(),
-            phoneNumber: $("#phoneNumber").val(),
-            role: $("#role").val(),
-            password: $("#password").val(),
-            modifiedDate: new Date,
-            status: $("#status").prop('checked'),
+            id : id,
+            "snn": $("#snn").val(),
+            "fullName": $("#fullName").val(),
+            "phoneNumber": $("#phoneNumber").val(),
+            "dateOfBirth": $("#dateOfBirth").val(),
+            "gender": $("#gender").val(),
+            "homeTown":  $("#homeTown").val(),
+            "status":  $("#status").prop('checked'),
         };
-        $.ajax({
-            url: "https://localhost:44328/api/Employee/" + id,
-            type: "PUT",
-            data: JSON.stringify(formData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                window.location.href = "/frontend/admin/staff.html";
-
-            },
-        });
+                  //convert nomal date to ISO 8601 date
+                  [startDay, startMonth, startYear] = formData.dateOfBirth.split('/');
+                  try {
+                      formData.dateOfBirth = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
+                  } catch (error) {
+                      formData.dateOfBirth = ""
+                  }
+                  if (confirm(`Bạn có muốn cập nhật nhân viên không?`)) {
+                    $.ajax({
+                        url: "https://localhost:44328/api/Employee/" + id,
+                        type: "PUT",
+                        data: JSON.stringify(formData),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            window.location.href = "/frontend/admin/staff.html";
+                        },
+                    });
+                  } else {
+                    return;
+                  }
     });
     // custom validate 
     $.validator.addMethod("nameContainOnlyChar", function (value, element) {
@@ -62,6 +90,12 @@ $(document).ready(function () {
     // add validate
     $("#update-employee-form").validate({
         rules: {
+            "dateOfBirth": {
+                required: true,
+            },
+            "homeTown": {
+                required: true,
+            },
             "fullName": {
                 required: true,
                 maxlength: 30,
@@ -79,12 +113,15 @@ $(document).ready(function () {
             },
             "role": {
                 required: true,
-            },
-            "password": {
-                required: true,
             }
         },
         messages: {
+            "dateOfBirth": {
+                required: "Bạn phải nhập ngày sinh",
+            },
+            "homeTown": {
+                required: "Bạn phải nhập Quê quán",
+            },
             "fullName": {
                 required: "Bạn phải nhập họ và tên",
                 maxlength: "Hãy nhập tối đa 30 ký tự",
@@ -102,12 +139,26 @@ $(document).ready(function () {
             },
             "role": {
                 required: "Bạn phải nhập tên vai trò",
-            },
-            "password": {
-                required: "Không được để trống mật khẩu",
             }
         },
     });
 });
+$(function () {
+    $('.date').datepicker({
+        format: 'dd/mm/yyyy',
+    });
+});
+const id_user = localStorage.getItem("user-id")
+$.ajax({
+    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
+    type: "GET",
+    contentType: "application/json",
+    success: function (data) {
+        console.log(data.fullName)
+        $("#userName").text(data.fullName)
+    },
+    error: function () {
 
+    },
+});
 

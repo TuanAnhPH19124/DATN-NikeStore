@@ -25,7 +25,10 @@ namespace Domain.Repositories
         ISizeRepository SizeRepository { get; }
         IColorRepository ColorRepository { get; }
         IProductRateRepository ProductRateRepository { get; }
-        IShoppingCartRepository ShoppingCartRepository { get; }
         ICategoryProductRepository CategoryProductRepository { get; }
+        IMaterialRepository MaterialRepository { get; }
+        ISoleRepository SoleRepository { get; }
+        IAddressRepository AddressRepository { get; }
+        IOrderStatusRepository OrderStatusRepository { get; }
   }
 }

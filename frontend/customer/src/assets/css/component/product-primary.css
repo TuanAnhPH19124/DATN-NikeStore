@@ -1,0 +1,12 @@
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Đảm bảo khoảng cách đều giữa các sản phẩm */
+    margin: -10px; /* Để tạo khoảng cách giữa các sản phẩm */
+}
+
+.boxProduct {
+    width: calc(25% - 20px); /* 25% là kích thước của mỗi sản phẩm trong 1 hàng (4 sản phẩm mỗi hàng), 20px là khoảng cách giữa các sản phẩm */
+    margin: 10px; /* Tạo khoảng cách xung quanh mỗi sản phẩm */
+    /* Các thuộc tính khác của sản phẩm */
+}
