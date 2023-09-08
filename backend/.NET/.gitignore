@@ -2,7 +2,7 @@
 .temp/
 .temp/*
 .temp/**/*
-/Migrations
+*/Migrations/
 .vs/
 .vs/*
 .vs/**/*
@@ -14,6 +14,7 @@
 # C�c t?p kh�a
 *.key
 
+*/wwwroot/
 # C�c t?p c?u h�nh local
 /appsettings*.json
 
