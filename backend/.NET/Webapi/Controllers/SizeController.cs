@@ -55,7 +55,18 @@ namespace Webapi.Controllers
             }
             return size;
         }
-       
+
+        [HttpGet("GetSizeForProduct/{ProductId}/{colorId}")]
+        public async Task<ActionResult> GetSizeForProduct(string ProductId, string colorId){
+            if (string.IsNullOrEmpty(ProductId))
+                return BadRequest(new {error = "Không được để Id là rỗng hoặc chuỗi rỗng"});
+            
+            if (string.IsNullOrEmpty(colorId))
+                return BadRequest(new {error = "Không được để colorId là rỗng hoặc chuỗi rỗng"});
+
+            var result = await _serviceManager.SizeService.GetSizeForProduct(ProductId, colorId);
+            return Ok(result);
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateSize(SizeDto sizeDto)

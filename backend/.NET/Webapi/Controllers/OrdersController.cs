@@ -431,7 +431,6 @@ namespace Webapi.Controllers
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
-
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
@@ -441,17 +440,14 @@ namespace Webapi.Controllers
                     await _hubContext.Clients.Group(ManagerHub.managerGroup).SendAsync("ReceiveMessage", "Khách hàng vừa đặt hàng cần xác nhận đơn hàng");
                     #endregion
                     transaction.Commit();
+                    return Ok();    
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
                     transaction.Rollback();
-                    throw;
+                    return BadRequest(ex.Message);
                 }
             }
-
-            
-            return Ok();    
-                              
         }
 
 
@@ -467,7 +463,7 @@ namespace Webapi.Controllers
                 #region Gửi Thông báo đến người đặt
                     
                 #endregion
-                return Ok(new { Message = "Xác nhận đơn hàng thành công"});
+                return Ok(new { Message = "Đã cập nhật trạng thái đơn hàng"});
             }
             catch (System.Exception)
             {

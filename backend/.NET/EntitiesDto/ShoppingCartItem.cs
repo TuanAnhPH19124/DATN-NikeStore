@@ -13,4 +13,10 @@ namespace EntitiesDto
         public int Quantity { get; set; }
     }
 
+    public class ShoppingCartItemPutAPI
+    {
+        public string Id { get; set; }
+        public int Quantity { get; set; }
+        public string StockId { get; set; }
+    }
 }

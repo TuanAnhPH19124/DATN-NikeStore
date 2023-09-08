@@ -43,6 +43,13 @@ namespace Service
             return newItem;
         }
 
+        public async Task ClearCart(string id)
+        {
+            var targetItems = await _repositoryManager.ShoppingCartItemRepository.GetAllById(id);
+            _repositoryManager.ShoppingCartItemRepository.DeleteRange(targetItems.ToList());
+            await _repositoryManager.UnitOfWork.SaveChangeAsync();
+        }
+
         public async Task DeleteCart(string id)
         {
             var targetItem = await _repositoryManager.ShoppingCartItemRepository.GetById(id);
@@ -63,6 +70,7 @@ namespace Service
                 Quantity = p.Quantity,
                 ColorName = p.Stock.Color.Name,
                 SizeId = p.Stock.SizeId,
+                ColorId = p.Stock.ColorId,
                 Product = new ShoppingCartProductDto
                 {
                     Id = p.Stock.ProductId,
@@ -75,7 +83,7 @@ namespace Service
             return cartsDto;
         }
 
-        public async Task UpdateQuantity(ShoppingCartItems item)
+        public async Task UpdateQuantity(ShoppingCartItemPutAPI item)
         {
             var targetItem = await _repositoryManager.ShoppingCartItemRepository.GetById(item.Id);
 
@@ -83,6 +91,7 @@ namespace Service
                 throw new Exception("Có gì đó không đúng, không tìm thầy giỏ hàng này");
 
             targetItem.Quantity = item.Quantity;
+            targetItem.StockId = item.StockId;
 
             _repositoryManager.ShoppingCartItemRepository.Update(targetItem);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();

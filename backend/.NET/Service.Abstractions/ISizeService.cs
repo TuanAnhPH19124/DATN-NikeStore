@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Service.Abstractions
 {
     public interface ISizeService
     {
+        Task<List<Domain.Entities.Size>> GetSizeForProduct(string productId, string colorId);
+
         Task<List<Domain.Entities.Size>> GetAllSizeAsync(CancellationToken cancellationToken = default);
         Task<Domain.Entities.Size> GetByIdSizeAsync(string id, CancellationToken cancellationToken = default);
         Task<Domain.Entities.Size> GetByNumberSizeAsync(int numberSize, CancellationToken cancellationToken = default);

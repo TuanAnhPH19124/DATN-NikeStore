@@ -27,7 +27,13 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền" },
+      { data: "amount", title: "Tổng tiền",
+      render: function (data, type, row) {
+        return Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(data);
+      }, },
       {
         data: "status",
         title: "Trạng thái",
@@ -55,6 +61,7 @@ $(document).ready(function () {
       },
     },
   });
+  
   // call api them nhan vien
   $("#add-employee-form").submit(function (event) {
     event.preventDefault();
@@ -77,65 +84,6 @@ $(document).ready(function () {
       },
     });
   });
-  // custom validate
-  $.validator.addMethod("nameContainOnlyChar", function (value, element) {
-    return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
-  });
-  $.validator.addMethod("idContainOnlyNum", function (value, element) {
-    return value.match(/[^0-9]/) == null;
-  });
-  $.validator.addMethod("phoneNumContainOnlyNum", function (value, element) {
-    return value.match(/[^0-9]/) == null;
-  });
-  $.validator.addMethod("onlyContain10Char", function (value, element) {
-    return value.match(/^\w{10}$/) != null;
-  });
-  $.validator.addMethod("onlyContain12Char", function (value, element) {
-    return value.match(/^\w{12}$/) != null;
-  });
-  // add validate
-  $("#add-employee-form").validate({
-    rules: {
-      fullName: {
-        required: true,
-        maxlength: 30,
-        nameContainOnlyChar: true,
-      },
-      snn: {
-        required: true,
-        idContainOnlyNum: true,
-        onlyContain12Char: true,
-      },
-      phoneNumber: {
-        required: true,
-        phoneNumContainOnlyNum: true,
-        onlyContain10Char: true,
-      },
-      role: {
-        required: true,
-      },
-    },
-    messages: {
-      fullName: {
-        required: "Bạn phải nhập họ và tên",
-        maxlength: "Hãy nhập tối đa 30 ký tự",
-        nameContainOnlyChar: "Họ tên không được chứa số hay ký tự",
-      },
-      snn: {
-        required: "Bạn phải nhập số căn cước",
-        idContainOnlyNum: "Số căn cước không được chưa ký tự",
-        onlyContain12Char: "Độ dài của số căn cước là 12",
-      },
-      phoneNumber: {
-        required: "Bạn phải nhập số điện thoại",
-        phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
-        onlyContain10Char: "Số điện thoại chứa 10 ký tự",
-      },
-      role: {
-        required: "Bạn phải nhập tên vai trò",
-      },
-    },
-  });
   //add event click datatable
 });
 $("#bill-table tbody").on("click", "tr", function (e) {
@@ -146,3 +94,17 @@ $("#bill-table tbody").on("click", "tr", function (e) {
     window.location.href = `/frontend/admin/order.html`;
   }
 });
+const id_user = localStorage.getItem("user-id")
+$.ajax({
+    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
+    type: "GET",
+    contentType: "application/json",
+    success: function (data) {
+        console.log(data.fullName)
+        $("#fullName").text(data.fullName)
+    },
+    error: function () {
+
+    },
+});
+

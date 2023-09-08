@@ -1,3 +1,110 @@
+.product-list-container .product-item {
+    flex-basis: calc(33.333% - 20px); 
+    margin-right: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    padding: 20px; 
+    border-radius: 10px; 
+}
+
+.product-list-container .product-item:last-child {
+    margin-right: 0; 
+}
+
+.product-list-container .product-item img {
+    max-width: 100%; 
+    height: auto;
+    align-self: center; 
+    padding: 10px; 
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.product-list-container .product-item .name,
+.product-list-container .product-item .category,
+.product-list-container .product-item .color,
+.product-list-container .product-item .discount,
+.product-list-container .product-item .price,
+.product-list-container .product-item .percenOff {
+    text-align: left; 
+}
+
+.product-list-container .product-item .discount {
+    color: red; 
+}
+
+.product-list-container .product-item .percenOff {
+    font-weight: bold; 
+}
+
+
+.product-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-item {
+    border: 1px solid #ddd;
+    padding: 0;
+    margin-bottom: 20px;
+    width: calc(33.33% - 20px); 
+    box-sizing: border-box; 
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden; 
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Căn giữa ảnh */
+}
+
+.product-details {
+    text-align: left;
+    padding: 10px;
+}
+
+.name {
+    font-weight: bold;
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.category,
+.color {
+    display: block;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.price-section {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.discount {
+    color: #e74c3c;
+}
+
+.strike-through {
+    text-decoration: line-through;
+}
+
+.percenOff {
+    color: #2ecc71;
+}
+
+
+
 .product-sort-container{
     display: flex;
     justify-content: end;
@@ -29,8 +136,13 @@
     max-height: 500px; /* Đặt chiều cao tối đa của phần để cho phép cuộn khi nội dung vượt quá */
 }
 
-
-
+.sortByProduct{
+    padding-left: 760px;
+}
+.gender-body{
+    color: gray;
+    padding-left: 20px;
+}
 .product-item image {
     display: block;
 }
@@ -78,3 +190,4 @@
     margin-top: 5px;
     font-size: var(--fs-16px);
 }
+

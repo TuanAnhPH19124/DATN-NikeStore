@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230904083034_ok")]
-    partial class ok
+    [Migration("20230907143823_hhh")]
+    partial class hhh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -317,6 +317,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
+                    b.Property<string>("AddressId")
+                        .HasColumnType("text");
+
                     b.Property<double>("Amount")
                         .HasColumnType("double precision");
 
@@ -352,6 +355,8 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("UserId");
 
@@ -712,8 +717,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("Expression")
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
@@ -940,6 +945,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
+                    b.HasOne("Domain.Entities.Address", "address")
+                        .WithMany("Orders")
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
@@ -947,6 +956,8 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Entities.Voucher", "Voucher")
                         .WithMany("Orders")
                         .HasForeignKey("VoucherId");
+
+                    b.Navigation("address");
 
                     b.Navigation("AppUser");
 
@@ -1158,6 +1169,11 @@ namespace Persistence.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
