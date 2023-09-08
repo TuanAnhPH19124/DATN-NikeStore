@@ -357,8 +357,8 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpGet("GetLatestDeclineOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestDeclineOrders()
+        [HttpGet("GetLatestCANCELEDOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestCANCELEDOrders()
         {
             try
             {
@@ -375,7 +375,7 @@ namespace Webapi.Controllers
                 {
                     var latestStatus = order.OrderStatuses
                         .OrderByDescending(status => status.Time)
-                        .FirstOrDefault(status => status.Status == StatusOrder.DECLINE);
+                        .FirstOrDefault(status => status.Status == StatusOrder.CANCELED);
 
                     if (latestStatus != null)
                     {
