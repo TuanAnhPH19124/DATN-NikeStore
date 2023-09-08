@@ -19,6 +19,7 @@ $(document).ready(function () {
             $('#phoneNumber').val(data.phoneNumber);
             $('#status').prop('checked', data.status);
             $('#homeTown').val(data.homeTown);
+            localStorage.setItem("updated-appUser", data.appUserId);
 
             $.ajax({
                 url: "https://localhost:44328/api/AppUser/Get/" + data.appUserId,
@@ -64,7 +65,23 @@ $(document).ready(function () {
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
-                            window.location.href = "/frontend/admin/staff.html";
+                            //window.location.href = "/frontend/admin/staff.html";
+                            const id = localStorage.getItem("updated-appUser")
+                            var formData2 = {
+                                "status": formData.status==true?1:0,
+                                "id": id
+                            }
+                            $.ajax({
+                                url: `https://localhost:44328/api/AppUser/${id}/UpdateUserByAdmin`,
+                                type: "PUT",
+                                data: JSON.stringify(formData2),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    //window.location.href = "/frontend/admin/staff.html";
+                                    
+                                },
+                            });
                         },
                     });
                   } else {

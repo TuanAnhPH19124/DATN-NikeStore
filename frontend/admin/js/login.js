@@ -24,7 +24,7 @@ $(document).ready(function () {
                     localStorage.setItem("user-id", payload.Id);
                     const id = localStorage.getItem("user-id");
                     console.log(id)
-                    window.location.href = `/frontend/admin/index.html`;
+                    //window.location.href = `/frontend/admin/index.html`;
                 }else{
                     $('.toast').toast('show')
                 }
