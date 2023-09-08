@@ -20,12 +20,11 @@
             <p>{{cart.colorName}}</p>
             <div>
               <label for="size">Kích cỡ</label>
-              <select name="" id="size">
-                <option value="1">1</option>
-                <option value="2">2</option>
+              <select name="" id="size" ng-model="cart.sizeId" ng-change="updateCart(cart.id)">
+                <option ng-repeat="size in cart.sizes" value="{{size.id}}">{{ size.numberSize }}</option>
               </select>
               <label for="quantity">Số lượng</label>
-              <select name="" id="quantity" ng-model="cart.quantity">
+              <select name="" id="quantity" ng-model="cart.quantity" ng-change="updateCart(cart.id)">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -39,7 +38,7 @@
 
               </select>
             </div>
-            <button>Remove</button>
+            <button ng-click="removeCart(cart.id)">Remove</button>
           </div>
           <div class="product-price">
             <span>{{cart.product.retailPrice}}đ</span>

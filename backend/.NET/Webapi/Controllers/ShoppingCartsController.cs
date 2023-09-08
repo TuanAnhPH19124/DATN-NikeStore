@@ -61,7 +61,7 @@ namespace Webapi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, [FromBody]ShoppingCartItems item)
+        public async Task<ActionResult> Put(string id, [FromBody]ShoppingCartItemPutAPI item)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
