@@ -1,7 +1,7 @@
 <br>
 <section class="container">
   <div class="row">
-    <div class="col-9">
+    <div class="col-7">
       <div class="banner-freeship">
         <div class="freeship-infomation">
           <h4 style="margin-left: 10px;">Miễn phí vận chuyển</h4>
@@ -28,35 +28,6 @@
                     style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;"min="1" max="10" maxlength="10">
             <button class="quantity-button" ng-click="incrementQuantity()"
                 style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>                 
-          <div class="product-infomation">
-            <h3>{{cart.product.name}}</h3>
-            <p>{{cart.colorName}}</p>
-            <div>
-              <label for="size">Kích cỡ</label>
-              <select name="" id="size" ng-model="cart.sizeId" ng-change="updateCart(cart.id)">
-                <option ng-repeat="size in cart.sizes" value="{{size.id}}">{{ size.numberSize }}</option>
-              </select>
-              <label for="quantity">Số lượng</label>
-              <select name="" id="quantity" ng-model="cart.quantity" ng-change="updateCart(cart.id)">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-
-              </select>
-            </div>
-            <button ng-click="removeCart(cart.id)">Remove</button>
-          </div>
-          <div class="product-price">
-            <span>{{cart.product.retailPrice}}đ</span>
-            <span>{{cart.product.discountRate}}đ</span>
-          </div>
           <div class="product-price">           
             <span style="color: rgb(255, 0, 0);margin-right: 20px;">{{cart.product.discountRate}}đ</span>
             <del style="color: rgb(163, 158, 158);">{{cart.product.retailPrice}}đ</del> 
@@ -64,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="col-3" >
+    <div class="col-5" >
       <h4 style="padding-top: 5px;">Thông tin đơn hàng</h4><hr>
       <div class="subtotal">
         <span>Tạm tính: </span>
