@@ -14,8 +14,11 @@
           <img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
         </div>
         <div class="main-item">
-          <div class="product-infomation">            
-            <h3>Tên sản phẩm: {{cart.product.name}}</h3>                    
+          <div class="product-infomation"> 
+            <div class="product-price">
+              <h3>Tên sản phẩm: {{cart.product.name}}</h3>  
+              <button class="remove-button" ng-click="removeItem(cart)"><i class="fa-solid fa-xmark"></i></button>  
+            </div>                                        
             <p>Màu sắc: {{cart.colorName}}</p>
             <label for="size" style="margin-right: 100px;">Kích cỡ:</label>                 
             <label for="quantity">Số lượng:</label> 
@@ -28,8 +31,7 @@
           </div>
           <div class="product-price">           
             <span style="color: rgb(255, 0, 0);margin-right: 20px;">{{cart.product.discountRate}}đ</span>
-            <del style="color: rgb(163, 158, 158);">{{cart.product.retailPrice}}đ</del>
-            <button class="remove-button" ng-click="removeItem(cart)"><i class="fa-solid fa-xmark"></i></button>  
+            <del style="color: rgb(163, 158, 158);">{{cart.product.retailPrice}}đ</del>    
           </div>     
         </div>
       </div>
