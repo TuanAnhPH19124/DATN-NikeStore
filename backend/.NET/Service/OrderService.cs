@@ -93,7 +93,7 @@ namespace Service
                     {
                         Status = Domain.Enums.StatusOrder.CONFIRM,
                         Time = DateTime.Now,
-                        Note = "Đã thanh toán"
+                        Note = "Chờ xác nhận"
                     }
                     //new OrderStatus
                     //{
@@ -119,6 +119,12 @@ namespace Service
             {
                 order.OrderStatuses = new List<OrderStatus>()
                 {
+                    new OrderStatus
+                    {
+                        Status = Domain.Enums.StatusOrder.CONFIRM,
+                        Time = DateTime.Now,
+                        Note = "Chờ xác nhận"
+                    },
                     new OrderStatus
                     {
                         Status = Domain.Enums.StatusOrder.DELIVERIED,
