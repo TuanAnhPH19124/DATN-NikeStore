@@ -135,3 +135,9 @@ button.remove-button {
 .payment-button a:hover{
     color: white;
 }  
+
+.emptyCart-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
