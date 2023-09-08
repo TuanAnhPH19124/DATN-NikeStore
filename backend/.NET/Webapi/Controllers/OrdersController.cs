@@ -81,8 +81,8 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("GetConfirmedOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetConfirmedOrders()
+        [HttpGet("GetLatestConfirmedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestConfirmedOrders()
         {
             try
             {
@@ -97,12 +97,12 @@ namespace Webapi.Controllers
 
                 foreach (var order in confirmedOrderStatuses)
                 {
-                    // Lấy trạng thái mới nhất có trạng thái CONFIRM cho mỗi đơn hàng
+                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
                     var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Time)
-                        .FirstOrDefault(status => status.Status == StatusOrder.CONFIRM);
+                        .OrderByDescending(status => status.Status)
+                        .FirstOrDefault();
 
-                    if (latestStatus != null)
+                    if (latestStatus != null && latestStatus.Status == StatusOrder.CONFIRM)
                     {
                         var confirmedOrder = new OrderDto
                         {
@@ -161,26 +161,28 @@ namespace Webapi.Controllers
         {
             try
             {
-                var pendingShipOrders = await _service.OrderService.GetAllOrderAsync();
+                var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
 
-                if (pendingShipOrders == null || !pendingShipOrders.Any())
+                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
                 {
                     return NotFound();
                 }
 
-                var latestPendingShipOrders = new List<OrderDto>();
+                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
 
-                foreach (var order in pendingShipOrders)
+                foreach (var order in confirmedOrderStatuses)
                 {
+                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
                     var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Time)
-                        .FirstOrDefault(status => status.Status == StatusOrder.PENDING_SHIP);
+                        .OrderByDescending(status => status.Status)
+                        .FirstOrDefault();
 
-                    if (latestStatus != null)
+                    if (latestStatus != null && latestStatus.Status == StatusOrder.PENDING_SHIP)
                     {
-                        var latestPendingShipOrder = new OrderDto
+                        var confirmedOrder = new OrderDto
                         {
-                            Id = order.Id,                          
+                            // Copy thông tin từ order vào confirmedOrder
+                            Id = order.Id,
                             Address = order.Address,
                             PhoneNumber = order.PhoneNumber,
                             Note = order.Note,
@@ -205,48 +207,49 @@ namespace Webapi.Controllers
                             }).ToList()
                         };
 
-                        latestPendingShipOrders.Add(latestPendingShipOrder);
+                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
                     }
                 }
 
-                if (!latestPendingShipOrders.Any())
+                if (!confirmedOrdersWithLatestStatus.Any())
                 {
-                    return NotFound("No latest pending ship orders found.");
+                    return NotFound("No confirmed orders found.");
                 }
 
-                return Ok(latestPendingShipOrders);
+                return Ok(confirmedOrdersWithLatestStatus);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
 
         [HttpGet("GetLatestShippingOrders")]
         public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestShippingOrders()
         {
             try
             {
-                var shippingOrders = await _service.OrderService.GetAllOrderAsync();
+                var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
 
-                if (shippingOrders == null || !shippingOrders.Any())
+                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
                 {
                     return NotFound();
                 }
 
-                var latestShippingOrders = new List<OrderDto>();
+                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
 
-                foreach (var order in shippingOrders)
+                foreach (var order in confirmedOrderStatuses)
                 {
+                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
                     var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Time)
-                        .FirstOrDefault(status => status.Status == StatusOrder.SHIPPING);
+                        .OrderByDescending(status => status.Status)
+                        .FirstOrDefault();
 
-                    if (latestStatus != null)
+                    if (latestStatus != null && latestStatus.Status == StatusOrder.SHIPPING)
                     {
-                        var latestShippingOrder = new OrderDto
+                        var confirmedOrder = new OrderDto
                         {
+                            // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
                             Address = order.Address,
                             PhoneNumber = order.PhoneNumber,
@@ -272,16 +275,16 @@ namespace Webapi.Controllers
                             }).ToList()
                         };
 
-                        latestShippingOrders.Add(latestShippingOrder);
+                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
                     }
                 }
 
-                if (!latestShippingOrders.Any())
+                if (!confirmedOrdersWithLatestStatus.Any())
                 {
-                    return NotFound("No latest shipping orders found.");
+                    return NotFound("No confirmed orders found.");
                 }
 
-                return Ok(latestShippingOrders);
+                return Ok(confirmedOrdersWithLatestStatus);
             }
             catch (Exception ex)
             {
@@ -289,31 +292,32 @@ namespace Webapi.Controllers
             }
         }
 
-
-        [HttpGet("GetLatestDeliveriedOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestDeliveriedOrders()
+        [HttpGet("GetLatestDeliveredOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestDeliveredOrders()
         {
             try
             {
-                var deliveriedOrders = await _service.OrderService.GetAllOrderAsync();
+                var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
 
-                if (deliveriedOrders == null || !deliveriedOrders.Any())
+                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
                 {
                     return NotFound();
                 }
 
-                var latestDeliveriedOrders = new List<OrderDto>();
+                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
 
-                foreach (var order in deliveriedOrders)
+                foreach (var order in confirmedOrderStatuses)
                 {
+                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
                     var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Time)
-                        .FirstOrDefault(status => status.Status == StatusOrder.DELIVERIED);
+                        .OrderByDescending(status => status.Status)
+                        .FirstOrDefault();
 
-                    if (latestStatus != null)
+                    if (latestStatus != null && latestStatus.Status == StatusOrder.DELIVERIED)
                     {
-                        var latestDeliveriedOrder = new OrderDto
+                        var confirmedOrder = new OrderDto
                         {
+                            // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
                             Address = order.Address,
                             PhoneNumber = order.PhoneNumber,
@@ -339,16 +343,16 @@ namespace Webapi.Controllers
                             }).ToList()
                         };
 
-                        latestDeliveriedOrders.Add(latestDeliveriedOrder);
+                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
                     }
                 }
 
-                if (!latestDeliveriedOrders.Any())
+                if (!confirmedOrdersWithLatestStatus.Any())
                 {
-                    return NotFound("No latest deliveried orders found.");
+                    return NotFound("No confirmed orders found.");
                 }
 
-                return Ok(latestDeliveriedOrders);
+                return Ok(confirmedOrdersWithLatestStatus);
             }
             catch (Exception ex)
             {
@@ -356,31 +360,32 @@ namespace Webapi.Controllers
             }
         }
 
-
-        [HttpGet("GetLatestCANCELEDOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestCANCELEDOrders()
+        [HttpGet("GetLatestCancelOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestDeclineOrders()
         {
             try
             {
-                var declineOrders = await _service.OrderService.GetAllOrderAsync();
+                var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
 
-                if (declineOrders == null || !declineOrders.Any())
+                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
                 {
                     return NotFound();
                 }
 
-                var latestDeclineOrders = new List<OrderDto>();
+                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
 
-                foreach (var order in declineOrders)
+                foreach (var order in confirmedOrderStatuses)
                 {
+                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
                     var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Time)
-                        .FirstOrDefault(status => status.Status == StatusOrder.CANCELED);
+                        .OrderByDescending(status => status.Status)
+                        .FirstOrDefault();
 
-                    if (latestStatus != null)
+                    if (latestStatus != null && latestStatus.Status == StatusOrder.CANCELED)
                     {
-                        var latestDeclineOrder = new OrderDto
+                        var confirmedOrder = new OrderDto
                         {
+                            // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
                             Address = order.Address,
                             PhoneNumber = order.PhoneNumber,
@@ -406,23 +411,22 @@ namespace Webapi.Controllers
                             }).ToList()
                         };
 
-                        latestDeclineOrders.Add(latestDeclineOrder);
+                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
                     }
                 }
 
-                if (!latestDeclineOrders.Any())
+                if (!confirmedOrdersWithLatestStatus.Any())
                 {
-                    return NotFound("No latest decline orders found.");
+                    return NotFound("No confirmed orders found.");
                 }
 
-                return Ok(latestDeclineOrders);
+                return Ok(confirmedOrdersWithLatestStatus);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
 
 
         [HttpPost("pay")]
