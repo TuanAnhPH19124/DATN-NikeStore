@@ -1,87 +1,45 @@
 <div class="container-fluid mt-5">
 	<div class="row">
-		<div class="col-md-3 scrollable">
-			<div class="card">
-
+		<div class="col-md-3">
+			<div class="">
 				<article>
-					<label>Danh mục</label>
-					<div ng-repeat="category in categories">
-						<label>
-							<input type="checkbox" ng-model="category.selected" ng-change="onSelectChange()">
-							{{ category.name }}
-						</label>
-					</div>	
-				</article>
-
-				<article>
-					<label>Giới tính</label>
-					<div ng-repeat="gender in genders">
-						<label>
-							<input type="checkbox" ng-model="gender.selected" ng-change="onSelectChange()">
-							{{ gender.name }}
-						</label>
-					</div>					
-				</article>
-				<article class="filter-group">
 					<header class="card-header"
 						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> LOẠI
-								GIÀY </h6>
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> LOẠI GIÀY </h6>						 
+						</a><br>
+					</header>
+					<div class="filter-content collapse show" ng-repeat="category in categories">
+							<div class="gender-body">
+								<label class="custom-control custom-checkbox" style="padding-top: 10px;">
+									<input type="checkbox"  class="custom-control-input">
+									<div class="custom-control-label" ng-model="category.selected" ng-change="onSelectChange()"> {{ category.name }}
+										<b class="badge badge-pill badge-light float-right"></b>
+									</div>						
+								</label>
+							</div>
+					</div>
+				</article>
+
+				<article>
+					<header class="card-header"
+						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> GIỚI TÍNH </h6>						 
 						</a>
 					</header>
-					<div class="filter-content collapse show" id="collapse_2">
-						<div class="card-body" style="color: gray;">
-							<label class="custom-control custom-checkbox">
+					<div class="filter-content collapse show" ng-repeat="gender in genders">
+						<div class="gender-body">
+							<label class="custom-control custom-checkbox" style="padding-top: 10px;">
 								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike Air Jordan
+								<div class="custom-control-label" ng-model="gender.selected" ng-change="onSelectChange()"> {{ gender.name }}
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
 							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike Air Max
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike City Rep
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike Phantom GT
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike Waffle Racer
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike Crater Remixa
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike Renew In-Season
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label"> Nike React Miler
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-						</div> <!-- card-body.// -->
-				</article> <!-- filter-group .// -->
+						</div>					
+					</div>					
+				</article>
+
 				<article class="filter-group">
 					<header class="card-header"
 						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
@@ -273,38 +231,34 @@
 		</div>
 
 		<div class="col-md-9 px-5">
-			<div class="product-sort-container">
-				<span>Sắp xếp theo: </span>
-				<select ng-model="sortBy" ng-change="onSelectChange()">
+			<div class="sortByProduct">
+				<select ng-model="sortBy" ng-change="onSelectChange()" style="border: 1px solid gray; border-radius: 5px;">
 					<option value=""></option>
 					<option value="2">Hàng với về</option>
 					<option value="3">Top thịnh hành</option>
 					<option value="0">Giá từ thấp đến cao</option>
 					<option value="1">Giá từ cao đến thấp</option>
 				</select>
-			</div>
+			</div><br>	
 			<div class="product-list-container">
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
-						<a href="#/productDetail/{{product.id}}">
-							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1"
-								style="vertical-align: middle;" width="100%" height="250px">
-							<span class="name">{{product.name}}</span>
-							<span class="category">Giày cho nam </span>
-							<span class="color">{{countColors(product.productImages)}} màu</span>
-							<div>
-								<span class="discount"
-									ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
-									ng-class="{'show-discount': product.discountRate > 0}">{{formatPrice(product.discountRate)}}</span>
-								<span class="price"
-									ng-class="{'strike-through': product.discountRate > 0 && product.discountRate !== product.retailPrice}">{{formatPrice(product.retailPrice)}}</span>
+						<a href="#/productDetail/{{product.id}}" class="product-link">
+							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">
+							<div class="product-details">
+								<span class="name">{{product.name}}</span>
+								<span class="category">Giày cho nam</span>
+								<span class="color">{{countColors(product.productImages)}} màu</span>
+								<div class="price-section">
+									<span class="discount" ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice">{{formatPrice(product.discountRate)}}</span>
+									<span class="price" ng-class="{'strike-through': product.discountRate > 0 && product.discountRate !== product.retailPrice}">{{formatPrice(product.retailPrice)}}</span><br>
+									<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice" class="percenOff">Giảm đến: {{calculatePercenOff(product.discountRate, product.retailPrice)}}%</span>
+								</div>
 							</div>
-							<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice" class="percenOff">Giảm {{calculatePercenOff(product.discountRate,
-								product.retailPrice)}}%</span>
 						</a>
 					</div>
 				</div>
-			</div>
+			</div>														
 		</div>
 	</div>
 </div>
