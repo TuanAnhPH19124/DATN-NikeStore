@@ -86,22 +86,62 @@ namespace Webapi.Controllers
         {
             try
             {
-                var confirmedOrders = await _service.OrderService.GetAllOrderAsync();
-                if (confirmedOrders == null || !confirmedOrders.Any())
+                var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+
+                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
                 {
                     return NotFound();
                 }
 
-                var confirmedOrdersByStatus = confirmedOrders
-                    .Where(order => order.OrderStatuses.Any(c=>c.Status == StatusOrder.CONFIRM))
-                    .ToList();
+                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
 
-                if (!confirmedOrdersByStatus.Any())
+                foreach (var order in confirmedOrderStatuses)
+                {
+                    // Lấy trạng thái mới nhất có trạng thái CONFIRM cho mỗi đơn hàng
+                    var latestStatus = order.OrderStatuses
+                        .OrderByDescending(status => status.Time)
+                        .FirstOrDefault(status => status.Status == StatusOrder.CONFIRM);
+
+                    if (latestStatus != null)
+                    {
+                        var confirmedOrder = new OrderDto
+                        {
+                            // Copy thông tin từ order vào confirmedOrder
+                            Id = order.Id,
+                            Address = order.Address,
+                            PhoneNumber = order.PhoneNumber,
+                            Note = order.Note,
+                            Paymethod = order.Paymethod,
+                            Amount = order.Amount,
+                            CustomerName = order.CustomerName,
+                            DateCreated = order.DateCreated,
+                            PassivedDate = order.PassivedDate,
+                            ModifiedDate = order.ModifiedDate,
+                            UserId = order.UserId,
+                            EmployeeId = order.EmployeeId,
+                            VoucherId = order.VoucherId,
+                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
+                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
+                            {
+                                OrderId = item.OrderId,
+                                ProductId = item.ProductId,
+                                ColorId = item.ColorId,
+                                SizeId = item.SizeId,
+                                Quantity = item.Quantity,
+                                UnitPrice = item.UnitPrice
+                            }).ToList()
+                        };
+
+                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
+                    }
+                }
+
+                if (!confirmedOrdersWithLatestStatus.Any())
                 {
                     return NotFound("No confirmed orders found.");
                 }
 
-                return Ok(confirmedOrdersByStatus);
+                return Ok(confirmedOrdersWithLatestStatus);
             }
             catch (Exception ex)
             {
@@ -110,27 +150,71 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpGet("GetPendingShipOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetPendingShipOrders()
+
+
+
+
+
+
+        [HttpGet("GetLatestPendingShipOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestPendingShipOrders()
         {
             try
             {
                 var pendingShipOrders = await _service.OrderService.GetAllOrderAsync();
+
                 if (pendingShipOrders == null || !pendingShipOrders.Any())
                 {
                     return NotFound();
                 }
 
-                var pendingShipOrdersByStatus = pendingShipOrders
-                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.PENDING_SHIP))
-                    .ToList();
+                var latestPendingShipOrders = new List<OrderDto>();
 
-                if (!pendingShipOrdersByStatus.Any())
+                foreach (var order in pendingShipOrders)
                 {
-                    return NotFound("No pending ship orders found.");
+                    var latestStatus = order.OrderStatuses
+                        .OrderByDescending(status => status.Time)
+                        .FirstOrDefault(status => status.Status == StatusOrder.PENDING_SHIP);
+
+                    if (latestStatus != null)
+                    {
+                        var latestPendingShipOrder = new OrderDto
+                        {
+                            Id = order.Id,                          
+                            Address = order.Address,
+                            PhoneNumber = order.PhoneNumber,
+                            Note = order.Note,
+                            Paymethod = order.Paymethod,
+                            Amount = order.Amount,
+                            CustomerName = order.CustomerName,
+                            DateCreated = order.DateCreated,
+                            PassivedDate = order.PassivedDate,
+                            ModifiedDate = order.ModifiedDate,
+                            UserId = order.UserId,
+                            EmployeeId = order.EmployeeId,
+                            VoucherId = order.VoucherId,
+                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
+                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
+                            {
+                                OrderId = item.OrderId,
+                                ProductId = item.ProductId,
+                                ColorId = item.ColorId,
+                                SizeId = item.SizeId,
+                                Quantity = item.Quantity,
+                                UnitPrice = item.UnitPrice
+                            }).ToList()
+                        };
+
+                        latestPendingShipOrders.Add(latestPendingShipOrder);
+                    }
                 }
 
-                return Ok(pendingShipOrdersByStatus);
+                if (!latestPendingShipOrders.Any())
+                {
+                    return NotFound("No latest pending ship orders found.");
+                }
+
+                return Ok(latestPendingShipOrders);
             }
             catch (Exception ex)
             {
@@ -138,27 +222,66 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("GetShippingOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetShippingOrders()
+
+        [HttpGet("GetLatestShippingOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestShippingOrders()
         {
             try
             {
                 var shippingOrders = await _service.OrderService.GetAllOrderAsync();
+
                 if (shippingOrders == null || !shippingOrders.Any())
                 {
                     return NotFound();
                 }
 
-                var shippingOrdersByStatus = shippingOrders
-                   .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.SHIPPING))
-                    .ToList();
+                var latestShippingOrders = new List<OrderDto>();
 
-                if (!shippingOrdersByStatus.Any())
+                foreach (var order in shippingOrders)
                 {
-                    return NotFound("No shipping orders found.");
+                    var latestStatus = order.OrderStatuses
+                        .OrderByDescending(status => status.Time)
+                        .FirstOrDefault(status => status.Status == StatusOrder.SHIPPING);
+
+                    if (latestStatus != null)
+                    {
+                        var latestShippingOrder = new OrderDto
+                        {
+                            Id = order.Id,
+                            Address = order.Address,
+                            PhoneNumber = order.PhoneNumber,
+                            Note = order.Note,
+                            Paymethod = order.Paymethod,
+                            Amount = order.Amount,
+                            CustomerName = order.CustomerName,
+                            DateCreated = order.DateCreated,
+                            PassivedDate = order.PassivedDate,
+                            ModifiedDate = order.ModifiedDate,
+                            UserId = order.UserId,
+                            EmployeeId = order.EmployeeId,
+                            VoucherId = order.VoucherId,
+                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
+                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
+                            {
+                                OrderId = item.OrderId,
+                                ProductId = item.ProductId,
+                                ColorId = item.ColorId,
+                                SizeId = item.SizeId,
+                                Quantity = item.Quantity,
+                                UnitPrice = item.UnitPrice
+                            }).ToList()
+                        };
+
+                        latestShippingOrders.Add(latestShippingOrder);
+                    }
                 }
 
-                return Ok(shippingOrdersByStatus);
+                if (!latestShippingOrders.Any())
+                {
+                    return NotFound("No latest shipping orders found.");
+                }
+
+                return Ok(latestShippingOrders);
             }
             catch (Exception ex)
             {
@@ -166,27 +289,66 @@ namespace Webapi.Controllers
             }
         }
 
-        [HttpGet("GetDeliveredOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeliveredOrders()
+
+        [HttpGet("GetLatestDeliveriedOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestDeliveriedOrders()
         {
             try
             {
-                var deliveredOrders = await _service.OrderService.GetAllOrderAsync();
-                if (deliveredOrders == null || !deliveredOrders.Any())
+                var deliveriedOrders = await _service.OrderService.GetAllOrderAsync();
+
+                if (deliveriedOrders == null || !deliveriedOrders.Any())
                 {
                     return NotFound();
                 }
 
-                var deliveredOrdersByStatus = deliveredOrders
-                    .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DELIVERIED))
-                    .ToList();
+                var latestDeliveriedOrders = new List<OrderDto>();
 
-                if (!deliveredOrdersByStatus.Any())
+                foreach (var order in deliveriedOrders)
                 {
-                    return NotFound("No delivered orders found.");
+                    var latestStatus = order.OrderStatuses
+                        .OrderByDescending(status => status.Time)
+                        .FirstOrDefault(status => status.Status == StatusOrder.DELIVERIED);
+
+                    if (latestStatus != null)
+                    {
+                        var latestDeliveriedOrder = new OrderDto
+                        {
+                            Id = order.Id,
+                            Address = order.Address,
+                            PhoneNumber = order.PhoneNumber,
+                            Note = order.Note,
+                            Paymethod = order.Paymethod,
+                            Amount = order.Amount,
+                            CustomerName = order.CustomerName,
+                            DateCreated = order.DateCreated,
+                            PassivedDate = order.PassivedDate,
+                            ModifiedDate = order.ModifiedDate,
+                            UserId = order.UserId,
+                            EmployeeId = order.EmployeeId,
+                            VoucherId = order.VoucherId,
+                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
+                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
+                            {
+                                OrderId = item.OrderId,
+                                ProductId = item.ProductId,
+                                ColorId = item.ColorId,
+                                SizeId = item.SizeId,
+                                Quantity = item.Quantity,
+                                UnitPrice = item.UnitPrice
+                            }).ToList()
+                        };
+
+                        latestDeliveriedOrders.Add(latestDeliveriedOrder);
+                    }
                 }
 
-                return Ok(deliveredOrdersByStatus);
+                if (!latestDeliveriedOrders.Any())
+                {
+                    return NotFound("No latest deliveried orders found.");
+                }
+
+                return Ok(latestDeliveriedOrders);
             }
             catch (Exception ex)
             {
@@ -195,33 +357,72 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpGet("GetDeclinedOrders")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetDeclinedOrders()
+        [HttpGet("GetLatestDeclineOrders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetLatestDeclineOrders()
         {
             try
             {
-                var declinedOrders = await _service.OrderService.GetAllOrderAsync();
-                if (declinedOrders == null || !declinedOrders.Any())
+                var declineOrders = await _service.OrderService.GetAllOrderAsync();
+
+                if (declineOrders == null || !declineOrders.Any())
                 {
                     return NotFound();
                 }
 
-                var declinedOrdersByStatus = declinedOrders
-                  .Where(order => order.OrderStatuses.Any(c => c.Status == StatusOrder.DECLINE))
-                    .ToList();
+                var latestDeclineOrders = new List<OrderDto>();
 
-                if (!declinedOrdersByStatus.Any())
+                foreach (var order in declineOrders)
                 {
-                    return NotFound("No declined orders found.");
+                    var latestStatus = order.OrderStatuses
+                        .OrderByDescending(status => status.Time)
+                        .FirstOrDefault(status => status.Status == StatusOrder.DECLINE);
+
+                    if (latestStatus != null)
+                    {
+                        var latestDeclineOrder = new OrderDto
+                        {
+                            Id = order.Id,
+                            Address = order.Address,
+                            PhoneNumber = order.PhoneNumber,
+                            Note = order.Note,
+                            Paymethod = order.Paymethod,
+                            Amount = order.Amount,
+                            CustomerName = order.CustomerName,
+                            DateCreated = order.DateCreated,
+                            PassivedDate = order.PassivedDate,
+                            ModifiedDate = order.ModifiedDate,
+                            UserId = order.UserId,
+                            EmployeeId = order.EmployeeId,
+                            VoucherId = order.VoucherId,
+                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
+                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
+                            {
+                                OrderId = item.OrderId,
+                                ProductId = item.ProductId,
+                                ColorId = item.ColorId,
+                                SizeId = item.SizeId,
+                                Quantity = item.Quantity,
+                                UnitPrice = item.UnitPrice
+                            }).ToList()
+                        };
+
+                        latestDeclineOrders.Add(latestDeclineOrder);
+                    }
                 }
 
-                return Ok(declinedOrdersByStatus);
+                if (!latestDeclineOrders.Any())
+                {
+                    return NotFound("No latest decline orders found.");
+                }
+
+                return Ok(latestDeclineOrders);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
         [HttpPost("pay")]
