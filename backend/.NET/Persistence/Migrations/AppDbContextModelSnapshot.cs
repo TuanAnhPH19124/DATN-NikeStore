@@ -315,6 +315,12 @@ namespace Persistence.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
+<<<<<<< HEAD
+=======
+                    b.Property<string>("AddressId")
+                        .HasColumnType("text");
+
+>>>>>>> submain
                     b.Property<double>("Amount")
                         .HasColumnType("double precision");
 
@@ -351,6 +357,11 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+<<<<<<< HEAD
+=======
+                    b.HasIndex("AddressId");
+
+>>>>>>> submain
                     b.HasIndex("UserId");
 
                     b.HasIndex("VoucherId");
@@ -710,8 +721,13 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
+<<<<<<< HEAD
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
+=======
+                    b.Property<double>("Expression")
+                        .HasColumnType("double precision");
+>>>>>>> submain
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
@@ -938,6 +954,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
+<<<<<<< HEAD
+=======
+                    b.HasOne("Domain.Entities.Address", "address")
+                        .WithMany("Orders")
+                        .HasForeignKey("AddressId");
+
+>>>>>>> submain
                     b.HasOne("Domain.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
@@ -946,6 +969,11 @@ namespace Persistence.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("VoucherId");
 
+<<<<<<< HEAD
+=======
+                    b.Navigation("address");
+
+>>>>>>> submain
                     b.Navigation("AppUser");
 
                     b.Navigation("Voucher");
@@ -1158,6 +1186,14 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+<<<<<<< HEAD
+=======
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+>>>>>>> submain
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
                 {
                     b.Navigation("Addresses");

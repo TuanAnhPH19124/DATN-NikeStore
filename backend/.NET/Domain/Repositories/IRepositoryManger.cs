@@ -29,5 +29,6 @@ namespace Domain.Repositories
         IMaterialRepository MaterialRepository { get; }
         ISoleRepository SoleRepository { get; }
         IAddressRepository AddressRepository { get; }
+        IOrderStatusRepository OrderStatusRepository { get; }
   }
 }

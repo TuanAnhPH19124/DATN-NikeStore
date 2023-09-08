@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Repositories;
+using EntitiesDto;
 using EntitiesDto.Order;
 using Mapster;
 using Service.Abstractions;
@@ -29,6 +30,7 @@ namespace Service
         }
         public async Task CreateNewOnlineOrder(OrderPostRequestDto orderDto)
         {
+            #region add new order
             var order = new Order
             {
                 Address = orderDto.Address,
@@ -40,10 +42,30 @@ namespace Service
                 VoucherId = orderDto.VoucherId,
                 Paymethod = orderDto.PaymentMethod,
                 Amount = orderDto.Amount,
-
+                AddressId = orderDto.AddressId,
+                OrderStatuses = new List<OrderStatus>(){
+                    new OrderStatus{
+                        Status = StatusOrder.CONFIRM,
+                        Time = DateTime.Now,
+                        Note = "Chờ xác nhận"
+                    }
+                },
+                OrderItems = orderDto.OrderItems.Select(p => new OrderItem{
+                    ProductId = p.ProductId,
+                    ColorId = p.ColorId,
+                    SizeId = p.SizeId,
+                    Quantity = p.Quantity,
+                    UnitPrice = p.UnitPrice
+                }).ToList()
             };
-           
             await _manager.OrderRepository.Post(order);
+            #endregion
+            #region Update UnitOfStock in stock table
+            var StockList = await GetOrderItemsQuantityAsync(order.OrderItems);
+            _manager.StockRepository.UpdateRange(StockList);
+            Console.WriteLine("Cập nhật số lượng sản phâm thành công.");
+            #endregion
+            await _manager.UnitOfWork.SaveChangeAsync();
         }
 
         public async Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto)
@@ -71,44 +93,44 @@ namespace Service
                     {
                         Status = Domain.Enums.StatusOrder.CONFIRM,
                         Time = DateTime.Now,
-                        Note = "Đã thanh toán tại quầy"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
-                        Time = DateTime.Now,
-                        Note = "Chờ vận chuyển"
-                    },
+                        Note = "Đã thanh toán"
+                    }
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.PENDING_SHIP,
+                    //    Time = DateTime.Now,
+                    //    Note = "Chờ vận chuyển"
+                    //},
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.SHIPPING,
+                    //    Time = DateTime.Now,
+                    //    Note = "Đang vận chuyển"
+                    //},
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.DELIVERIED,
+                    //    Time = DateTime.Now,
+                    //    Note = "Thành công"
+                    //},
                 };
             }
-            else
+           else
             {
                 order.OrderStatuses = new List<OrderStatus>()
                 {
                     new OrderStatus
                     {
-                        Status = Domain.Enums.StatusOrder.CONFIRM,
-                        Time = DateTime.Now,
-                        Note = "Đã thanh toán tại quầy"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.PENDING_SHIP,
-                        Time = DateTime.Now,
-                        Note = "Chờ vận chuyển"
-                    },
-                    new OrderStatus
-                    {
-                        Status = Domain.Enums.StatusOrder.SHIPPING,
-                        Time = DateTime.Now,
-                        Note = "Đang vận chuyển"
-                    },
-                    new OrderStatus
-                    {
                         Status = Domain.Enums.StatusOrder.DELIVERIED,
                         Time = DateTime.Now,
-                        Note = "Đã nhận hàng"
-                    },
+                        Note = "Thành công"
+                    }
+                    //new OrderStatus
+                    //{
+                    //    Status = Domain.Enums.StatusOrder.DELIVERIED,
+                    //    Time = DateTime.Now,
+                    //    Note = "Thành công"
+                    //},
                 };
             }
 
@@ -168,9 +190,45 @@ namespace Service
             return StockList;
         }
 
-        public async Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<OrderDto> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await _manager.OrderRepository.GetByIdOrderAsync(id, cancellationToken);
+           var order = await _manager.OrderRepository.GetByIdOrderAsync(id, cancellationToken);
+
+            var orderDto = new OrderDto
+            {
+                Id = order.Id,
+                Address = order.Address,
+                PhoneNumber = order.PhoneNumber,
+                Note = order.Note,
+                Paymethod = order.Paymethod,
+                Amount = order.Amount,
+                CustomerName = order.CustomerName,
+                DateCreated = order.DateCreated,
+                PassivedDate = order.PassivedDate,
+                ModifiedDate = order.ModifiedDate,
+                UserId = order.UserId,
+                EmployeeId = order.EmployeeId,
+                VoucherId = order.VoucherId,
+                OrderStatuses = order.OrderStatuses.Select(p=>new OrderStatusDto
+                {
+                  
+                    OrderId=p.OrderId,
+                    Status=p.Status,
+                    Time=p.Time,
+                    Note=p.Note,
+                }).ToList(),
+                OrderItems = order.OrderItems.Select(p => new OrderItemDto
+                {
+                    OrderId = p.OrderId,
+                    ProductId = p.ProductId,
+                    ColorId = p.ColorId,
+                    SizeId  = p.SizeId,
+                    Quantity = p.Quantity,
+                    UnitPrice = p.UnitPrice,
+                }).ToList()
+            };
+
+            return orderDto;
         }
     }
 }
