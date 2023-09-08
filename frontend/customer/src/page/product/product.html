@@ -1,12 +1,12 @@
 <div class="container-fluid mt-5">
 	<div class="row">
 		<div class="col-md-3">
-			<div class="">
+			<div>
 				<article>
 					<header class="card-header"
-						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+						style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> LOẠI GIÀY </h6>						 
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Danh mục sản phẩm: </h6>						 
 						</a><br>
 					</header>
 					<div class="filter-content collapse show" ng-repeat="category in categories">
@@ -19,13 +19,13 @@
 								</label>
 							</div>
 					</div>
-				</article>
+				</article><hr>
 
 				<article>
 					<header class="card-header"
-						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+						style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> GIỚI TÍNH </h6>						 
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giới tính: </h6>						 
 						</a>
 					</header>
 					<div class="filter-content collapse show" ng-repeat="gender in genders">
@@ -38,13 +38,13 @@
 							</label>
 						</div>					
 					</div>					
-				</article>
+				</article> <hr>
 
-				<article class="filter-group">
+				<article>
 					<header class="card-header"
-						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+						style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">GIÁ TIỀN
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giá tiền:
 							</h6>
 						</a>
 					</header>
@@ -99,12 +99,13 @@
 								</div>
 							</label>
 						</div> <!-- card-body.// -->
-				</article> <!-- filter-group .// -->
-				<article class="filter-group">
+				</article><hr>
+				
+				<article>
 					<header class="card-header"
-						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+						style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> MÀU SẮC
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Màu sắc:
 							</h6>
 						</a>
 					</header>
@@ -158,20 +159,20 @@
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
 							</label>
-						</div> <!-- card-body.// -->
-				</article> <!-- filter-group .// -->
-				<article class="filter-group">
+						</div>
+				</article> <hr>
+
+				<article >
 					<header class="card-header"
-						style="width: 253.4px; height: 62px; border: 1px solid rgba(0,0,0,.125);padding-top: 20px;">
+						style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">KÍCH
-								THƯỚC</h6>
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">KÍCH THƯỚC</h6>							
 						</a>
 					</header>
 					<div class="filter-content collapse show" id="collapse_4">
 						<div class="card-body">
 							<label class="checkbox-btn">
-								<input type="checkbox">
+								<input type="checkbox" value="35">
 								<span class="btn btn-light"> 35 </span>
 							</label>
 
@@ -224,22 +225,22 @@
 								<input type="checkbox">
 								<span class="btn btn-light"> 45 </span>
 							</label>
-						</div><!-- card-body.// -->
+						</div>
 					</div>
-				</article> <!-- filter-group .// -->
-			</div> <!-- card.// -->
+				</article> 
+			</div> 
 		</div>
 
 		<div class="col-md-9 px-5">
 			<div class="sortByProduct">
-				<select ng-model="sortBy" ng-change="onSelectChange()" style="border: 1px solid gray; border-radius: 5px;">
+				<select ng-model="sortBy" ng-change="onSelectChange()" style="border: 1px solid gray; border-radius: 5px;height: 30px;">
 					<option value=""></option>
 					<option value="2">Hàng với về</option>
 					<option value="3">Top thịnh hành</option>
 					<option value="0">Giá từ thấp đến cao</option>
 					<option value="1">Giá từ cao đến thấp</option>
 				</select>
-			</div><br>	
+			</div> <hr>
 			<div class="product-list-container">
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
@@ -250,7 +251,7 @@
 								<span class="category">Giày cho nam</span>
 								<span class="color">{{countColors(product.productImages)}} màu</span>
 								<div class="price-section">
-									<span class="discount" ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice">{{formatPrice(product.discountRate)}}</span>
+									<span style="margin-right: 10px;" class="discount" ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice">{{formatPrice(product.discountRate)}}</span>
 									<span class="price" ng-class="{'strike-through': product.discountRate > 0 && product.discountRate !== product.retailPrice}">{{formatPrice(product.retailPrice)}}</span><br>
 									<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice" class="percenOff">Giảm đến: {{calculatePercenOff(product.discountRate, product.retailPrice)}}%</span>
 								</div>

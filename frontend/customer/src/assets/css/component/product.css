@@ -1,44 +1,41 @@
 .product-list-container .product-item {
-    flex-basis: calc(33.333% - 20px); /* Đặt chiều rộng cố định cho mỗi cột và khoảng cách giữa các cột */
-    margin-right: 20px; /* Khoảng cách giữa các cột */
-    display: flex; /* Sử dụng flexbox để căn giữa nội dung cột */
-    flex-direction: column; /* Chia cột thành cột dọc */
-    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
-    padding: 20px; /* Khoảng cách giữa nội dung và khung của cột */
-    border-radius: 10px; /* Độ cong của khung cột */
+    flex-basis: calc(33.333% - 20px); 
+    margin-right: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    padding: 20px; 
+    border-radius: 10px; 
 }
 
 .product-list-container .product-item:last-child {
-    margin-right: 0; /* Không có khoảng cách bên phải cho cột cuối cùng */
+    margin-right: 0; 
 }
 
 .product-list-container .product-item img {
-    max-width: 100%; /* Đảm bảo ảnh không vượt quá kích thước của cột */
+    max-width: 100%; 
     height: auto;
-    align-self: center; /* Căn giữa ảnh trong khung */
-    padding: 10px; /* Khoảng cách giữa ảnh và khung */
-    border-radius: 10px; /* Độ cong của khung ảnh */
-    background-color: #ffffff; /* Màu nền xám cho ảnh */
+    align-self: center; 
+    padding: 10px; 
+    border-radius: 10px;
+    background-color: #ffffff;
 }
 
-/* Tùy chỉnh các phần tử văn bản bên trong cột */
 .product-list-container .product-item .name,
 .product-list-container .product-item .category,
 .product-list-container .product-item .color,
 .product-list-container .product-item .discount,
 .product-list-container .product-item .price,
 .product-list-container .product-item .percenOff {
-    text-align: left; /* Căn trái văn bản */
+    text-align: left; 
 }
 
-/* Tùy chỉnh giá trị giảm giá nếu có */
 .product-list-container .product-item .discount {
-    color: red; /* Màu đỏ cho giá giảm giá */
+    color: red; 
 }
 
-/* Hiển thị giảm giá dưới dạng phần trăm */
 .product-list-container .product-item .percenOff {
-    font-weight: bold; /* Đậm chữ của phần trăm giảm giá */
+    font-weight: bold; 
 }
 
 
@@ -51,11 +48,11 @@
     border: 1px solid #ddd;
     padding: 0;
     margin-bottom: 20px;
-    width: calc(33.33% - 20px); /* Chia bảng thành 3 cột với khoảng cách giữa các cột */
-    box-sizing: border-box; /* Đảm bảo border và padding không tăng kích thước của sản phẩm */
+    width: calc(33.33% - 20px); 
+    box-sizing: border-box; 
     background-color: #fff;
-    border-radius: 10px; /* Bo góc cho cột */
-    overflow: hidden; /* Loại bỏ khoảng trắng ở ngoài khi áp dụng border-radius */
+    border-radius: 10px;
+    overflow: hidden; 
     transition: transform 0.2s ease-in-out;
 }
 
@@ -193,3 +190,4 @@
     margin-top: 5px;
     font-size: var(--fs-16px);
 }
+

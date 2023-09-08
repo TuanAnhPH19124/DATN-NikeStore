@@ -1,20 +1,30 @@
-<!-- MODAL -->
+<br>
 <section class="container">
   <div class="row">
     <div class="col-9">
       <div class="banner-freeship">
         <div class="freeship-infomation">
-          <h4>Miễn phí vận chuyển</h4>
-          <span>Áp dụng cho những đơn hàng 5.000.000 trở lên</span>
+          <h4 style="margin-left: 10px;">Miễn phí vận chuyển</h4>
+          <span style="margin-left: 10px;">Áp dụng cho những đơn hàng 3.000.000 trở lên</span>
         </div>
-        <button>x</button>
-      </div>
-      <h1>Giỏ hàng</h1>
+      </div><br>
+      <h3>Giỏ hàng:</h3><hr>
       <div class="cart-item" ng-repeat="cart in carts">
         <div>
           <img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
         </div>
         <div class="main-item">
+          <div class="product-infomation">            
+            <h3>Tên sản phẩm: {{cart.product.name}}</h3>                    
+            <p>Màu sắc: {{cart.colorName}}</p>
+            <label for="size" style="margin-right: 100px;">Kích cỡ:</label>                 
+            <label for="quantity">Số lượng:</label> 
+            <button class="quantity-button" ng-click="decrementQuantity()" 
+                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
+            <input type="text" name="quantity" id="quantity" ng-model="cart.quantity" class="numeric-input"
+                    style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;"min="1" max="10" maxlength="10">
+            <button class="quantity-button" ng-click="incrementQuantity()"
+                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>                 
           <div class="product-infomation">
             <h3>{{cart.product.name}}</h3>
             <p>{{cart.colorName}}</p>
@@ -44,130 +54,34 @@
             <span>{{cart.product.retailPrice}}đ</span>
             <span>{{cart.product.discountRate}}đ</span>
           </div>
+          <div class="product-price">           
+            <span style="color: rgb(255, 0, 0);margin-right: 20px;">{{cart.product.discountRate}}đ</span>
+            <del style="color: rgb(163, 158, 158);">{{cart.product.retailPrice}}đ</del>
+            <button class="remove-button" ng-click="removeItem(cart)"><i class="fa-solid fa-xmark"></i></button>  
+          </div>     
         </div>
       </div>
     </div>
-    <div class="col-3">
-      <h1>Tạm tính</h1>
+    <div class="col-3" >
+      <h4 style="padding-top: 5px;">Thông tin đơn hàng</h4><hr>
       <div class="subtotal">
-        <p>Tổng phụ</p>
-        <p>{{totalAmount()}}</p>
-      </div>
-      <div class="Delivery ">
-        <p>Phí vận chuyển</p>
-        <p ng-show="deliveryFee() < 5000000">{{deliveryFee()}}</p>
-        <p ng-show="deliveryFee() === 0">Miễn phí</p>
-      </div>
+        <span>Tạm tính: </span>
+        <span style="color: red;font-size: 18px;">{{totalAmount()}}</span>
+      </div><hr>
+      <div>
+        <p>Mã giảm giá: </p>
+        <input type="text" placeholder="Nhập mã giảm giá (nếu có)"
+        style="border: 1px solid rgb(215, 215, 214); height: 40px; width: 255px;text-align: center;">
+      </div><hr>
       <div class="total">
-        <p>Tổng cộng</p>
-        <p>{{ totalAmount() + deliveryFee() }}</p>
-      </div>
-      <a href="#/pay" class="btn btn-dark">Thanh toán</a>
+        <span>Tổng cộng: </span>
+        <span style="color: red; font-size: 20px;">{{ totalAmount() + deliveryFee() }}</span>
+      </div><hr>
+      <button class="payment-button"><a href="#/pay" style="text-decoration: none;">THANH TOÁN NGAY</a></button>
+      <p>
+        <a href="#/product" style="margin-left: 40px;text-decoration: none;color: rgb(70, 66, 66);">
+          <i class="fa fa-reply" style="color: rgb(180, 65, 65);"></i> Tiếp tục mua hàng</a>
+      </p>
     </div>
   </div>
 </section>
-
-<section>
-  <div class="text-center">
-    <h2 style="font-weight: bold; padding-top: 20px;padding-bottom: 20px;">Có thể bạn sẽ thích</h2>
-  </div>
-  <div class="product">
-    <div class="boxProduct">
-      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-      <div class="card-badge">New</div>
-      <ul class="product-links">
-        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-              title="Thêm vào yêu thích"></i></button></li>
-      </ul>
-      <ul class="product-links-cart">
-        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-              title="Thêm vào giỏ hàng"></i></button></li>
-      </ul>
-      <ul class="product-links-buy">
-        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
-        </li>
-      </ul>
-      <div class="name">
-        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-      </div>
-      <div class="priceI">
-        <span>2,300,000 đ</span>
-        <span class="strike"><del></del></span>
-      </div>
-    </div>
-    <div class="boxProduct">
-      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-      <div class="card-badge">New</div>
-      <ul class="product-links">
-        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-              title="Thêm vào yêu thích"></i></button></li>
-      </ul>
-      <ul class="product-links-cart">
-        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-              title="Thêm vào giỏ hàng"></i></button></li>
-      </ul>
-      <ul class="product-links-buy">
-        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
-        </li>
-      </ul>
-      <div class="name">
-        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-      </div>
-      <div class="priceI">
-        <span>2,300,000 đ</span>
-        <span class="strike"><del></del></span>
-      </div>
-    </div>
-    <div class="boxProduct">
-      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-      <div class="card-badge">New</div>
-      <ul class="product-links">
-        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-              title="Thêm vào yêu thích"></i></button></li>
-      </ul>
-      <ul class="product-links-cart">
-        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-              title="Thêm vào giỏ hàng"></i></button></li>
-      </ul>
-      <ul class="product-links-buy">
-        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
-        </li>
-      </ul>
-      <div class="name">
-        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-      </div>
-      <div class="priceI">
-        <span>2,300,000 đ</span>
-        <span class="strike"><del></del></span>
-      </div>
-    </div>
-    <div class="boxProduct">
-      <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-      <div class="card-badge">New</div>
-      <ul class="product-links">
-        <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-              title="Thêm vào yêu thích"></i></button></li>
-      </ul>
-      <ul class="product-links-cart">
-        <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-              title="Thêm vào giỏ hàng"></i></button></li>
-      </ul>
-      <ul class="product-links-buy">
-        <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping" title="Mua ngay"></i></button>
-        </li>
-      </ul>
-      <div class="name">
-        <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-      </div>
-      <div class="priceI">
-        <span>2,300,000 đ</span>
-        <span class="strike"><del></del></span>
-      </div>
-    </div>
-  </div>
-</section>
-<div class="more">
-  <div class="">
-    <a href="#6">Hiển thị thêm sản phẩm </a>
-  </div>
-</div>

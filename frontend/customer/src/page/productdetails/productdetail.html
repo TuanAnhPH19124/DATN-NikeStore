@@ -1,169 +1,54 @@
-<br>
-<!-- The Modal -->
-<!-- MODAL -->
-<div class="container" style="padding-top: 50px;padding-bottom: 50px;border: 2px solid rgba(213, 204, 206, 0.7);">
+
+<div class="container" style="padding-top: 30px">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4" style="border: 1px solid rgb(211, 207, 207);padding-bottom: 20px;margin-right: 40px;">
             <div class="img">
                 <img src="{{getImgUrl(colors[selectedColor].images[selectedImg])}}"
-                    style="width: 90%; padding-left: 50px; padding-bottom: 30px;">
+                    style="width: 90%; padding-left: 50px; padding-bottom: 20px;">
             </div>
             <div class="hover-container">
                 <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
+                <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
+                <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7" 
+        style="border: 1px solid rgb(211, 207, 207);padding-top: 20px;background-color: rgb(255, 255, 255);padding-bottom: 20px;">
             <div class="information">
-                <h3 style="font-weight: bold;">{{ product.name }}</h3>
-                <p style="font-size: 18px;">{{ product.description }}</p>
-                <p style="font-weight: bold;font-size: 20px;">{{ product.retailPrice }} đ </p>
-                <p style="font-size: 18px;">Thương hiệu: Nike Air Jordan | Mã sản phẩm: FPT2002-34</p>
-                <p style="font-size: 18px;">Tình trạng: Còn hàng</p>
-
-
-                <div ng-repeat="color in colors">
-                    <button ng-click="setSelectedColor(color.id)">
-                        <img src="{{getImgUrl(color.images[0])}}" width="80px" alt="">
-                    </button>
-                </div>
-
-
+                <h4 style="font-weight: bold;">Tên giày: {{ product.name }}</h4>
+                <p style="font-size: 16px;">Mô tả: {{ product.description }}</p>
+                <span style="font-weight: bold;font-size: 20px;color: red;">{{ product.retailPrice }} đ </span>
+                <del style="color: rgb(141, 135, 135);margin-left: 20px;">{{product.discountRate}}đ</del>            
+                <p style="font-size: 16px;">Tình trạng: Còn hàng</p>
                 <div ng-class="{validator: errorMg}">
-                    <h4>Chọn size:</h4>
+                    <p>Kích thước:</p>
                     <span ng-show="errorMg" style="display: block; color: red;">{{errorMg}}</span>
 
                     <div ng-repeat="size in colors[selectedColor].sizes | orderBy: 'numberSize'"
                         style="display: inline-block;">
-                        <button type="button" class="btn btn-primary "
+                        <button type="button" class="btn btn-gray" 
+                        style="background-color: white;color: black;border: 1px solid gray;"
                             ng-class="{ 'btn-dark': size.id === selectedSize }"
                             ng-click="setSelectedSize(size.id)">{{size.numberSize}}</button>
                     </div>
+                    <p>Số lượng tồn: {{colors[selectedColor].sizes[selectedSizeIndex].unit}}</p>
                 </div>
-
-            </div>
-            <span>Số lượng tồn: {{colors[selectedColor].sizes[selectedSizeIndex].unit}}</span>
-
-            <p>
-                <select name="" id="" ng-model="quantity" ng-change="checkUnit()">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-                <button type="button" class="btn btn-dark btn-lg" style="border-radius: 5px"
-                    ng-click="addToCartE()">THÊM GIỎ HÀNG</button>
-            </p>
+            </div>                      
+            <div class="">
+                <button class="quantity-button" ng-click="decrementQuantity()" 
+                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
+                <input name="" id="" ng-model="quantity" ng-change="checkUnit()"
+                    style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;">
+                <button class="quantity-button" ng-click="incrementQuantity()"
+                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>          
+                <button type="button" 
+                    style="width: 250px; height: 40px;border: none;background-color: #413e3e;color: white;"
+                    ng-click="addToCartE()"> Thêm vào giỏ </button>
+                <button type="button" 
+                    style="width: 205px; height: 40px; background-color: white;
+                    border: 1px solid #413e3e;color: #0f0f0f;font-weight: 500;"
+                    ng-click="addToCartE()"> Mua ngay </button>
+            </div>       
         </div>
-    </div>
-</div> <br>
-<section>
-    <div class="text-center">
-        <h2>Sản phẩm liên quan</h2>
-    </div>
-    <div class="product">
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-                            title="Thêm vào yêu thích"></i></button></li>
-            </ul>
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-                            title="Thêm vào giỏ hàng"></i></button></li>
-            </ul>
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping"
-                            title="Mua ngay"></i></button></li>
-            </ul>
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>
-                <span class="strike"><del></del></span>
-            </div>
-        </div>
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-                            title="Thêm vào yêu thích"></i></button></li>
-            </ul>
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-                            title="Thêm vào giỏ hàng"></i></button></li>
-            </ul>
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping"
-                            title="Mua ngay"></i></button></li>
-            </ul>
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>
-                <span class="strike"><del></del></span>
-            </div>
-        </div>
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-                            title="Thêm vào yêu thích"></i></button></li>
-            </ul>
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-                            title="Thêm vào giỏ hàng"></i></button></li>
-            </ul>
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping"
-                            title="Mua ngay"></i></button></li>
-            </ul>
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>
-                <span class="strike"><del></del></span>
-            </div>
-        </div>
-        <div class="boxProduct">
-            <a href="#11"><img src="/frontend/customer/src/assets/img/product/5.jpg"></a>
-            <div class="card-badge">New</div>
-            <ul class="product-links">
-                <li><button type="button" class="viewheart"><i class="fa-solid fa-heart"
-                            title="Thêm vào yêu thích"></i></button></li>
-            </ul>
-            <ul class="product-links-cart">
-                <li><button type="button" class="viewcart"><i class="fa-solid fa-cart-plus"
-                            title="Thêm vào giỏ hàng"></i></button></li>
-            </ul>
-            <ul class="product-links-buy">
-                <li><button type="button" class="viewbuy"><i class="fa-solid fa-cart-shopping"
-                            title="Mua ngay"></i></button></li>
-            </ul>
-            <div class="name">
-                <a href="#" title="AIR JORDAN 1 LOW 'PANDA">AIR JORDAN 1 LOW 'PANDA''GUAVA ICE' </a>
-            </div>
-            <div class="priceI">
-                <span>2,300,000 đ</span>
-                <span class="strike"><del></del></span>
-            </div>
-        </div>
-    </div>
-</section>
-<div class="view-more">
-    <div class="boxC" style="font-size: 12px; padding-top: 20px; padding-bottom: 20px;">
-        <button type="button" class="btn btn-outline-danger"><a href="#6" style="text-decoration: none;color: black;">
-                Xem tất cả </a></button>
     </div>
 </div>
