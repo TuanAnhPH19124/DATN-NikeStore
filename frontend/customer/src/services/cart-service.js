@@ -8,13 +8,31 @@
                 url: uri
             })
         }
+
         this.addToCarts = function (data) {
             let uri = apiUrl + "/api/ShoppingCarts";
             return http({
                 method: 'POST',
                 url: uri,
                 data: data
-            }) 
+            });
+        };
+
+        this.updateCart = function (id,data){
+            let uri = apiUrl + '/api/ShoppingCarts/' + id;
+            return http({
+                method: 'PUT',
+                url: uri,
+                data: data
+            });
+        };
+
+        this.deleteCart = function (id){
+            let uri = apiUrl + '/api/ShoppingCarts/' + id;
+            return http({
+                method: 'DELETE',
+                url: uri
+            });
         };
 
         this.clearCart = function (id){
