@@ -45,5 +45,19 @@ namespace Persistence.Repositories
             _appDbContext.Sizes.Update(size);
             await _appDbContext.SaveChangesAsync();
         }
+
+        public async Task<List<Size>> GetSizeForProduct(string productId, string colorId)
+        {
+            var sizes = from size in _appDbContext.Sizes
+                        join st in _appDbContext.Stocks
+                        on size.Id equals st.SizeId
+                        where st.ColorId == colorId && st.ProductId == productId
+                        select new Size{
+                            Id = size.Id,
+                            NumberSize = size.NumberSize,
+                            Description = size.Description
+                        };
+            return await sizes.ToListAsync();
+        }
     }
 }

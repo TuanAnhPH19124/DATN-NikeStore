@@ -83,7 +83,7 @@ namespace Service
             return cartsDto;
         }
 
-        public async Task UpdateQuantity(ShoppingCartItems item)
+        public async Task UpdateQuantity(ShoppingCartItemPutAPI item)
         {
             var targetItem = await _repositoryManager.ShoppingCartItemRepository.GetById(item.Id);
 
@@ -91,6 +91,7 @@ namespace Service
                 throw new Exception("Có gì đó không đúng, không tìm thầy giỏ hàng này");
 
             targetItem.Quantity = item.Quantity;
+            targetItem.StockId = item.StockId;
 
             _repositoryManager.ShoppingCartItemRepository.Update(targetItem);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
