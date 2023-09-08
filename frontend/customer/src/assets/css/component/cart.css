@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     background-color: var(--bc-gray-light);
-    padding: 5px;
+    padding: 10px;
+    border-radius: 10px;
 }
 .cart-item{
     border-bottom: 1px solid var(--bc-gray-light);
@@ -13,7 +14,124 @@
 .main-item{
     display: flex;
     justify-content: space-between;
+    margin-left: 20px;
+    padding: 5px;
 }
-.product-price{
-   
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
+
+.cart-item img {
+    width: 150px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.main-item {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-infomation {
+    flex-grow: 1;
+}
+
+.product-infomation h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.product-infomation p {
+    margin: 5px 0;
+}
+
+.product-infomation div {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.product-infomation label {
+    margin-right: 5px;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.product-price span {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+button.remove-button {
+    background-color: transparent;
+    border: none;
+    color: #ff6347;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: auto; 
+}
+.numeric-input {
+    border: 1px solid rgb(203, 199, 199);
+    width: 60px;
+    height: 30px;
+    text-align: center;
+  }
+
+  /* CSS cho phần "Thông tin đơn hàng" */
+.col-3 {
+    border: 1px solid #ccc; /* Đường viền xung quanh */
+    border-radius: 5px; /* Bo tròn các góc */
+    padding: 10px; /* Khoảng cách nội dung và viền */
+  
+    /* Định dạng cho các phần con bên trong */
+    .subtotal, .Delivery, .total {
+      margin-bottom: 10px; /* Khoảng cách giữa các phần */
+    }
+  
+    /* Định dạng cho đường kẻ ngang */
+    hr {
+      border-top: 1px solid #ccc;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  
+    /* Định dạng cho nút thanh toán */
+    .btn-dark {
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
+.payment-button {
+    width: 255px;
+    align-items: center;
+    background-color: rgb(0, 0, 0); 
+    color: white; 
+    border: 1px solid #fff; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    display: inline-block; 
+    cursor: pointer; 
+    border-radius: 35px;
+  }
+.payment-button a{
+    color: white;
+}
+.payment-button a:hover{
+    color: white;
+}  
