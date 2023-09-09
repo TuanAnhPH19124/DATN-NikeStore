@@ -43,7 +43,8 @@ namespace Webapi.Controllers
             if (string.IsNullOrEmpty(userId))
                 return BadRequest(new {error = "Id không hợp lệ"});
 
-            var orders = from o in _dbContext.Orders
+            var result = await Task.Run(() =>{
+                var orders = from o in _dbContext.Orders
                          join oi in _dbContext.OrderItems on o.Id equals oi.OrderId
                          join p in _dbContext.Products on oi.ProductId equals p.Id
                          join s in _dbContext.Sizes on oi.SizeId equals s.Id
@@ -63,7 +64,7 @@ namespace Webapi.Controllers
                             ImgUrl = pi.ImageUrl
                          };
           
-            var groupAndDistrictOrder = orders.GroupBy(order => new{
+            var groupAndDistrictOrder = orders.ToList().GroupBy(order => new{
                 order.orderid,
                 order.orderitemid,
                 order.ProductName,
@@ -83,7 +84,15 @@ namespace Webapi.Controllers
                 Color = group.Key.Color,
                 ImgUrl = group.First().ImgUrl
             });
-            return Ok(groupAndDistrictOrder);
+
+            var final = groupAndDistrictOrder.GroupBy(order => order.orderid).Select(order => new {
+                orderId = order.Key,
+                orderItems = order.ToList()
+            }).ToList();
+            return final;
+            });
+            
+            return Ok(result);
         }
 
         [HttpPost("PayAtStore")]
