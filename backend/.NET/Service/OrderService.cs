@@ -80,6 +80,7 @@ namespace Service
                 Note = orderDto.Note,
                 UserId = orderDto.UserId,
                 EmployeeId = orderDto.EmployeeId,
+                AddressId = orderDto.AddressId,
                 VoucherId = orderDto.VoucherId,
                 Paymethod = orderDto.PaymentMethod,
                 Amount = orderDto.Amount,
