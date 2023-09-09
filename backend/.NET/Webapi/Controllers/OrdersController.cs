@@ -16,6 +16,7 @@ using Domain.DTOs;
 using System.Threading;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 
 namespace Webapi.Controllers
 {
@@ -35,6 +36,54 @@ namespace Webapi.Controllers
             _service=service;
             _hubContext=hubContext;
             _dbContext=dbContext;
+        }
+
+        [HttpGet("getByUserId/{userId}")]
+        public async Task<ActionResult> GetbyUserId(string userId){
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest(new {error = "Id không hợp lệ"});
+
+            var orders = from o in _dbContext.Orders
+                         join oi in _dbContext.OrderItems on o.Id equals oi.OrderId
+                         join p in _dbContext.Products on oi.ProductId equals p.Id
+                         join s in _dbContext.Sizes on oi.SizeId equals s.Id
+                         join c in _dbContext.Colors on oi.ColorId equals c.Id
+                         join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
+                         where o.UserId == userId && pi.ColorId == oi.ColorId
+                         select new
+                         {
+                            orderid= o.Id,
+                            orderitemid = oi.Id,
+                            ProductName = p.Name,
+                            DiscountRate = p.DiscountRate,
+                            RetailPrice = p.RetailPrice,
+                            Quantity = oi.Quantity,
+                            SizeNumber = s.NumberSize,
+                            Color = c.Name,
+                            ImgUrl = pi.ImageUrl
+                         };
+          
+            var groupAndDistrictOrder = orders.GroupBy(order => new{
+                order.orderid,
+                order.orderitemid,
+                order.ProductName,
+                order.DiscountRate,
+                order.RetailPrice,
+                order.Quantity,
+                order.SizeNumber,
+                order.Color
+            }).Select(group => new {
+                orderid= group.Key.orderid,
+                orderitemid = group.Key.orderitemid,
+                ProductName = group.Key.ProductName,
+                DiscountRate = group.Key.DiscountRate,
+                RetailPrice = group.Key.RetailPrice,
+                Quantity = group.Key.Quantity,
+                SizeNumber = group.Key.SizeNumber,
+                Color = group.Key.Color,
+                ImgUrl = group.First().ImgUrl
+            });
+            return Ok(groupAndDistrictOrder);
         }
 
         [HttpPost("PayAtStore")]
@@ -108,7 +157,7 @@ namespace Webapi.Controllers
                         {
                             // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
-                            Address = order.Address,
+                            AddressLine = order.AddressLine,
                             PhoneNumber = order.PhoneNumber,
                             Note = order.Note,
                             Paymethod = order.Paymethod,
@@ -183,7 +232,7 @@ namespace Webapi.Controllers
                         {
                             // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
-                            Address = order.Address,
+                            AddressLine = order.AddressLine,
                             PhoneNumber = order.PhoneNumber,
                             Note = order.Note,
                             Paymethod = order.Paymethod,
@@ -251,7 +300,7 @@ namespace Webapi.Controllers
                         {
                             // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
-                            Address = order.Address,
+                            AddressLine = order.AddressLine,
                             PhoneNumber = order.PhoneNumber,
                             Note = order.Note,
                             Paymethod = order.Paymethod,
@@ -319,7 +368,7 @@ namespace Webapi.Controllers
                         {
                             // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
-                            Address = order.Address,
+                            AddressLine = order.AddressLine,
                             PhoneNumber = order.PhoneNumber,
                             Note = order.Note,
                             Paymethod = order.Paymethod,
@@ -387,7 +436,7 @@ namespace Webapi.Controllers
                         {
                             // Copy thông tin từ order vào confirmedOrder
                             Id = order.Id,
-                            Address = order.Address,
+                            AddressLine = order.AddressLine,
                             PhoneNumber = order.PhoneNumber,
                             Note = order.Note,
                             Paymethod = order.Paymethod,
@@ -429,7 +478,7 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpPost("pay")]
+        [HttpPost("payOnline")]
         public async Task<IActionResult> Payment([FromBody] OrderPostRequestDto orderDto)
         {
             if (!ModelState.IsValid){

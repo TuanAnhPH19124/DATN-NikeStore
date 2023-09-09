@@ -29,7 +29,7 @@ namespace Persistence.Repositories
             var orderDTOList = orderList.Select(order => new OrderDto
             {
                 Id = order.Id,
-                Address = order.Address,
+                AddressLine = order.Address,
                 PhoneNumber = order.PhoneNumber,
                 Note = order.Note,
                 Paymethod = order.Paymethod,
@@ -88,6 +88,40 @@ namespace Persistence.Repositories
                     throw;
                 }
             }
+        }
+
+        public async Task<List<OrderByUserIdDto>> SelectByUserId(string userId)
+        {
+            var orders = from o in _context.Orders
+                         join oi in _context.OrderItems
+                         on o.Id equals oi.OrderId
+                         join os in _context.OrderStatuses
+                         on o.Id equals os.OrderId
+                         join p in _context.Products
+                         on oi.ProductId equals p.Id
+                         join c in _context.Colors
+                         on oi.ColorId equals c.Id
+                         join s in _context.Sizes
+                         on oi.SizeId equals s.Id
+                         join pi in _context.ProductImages
+                         on p.Id equals pi.ProductId
+                         where pi.ColorId == c.Id
+                         where o.UserId == userId
+                      
+                         select new OrderByUserIdDto
+                         {
+                             OrderId = o.Id,
+                             ProductId = p.Id,
+                             ProductName = p.Name,
+                             Discount = p.DiscountRate,
+                             Price = p.RetailPrice,
+                             Quantity = oi.Quantity,
+                             ProductImge = pi.ImageUrl,
+                             SizeNumber = s.NumberSize,
+                             ColorName = c.Name
+                         };
+
+            return await orders.ToListAsync();
         }
     }
 }

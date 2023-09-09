@@ -1,0 +1,45 @@
+.order-status{
+    display: flex;
+    justify-content: center;
+}
+
+.order-status ul li {
+    display: inline-block;
+    margin: 5px;
+    font-weight: bold;
+    opacity: 0.9;
+}
+
+.order-sort{
+    display: flex;
+    justify-content: end;
+}
+
+.order-status ul li:hover{
+    border-bottom: 1px solid black;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.order-tiem-product-info{
+    border-bottom: 1px solid gainsboro;
+}
+
+.order-item-product-info-title, .order-item-status, .order-item-options{
+    display: flex;
+}
+
+.order-item-options{
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.order-item-status{
+    justify-content: end;
+}
+
+.retail-price{
+    text-decoration: line-through;
+    opacity: 0.5;
+}
