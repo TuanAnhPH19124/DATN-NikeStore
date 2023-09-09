@@ -318,7 +318,7 @@ namespace Webapi.Controllers
         }
 
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordRequest)
         {
