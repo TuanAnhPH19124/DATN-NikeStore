@@ -55,9 +55,11 @@ namespace EntitiesDto.Product
     public class ProductFilterOptionAPI
     {
         public List<string> Categories { get; set; } = null;
-        public List<GenderAPI> Genders { get; set; } = null;
-        public List<SizeFilterAPI> Sizes { get; set; } = null;
-        public List<ColorFilterAPI> Colors { get; set; } = null;
+        public List<int> Genders { get; set; } = null;
+        public List<string> Sizes { get; set; } = null;
+        public List<string> Colors { get; set; } = null;
+        public double Min { get; set; }
+        public double Max { get; set; }
         public SortBy? SortBy { get; set; } = null;
         public bool? Sale { get; set; } = null;
     }
