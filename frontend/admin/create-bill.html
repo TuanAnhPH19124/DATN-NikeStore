@@ -221,13 +221,13 @@
                         <div class="modal-body" >
                             <div class="add-btn">
                                 <!-- button camera -->
-                                <a href="#" class="btn btn-primary btn-icon-split"
+                                <!-- <a href="#" class="btn btn-primary btn-icon-split"
                                  data-toggle="modal" data-target="#modal-add-camera" style="margin-right: 10px;">
                                     <span class="icon text-white-50">
                                       <i class="fa-solid fa-qrcode"></i>
                                     </span>
                                     <span class="text">Qr code sản phẩm</span>
-                                  </a>
+                                  </a> -->
                                   <!-- button thêm sản phẩm -->
 
                                   <a href="#" id="addProductButton" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#modal-add-product">
@@ -376,7 +376,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Tài khoản</h5>
                             <div class="add-btn">
-                                <a style="display: none;" class="btn btn-primary btn-icon-split" id="re-select"
+                                <a style="display: none;margin-right: 15px;" class="btn btn-danger btn-icon-split" id="re-select"
                                >
                                 <span class="text">Bỏ chọn</span>
                             </a>
@@ -568,7 +568,7 @@
                 <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+                    <a class="btn btn-primary" href="login.html" onclick="logOut()">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -605,6 +605,7 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="js/create-bill.js"></script>
+    <script src="js/log-out.js"></script>
 
 
 </body>
