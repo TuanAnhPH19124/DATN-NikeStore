@@ -31,10 +31,116 @@ namespace Service
             return await _repositoryManger.OrderItemsRepository.GetRevenueByProductId(productId);
         }
 
-        // thong ke tong doanh thu
-        public async Task<decimal> GetTotalRevenueInTimeRange(DateTime startDate, DateTime endDate)
+        // Doanh so trong 1 khoang thoi gian
+        public async Task<float> GetTotalOrder(DateTime startDate, DateTime endDate)
         {
-            return await _repositoryManger.OrderItemsRepository.GetTotalRevenueInTimeRange(startDate, endDate);
+            try
+            {
+                var summary = await _repositoryManger.OrderItemsRepository.GetTotalOrders(startDate, endDate);
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // doanh so ban hang cua thang hien tai
+        public async Task<float> GetTotalOrdersForCurrentMonth()
+        {
+            try
+            {
+                var sumAllMonth = await _repositoryManger.OrderItemsRepository.GetTotalOrdersForCurrentMonth();
+                return sumAllMonth;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // doanh so ban hang cua ngay hom nay
+        public async Task<float> GetTotalOrdersForCurrentDate()
+        {
+            try
+            {
+                var sumAllDate = await _repositoryManger.OrderItemsRepository.GetTotalOrdersForCurrentDate();
+                return sumAllDate;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Tong so don hang cua ngay hom nay
+        public async Task<float> GetTotalBillForCurrentDate()
+        {
+            try
+            {
+                var sumAllDate = await _repositoryManger.OrderItemsRepository.GetTotalBillForCurrentDate();
+                return sumAllDate;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Tong so don hang cua thang hien tai
+        public async Task<float> GetTotalBillForCurrentMonth()
+        {
+            try
+            {
+                var sumAllMonth = await _repositoryManger.OrderItemsRepository.GetTotalBillForCurrentMonth();
+                return sumAllMonth;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Tong so hoa don trong 1 khoang thoi gian
+        public async Task<float> GetTotalOrdersInTimeRange(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var sumAll = await _repositoryManger.OrderItemsRepository.GetTotalOrdersInTimeRange(startDate, endDate);
+                return sumAll;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Tong so hoa don da ban
+        public async Task<float> GetTotalBill()
+        {
+            try
+            {
+                var sumAllBill = await _repositoryManger.OrderItemsRepository.GetTotalBill();
+                return sumAllBill;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Tong so doanh thu
+        public async Task<float> GetTotalAmount()
+        {
+            try
+            {
+                var sumAllOrder = await _repositoryManger.OrderItemsRepository.GetTotalAmount();
+                return sumAllOrder;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

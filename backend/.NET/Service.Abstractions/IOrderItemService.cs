@@ -11,6 +11,13 @@ namespace Service.Abstractions
     {
         Task<int> GetAmountByProductId(string productId);
         Task<decimal> GetRevenueByProductId(string productId);
-        Task<decimal> GetTotalRevenueInTimeRange(DateTime startDate, DateTime endDate);
+        Task<float> GetTotalOrder(DateTime startDate, DateTime endDate);
+        Task<float> GetTotalOrdersForCurrentMonth();
+        Task<float> GetTotalOrdersForCurrentDate();
+        Task<float> GetTotalBillForCurrentDate();
+        Task<float> GetTotalBillForCurrentMonth();
+        Task<float> GetTotalOrdersInTimeRange(DateTime startDate, DateTime endDate);
+        Task<float> GetTotalBill();
+        Task<float> GetTotalAmount();
     }
 }

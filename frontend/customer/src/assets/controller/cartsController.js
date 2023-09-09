@@ -69,6 +69,11 @@
             e.updateCart(id);
         }
 
+        e.pay = function(){
+            
+            l.path('/pay');
+        }
+
         e.removeCart = function(id){
             var confirm = $window.confirm("Bạn có chắc chắn muốn xóa mục nảy");
             if (confirm){

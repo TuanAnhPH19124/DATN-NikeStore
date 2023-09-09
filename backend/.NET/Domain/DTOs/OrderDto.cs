@@ -10,7 +10,7 @@ namespace Domain.DTOs
     public class OrderDto
     {
         public string Id { get; set; }
-        public string Address { get; set; }
+        public string AddressLine { get; set; }
         public string PhoneNumber { get; set; }
         public string Note { get; set; }
         public int Paymethod { get; set; }
@@ -43,5 +43,33 @@ namespace Domain.DTOs
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
     }
- 
+    
+    public class OrderOnlineDto : OrderDto
+    {
+        public AddrDto Addr { get; set; }
+    }
+
+    public class AddrDto{
+        public string PhoneNumber { get; set; }
+        public string FullName { get; set; }
+        public string AddressLine { get; set; }
+    }
+
+    public class OrderByUserIdDto
+    {
+        public string OrderId { get; set; }
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public double Discount { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+        public string ProductImge { get; set; }
+        public int SizeNumber { get; set; }
+        public string ColorName { get; set; }
+    }
+
+    public class OrderTestDto
+    {
+        public string MyProperty { get; set; }
+    }
 }

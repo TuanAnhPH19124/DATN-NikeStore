@@ -12,7 +12,7 @@ namespace Service.Abstractions
     public interface IOrderService
     {
         Task CreateNewOnlineOrder(OrderPostRequestDto orderDto);
-
+        Task<List<OrderByUserIdDto>> GetByUserId(string userId);
         Task UpdateOrderOnConfirm(string id ,object order);
         Task PostNewOrderAtStore(OrderAtStorePostRequestDto orderDto);
         Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default);
