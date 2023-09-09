@@ -1,5 +1,5 @@
 (function () {
-    var cartsController = function ($window,stockService,sizeService, e, l, authService, cartService, jwtHelper, orderFactory, apiUrl) {
+    var cartsController = function (priceFactory,$window,stockService,sizeService, e, l, authService, cartService, jwtHelper, orderFactory, apiUrl) {
         e.carts = [];
         e.sizes = [];
      
@@ -50,6 +50,30 @@
             }
         }
 
+        e.degree = function (id, plus){
+            var cart = e.carts.filter(item => item.id === id);
+            var index = -1;
+            for (let i = 0; i < e.carts.length; i++) {
+                if (e.carts[i].id === id){
+                    index = i;
+                    break;
+                }
+            }
+            if (plus){
+                if (parseInt(e.carts[index].quantity) <= 9)
+                    e.carts[index].quantity = parseInt(e.carts[index].quantity) + 1 + '';
+            }else{
+                if (parseInt(e.carts[index].quantity) > 1)
+                    e.carts[index].quantity = parseInt(e.carts[index].quantity) - 1 + '';
+            }
+            e.updateCart(id);
+        }
+
+        e.pay = function(){
+            
+            l.path('/pay');
+        }
+
         e.removeCart = function(id){
             var confirm = $window.confirm("Bạn có chắc chắn muốn xóa mục nảy");
             if (confirm){
@@ -77,6 +101,10 @@
                 })
             }
             
+        }
+
+        e.formatPrice = function (price){
+            return priceFactory.formatVNDPrice(price);
         }
 
         function constructor() {
@@ -107,6 +135,6 @@
         constructor();
 
     }
-    cartsController.$inject = ['$window','stockService','sizeService','$scope', '$location', 'authService', 'cartService', 'jwtHelper', 'orderFactory', 'apiUrl'];
+    cartsController.$inject = ['priceFactory','$window','stockService','sizeService','$scope', '$location', 'authService', 'cartService', 'jwtHelper', 'orderFactory', 'apiUrl'];
     angular.module("app").controller("cartsController", cartsController);
 }());

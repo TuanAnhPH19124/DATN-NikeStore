@@ -104,17 +104,16 @@ namespace Service
     
 
             if (options.Colors != null && options.Colors.Any())
-            {
-                var colorIds = options.Colors.Select(c => c.Id).ToList();
-                query = query.Where(p => p.Stocks.Any(pi => colorIds.Contains(pi.ColorId)));
-            }
+                query = query.Where(p => p.Stocks.Any(c => options.Colors.Contains(c.ColorId)));
+           
 
             if (options.Sizes != null && options.Sizes.Any())
-            {
-                var sizeIds = options.Sizes.Select(s => s.Id).ToList();
-                query = query.Where(p => p.Stocks.Any(s => sizeIds.Contains(s.SizeId)));
-            }
+                query = query.Where(p => p.Stocks.Any(s => options.Sizes.Contains(s.SizeId)));
+            
 
+            if (options.Min >= 0 && options.Max > 0 && options.Max > options.Min)
+                query = query.Where(p => p.DiscountRate >= options.Min && p.DiscountRate <= options.Max);
+           
             if (options.SortBy.HasValue)
             {
                 switch (options.SortBy.Value)

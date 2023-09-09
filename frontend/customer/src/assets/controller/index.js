@@ -40,10 +40,10 @@ app.config(function ($routeProvider, $locationProvider) {
     .when("/7", {
       templateUrl: "../page/promotionalproducts/promotionalproducts.html",
     })
-    .when("/8", {
+    .when("/blog", {
       templateUrl: "../page/blog/blog.html",
     })
-    .when("/9", {
+    .when("/contact", {
       templateUrl: "../page/contact/contact.html",
     })
     .when("/21", {
@@ -64,6 +64,10 @@ app.config(function ($routeProvider, $locationProvider) {
     .when("/pay", {
       templateUrl: "../page/cart/pay.html",
       controller: "orderController"
+    })
+    .when("/order", {
+      templateUrl: "../page/order/order.html",
+      controller: "purchaseController"
     })
     .otherwise({
       templateUrl: "../pages/index/index.html",

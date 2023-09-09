@@ -71,19 +71,29 @@ $(document).ready(function () {
     $('#customer-table tbody').on('click', 'tr', function (e) {
         e.preventDefault();
         let customerId = $('#customer-table').DataTable().row(this).data().id;
-        if (customerId !== null) {
-            $.ajax({
-                url: `https://localhost:44328/api/AppUser/Get/${customerId}`,
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    
-                },
-            });
-
-
-        }
+        let status = $('#customer-table').DataTable().row(this).data().status;
+        let fullName = $('#customer-table').DataTable().row(this).data().fullName;
+            if (customerId !== null) {
+                formData = {
+                    "status": status==1?0:1,
+                    "id": customerId
+                  }
+                  console.log(formData)
+                  if (confirm(`Bạn có muốn thay đổi trạng thái khách ${fullName} không?`)) {
+                    $.ajax({
+                        url: `https://localhost:44328/api/AppUser/${customerId}/UpdateUserByAdmin`,
+                        type: "PUT",
+                        data: JSON.stringify(formData),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            customerTable.ajax.reload()
+                        },
+                    });
+                } else {
+                    return
+                }
+            }
     });
 });
 
