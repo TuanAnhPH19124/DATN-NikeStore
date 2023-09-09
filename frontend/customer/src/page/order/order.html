@@ -10,7 +10,7 @@
         </ul>
     </div>
     <div class="order-sort">
-        <label>Sắp xếp: 
+        <label>Sắp xếp:
             <select>
                 <option value="0">Mới nhất</option>
                 <option value="1">Giá: Thấp đến cao</option>
@@ -22,31 +22,32 @@
         <input type="text" placeholder="Mã hóa đơn">
     </div>
     <div class="order-items">
-        <div class="order-item">
+        <div class="order-item" ng-repeat="order in orders">
             <div class="order-item-status">
-                <span>Đơn hàng đã được giao thành công</span> | 
+                <span>Đơn hàng đã được giao thành công</span> |
                 <span>Hoàn thành</span>
-            </div> 
-            <div class="order-tiem-product-info">
+            </div>
+            <div class="order-tiem-product-info" ng-repeat="item in order.orderItems">
                 <a href="">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="order-item-product-info-title">
-                            <img src="/frontend/customer/src/assets/img/product/10.jpg" alt="" style="display: inline-block;">
+                            <img ng-src="{{getImgUrl(item.imgUrl)}}" alt=""
+                                style="display: inline-block;">
                             <div>
-                                <p>Nike Air Jordan X</p>
-                                <p>Phân loại hàng: Đen, 41</p>
-                                <p>Số lượng: 1</p>
+                                <p>{{ item.productName }}</p>
+                                <p>Phân loại hàng: {{ item.color }}, {{ item.sizeNumber }}</p>
+                                <p>Số lượng: {{ item.quantity }}</p>
                             </div>
                         </div>
                         <div class="order-item-product-info-price">
-                            <span>100.000đ</span>
-                            <span class="retail-price">150.000đ</span>
+                            <span>{{ formatPrice(item.discountRate) }}</span>
+                            <span class="retail-price">{{ formatPrice(item.retailPrice) }}</span>
                         </div>
                     </div>
                 </a>
             </div>
             <div style="display: flex; justify-content: end;">
-                <p>Thành tiền: 100.000đ</p>
+                <p>Thành tiền: {{ formatPrice(getToTalAmount(order.orderId)) }}</p>
             </div>
             <div class="order-item-options">
                 <div class="order-item-option-review">

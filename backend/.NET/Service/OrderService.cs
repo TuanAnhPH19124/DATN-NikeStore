@@ -50,6 +50,7 @@ namespace Service
                         Note = "Chờ xác nhận"
                     }
                 },
+                CurrentStatus = StatusOrder.CONFIRM,
                 OrderItems = orderDto.OrderItems.Select(p => new OrderItem{
                     ProductId = p.ProductId,
                     ColorId = p.ColorId,
@@ -114,6 +115,7 @@ namespace Service
                     //    Note = "Thành công"
                     //},
                 };
+                order.CurrentStatus = StatusOrder.CONFIRM;
             }
            else
             {
@@ -138,6 +140,7 @@ namespace Service
                     //    Note = "Thành công"
                     //},
                 };
+                order.CurrentStatus = StatusOrder.DELIVERIED;
             }
 
             order.OrderItems = orderDto.OrderItems.Select(p => new OrderItem

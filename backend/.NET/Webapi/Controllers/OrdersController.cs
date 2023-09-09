@@ -61,7 +61,8 @@ namespace Webapi.Controllers
                             Quantity = oi.Quantity,
                             SizeNumber = s.NumberSize,
                             Color = c.Name,
-                            ImgUrl = pi.ImageUrl
+                            ImgUrl = pi.ImageUrl,
+                            Status = o.CurrentStatus,
                          };
           
             var groupAndDistrictOrder = orders.ToList().GroupBy(order => new{
@@ -72,7 +73,8 @@ namespace Webapi.Controllers
                 order.RetailPrice,
                 order.Quantity,
                 order.SizeNumber,
-                order.Color
+                order.Color,
+                order.Status
             }).Select(group => new {
                 orderid= group.Key.orderid,
                 orderitemid = group.Key.orderitemid,
@@ -82,6 +84,7 @@ namespace Webapi.Controllers
                 Quantity = group.Key.Quantity,
                 SizeNumber = group.Key.SizeNumber,
                 Color = group.Key.Color,
+                Status = group.Key.Status,
                 ImgUrl = group.First().ImgUrl
             });
 
@@ -89,6 +92,7 @@ namespace Webapi.Controllers
                 orderId = order.Key,
                 orderItems = order.ToList()
             }).ToList();
+
             return final;
             });
             
