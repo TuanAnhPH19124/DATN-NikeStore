@@ -210,10 +210,10 @@
                                 <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending" role="tab" aria-controls="tabPending" aria-selected="false">Chờ xác nhận</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending1" role="tab" aria-controls="tabPending" aria-selected="false">Chờ vận chuyển    </a>
+                                <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending1" role="tab" aria-controls="tabPending" aria-selected="false">Chuẩn bị hàng</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending" role="tab" aria-controls="tabPending" aria-selected="false">Đang vận chuyển</a>
+                                <a class="nav-link" id="tab-pending" data-toggle="tab" href="#tabPending2" role="tab" aria-controls="tabPending" aria-selected="false">Đang vận chuyển</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-completed" data-toggle="tab" href="#tabCompleted" role="tab" aria-controls="tabCompleted" aria-selected="false">Thành công</a>
@@ -225,7 +225,6 @@
                         <div class="tab-content">
                             <!-- Tab "Tất cả" -->
                             <div class="tab-pane fade show active" id="tabAll" role="tabpanel" aria-labelledby="tab-all">
-                                <!-- Bảng dữ liệu -->
                                 <table class="table table-bordered" id="bill-table" width="100%" cellspacing="0">
                                     <tbody id="tbody">
                                     </tbody>
@@ -233,182 +232,32 @@
                             </div>
                             <!-- Các tab khác sẽ có cấu trúc tương tự -->
                             <div class="tab-pane fade" id="tabPending" role="tabpanel" aria-labelledby="tab-pending">
-                                <!-- Bảng dữ liệu cho tab "Chờ xác nhận" -->
-                                <!-- Tương tự với các tab khác -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>1232234</td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                                <table class="table table-bordered" id="bill-table1" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>
                             <div class="tab-pane fade" id="tabPending1" role="tabpanel" aria-labelledby="tab-pending">
-                                <!-- Bảng dữ liệu cho tab "Chờ xác nhận" -->
-                                <!-- Tương tự với các tab khác -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>143245532</td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                                <table class="table table-bordered" id="bill-table2" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane fade" id="tabCompleted" role="tabpanel" aria-labelledby="tab-completed">
-                                <!-- Bảng dữ liệu cho tab "Hoàn thành" -->
-                                <!-- Tương tự với các tab khác -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>1ewt4534532</td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                            <div class="tab-pane fade" id="tabPending2" role="tabpanel" aria-labelledby="tab-completed">
+                                <table class="table table-bordered" id="bill-table3" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane fade" id="tabPaid" role="tabpanel" aria-labelledby="tab-paid">
-                                <!-- Bảng dữ liệu cho tab "Thanh toán" -->
-                                <!-- Tương tự với các tab khác -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>14235246223</td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                            <div class="tab-pane fade" id="tabCompleted" role="tabpanel" aria-labelledby="tab-paid">
+                                <table class="table table-bordered" id="bill-table4" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>
                             <div class="tab-pane fade" id="tabCancelled" role="tabpanel" aria-labelledby="tab-cancelled">
-                                <!-- Bảng dữ liệu cho tab "Huỷ" -->
-                                <!-- Tương tự với các tab khác -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20px;">STT</th>
-                                            <th scope="col">Mã hoá đơn</th>
-                                            <th scope="col">Tên khách hàng</th>
-                                            <th scope="col">Tên nhân viên</th>
-                                            <th scope="col">Loại</th>
-                                            <th scope="col">Ngày tạo</th>
-                                            <th scope="col">Tổng tiền</th>
-                                            <th scope="col">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dữ liệu đơn hàng sẽ được thêm sau -->
-                                        <tr>
-                                            <td>1qtw4t4363414   </td>
-                                            <td>HD001</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>Nhân Viên 1</td>
-                                            <td>Tiền mặt</td>
-                                            <td>27/08/2023</td>
-                                            <td>1,000,000đ</td>
-                                            <td>
-                                                <a href="/frontend/admin/bill-detail.html" class="btn btn-info">
-                                                    Xem
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <!-- Thêm dữ liệu đơn hàng khác tương tự -->
+                                <table class="table table-bordered" id="bill-table5" width="100%" cellspacing="0">
+                                    <tbody id="tbody">
                                     </tbody>
                                 </table>
                             </div>
