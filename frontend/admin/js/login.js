@@ -23,15 +23,39 @@ $(document).ready(function () {
                 if(payload.role=="Admin"){
                     localStorage.setItem("user-id", payload.Id);
                     const id = localStorage.getItem("user-id");
-                    console.log(id)
-                    //window.location.href = `/frontend/admin/index.html`;
+                    $.ajax({
+                        url: "https://localhost:44328/api/AppUser/Get/" + payload.Id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                          console.log(JSON.stringify(data.status));
+                          if (data.status == 0) {
+                            $(".toast")
+                              .find(".toast-body")
+                              .text("Tài khoản của bạn đang tạm khóa");
+                            $(".toast").toast("show");
+                            return
+                          }
+                          window.location.href = `/frontend/admin/index.html`;
+                        },
+                        error: function () {
+                          console.log("Error retrieving data.");
+                        },
+                      });
                 }else{
-                    $('.toast').toast('show')
+                    $(".toast")
+                    .find(".toast-body")
+                    .text("Tài khoản, mật khẩu không tồn tại");
+                  $(".toast").toast("show");
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                if (textStatus == "error")
-                    $('.toast').toast('show')
+                if (textStatus == "error"){
+                    $(".toast")
+                    .find(".toast-body")
+                    .text("Tài khoản, mật khẩu không tồn tại");
+                  $(".toast").toast("show");
+                }
 
             }
         });

@@ -647,6 +647,7 @@ $(document).ready(function () {
       arr.splice(tabIndex - 1, 1); // Corrected index for array splice
       customers.splice(tabIndex - 1, 1); // Corrected index for array splice
       setFirstTabActive();
+      selectedOrder=0
     }
   });
 
