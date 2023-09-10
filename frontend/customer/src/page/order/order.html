@@ -24,11 +24,12 @@
     <div class="order-items">
         <div class="order-item" ng-repeat="order in orders">
             <div class="order-item-status">
-                <span>Đơn hàng đã được giao thành công</span> |
-                <span>Hoàn thành</span>
+                <span>{{ status[order.status] }}</span> |
+                <span ng-show="order.status === 4">Hoàn thành</span>
+                <span ng-show="order.status !== 4">Chưa hoàn thành</span>
             </div>
             <div class="order-tiem-product-info" ng-repeat="item in order.orderItems">
-                <a href="">
+                <a href="#/orderDetail/{{order.orderId}}">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="order-item-product-info-title">
                             <img ng-src="{{getImgUrl(item.imgUrl)}}" alt=""
