@@ -1,6 +1,8 @@
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +17,7 @@ namespace Persistence.Repositories
         public OrderItemsRepository(AppDbContext context)
         {
             _context = context;
-        }
+        }       
 
         public async Task<IEnumerable<OrderItem>> SelectItemByOrderId(string OrderId)
         {
@@ -149,5 +151,45 @@ namespace Persistence.Repositories
                 .SumAsync(p => p.Quantity * p.UnitPrice);
             return revenue;
         }
+
+        // select 5 san pham ban duoc nhieu nhat
+        public async Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int topCount)
+        {
+            // Lấy danh sách sản phẩm bán được và doanh thu
+            var topProducts = await _context.OrderItems
+                .GroupBy(p => p.ProductId)
+                .Select(g => new
+                {
+                    ProductId = g.Key,
+                    TotalQuantitySold = g.Sum(p => p.Quantity),
+                    TotalRevenue = g.Sum(p => p.Quantity * p.UnitPrice)
+                })
+                .OrderByDescending(p => p.TotalQuantitySold)
+                .Take(topCount)
+                .ToListAsync();
+
+            // Lấy danh sách các ProductId cần truy vấn
+            var productIds = topProducts.Select(item => item.ProductId).ToList();
+
+            // Truy vấn tên sản phẩm từ bảng Products
+            var productNames = await _context.Products.Where(p => productIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id, p => p.Name);
+
+            // Tạo danh sách kết quả
+            var results = topProducts
+                .Select(item => new ProductSalesAndRevenueInfo
+                {
+                    ProductId = item.ProductId,
+                    ProductName = productNames.ContainsKey(item.ProductId) ? productNames[item.ProductId] : null,
+                    TotalQuantitySold = item.TotalQuantitySold,
+                    TotalRevenue = (decimal)item.TotalRevenue
+                })
+                .ToList();
+
+            return results;
+        }
+
+
+
     }
 }

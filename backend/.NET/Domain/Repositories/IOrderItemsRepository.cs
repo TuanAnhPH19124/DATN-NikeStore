@@ -19,5 +19,6 @@ namespace Domain.Repositories
         Task<int> GetTotalOrdersInTimeRange(DateTime startDate, DateTime endDate);
         Task<int> GetTotalBill();
         Task<float> GetTotalAmount();
+        Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int topCount);
     }
 }
