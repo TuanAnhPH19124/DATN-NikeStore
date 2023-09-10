@@ -1,3 +1,26 @@
+/* Style the select box */
+select {
+    font-size: 16px; /* Adjust font size */
+    border: 1px solid #ccc; /* Add a border */
+    background-color: #fff; /* Set background color */
+    cursor: pointer; /* Change cursor on hover */
+    width: 60px;
+    height: 40px;
+    text-align: center;
+}
+
+/* Style select box on hover */
+select:hover {
+    border-color: #999; /* Change border color on hover */
+}
+
+/* Style select box when it has focus */
+select:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #555; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(85, 85, 85, 0.5); /* Add a box shadow on focus */
+}
+
 .banner-freeship{
     display: flex;
     justify-content: space-between;
