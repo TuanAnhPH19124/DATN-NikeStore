@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.Repositories;
 
 namespace Service.Abstractions
 {
@@ -19,5 +20,6 @@ namespace Service.Abstractions
         Task<float> GetTotalOrdersInTimeRange(DateTime startDate, DateTime endDate);
         Task<float> GetTotalBill();
         Task<float> GetTotalAmount();
+        Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int TopCount);
     }
 }
