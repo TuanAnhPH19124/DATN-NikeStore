@@ -1064,16 +1064,16 @@ function loadSizeE() {
         var newInput = document.createElement("input");
         newInput.className = "input-unit";
         newInput.placeholder = "Số lượng: ";
-        newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
+        newInput.value = element.unitInStock >= 0 ? element.unitInStock : 1;
   
         newInput.addEventListener("change", function () {
           if (
             parseInt(newInput.value) <= 0 ||
             isNaN(parseInt(newInput.value))
           ) {
-            newInput.value = 1;
+            newInput.value = 0;
             validationMessage.textContent =
-              "Số lượng là số lớn hơn hoặc bằng 1.";
+              "Số lượng phải là số";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
             );

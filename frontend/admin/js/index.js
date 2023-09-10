@@ -235,6 +235,48 @@ $(document).ready(function () {
             });
   });
 
+  $.ajax({
+    url: "https://localhost:44328/api/OrderItem/get-top",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+        console.log(JSON.stringify(data));
+
+        // Select the table body element
+        var tableBody = $("table tbody");
+
+        // Loop through the data and populate the table rows
+        for (var i = 0; i < data.length; i++) {
+            var product = data[i];
+            // Create a new row for each product
+            var row = $("<tr class='table-row'>"); // Add the 'table-row' class for hover effect
+            row.append("<th scope='row' style='display:none'>" + product.productId + "</th>");
+            row.append("<th scope='row' style='padding-left:20px'>" + (i + 1) + "</th>");
+            row.append("<td>" + product.productName + "</td>");
+            row.append("<td style='padding-left:60px'>" + product.totalQuantitySold + "</td>");
+            row.append("<td>" + Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(product.totalRevenue) + "</td>");
+
+            // Append the row to the table body
+            tableBody.append(row);
+        }
+    },
+    error: function () {
+        console.log("Error retrieving data.");
+    },
+});
+
+$(".table tbody").on("click", "tr", function (e) {
+  e.preventDefault();
+  const productId = $(this).find('th:first').text();
+  if (productId !== null) {
+    localStorage.setItem("productId", productId);
+    window.location.href = `/frontend/admin/product-detail.html`;
+  }
+});
+
 });
 const id_user = localStorage.getItem("user-id");
 $.ajax({

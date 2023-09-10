@@ -144,10 +144,10 @@ Promise.all([fetchData1(), fetchData2(),fetchData3(),fetchData4(),fetchData5(),f
           {
             data: [confirmPer, preparePer, shippingPer, successPer, cancelPer],
             backgroundColor: [
-              "#28a745",
+              "#007bff",
               "#ffc107",
               "#17a2b8",
-              "#007bff",
+              "#28a745",
               "#dc3545",
             ],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
