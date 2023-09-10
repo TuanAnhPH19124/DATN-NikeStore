@@ -214,7 +214,7 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">100 chiếc/10000 đô
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id="total-bill">0 đơn</span> / <span id="total-amount">0 ₫</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -235,7 +235,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Doanh số tháng này</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">16 đơn / 1000 đô
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="total-bill-month">0 đơn</span> / <span id="total-amount-month">0 ₫</span>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -254,7 +254,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Doanh số hôm nay</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">6 đơn / 500 đô</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span id="total-bill-date">0 đơn</span> / <span id="total-amount-date">0 ₫</span>
+
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -282,7 +284,7 @@
                                         <div class="form-group">
                                             <label for="end">Từ ngày</label>
                                             <div class="input-group date" id="datepicker">
-                                                <input type="text" class="form-control" id="endDate" name="endDate"
+                                                <input type="text" class="form-control" id="startDate" name="startDate"
                                                     autocomplete="off">
                                                 <span class="input-group-append">
                                                     <span class="input-group-text bg-white">
@@ -312,7 +314,7 @@
                                                             </div>
                                                             <div class="row no-gutters align-items-center">
                                                                 <div class="col-auto">
-                                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">26 chiếc
+                                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id="total-bill-time">0 đơn</span> / <span id="total-amount-time">0 ₫</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -336,41 +338,19 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Top Sản Phẩm Bán Chạy Trong Tháng</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Top Sản Phẩm Bán Chạy</h6>
                                 </div>
                                 <div class="card-body">
                                     <table class="table">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Ảnh</th>
+                                                <th scope="col">STT</th>
                                                 <th scope="col">Tên sản phẩm</th>
-                                                <th scope="col">Giá bán</th>
+                                                <th scope="col">Số lượng đã bán</th>
                                                 <th scope="col">Doanh số</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                                <td>@mdo</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -405,13 +385,13 @@
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Thành công
+                                            <i class="fas fa-circle text-success"></i> Thành công
                                         </span>
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-danger"></i> Đã hủy
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i>Chờ xác nhận
+                                            <i class="fas fa-circle text-primary"></i>Chờ xác nhận
                                         </span>
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-warning"></i>Chuẩn bị hàng
