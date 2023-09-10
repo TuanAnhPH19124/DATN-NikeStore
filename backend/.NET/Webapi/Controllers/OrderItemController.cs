@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Service;
+using Domain.Repositories;
+using Nest;
 
 namespace Webapi.Controllers
 {
@@ -99,6 +101,21 @@ namespace Webapi.Controllers
         {
             float totalAll = await _serviceManager.OrderItemService.GetTotalAmount();
             return Ok(totalAll);
+        }
+
+        // select 5 san pham ban duoc nhieu nhat
+        [HttpGet("get-top")]
+        public async Task<ActionResult<List<ProductSalesAndRevenueInfo>>> GetTopSellingProductsAndRevenue()
+        {
+            try
+            {
+                var topProducts = await _serviceManager.OrderItemService.GetTopSellingProductsAndRevenue(5);
+                return Ok(topProducts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

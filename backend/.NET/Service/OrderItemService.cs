@@ -142,5 +142,19 @@ namespace Service
                 throw;
             }
         }
+
+        // select 5 san pham ban duoc nhieu nhat
+        public async Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int TopCount)
+        {
+            try
+            {
+                var top = await _repositoryManger.OrderItemsRepository.GetTopSellingProductsAndRevenue(TopCount);
+                return top;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
