@@ -206,6 +206,29 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Doanh số tổng
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">100 chiếc/10000 đô
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -230,7 +253,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Hôm nay</div>
+                                                Doanh số hôm nay</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">6 đơn / 500 đô</div>
                                         </div>
                                         <div class="col-auto">
@@ -241,29 +264,7 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Hàng bán
-                                                tháng này
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">26 chiếc
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
 
 
                     </div>
@@ -276,7 +277,7 @@
                         <div class="col-xl-12 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Biểu đồ thống kê</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Thống kê</h6>
                                     <div class="date-picker">
                                         <div class="form-group">
                                             <label for="end">Từ ngày</label>
@@ -290,7 +291,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" style="margin-right: 300px;">
                                             <label for="end">Đến ngày</label>
                                             <div class="input-group date" id="datepicker">
                                                 <input type="text" class="form-control" id="endDate" name="endDate"
@@ -302,13 +303,34 @@
                                                 </span>
                                             </div>
                                         </div>
+                                        <div class="col-xl-4 col-md-6 mb-4" style="padding-left: 25px;">
+                                            <div class="card border-left-info shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Doanh số trong thời gian
+                                                            </div>
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">26 chiếc
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                <!-- <div class="card-body">
                                     <div class="chart-bar">
                                         <canvas id="myBarChart"></canvas>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-7">
@@ -383,13 +405,19 @@
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Đã hoàn thành
+                                            <i class="fas fa-circle text-primary"></i> Thành công
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Đã hủy
+                                            <i class="fas fa-circle text-danger"></i> Đã hủy
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Đang chờ xác nhận
+                                            <i class="fas fa-circle text-success"></i>Chờ xác nhận
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-warning"></i>Chuẩn bị hàng
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i>Đang vận chuyển
                                         </span>
                                     </div>
                                 </div>
@@ -433,7 +461,7 @@
                 <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+                    <a class="btn btn-primary" href="login.html" onclick="logOut()">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -477,6 +505,7 @@
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/log-out.js"></script>
 
 </body>
 

@@ -1,0 +1,64 @@
+<section>
+    <h1>Đơn đã mua</h1>
+    <div class="order-status">
+        <ul>
+            <li>Chờ xác nhận</li>
+            <li>Đang giao</li>
+            <li>Đã giao</li>
+            <li>Đã hủy</li>
+            <li>Trả hàng</li>
+        </ul>
+    </div>
+    <div class="order-sort">
+        <label>Sắp xếp:
+            <select>
+                <option value="0">Mới nhất</option>
+                <option value="1">Giá: Thấp đến cao</option>
+                <option value="2">Giá: Cao đến thấp</option>
+            </select>
+        </label>
+    </div>
+    <div class="order-search-bar">
+        <input type="text" placeholder="Mã hóa đơn">
+    </div>
+    <div class="order-items">
+        <div class="order-item" ng-repeat="order in orders">
+            <div class="order-item-status">
+                <span>Đơn hàng đã được giao thành công</span> |
+                <span>Hoàn thành</span>
+            </div>
+            <div class="order-tiem-product-info" ng-repeat="item in order.orderItems">
+                <a href="">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="order-item-product-info-title">
+                            <img ng-src="{{getImgUrl(item.imgUrl)}}" alt=""
+                                style="display: inline-block;">
+                            <div>
+                                <p>{{ item.productName }}</p>
+                                <p>Phân loại hàng: {{ item.color }}, {{ item.sizeNumber }}</p>
+                                <p>Số lượng: {{ item.quantity }}</p>
+                            </div>
+                        </div>
+                        <div class="order-item-product-info-price">
+                            <span>{{ formatPrice(item.discountRate) }}</span>
+                            <span class="retail-price">{{ formatPrice(item.retailPrice) }}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div style="display: flex; justify-content: end;">
+                <p>Thành tiền: {{ formatPrice(getToTalAmount(order.orderId)) }}</p>
+            </div>
+            <div class="order-item-options">
+                <div class="order-item-option-review">
+                    <span style="display: inline-block;">Không nhận được đánh giá</span>
+                    <button class="btn btn-success">Đánh giá ngay</button>
+                </div>
+                <div>
+                    <button class="btn btn-success">Mua lại</button>
+                    <button>Xem đánh giá của người mua</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

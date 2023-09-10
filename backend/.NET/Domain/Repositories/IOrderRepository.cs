@@ -13,6 +13,7 @@ namespace Domain.Repositories
         Task Post(Order order);
         Task<string> Update(string id, Order order);
         Task<Order> SelectById(string id);
+        Task<List<OrderByUserIdDto>> SelectByUserId(string userId);
         Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default);
         Task<Order> GetByIdOrderAsync(string id, CancellationToken cancellationToken = default);
     }

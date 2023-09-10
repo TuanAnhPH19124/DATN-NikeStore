@@ -53,7 +53,7 @@ namespace Service
 
                 var code = await _repositoryManger.AppUserRepository.GenerateEmailConfirmToken(new_user);
 
-                var email_body = $"Please confirm your email address <a href=\"#URL#\">Click here </a>";
+                var email_body = $"Please confirm your email Addr <a href=\"#URL#\">Click here </a>";
 
                 var call_back_url = "https://localhost:44328/authentication/confrimemail/userid" + new_user.Id + "&" + code;
 

@@ -11,6 +11,14 @@ namespace Domain.Repositories
         Task<IEnumerable<OrderItem>> SelectItemByOrderId(string OrderId);
         Task<int> GetAmountByProductId(string productId);
         Task<decimal> GetRevenueByProductId(string productId);
-        Task<decimal> GetTotalRevenueInTimeRange(DateTime startDate, DateTime endDate);
+        Task<float> GetTotalOrders(DateTime startDate, DateTime endDate);
+        Task<float> GetTotalOrdersForCurrentMonth();
+        Task<float> GetTotalOrdersForCurrentDate();
+        Task<int> GetTotalBillForCurrentDate();
+        Task<int> GetTotalBillForCurrentMonth();
+        Task<int> GetTotalOrdersInTimeRange(DateTime startDate, DateTime endDate);
+        Task<int> GetTotalBill();
+        Task<float> GetTotalAmount();
+        Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int topCount);
     }
 }

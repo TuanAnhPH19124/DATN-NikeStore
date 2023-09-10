@@ -66,7 +66,7 @@
         <span style="color: red; font-size: 20px;">{{ formatPrice(totalAmount()) }}</span>
       </div>
       <hr>
-      <button class="payment-button"><a href="#/pay" style="text-decoration: none;">THANH TOÁN NGAY</a></button>
+      <button class="payment-button btn btn-dark" ng-click="pay()" ng-disabled="carts.length === 0">THANH TOÁN NGAY</button>
       <p>
         <a href="#/product" style="margin-left: 40px;text-decoration: none;color: rgb(70, 66, 66);">
           <i class="fa fa-reply" style="color: rgb(180, 65, 65);"></i> Tiếp tục mua hàng</a>

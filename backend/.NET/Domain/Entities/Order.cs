@@ -14,6 +14,7 @@ namespace Domain.Entities
         public string Note { get; set; }
         public int Paymethod { get; set; } 
         public double Amount { get; set; }
+        public StatusOrder CurrentStatus { get; set; }
         public string CustomerName { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public DateTime PassivedDate { get; set; } 

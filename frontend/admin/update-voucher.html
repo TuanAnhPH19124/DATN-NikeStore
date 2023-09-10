@@ -206,52 +206,72 @@
                             <h2 class="modal-title">Cập nhật voucher</h2>
                         </div>
                         <div class="modal-body">
-                            <form id="update-voucher-form">
-                                <div class="form-group">
-                                    <label for="code" style="font-weight: 600;">Mã voucher</label>
-                                    <input type="text" class="form-control" id="code" name="code"
-                                        aria-describedby="emailHelp" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="value" style="font-weight: 600;">Giá trị</label>
-                                    <input type="text" class="form-control" id="value" placeholder=""
-                                        name="value">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description" style="font-weight: 600;">Áp dụng cho đơn hàng trị giá tối thiểu</label>
-                                    <input type="text" class="form-control" id="expression" placeholder="" onchange="formatCurrency(this, 0)" 
-                                        name="expression">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description" style="font-weight: 600;">Mô tả</label>
-                                    <input type="text" class="form-control" id="description" placeholder=""
-                                        name="description">
-                                </div>
-                                <div class="form-group">
-                                    <label for="startDate" style="font-weight: 600;">Ngày bắt đầu</label>
-                                    <div class="input-group date" id="datepicker">
-                                        <span class="input-group-append">
-                                            <span class="input-group-text bg-white">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </span>
-                                        <input type="text" class="form-control" id="startDate" name="startDate"
-                                            autocomplete="off">
+                            <form id="update-voucher-form"> 
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group" style=" width: 70%;">
+                                            <label for="code" style="font-weight: 600;">Mã voucher</label>
+                                            <input type="text" class="form-control" id="code" name="code"
+                                                aria-describedby="emailHelp" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group" style=" width: 70%;">
+                                            <label for="value" style="font-weight: 600;">Giá trị (%)</label>
+                                            <input type="text" class="form-control" id="value" placeholder=""
+                                                name="value">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="end" style="font-weight: 600;">Ngày kết thúc</label>
-                                    <div class="input-group date" id="datepicker">
-                                        <span class="input-group-append">
-                                            <span class="input-group-text bg-white">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </span>
-                                        <input type="text" class="form-control" id="endDate" name="endDate"
-                                            autocomplete="off">
-                                    </div>
+                                <div class="row">
+                                     <div class="col-6">
+                                        <div class="form-group" style=" width: 70%;">
+                                            <label for="description" style="font-weight: 600;">Áp dụng cho đơn hàng trị giá tối thiểu</label>
+                                            <input type="text" class="form-control" id="expression" placeholder="" onchange="formatCurrency(this, 0)" 
+                                                name="expression">
+                                        </div>
+                                     </div>
+                                     <div class="col-6">
+                                        <div class="form-group" style=" width: 70%;">
+                                            <label for="description" style="font-weight: 600;">Mô tả</label>
+                                            <input type="text" class="form-control" id="description" placeholder=""
+                                                name="description">
+                                        </div>
+                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="row">
+                                     <div class="col-6">
+                                        <div class="form-group" style=" width: 70%;">
+                                            <label for="startDate" style="font-weight: 600;">Ngày bắt đầu</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" id="startDate" name="startDate"
+                                                    autocomplete="off">
+                                            </div>
+                                        </div>
+                                     </div>
+                                     <div class="col-6">
+                                        <div class="form-group" style=" width: 70%;">
+                                            <label for="end" style="font-weight: 600;">Ngày kết thúc</label>
+                                            <div class="input-group date" id="datepicker">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" id="endDate" name="endDate"
+                                                    autocomplete="off">
+                                            </div>
+                                        </div>
+                                     </div>
+                                </div>
+
+
+                                <div class="form-group" style=" width: 70%;">
                                     <label style="font-weight: 600;">Trạng thái</label>
                                     <input type="checkbox" id="status" placeholder="" name="status">
                                 </div>
@@ -324,7 +344,7 @@
                 <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+                    <a class="btn btn-primary" href="login.html" onclick="logOut()">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -351,6 +371,7 @@
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="/frontend/admin/js/update-voucher.js   "></script>
+    <script src="js/log-out.js"></script>
 
 
 </body>
