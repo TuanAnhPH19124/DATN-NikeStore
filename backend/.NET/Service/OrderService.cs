@@ -50,6 +50,7 @@ namespace Service
                         Note = "Chờ xác nhận"
                     }
                 },
+                CurrentStatus = StatusOrder.CONFIRM,
                 OrderItems = orderDto.OrderItems.Select(p => new OrderItem{
                     ProductId = p.ProductId,
                     ColorId = p.ColorId,
@@ -79,6 +80,7 @@ namespace Service
                 Note = orderDto.Note,
                 UserId = orderDto.UserId,
                 EmployeeId = orderDto.EmployeeId,
+                AddressId = orderDto.AddressId,
                 VoucherId = orderDto.VoucherId,
                 Paymethod = orderDto.PaymentMethod,
                 Amount = orderDto.Amount,
@@ -114,6 +116,7 @@ namespace Service
                     //    Note = "Thành công"
                     //},
                 };
+                order.CurrentStatus = StatusOrder.CONFIRM;
             }
            else
             {
@@ -138,6 +141,7 @@ namespace Service
                     //    Note = "Thành công"
                     //},
                 };
+                order.CurrentStatus = StatusOrder.DELIVERIED;
             }
 
             order.OrderItems = orderDto.OrderItems.Select(p => new OrderItem

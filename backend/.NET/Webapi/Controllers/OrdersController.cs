@@ -43,7 +43,8 @@ namespace Webapi.Controllers
             if (string.IsNullOrEmpty(userId))
                 return BadRequest(new {error = "Id không hợp lệ"});
 
-            var orders = from o in _dbContext.Orders
+            var result = await Task.Run(() =>{
+                var orders = from o in _dbContext.Orders
                          join oi in _dbContext.OrderItems on o.Id equals oi.OrderId
                          join p in _dbContext.Products on oi.ProductId equals p.Id
                          join s in _dbContext.Sizes on oi.SizeId equals s.Id
@@ -60,10 +61,11 @@ namespace Webapi.Controllers
                             Quantity = oi.Quantity,
                             SizeNumber = s.NumberSize,
                             Color = c.Name,
-                            ImgUrl = pi.ImageUrl
+                            ImgUrl = pi.ImageUrl,
+                            Status = o.CurrentStatus,
                          };
           
-            var groupAndDistrictOrder = orders.GroupBy(order => new{
+            var groupAndDistrictOrder = orders.ToList().GroupBy(order => new{
                 order.orderid,
                 order.orderitemid,
                 order.ProductName,
@@ -71,7 +73,8 @@ namespace Webapi.Controllers
                 order.RetailPrice,
                 order.Quantity,
                 order.SizeNumber,
-                order.Color
+                order.Color,
+                order.Status
             }).Select(group => new {
                 orderid= group.Key.orderid,
                 orderitemid = group.Key.orderitemid,
@@ -81,9 +84,19 @@ namespace Webapi.Controllers
                 Quantity = group.Key.Quantity,
                 SizeNumber = group.Key.SizeNumber,
                 Color = group.Key.Color,
+                Status = group.Key.Status,
                 ImgUrl = group.First().ImgUrl
             });
-            return Ok(groupAndDistrictOrder);
+
+            var final = groupAndDistrictOrder.GroupBy(order => order.orderid).Select(order => new {
+                orderId = order.Key,
+                orderItems = order.ToList()
+            }).ToList();
+
+            return final;
+            });
+            
+            return Ok(result);
         }
 
         [HttpPost("PayAtStore")]
