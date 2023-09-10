@@ -88,14 +88,129 @@ namespace Webapi.Controllers
                 ImgUrl = group.First().ImgUrl
             });
 
-            var final = groupAndDistrictOrder.GroupBy(order => order.orderid).Select(order => new {
-                orderId = order.Key,
-                orderItems = order.ToList()
+            var final = groupAndDistrictOrder.GroupBy(order => new{order.orderid, order.Status}).Select(group => new {
+                orderId = group.Key.orderid,
+                status = group.Key.Status,
+                orderItems = group.ToList()
             }).ToList();
 
             return final;
             });
             
+            return Ok(result);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetOrderDetail(string id)
+        {
+            if(string.IsNullOrEmpty(id))
+                return BadRequest(new {error = "Id không hợp lệ"});
+            
+            var result = await Task.Run(() =>{
+                var order = from o in _dbContext.Orders
+                            join oi in _dbContext.OrderItems on o.Id equals oi.OrderId
+                            join os in _dbContext.OrderStatuses on o.Id equals os.OrderId
+                            join p in _dbContext.Products on oi.ProductId equals p.Id
+                            join c in _dbContext.Colors on oi.ColorId equals c.Id
+                            join s in _dbContext.Sizes on oi.SizeId equals s.Id
+                            join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
+                            where o.Id == id && pi.ColorId == oi.ColorId
+                            select new {
+                                id = o.Id,
+                                status = o.CurrentStatus,
+                                orderItemId = oi.Id,
+                                productId = p.Id,
+                                productName = p.Name,
+                                discountRate = p.DiscountRate,
+                                retailPrice = p.RetailPrice,
+                                quantity = oi.Quantity,
+                                color = c.Name,
+                                size = s.NumberSize,
+                                imgUrl = pi.ImageUrl,
+                                orderStatusId = os.Id,
+                                orderStatusStatus = os.Status,
+                                orderStatusNote = os.Note,
+                                orderStatusTime = os.Time,
+                            };
+                var orderGroupByImage = order.ToList().GroupBy(order => new{
+                    order.id,
+                    order.status,
+                    order.orderItemId,
+                    order.productId,
+                    order.productName, 
+                    order.discountRate,
+                    order.retailPrice, 
+                    order.quantity,
+                    order.color ,
+                    order.size ,
+                    order.orderStatusId ,
+                    order.orderStatusStatus ,
+                    order.orderStatusNote ,
+                    order.orderStatusTime 
+                }).Select(group => new {
+                    id = group.Key.id,
+                    status = group.Key.status,
+                    orderItemId = group.Key.orderItemId,
+                    productId = group.Key.productId,
+                    productName = group.Key.productName,
+                    discountRate = group.Key.discountRate,
+                    retailPrice = group.Key.retailPrice,
+                    quantity = group.Key.quantity,
+                    color = group.Key.color,
+                    size = group.Key.size,
+                    orderStatusId = group.Key.orderStatusId,
+                    orderStatusStatus = group.Key.orderStatusStatus,
+                    orderStatusNote = group.Key.orderStatusNote,
+                    orderStatusTime = group.Key.orderStatusTime,
+                    imgUrl = group.First().imgUrl
+                });
+
+                var orderGroupByOrderItem = orderGroupByImage.ToList().GroupBy(order => new {
+                    order.id,
+                    order.status,
+                    order.orderStatusId,
+                    order.orderStatusStatus,
+                    order.orderStatusNote,
+                    order.orderStatusTime
+                }).Select(group => new{
+                    id = group.Key.id,
+                    status = group.Key.status,
+                    orderStatusId = group.Key.orderStatusId,
+                    orderStatusStatus = group.Key.orderStatusStatus,
+                    orderStatusNote = group.Key.orderStatusNote,
+                    orderStatusTime = group.Key.orderStatusTime,
+                    orderItems = group.Select(item => new {
+                        orderItemId = item.orderItemId,
+                        productId = item.productId,
+                        productName = item.productName,
+                        discountRate = item.discountRate,
+                        retailPrice = item.retailPrice,
+                        quantity = item.quantity,
+                        color = item.color,
+                        size = item.size,
+                        imgUrl = item.imgUrl
+                    })
+                }).ToList();
+
+                var finalResult = orderGroupByOrderItem.GroupBy(order => new {
+                    order.id,
+                    order.status
+                }).Select(g => new {
+                    id = g.Key.id,
+                    status = g.Key.status,
+                    orderItems = g.First().orderItems,
+                    orderStatuses = g.Select(i => new {
+                        id = i.orderStatusId,
+                        status = i.orderStatusStatus,
+                        note = i.orderStatusNote,
+                        time = i.orderStatusTime
+                    }).ToList()
+                });
+                
+                return finalResult;
+            });
+
             return Ok(result);
         }
 

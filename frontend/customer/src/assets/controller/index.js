@@ -69,6 +69,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "../page/order/order.html",
       controller: "purchaseController"
     })
+    .when("/orderDetail/:id", {
+      templateUrl: "../page/order/orderDetail.html",
+      controller: "orderDetailController"
+    })
     .otherwise({
       templateUrl: "../pages/index/index.html",
     });
