@@ -1,168 +1,64 @@
-const id = localStorage.getItem("staffId");
+const id = localStorage.getItem("user-id");
 console.log(id) //lay id nhan vien
 // call api chi tiet 1 nhan vien
 $(document).ready(function () {
     $.ajax({
-        url: "https://localhost:44328/api/Employee/Get/" + id,
+        url: "https://localhost:44328/api/AppUser/Get/" + id,
         type: "GET",
         dataType: "json",
         success: function (data) {
             console.log(JSON.stringify(data));
-            $('#fullName').val(data.fullName);
-            var dateObj1 = new Date(data.dateOfBirth);
-            var day1 = dateObj1.getUTCDate();
-            var month1 = dateObj1.getUTCMonth() + 1;
-            var year1 = dateObj1.getUTCFullYear();
-            var formattedDate = `${day1}/${month1}/${year1}`;
-            $('#dateOfBirth').val(formattedDate);
-            $('#snn').val(data.snn);
-            $('#phoneNumber').val(data.phoneNumber);
-            $('#status').prop('checked', data.status);
-            $('#homeTown').val(data.homeTown);
-            $('#gender').val(data.gender);
-            localStorage.setItem("updated-appUser", data.appUserId);
+            $("#email").val(data.email)
+            $("#fullName").val(data.fullName)
+            $("#phoneNumber").val(data.phoneNumber)
+            $("#status").val(data.status)
 
-            $.ajax({
-                url: "https://localhost:44328/api/AppUser/Get/" + data.appUserId,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    console.log(JSON.stringify(data));
-                    $("#email").val(data.email)
-                },
-                error: function () {
-                    console.log("Error retrieving data.");
+            $("#change-pass").on("click", function (event) {
+                event.preventDefault(); // Prevent form submission
+                validateForm()
+                if($("#currentPassword").val()==""||$("#newPassword").val()==""||$("#newPassword2").val()==""){
+                    return
                 }
-            });
+                if($("#newPassword").val()!=$("#newPassword2").val()){
+                    return
+                }
+               if (confirm("Bạn có muốn đổi mật khẩu không?")) {
+                   var formData = {
+                       "userName": data.userName,
+                       "currentPassword": $("#currentPassword").val(),
+                       "newPassword": $("#newPassword").val(),
+                   };
+                   $.ajax({
+                       url: "https://localhost:44328/api/Authentication/ChangePassword",
+                       type: "POST",
+                       data: JSON.stringify(formData),
+                       contentType: "application/json",
+                       success: function (response) {
+                        $(".toast")
+                        .find(".toast-body")
+                        .text("Đổi mật khẩu thành công");
+                      $(".toast").toast("show");
+                      $('#passwordModal').modal('hide');
+                        $("#currentPassword").val("")
+                        $("#newPassword").val("")
+                        $("#newPassword2").val("")
+                       },
+                       error: function (xhr,error,jqXHR) {
+                        console.log(xhr.responseJSON.error)
+                        $(".toast")
+                        .find(".toast-body")
+                        .text(xhr.responseJSON.error);
+                      $(".toast").toast("show");
+                       },
+                   });
+               } else {
+                   return;
+               }
+           });
         },
         error: function () {
             console.log("Error retrieving data.");
         }
-    });
-    $('#update-employee-form').submit(function (event) {
-        event.preventDefault()
-        var formData = {
-            id : id,
-            "snn": $("#snn").val(),
-            "fullName": $("#fullName").val(),
-            "phoneNumber": $("#phoneNumber").val(),
-            "dateOfBirth": $("#dateOfBirth").val(),
-            "gender": $("#gender").val(),
-            "homeTown":  $("#homeTown").val(),
-            "status":  $("#status").prop('checked'),
-        };
-                  //convert nomal date to ISO 8601 date
-                  [startDay, startMonth, startYear] = formData.dateOfBirth.split('/');
-                  try {
-                      formData.dateOfBirth = new Date(`${startYear}-${startMonth}-${startDay}`).toISOString();
-                  } catch (error) {
-                      formData.dateOfBirth = ""
-                  }
-                  if (confirm(`Bạn có muốn cập nhật nhân viên không?`)) {
-                    $.ajax({
-                        url: "https://localhost:44328/api/Employee/" + id,
-                        type: "PUT",
-                        data: JSON.stringify(formData),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (response) {
-                            const id = localStorage.getItem("updated-appUser")
-                            var formData2 = {
-                                "status": formData.status==true?1:0,
-                                "id": id
-                            }
-                            $.ajax({
-                                url: `https://localhost:44328/api/AppUser/${id}/UpdateUserByAdmin`,
-                                type: "PUT",
-                                data: JSON.stringify(formData2),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (response) {
-                                    //window.location.href = "/frontend/admin/staff.html";
-                                    
-                                },
-                            });
-                        },
-                    });
-                  } else {
-                    return;
-                  }
-    });
-    // custom validate 
-    $.validator.addMethod("nameContainOnlyChar", function (value, element) {
-        return value.match(/^[a-zA-ZÀ-ỹ\s]+$/) != null;
-    });
-    $.validator.addMethod("idContainOnlyNum", function (value, element) {
-        return value.match(/[^0-9]/) == null;
-    });
-    $.validator.addMethod("phoneNumContainOnlyNum", function (value, element) {
-        return value.match(/[^0-9]/) == null;
-    });
-    $.validator.addMethod("onlyContain10Char", function (value, element) {
-        return value.match(/^\w{10}$/) != null;
-    });
-    $.validator.addMethod("onlyContain12Char", function (value, element) {
-        return value.match(/^\w{12}$/) != null;
-    });
-    // add validate
-    $("#update-employee-form").validate({
-        rules: {
-            "dateOfBirth": {
-                required: true,
-            },
-            "homeTown": {
-                required: true,
-            },
-            "fullName": {
-                required: true,
-                maxlength: 30,
-                nameContainOnlyChar: true,
-            },
-            "snn": {
-                required: true,
-                idContainOnlyNum: true,
-                onlyContain12Char: true,
-            },
-            "phoneNumber": {
-                required: true,
-                phoneNumContainOnlyNum: true,
-                onlyContain10Char: true,
-            },
-            "role": {
-                required: true,
-            }
-        },
-        messages: {
-            "dateOfBirth": {
-                required: "Bạn phải nhập ngày sinh",
-            },
-            "homeTown": {
-                required: "Bạn phải nhập Quê quán",
-            },
-            "fullName": {
-                required: "Bạn phải nhập họ và tên",
-                maxlength: "Hãy nhập tối đa 30 ký tự",
-                nameContainOnlyChar: "Họ tên không được chứa số hay ký tự",
-            },
-            "snn": {
-                required: "Bạn phải nhập số căn cước",
-                idContainOnlyNum: "Số căn cước không được chưa ký tự",
-                onlyContain12Char: "Độ dài của số căn cước là 12"
-            },
-            "phoneNumber": {
-                required: "Bạn phải nhập số điện thoại",
-                phoneNumContainOnlyNum: "Số điện thoại không được chứa ký tự",
-                onlyContain10Char: "Số điện thoại chứa 10 ký tự"
-            },
-            "role": {
-                required: "Bạn phải nhập tên vai trò",
-            }
-        },
-    });
-});
-$(function () {
-    $('.date').datepicker({
-        format: 'dd/mm/yyyy',
     });
 });
 const id_user = localStorage.getItem("user-id")
@@ -179,3 +75,28 @@ $.ajax({
     },
 });
 
+function validateForm() {
+    var currentPassword = document.getElementById("currentPassword").value;
+    var newPassword = document.getElementById("newPassword").value;
+    var newPassword2 = document.getElementById("newPassword2").value;
+
+    var validatePass = document.getElementById("validatePass");
+    var validateNewPass = document.getElementById("validateNewPass");
+    var validateNewPass2 = document.getElementById("validateNewPass2");
+
+    if (currentPassword.length == 0) {
+        validatePass.style.display = "block";
+      } else {
+        validatePass.style.display = "none";
+      }
+      if (newPassword.length == 0) {
+        validateNewPass.style.display = "block";
+      } else {
+        validateNewPass.style.display = "none";
+      }
+      if (newPassword2 != newPassword) {
+        validateNewPass2.style.display = "block";
+      } else {
+        validateNewPass2.style.display = "none";
+      }
+}

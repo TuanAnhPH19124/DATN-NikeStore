@@ -204,6 +204,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h2 class="modal-title">Thông tin đơn hàng</h2>
+                            <button type="button" onclick="window.location.href = `/frontend/admin/bill.html`;"  class="btn btn-dark" style="float: right; margin-top: 5px; font-weight: bold;background-color: #1967d2;border-color: #1967d2;">
+                                Danh sách đơn hàng
+                              </button>
                         </div>
                         <div class="modal-body">
                             <div class="main">
@@ -217,7 +220,7 @@
                                         <p class="text">Chờ xác nhận</p>
                                     </li>
                                     <li>
-                                        <i class="icon uil uil-clipboard-notes"></i>
+                                        <i class="icon uil uil-credit-card"></i>
                                         <div class="progres two">
                                             <p></p>
                                             <i class="uil uil-check"></i>
@@ -225,7 +228,7 @@
                                         <p class="text">Chuẩn bị hàng</p>
                                     </li>
                                     <li>
-                                        <i class="icon uil uil-credit-card"></i>
+                                        <i class="icon uil uil-exchange"></i>
                                         <div class="progres three">
                                             <p></p>
                                             <i class="uil uil-check"></i>
@@ -233,7 +236,7 @@
                                         <p class="text">Đang vận chuyển</p>
                                     </li>
                                     <li>
-                                        <i class="icon uil uil-exchange"></i>
+                                        <i class="icon uil uil-clipboard-notes"></i>
                                         <div class="progres four active">
                                             <p></p>
                                             <i class="uil uil-check"></i>
@@ -428,7 +431,7 @@
                 <div class="modal-body">Chọn đăng xuất nếu muốn thoát tài khoản, hủy nếu không đăng xuất.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="login.html">Đăng xuất</a>
+                    <a class="btn btn-primary" href="login.html" onclick="logOut()">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -451,6 +454,7 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script src="/frontend/admin/js/order.js"></script>
+    <script src="js/log-out.js"></script>
 </body>
 
 </html>
