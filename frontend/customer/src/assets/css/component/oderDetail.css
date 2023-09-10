@@ -1,0 +1,48 @@
+/* Style the order status taskbar container */
+.order-status-taskbar {
+    padding: 10px;
+}
+
+/* Style each step in the taskbar */
+.order-status-taskbar .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Style the step icon */
+.order-status-taskbar .step .step-icon {
+    width: 50px;
+    height: 50px;
+    background-color: green;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+}
+
+/* Style the step text and date */
+.order-status-taskbar .step .step-text {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.order-status-taskbar .step .step-date {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Style the active step */
+.order-status-taskbar .step.active .step-icon {
+    background-color: #007bff; /* Change the active step color */
+}
+
+/* Style the active step text */
+.order-status-taskbar .step.active .step-text {
+    color: #007bff; /* Change the active step text color */
+}
+

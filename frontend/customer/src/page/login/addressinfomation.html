@@ -1,31 +1,56 @@
+
 <style>
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-  
-    ul li {
-      padding-left: 20px;
-      position: relative;
-    }
-  
-    ul li::before {
-      position: absolute;
-      left: 0;  
-    }
-    ul li p a{
-        text-decoration: none;
-    }
-    a {
-      color: black;
+  ul {
+  list-style: none; /* Remove default list styles */
+  padding: 0;
+}
+
+li {
+  display: flex; /* Use flexbox for better alignment */
+  align-items: center; /* Vertically center the content */
+}
+
+span {
+  flex: 1; /* Allow each span to take up equal space */
+  font-weight: bold; /* Make the labels bold */
+}
+
+input.edit-input {
+  flex: 2; /* Allow each input to take up more space */
+  padding: 5px; /* Add some padding to inputs */
+  border: 1px solid #ccc; /* Add a border to inputs */
+  border-radius: 4px; /* Rounded corners for inputs */
+}
+
+button {
+  margin-top: 10px; /* Spacing between buttons and other elements */
+}
+
+  ul li::before {
+    position: absolute;
+    left: 0;    
+  }
+  ul li p a{
       text-decoration: none;
-      transition: color 0.3s;
-    }
-  
-    a:hover {
-      color: #5787bb; /* Màu xanh khi hover */
-    }
-  </style>
+  }
+  a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  a:hover {
+    color: #5787bb;
+  }
+  .edit-input {
+  width: 100%; /* Make the width match the input elements */
+  height: 2rem; /* Set the desired height */
+  padding: 0.5rem; /* Add some padding for spacing */
+  border: 1px solid #ccc; /* Add a border for visual consistency */
+  border-radius: 5px; /* Add rounded corners for a modern look */
+  font-size: 16px; /* Set the font size as needed */
+}
+
+</style>
 <!-- CSS -->
 <div class="container">
     <div class="account-title">
@@ -33,8 +58,8 @@
             Tài khoản của bạn  <hr>
         </h2>       
     </div>
-    <div class="row justify-content-start">
-        <div class="col-2">
+    <div class="row justify-content-start" style="padding: 20px;">
+        <div class="col-3" style="border: none;border-right: 1px solid rgb(226, 226, 226);">
           <h4>TÀI KHOẢN</h4>
           <ul>
             <li>
@@ -44,11 +69,87 @@
                 <p>* <a href="#21" style="text-decoration: none;">Danh sách địa chỉ</a></p>
             </li>
             <li>
-                <p>* <a href="" style="text-decoration: none;">Đăng xuất</a></p>
-            </li>
+              <p>* <a href="#" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
+          </li>          
           </ul>
         </div>
-        <div class="col-7">
+        <div class="col-5" style="border-right: 1px solid rgb(202, 199, 199);">
+          <h4>THÔNG TIN TÀI KHOẢN</h4><hr>
+          <ul style="border: 1px solid rgb(221, 221, 221); border-radius: 10px; padding: 15px;">
+              <li>
+                  <span id="fullName">Nguyễn Thành Long</span>
+              </li><br>
+              <li>
+                  <span>Địa chỉ:</span>
+                  <input type="text" id="addressInput" class="edit-input" value="Thanh Xuân, Hà Nội, Việt Nam">
+              </li>
+          </ul>
+          <ul>
+              <li>
+                  <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">Chỉnh sửa</button>
+                  <button type="button" class="btn btn-outline-danger" id="saveButton" style="width: 100px; display: none;">Lưu</button>
+                  <button type="button" class="btn btn-outline-secondary" id="removeButton" style="display: none;">Remove</button>
+              </li>
+          </ul>
+      </div>      
+        <div class="col-4">
+          <button type="button" class="btn btn-success"><h6 style="padding-top: 10px;">NHẬP ĐỊA CHỈ MỚI</h6></button>
+          <hr>
+          <ul>
+              <li>
+                <input type="text" class="edit-input" placeholder="Họ Tên">
+              </li><br>                 
+              <li>
+                <input type="text" id="" class="edit-input" placeholder="Số điện thoại">
+              </li><br>
+              <li>
+                <select id="addressInput" class="edit-input">
+              </li><br>
+              <li>
+                <select id="addressInput" class="edit-input">
+              </li><br>
+              <li>
+                <select id="addressInput" class="edit-input">
+              </li><br>
+              <li>
+                <select id="addressInput" class="edit-input">
+              </li><br>
+              <li>
+                <select id="addressInput" class="edit-input">
+              </li><br>
+              <li>
+                <select id="addressInput" class="edit-input">
+              </li><br>
+              <li>
+                <input type="text" id="" class="edit-input" placeholder="Địa chỉ">
+              </li>
+              <div class="form-group">
+                <label><input type="checkbox" ng-model="newAddress.setAsDefault"> Đặt làm địa chỉ mặc định</label>
+            </div><hr>
+              <li>
+                <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">THÊM MỚI</button>
+                <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;">HUỶ</button>
+              </li>
+              
+        </ul>
         </div>
       </div>
 </div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent the default behavior of the link (prevents navigation)
+
+        // Perform the logout operation here (e.g., clear user data or authentication tokens)
+        // You can replace this with your actual logout logic
+
+        // After logging out, redirect the user to the login page
+        window.location.href = "#/signin"; // Replace "login.html" with your login page URL
+    });
+});
+
+</script>
