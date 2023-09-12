@@ -117,5 +117,20 @@ namespace Webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        // select 5 khach hang tiem nang
+        [HttpGet("get-top-customer")]
+        public async Task<ActionResult<List<CustomerOrderInfo>>> GetTopCustomersByTotalOrdersAndRevenue()
+        {
+            try
+            {
+                var topCustomer = await _serviceManager.OrderItemService.GetTopCustomersByTotalOrdersAndRevenue(5);
+                return Ok(topCustomer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

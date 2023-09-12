@@ -1820,6 +1820,59 @@ $("#create-bill").click(function (event) {
     return;
   }
   if (confirm(`Bạn có muốn thanh toán hóa đơn này không?`)) {
+    // thêm vào address
+    if ($("#delivery").prop("checked") === true) {
+     var address = {
+        "userId": $("#customer-id").text(),
+        "fullName": $("#customer-name").text(),
+        "addressLine":         $("#address").val() +
+        ", " +
+        $("#ward option:selected").text() +
+        ", " +
+        $("#district option:selected").text() +
+        ", " +
+        $("#province option:selected").text(),
+        "cityCode": Number($("#province").val()),
+        "provinceCode": Number($("#district").val()),
+        "wardCode": ($("#ward").val()),
+        "phoneNumber": $("#customer-phone").text(),
+        "setAsDefault": true
+      }
+      if(address.userId!=""){
+        $.ajax({
+          url: "https://localhost:44328/api/Address",
+          type: "POST",
+          data: JSON.stringify(address),
+          contentType: "application/json",
+          success: function (response) {
+    
+          },
+        });
+      }
+    }else{
+      var address = {
+        "userId": $("#customer-id").text(),
+        "fullName": $("#customer-name").text(),
+        "addressLine":"Mua tại quầy",
+        "cityCode": 0,
+        "provinceCode":0,
+        "wardCode": "string",
+        "phoneNumber": $("#customer-phone").text(),
+        "setAsDefault": true
+      }
+      if(address.userId!=""){
+        $.ajax({
+          url: "https://localhost:44328/api/Address",
+          type: "POST",
+          data: JSON.stringify(address),
+          contentType: "application/json",
+          success: function (response) {
+    
+          },
+        });
+      }
+    }
+
     $.ajax({
       url: "https://localhost:44328/api/Orders/PayAtStore",
       type: "POST",

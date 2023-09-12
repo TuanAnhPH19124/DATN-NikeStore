@@ -21,5 +21,6 @@ namespace Service.Abstractions
         Task<float> GetTotalBill();
         Task<float> GetTotalAmount();
         Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int TopCount);
+        Task<List<CustomerOrderInfo>> GetTopCustomersByTotalOrdersAndRevenue(int TopCount);
     }
 }

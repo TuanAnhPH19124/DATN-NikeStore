@@ -652,6 +652,46 @@ namespace Webapi.Controllers
                 throw;
             }
         }
+        [HttpGet("GetOrderByUserId")]
+        public async Task<ActionResult<Order>> GetOrderByUserId(string userId,string orderId)
+        {
+            try
+            {
+                var order = await _dbContext.Orders
+                    .Where(o => o.UserId == userId&&o.Id==orderId)
+                    .Select(o => new
+                    {
+                        o.Id,
+                        o.PhoneNumber,
+                        o.Note,
+                        o.Paymethod,
+                        o.Amount,
+                        o.CustomerName,
+                        o.DateCreated,
+                        o.PassivedDate,
+                        o.ModifiedDate,
+                        o.UserId,
+                        o.EmployeeId,
+                        o.VoucherId,
+                        o.AddressId,
+                        o.CurrentStatus,
+                        AddressPhoneNumber = o.address.PhoneNumber, // Lấy PhoneNumber từ Address
+                        AppUserFullName = o.AppUser.FullName // Lấy FullName từ AppUser
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (order == null)
+                {
+                    return NotFound("Order not found.");
+                }
+
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         [HttpGet("Get/{Id}")]
         public async Task<ActionResult> GetByIdOrder(string Id)

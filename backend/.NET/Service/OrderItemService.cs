@@ -156,5 +156,19 @@ namespace Service
                 throw;
             }
         }
+
+        // select 5 khach hang tiem nang
+        public async Task<List<CustomerOrderInfo>> GetTopCustomersByTotalOrdersAndRevenue(int TopCount)
+        {
+            try
+            {
+                var top = await _repositoryManger.OrderItemsRepository.GetTopCustomersByTotalOrdersAndRevenue(TopCount);
+                return top;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
