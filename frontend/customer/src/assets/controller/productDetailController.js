@@ -82,9 +82,6 @@
             return imgUrl.href;
         }
 
-
-
-
         function constructor() {
             let productId = String(r.id);
             productService.getProduct(productId)
