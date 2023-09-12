@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using EntitiesDto.Stock;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace Service.Abstractions
 {
     public interface IStockService
     {
+
         Task<IEnumerable<Stock>> GetAllStocksAsync();
         Task<IEnumerable<Stock>> GetStockByIdAsync(string productId);
         Task AddStockAsync(Stock stock);
         void UpdateStockRangeAsync(List<Stock> stocks);
         Task DeleteStockAsync(string productId);
+        Task<List<string>> GetStockIdList(List<GetStockIdAPI> items);
     }
 }

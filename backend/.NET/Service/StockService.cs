@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Repositories;
+using EntitiesDto.Stock;
 using Service.Abstractions;
 
 namespace Service
@@ -38,6 +39,20 @@ namespace Service
         {
             await _repositoryManger.StockRepository.DeleteByProductIdAsync(productId);
             
+        }
+
+        public async Task<List<string>> GetStockIdList(List<GetStockIdAPI> items)
+        {
+            var task = await Task.Run(() => {
+                var result = new List<string>();
+                items.ForEach(async item =>{
+                    var stockId = await _repositoryManger.StockRepository.GetStockId(item.ProductId, item.ColorId, item.SizeId);
+                    result.Add(stockId);
+                });
+                return result;
+            });
+            
+            return task;
         }
 
 

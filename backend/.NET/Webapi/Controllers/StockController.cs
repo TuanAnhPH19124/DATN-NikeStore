@@ -81,6 +81,16 @@ namespace Webapi.Controllers
                 }
             }
 
+        [HttpPost("getStockId")]
+        public async Task<ActionResult> GetStockId([FromBody] List<GetStockIdAPI> items){
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _serviceManager.StockService.GetStockIdList(items);
+
+            return Ok(result);
+        }        
+
         [HttpDelete("{productId}")]
         public async Task<ActionResult> DeleteStockByProductId(string productId)
         {

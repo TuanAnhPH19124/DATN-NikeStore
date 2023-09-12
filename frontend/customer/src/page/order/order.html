@@ -1,56 +1,65 @@
 <div class="container" style="padding-top: 20px;">
     <h4 style="border-bottom:  1px  solid rgb(235, 229, 229);"> Đơn hàng đã mua:</h4>
-    <section>   
+    <section>
         <div class="order-status">
             <ul style="border-bottom: 1px solid rgb(232, 225, 225);">
-                <li>Chờ xác nhận</li>
-                <li>Đang giao</li>
-                <li>Đã giao</li>
-                <li>Đã hủy</li>
-                <li>Trả hàng</li>
+                <li><input type="button" ng-click="filterOrder(0)" value="Chờ xác nhận"></li>
+                <li><input type="button" ng-click="filterOrder(1)" value="Đang giao"></li>
+                <li><input type="button" ng-click="filterOrder(2)" value="Đã giao"></li>
+                <li><input type="button" ng-click="filterOrder(3)" value="Đã nhận hàng"></li>
+                <li><input type="button" ng-click="filterOrder(4)" value="Trả hàng"></li>
             </ul>
         </div>
-        
-        <div class="order-items">
-            <div class="order-search-bar">
-                <input type="text" placeholder=" Mã hóa đơn" 
+
+        <div class="order-search-bar">
+            <input type="text" placeholder=" Mã hóa đơn"
                 style="border: 1px solid rgb(187, 179, 179);width: 210px; height: 30px;border-radius: 5px;">
-                <span style="margin-left: 525px;border-bottom: 1px solid rgb(232, 225, 225);">Đơn hàng đã được giao thành công</span> -
-                <span style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);"> Hoàn thành</span>
-            </div><br>
-            <div class="order-item">           
-                <div class="order-tiem-product-info" style="border: 1px solid rgb(232, 225, 225);border-radius: 5px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div class="order-item-product-info-title">
-                                <div class="image-container">
-                                    <img src="/frontend/customer/src/assets/img/product/3.jpg" class="centered-image">
-                                </div>
-                                <div>
-                                    <p>Tên sản phẩm: Nike Air Jordan X</p>
-                                    <p>Phân loại hàng: Đen, 41</p>
-                                    <p>Số lượng: 1</p>
-                                </div>
+        </div><br>
+        <div class="order-item" ng-repeat="order in orders">
+            <span style="margin-left: 525px;border-bottom: 1px solid rgb(232, 225, 225);">{{ status[order.status]
+                }}</span> -
+            <span ng-show="order.status === 3"
+                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
+                Chưa Hoàn thành</span>
+            <span ng-show="order.status !== 3"
+                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
+                Chưa Hoàn thành</span>
+            <a ng-href="#/orderDetail/{{order.orderId}}" style="text-decoration: none; color: black;" ng-repeat="item in order.orderItems">
+                <div class="order-tiem-product-info"
+                    style="margin-bottom: 10px; border: 1px solid rgb(232, 225, 225);border-radius: 5px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="order-item-product-info-title">
+                            <div class="image-container">
+                                <img ng-src="{{ getImgUrl(item.imgUrl) }}" class="centered-image">
                             </div>
-                            <div class="order-item-product-info-price">
-                                <span style="color: rgb(228, 50, 50);"> 100.000đ </span>
-                                <span class="retail-price"> 150.000đ </span>
+                            <div>
+                                <p>{{ item.productName }}</p>
+                                <p>Phân loại hàng: {{item.color}}, {{item.sizeNumber}}</p>
+                                <p>Số lượng: {{item.quantity}}</p>
                             </div>
                         </div>
-                </div>
-                <div style="display: flex; justify-content: end;">
-                    <p style="color: red;font-size: 20px;font-weight: 500;">Thành tiền: 100.000đ</p>
-                </div>
-                <div class="order-item-options">
-                    <div class="order-item-option-review">
-                        <span style="display: inline-block;">Không nhận được đánh giá:</span>
-                        <button type="button" class="btn btn-outline-success">Đánh giá ngay</button>
+                        <div class="order-item-product-info-price">
+                            <span style="color: rgb(228, 50, 50);"> {{ formatPrice(item.discountRate) }} </span>
+                            <span class="retail-price"> {{ formatPrice(item.retailPrice) }} </span>
+                        </div>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-outline-warning">Mua lại</button>
-                        <button type="button" class="btn btn-outline-info">Xem đánh giá của người mua</button>
-                    </div>
+                </div>
+            </a>
+            <div style="display: flex; justify-content: end;">
+                <p style="color: red;font-size: 20px;font-weight: 500;">Thành tiền: {{
+                    formatPrice(getToTalAmount(order.orderId)) }}</p>
+            </div>
+            <div class="order-item-options">
+                <div class="order-item-option-review">
+                    <span style="display: inline-block;">Không nhận được đánh giá:</span>
+                    <!-- <button type="button" class="btn btn-outline-success">Đánh giá ngay</button> -->
+                </div>
+                <div>
+                    <button type="button" class="btn btn-warning">Mua lại</button>
+                    <!-- <button type="button" class="btn btn-outline-info">Xem đánh giá của người mua</button> -->
                 </div>
             </div>
         </div>
+
     </section>
 </div>

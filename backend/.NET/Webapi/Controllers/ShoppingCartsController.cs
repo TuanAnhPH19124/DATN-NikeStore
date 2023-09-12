@@ -60,6 +60,11 @@ namespace Webapi.Controllers
             }
         }
 
+        [HttpPost("addrange")]
+        public async Task<ActionResult> PostRange([FromBody] List<ShoppingCartItemAPI> items){
+            return Ok();
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(string id, [FromBody]ShoppingCartItemPutAPI item)
         {

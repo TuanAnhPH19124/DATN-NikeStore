@@ -39,7 +39,7 @@ namespace Webapi.Controllers
         }
 
         [HttpGet("getByUserId/{userId}")]
-        public async Task<ActionResult> GetbyUserId(string userId){
+        public async Task<ActionResult> GetbyUserId(string userId, [FromQuery]int? type = null){
             if (string.IsNullOrEmpty(userId))
                 return BadRequest(new {error = "Id không hợp lệ"});
 
@@ -50,7 +50,8 @@ namespace Webapi.Controllers
                          join s in _dbContext.Sizes on oi.SizeId equals s.Id
                          join c in _dbContext.Colors on oi.ColorId equals c.Id
                          join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
-                         where o.UserId == userId && pi.ColorId == oi.ColorId
+                         where o.UserId == userId && pi.ColorId == oi.ColorId && (type != null ? (int)o.CurrentStatus == type : true)
+                
                          select new
                          {
                             orderid= o.Id,
@@ -101,7 +102,7 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("getOrderDetail/{id}")]
         public async Task<ActionResult> GetOrderDetail(string id)
         {
             if(string.IsNullOrEmpty(id))
@@ -115,11 +116,18 @@ namespace Webapi.Controllers
                             join c in _dbContext.Colors on oi.ColorId equals c.Id
                             join s in _dbContext.Sizes on oi.SizeId equals s.Id
                             join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
+                            join a in _dbContext.Addresses on o.AddressId equals a.Id
+                            join v in _dbContext.Vouchers on o.VoucherId equals v.Id into voucherGroup
+                            from voucher in voucherGroup.DefaultIfEmpty()
                             where o.Id == id && pi.ColorId == oi.ColorId
                             select new {
                                 id = o.Id,
                                 status = o.CurrentStatus,
+                                payMethod = o.Paymethod,
+                                voucherValue = voucher != null ? voucher.Value : 0,
                                 orderItemId = oi.Id,
+                                colorId = oi.ColorId,
+                                sizeId = oi.SizeId,
                                 productId = p.Id,
                                 productName = p.Name,
                                 discountRate = p.DiscountRate,
@@ -132,11 +140,21 @@ namespace Webapi.Controllers
                                 orderStatusStatus = os.Status,
                                 orderStatusNote = os.Note,
                                 orderStatusTime = os.Time,
+                                CustomerName = a.FullName,
+                                PhoneNumber = a.PhoneNumber,
+                                AddressLine = a.AddressLine,
+                                ProvinceId = a.CityCode,
+                                DistrictId = a.ProvinceCode,
+                                WardCode = a.WardCode
                             };
                 var orderGroupByImage = order.ToList().GroupBy(order => new{
                     order.id,
                     order.status,
+                    order.voucherValue,
+                    order.payMethod,
                     order.orderItemId,
+                    order.colorId,
+                    order.sizeId,
                     order.productId,
                     order.productName, 
                     order.discountRate,
@@ -147,11 +165,28 @@ namespace Webapi.Controllers
                     order.orderStatusId ,
                     order.orderStatusStatus ,
                     order.orderStatusNote ,
-                    order.orderStatusTime 
+                    order.orderStatusTime,
+                    order.CustomerName,
+                    order.PhoneNumber,
+                    order.AddressLine,
+                    order.ProvinceId,
+                    order.DistrictId,
+                    order.WardCode
                 }).Select(group => new {
                     id = group.Key.id,
                     status = group.Key.status,
+                    payMethod = group.Key.payMethod,
+                    voucherValue = group.Key.voucherValue,
+                    CustomerName = group.Key.CustomerName,
+                    PhoneNumber = group.Key.PhoneNumber,
+                    AddressLine = group.Key.AddressLine,
+                    ProvinceId = group.Key.ProvinceId,
+                    DistrictId = group.Key.DistrictId,
+                    WardCode = group.Key.WardCode,
+
                     orderItemId = group.Key.orderItemId,
+                    colorId = group.Key.colorId,
+                    sizeId = group.Key.sizeId,
                     productId = group.Key.productId,
                     productName = group.Key.productName,
                     discountRate = group.Key.discountRate,
@@ -164,11 +199,20 @@ namespace Webapi.Controllers
                     orderStatusNote = group.Key.orderStatusNote,
                     orderStatusTime = group.Key.orderStatusTime,
                     imgUrl = group.First().imgUrl
+                    
                 });
 
                 var orderGroupByOrderItem = orderGroupByImage.ToList().GroupBy(order => new {
                     order.id,
                     order.status,
+                    order.payMethod,
+                    order.voucherValue,
+                    order.CustomerName,
+                    order.PhoneNumber,
+                    order.AddressLine,
+                    order.ProvinceId,
+                    order.DistrictId,
+                    order.WardCode,
                     order.orderStatusId,
                     order.orderStatusStatus,
                     order.orderStatusNote,
@@ -176,12 +220,22 @@ namespace Webapi.Controllers
                 }).Select(group => new{
                     id = group.Key.id,
                     status = group.Key.status,
+                    payMethod = group.Key.payMethod,
+                    voucherValue = group.Key.voucherValue,
+                    CustomerName = group.Key.CustomerName,
+                    PhoneNumber = group.Key.PhoneNumber,
+                    AddressLine = group.Key.AddressLine,
+                    ProvinceId = group.Key.ProvinceId,
+                    DistrictId = group.Key.DistrictId,
+                    WardCode = group.Key.WardCode,
                     orderStatusId = group.Key.orderStatusId,
                     orderStatusStatus = group.Key.orderStatusStatus,
                     orderStatusNote = group.Key.orderStatusNote,
                     orderStatusTime = group.Key.orderStatusTime,
                     orderItems = group.Select(item => new {
                         orderItemId = item.orderItemId,
+                        colorId = item.colorId,
+                        sizeId = item.sizeId,
                         productId = item.productId,
                         productName = item.productName,
                         discountRate = item.discountRate,
@@ -195,10 +249,26 @@ namespace Webapi.Controllers
 
                 var finalResult = orderGroupByOrderItem.GroupBy(order => new {
                     order.id,
-                    order.status
+                    order.status,
+                    order.voucherValue,
+                    order.payMethod,
+                    order.CustomerName,
+                    order.PhoneNumber,
+                    order.AddressLine,
+                    order.ProvinceId,
+                    order.DistrictId,
+                    order.WardCode,
                 }).Select(g => new {
                     id = g.Key.id,
                     status = g.Key.status,
+                    voucherValue = g.Key.voucherValue,
+                    payMethod = g.Key.payMethod,
+                    CustomerName = g.Key.CustomerName,
+                    PhoneNumber = g.Key.PhoneNumber,
+                    AddressLine = g.Key.AddressLine,
+                    ProvinceId = g.Key.ProvinceId,
+                    DistrictId = g.Key.DistrictId,
+                    WardCode = g.Key.WardCode,
                     orderItems = g.First().orderItems,
                     orderStatuses = g.Select(i => new {
                         id = i.orderStatusId,
