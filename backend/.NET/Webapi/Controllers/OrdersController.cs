@@ -561,7 +561,8 @@ namespace Webapi.Controllers
                         o.AddressId,
                         o.CurrentStatus,
                         AddressPhoneNumber = o.address.PhoneNumber, // Lấy PhoneNumber từ Address
-                        AppUserFullName = o.AppUser.FullName // Lấy FullName từ AppUser
+                        AppUserFullName = o.AppUser.FullName, // Lấy FullName từ AppUser
+                        AddressLine = o.address.AddressLine, // Lấy AddressLine từ Address
                     })
                     .FirstOrDefaultAsync();
 

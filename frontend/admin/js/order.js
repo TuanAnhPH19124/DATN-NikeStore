@@ -17,9 +17,29 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      $("#customerName").val(data.customerName);
-      $("#phoneNumber").val(data.phoneNumber);
-      $("#address").val(data.address);
+      console.log(data)
+      $("#note").val(data.note);
+      if(data.userId===null){
+        $("#customerName").val(data.customerName);
+        $("#phoneNumber").val(data.phoneNumber);
+        $("#address").val(data.addressLine);
+      }else{
+        $.ajax({
+          url: `https://localhost:44328/api/Orders/GetOrderByUserId?userId=${data.userId}&orderId=${data.id}`,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data)
+             $("#customerName").val(data.customerName);
+             $("#phoneNumber").val(data.phoneNumber);
+             $("#address").val(data.addressLine);
+          },
+          error: function () {
+              console.log("Error retrieving data.");
+          }
+      });
+      }
+
       $("#amount").val(
         Intl.NumberFormat("vi-VN", {
           style: "currency",
@@ -59,6 +79,7 @@ $(document).ready(function () {
           console.log("Error retrieving data.");
         },
       });
+
       var tableBody = $("#orderItemsTable tbody");
       tableBody.empty(); // Clear the table body before rendering
 

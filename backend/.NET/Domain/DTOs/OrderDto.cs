@@ -22,6 +22,7 @@ namespace Domain.DTOs
         public string UserId { get; set; }
         public string EmployeeId { get; set; }
         public string VoucherId { get; set; }
+        public string AddressId { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
         public List<OrderStatusDto> OrderStatuses { get; set; }
     }
