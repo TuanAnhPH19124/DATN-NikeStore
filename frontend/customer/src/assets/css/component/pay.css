@@ -41,3 +41,122 @@
 .checkout-shipping-infomation-title p{
     text-align: left;
 }
+
+/* Style the form */
+/* Style the labels and inputs */
+
+input[type="email"],
+input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+input[type="submit"] {
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Disable the submit button when checkbox is not checked */
+input[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Style the close button */
+.close-button {
+    border: none;
+    font-size: 20px;
+    color: #333;
+    float: right;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+/* Style form container */
+.address-form-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Style form labels */
+.form-group label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Style form inputs */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+/* Style error messages */
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+/* Style form buttons */
+.btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+.btn-light {
+    background-color: #eee;
+    color: #333;
+}
+
+.btn-dark {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Style the Add Address button */
+.add-address-button {
+    margin-top: 20px;
+}
+.form-row .form-group {
+    flex: 1;
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.form-control {
+    width: 100%;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkout-payment-avaliable {
+    margin-right: 10px; /* Adjust this value as needed */
+    border-radius: 0px;
+    border: 1px solid #ccc;
+}
+.input-group-prepend {
+    padding-right: 20px; 
+    background-color: white;
+    color: black;
+}
+
+.form-control {
+    width: 50%; /* Adjust the width as needed */
+}
+

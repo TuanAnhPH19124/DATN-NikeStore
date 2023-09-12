@@ -2,6 +2,13 @@
     var purchaseController = function (apiUrl,priceFactory,l,orderService,jwtHelper,authService,$s){
         $s.orders = [];
 
+        $s.status = [
+            "Đang chờ xác nhận",
+            "Đang chuẩn bị hàng",
+            "Đang giao hàng"
+        ]
+        
+
         $s.formatPrice = function (price){
             return priceFactory.formatVNDPrice(price);
         }

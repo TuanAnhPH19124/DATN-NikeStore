@@ -1,12 +1,31 @@
 
 <style>
     ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    ul li {
-      position: relative;
-    }
+    list-style: none; /* Remove default list styles */
+    padding: 0;
+}
+
+li {
+    display: flex; /* Use flexbox for better alignment */
+    align-items: center; /* Vertically center the content */
+}
+
+span {
+    flex: 1; /* Allow each span to take up equal space */
+    font-weight: bold; /* Make the labels bold */
+}
+
+input.edit-input {
+    flex: 2; /* Allow each input to take up more space */
+    padding: 5px; /* Add some padding to inputs */
+    border: 1px solid #ccc; /* Add a border to inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+}
+
+button {
+    margin-top: 10px; /* Spacing between buttons and other elements */
+}
+
     ul li::before {
       position: absolute;
       left: 0;    
@@ -22,6 +41,19 @@
     a:hover {
       color: #5787bb;
     }
+
+    /* Initially, set all input fields to non-editable */
+.edit-input {
+    pointer-events: none; /* Disable pointer events */
+    background-color: #f5f5f5; /* Set a background color to indicate non-editable state */
+}
+
+/* When "Chỉnh sửa" button is clicked, enable input fields for editing */
+.edit-mode .edit-input {
+    pointer-events: auto; /* Enable pointer events */
+    background-color: #ffffff; /* Set a background color for editing */
+}
+
 </style>
 <!-- CSS -->
 <div class="container">
@@ -31,7 +63,7 @@
         </h2>       
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">
+        <div class="col-4">
           <h4>TÀI KHOẢN</h4>
           <ul>
             <li>
@@ -41,29 +73,54 @@
                 <p>* <a href="#21" style="text-decoration: none;">Danh sách địa chỉ</a></p>
             </li>
             <li>
-              <p>* <a href="#" style="text-decoration: none;" ng-click="signOutE()">Đăng xuất</a></p>
-            </li>
+              <p>* <a href="#" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
+          </li>          
           </ul>
         </div>
-        <div class="col-7">
-            <h4>THÔNG TIN TÀI KHOẢN</h4><hr>
-            <ul>
+        <div class="col-8">
+          <h4>THÔNG TIN TÀI KHOẢN</h4>
+          <hr>
+          <ul>
               <li>
-                  <p>Nguyễn Thành Long</p>
-              </li>
+                  <span>Tên khách hàng:</span>
+                  <input type="text" id="fullNameInput" class="edit-input" value="Nguyễn Thành Long">
+              </li><br>
               <li>
-                  <p>nguyenthanhlong081120022@gmail.com</p>
-              </li>
+                  <span>Số điện thoại:</span>
+                  <input type="text" id="phoneNumberInput" class="edit-input" value="0902096529">
+              </li><br>
               <li>
-                  <p>Thanh Xuân, Hà Nội, Việt Nam</p>
-              </li>
+                  <span>Email:</span>
+                  <input type="text" id="emailInput" class="edit-input" value="nguyenthanhlong081120022@gmail.com">
+              </li><br>           
               <li>
-                    <p>0902096529</p>
+                  <span>Địa chỉ:</span>
+                  <input type="text" id="addressInput" class="edit-input" value="Thanh Xuân, Hà Nội, Việt Nam">
               </li>
+              <hr>
               <li>
-                <a href="#21" style="text-decoration: none;">Xem địa chỉ</a>
+                  <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">Chỉnh sửa</button>
+                  <button type="button" class="btn btn-outline-danger" id="saveButton" style="width: 100px;">Lưu</button>
               </li>
-            </ul>
-        </div>
+          </ul>
+      </div>      
+      
       </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent the default behavior of the link (prevents navigation)
+
+        // Perform the logout operation here (e.g., clear user data or authentication tokens)
+        // You can replace this with your actual logout logic
+
+        // After logging out, redirect the user to the login page
+        window.location.href = "login.html"; // Replace "login.html" with your login page URL
+    });
+});
+
+</script>

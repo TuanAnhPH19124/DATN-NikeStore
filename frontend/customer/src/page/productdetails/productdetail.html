@@ -36,18 +36,23 @@
             </div>                      
             <div class="">
                 <button class="quantity-button" ng-click="decrementQuantity()" 
-                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
-                <input name="" id="" ng-model="quantity" ng-change="checkUnit()"
-                    style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;">
+                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-
+                </button>
+                <input type="text" name="" id="" ng-model="quantity" ng-change="checkUnit()" 
+       ng-pattern="/^\d+$/" style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;">
+
                 <button class="quantity-button" ng-click="incrementQuantity()"
-                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>          
+                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+
+                </button>          
                 <button type="button" 
                     style="width: 250px; height: 40px;border: none;background-color: #413e3e;color: white;"
-                    ng-click="addToCartE()"> Thêm vào giỏ </button>
+                    ng-click="addToCartE()"> Thêm vào giỏ 
+                </button>
                 <button type="button" 
                     style="width: 205px; height: 40px; background-color: white;
                     border: 1px solid #413e3e;color: #0f0f0f;font-weight: 500;"
-                    ng-click="addToCartE()"> Mua ngay </button>
+                    ng-click="addToCartE()"> Mua ngay 
+                </button>
             </div>       
         </div>
     </div>
