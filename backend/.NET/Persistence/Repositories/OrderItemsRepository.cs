@@ -189,6 +189,34 @@ namespace Persistence.Repositories
             return results;
         }
 
+        // Select top 5 khach hang tiem nang
+        public async Task<List<CustomerOrderInfo>> GetTopCustomersByTotalOrdersAndRevenue(int topCount)
+        {
+            var topCustomers = await _context.Orders
+                .Where(o => o.UserId != null) // Lọc các hóa đơn có UserId
+                .GroupBy(o => new { o.UserId, o.CustomerName }) // Nhóm theo UserId và CustomerName
+                .Select(g => new CustomerOrderInfo
+                {
+                    UserId = g.Key.UserId,
+                    CustomerName = g.Key.CustomerName,
+                    TotalOrders = g.Count(), // Tổng số hóa đơn có UserId
+                    TotalRevenue = (decimal)g.Sum(o => o.Amount) // Tổng tiền của các hóa đơn có UserId
+                })
+                .OrderByDescending(c => c.TotalOrders)
+                .ThenByDescending(c => c.TotalRevenue)
+                .Take(topCount)
+                .ToListAsync();
+
+            return topCustomers;
+        }
+
+
+
+
+
+
+
+
 
 
     }

@@ -1,4 +1,4 @@
-﻿     using Domain.Entities;
+﻿using Domain.Entities;
 using EntitiesDto;
 using EntitiesDto.User;
 using Microsoft.AspNetCore.Authentication;
@@ -84,7 +84,7 @@ namespace Webapi.Controllers
             var newUserResponse = await _userManager.CreateAsync(newUser, passWord);
             if (newUserResponse.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, "Admin");
+                await _userManager.AddToRoleAsync(newUser, "Employee");
                 return Ok(new
                 {
                     User = newUser,
