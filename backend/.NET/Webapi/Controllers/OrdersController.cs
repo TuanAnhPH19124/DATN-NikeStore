@@ -264,61 +264,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p=>p.CurrentStatus==StatusOrder.CONFIRM));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.CONFIRM)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -339,61 +287,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.PENDING_SHIP));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.PENDING_SHIP)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -407,61 +303,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.SHIPPING));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.SHIPPING)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -475,61 +319,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.DELIVERIED));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.DELIVERIED)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -543,61 +335,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.CANCELED));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.CANCELED)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -678,6 +418,7 @@ namespace Webapi.Controllers
                         AddressPhoneNumber = o.address.PhoneNumber, // Lấy PhoneNumber từ Address
                         AppUserFullName = o.AppUser.FullName, // Lấy FullName từ AppUser
                         AddressLine = o.address.AddressLine, // Lấy AddressLine từ Address
+                        FullName = o.address.FullName,
                     })
                     .FirstOrDefaultAsync();
 

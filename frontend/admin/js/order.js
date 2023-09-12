@@ -30,8 +30,8 @@ $(document).ready(function () {
           dataType: "json",
           success: function (data) {
             console.log(data)
-             $("#customerName").val(data.customerName);
-             $("#phoneNumber").val(data.phoneNumber);
+             $("#customerName").val(data.fullName);
+             $("#phoneNumber").val(data.addressPhoneNumber);
              $("#address").val(data.addressLine);
           },
           error: function () {
@@ -216,18 +216,23 @@ $(document).ready(function () {
               "time": iso8601DateString, // Fill with ISO 8601 formatted timestamp
               "note": "Hủy"
           };
-              $.ajax({
-                  url: "https://localhost:44328/api/OrderStatus",
-                  type: "POST",
-                  data: JSON.stringify(formData),
-                  contentType: "application/json; charset=utf-8",
-                  dataType: "json",
-                  success: function (response) {
-                    location.reload();
-                  },
-                  error: function () {
-                  },
-              });
+          if (confirm(`Bạn có muốn hủy hóa đơn không?`)) {
+            $.ajax({
+              url: "https://localhost:44328/api/OrderStatus",
+              type: "POST",
+              data: JSON.stringify(formData),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (response) {
+                location.reload();
+              },
+              error: function () {
+              },
+          });
+        } else {
+            return
+        }
+
           });
     },
     error: function () {

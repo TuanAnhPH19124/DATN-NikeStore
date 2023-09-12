@@ -1007,7 +1007,7 @@ $("#productData tbody").on("click", "tr", function (e) {
 });
 var customerTable = $("#customer-table").DataTable({
   ajax: {
-    url: "https://localhost:44328/api/AppUser/GetUsersWithUserRole",
+    url: "https://localhost:44328/api/AppUser/GetActiveUsersWithUserRole",
     dataType: "json",
     dataSrc: "",
   },
