@@ -39,31 +39,27 @@
         $s.reBuy = function(){
             console.log('run');
             if ($s.orders.length !== 0){
-                let getStockIdData = [];
-                $s.orders.orderItems.forEach(item =>{
-                    getStockIdData.push({
+                let token = authService.getToken();
+                let tokenDecode = jwtHelper.decodeToken(token);
+                let data = [];
+                $s.orders[0].orderItems.forEach(item =>{
+                    let apiData = {
                         productId: item.productId,
                         colorId: item.colorId,
                         sizeId: item.sizeId
-                    });
-                });
-                stockService.getStockIdList(data)
-                .then(function (response){
-                    let token = authService.getToken();
-                    let tokenDecode = jwtHelper.decodeToken(token);
-                    let stockIds = response.data;
-                    let data = [];
-                    for (let i = 0; i < $s.orders.orderItems.length; i++) {
+                    }
+                    stockService.getStockId(apiData)
+                    .then(function (response){
                         data.push({
                             appUserId: tokenDecode.Id,
-                            stockId: stockIds[i],
-                            quantity: $s.orders.orderItems[i].quantity
+                            stockId: response.data,
+                            quantity: item.quantity
                         })
-                    }
-                    console.log(data);
-                }, function(response){
-                    console.error(response.data);
+                    }, function(response){
+                        console.error(response.data);
+                    })
                 })
+                console.log(data);
             }
             
         }

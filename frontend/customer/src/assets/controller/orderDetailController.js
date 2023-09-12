@@ -6,7 +6,8 @@
             priceFactory,
             apiUrl,
             stockService,
-            jwtHelper
+            jwtHelper,
+            cartService
         ){
 
         s.order = [];
@@ -41,31 +42,33 @@
         s.reBuy = function(){
             console.log('run');
             if (s.order.length !== 0){
-                let getStockIdData = [];
+                let token = authService.getToken();
+                let tokenDecode = jwtHelper.decodeToken(token);
+                let data = [];
                 s.order[0].orderItems.forEach(item =>{
-                    getStockIdData.push({
+                    let apiData = {
                         productId: item.productId,
                         colorId: item.colorId,
                         sizeId: item.sizeId
-                    });
-                });
-                stockService.getStockIdList(getStockIdData)
-                .then(function (response){
-                    let token = authService.getToken();
-                    let tokenDecode = jwtHelper.decodeToken(token);
-                    let stockIds = response.data;
-                    let data = [];
-                    for (let i = 0; i < s.order[0].orderItems.length; i++) {
+                    }
+                    stockService.getStockId(apiData)
+                    .then(function (response){
                         data.push({
                             appUserId: tokenDecode.Id,
-                            stockId: stockIds[i],
-                            quantity: s.order[0].orderItems[i].quantity
+                            stockId: response.data,
+                            quantity: item.quantity
                         })
-                    }
-                    console.log(data);
-                }, function(response){
+                    }, function(response){
+                        console.error(response.data);
+                    })
+                })
+                cartService.addRangeToCard(data)
+                .then(function (response){
+                    l.path('/cart');
+                }, function (response){
                     console.error(response.data);
                 })
+                console.log(data);
             }
             
         }
@@ -106,7 +109,8 @@
         'priceFactory',
         'apiUrl',
         'stockService',
-        'jwtHelper'
+        'jwtHelper',
+        'cartService'
     ];
     angular.module("app").controller("orderDetailController", orderDetailController);
 }())

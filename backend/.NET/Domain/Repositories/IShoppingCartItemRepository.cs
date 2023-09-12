@@ -11,6 +11,7 @@ namespace Domain.Repositories
     public interface IShoppingCartItemRepository
     {
         Task Add(ShoppingCartItems item);
+        Task AddRange(List<ShoppingCartItems> items);
         Task<IEnumerable<ShoppingCartItems>> GetAllById(string userId);
         Task<ShoppingCartItems> GetById(string id);
 

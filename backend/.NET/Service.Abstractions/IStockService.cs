@@ -17,6 +17,6 @@ namespace Service.Abstractions
         Task AddStockAsync(Stock stock);
         void UpdateStockRangeAsync(List<Stock> stocks);
         Task DeleteStockAsync(string productId);
-        Task<List<string>> GetStockIdList(List<GetStockIdAPI> items);
+        Task<string> GetStockIdList(GetStockIdAPI item);
     }
 }

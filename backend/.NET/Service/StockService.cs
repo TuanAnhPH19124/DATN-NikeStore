@@ -41,18 +41,10 @@ namespace Service
             
         }
 
-        public async Task<List<string>> GetStockIdList(List<GetStockIdAPI> items)
+        public async Task<string> GetStockIdList(GetStockIdAPI item)
         {
-            var task = await Task.Run(() => {
-                var result = new List<string>();
-                items.ForEach(async item =>{
-                    var stockId = await _repositoryManger.StockRepository.GetStockId(item.ProductId, item.ColorId, item.SizeId);
-                    result.Add(stockId);
-                });
-                return result;
-            });
-            
-            return task;
+            var result = await _repositoryManger.StockRepository.GetStockId(item.ProductId, item.ColorId, item.SizeId);
+            return result;
         }
 
 

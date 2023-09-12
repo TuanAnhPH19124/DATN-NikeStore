@@ -8,7 +8,7 @@
             });
         };
 
-        this.getStockIdList = function (data){
+        this.getStockId = function (data){
             let uri = apiUrl + '/api/Stock/getStockId';
             return http({
                 method: 'POST',

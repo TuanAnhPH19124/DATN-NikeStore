@@ -82,11 +82,11 @@ namespace Webapi.Controllers
             }
 
         [HttpPost("getStockId")]
-        public async Task<ActionResult> GetStockId([FromBody] List<GetStockIdAPI> items){
+        public async Task<ActionResult> GetStockId([FromBody]GetStockIdAPI item){
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _serviceManager.StockService.GetStockIdList(items);
+            var result = await _serviceManager.StockService.GetStockIdList(item);
 
             return Ok(result);
         }        
