@@ -111,7 +111,7 @@
 		<div class="col-md-9 px-5">
 			<div class="sortByProduct">
 				<select ng-model="sortBy" ng-change="onSelectChange()"
-					style="border: 1px solid gray; border-radius: 5px;height: 30px;width: 171px;">
+					style="border: 1px solid gray; border-radius: 5px;height: 30px;width: 280px;">
 					<option value=""></option>
 					<option value="2">Hàng với về</option>
 					<option value="3">Top thịnh hành</option>
@@ -124,7 +124,7 @@
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
 						<a href="#/productDetail/{{product.id}}" class="product-link">
-							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1" style="background-image: none !important;" width="250px" height="250px">
+							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">						
 							<div class="product-details">
 								<span class="name">{{product.name}}</span>
 								<span class="category">Giày cho nam</span>
