@@ -1,13 +1,34 @@
 (function () {
     var productDetailController = function (e, r, l, productService, authService, jwtHelper, cartService, apiUrl, headerFactory) {
         e.product = null;
-        e.quantity = "1";
+        e.quantity = 1;
         e.colors = [];
         e.errorMg = "";
         e.selectedColor = 0;
         e.selectedImg = 0;
         e.selectedSize = -1;
         e.selectedSizeIndex = -1;
+
+        e.setSelectedImg = function(img){
+            var index = e.colors[e.selectedColor].images.indexOf(img);
+            e.selectedImg = index;
+            console.log(index);
+        }
+
+        e.incrementQuantity = function (type){
+            if (e.selectedSize === -1 && e.selectedSizeIndex === -1){
+                alert('Ban phai chon size truoc')
+                return;
+            }
+            if (type === 0){
+                if (e.quantity > 1)
+                    e.quantity -= 1;  
+            }else{
+                e.quantity +=1;
+            }
+            e.checkUnit();
+        }
+
         e.addToCartE = function (productId) {
             if (e.selectedSizeIndex === -1 && e.selectedSize === -1) {
                 e.errorMg = "Bạn phải chọn kích cỡ trước";
@@ -72,10 +93,17 @@
             e.selectedSize = -1;
         }
         e.checkUnit = function () {
+            if (e.selectedSize === -1 && e.selectedSizeIndex === -1){
+                alert('Ban phai chon size truoc');
+                e.quantity = 1;
+                return;
+            }
+            if (e.quantity === undefined)
+                e.quantity = 1;
             let unit = e.colors[e.selectedColor].sizes[e.selectedSizeIndex].unit;
-            let selectedUnit = parseInt(e.quantity);
+            let selectedUnit = e.quantity;
             if (selectedUnit > unit)
-                e.quantity = unit + "";
+                e.quantity = unit ;
         }
         e.getImgUrl = function (path) {
             const imgUrl = new URL(path, apiUrl);
