@@ -8,7 +8,6 @@
             <div class="hover-container">
                 <div ng-repeat="img in colors[selectedColor].images"><button ng-click="setSelectedImg(img)"><img
                             ng-src="{{getImgUrl(img)}}"></button></div>
-
             </div>
         </div>
         <div class="col-md-7"
@@ -31,7 +30,8 @@
                 <h4 style="font-weight: bold;">{{ product.name }}</h4>
                 <div class="product-colors">
                     <div class="hover-container" ng-repeat="color in colors">
-                        <button ng-click="setSelectedColor(color.id)"><img width="50px"  ng-src="{{getImgUrl(color.images[0])}}"></button>
+                        <button ng-click="setSelectedColor(color.id)"><img width="50px"
+                                ng-src="{{getImgUrl(color.images[0])}}"></button>
                     </div>
                 </div>
             </div>
@@ -44,11 +44,9 @@
             <div ng-class="{validator: errorMg}">
                 <p>Kích thước:</p>
                 <span ng-show="errorMg" style="display: block; color: red;">{{errorMg}}</span>
-
                 <div ng-repeat="size in colors[selectedColor].sizes | orderBy: 'numberSize'"
                     style="display: inline-block;">
-                    <button type="button" class="btn btn-gray"
-                        style="border: 1px solid gray;"
+                    <button type="button" class="btn btn-gray" style="border: 1px solid gray;"
                         ng-class="{ 'btn-dark': size.id === selectedSize }"
                         ng-click="setSelectedSize(size.id)">{{size.numberSize}}</button>
                 </div>
