@@ -4,7 +4,9 @@
         style="background-color: white; border: none;color: gray;" ng-click="redirectToOrder()"><i class="fa-solid fa-arrow-left"></i> TRỞ LẠI </button>
         <div>
             <span>Mã đơn hàng: {{ order[0].id }}</span> |
-            <span style="color: red;">Đơn hàng chưa hoàn thành</span>
+            <span ng-show="order[0].status === 3 " style="color: red;">Đơn hàng chưa hoàn thành</span>
+            <span ng-show="order[0].status < 3">Đơn hàng chưa hoàn thành</span>
+            <span ng-show="order[0].status === 4" style="color: red;">Đơn hàng đã hủy</span>
         </div>
     </div>
     <hr>
@@ -34,13 +36,15 @@
                 <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
                     <div class="step-icon no-completed"
                         style="width: 50px; height: 50px; border-radius: 50%;"
+                        ng-class="{completed: order[0].status > 2 }"
                         ><i class="fa-solid fa-box-tissue"></i></div>
                     <div ng-show="order[0].status > 2 && order[0].status < 4" class="step-text">Đã Nhận Được Hàng</div>
                     <div ng-show="order[0].status > 2 order[0].status < 4" class="step-date">{{ order[0].orderStatuses[3].time | formatDate }}</div>
                 </div>
                 <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
                     <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"><i class="fa-solid fa-star"></i></div>
+                        style="width: 50px; height: 50px; border-radius: 50%;"
+                        ng-class="{completed: order[0].status > 2 }"><i class="fa-solid fa-star"></i></div>
                     <div ng-show="order[0].status > 2 order[0].status < 4" class="step-text">Đơn hàng đã hoàn thành</div>
                     <div ng-show="order[0].status > 2 order[0].status < 4" class="step-date">{{ order[0].orderStatuses[3].time | formatDate }}</div>
                 </div>
