@@ -88,6 +88,7 @@ namespace Service
                 Id = p.Id,
                 Quantity = p.Quantity,
                 ColorName = p.Stock.Color.Name,
+                SizeNumber = p.Stock.Size.NumberSize,
                 SizeId = p.Stock.SizeId,
                 ColorId = p.Stock.ColorId,
                 Product = new ShoppingCartProductDto

@@ -11,6 +11,7 @@ namespace Domain.DTOs
         public string Id { get; set; }
         public int Quantity { get; set; }
         public string ColorName { get; set; }
+        public int SizeNumber { get; set; }
         public string SizeId { get; set; }
         public string ColorId { get; set; }
         public ShoppingCartProductDto Product { get; set; }

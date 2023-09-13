@@ -1,24 +1,13 @@
-<section class="container" style="padding-top: 30px">
-  <div
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
-    <button
-      type="button"
-      class="btn btn-light"
-      style="background-color: white; border: none; color: gray"
-      ng-click="redirectToOrder()"
-    >
-      <i class="fa-solid fa-arrow-left"></i> TRỞ LẠI
-    </button>
-    <div>
-      <span>Mã đơn hàng: {{ order[0].id }}</span> |
-      <span ng-show="order[0].status === 3 " style="color: red"
-        >Đơn hàng hoàn thành</span
-      >
-      <span ng-show="order[0].status < 3">Đơn hàng chưa hoàn thành</span>
-      <span ng-show="order[0].status === 4" style="color: red"
-        >Đơn hàng đã hủy</span
-      >
+<section class="container" style="padding-top: 30px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn btn-light" 
+        style="background-color: white; border: none;color: gray;" ng-click="redirectToOrder()"><i class="fa-solid fa-arrow-left"></i> TRỞ LẠI </button>
+        <div>
+            <span>Mã đơn hàng: {{ order[0].id }}</span> |
+            <span ng-show="order[0].status === 3 " style="color: red;">Đơn chưa hoàn thành</span>
+            <span ng-show="order[0].status < 3">Đơn hàng chưa hoàn thành</span>
+            <span ng-show="order[0].status === 4" style="color: red;">Đơn hàng đã hủy</span>
+        </div>
     </div>
   </div>
   <hr />

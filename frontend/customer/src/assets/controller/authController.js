@@ -28,7 +28,7 @@
                     .catch(function (data){
                         console.log(data);
                     });
-                    l.path('/index');
+                    l.path('/');
                 })
                 .catch(function (data, status, header, configuration){
                     console.log(status);
@@ -46,7 +46,7 @@
                     authService.setToken(response.data.token);
                     authService.setUserName(response.data.user);
                     console.log(response);
-                    l.path('/index');
+                    l.path('/');
                 })
                 .catch(function (data, status, header, configuration){
                     console.log(data);
@@ -58,7 +58,7 @@
         e.signOutE = function (){
             authService.setLogOut();
             authService.clearSession();
-            l.path('/index');
+            l.path('/');
         }
 
         function constructor(){
