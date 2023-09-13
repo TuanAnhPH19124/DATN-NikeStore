@@ -511,7 +511,7 @@ $(document).ready(function () {
       $("#customer-name").text("Khách lẻ");
       $("#customer-email").text();
       $("#customer-phone").text();
-      $("#customer-id").text();
+      $("#customer-id").text("");
       $(".hidden-info").hide();
       $("#customer-id").hide();
       $("#re-select").hide();
@@ -1007,7 +1007,7 @@ $("#productData tbody").on("click", "tr", function (e) {
 });
 var customerTable = $("#customer-table").DataTable({
   ajax: {
-    url: "https://localhost:44328/api/AppUser/GetUsersWithUserRole",
+    url: "https://localhost:44328/api/AppUser/GetActiveUsersWithUserRole",
     dataType: "json",
     dataSrc: "",
   },
@@ -1106,7 +1106,7 @@ $("#re-select").on("click", function (e) {
   $("#customer-name").text("Khách lẻ");
   $("#customer-email").text();
   $("#customer-phone").text();
-  $("#customer-id").text();
+  $("#customer-id").text("");
   $(".hidden-info").hide();
   $("#customer-id").hide();
   $("#re-select").hide();
@@ -1768,11 +1768,11 @@ $("#create-bill").click(function (event) {
       employeeId: localStorage.getItem("user-id"),
       address:
         $("#address").val() +
-        ", " +
+        " " +
         $("#ward option:selected").text() +
-        ", " +
+        " " +
         $("#district option:selected").text() +
-        ", " +
+        " " +
         $("#province option:selected").text(),
       phoneNumber: $("#phoneNumber").val(),
       customerName: $("#customerName").val(),
@@ -1781,9 +1781,9 @@ $("#create-bill").click(function (event) {
       orderItems: JSON.parse(outputJSON),
       amount: parseInt($("#sum").text().replace(/\D/g, "")),
     };
-    if($("#customer-name").text()=="Khách lẻ"){
-      formData.customerName = "Khách lẻ"
-    }
+    // if($("#customer-name").text()=="Khách lẻ"){
+    //   formData.customerName = "Khách lẻ"
+    // }
     fetchAllDayShip($("#district").val(), $("#ward").val()).then((data) => {
       console.log(data);
     });
@@ -1821,35 +1821,65 @@ $("#create-bill").click(function (event) {
   }
   if (confirm(`Bạn có muốn thanh toán hóa đơn này không?`)) {
     // thêm vào address
-    if ($("#delivery").prop("checked") === true) {
-     var address = {
+    if ($("#customer-id").text()!=""&& $("#delivery").prop("checked") == true) {
+      var address = {
         "userId": $("#customer-id").text(),
-        "fullName": $("#customer-name").text(),
-        "addressLine":         $("#address").val() +
-        ", " +
+        "fullName": $("#customerName").val(),
+        "addressLine":        $("#address").val() +
+        " " +
         $("#ward option:selected").text() +
-        ", " +
+        " " +
         $("#district option:selected").text() +
-        ", " +
+        " " +
         $("#province option:selected").text(),
-        "cityCode": Number($("#province").val()),
-        "provinceCode": Number($("#district").val()),
-        "wardCode": ($("#ward").val()),
-        "phoneNumber": $("#customer-phone").text(),
+        "cityCode": 0,
+        "provinceCode":0,
+        "wardCode": "string",
+        "phoneNumber": $("#phoneNumber").val(),
         "setAsDefault": true
       }
-      if(address.userId!=""){
         $.ajax({
           url: "https://localhost:44328/api/Address",
           type: "POST",
           data: JSON.stringify(address),
           contentType: "application/json",
           success: function (response) {
-    
+            formData.addressId = response.id
+            $.ajax({
+              url: "https://localhost:44328/api/Orders/PayAtStore",
+              type: "POST",
+              data: JSON.stringify(formData),
+              contentType: "application/json",
+              success: function (response) {
+                //window.location.href = `/frontend/admin/bill.html`;
+                clearTableAndData();
+                $("#customer-name").text("Khách lẻ");
+                $("#customer-email").text("");
+                $("#customer-phone").text("");
+                $("#customer-id").text("");
+                $(".hidden-info").hide();
+                $("#customer-id").text("");
+                $("#re-select").hide()
+                //
+                $("#delivery-field")[0].reset();
+                $("#delivery").prop("checked", false);
+        
+                var x = document.getElementById("customer-info");
+                x.style.visibility = "hidden";
+                $("#delivery-field").hide();
+                $("#delivery-info").hide();
+        
+                $("#voucher-select").val(-1);
+                $("#total").text("0 ₫");
+                $("#ship-fee").text("0 ₫");
+                $("#discount-price").text("0 ₫");
+                $("#sum").text("0 ₫");
+                console.log(arr);
+              },
+            });
           },
         });
-      }
-    }else{
+    }else if ($("#customer-id").text()!=""&& $("#delivery").prop("checked") == false){
       var address = {
         "userId": $("#customer-id").text(),
         "fullName": $("#customer-name").text(),
@@ -1860,50 +1890,84 @@ $("#create-bill").click(function (event) {
         "phoneNumber": $("#customer-phone").text(),
         "setAsDefault": true
       }
-      if(address.userId!=""){
         $.ajax({
           url: "https://localhost:44328/api/Address",
           type: "POST",
           data: JSON.stringify(address),
           contentType: "application/json",
           success: function (response) {
-    
+            formData.addressId = response.id
+            $.ajax({
+              url: "https://localhost:44328/api/Orders/PayAtStore",
+              type: "POST",
+              data: JSON.stringify(formData),
+              contentType: "application/json",
+              success: function (response) {
+                //window.location.href = `/frontend/admin/bill.html`;
+                clearTableAndData();
+                $("#customer-name").text("Khách lẻ");
+                $("#customer-email").text("");
+                $("#customer-phone").text("");
+                $("#customer-id").text("");
+                $(".hidden-info").hide();
+                $("#customer-id").text("");
+                $("#re-select").hide()
+
+                //
+                $("#delivery-field")[0].reset();
+                $("#delivery").prop("checked", false);
+        
+                var x = document.getElementById("customer-info");
+                x.style.visibility = "hidden";
+                $("#delivery-field").hide();
+                $("#delivery-info").hide();
+        
+                $("#voucher-select").val(-1);
+                $("#total").text("0 ₫");
+                $("#ship-fee").text("0 ₫");
+                $("#discount-price").text("0 ₫");
+                $("#sum").text("0 ₫");
+                console.log(arr);
+              },
+            });
           },
         });
-      }
+
+    }else{
+      $.ajax({
+        url: "https://localhost:44328/api/Orders/PayAtStore",
+        type: "POST",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function (response) {
+          //window.location.href = `/frontend/admin/bill.html`;
+          clearTableAndData();
+          $("#customer-name").text("Khách lẻ");
+          $("#customer-email").text("");
+          $("#customer-phone").text("");
+          $("#customer-id").text("");
+          $(".hidden-info").hide();
+          $("#customer-id").text("");
+          $("#re-select").hide()
+
+          //
+          $("#delivery-field")[0].reset();
+          $("#delivery").prop("checked", false);
+  
+          var x = document.getElementById("customer-info");
+          x.style.visibility = "hidden";
+          $("#delivery-field").hide();
+          $("#delivery-info").hide();
+  
+          $("#voucher-select").val(-1);
+          $("#total").text("0 ₫");
+          $("#ship-fee").text("0 ₫");
+          $("#discount-price").text("0 ₫");
+          $("#sum").text("0 ₫");
+          console.log(arr);
+        },
+      });
     }
-
-    $.ajax({
-      url: "https://localhost:44328/api/Orders/PayAtStore",
-      type: "POST",
-      data: JSON.stringify(formData),
-      contentType: "application/json",
-      success: function (response) {
-        //window.location.href = `/frontend/admin/bill.html`;
-        clearTableAndData();
-        $("#customer-name").text("Khách lẻ");
-        $("#customer-email").text("");
-        $("#customer-phone").text("");
-        $("#customer-id").text("");
-        $(".hidden-info").hide();
-        $("#customer-id").text("");
-        //
-        $("#delivery-field")[0].reset();
-        $("#delivery").prop("checked", false);
-
-        var x = document.getElementById("customer-info");
-        x.style.visibility = "hidden";
-        $("#delivery-field").hide();
-        $("#delivery-info").hide();
-
-        $("#voucher-select").val(-1);
-        $("#total").text("0 ₫");
-        $("#ship-fee").text("0 ₫");
-        $("#discount-price").text("0 ₫");
-        $("#sum").text("0 ₫");
-        console.log(arr);
-      },
-    });
   } else {
     return;
   }

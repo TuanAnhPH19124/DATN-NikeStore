@@ -17,9 +17,29 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      $("#customerName").val(data.customerName);
-      $("#phoneNumber").val(data.phoneNumber);
-      $("#address").val(data.address);
+      console.log(data)
+      $("#note").val(data.note);
+      if(data.userId===null){
+        $("#customerName").val(data.customerName);
+        $("#phoneNumber").val(data.phoneNumber);
+        $("#address").val(data.addressLine);
+      }else{
+        $.ajax({
+          url: `https://localhost:44328/api/Orders/GetOrderByUserId?userId=${data.userId}&orderId=${data.id}`,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data)
+             $("#customerName").val(data.fullName);
+             $("#phoneNumber").val(data.addressPhoneNumber);
+             $("#address").val(data.addressLine);
+          },
+          error: function () {
+              console.log("Error retrieving data.");
+          }
+      });
+      }
+
       $("#amount").val(
         Intl.NumberFormat("vi-VN", {
           style: "currency",
@@ -59,6 +79,7 @@ $(document).ready(function () {
           console.log("Error retrieving data.");
         },
       });
+
       var tableBody = $("#orderItemsTable tbody");
       tableBody.empty(); // Clear the table body before rendering
 
@@ -195,18 +216,23 @@ $(document).ready(function () {
               "time": iso8601DateString, // Fill with ISO 8601 formatted timestamp
               "note": "Hủy"
           };
-              $.ajax({
-                  url: "https://localhost:44328/api/OrderStatus",
-                  type: "POST",
-                  data: JSON.stringify(formData),
-                  contentType: "application/json; charset=utf-8",
-                  dataType: "json",
-                  success: function (response) {
-                    location.reload();
-                  },
-                  error: function () {
-                  },
-              });
+          if (confirm(`Bạn có muốn hủy hóa đơn không?`)) {
+            $.ajax({
+              url: "https://localhost:44328/api/OrderStatus",
+              type: "POST",
+              data: JSON.stringify(formData),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (response) {
+                location.reload();
+              },
+              error: function () {
+              },
+          });
+        } else {
+            return
+        }
+
           });
     },
     error: function () {
