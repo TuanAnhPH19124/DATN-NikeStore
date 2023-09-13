@@ -10,6 +10,17 @@
                 url: uri
             });
         };
+        
+        this.updateUserInfo = function (id,data){
+            let uri = apiUrl + '/api/AppUser/' + id;
+            return http({
+                method: 'PUT',
+                url: uri,
+                data : data
+            });
+        };
+
+
     }
 
     userService.$inject = [
