@@ -8,6 +8,15 @@
 
         s.userInfor = {};
 
+        s.updateInfor = function (){
+            let data = {
+                fullName: s.userInfor.fullName,
+                userName: s.userInfor.userName,
+                phoneNumber: s.userInfor.phoneNumber,
+                id: s.userInfor.id
+            }
+        }
+
         function constructor(){
             if (!authService.isLoggedIn()){
                 l.path('/signin');

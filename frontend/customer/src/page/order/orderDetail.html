@@ -20,25 +20,28 @@
                 <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
                     <div class="step-icon no-completed"
                         style="width: 50px; height: 50px; border-radius: 50%;"
-                        ng-class="{completed: order[0].status > 0}"><i class="fa-solid fa-money-bill-1-wave"></i></div>
+                        ng-class="{completed: order[0].status === 1}"><i class="fa-solid fa-money-bill-1-wave"></i></div>
                     <div ng-show="order[0].status === 1" class="step-text">Đã xác nhận thông tin thanh toán</div>
                     <div ng-show="order[0].status === 1" class="step-date">{{ order[0].orderStatuses[1].time | formatDate }}</div>
                 </div>
                 <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
                     <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"><i class="fa-solid fa-truck-fast"></i></div>
+                        style="width: 50px; height: 50px; border-radius: 50%;"
+                        ng-class="{completed: order[0].status === 2 }"><i class="fa-solid fa-truck-fast"></i></div>
                     <div ng-show="order[0].status === 2" class="step-text">Đã giao cho DVVC</div>
                     <div ng-show="order[0].status === 2" class="step-date">{{ order[0].orderStatuses[2].time | formatDate }}</div>
                 </div>
                 <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
                     <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"><i class="fa-solid fa-box-tissue"></i></div>
+                        style="width: 50px; height: 50px; border-radius: 50%;"
+                        ng-class="{completed: order[0].status === 3 }"><i class="fa-solid fa-box-tissue"></i></div>
                     <div ng-show="order[0].status === 3" class="step-text">Đã Nhận Được Hàng</div>
                     <div ng-show="order[0].status === 3" class="step-date">{{ order[0].orderStatuses[3].time | formatDate }}</div>
                 </div>
                 <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
                     <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"><i class="fa-solid fa-star"></i></div>
+                        style="width: 50px; height: 50px; border-radius: 50%;"
+                        ng-class="{completed: order[0].status === 3 }"><i class="fa-solid fa-star"></i></div>
                     <div ng-show="order[0].status === 3" class="step-text">Đơn hàng đã hoàn thành</div>
                     <div ng-show="order[0].status === 3" class="step-date">{{ order[0].orderStatuses[3].time | formatDate }}</div>
                 </div>
