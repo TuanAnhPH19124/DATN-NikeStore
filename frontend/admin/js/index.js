@@ -243,7 +243,7 @@ $(document).ready(function () {
         console.log(JSON.stringify(data));
 
         // Select the table body element
-        var tableBody = $("table tbody");
+        var tableBody = $("table #product");
 
         // Loop through the data and populate the table rows
         for (var i = 0; i < data.length; i++) {
@@ -267,8 +267,40 @@ $(document).ready(function () {
         console.log("Error retrieving data.");
     },
 });
+  $.ajax({
+    url: "https://localhost:44328/api/OrderItem/get-top-customer",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+        console.log(JSON.stringify(data));
 
-$(".table tbody").on("click", "tr", function (e) {
+        // Select the table body element
+        var tableBody = $("table #customer");
+
+        // Loop through the data and populate the table rows
+        for (var i = 0; i < data.length; i++) {
+            var customer = data[i];
+            // Create a new row for each product
+            var row = $("<tr class='table-row'>"); // Add the 'table-row' class for hover effect
+            row.append("<th scope='row' style='display:none'>" + customer.userId + "</th>");
+            row.append("<th scope='row' style='padding-left:20px'>" + (i + 1) + "</th>");
+            row.append("<td>" + customer.customerName + "</td>");
+            row.append("<td style='padding-left:60px'>" + customer.totalOrders + "</td>");
+            row.append("<td>" + Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(customer.totalRevenue) + "</td>");
+
+            // Append the row to the table body
+            tableBody.append(row);
+        }
+    },
+    error: function () {
+        console.log("Error retrieving data.");
+    },
+});
+
+$(".table #product").on("click", "tr", function (e) {
   e.preventDefault();
   const productId = $(this).find('th:first').text();
   if (productId !== null) {
