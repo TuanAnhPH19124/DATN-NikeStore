@@ -6,32 +6,6 @@
             <div class="checkout-address">                    
                 <div class="checkout-contact">
                     <h4 style="padding-top: 15px;">Thông tin liên lạc:</h4> <hr>
-                    <form name="infoForm" ng-submit="step = step + 1">
-                        <label>Email:
-                            <input type="email" ng-model="userInformation.email" name="iEmail" required>
-                        </label>
-                        <br />
-                        <div ng-show="infoForm.$submitted || infoForm.iEmail.$touched">
-                            <span ng-show="infoForm.iEmail.$error.required">Vui lòng điền Email của bạn.</span>
-                            <span ng-show="infoForm.iEmail.$error.email">Vui lòng điền Email hợp lệ</span>
-                        </div>
-                        <label>Số điện thoại:
-                            <input type="tel" ng-model="userInformation.phoneNumber" name="iPhone" required>
-                        </label>
-                        <br />
-                        <div ng-show="infoForm.$submitted || infoForm.iPhone.$touched">
-                            <span ng-show="infoForm.iPhone.$error.required">vui lòng điền số điện thoại.</span>
-                        </div>
-
-                        <label>
-                            <input type="checkbox" ng-model="agree" required style="margin-right: 5px;">Tôi đã đọc điều khoản và đồng ý
-                        </label>
-                        <br />
-                        <input type="submit" value="Tiếp tục" ng-disabled="! agree" ng-click="nextToShippingService()"
-                            class="btn btn-dark">
-                    </form>
-                </div> <hr>
-                <h4>Thông tin địa chỉ giao hàng:</h4><hr>
                     <div ng-repeat="address in addressCustomer">
                         <button class="checkout-address-existing" ng-class="{'border_address': address.selected}"
                             ng-click="selectAddress(address.id)">
@@ -119,7 +93,33 @@
                     </div>
                     <button class="add-address-button btn btn-dark" ng-click="showForm = true">Thêm địa chỉ</button>                                     
                 </div>
-            </div> <br>
+                </div> <hr>
+                <h4>Thông tin địa chỉ giao hàng:</h4><hr>
+                <form name="infoForm" ng-submit="step = step + 1">
+                    <label>Email:
+                        <input type="email" ng-model="userInformation.email" name="iEmail" required>
+                    </label>
+                    <br />
+                    <div ng-show="infoForm.$submitted || infoForm.iEmail.$touched">
+                        <span ng-show="infoForm.iEmail.$error.required">Vui lòng điền Email của bạn.</span>
+                        <span ng-show="infoForm.iEmail.$error.email">Vui lòng điền Email hợp lệ</span>
+                    </div>
+                    <label>Số điện thoại:
+                        <input type="tel" ng-model="userInformation.phoneNumber" name="iPhone" required>
+                    </label>
+                    <br />
+                    <div ng-show="infoForm.$submitted || infoForm.iPhone.$touched">
+                        <span ng-show="infoForm.iPhone.$error.required">vui lòng điền số điện thoại.</span>
+                    </div>
+
+                    <label>
+                        <input type="checkbox" ng-model="agree" required style="margin-right: 5px;">Tôi đã đọc điều khoản và đồng ý
+                    </label>
+                    <br />
+                    <input type="submit" value="Tiếp tục" ng-disabled="! agree" ng-click="nextToShippingService()"
+                        class="btn btn-dark">
+                </form>
+            </div>
             <div ng-show="step === 2">
                 <h4>Chọn dịch vụ vận chuyển:</h4>
                 <div ng-repeat="shippingService in avalibleShippingService">
@@ -139,7 +139,7 @@
                     class="btn btn-dark">Tiếp tục</button>
             </div>
             <div ng-show="step === 3">
-                <div class="input-group">
+                <div class="input-group" style="padding-top: 20px;">
                     <div class="input-group-prepend">
                         <span class="" style="padding-top: 10px;">Nhập mã giảm giá: </span>
                     </div>
@@ -190,7 +190,7 @@
         <div class="col-4" style="border: 1px solid rgb(225, 220, 220);">
             <h4 style="padding-top: 15px;">Tổng kết hóa đơn:</h4> <hr>
             <div class="" ng-repeat="cart in carts" style="border: 1px solid rgb(242, 239, 239);">
-                <div style="display: flex; align-items: center; justify-content: space-evenly;">
+                <div style="display: flex; align-items: center; justify-content: space-evenly; margin: 10px;">
                     <img src="{{getImgUrl(cart.product.imgUrl)}}"
                     style="padding-bottom: 20px;" width="100px" height="100px" alt="{{cart.product.name}}">
                     <div style="margin-left: 15px;">
@@ -210,7 +210,7 @@
                     <span ng-if="selectedShippingServiceIndex !== -1">
                         {{ avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ
                     </span>
-                    <span ng-if="selectedShippingServiceIndex === -1">_</span>
+                    <span ng-if="selectedShippingServiceIndex === -1">0đ</span>
                 </p>                
             </div><hr>
             <p ng-if="selectedShippingServiceIndex !== -1">Nhận hàng vào: <br>

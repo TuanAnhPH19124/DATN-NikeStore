@@ -23,7 +23,7 @@
         <div class="main-item">
           <div class="product-infomation">
             <div class="product-price">
-              <h3>Tên sản phẩm: {{cart.product.name}}</h3>
+              <h3 style="margin-right: 30px;">Tên sản phẩm: {{cart.product.name}}</h3>
               <button class="remove-button" ng-click="removeCart(cart.id)"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <p>Màu sắc: {{cart.colorName}}</p>
@@ -54,12 +54,6 @@
       <div class="subtotal">
         <span>Tạm tính: </span>
         <span style="color: red;font-size: 18px;">{{ formatPrice(totalAmount()) }}</span>
-      </div>
-      <hr>
-      <div>
-        <p>Mã giảm giá: </p>
-        <input type="text" placeholder="Nhập mã giảm giá (nếu có)"
-          style="border: 1px solid rgb(215, 215, 214); height: 40px; width: 255px;text-align: center;">
       </div>
       <hr>
       <div class="total">
