@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Repositories;
 using EntitiesDto;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace Persistence.Repositories
         public async Task<float> GetTotalOrders(DateTime startDate, DateTime endDate)
         {
             var orders = await _context.Orders
-                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate)
+                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate && p.CurrentStatus == StatusOrder.DELIVERIED)
                 .ToListAsync();
             float totalRevenue = (float)orders
                 .Select(p => p.Amount)
@@ -47,7 +48,7 @@ namespace Persistence.Repositories
             DateTime endDate = startDate.AddMonths(1).AddDays(-1);
 
             var orders = await _context.Orders
-                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate)
+                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate && p.CurrentStatus == StatusOrder.DELIVERIED)
                 .ToListAsync();
 
             float totalAmount = (float)orders
@@ -63,7 +64,7 @@ namespace Persistence.Repositories
             DateTime today = DateTime.Today;
 
             var orders = await _context.Orders
-                .Where(p => p.DateCreated.Date == today)
+                .Where(p => p.DateCreated.Date == today && p.CurrentStatus == StatusOrder.DELIVERIED)
                 .ToListAsync();
 
             float totalAmount = (float)orders
@@ -74,13 +75,14 @@ namespace Persistence.Repositories
             return totalAmount;
         }
 
+
         // Tong so don hang cua ngay hom nay
         public async Task<int> GetTotalBillForCurrentDate()
         {
             DateTime today = DateTime.Today;
 
             var orders = await _context.Orders
-                .Where(p => p.DateCreated.Date == today)
+                .Where(p => p.DateCreated.Date == today && p.CurrentStatus == StatusOrder.DELIVERIED)
                 .ToListAsync();
 
             int totalOrders = orders.Count;
@@ -96,7 +98,7 @@ namespace Persistence.Repositories
             DateTime endDate = startDate.AddMonths(1).AddDays(-1);
 
             var orders = await _context.Orders
-                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate)
+                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate && p.CurrentStatus == StatusOrder.DELIVERIED)
                 .ToListAsync();
 
             int totalOrders = orders.Count;
@@ -108,7 +110,7 @@ namespace Persistence.Repositories
         public async Task<int> GetTotalOrdersInTimeRange(DateTime startDate, DateTime endDate)
         {
             var orders = await _context.Orders
-                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate)
+                .Where(p => p.DateCreated >= startDate && p.DateCreated <= endDate && p.CurrentStatus == StatusOrder.DELIVERIED)
                 .ToListAsync();
 
             int totalOrders = orders.Count;
@@ -119,21 +121,22 @@ namespace Persistence.Repositories
         // Tong so hoa don da ban
         public async Task<int> GetTotalBill()
         {
-            var totalOrders = await _context.Orders.CountAsync();
+            var totalOrders = await _context.Orders
+                .Where(p => p.CurrentStatus == StatusOrder.DELIVERIED)
+                .CountAsync();
+
             return totalOrders;
         }
-
         // Tong so doanh thu
         public async Task<float> GetTotalAmount()
         {
-            var orders = await _context.Orders
-            .Select(p => (float)p.Amount)
-            .ToListAsync();
-
-            float totalAmount = orders.Any() ? orders.Sum() : 0;
-
+            var totalAmount = await _context.Orders
+                .Where(p => p.CurrentStatus == StatusOrder.DELIVERIED)
+                .Select(p => (float)p.Amount)
+                .SumAsync();
             return totalAmount;
         }
+
 
         //So luong da ban cua 1 sp
         public async Task<int> GetAmountByProductId(string productId)
@@ -157,6 +160,7 @@ namespace Persistence.Repositories
         {
             // Lấy danh sách sản phẩm bán được và doanh thu
             var topProducts = await _context.OrderItems
+                .Where(p => p.Order.CurrentStatus == StatusOrder.DELIVERIED)
                 .GroupBy(p => p.ProductId)
                 .Select(g => new
                 {
@@ -193,26 +197,35 @@ namespace Persistence.Repositories
         public async Task<List<CustomerOrderInfo>> GetTopCustomersByTotalOrdersAndRevenue(int topCount)
         {
             var topCustomers = await _context.Orders
-                .Where(o => o.UserId != null) // Lọc các hóa đơn có UserId
-                .GroupBy(o => new { o.UserId, o.CustomerName }) // Nhóm theo UserId và CustomerName
+                .Where(o => o.UserId != null && o.CurrentStatus == StatusOrder.DELIVERIED) // Lọc các hóa đơn có UserId và CurrentStatus là DELIVERIED
+                .GroupBy(o => o.UserId) // Nhóm theo UserId
                 .Select(g => new CustomerOrderInfo
                 {
-                    UserId = g.Key.UserId,
-                    CustomerName = g.Key.CustomerName,
-                    TotalOrders = g.Count(), // Tổng số hóa đơn có UserId
-                    TotalRevenue = (decimal)g.Sum(o => o.Amount) // Tổng tiền của các hóa đơn có UserId
+                    UserId = g.Key,
+                    TotalOrders = g.Count(), // Tổng số hóa đơn có UserId và CurrentStatus là DELIVERIED
+                    TotalRevenue = (decimal)g.Sum(o => o.Amount) // Tổng tiền của các hóa đơn có UserId và CurrentStatus là DELIVERIED
                 })
-                .OrderByDescending(c => c.TotalOrders)
-                .ThenByDescending(c => c.TotalRevenue)
-                .Take(topCount)
+                .OrderByDescending(c => c.TotalRevenue) // Sắp xếp giảm dần theo tổng doanh thu
+                .Take(topCount) // Lấy top số lượng cần
                 .ToListAsync();
+
+            // Lấy tên khách hàng từ bảng AppUsers
+            var userIds = topCustomers.Select(c => c.UserId).ToList();
+            var userNames = await _context.AppUsers
+                .Where(u => userIds.Contains(u.Id))
+                .ToDictionaryAsync(u => u.Id, u => u.FullName);
+
+            // Cập nhật tên khách hàng trong danh sách topCustomers
+            foreach (var customer in topCustomers)
+            {
+                if (userNames.ContainsKey(customer.UserId))
+                {
+                    customer.CustomerName = userNames[customer.UserId];
+                }
+            }
 
             return topCustomers;
         }
-
-
-
-
 
 
 
