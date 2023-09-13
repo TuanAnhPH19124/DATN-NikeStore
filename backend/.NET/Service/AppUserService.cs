@@ -179,6 +179,7 @@ namespace Service
             {
                 existingAppUser.FullName = appUser.FullName;
                 existingAppUser.PhoneNumber= appUser.PhoneNumber;
+                existingAppUser.UserName = appUser.UserName;
                 existingAppUser.AvatarUrl= appUser.AvatarUrl;
                 await _repositoryManger.AppUserRepository.UpdateAppUser(existingAppUser);
                 return existingAppUser;
