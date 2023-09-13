@@ -1,125 +1,337 @@
-<section class="container" style="padding-top: 30px;">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <button type="button" class="btn btn-light" 
-        style="background-color: white; border: none;color: gray;" ng-click="redirectToOrder()"><i class="fa-solid fa-arrow-left"></i> TRỞ LẠI </button>
-        <div>
-            <span>Mã đơn hàng: {{ order[0].id }}</span> |
-            <span ng-show="order[0].status === 3 " style="color: red;">Đơn hàng chưa hoàn thành</span>
-            <span ng-show="order[0].status < 3">Đơn hàng chưa hoàn thành</span>
-            <span ng-show="order[0].status === 4" style="color: red;">Đơn hàng đã hủy</span>
-        </div>
+<section class="container" style="padding-top: 30px">
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <button
+      type="button"
+      class="btn btn-light"
+      style="background-color: white; border: none; color: gray"
+      ng-click="redirectToOrder()"
+    >
+      <i class="fa-solid fa-arrow-left"></i> TRỞ LẠI
+    </button>
+    <div>
+      <span>Mã đơn hàng: {{ order[0].id }}</span> |
+      <span ng-show="order[0].status === 3 " style="color: red"
+        >Đơn hàng hoàn thành</span
+      >
+      <span ng-show="order[0].status < 3">Đơn hàng chưa hoàn thành</span>
+      <span ng-show="order[0].status === 4" style="color: red"
+        >Đơn hàng đã hủy</span
+      >
     </div>
-    <hr>
-    <br>
-    <div class="order-status-taskbar">
-            <div class="stepper" style="display: flex; justify-content: space-around; align-items: center;">
-                <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-                    <div class="step-icon"
-                        style="width: 50px; height: 50px; background-color: green; border-radius: 50%;"><i class="fa-solid fa-file-invoice"></i></div>
-                    <div class="step-text">Đơn đã đặt</div>
-                    <div class="step-date">{{ order[0].orderStatuses[0].time | formatDate }}</div>
-                </div>
-                <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-                    <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"
-                        ng-class="{completed: order[0].status > 0}"><i class="fa-solid fa-money-bill-1-wave"></i></div>
-                    <div ng-show="order[0].status > 0" class="step-text">Đã xác nhận thông tin thanh toán</div>
-                    <div ng-show="order[0].status > 0" class="step-date">{{ order[0].orderStatuses[1].time | formatDate }}</div>
-                </div>
-                <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-                    <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"
-                        ng-class="{completed: order[0].status > 1 }"><i class="fa-solid fa-truck-fast"></i></div>
-                    <div ng-show="order[0].status > 1" class="step-text">Đã giao cho DVVC</div>
-                    <div ng-show="order[0].status > 1" class="step-date">{{ order[0].orderStatuses[2].time | formatDate }}</div>
-                </div>
-                <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-                    <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"
-                        ng-class="{completed: order[0].status > 2 }"
-                        ><i class="fa-solid fa-box-tissue"></i></div>
-                    <div ng-show="order[0].status > 2 && order[0].status < 4" class="step-text">Đã Nhận Được Hàng</div>
-                    <div ng-show="order[0].status > 2 order[0].status < 4" class="step-date">{{ order[0].orderStatuses[3].time | formatDate }}</div>
-                </div>
-                <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-                    <div class="step-icon no-completed"
-                        style="width: 50px; height: 50px; border-radius: 50%;"
-                        ng-class="{completed: order[0].status > 2 }"><i class="fa-solid fa-star"></i></div>
-                    <div ng-show="order[0].status > 2 order[0].status < 4" class="step-text">Đơn hàng đã hoàn thành</div>
-                    <div ng-show="order[0].status > 2 order[0].status < 4" class="step-date">{{ order[0].orderStatuses[3].time | formatDate }}</div>
-                </div>
+  </div>
+  <hr />
+  <br />
+  <div class="order-status-taskbar">
+    <div
+      class="stepper"
+      style="display: flex; justify-content: space-around; align-items: center"
+    >
+      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
+        <div
+          class="step-icon"
+          style="
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            border-radius: 50%;
+          "
+        >
+          <i class="fa-solid fa-file-invoice"></i>
         </div>
+        <div class="step-text">Đơn đã đặt</div>
+        <div class="step-date">
+          {{ order[0].orderStatuses[0].time | formatDate }}
+        </div>
+      </div>
+      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
+        <div
+          class="step-icon no-completed"
+          style="width: 50px; height: 50px; border-radius: 50%"
+          ng-class="{completed: order[0].status > 0}"
+        >
+          <i class="fa-solid fa-money-bill-1-wave"></i>
+        </div>
+        <div ng-show="order[0].status > 0" class="step-text">
+          Đã xác nhận thông tin thanh toán
+        </div>
+        <div ng-show="order[0].status > 0" class="step-date">
+          {{ order[0].orderStatuses[1].time | formatDate }}
+        </div>
+      </div>
+      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
+        <div
+          class="step-icon no-completed"
+          style="width: 50px; height: 50px; border-radius: 50%"
+          ng-class="{completed: order[0].status > 1 }"
+        >
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div ng-show="order[0].status > 1" class="step-text">
+          Đã giao cho DVVC
+        </div>
+        <div ng-show="order[0].status > 1" class="step-date">
+          {{ order[0].orderStatuses[2].time | formatDate }}
+        </div>
+      </div>
+      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
+        <div
+          class="step-icon no-completed"
+          style="width: 50px; height: 50px; border-radius: 50%"
+          ng-class="{completed: order[0].status > 2 }"
+        >
+          <i class="fa-solid fa-box-tissue"></i>
+        </div>
+        <div
+          ng-show="order[0].status > 2 && order[0].status < 4"
+          class="step-text"
+        >
+          Đã Nhận Được Hàng
+        </div>
+        <div
+          ng-show="order[0].status > 2 order[0].status < 4"
+          class="step-date"
+        >
+          {{ order[0].orderStatuses[3].time | formatDate }}
+        </div>
+      </div>
+      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
+        <div
+          class="step-icon no-completed"
+          style="width: 50px; height: 50px; border-radius: 50%"
+          ng-class="{completed: order[0].status > 2 }"
+        >
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <div
+          ng-show="order[0].status > 2 order[0].status < 4"
+          class="step-text"
+        >
+          Đơn hàng đã hoàn thành
+        </div>
+        <div
+          ng-show="order[0].status > 2 order[0].status < 4"
+          class="step-date"
+        >
+          {{ order[0].orderStatuses[3].time | formatDate }}
+        </div>
+      </div>
     </div>
-    <hr>
-    <div class="order-options" style="display: flex; justify-content: space-between; align-items: center;">
-        <p>Cảm ơn bạn đã mua hàng!</p>
-        <button type="button" ng-click="reBuy()" class="btn btn-outline-warning">Mua lại</button>
-    </div> <hr>
-    <div class="order-shipping" style="border: 1px solid rgb(225, 225, 225);padding: 20px;">
-        <div class="row">
-            <div class="col-6">
-                <h3>Địa chỉ nhận hàng: </h3>
-                <p>{{ order[0].customerName }}</p>
-                <p>{{ order[0].phoneNumber }}</p>
-                <p>{{ order[0].addressLine }}, {{ order[0].provinceId }}, {{ order[0].districtId }}, {{ order[0].wardCode }}</p>
+  </div>
+  <hr />
+  <div
+    class="order-options"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <p>Cảm ơn bạn đã mua hàng!</p>
+    <button type="button" ng-click="reBuy()" class="btn btn-outline-warning">
+      Mua lại
+    </button>
+  </div>
+  <hr />
+  <div
+    class="order-shipping"
+    style="border: 1px solid rgb(225, 225, 225); padding: 20px"
+  >
+    <div class="row">
+      <div class="col-6">
+        <h3>Địa chỉ nhận hàng:</h3>
+        <p>{{ order[0].customerName }}</p>
+        <p>{{ order[0].phoneNumber }}</p>
+        <p>
+          {{ order[0].addressLine }}, {{ order[0].provinceId }}, {{
+          order[0].districtId }}, {{ order[0].wardCode }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div
+    class="order-item"
+    ng-repeat="item in order[0].orderItems"
+    style="border: 1px solid rgb(225, 225, 225); padding: 20px"
+  >
+    <div class="order-item-produt">
+      <a href="" style="text-decoration: none">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+          "
+        >
+          <div class="" style="display: flex; align-items: center">
+            <img
+              ng-src="{{ getImgUrl(item.imgUrl) }}"
+              alt=""
+              style="
+                display: inline-block;
+                width: 150px;
+                height: 150px;
+                padding-bottom: 30px;
+                margin-right: 30px;
+              "
+            />
+            <div>
+              <p>{{ item.productName }}</p>
+              <p>Phân loại hàng: {{ item.color }} , {{ item.size }}</p>
+              <p>Số lượng: {{ item.quantity }}</p>
             </div>
+          </div>
+          <div class="">
+            <span style="margin-right: 10px; color: red"
+              >{{ formatPrice(item.discountRate) }}</span
+            >
+            <span class="retail-price"
+              >{{ formatPrice(item.retailPrice) }}</span
+            >
+          </div>
         </div>
-    </div><br>
-    <div class="order-item" ng-repeat="item in order[0].orderItems" style="border: 1px solid rgb(225, 225, 225);padding: 20px;">
-        <div class="order-item-produt">
-            <a href="" style="text-decoration: none;">
-                <div style="display: flex; justify-content: space-between; align-items: center;color: black;">
-                    <div class="" style="display: flex; align-items: center;">
-                        <img ng-src="{{ getImgUrl(item.imgUrl) }}" alt=""
-                            style="display: inline-block; width: 150px; height: 150px; padding-bottom: 30px;margin-right: 30px;">
-                        <div>
-                            <p>{{ item.productName }}</p>
-                            <p>Phân loại hàng: {{ item.color }} , {{ item.size }}</p>
-                            <p>Số lượng: {{ item.quantity }}</p>
-                        </div>
-                    </div>
-                    <div class="">
-                        <span style="margin-right: 10px;color: red;">{{ formatPrice(item.discountRate) }}</span>
-                        <span class="retail-price">{{ formatPrice(item.retailPrice) }}</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div> <br>
-    <div class="container">
-        <div class="row" style="border: 1px solid  rgb(225, 225, 225)">
-            <div class="col-9" 
-            style="display: flex; justify-content: end; align-items: center;border-right: 1px solid  rgb(225, 225, 225);">Tổng tiền hàng: </div>
-            <div class="col-3" 
-            style="display: flex; justify-content: end; align-items: center;border: none;">{{ formatPrice(totalAmount()) }}</div>
-        </div>
-        <div class="row" style="border: 1px solid  rgb(225, 225, 225)">
-            <div class="col-9" 
-            style="display: flex; justify-content: end; align-items: center;border-right: 1px solid  rgb(225, 225, 225);">Voucher giảm giá: </div>
-            <div class="col-3" 
-            style="display: flex; justify-content: end; align-items: center;border: none;">-{{ formatPrice(sale()) }}</div>
-        </div>
-        <div class="row" style="border: 1px solid  rgb(225, 225, 225)">
-            <div class="col-9" 
-            style="display: flex; justify-content: end; align-items: center;border-right: 1px solid  rgb(225, 225, 225);">Thành tiền: </div>
-            <div class="col-3" 
-            style="display: flex; justify-content: end; align-items: center;border: none;">{{ order[0].total | formatVNDPrice }}</div>
-        </div>
-        <div class="row" ng-show="order[0].payMethod === 0"
-        style="display: flex; justify-content: start; align-items: 
-        center;border: 1px solid  rgb(225, 225, 225);padding: 20px;font-weight: 500;"
-        > <i class="fa fa-star" style="color:  red;margin-right: 5px;"></i> Vui lòng thanh toán {{ total() | formatVNDPrice }} khi nhận hàng</div>
-        <div class="row" ng-show="order[0].payMethod === 1"
-        style="display: flex; justify-content: start; align-items: 
-        center;border: 1px solid  rgb(225, 225, 225);padding: 20px;font-weight: 500;"
-        > <i class="fa fa-star" style="color:  red;margin-right: 5px;"></i> Đã thanh toán {{ formatPrice(total()) }}</div>
-        <div class="row" style="border: 1px solid  rgb(225, 225, 225)">
-            <div class="col-9" 
-            style="display: flex; justify-content: end; align-items: center;border-right: 1px solid  rgb(225, 225, 225);">Phương thức thanh toán: </div>
-            <div class="col-3" ng-show="order[0].payMethod === 0"
-            style="display: flex; justify-content: end; align-items: center;border: none;">Thanh toán khi nhận hàng</div>
-            <div class="col-3" ng-show="order[0].payMethod === 1"
-            style="display: flex; justify-content: end; align-items: center;border: none;">Thanh toán trước</div>
-        </div>
+      </a>
     </div>
+  </div>
+  <br />
+  <div class="container">
+    <div class="row" style="border: 1px solid rgb(225, 225, 225)">
+      <div
+        class="col-9"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border-right: 1px solid rgb(225, 225, 225);
+        "
+      >
+        Tổng tiền hàng:
+      </div>
+      <div
+        class="col-3"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border: none;
+        "
+      >
+        {{ formatPrice(totalAmount()) }}
+      </div>
+    </div>
+    <div class="row" style="border: 1px solid rgb(225, 225, 225)">
+      <div
+        class="col-9"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border-right: 1px solid rgb(225, 225, 225);
+        "
+      >
+        Voucher giảm giá:
+      </div>
+      <div
+        class="col-3"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border: none;
+        "
+      >
+        -{{ formatPrice(sale()) }}
+      </div>
+    </div>
+    <div class="row" style="border: 1px solid rgb(225, 225, 225)">
+      <div
+        class="col-9"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border-right: 1px solid rgb(225, 225, 225);
+        "
+      >
+        Thành tiền:
+      </div>
+      <div
+        class="col-3"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border: none;
+        "
+      >
+        {{ order[0].total | formatVNDPrice }}
+      </div>
+    </div>
+    <div
+      class="row"
+      ng-show="order[0].payMethod === 0"
+      style="
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        border: 1px solid rgb(225, 225, 225);
+        padding: 20px;
+        font-weight: 500;
+      "
+    >
+      <i class="fa fa-star" style="color: red; margin-right: 5px"></i> Vui lòng
+      thanh toán {{ total() | formatVNDPrice }} khi nhận hàng
+    </div>
+    <div
+      class="row"
+      ng-show="order[0].payMethod === 1"
+      style="
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        border: 1px solid rgb(225, 225, 225);
+        padding: 20px;
+        font-weight: 500;
+      "
+    >
+      <i class="fa fa-star" style="color: red; margin-right: 5px"></i> Đã thanh
+      toán {{ formatPrice(total()) }}
+    </div>
+    <div class="row" style="border: 1px solid rgb(225, 225, 225)">
+      <div
+        class="col-9"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border-right: 1px solid rgb(225, 225, 225);
+        "
+      >
+        Phương thức thanh toán:
+      </div>
+      <div
+        class="col-3"
+        ng-show="order[0].payMethod === 0"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border: none;
+        "
+      >
+        Thanh toán khi nhận hàng
+      </div>
+      <div
+        class="col-3"
+        ng-show="order[0].payMethod === 1"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          border: none;
+        "
+      >
+        Thanh toán trước
+      </div>
+    </div>
+  </div>
 </section>
