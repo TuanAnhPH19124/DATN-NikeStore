@@ -56,6 +56,7 @@ namespace Webapi.Controllers
                          {
                             orderid= o.Id,
                             orderitemid = oi.Id,
+                            total = o.Amount,
                             ProductName = p.Name,
                             DiscountRate = p.DiscountRate,
                             RetailPrice = p.RetailPrice,
@@ -69,6 +70,7 @@ namespace Webapi.Controllers
             var groupAndDistrictOrder = orders.ToList().GroupBy(order => new{
                 order.orderid,
                 order.orderitemid,
+                order.total,
                 order.ProductName,
                 order.DiscountRate,
                 order.RetailPrice,
@@ -78,6 +80,7 @@ namespace Webapi.Controllers
                 order.Status
             }).Select(group => new {
                 orderid= group.Key.orderid,
+                total = group.Key.total,
                 orderitemid = group.Key.orderitemid,
                 ProductName = group.Key.ProductName,
                 DiscountRate = group.Key.DiscountRate,
@@ -89,8 +92,9 @@ namespace Webapi.Controllers
                 ImgUrl = group.First().ImgUrl
             });
 
-            var final = groupAndDistrictOrder.GroupBy(order => new{order.orderid, order.Status}).Select(group => new {
+            var final = groupAndDistrictOrder.GroupBy(order => new{order.orderid, order.Status, order.total}).Select(group => new {
                 orderId = group.Key.orderid,
+                total = group.Key.total,
                 status = group.Key.Status,
                 orderItems = group.ToList()
             }).ToList();
@@ -123,6 +127,7 @@ namespace Webapi.Controllers
                             select new {
                                 id = o.Id,
                                 status = o.CurrentStatus,
+                                total = o.Amount,
                                 payMethod = o.Paymethod,
                                 voucherValue = voucher != null ? voucher.Value : 0,
                                 orderItemId = oi.Id,
@@ -150,6 +155,7 @@ namespace Webapi.Controllers
                 var orderGroupByImage = order.ToList().GroupBy(order => new{
                     order.id,
                     order.status,
+                    order.total,
                     order.voucherValue,
                     order.payMethod,
                     order.orderItemId,
@@ -175,6 +181,7 @@ namespace Webapi.Controllers
                 }).Select(group => new {
                     id = group.Key.id,
                     status = group.Key.status,
+                    total = group.Key.total,
                     payMethod = group.Key.payMethod,
                     voucherValue = group.Key.voucherValue,
                     CustomerName = group.Key.CustomerName,
@@ -205,6 +212,7 @@ namespace Webapi.Controllers
                 var orderGroupByOrderItem = orderGroupByImage.ToList().GroupBy(order => new {
                     order.id,
                     order.status,
+                    order.total,
                     order.payMethod,
                     order.voucherValue,
                     order.CustomerName,
@@ -220,6 +228,7 @@ namespace Webapi.Controllers
                 }).Select(group => new{
                     id = group.Key.id,
                     status = group.Key.status,
+                    total = group.Key.total,
                     payMethod = group.Key.payMethod,
                     voucherValue = group.Key.voucherValue,
                     CustomerName = group.Key.CustomerName,
@@ -250,6 +259,7 @@ namespace Webapi.Controllers
                 var finalResult = orderGroupByOrderItem.GroupBy(order => new {
                     order.id,
                     order.status,
+                    order.total,
                     order.voucherValue,
                     order.payMethod,
                     order.CustomerName,
@@ -261,6 +271,7 @@ namespace Webapi.Controllers
                 }).Select(g => new {
                     id = g.Key.id,
                     status = g.Key.status,
+                    total = g.Key.total,
                     voucherValue = g.Key.voucherValue,
                     payMethod = g.Key.payMethod,
                     CustomerName = g.Key.CustomerName,

@@ -13,11 +13,9 @@
 }
 
 .product-list-container .product-item img {
-    max-width: 100%; 
-    height: auto;
-    align-self: center; 
-    padding: 10px; 
-    border-radius: 10px;
+    width: 250px; 
+    height: 250px;
+    align-self: center;  
     background-color: #ffffff;
 }
 
@@ -61,8 +59,8 @@
 }
 
 .product-item img {
-    max-width: 100%;
-    height: auto;
+    width: 250px; 
+    height: 250px;
     display: block;
     margin: 0 auto; /* Căn giữa ảnh */
 }

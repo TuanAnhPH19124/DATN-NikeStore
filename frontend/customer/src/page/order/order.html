@@ -20,10 +20,13 @@
                 }}</span> -
             <span ng-show="order.status === 3"
                 style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
-                Chưa Hoàn thành</span>
+                Đã Hoàn thành</span>
             <span ng-show="order.status !== 3"
                 style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
                 Chưa Hoàn thành</span>
+            <span ng-show="order.status === 4"
+            style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
+            Thất bại</span>
             <a ng-href="#/orderDetail/{{order.orderId}}" style="text-decoration: none; color: black;" ng-repeat="item in order.orderItems">
                 <div class="order-tiem-product-info"
                     style="margin-bottom: 10px; border: 1px solid rgb(232, 225, 225);border-radius: 5px;">
@@ -47,7 +50,7 @@
             </a>
             <div style="display: flex; justify-content: end;">
                 <p style="color: red;font-size: 20px;font-weight: 500;">Thành tiền: {{
-                    formatPrice(getToTalAmount(order.orderId)) }}</p>
+                    order.total | formatVNDPrice }}</p>
             </div>
             <div class="order-item-options">
                 <div class="order-item-option-review">

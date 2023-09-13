@@ -35,7 +35,7 @@ app.config(function ($routeProvider, $locationProvider) {
     })
     .when("/accountDetail", {
       templateUrl: "../page/login/accountinfomation.html",
-      controller: "authController"
+      controller: "userController"
     })
     .when("/product", {
       templateUrl: "../page/product/product.html",
