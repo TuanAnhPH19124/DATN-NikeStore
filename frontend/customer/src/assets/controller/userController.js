@@ -14,7 +14,12 @@
                 userName: s.userInfor.userName,
                 phoneNumber: s.userInfor.phoneNumber,
                 id: s.userInfor.id
-            }
+            };
+
+            
+
+
+
         }
 
         function constructor(){
