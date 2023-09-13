@@ -18,6 +18,15 @@
             });
         };
 
+        this.addRangeToCard = function (data){
+            let uri = apiUrl + "/api/ShoppingCarts/addrange";
+            return http({
+                method: 'POST',
+                url: uri,
+                data: data
+            })
+        }
+
         this.updateCart = function (id,data){
             let uri = apiUrl + '/api/ShoppingCarts/' + id;
             return http({
@@ -26,6 +35,8 @@
                 data: data
             });
         };
+
+        
 
         this.deleteCart = function (id){
             let uri = apiUrl + '/api/ShoppingCarts/' + id;

@@ -39,7 +39,7 @@ namespace Webapi.Controllers
         }
 
         [HttpGet("getByUserId/{userId}")]
-        public async Task<ActionResult> GetbyUserId(string userId){
+        public async Task<ActionResult> GetbyUserId(string userId, [FromQuery]int? type = null){
             if (string.IsNullOrEmpty(userId))
                 return BadRequest(new {error = "Id không hợp lệ"});
 
@@ -50,7 +50,8 @@ namespace Webapi.Controllers
                          join s in _dbContext.Sizes on oi.SizeId equals s.Id
                          join c in _dbContext.Colors on oi.ColorId equals c.Id
                          join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
-                         where o.UserId == userId && pi.ColorId == oi.ColorId
+                         where o.UserId == userId && pi.ColorId == oi.ColorId && (type != null ? (int)o.CurrentStatus == type : true)
+                
                          select new
                          {
                             orderid= o.Id,
@@ -101,7 +102,7 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("getOrderDetail/{id}")]
         public async Task<ActionResult> GetOrderDetail(string id)
         {
             if(string.IsNullOrEmpty(id))
@@ -115,11 +116,18 @@ namespace Webapi.Controllers
                             join c in _dbContext.Colors on oi.ColorId equals c.Id
                             join s in _dbContext.Sizes on oi.SizeId equals s.Id
                             join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
+                            join a in _dbContext.Addresses on o.AddressId equals a.Id
+                            join v in _dbContext.Vouchers on o.VoucherId equals v.Id into voucherGroup
+                            from voucher in voucherGroup.DefaultIfEmpty()
                             where o.Id == id && pi.ColorId == oi.ColorId
                             select new {
                                 id = o.Id,
                                 status = o.CurrentStatus,
+                                payMethod = o.Paymethod,
+                                voucherValue = voucher != null ? voucher.Value : 0,
                                 orderItemId = oi.Id,
+                                colorId = oi.ColorId,
+                                sizeId = oi.SizeId,
                                 productId = p.Id,
                                 productName = p.Name,
                                 discountRate = p.DiscountRate,
@@ -132,11 +140,21 @@ namespace Webapi.Controllers
                                 orderStatusStatus = os.Status,
                                 orderStatusNote = os.Note,
                                 orderStatusTime = os.Time,
+                                CustomerName = a.FullName,
+                                PhoneNumber = a.PhoneNumber,
+                                AddressLine = a.AddressLine,
+                                ProvinceId = a.CityCode,
+                                DistrictId = a.ProvinceCode,
+                                WardCode = a.WardCode
                             };
                 var orderGroupByImage = order.ToList().GroupBy(order => new{
                     order.id,
                     order.status,
+                    order.voucherValue,
+                    order.payMethod,
                     order.orderItemId,
+                    order.colorId,
+                    order.sizeId,
                     order.productId,
                     order.productName, 
                     order.discountRate,
@@ -147,11 +165,28 @@ namespace Webapi.Controllers
                     order.orderStatusId ,
                     order.orderStatusStatus ,
                     order.orderStatusNote ,
-                    order.orderStatusTime 
+                    order.orderStatusTime,
+                    order.CustomerName,
+                    order.PhoneNumber,
+                    order.AddressLine,
+                    order.ProvinceId,
+                    order.DistrictId,
+                    order.WardCode
                 }).Select(group => new {
                     id = group.Key.id,
                     status = group.Key.status,
+                    payMethod = group.Key.payMethod,
+                    voucherValue = group.Key.voucherValue,
+                    CustomerName = group.Key.CustomerName,
+                    PhoneNumber = group.Key.PhoneNumber,
+                    AddressLine = group.Key.AddressLine,
+                    ProvinceId = group.Key.ProvinceId,
+                    DistrictId = group.Key.DistrictId,
+                    WardCode = group.Key.WardCode,
+
                     orderItemId = group.Key.orderItemId,
+                    colorId = group.Key.colorId,
+                    sizeId = group.Key.sizeId,
                     productId = group.Key.productId,
                     productName = group.Key.productName,
                     discountRate = group.Key.discountRate,
@@ -164,11 +199,20 @@ namespace Webapi.Controllers
                     orderStatusNote = group.Key.orderStatusNote,
                     orderStatusTime = group.Key.orderStatusTime,
                     imgUrl = group.First().imgUrl
+                    
                 });
 
                 var orderGroupByOrderItem = orderGroupByImage.ToList().GroupBy(order => new {
                     order.id,
                     order.status,
+                    order.payMethod,
+                    order.voucherValue,
+                    order.CustomerName,
+                    order.PhoneNumber,
+                    order.AddressLine,
+                    order.ProvinceId,
+                    order.DistrictId,
+                    order.WardCode,
                     order.orderStatusId,
                     order.orderStatusStatus,
                     order.orderStatusNote,
@@ -176,12 +220,22 @@ namespace Webapi.Controllers
                 }).Select(group => new{
                     id = group.Key.id,
                     status = group.Key.status,
+                    payMethod = group.Key.payMethod,
+                    voucherValue = group.Key.voucherValue,
+                    CustomerName = group.Key.CustomerName,
+                    PhoneNumber = group.Key.PhoneNumber,
+                    AddressLine = group.Key.AddressLine,
+                    ProvinceId = group.Key.ProvinceId,
+                    DistrictId = group.Key.DistrictId,
+                    WardCode = group.Key.WardCode,
                     orderStatusId = group.Key.orderStatusId,
                     orderStatusStatus = group.Key.orderStatusStatus,
                     orderStatusNote = group.Key.orderStatusNote,
                     orderStatusTime = group.Key.orderStatusTime,
                     orderItems = group.Select(item => new {
                         orderItemId = item.orderItemId,
+                        colorId = item.colorId,
+                        sizeId = item.sizeId,
                         productId = item.productId,
                         productName = item.productName,
                         discountRate = item.discountRate,
@@ -195,10 +249,26 @@ namespace Webapi.Controllers
 
                 var finalResult = orderGroupByOrderItem.GroupBy(order => new {
                     order.id,
-                    order.status
+                    order.status,
+                    order.voucherValue,
+                    order.payMethod,
+                    order.CustomerName,
+                    order.PhoneNumber,
+                    order.AddressLine,
+                    order.ProvinceId,
+                    order.DistrictId,
+                    order.WardCode,
                 }).Select(g => new {
                     id = g.Key.id,
                     status = g.Key.status,
+                    voucherValue = g.Key.voucherValue,
+                    payMethod = g.Key.payMethod,
+                    CustomerName = g.Key.CustomerName,
+                    PhoneNumber = g.Key.PhoneNumber,
+                    AddressLine = g.Key.AddressLine,
+                    ProvinceId = g.Key.ProvinceId,
+                    DistrictId = g.Key.DistrictId,
+                    WardCode = g.Key.WardCode,
                     orderItems = g.First().orderItems,
                     orderStatuses = g.Select(i => new {
                         id = i.orderStatusId,
@@ -264,61 +334,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p=>p.CurrentStatus==StatusOrder.CONFIRM));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.CONFIRM)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -339,61 +357,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.PENDING_SHIP));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.PENDING_SHIP)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -407,61 +373,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.SHIPPING));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.SHIPPING)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -475,61 +389,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.DELIVERIED));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.DELIVERIED)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -543,61 +405,9 @@ namespace Webapi.Controllers
             try
             {
                 var confirmedOrderStatuses = await _service.OrderService.GetAllOrderAsync();
+                var finalResult = confirmedOrderStatuses.Where((p => p.CurrentStatus == StatusOrder.CANCELED));
 
-                if (confirmedOrderStatuses == null || !confirmedOrderStatuses.Any())
-                {
-                    return NotFound();
-                }
-
-                var confirmedOrdersWithLatestStatus = new List<OrderDto>();
-
-                foreach (var order in confirmedOrderStatuses)
-                {
-                    // Lấy trạng thái có giá trị int lớn nhất cho mỗi đơn hàng
-                    var latestStatus = order.OrderStatuses
-                        .OrderByDescending(status => status.Status)
-                        .FirstOrDefault();
-
-                    if (latestStatus != null && latestStatus.Status == StatusOrder.CANCELED)
-                    {
-                        var confirmedOrder = new OrderDto
-                        {
-                            // Copy thông tin từ order vào confirmedOrder
-                            Id = order.Id,
-                            AddressLine = order.AddressLine,
-                            PhoneNumber = order.PhoneNumber,
-                            Note = order.Note,
-                            Paymethod = order.Paymethod,
-                            Amount = order.Amount,
-                            CustomerName = order.CustomerName,
-                            DateCreated = order.DateCreated,
-                            PassivedDate = order.PassivedDate,
-                            ModifiedDate = order.ModifiedDate,
-                            UserId = order.UserId,
-                            EmployeeId = order.EmployeeId,
-                            VoucherId = order.VoucherId,
-                            OrderStatuses = new List<OrderStatusDto> { latestStatus },
-                            OrderItems = order.OrderItems.Select(item => new OrderItemDto
-                            {
-                                OrderId = item.OrderId,
-                                ProductId = item.ProductId,
-                                ColorId = item.ColorId,
-                                SizeId = item.SizeId,
-                                Quantity = item.Quantity,
-                                UnitPrice = item.UnitPrice
-                            }).ToList()
-                        };
-
-                        confirmedOrdersWithLatestStatus.Add(confirmedOrder);
-                    }
-                }
-
-                if (!confirmedOrdersWithLatestStatus.Any())
-                {
-                    return NotFound("No confirmed orders found.");
-                }
-
-                return Ok(confirmedOrdersWithLatestStatus);
+                return Ok(finalResult);
             }
             catch (Exception ex)
             {
@@ -650,6 +460,48 @@ namespace Webapi.Controllers
             {
                 
                 throw;
+            }
+        }
+        [HttpGet("GetOrderByUserId")]
+        public async Task<ActionResult<Order>> GetOrderByUserId(string userId,string orderId)
+        {
+            try
+            {
+                var order = await _dbContext.Orders
+                    .Where(o => o.UserId == userId&&o.Id==orderId)
+                    .Select(o => new
+                    {
+                        o.Id,
+                        o.PhoneNumber,
+                        o.Note,
+                        o.Paymethod,
+                        o.Amount,
+                        o.CustomerName,
+                        o.DateCreated,
+                        o.PassivedDate,
+                        o.ModifiedDate,
+                        o.UserId,
+                        o.EmployeeId,
+                        o.VoucherId,
+                        o.AddressId,
+                        o.CurrentStatus,
+                        AddressPhoneNumber = o.address.PhoneNumber, // Lấy PhoneNumber từ Address
+                        AppUserFullName = o.AppUser.FullName, // Lấy FullName từ AppUser
+                        AddressLine = o.address.AddressLine, // Lấy AddressLine từ Address
+                        FullName = o.address.FullName,
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (order == null)
+                {
+                    return NotFound("Order not found.");
+                }
+
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 

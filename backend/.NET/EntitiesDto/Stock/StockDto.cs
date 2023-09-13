@@ -15,4 +15,12 @@ namespace EntitiesDto.Stock
         public string SizeId { get; set; }
         public int UnitInStock { get; set; }
     }
+
+    public class GetStockIdAPI {
+        public string ProductId { get; set; }
+        public string ColorId { get; set; }
+        public string SizeId { get; set; }
+
+    }
+
 }

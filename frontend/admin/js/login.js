@@ -18,10 +18,11 @@ $(document).ready(function () {
                 const signature = parts[2];
                 console.log(response);
                 console.log(header);
-                console.log(payload);
+                console.log(payload.role);
                 console.log(signature);
-                if(payload.role=="Admin"){
+                if(payload.role=="Admin"||payload.role=="Employee"){
                     localStorage.setItem("user-id", payload.Id);
+                    localStorage.setItem("role", payload.role);
                     const id = localStorage.getItem("user-id");
                     $.ajax({
                         url: "https://localhost:44328/api/AppUser/Get/" + payload.Id,
@@ -34,6 +35,10 @@ $(document).ready(function () {
                               .find(".toast-body")
                               .text("Tài khoản của bạn đang tạm khóa");
                             $(".toast").toast("show");
+                            return
+                          }
+                          if(localStorage.getItem("role")=="Employee"){
+                            window.location.href = `/frontend/admin/create-bill.html`;
                             return
                           }
                           window.location.href = `/frontend/admin/index.html`;

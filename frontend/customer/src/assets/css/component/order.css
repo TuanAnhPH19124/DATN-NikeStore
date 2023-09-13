@@ -17,6 +17,13 @@
     margin: 5px;
     font-weight: bold;
     opacity: 0.9;
+    border-bottom: 1px solid transparent;
+
+}
+
+.order-status ul li input{
+    background-color: transparent;
+    border: none;
 }
 
 .order-sort{

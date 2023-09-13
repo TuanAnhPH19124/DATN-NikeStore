@@ -26,6 +26,8 @@ namespace Persistence
                 #region RoleManager
                 if (!await _roleManager.RoleExistsAsync("Admin"))
                     await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                if (!await _roleManager.RoleExistsAsync("Employee"))
+                    await _roleManager.CreateAsync(new IdentityRole("Employee"));
                 if (!await _roleManager.RoleExistsAsync("User"))
                     await _roleManager.CreateAsync(new IdentityRole("User"));
                 #endregion
@@ -33,7 +35,7 @@ namespace Persistence
                 #region UserManager
                 if (!await _userManager.Users.AnyAsync())
                 {
-                    var admin = new AppUser() { Email = "admin@m.com", UserName = "admin" };
+                    var admin = new AppUser() { Email = "admin@m.com", UserName = "admin",FullName="admin" };
                     await _userManager.CreateAsync(admin, "A012292@a");
                     await _userManager.AddToRoleAsync(admin, "Admin");
                     Console.WriteLine("Sccessfully created new a new 'Admin' user");

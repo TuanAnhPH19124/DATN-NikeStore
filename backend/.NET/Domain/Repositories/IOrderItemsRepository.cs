@@ -20,5 +20,6 @@ namespace Domain.Repositories
         Task<int> GetTotalBill();
         Task<float> GetTotalAmount();
         Task<List<ProductSalesAndRevenueInfo>> GetTopSellingProductsAndRevenue(int topCount);
+        Task<List<CustomerOrderInfo>> GetTopCustomersByTotalOrdersAndRevenue(int topCount);
     }
 }

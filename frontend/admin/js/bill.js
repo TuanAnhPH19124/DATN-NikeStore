@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $.fn.dataTableExt.sErrMode = 'mute';
+  $.fn.dataTableExt.sErrMode = "mute";
   var billTable = $("#bill-table").DataTable({
     ajax: {
       url: "https://localhost:44328/api/Orders",
@@ -14,8 +14,26 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      { data: "customerName", title: "Họ và tên" },
-      { data: "phoneNumber", title: "Số điện thoại" },
+      {
+        data: "customerName",
+        title: "Họ và tên",
+        render: function (data, type, full, meta) {
+          if (full.addressId === null) {
+            return data;
+          } else {
+            return full.user.fullName;
+          }
+        },
+      },
+      
+      { data: "phoneNumber", title: "Số điện thoại",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.phoneNumber;
+        }
+      }, },
       {
         data: "dateCreated",
         title: "Ngày tạo",
@@ -28,13 +46,16 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền",
-      render: function (data, type, row) {
-        return Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(data);
-      }, },
+      {
+        data: "amount",
+        title: "Tổng tiền",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
       {
         data: "status",
         title: "Trạng thái",
@@ -76,8 +97,22 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      { data: "customerName", title: "Họ và tên" },
-      { data: "phoneNumber", title: "Số điện thoại" },
+      { data: "customerName", title: "Họ và tên",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.fullName;
+        }
+      },},
+      { data: "phoneNumber", title: "Số điện thoại",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.phoneNumber;
+        }
+      }, },
       {
         data: "dateCreated",
         title: "Ngày tạo",
@@ -90,13 +125,16 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền",
-      render: function (data, type, row) {
-        return Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(data);
-      }, },
+      {
+        data: "amount",
+        title: "Tổng tiền",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
       {
         data: "status",
         title: "Trạng thái",
@@ -138,8 +176,22 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      { data: "customerName", title: "Họ và tên" },
-      { data: "phoneNumber", title: "Số điện thoại" },
+      { data: "customerName", title: "Họ và tên",
+            render: function (data, type, full, meta) {
+          if (full.addressId === null) {
+            return data;
+          } else {
+            return full.user.fullName;
+          }
+        }, },
+      { data: "phoneNumber", title: "Số điện thoại",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.phoneNumber;
+        }
+      }, },
       {
         data: "dateCreated",
         title: "Ngày tạo",
@@ -152,13 +204,16 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền",
-      render: function (data, type, row) {
-        return Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(data);
-      }, },
+      {
+        data: "amount",
+        title: "Tổng tiền",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
       {
         data: "status",
         title: "Trạng thái",
@@ -200,8 +255,22 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      { data: "customerName", title: "Họ và tên" },
-      { data: "phoneNumber", title: "Số điện thoại" },
+      { data: "customerName", title: "Họ và tên",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.fullName;
+        }
+      }, },
+      { data: "phoneNumber", title: "Số điện thoại",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.phoneNumber;
+        }
+      }, },
       {
         data: "dateCreated",
         title: "Ngày tạo",
@@ -214,13 +283,16 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền",
-      render: function (data, type, row) {
-        return Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(data);
-      }, },
+      {
+        data: "amount",
+        title: "Tổng tiền",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
       {
         data: "status",
         title: "Trạng thái",
@@ -262,8 +334,22 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      { data: "customerName", title: "Họ và tên" },
-      { data: "phoneNumber", title: "Số điện thoại" },
+      { data: "customerName", title: "Họ và tên",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.fullName;
+        }
+      },},
+      { data: "phoneNumber", title: "Số điện thoại",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.phoneNumber;
+        }
+      }, },
       {
         data: "dateCreated",
         title: "Ngày tạo",
@@ -276,13 +362,16 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền",
-      render: function (data, type, row) {
-        return Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(data);
-      }, },
+      {
+        data: "amount",
+        title: "Tổng tiền",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
       {
         data: "status",
         title: "Trạng thái",
@@ -324,8 +413,22 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      { data: "customerName", title: "Họ và tên" },
-      { data: "phoneNumber", title: "Số điện thoại" },
+      { data: "customerName", title: "Họ và tên",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.fullName;
+        }
+      }, },
+      { data: "phoneNumber", title: "Số điện thoại",
+      render: function (data, type, full, meta) {
+        if (full.addressId === null) {
+          return data;
+        } else {
+          return full.user.phoneNumber;
+        }
+      }, },
       {
         data: "dateCreated",
         title: "Ngày tạo",
@@ -338,13 +441,16 @@ $(document).ready(function () {
           return formattedDate;
         },
       },
-      { data: "amount", title: "Tổng tiền",
-      render: function (data, type, row) {
-        return Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(data);
-      }, },
+      {
+        data: "amount",
+        title: "Tổng tiền",
+        render: function (data, type, row) {
+          return Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(data);
+        },
+      },
       {
         data: "status",
         title: "Trạng thái",
@@ -372,7 +478,6 @@ $(document).ready(function () {
       },
     },
   });
-
 });
 $("#bill-table tbody").on("click", "tr", function (e) {
   e.preventDefault();
@@ -423,19 +528,14 @@ $("#bill-table5 tbody").on("click", "tr", function (e) {
   }
 });
 
-
-
-const id_user = localStorage.getItem("user-id")
+const id_user = localStorage.getItem("user-id");
 $.ajax({
-    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
-    type: "GET",
-    contentType: "application/json",
-    success: function (data) {
-        console.log(data.fullName)
-        $("#fullName").text(data.fullName)
-    },
-    error: function () {
-
-    },
+  url: "https://localhost:44328/api/AppUser/Get/" + id_user,
+  type: "GET",
+  contentType: "application/json",
+  success: function (data) {
+    console.log(data.fullName);
+    $("#fullName").text(data.fullName);
+  },
+  error: function () {},
 });
-

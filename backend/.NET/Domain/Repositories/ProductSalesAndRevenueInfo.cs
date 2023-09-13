@@ -7,4 +7,12 @@
         public int TotalQuantitySold { get; set; }
         public decimal TotalRevenue { get; set; }
     }
+
+    public class CustomerOrderInfo
+    {
+        public string UserId { get; set; }
+        public string CustomerName { get; set; }
+        public int TotalOrders { get; set; }
+        public decimal TotalRevenue { get; set; }
+    }
 }
