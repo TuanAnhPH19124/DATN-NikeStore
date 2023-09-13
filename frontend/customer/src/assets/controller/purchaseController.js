@@ -5,7 +5,9 @@
         $s.status = [
             "Đang chờ xác nhận",
             "Đang chuẩn bị hàng",
-            "Đang giao hàng"
+            "Đang giao hàng",
+            "Đã nhận hàng",
+            "Đã hủy"
         ]
         
 

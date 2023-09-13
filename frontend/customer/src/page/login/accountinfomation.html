@@ -44,13 +44,12 @@ button {
 
     /* Initially, set all input fields to non-editable */
 .edit-input {
-    pointer-events: none; /* Disable pointer events */
     background-color: #f5f5f5; /* Set a background color to indicate non-editable state */
 }
 
 /* When "Chỉnh sửa" button is clicked, enable input fields for editing */
 .edit-mode .edit-input {
-    pointer-events: auto; /* Enable pointer events */
+    
     background-color: #ffffff; /* Set a background color for editing */
 }
 
@@ -83,21 +82,20 @@ button {
           <ul>
               <li>
                   <span>Tên khách hàng:</span>
-                  <input type="text" id="fullNameInput" class="edit-input" value="Nguyễn Thành Long">
+                  <input type="text" class="edit-input" ng-model="userInfor.fullName">
               </li><br>
               <li>
+                <span>Tên tài khoản:</span>
+                <input type="text" class="edit-input" ng-model="userInfor.userName">
+            </li><br>
+              <li>
                   <span>Số điện thoại:</span>
-                  <input type="text" id="phoneNumberInput" class="edit-input" value="0902096529">
+                  <input type="text"class="edit-input" ng-model="userInfor.phoneNumber">
               </li><br>
               <li>
                   <span>Email:</span>
-                  <input type="text" id="emailInput" class="edit-input" value="nguyenthanhlong081120022@gmail.com">
+                  <input type="text" class="edit-input" ng-model="userInfor.email">
               </li><br>           
-              <li>
-                  <span>Địa chỉ:</span>
-                  <input type="text" id="addressInput" class="edit-input" value="Thanh Xuân, Hà Nội, Việt Nam">
-              </li>
-              <hr>
               <li>
                   <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">Chỉnh sửa</button>
                   <button type="button" class="btn btn-outline-danger" id="saveButton" style="width: 100px;">Lưu</button>

@@ -74,7 +74,7 @@
         }
 
         s.total = function (){
-            return s.totalAmount() + s.sale() * -1;
+            return s.order[0].total + s.sale() * -1;
         }
 
         s.getImgUrl = function (path) {

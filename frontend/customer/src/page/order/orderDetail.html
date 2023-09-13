@@ -97,12 +97,12 @@
             <div class="col-9" 
             style="display: flex; justify-content: end; align-items: center;border-right: 1px solid  rgb(225, 225, 225);">Thành tiền: </div>
             <div class="col-3" 
-            style="display: flex; justify-content: end; align-items: center;border: none;">{{ formatPrice(total()) }}</div>
+            style="display: flex; justify-content: end; align-items: center;border: none;">{{ order[0].total | formatVNDPrice }}</div>
         </div>
         <div class="row" ng-show="order[0].payMethod === 0"
         style="display: flex; justify-content: start; align-items: 
         center;border: 1px solid  rgb(225, 225, 225);padding: 20px;font-weight: 500;"
-        > <i class="fa fa-star" style="color:  red;margin-right: 5px;"></i> Vui lòng thanh toán {{ formatPrice(total()) }} khi nhận hàng</div>
+        > <i class="fa fa-star" style="color:  red;margin-right: 5px;"></i> Vui lòng thanh toán {{ total() | formatVNDPrice }} khi nhận hàng</div>
         <div class="row" ng-show="order[0].payMethod === 1"
         style="display: flex; justify-content: start; align-items: 
         center;border: 1px solid  rgb(225, 225, 225);padding: 20px;font-weight: 500;"
