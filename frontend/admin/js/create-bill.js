@@ -1832,9 +1832,9 @@ $("#create-bill").click(function (event) {
         $("#district option:selected").text() +
         " " +
         $("#province option:selected").text(),
-        "cityCode": 0,
-        "provinceCode":0,
-        "wardCode": "string",
+        "cityCode": $("#province").val(),
+        "provinceCode":$("#district").val(),
+        "wardCode": $("#ward").val(),
         "phoneNumber": $("#phoneNumber").val(),
         "setAsDefault": true
       }
@@ -1884,9 +1884,9 @@ $("#create-bill").click(function (event) {
         "userId": $("#customer-id").text(),
         "fullName": $("#customer-name").text(),
         "addressLine":"Mua tại quầy",
-        "cityCode": 0,
-        "provinceCode":0,
-        "wardCode": "string",
+        "cityCode": $("#province").val(),
+        "provinceCode":$("#district").val(),
+        "wardCode": $("#ward").val(),
         "phoneNumber": $("#customer-phone").text(),
         "setAsDefault": true
       }
