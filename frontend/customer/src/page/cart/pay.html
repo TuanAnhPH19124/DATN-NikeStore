@@ -131,7 +131,7 @@
                                 <p>Ngày nhận hàng dự kiến: {{ convertTimestampToDateString(shippingService.leadTime) }}
                                 </p>
                             </div>
-                            <p>{{ shippingService.totalFee }} đ</p>
+                            <p>{{ shippingService.totalFee | formatVNDPrice}} </p>
                         </div>
                     </button>
                 </div>
@@ -176,7 +176,7 @@
                         <h4>Vận chuyển</h4>
                     </div>
                     <div ng-show="step > 2">
-                        <p>Phí vận chuyển {{ avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ</p>
+                        <p>Phí vận chuyển {{ avalibleShippingService[selectedShippingServiceIndex].totalFee | formatVNDPrice }}</p>
                         <p>Đợt vận chuyển lần một</p>
                         <p>Ngày nhận dự kiến: {{ convertTimestampToDateString(
                             avalibleShippingService[selectedShippingServiceIndex].leadTime ) }}</p>
@@ -196,28 +196,37 @@
                     <div style="margin-left: 15px;">
                         <p style="font-weight: bold; margin-bottom: 5px;">{{cart.product.name}}</p>
                         <p style="margin-bottom: 5px;">Số lượng: {{cart.quantity}}</p>
-                        <p style="margin-bottom: 5px;">Kích cỡ: </p>
-                        <p style="color: red; font-weight: bold;">{{cart.product.discountRate}}đ</p>
+                        <p style="margin-bottom: 5px;">Kích cỡ: {{ cart.sizeNumber }}</p>
+                        <p style="color: red; font-weight: bold;">{{cart.product.discountRate | formatVNDPrice}}</p>
                     </div>
                 </div>
             </div>
             <div class="checkout-summary">
-                <p>Tổng phụ: {{subtotal()}}đ</p>             
+                <p>Tổng phụ: {{subtotal() | formatVNDPrice}}</p>             
             </div>
             <div class="checkout-summary">
                 <p>
                     Phí vận chuyển: 
                     <span ng-if="selectedShippingServiceIndex !== -1">
-                        {{ avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ
+                        {{ avalibleShippingService[selectedShippingServiceIndex].totalFee | formatVNDPrice }}
                     </span>
                     <span ng-if="selectedShippingServiceIndex === -1">_</span>
                 </p>                
-            </div><hr>
+            </div>
+            <div ng-show="subtotal() > 5000000  && selectedShippingServiceIndex !== -1 " class="checkout-summary">
+                <p>
+                    Miễn phí vận chuyển: 
+                    <span ng-if="selectedShippingServiceIndex !== -1">
+                        -{{ avalibleShippingService[selectedShippingServiceIndex].totalFee | formatVNDPrice }}
+                    </span>
+                </p> 
+            </div>
+            <hr>
             <p ng-if="selectedShippingServiceIndex !== -1">Nhận hàng vào: <br>
                 {{ convertTimestampToDateString(avalibleShippingService[selectedShippingServiceIndex].leadTime ) }}
             </p>
             <div class="checkout-summary">
-                <p style="color: red;font-size: 20px;font-weight: 500;">Tổng tiền: {{subtotal() + avalibleShippingService[selectedShippingServiceIndex].totalFee }}đ</p>
+                <p style="color: red;font-size: 20px;font-weight: 500;">Tổng tiền: {{subtotal() + avalibleShippingService[selectedShippingServiceIndex].totalFee + freeShip() | formatVNDPrice }}</p>
             </div>
                  
         </div>
