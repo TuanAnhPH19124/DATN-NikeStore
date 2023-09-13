@@ -77,11 +77,11 @@ a:hover {
               </li><br>
               <li>
                   <span>Email:</span>
-                  <input type="text" class="edit-input" ng-model="userInfor.email">
+                  <input type="text" class="edit-input" ng-model="userInfor.email" readonly>
               </li><br>           
               <li>
-                  <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">Chỉnh sửa</button>
-                  <button type="button" class="btn btn-outline-danger" id="saveButton" style="width: 100px;">Lưu</button>
+                  <!-- <button type="button" class="btn btn-outline-info" style="margin-right: 20px;">Chỉnh sửa</button> -->
+                  <button type="button" class="btn btn-outline-danger" ng-disabled="" ng-click="updateInfor()" style="width: 100px;">Lưu</button>
               </li>
           </ul>
       </div>      

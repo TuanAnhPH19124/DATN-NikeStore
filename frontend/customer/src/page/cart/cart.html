@@ -5,7 +5,7 @@
       <div class="banner-freeship">
         <div class="freeship-infomation">
           <h4 style="margin-left: 10px;">Miễn phí vận chuyển</h4>
-          <span style="margin-left: 10px;">Áp dụng cho những đơn hàng 3.000.000 trở lên</span>
+          <span style="margin-left: 10px;">Áp dụng cho những đơn hàng 5.000.000đ trở lên</span>
         </div>
       </div><br>
       <h3>Giỏ hàng:</h3>
@@ -42,8 +42,8 @@
               style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>
           </div>
           <div class="product-price">
-            <span style="color: rgb(255, 0, 0);margin-right: 20px;">{{ formatPrice(cart.product.discountRate) }}</span>
-            <del style="color: rgb(163, 158, 158);">{{ formatPrice(cart.product.retailPrice) }}</del>
+            <span  ng-class="{'price-black-color': cart.product.discountRate === cart.product.retailPrice}" class="cart-discount-price">{{ formatPrice(cart.product.discountRate) }}</span>
+            <del ng-show="cart.product.discountRate !== cart.product.retailPrice" style="color: rgb(163, 158, 158);">{{ formatPrice(cart.product.retailPrice) }}</del>
           </div>
         </div>
       </div>
@@ -54,6 +54,16 @@
       <div class="subtotal">
         <span>Tạm tính: </span>
         <span style="color: red;font-size: 18px;">{{ formatPrice(totalAmount()) }}</span>
+      </div>
+      <hr>
+      <div class="shippingFee" ng-show="totalAmount() > 5000000">
+        <span>Miễn phí vận chuyển</span>
+      </div>
+      <hr>
+      <div>
+        <p>Mã giảm giá: </p>
+        <input type="text" placeholder="Nhập mã giảm giá (nếu có)"
+          style="border: 1px solid rgb(215, 215, 214); height: 40px; width: 255px;text-align: center;">
       </div>
       <hr>
       <div class="total">

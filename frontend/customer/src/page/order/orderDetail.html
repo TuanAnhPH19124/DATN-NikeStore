@@ -4,7 +4,7 @@
         style="background-color: white; border: none;color: gray;" ng-click="redirectToOrder()"><i class="fa-solid fa-arrow-left"></i> TRỞ LẠI </button>
         <div>
             <span>Mã đơn hàng: {{ order[0].id }}</span> |
-            <span ng-show="order[0].status === 3 " style="color: red;">Đơn hàng chưa hoàn thành</span>
+            <span ng-show="order[0].status === 3 " style="color: red;">Đơn chưa hoàn thành</span>
             <span ng-show="order[0].status < 3">Đơn hàng chưa hoàn thành</span>
             <span ng-show="order[0].status === 4" style="color: red;">Đơn hàng đã hủy</span>
         </div>
