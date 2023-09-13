@@ -17,7 +17,7 @@ app.directive("productPrimary", function () {
 app.config(function ($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix("");
   $routeProvider
-    .when("/index", {
+    .when("/", {
       templateUrl: "../page/index/index.html",
       controller: "homeController"
     })
