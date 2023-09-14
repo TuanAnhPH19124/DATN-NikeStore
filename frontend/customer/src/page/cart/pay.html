@@ -143,7 +143,7 @@
                     <div class="input-group-prepend">
                         <span class="" style="padding-top: 10px;">Nhập mã giảm giá: </span>
                     </div>
-                    <input type="text" id="discount-input" class="form-control" placeholder="Mã giảm giá" aria-label="Mã giảm giá" aria-describedby="basic-addon2">
+                    <input type="text" id="discount-input" class="form-control" ng-change="searchOnChange()" placeholder="Mã giảm giá" ng-model="searchKeyWord" aria-label="Mã giảm giá" aria-describedby="basic-addon2">
                     <div class="discount-list" id="discount-list">
                         <div ng-repeat="voucher in vouchers">
                             <button ng-click="setSelectedVoucher(voucher.id)">

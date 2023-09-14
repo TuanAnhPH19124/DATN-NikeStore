@@ -10,6 +10,7 @@
     ) {
         // const uuid = require('uuid');
         // e.uuid = require('uuid');
+        e.searchKeyWord = '';
         e.vouchers = [];
         e.step = 1;
         e.addressCustomer = [];
@@ -48,10 +49,22 @@
             console.log(e.selectedVoucher);
         }
 
-        e.getVoucherValue = function (id){
-          
-            
-    
+        e.searchOnChange = function (){
+            if (e.searchKeyWord === ''){
+                voucherService.getVouchers()
+                .then(function (response){
+                    e.vouchers = response.data;
+                }, function (response){
+                    console.error(response.data);
+                })
+            }else{
+                voucherService.getVoucherByCode(e.searchKeyWord)
+                .then(function (response){
+                    e.vouchers = response.data;
+                }, function (response){
+                    console.error(response.data);
+                })
+            }
         }
 
         e.getExpiredDate = function (futureTime){
