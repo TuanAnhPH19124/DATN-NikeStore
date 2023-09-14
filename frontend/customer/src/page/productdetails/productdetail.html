@@ -20,6 +20,12 @@
                 <span style="color: rgb(141, 135, 135);margin-right: 20px;color: red;font-weight: bold;font-size: 20px;">{{product.discountRate}}đ</span>    
                 <del style="color: gray;">{{ product.retailPrice }} đ</del>           
                 <p style="font-size: 16px;font-weight: bold;">Tình trạng: Còn hàng</p>
+                <div class="product-colors">
+                    <span style="font-size: 16px; font-weight:  bold; margin-top: 10px; margin-right: 5px;">Màu sắc: </span>
+                    <button ng-repeat="color in colors" ng-click="setSelectedColor(color.id)">
+                        <img width="50px" ng-src="{{getImgUrl(color.images[0])}}" alt="{{ color.name }}">
+                    </button>
+                </div>
                 <div ng-class="{validator: errorMg}">
                     <span style="font-size: 16px;font-weight: bold;">Kích thước:</span><br>
                     <span ng-show="errorMg" style="display: block; color: red;">{{errorMg}}</span>
@@ -30,12 +36,6 @@
                             ng-class="{ 'btn-dark': size.id === selectedSize }"
                             ng-click="setSelectedSize(size.id)">{{size.numberSize}}</button>
                     </div>
-                </div>
-                <div class="product-colors" style="padding-top: 20px;">
-                    <span style="font-size: 16px; font-weight:  bold; margin-top: 10px; margin-right: 5px;">Màu sắc: </span>
-                    <button ng-repeat="color in colors" ng-click="setSelectedColor(color.id)">
-                        <img width="50px" ng-src="{{getImgUrl(color.images[0])}}" alt="{{ color.name }}">
-                    </button>
                 </div>
                 <div style="font-size: 16px; font-weight: bold;padding-bottom: 10px;">
                     Số lượng tồn: 
