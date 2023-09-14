@@ -29,9 +29,9 @@ namespace Persistence.Repositories
             return voucher;
         }
 
-        public async Task<Voucher> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<List<Voucher>> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
         {
-            return await _appDbContext.Vouchers.FirstOrDefaultAsync(p => p.Code == code);
+            return await _appDbContext.Vouchers.Where(p => p.Code.ToLower() == code.ToLower()).ToListAsync();
         }
 
         public async Task AddVoucher(Voucher voucher)
