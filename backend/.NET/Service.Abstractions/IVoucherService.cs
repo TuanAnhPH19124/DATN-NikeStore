@@ -13,7 +13,7 @@ namespace Service.Abstractions
     {
         Task<List<Voucher>> GetAllVoucherAsync(CancellationToken cancellationToken = default);
         Task<Voucher> GetByIdVoucherAsync(string id, CancellationToken cancellationToken = default);
-        Task<Voucher> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
+        Task<List<Voucher>> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
         Task<Voucher> CreateAsync(Voucher voucher);
         Task<Voucher> UpdateByIdVoucher(string id, Voucher voucher, CancellationToken cancellationToken = default);
     }
