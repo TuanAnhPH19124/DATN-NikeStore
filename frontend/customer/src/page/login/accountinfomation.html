@@ -1,27 +1,38 @@
 
 <style>
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    ul li {
-      position: relative;
-    }
-    ul li::before {
-      position: absolute;
-      left: 0;    
-    }
-    ul li p a{
-        text-decoration: none;
-    }
-    a {
-      color: black;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    a:hover {
-      color: #5787bb;
-    }
+ul {
+    list-style: none; 
+    padding: 0;
+}
+li {
+    display: flex; 
+    align-items: center; 
+}
+span {
+        flex: 1; 
+    font-weight: bold; 
+}
+input.edit-input {
+    flex: 2;
+    padding: 5px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+ul li::before {
+    position: absolute;
+    left: 0;    
+}
+ul li p a{
+    text-decoration: none;
+}
+a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+a:hover {
+    color: #5787bb;
+}
 </style>
 <!-- CSS -->
 <div class="container">
@@ -31,7 +42,7 @@
         </h2>       
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">
+        <div class="col-3" style="border: none;">
           <h4>TÀI KHOẢN</h4>
           <ul>
             <li>
@@ -41,29 +52,49 @@
                 <p>* <a href="#21" style="text-decoration: none;">Danh sách địa chỉ</a></p>
             </li>
             <li>
-              <p>* <a href="#" style="text-decoration: none;" ng-click="signOutE()">Đăng xuất</a></p>
+                <p>* <a href="#/fogotpassword" style="text-decoration: none;">Đổi mật khẩu</a></p>
             </li>
+            <li>
+              <p>* <a href="" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
+          </li>          
           </ul>
         </div>
-        <div class="col-7">
-            <h4>THÔNG TIN TÀI KHOẢN</h4><hr>
-            <ul>
+        <div class="col-8">
+          <h4>THÔNG TIN TÀI KHOẢN</h4>
+          <hr>
+          <ul>
               <li>
-                  <p>Nguyễn Thành Long</p>
-              </li>
+                  <span>Tên khách hàng:</span>
+                  <input type="text" class="edit-input" ng-model="userInfor.fullName">
+              </li><br>
               <li>
-                  <p>nguyenthanhlong081120022@gmail.com</p>
-              </li>
+                <span>Tên tài khoản:</span>
+                <input type="text" class="edit-input" ng-model="userInfor.userName">
+            </li><br>
               <li>
-                  <p>Thanh Xuân, Hà Nội, Việt Nam</p>
-              </li>
+                  <span>Số điện thoại:</span>
+                  <input type="text"class="edit-input" ng-model="userInfor.phoneNumber">
+              </li><br>
               <li>
-                    <p>0902096529</p>
-              </li>
+                  <span>Email:</span>
+                  <input type="text" class="edit-input" ng-model="userInfor.email" readonly>
+              </li><br>           
               <li>
-                <a href="#21" style="text-decoration: none;">Xem địa chỉ</a>
+                  <!-- <button type="button" class="btn btn-outline-info" style="margin-right: 20px;">Chỉnh sửa</button> -->
+                  <button type="button" class="btn btn-outline-danger" ng-disabled="" ng-click="updateInfor()" style="width: 100px;">Lưu</button>
               </li>
-            </ul>
-        </div>
+          </ul>
+      </div>      
       </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const logoutLink = document.getElementById("logoutLink");
+
+    logoutLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.location.href = "login.html";
+    });
+});
+</script>

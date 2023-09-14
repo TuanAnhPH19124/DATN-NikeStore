@@ -1,10 +1,11 @@
+<br>
 <section class="container">
   <div class="row">
     <div class="col-9">
       <div class="banner-freeship">
         <div class="freeship-infomation">
           <h4 style="margin-left: 10px;">Miễn phí vận chuyển</h4>
-          <span style="margin-left: 10px;">Áp dụng cho những đơn hàng 3.000.000 trở lên</span>
+          <span style="margin-left: 10px;">Áp dụng cho những đơn hàng 5.000.000đ trở lên</span>
         </div>
       </div><br>
       <h3>Giỏ hàng:</h3>
@@ -12,7 +13,7 @@
       <div ng-show="carts.length === 0" class="emptyCart-container">
         <div class="emptyCart-img">
             <img src="/frontend/customer/src/assets/img/logo/empty.png" alt="Giỏ hàng trống">
-            <span>Opps. Có vẻ như bạn chưa có sản phẩm nào.</span>
+            <span>Hiện chưa có sản phẩm</span>
         </div>
       </div>
       <div class="cart-item" ng-repeat="cart in carts">
@@ -22,7 +23,7 @@
         <div class="main-item">
           <div class="product-infomation">
             <div class="product-price">
-              <h3>Tên sản phẩm: {{cart.product.name}}</h3>
+              <h3 style="margin-right: 30px;">Tên sản phẩm: {{cart.product.name}}</h3>
               <button class="remove-button" ng-click="removeCart(cart.id)"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <p>Màu sắc: {{cart.colorName}}</p>
@@ -41,8 +42,8 @@
               style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>
           </div>
           <div class="product-price">
-            <span style="color: rgb(255, 0, 0);margin-right: 20px;">{{ formatPrice(cart.product.discountRate) }}</span>
-            <del style="color: rgb(163, 158, 158);">{{ formatPrice(cart.product.retailPrice) }}</del>
+            <span  ng-class="{'price-black-color': cart.product.discountRate === cart.product.retailPrice}" class="cart-discount-price">{{ formatPrice(cart.product.discountRate) }}</span>
+            <del ng-show="cart.product.discountRate !== cart.product.retailPrice" style="color: rgb(163, 158, 158);">{{ formatPrice(cart.product.retailPrice) }}</del>
           </div>
         </div>
       </div>
@@ -53,6 +54,10 @@
       <div class="subtotal">
         <span>Tạm tính: </span>
         <span style="color: red;font-size: 18px;">{{ formatPrice(totalAmount()) }}</span>
+      </div>
+      <hr>
+      <div class="shippingFee" ng-show="totalAmount() > 5000000">
+        <span>Miễn phí vận chuyển</span>
       </div>
       <hr>
       <div>

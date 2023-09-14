@@ -24,6 +24,11 @@ namespace Persistence.Repositories
             await _dbcontext.ShoppingCartItems.AddAsync(item);
         }
 
+        public async Task AddRange(List<ShoppingCartItems> items)
+        {
+            await _dbcontext.ShoppingCartItems.AddRangeAsync(items);
+        }
+
         public void Delete(ShoppingCartItems item)
         {
             _dbcontext.ShoppingCartItems.Remove(item);

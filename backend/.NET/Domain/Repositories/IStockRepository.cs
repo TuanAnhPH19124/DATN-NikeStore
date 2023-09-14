@@ -9,6 +9,7 @@ namespace Domain.Repositories
     public interface IStockRepository
     {
         void UpdateRange(List<Stock> Stocks);
+        Task<string> GetStockId(string productId, string colorId, string sizeId);
         Task<Stock> SelectByVariantId(string productId, string colorId, string sizeId);
         Task<IEnumerable<Stock>> SelectById(string productId);
         Task<IEnumerable<Stock>> GetAllAsync();

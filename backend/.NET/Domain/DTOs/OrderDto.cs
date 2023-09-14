@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,19 @@ namespace Domain.DTOs
         public string UserId { get; set; }
         public string EmployeeId { get; set; }
         public string VoucherId { get; set; }
+        public string AddressId { get; set; }
+        public StatusOrder CurrentStatus { get; set; }
+        public UserDto User { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
         public List<OrderStatusDto> OrderStatuses { get; set; }
     }
+
+    public class UserDto
+    {
+        public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+
     public class OrderStatusDto
     {
        

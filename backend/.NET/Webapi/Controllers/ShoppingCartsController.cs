@@ -60,6 +60,28 @@ namespace Webapi.Controllers
             }
         }
 
+        [HttpPost("addrange")]
+        public async Task<ActionResult> PostRange([FromBody] List<ShoppingCartItemAPI> items){
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _serviceManager.ShoppingCartItemsService.AddRangeToCart(items);
+                    transaction.Commit();
+                    return Ok();
+                }
+                catch (System.Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(ex.Message);
+                    throw;
+                }
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(string id, [FromBody]ShoppingCartItemPutAPI item)
         {

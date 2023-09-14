@@ -21,13 +21,32 @@ namespace Service
             _repositoryManager = repositoryManager;   
         }
 
+        public async Task AddRangeToCart(List<ShoppingCartItemAPI> items)
+        {
+            foreach (var item in items)
+            {
+                var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAndStockId(item.AppUserId, item.StockId);
+                if (checkCartExist != null){
+                    checkCartExist.Quantity = item.Quantity;
+                    _repositoryManager.ShoppingCartItemRepository.Update(checkCartExist);
+                }else{
+                    var newItem = new ShoppingCartItems();
+                    newItem.Quantity = item.Quantity;
+                    newItem.StockId = item.StockId;
+                    newItem.AppUserId = item.AppUserId;
+                    await _repositoryManager.ShoppingCartItemRepository.Add(newItem);
+                }
+            }
+            await _repositoryManager.UnitOfWork.SaveChangeAsync();
+        }
+
         public async Task<ShoppingCartItems> AddToCart(ShoppingCartItemAPI item)
         {
             var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAndStockId(item.AppUserId, item.StockId);
             var newItem = new ShoppingCartItems();
             if (checkCartExist != null)
             {
-                checkCartExist.Quantity += item.Quantity;
+                checkCartExist.Quantity = item.Quantity;
                 _repositoryManager.ShoppingCartItemRepository.Update(checkCartExist);
                 newItem = checkCartExist;
             }
@@ -69,6 +88,7 @@ namespace Service
                 Id = p.Id,
                 Quantity = p.Quantity,
                 ColorName = p.Stock.Color.Name,
+                SizeNumber = p.Stock.Size.NumberSize,
                 SizeId = p.Stock.SizeId,
                 ColorId = p.Stock.ColorId,
                 Product = new ShoppingCartProductDto

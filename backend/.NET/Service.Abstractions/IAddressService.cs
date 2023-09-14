@@ -11,7 +11,7 @@ namespace Service.Abstractions
 {
     public interface IAddressService
     {
-        Task AddNew(AddressAPI address);
+        Task <Address> AddNew(AddressAPI address);
         Task<IEnumerable<AddressDto>> GetByUserId(string id);
     }
 }

@@ -21,7 +21,7 @@ namespace Service
             _repositoryManger=repositoryManger;
         }
 
-        public async Task AddNew(AddressAPI address)
+        public async Task <Address> AddNew(AddressAPI address)
         {
             var newAddress = address.Adapt<Address>();
             if (address.SetAsDefault){
@@ -34,6 +34,7 @@ namespace Service
             }
             await _repositoryManger.AddressRepository.Add(newAddress);
             await _repositoryManger.UnitOfWork.SaveChangeAsync();
+            return newAddress;
         }
 
         public async Task<IEnumerable<AddressDto>> GetByUserId(string id)

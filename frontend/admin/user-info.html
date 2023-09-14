@@ -396,31 +396,32 @@
                               <div class="form-group" style="width: 100%">
                                 <label>Mật khẩu hiện tại</label>
                                 <input
-                                  type="text"
-                                  class="form-control"
-                                  id="currentPassword"
-                                  placeholder=""
+                                    type="password"
+                                    class="form-control"
+                                    id="currentPassword"
+                                    readonly onfocus="this.removeAttribute('readonly');"
                                 />
-                                <span id="validatePass" style="font-size: 0.90rem; font-weight: 600;  color: red; display: none;">Bạn phải nhập mật khẩu cũ</span>
-                              </div>
+                                <span id="validatePass" style="font-size: 0.90rem; font-weight: 600; color: red; display: none;">Bạn phải nhập mật khẩu cũ</span>
+                            </div>
+                            
                               <div class="form-group" style="width: 100%">
                                 <label>Mật khẩu mới</label>
                                 <input
-                                  type="text"
+                                  type="password"
                                   class="form-control"
                                   id="newPassword"
-                                  placeholder=""
+                                  readonly onfocus="this.removeAttribute('readonly');"
                                 />
                               </div>
                               <span id="validateNewPass" style="font-size: 0.90rem; font-weight: 600;  color: red; display: none;">Bạn phải nhập mật khẩu mới</span>
                               <div class="form-group" style="width: 100%">
                                 <label>Xác nhận mật khẩu mới</label>
                                 <input
-                                  type="text"
+                                  type="password"
                                   class="form-control"
                                   id="newPassword2"
-                                  placeholder=""
                                   name="role"
+                                  readonly onfocus="this.removeAttribute('readonly');"
                                 />
                               </div>
                               <span id="validateNewPass2" style="font-size: 0.90rem; font-weight: 600;  color: red; display: none;"></span>

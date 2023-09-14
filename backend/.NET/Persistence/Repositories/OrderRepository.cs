@@ -25,7 +25,7 @@ namespace Persistence.Repositories
 
         public async Task<List<OrderDto>> GetAllOrderAsync(CancellationToken cancellationToken = default)
         {
-            var orderList = await _context.Orders.Include(p => p.OrderItems).Include(p=>p.OrderStatuses).ToListAsync(cancellationToken);          
+            var orderList = await _context.Orders.Include(p => p.OrderItems).Include(p=>p.OrderStatuses).Include(p=>p.address).ToListAsync(cancellationToken);          
             var orderDTOList = orderList.Select(order => new OrderDto
             {
                 Id = order.Id,
@@ -41,6 +41,13 @@ namespace Persistence.Repositories
                 UserId = order.UserId,
                 EmployeeId = order.EmployeeId,
                 VoucherId = order.VoucherId,
+                AddressId = order.AddressId,
+                CurrentStatus = order.CurrentStatus,
+                User = new UserDto
+                {
+                    FullName = order.address?.FullName,
+                    PhoneNumber = order.address?.PhoneNumber,
+                },
                 OrderStatuses = order.OrderStatuses.Select(item => new OrderStatusDto
                 {
                     OrderId = item.OrderId,

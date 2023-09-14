@@ -219,6 +219,7 @@ namespace Service
                 UserId = order.UserId,
                 EmployeeId = order.EmployeeId,
                 VoucherId = order.VoucherId,
+                AddressId = order.AddressId,
                 OrderStatuses = order.OrderStatuses.Select(p=>new OrderStatusDto
                 {
                   

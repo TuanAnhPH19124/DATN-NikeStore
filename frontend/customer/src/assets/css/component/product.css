@@ -13,11 +13,9 @@
 }
 
 .product-list-container .product-item img {
-    max-width: 100%; 
-    height: auto;
-    align-self: center; 
-    padding: 10px; 
-    border-radius: 10px;
+    width: 250px; 
+    height: 250px;
+    align-self: center;  
     background-color: #ffffff;
 }
 
@@ -61,8 +59,8 @@
 }
 
 .product-item img {
-    max-width: 100%;
-    height: auto;
+    width: 250px; 
+    height: 250px;
     display: block;
     margin: 0 auto; /* Căn giữa ảnh */
 }
@@ -92,7 +90,7 @@
 }
 
 .discount {
-    color: #e74c3c;
+    color: #e54a16;
 }
 
 .strike-through {
@@ -191,3 +189,39 @@
     font-size: var(--fs-16px);
 }
 
+.toggle-button {
+    background: none; /* Loại bỏ background */
+    border: none; /* Loại bỏ border */
+    cursor: pointer;
+    display: flex; /* Để căn chỉnh biểu tượng ở bên phải */
+    justify-content: flex-end; /* Căn chỉnh biểu tượng ở bên phải */
+    align-items: center; /* Căn chỉnh biểu tượng theo chiều dọc */
+    padding: 0; /* Loại bỏ padding mặc định */
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.toggle-button {
+    border: none; /* Loại bỏ border */
+    transition: color 0.2s;
+}
+
+.toggle-button:hover i {
+    color: rgb(0, 0, 0); /* Thay đổi màu của icon khi hover */
+}
+
+
+.toggle-button:hover i {
+    color: red; /* Màu icon khi hover */
+}
+
+.cpercenOff {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    border: 1px solid #cecbcb;
+    color:rgb(22, 207, 22);
+    padding: 2px 13px;
+    font-size: var(--fs-7);
+    border-radius: 4px;
+  }

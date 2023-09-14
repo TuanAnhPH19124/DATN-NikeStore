@@ -55,6 +55,12 @@ namespace Persistence.Repositories
             return await _context.Stocks.Where(s => s.ProductId == productId).ToListAsync();
         }
 
+        public async Task<string> GetStockId(string productId, string colorId, string sizeId)
+        {
+            var result = await _context.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId && s.ColorId == colorId && s.SizeId == sizeId);
+            return result.StockId;
+        }
+
         // Các phương thức khác tại đây...
     }
 }

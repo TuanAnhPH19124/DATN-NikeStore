@@ -3,11 +3,6 @@
     font-size: 20px;
 }
 
-col-md-5.img{
-    width: 80%;
-    padding-left: 50px;
-    padding-top: 50px;
-}
 information.h3{
     font-weight: bold;
 }
@@ -20,8 +15,41 @@ information.h4{
     font-weight: 500;
 }
 
+.selectedSize{
+    background-color: black;
+}
 
-.hover-container{
+.product-colors{
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;  
+}
+.product-colors img{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid gray;
+    align-items: center;
+}
+.product-colors button {
+    margin-right: 10px; /* Khoảng cách giữa các màu */
+    border: 1px solid #c3c3c3; /* Đường viền 2px và màu xám cho nút */
+    border-radius: 5px; /* Góc bo tròn cho nút */
+    padding: 0; /* Xóa padding mặc định của nút */
+    background: none; /* Loại bỏ nền mặc định của nút */
+}
+
+.product-colors button:hover {
+    border-color: #000; /* Màu đường viền khi di chuột vào */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* .hover-container{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -46,20 +74,4 @@ information.h4{
 .hover-container div img{
     width: 50px;
     cursor: pointer;
-}
-
-.selectedSize{
-    background-color: black;
-}
-
-.validator{
-    border: 1px solid red;
-}
-
-
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+} */

@@ -1,5 +1,6 @@
 (function () {
     var orderController = function (
+        voucherService,
         e, r, l, orderFactory, productService, authService, jwtHelper, cartService, apiUrl, addressService, ghnServices,
         guidService,
         cloudFlareService,
@@ -9,6 +10,8 @@
     ) {
         // const uuid = require('uuid');
         // e.uuid = require('uuid');
+        e.searchKeyWord = '';
+        e.vouchers = [];
         e.step = 1;
         e.addressCustomer = [];
         e.userInformation = {};
@@ -23,7 +26,55 @@
         e.avalibleShippingService = [];
         e.selectedShippingServiceIndex = -1;
         e.cdn_cgi_trace = null;
+        e.selectedVoucher = '';
+        e.voucherValue = 0;
 
+
+        e.freeShip = function (){
+            if (e.subtotal() > 5000000 && e.avalibleShippingService.length > 0 && e.selectedShippingServiceIndex !== -1)
+                return e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1;
+            else
+                return 0;
+        }
+
+        e.setSelectedVoucher = function (id){
+            e.selectedVoucher = id;
+            if (e.vouchers.length > 0){
+                e.vouchers.forEach(item => {
+                    if (item.id === id){
+                        e.voucherValue = e.subtotal() * item.value / 100 * -1;
+                    }
+                })
+            }
+            console.log(e.selectedVoucher);
+        }
+
+        e.searchOnChange = function (){
+            if (e.searchKeyWord === ''){
+                voucherService.getVouchers()
+                .then(function (response){
+                    e.vouchers = response.data;
+                }, function (response){
+                    console.error(response.data);
+                })
+            }else{
+                voucherService.getVoucherByCode(e.searchKeyWord)
+                .then(function (response){
+                    e.vouchers = response.data;
+                }, function (response){
+                    console.error(response.data);
+                })
+            }
+        }
+
+        e.getExpiredDate = function (futureTime){
+            let currentDate = new Date();
+            let futureDate = new Date(futureTime);
+
+            let timeDiff = futureDate.getTime() - currentDate.getTime();
+            let dayDiff = Math.floor(timeDiff /(1000 * 3600 * 24));
+            return dayDiff;
+        }
 
         e.selectShippingService = function (service) {
             e.avalibleShippingService.forEach(item => {
@@ -315,7 +366,7 @@
             .then(function (response){
                 cartService.clearCart(tokenDecode.Id)
                 .then(function (response){
-                    l.path('/index');
+                    l.path('/order');
                 }, function(response){
                     console.log(response.data);
                 })
@@ -395,6 +446,13 @@
                     }, function (response) {
                         console.log(response);
                     })
+                voucherService.getVouchers()
+                .then(function (response){
+                    e.vouchers = response.data;
+                    console.log(e.vouchers);
+                }, function(response){
+                    console.error(response.data);
+                })
             } else {
                 l.path('/signin');
             }
@@ -403,6 +461,6 @@
 
         constructor();
     }
-    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
+    orderController.$inject = ['voucherService','$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
     angular.module("app").controller("orderController", orderController);
 }());

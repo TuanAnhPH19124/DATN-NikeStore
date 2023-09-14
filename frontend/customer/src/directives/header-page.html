@@ -3,18 +3,16 @@
         <div>
             <ul ng-show="!isLogin()">
                 <li><a href="#/signin">Đăng nhập</a></li>
-                <li><a href="#/signup">Đăng kí</a></li>
+                <li><a href="#/register">Đăng kí</a></li>
             </ul>
             <ul ng-show="isLogin()">
                 <li><a href="#/order">Đơn đã mua</a></li>
-                <li><a href="#">Trợ giúp</a></li>
                 <li>
                     <a href="#/accountDetail">
-                        <span>Chào, {{getUserName()}}</span>
                         <i class="fa-solid fa-user"></i>
+                        <span>Chào, {{getUserName()}}</span>
                     </a>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -23,15 +21,14 @@
         <div class="container-end">
             <div class="row">
                 <div class="col-lg-2 col-sm-12">
-                    <a href="#/index"><img src="../assets/img/logo/nike.png" alt="Trang chủ" style="padding-left: 200px;"></a>
+                    <a href="#/"><img src="../assets/img/logo/nike.png" alt="Trang chủ" style="padding-left: 200px;"></a>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="padding-right: 50px;">
                     <ul>
+                        <li><a href="#/index">Trang chủ</a></li>
                         <li><a href="#/product">Sản phẩm</a></li>
-                        <li><a href="#">Nam</a></li>
-                        <li><a href="#">Nữ</a></li>
-                        <li><a href="#">Tin tức</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#blog">Tin tức</a></li>
+                        <li><a href="#contact">Liên hệ</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4" style="display: flex; align-items: center; justify-content: end; padding-right: 100px;">
@@ -42,7 +39,7 @@
                     </div>
                   
                     <div class="container-wishlist">
-                        <a href="#/cart"><img src="../assets/img/logo/heart.png" alt="Yêu thích"></a>
+                        <a href="#/wishlist"><img src="../assets/img/logo/heart.png" alt="Yêu thích"></a>
                     </div>
                     <div class="container-cart">
                         <a href="#/cart"><img src="../assets/img/logo/shopping-bag.png" alt="Giỏ hàng"></a>

@@ -48,7 +48,11 @@ namespace Webapi.Controllers
         [HttpGet("confirm/{code}")]
         public async Task<IActionResult> ConfirmVoucher(string code)
         {
-            return Ok();
+            if (string.IsNullOrEmpty(code))
+                return BadRequest(new { error = "Mã giảm giá không hợp lệ"});
+
+            var result = await _serviceManager.VoucherService.GetByCodeAsync(code);
+            return Ok(result);
         }
 
         [HttpGet("Get/{Id}")]

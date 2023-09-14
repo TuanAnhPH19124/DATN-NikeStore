@@ -37,10 +37,16 @@ namespace Webapi.Controllers
                         Time = orderStatusDto.Time,
                         Note = orderStatusDto.Note,
                     };
+                    var order = _context.Orders.Find(orderStatusDto.OrderId);
+                    if (order != null)
+                    {
+                        order.CurrentStatus = orderStatusDto.Status;
+                        _context.Orders.Update(order);
+                    }
 
                     await _serviceManager.OrderStatusService.AddAsync(orderStatus);
                     transaction.Commit();
-                    return Ok(orderStatus);
+                    return NoContent();
                 }
                 catch (System.Exception)
                 {

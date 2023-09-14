@@ -17,7 +17,7 @@ app.directive("productPrimary", function () {
 app.config(function ($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix("");
   $routeProvider
-    .when("/index", {
+    .when("/", {
       templateUrl: "../page/index/index.html",
       controller: "homeController"
     })
@@ -25,13 +25,17 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: "authController",
       templateUrl: "../page/login/login.html"
     })
-    .when("/signup", {
+    .when("/register", {
       controller: "authController",
       templateUrl: "../page/login/register.html",
     })
+    .when("/fogotpassword", {
+      controller: "authController",
+      templateUrl: "../page/login/forgotpassword.html",
+    })
     .when("/accountDetail", {
       templateUrl: "../page/login/accountinfomation.html",
-      controller: "authController"
+      controller: "userController"
     })
     .when("/product", {
       templateUrl: "../page/product/product.html",
@@ -68,6 +72,14 @@ app.config(function ($routeProvider, $locationProvider) {
     .when("/order", {
       templateUrl: "../page/order/order.html",
       controller: "purchaseController"
+    })
+    .when("/20", {
+      templateUrl: "../page/login/accountinfomation.html",
+      controller: ""
+    })
+    .when("/orderDetail/:id", {
+      templateUrl: "../page/order/orderDetail.html",
+      controller: "orderDetailController"
     })
     .otherwise({
       templateUrl: "../pages/index/index.html",

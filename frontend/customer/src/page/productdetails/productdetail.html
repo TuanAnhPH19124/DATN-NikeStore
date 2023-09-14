@@ -1,54 +1,66 @@
-
 <div class="container" style="padding-top: 30px">
     <div class="row">
-        <div class="col-md-4" style="border: 1px solid rgb(211, 207, 207);padding-bottom: 20px;margin-right: 40px;">
+        <div class="col-md-4" style="border-right: 1px solid rgb(200, 200, 200);">
             <div class="img">
                 <img src="{{getImgUrl(colors[selectedColor].images[selectedImg])}}"
-                    style="width: 90%; padding-left: 50px; padding-bottom: 20px;">
+                    style="width: 90%; margin-left: 17px; border-bottom: 1px solid rgb(170, 170, 170);">
             </div>
-            <div class="hover-container">
-                <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
-                <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
-                <div ng-repeat="img in colors[selectedColor].images"><img src="{{getImgUrl(img)}}"></div>
-            </div>
+            <!-- <div class="hover-container">
+                <div ng-repeat="img in colors[selectedColor].images"><button ng-click="setSelectedImg(img)"><img
+                            ng-src="{{getImgUrl(img)}}"></button></div>
+            </div> -->
         </div>
-        <div class="col-md-7" 
-        style="border: 1px solid rgb(211, 207, 207);padding-top: 20px;background-color: rgb(255, 255, 255);padding-bottom: 20px;">
+        <div class="col-md-7"
+            style="padding-top: 20px;background-color: rgb(255, 255, 255);padding-bottom: 20px;">
             <div class="information">
-                <h4 style="font-weight: bold;">Tên giày: {{ product.name }}</h4>
-                <p style="font-size: 16px;">Mô tả: {{ product.description }}</p>
-                <span style="font-weight: bold;font-size: 20px;color: red;">{{ product.retailPrice }} đ </span>
-                <del style="color: rgb(141, 135, 135);margin-left: 20px;">{{product.discountRate}}đ</del>            
-                <p style="font-size: 16px;">Tình trạng: Còn hàng</p>
+                <h4 style="font-weight: bold;">Tên sản phẩm: {{ product.name }}</h4>
+                <p style="font-size: 16px;">
+                    <span style="font-weight: bold; font-size: 16px;">Mô tả:</span> 
+                    {{ product.description }}</p>
+                <span style="color: rgb(141, 135, 135);margin-right: 20px;color: red;font-weight: bold;font-size: 20px;">{{product.discountRate}}đ</span>    
+                <del style="color: gray;">{{ product.retailPrice }} đ</del>           
+                <p style="font-size: 16px;font-weight: bold;">Tình trạng: Còn hàng</p>
                 <div ng-class="{validator: errorMg}">
-                    <p>Kích thước:</p>
+                    <span style="font-size: 16px;font-weight: bold;">Kích thước:</span><br>
                     <span ng-show="errorMg" style="display: block; color: red;">{{errorMg}}</span>
-
                     <div ng-repeat="size in colors[selectedColor].sizes | orderBy: 'numberSize'"
                         style="display: inline-block;">
                         <button type="button" class="btn btn-gray" 
-                        style="background-color: white;color: black;border: 1px solid gray;"
+                        style="background-color: white;color: black;border: 1px solid gray;margin-right: 5px;"
                             ng-class="{ 'btn-dark': size.id === selectedSize }"
                             ng-click="setSelectedSize(size.id)">{{size.numberSize}}</button>
                     </div>
-                    <p>Số lượng tồn: {{colors[selectedColor].sizes[selectedSizeIndex].unit}}</p>
                 </div>
-            </div>                      
-            <div class="">
-                <button class="quantity-button" ng-click="decrementQuantity()" 
-                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
-                <input name="" id="" ng-model="quantity" ng-change="checkUnit()"
-                    style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;">
-                <button class="quantity-button" ng-click="incrementQuantity()"
-                style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>          
-                <button type="button" 
-                    style="width: 250px; height: 40px;border: none;background-color: #413e3e;color: white;"
-                    ng-click="addToCartE()"> Thêm vào giỏ </button>
-                <button type="button" 
-                    style="width: 205px; height: 40px; background-color: white;
-                    border: 1px solid #413e3e;color: #0f0f0f;font-weight: 500;"
-                    ng-click="addToCartE()"> Mua ngay </button>
-            </div>       
+                <div class="product-colors" style="padding-top: 20px;">
+                    <span style="font-size: 16px; font-weight:  bold; margin-top: 10px; margin-right: 5px;">Màu sắc: </span>
+                    <button ng-repeat="color in colors" ng-click="setSelectedColor(color.id)">
+                        <img width="50px" ng-src="{{getImgUrl(color.images[0])}}" alt="{{ color.name }}">
+                    </button>
+                </div>
+                <div style="font-size: 16px; font-weight: bold;padding-bottom: 10px;">
+                    Số lượng tồn: 
+                    <span style="color: red; font-size: 16px; font-weight: bold;"> {{colors[selectedColor].sizes[selectedSizeIndex].unit}}</span>
+                </div>
+                <div>
+                    <button class="quantity-button" ng-click="incrementQuantity(0)"
+                        style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-
+                    </button>
+                    <input type="number" ng-model="quantity" min="1" ng-change="checkUnit()" ng-pattern="/^\d+$/"
+                        style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;">
+
+                    <button class="quantity-button" ng-click="incrementQuantity(1)" 
+                        style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+
+                    </button>
+                    <button type="button"
+                        style="width: 250px; height: 40px;border: none;background-color: #413e3e;color: white;"
+                        ng-click="addToCartE()"> Thêm vào giỏ hàng
+                    </button>
+                    <button type="button" style="width: 205px; height: 40px; background-color: white;
+                            border: 1px solid #413e3e;color: #0f0f0f;font-weight: 500;"> Thêm vào yêu thích
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+    <hr style="border: 1px solid rgb(201, 201, 201);">
 </div>

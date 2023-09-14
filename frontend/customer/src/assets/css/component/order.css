@@ -1,3 +1,12 @@
+.centered-image{
+    padding-bottom: 20px;
+    width: 150px;
+    margin-right: 100px;
+    margin-left: 50px;
+}
+.retail-price{
+    margin-right: 20px;
+}
 .order-status{
     display: flex;
     justify-content: center;
@@ -8,6 +17,13 @@
     margin: 5px;
     font-weight: bold;
     opacity: 0.9;
+    border-bottom: 1px solid transparent;
+
+}
+
+.order-status ul li input{
+    background-color: transparent;
+    border: none;
 }
 
 .order-sort{
