@@ -1,3 +1,5 @@
+
+
 <div class="container-fluid mt-5">
 	<div class="row">
 		<div class="col-md-3">
@@ -6,8 +8,9 @@
 					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Danh mục
-								sản phẩm: </h6>
-						</a><br>
+								sản phẩm: 
+							</h6>
+						</a>
 					</header>
 					<div class="filter-content collapse show" ng-repeat="category in categories">
 						<div class="gender-body">
@@ -21,34 +24,11 @@
 						</div>
 					</div>
 				</article>
-				<hr>
 
 				<article>
 					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giới
-								tính: </h6>
-						</a>
-					</header>
-					<div class="filter-content collapse show" ng-repeat="gender in genders">
-						<div class="gender-body">
-							<label class="custom-control custom-checkbox" style="padding-top: 10px;">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label" ng-model="gender.selected"
-									ng-change="onSelectChange()"> {{ gender.name }}
-									<b class="badge badge-pill badge-light float-right"></b>
-								</div>
-							</label>
-						</div>
-					</div>
-				</article>
-				<hr>
-
-				<article>
-					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
-						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giá
-								tiền:
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giá tiền:		
 							</h6>
 						</a>
 					</header>
@@ -66,18 +46,17 @@
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
 							</label>
-						</div> <!-- card-body.// -->
+						</div> 
 				</article>
-				<hr>
 
 				<article>
-					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
+					<header class="card-header" style="height: 62px; background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Màu sắc:
 							</h6>
 						</a>
 					</header>
-					<div class="filter-content collapse show" id="collapse_2">
+					<div class="filter-content collapse show" id="collapse_2	">
 						<div class="card-body" style="color: gray;">
 							<label class="custom-control custom-radio" ng-repeat="color in colors">
 								<input type="checkbox" ng-model="color.selected" ng-change="onSelectChange()" class="custom-control-input">
@@ -87,57 +66,61 @@
 							</label>
 						</div>
 				</article>
-				<hr>
 
 				<article>
-					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
+					<header class="card-header" style="height: 62px; background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">KÍCH
-								THƯỚC</h6>
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;">
+								Kích thước:
+							</h6>
 						</a>
 					</header>
 					<div class="filter-content collapse show" id="collapse_4">
 						<div class="card-body">
 							<label class="checkbox-btn" style="margin: 5px;" ng-repeat="size in sizes | orderBy: numberSize">
-								<input type="checkbox" ng-model="size.selected" ng-change="onSelectChange()">
-								<span class="btn btn-light"> {{ size.numberSize }} </span>
+								<span class="btn btn-light" style="border: 1px solid #c7c7c7;background-color: white;">
+									<input type="checkbox" ng-model="size.selected" ng-change="onSelectChange()"> {{ size.numberSize }} 
+								</span>
 							</label>
 						</div>
 					</div>
 				</article>
+				
 			</div>
 		</div>
 
 		<div class="col-md-9 px-5">
 			<div class="sortByProduct">
 				<select ng-model="sortBy" ng-change="onSelectChange()"
-					style="border: 1px solid gray; border-radius: 5px;height: 30px;width: 280px;">
-					<option value=""></option>
+					style="border: 1px solid rgb(198, 198, 198); border-radius: 5px;height: 30px;width: 280px;">
+					<option value="">Top thịnh hành</option>
 					<option value="2">Hàng với về</option>
-					<option value="3">Top thịnh hành</option>
+					<!-- <option value="3">Top thịnh hành</option> -->
 					<option value="0">Giá từ thấp đến cao</option>
 					<option value="1">Giá từ cao đến thấp</option>
 				</select>
 			</div>
-			<hr>
+			<br>
 			<div class="product-list-container">
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
+						<span class="toggle-button">
+							<i class="fa-regular fa-heart"></i>
+						</span>
+						<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
+							class="cpercenOff">Giảm {{calculatePercenOff(product.discountRate,
+							product.retailPrice)}}% 
+						</span>														
 						<a href="#/productDetail/{{product.id}}" class="product-link">
-							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">						
+							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">					
 							<div class="product-details">
 								<span class="name">{{product.name}}</span>
-								<span class="category">Giày cho nam</span>
 								<span class="color">{{countColors(product.productImages)}} màu</span>
 								<div class="price-section">
 									<span style="margin-right: 10px;" class="discount"
 										ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice">{{formatPrice(product.discountRate)}}</span>
 									<span class="price"
 										ng-class="{'strike-through': product.discountRate > 0 && product.discountRate !== product.retailPrice}">{{formatPrice(product.retailPrice)}}</span><br>
-									<span
-										ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
-										class="percenOff">Giảm {{calculatePercenOff(product.discountRate,
-										product.retailPrice)}}%</span>
 								</div>
 							</div>
 						</a>
