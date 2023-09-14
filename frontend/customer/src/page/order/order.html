@@ -10,23 +10,21 @@
                 <li><input type="button" ng-click="filterOrder(4)" value="Trả hàng"></li>
             </ul>
         </div>
-
-        <div class="order-search-bar">
-            <input type="text" placeholder=" Mã hóa đơn"
-                style="border: 1px solid rgb(187, 179, 179);width: 210px; height: 30px;border-radius: 5px;">
-        </div><br>
+        <br><br>
         <div class="order-item" ng-repeat="order in orders">
-            <span style="margin-left: 525px;border-bottom: 1px solid rgb(232, 225, 225);">{{ status[order.status]
+            <div class="status_o" style="padding-bottom: 30px;">
+                <span style="margin-left: 480px;border-bottom: 1px solid rgb(232, 225, 225);">{{ status[order.status]
                 }}</span> -
             <span ng-show="order.status === 3"
-                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
+                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
                 Đã Hoàn thành</span>
             <span ng-show="order.status !== 3"
-                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
+                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
                 Chưa Hoàn thành</span>
             <span ng-show="order.status === 4"
-            style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(19, 30, 224);">
+            style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
             Thất bại</span>
+            </div>
             <a ng-href="#/orderDetail/{{order.orderId}}" style="text-decoration: none; color: black;" ng-repeat="item in order.orderItems">
                 <div class="order-tiem-product-info"
                     style="margin-bottom: 10px; border: 1px solid rgb(232, 225, 225);border-radius: 5px;">

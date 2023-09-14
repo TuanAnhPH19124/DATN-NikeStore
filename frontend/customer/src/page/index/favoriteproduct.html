@@ -1,5 +1,40 @@
+<style>
+  /* Dropdown kích thước */
+.custom-select {
+  width: 80px; /* Điều chỉnh kích thước dropdown theo ý muốn */
+}
+
+/* Danh sách màu sắc */
+.product-colors {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.product-colors p {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.color-buttons {
+  display: flex;
+}
+
+.color-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+  /* Thêm các kiểu màu sắc khác ở đây */
+}
+
+</style>
+
 <h2 style="text-align: center;
 padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
+
 <div class="container">
   <section>
     <div class="container py-5">
@@ -37,6 +72,56 @@ padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
                     <button class="btn btn-outline-danger" type="button" ng-click="removeWish(wishList.id)"> 
                       Xoá
                     </button>
+                  </div>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="addToCartModalLabel">Thông tin sản phẩm</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                          style="border: none; background-color: white; width: 30px; height: 30px;">
+                            <i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row" style="justify-content: space-around; align-items: center;">
+                            <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                              <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                <img  src="/frontend/customer/src/assets/img/product/2.jpg" width="150px"/>                 
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6">         
+                              <h5>AIR JORDAN 1 LOW 'PANDA''GUAVA </h5>       
+                              <p>Giá tiền: <span style="color: brown;font-weight: bold;">500.000đ</span></p>
+                              <span style="margin-right: 30px;">Số lượng: 1</span>   
+                              <div class="product-colors1">
+                                <p>Màu sắc:</p>
+                                <div class="color-buttons">
+                                  <button class="color-button" style="background-color: red;"></button>
+                                  <button class="color-button" style="background-color: blue;"></button>
+                                  <button class="color-button" style="background-color: green;"></button>
+                                  <!-- Thêm các màu sắc khác ở đây -->
+                                </div>
+                              </div>             
+                              <div class="product-details1">
+                                <p>Size:</p>
+                                <select id="sizeSelect" class="custom-select" style="text-align: center;">
+                                  <option value="36">36</option>
+                                  <option value="37">37</option>
+                                  <option value="38">38</option>
+                                  <!-- Thêm các kích thước khác ở đây -->
+                                </select>
+                              </div>                                                                         
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                          <button type="button" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
