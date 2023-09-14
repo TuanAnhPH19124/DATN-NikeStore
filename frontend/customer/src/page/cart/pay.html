@@ -406,11 +406,11 @@
           />
           <div style="margin-left: 15px">
             <p style="font-weight: bold; margin-bottom: 5px">
-              {{cart.product.name}}
+              Tên sản phẩm: {{cart.product.name}}
             </p>
-            <span style="margin-bottom: 5px">Màu sắc: {{ cart.colorName }}</span> 
-            <p style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</p>
-            <p style="margin-bottom: 5px">Số lượng: {{cart.quantity}}</p>
+            <p style="margin-bottom: 5px">Màu sắc: {{ cart.colorName }}</p>
+            <span style="margin-bottom: 5px; margin-right: 5px;">Số lượng: {{cart.quantity}}</span>
+            <span style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</span>
             <p style="color: red; font-weight: bold">
               {{cart.product.discountRate | formatVNDPrice}}
             </p>

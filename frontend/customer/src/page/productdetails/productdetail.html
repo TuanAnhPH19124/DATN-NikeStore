@@ -4,10 +4,10 @@
             <div class="img">
                 <img ng-src="{{getImgUrl(colors[selectedColor].images[selectedImg])}}"
                     style="width: 90%; margin-left: 17px; border-bottom: 1px solid rgb(170, 170, 170);">
-            </div>
+            </div><br>
             <div class="hover-container">
                 <div ng-repeat="img in colors[selectedColor].images"><button ng-click="setSelectedImg(img)"><img
-                            ng-src="{{getImgUrl(img)}}"></button></div>
+                            ng-src="{{getImgUrl(img)}}" style="width: 65px;"></button></div>
             </div>
         </div>
         <div class="col-md-7"
