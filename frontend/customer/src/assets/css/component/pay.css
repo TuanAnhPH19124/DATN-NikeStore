@@ -160,3 +160,53 @@ input[type="submit"]:disabled {
     width: 50%; /* Adjust the width as needed */
 }
 
+.input-group{
+    position: relative;
+}
+
+.discount-list{
+    position: absolute;
+    padding: 10px; 
+    width: 78%; /* Chiều rộng bằng với thẻ input */
+    top: 100%; /* Đặt vị trí bên dưới thẻ input */
+    left: 161px;    
+    opacity: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    max-height: 250px; /* Điều chỉnh chiều cao tối đa của danh sách */
+    overflow-y: auto; /* Thêm thanh cuộn nếu danh sách quá dài */
+    transition: max-height 0.3s ease; 
+}
+
+.discount-list button {
+    background-color: #f0f0f0; /* Màu nền của mỗi mục */
+    padding: 10px; /* Khoảng cách bên trong mỗi mục */
+    margin-bottom: 10px; /* Khoảng cách giữa các mục */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 5px; /* Góc bo */
+    width: 100%;
+}
+
+
+.discount-list button p {
+    margin: 0; /* Loại bỏ khoảng cách ngoài cùng của đoạn văn bản */
+}
+
+.discount-list button p:nth-child(2) {
+    font-weight: bold; /* Tô đậm cho thông tin giảm giá */
+    color: #007bff; /* Màu chữ cho thông tin giảm giá */
+}
+
+.discount-list button p:nth-child(3) {
+    font-style: italic; /* Nghiêng cho thông tin hết hạn */
+    color: #ff0000; /* Màu chữ cho thông tin hết hạn */
+}
+
+.discount-list button p:nth-child(4) {
+    color: #ff0000; /* Màu chữ cho thông báo không thể sử dụng */
+}
+
+#discount-input:focus + .discount-list{
+    opacity: 1;
+   
+}
