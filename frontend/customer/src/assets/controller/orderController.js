@@ -5,8 +5,7 @@
         cloudFlareService,
         vnpayService,
         $window,
-        orderService,
-        headerFactory
+        orderService
     ) {
         // const uuid = require('uuid');
         // e.uuid = require('uuid');
@@ -287,14 +286,6 @@
             return expireDatetime;
         }
 
-        e.freeShip = function (){
-            if (e.subtotal() > 5000000 && e.selectedShippingServiceIndex !== -1){
-                console.log(e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1);
-                return e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1;
-            }
-            return 0;
-        }
-
         e.createOrder = function (paymethod){
             let token = authService.getToken();
             let tokenDecode = jwtHelper.decodeToken(token);
@@ -324,8 +315,7 @@
             .then(function (response){
                 cartService.clearCart(tokenDecode.Id)
                 .then(function (response){
-                    headerFactory.setCartCounter(0);
-                    l.path('/');
+                    l.path('/order');
                 }, function(response){
                     console.log(response.data);
                 })
@@ -377,7 +367,6 @@
                 cartService.getCarts(tokenDecode.Id)
                     .then(function (response) {
                         e.carts = response.data;
-                        console.log(e.carts);
                     })
                     .catch(function (data) {
                         console.log(data);
@@ -414,6 +403,6 @@
 
         constructor();
     }
-    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService', 'headerFactory'];
+    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
     angular.module("app").controller("orderController", orderController);
 }());
