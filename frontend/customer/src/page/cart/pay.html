@@ -408,8 +408,8 @@
             <p style="font-weight: bold; margin-bottom: 5px">
               {{cart.product.name}}
             </p>
-            <span style="margin-bottom: 5px; margin-right: 10px;">Màu sắc: Hồng</span> 
-            <span style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</span>
+            <span style="margin-bottom: 5px">Màu sắc: {{ cart.colorName }}</span> 
+            <p style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</p>
             <p style="margin-bottom: 5px">Số lượng: {{cart.quantity}}</p>
             <p style="color: red; font-weight: bold">
               {{cart.product.discountRate | formatVNDPrice}}
