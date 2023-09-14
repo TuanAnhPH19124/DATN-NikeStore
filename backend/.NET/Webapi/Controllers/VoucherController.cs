@@ -76,7 +76,7 @@ namespace Webapi.Controllers
             }
 
             var existingVoucher = await _serviceManager.VoucherService.GetByCodeAsync(voucherDto.Code);
-            if (existingVoucher != null)
+            if (existingVoucher.Count > 0)
             {
                 return Conflict("Code Voucher with the same Name already exists");
             }
