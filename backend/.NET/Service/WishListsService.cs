@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Repositories;
 using EntitiesDto;
 using Mapster;
@@ -51,11 +52,17 @@ namespace Service
             return item;
         }
 
-        public async Task<List<WishLists>> GetItemsByUserID(string AppUserId, CancellationToken cancellationToken = default)
+        public async Task<List<WishListDto>> GetItemsByUserID(string AppUserId, CancellationToken cancellationToken = default)
         {
-            var items = _repositoryManger.WishListsRepository.GetItemsByUserID(AppUserId);
-
-            return await items;
+            var items = await _repositoryManger.WishListsRepository.GetItemsByUserID(AppUserId);
+            var wishlistDto = items.Select(i => new WishListDto{
+                Id = i.Product.Id,
+                Name = i.Product.Name,
+                DiscountRate = i.Product.DiscountRate,
+                RetailPrice = i.Product.RetailPrice,
+                ImgUrl = i.Product.ProductImages[0].ImageUrl
+            }).ToList();
+            return wishlistDto;
         }
         public async Task<WishLists> GetItemByAppUserIDAndProductID(string appUserId, string productId, CancellationToken cancellationToken = default)
         {

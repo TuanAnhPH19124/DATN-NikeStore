@@ -7,10 +7,12 @@
     ){
 
         s.userInfor = {};
-        s.ischange = function (){
-
-        }
         
+        s.signOutE = function (){
+            authService.setLogOut();
+            authService.clearSession();
+            l.path('/');
+        }
 
         s.updateInfor = function (){
             console.log(s.userInfor.fullName);
