@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-md-4" style="border-right: 1px solid rgb(200, 200, 200);">
             <div class="img">
-                <img src="{{getImgUrl(colors[selectedColor].images[selectedImg])}}"
+                <img ng-src="{{getImgUrl(colors[selectedColor].images[selectedImg])}}"
                     style="width: 90%; margin-left: 17px; border-bottom: 1px solid rgb(170, 170, 170);">
             </div>
-            <!-- <div class="hover-container">
+            <div class="hover-container">
                 <div ng-repeat="img in colors[selectedColor].images"><button ng-click="setSelectedImg(img)"><img
                             ng-src="{{getImgUrl(img)}}"></button></div>
-            </div> -->
+            </div>
         </div>
         <div class="col-md-7"
             style="padding-top: 20px;background-color: rgb(255, 255, 255);padding-bottom: 20px;">
@@ -17,8 +17,8 @@
                 <p style="font-size: 16px;">
                     <span style="font-weight: bold; font-size: 16px;">Mô tả:</span> 
                     {{ product.description }}</p>
-                <span style="color: rgb(141, 135, 135);margin-right: 20px;color: red;font-weight: bold;font-size: 20px;">{{product.discountRate}}đ</span>    
-                <del style="color: gray;">{{ product.retailPrice }} đ</del>           
+                <span style="color: rgb(141, 135, 135);margin-right: 20px;color: red;font-weight: bold;font-size: 20px;">{{product.discountRate | formatVNDPrice}}</span>    
+                <del style="color: gray;">{{ product.retailPrice | formatVNDPrice }} </del>           
                 <p style="font-size: 16px;font-weight: bold;">Tình trạng: Còn hàng</p>
                 <div class="product-colors">
                     <span style="font-size: 16px; font-weight:  bold; margin-top: 10px; margin-right: 5px;">Màu sắc: </span>
