@@ -1,15 +1,16 @@
 (function () {
     var orderController = function (
+        voucherService,
         e, r, l, orderFactory, productService, authService, jwtHelper, cartService, apiUrl, addressService, ghnServices,
         guidService,
         cloudFlareService,
         vnpayService,
         $window,
-        orderService,
-        headerFactory
+        orderService
     ) {
         // const uuid = require('uuid');
         // e.uuid = require('uuid');
+        e.vouchers = [];
         e.step = 1;
         e.addressCustomer = [];
         e.userInformation = {};
@@ -24,7 +25,43 @@
         e.avalibleShippingService = [];
         e.selectedShippingServiceIndex = -1;
         e.cdn_cgi_trace = null;
+        e.selectedVoucher = '';
+        e.voucherValue = 0;
 
+
+        e.freeShip = function (){
+            if (e.subtotal() > 5000000 && e.avalibleShippingService.length > 0 && e.selectedShippingServiceIndex !== -1)
+                return e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1;
+            else
+                return 0;
+        }
+
+        e.setSelectedVoucher = function (id){
+            e.selectedVoucher = id;
+            if (e.vouchers.length > 0){
+                e.vouchers.forEach(item => {
+                    if (item.id === id){
+                        e.voucherValue = e.subtotal() * item.value / 100 * -1;
+                    }
+                })
+            }
+            console.log(e.selectedVoucher);
+        }
+
+        e.getVoucherValue = function (id){
+          
+            
+    
+        }
+
+        e.getExpiredDate = function (futureTime){
+            let currentDate = new Date();
+            let futureDate = new Date(futureTime);
+
+            let timeDiff = futureDate.getTime() - currentDate.getTime();
+            let dayDiff = Math.floor(timeDiff /(1000 * 3600 * 24));
+            return dayDiff;
+        }
 
         e.selectShippingService = function (service) {
             e.avalibleShippingService.forEach(item => {
@@ -287,14 +324,6 @@
             return expireDatetime;
         }
 
-        e.freeShip = function (){
-            if (e.subtotal() > 5000000 && e.selectedShippingServiceIndex !== -1){
-                console.log(e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1);
-                return e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1;
-            }
-            return 0;
-        }
-
         e.createOrder = function (paymethod){
             let token = authService.getToken();
             let tokenDecode = jwtHelper.decodeToken(token);
@@ -324,8 +353,7 @@
             .then(function (response){
                 cartService.clearCart(tokenDecode.Id)
                 .then(function (response){
-                    headerFactory.setCartCounter(0);
-                    l.path('/');
+                    l.path('/order');
                 }, function(response){
                     console.log(response.data);
                 })
@@ -377,7 +405,6 @@
                 cartService.getCarts(tokenDecode.Id)
                     .then(function (response) {
                         e.carts = response.data;
-                        console.log(e.carts);
                     })
                     .catch(function (data) {
                         console.log(data);
@@ -406,6 +433,13 @@
                     }, function (response) {
                         console.log(response);
                     })
+                voucherService.getVouchers()
+                .then(function (response){
+                    e.vouchers = response.data;
+                    console.log(e.vouchers);
+                }, function(response){
+                    console.error(response.data);
+                })
             } else {
                 l.path('/signin');
             }
@@ -414,6 +448,6 @@
 
         constructor();
     }
-    orderController.$inject = ['$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService', 'headerFactory'];
+    orderController.$inject = ['voucherService','$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
     angular.module("app").controller("orderController", orderController);
 }());
