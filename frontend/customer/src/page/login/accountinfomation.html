@@ -55,8 +55,8 @@ a:hover {
                 <p>* <a href="#/fogotpassword" style="text-decoration: none;">Đổi mật khẩu</a></p>
             </li>
             <li>
-              <p>* <a href="" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
-          </li>          
+                <p>* <a href="#" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
+            </li>          
           </ul>
         </div>
         <div class="col-8">
@@ -87,14 +87,3 @@ a:hover {
       </div>      
       </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const logoutLink = document.getElementById("logoutLink");
-
-    logoutLink.addEventListener("click", function (event) {
-        event.preventDefault();
-        window.location.href = "login.html";
-    });
-});
-</script>

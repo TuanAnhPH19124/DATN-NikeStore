@@ -256,9 +256,9 @@
           />
         </form>
       </div>
-      <div ng-show="step === 2">
+      <div ng-show="step === 2" style="padding-top: 20px">
         <h4>Chọn dịch vụ vận chuyển:</h4>
-        <div ng-repeat="shippingService in avalibleShippingService">
+        <div ng-repeat="shippingService in avalibleShippingService" >
           <button
             class="checkout-shipping-avaliable"
             ng-class="{'border_address': shippingService.selected}"
@@ -408,8 +408,9 @@
             <p style="font-weight: bold; margin-bottom: 5px">
               {{cart.product.name}}
             </p>
+            <span style="margin-bottom: 5px; margin-right: 10px;">Màu sắc: Hồng</span> 
+            <span style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</span>
             <p style="margin-bottom: 5px">Số lượng: {{cart.quantity}}</p>
-            <p style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</p>
             <p style="color: red; font-weight: bold">
               {{cart.product.discountRate | formatVNDPrice}}
             </p>
