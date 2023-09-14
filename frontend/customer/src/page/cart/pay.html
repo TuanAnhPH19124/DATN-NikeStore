@@ -146,7 +146,7 @@
                     <input type="text" id="discount-input" class="form-control" ng-change="searchOnChange()" placeholder="Mã giảm giá" ng-model="searchKeyWord" aria-label="Mã giảm giá" aria-describedby="basic-addon2">
                     <div class="discount-list" id="discount-list">
                         <div ng-repeat="voucher in vouchers">
-                            <button ng-click="setSelectedVoucher(voucher.id)" ng-disabled="getExpiredDate(voucher.endDate) < 0">
+                            <button ng-click="setSelectedVoucher(voucher.id)" ng-disabled="getExpiredDate(voucher.endDate) < 0 || subtotal() < voucher.expression">
                                 <p>{{ voucher.code }}</p> 
                                 <p>giảm {{ voucher.value }} % </p> 
                                 <p ng-show="getExpiredDate(voucher.endDate) > 0">hết hạn sau {{ getExpiredDate(voucher.endDate) }} Ngày</p> 
