@@ -84,6 +84,10 @@ app.config(function ($routeProvider, $locationProvider) {
     })
     .when("/changePass", {
       templateUrl: "../page/login/changeforgotpassword.html",
+      controller: "userController"
+    })
+    .when("/aboutUS", {
+      templateUrl: "../page/index/aboutUS.html",
       controller: ""
     })
     .otherwise({

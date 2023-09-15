@@ -274,6 +274,7 @@
 
 /* blog */
 .blog-post {
+    height: 100%;
     -webkit-transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0s;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0s;
   }
@@ -284,6 +285,7 @@
     opacity: 0;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
+  
   }
   
   .blog-post .blog-img .overlay {
