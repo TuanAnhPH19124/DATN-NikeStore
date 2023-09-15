@@ -125,7 +125,13 @@
         e.save = function (newAddress) {
             let token = authService.getToken();
             let tokenDecode = jwtHelper.decodeToken(token);
+            let provinceName = e.provices.filter(item => item.ProvinceID === parseInt(newAddress.cityCode)).map(item => item.NameExtension[1]);
+            let districtName = e.districts.filter(item => item.DistrictID === parseInt(newAddress.provinceCode)).map(item => item.NameExtension[0]);
+            let wardName = e.wards.filter(item => item.WardCode === newAddress.wardCode).map(item => item.NameExtension[0]);
+
             newAddress.userId = tokenDecode.Id;
+         
+            newAddress.addressLine += `, ${wardName}, ${districtName}, ${provinceName}`;
             addressService.addAddress(newAddress)
                 .then(function (response) {
                     alert('Thêm địa chỉ thành công');
