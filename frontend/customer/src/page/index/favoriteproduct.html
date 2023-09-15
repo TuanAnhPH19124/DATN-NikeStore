@@ -1,35 +1,35 @@
 <style>
   /* Dropdown kích thước */
-.custom-select {
-  width: 80px; /* Điều chỉnh kích thước dropdown theo ý muốn */
-}
+  .custom-select {
+    width: 80px;
+    /* Điều chỉnh kích thước dropdown theo ý muốn */
+  }
 
-/* Danh sách màu sắc */
-.product-colors {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
+  /* Danh sách màu sắc */
+  .product-colors {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
 
-.product-colors p {
-  margin-right: 10px;
-  font-weight: bold;
-}
+  .product-colors p {
+    margin-right: 10px;
+    font-weight: bold;
+  }
 
-.color-buttons {
-  display: flex;
-}
+  .color-buttons {
+    display: flex;
+  }
 
-.color-button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 50%;
-  margin-right: 5px;
-  cursor: pointer;
-  /* Thêm các kiểu màu sắc khác ở đây */
-}
-
+  .color-button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    margin-right: 5px;
+    cursor: pointer;
+    /* Thêm các kiểu màu sắc khác ở đây */
+  }
 </style>
 
 <h2 style="text-align: center;
@@ -41,7 +41,7 @@ padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
       <div class="row justify-content-center mb-3">
         <div class="col-md-12 col-xl-10">
           <div class="card shadow-0 border rounded-3 mb-3" ng-repeat="wishList in wishLists">
-            <div class="card-body" >
+            <div class="card-body">
               <div class="row">
                 <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                   <div class="bg-image hover-zoom ripple rounded ripple-surface">
@@ -52,9 +52,13 @@ padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
                   <a href="#/productDetail/{{ wishList.id }}">
                     <h5>{{ wishList.name }}</h5>
                   </a>
-                  <h5><span class="color-brown" ng-class="{'color-dark': wishList.discountRate === wishList.retailPrice}" style="font-weight: bold;">{{ wishList.discountRate | formatVNDPrice
+                  <h5><span class="color-brown"
+                      ng-class="{'color-dark': wishList.discountRate === wishList.retailPrice}"
+                      style="font-weight: bold;">{{ wishList.discountRate | formatVNDPrice
                       }}</span></h5>
-                  <h5 ng-show="wishList.discountRate !== wishList.retailPrice"><span style="font-weight: bold; text-decoration: line-through; opacity: 0.5;">{{ wishList.retailPrice | formatVNDPrice
+                  <h5 ng-show="wishList.discountRate !== wishList.retailPrice"><span
+                      style="font-weight: bold; text-decoration: line-through; opacity: 0.5;">{{ wishList.retailPrice |
+                      formatVNDPrice
                       }}</span></h5>
                   <!-- <span style="margin-right: 30px;">Số lượng: 1</span>                 -->
                   <!-- <span>Size: 36</span> -->
@@ -66,59 +70,75 @@ padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
                     <!-- <button class="btn btn-primary btn-sm" type="button">
                       <a href="#13" style="text-align: center;color: white;text-decoration: none;">Thanh toán</a>
                     </button> -->
-                    <button class="btn btn-primary mt-2" type="button">
+                    <!-- <button class="btn btn-primary mt-2" type="button">
+                      Thêm giỏ hàng
+                    </button> -->
+                    <button class="btn btn-outline-primary btn-sm mt-2" type="button"
+                      ng-click="getProductDetail(wishList.id)" data-bs-toggle="modal" data-bs-target="#addToCartModal">
                       Thêm giỏ hàng
                     </button>
-                    <button class="btn btn-outline-danger" type="button" ng-click="removeWish(wishList.id)"> 
+                    <button class="btn btn-outline-danger" type="button" ng-click="removeWish(wishList.id)">
                       Xoá
                     </button>
                   </div>
 
                   <!-- Modal -->
-                  <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+                  <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="addToCartModalLabel">Thông tin sản phẩm</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                          style="border: none; background-color: white; width: 30px; height: 30px;">
+                            style="border: none; background-color: white; width: 30px; height: 30px;">
                             <i class="fa-solid fa-xmark"></i></button>
                         </div>
                         <div class="modal-body">
                           <div class="row" style="justify-content: space-around; align-items: center;">
                             <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                               <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                <img  src="/frontend/customer/src/assets/img/product/2.jpg" width="150px"/>                 
+                                <img ng-src="{{ getImgUrl(colors[selectedColor].images[0]) }}" width="150px" />
                               </div>
                             </div>
-                            <div class="col-md-6 col-lg-6 col-xl-6">         
-                              <h5>AIR JORDAN 1 LOW 'PANDA''GUAVA </h5>       
-                              <p>Giá tiền: <span style="color: brown;font-weight: bold;">500.000đ</span></p>
-                              <span style="margin-right: 30px;">Số lượng: 1</span>   
+                            <div class="col-md-6 col-lg-6 col-xl-6">
+                              <h5>{{ productDetail.name }} </h5>
+                              <p>
+                                <span style="color: brown;font-weight: bold;">{{ productDetail.discountRate |
+                                  formatVNDPrice }}</span>
+                                <span style="font-weight: bold; text-decoration: line-through; opacity: 0.5;">{{
+                                  productDetail.retailPrice | formatVNDPrice }}</span>
+                              </p>
+                              <span style="margin-right: 30px;">Số lượng:
+                                {{colors[selectedColor].sizes[selectedSizeIndex].unit === 0 ? 'Hết hàng' : colors[selectedColor].sizes[selectedSizeIndex].unit}}</span>
                               <div class="product-colors1">
                                 <p>Màu sắc:</p>
                                 <div class="color-buttons">
-                                  <button class="color-button" style="background-color: red;"></button>
-                                  <button class="color-button" style="background-color: blue;"></button>
-                                  <button class="color-button" style="background-color: green;"></button>
+                                  <!-- <button ng-repeat="color in colors" class="color-button"
+                                    style="background-color: red;"></button> -->
+                                  <button ng-repeat="color in colors" ng-click="setSelectedColor(color.id)">
+                                    <img width="50px" ng-src="{{getImgUrl(color.images[0])}}" alt="{{ color.name }}">
+                                  </button>
                                   <!-- Thêm các màu sắc khác ở đây -->
                                 </div>
-                              </div>             
+                              </div>
                               <div class="product-details1">
-                                <p>Size:</p>
-                                <select id="sizeSelect" class="custom-select" style="text-align: center;">
-                                  <option value="36">36</option>
-                                  <option value="37">37</option>
-                                  <option value="38">38</option>
+                                <p>Kích cỡ:</p> <span ng-show="errorMg" style="display: block; color: red;">{{errorMg}}</span>
+                                <select id="sizeSelect" class="custom-select" ng-click="setSelectedSize(selectedSizeId)"
+                                  ng-model="selectedSizeId" style="text-align: center;">
+                                  <option value=""></option>
+                                  <option ng-repeat="size in colors[selectedColor].sizes | orderBy: 'numberSize'"
+                                    value="{{ size.id }}">{{ size.numberSize }}</option>
+
                                   <!-- Thêm các kích thước khác ở đây -->
                                 </select>
-                              </div>                                                                         
+                              </div>
                             </div>
                           </div>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                          <button type="button" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                          <button type="button" ng-disabled="colors[selectedColor].sizes[selectedSizeIndex].unit === 0"
+                            class="btn btn-primary" ng-click="addToCart()" >Thêm vào giỏ hàng</button>
                         </div>
                       </div>
                     </div>

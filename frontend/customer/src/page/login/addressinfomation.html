@@ -57,7 +57,7 @@ input.edit-input {
                 <p>* <a href="#/accountDetail" style="text-decoration: none;">Thông tin tài khoản</a></p>
             </li>
             <li>
-                <p>* <a href="#21" style="text-decoration: none;">Danh sách địa chỉ</a></p>
+                <p>* <a href="#/address" style="text-decoration: none;">Danh sách địa chỉ</a></p>
             </li>
             <li>
               <p>* <a href="#/changePass" style="text-decoration: none;">Đổi mật khẩu</a></p>
@@ -68,8 +68,8 @@ input.edit-input {
           </ul>
         </div>
         <div class="col-5" style="border-right: 1px solid rgb(202, 199, 199);">
-          <h4>THÔNG TIN TÀI KHOẢN</h4><hr>
-          <ul style="border: 1px solid rgb(221, 221, 221); border-radius: 10px; padding: 15px;">
+          <h4>Danh sách địa chỉ:</h4><hr>
+          <!-- <ul style="border: 1px solid rgb(221, 221, 221); border-radius: 10px; padding: 15px;">
               <li>
                   <span id="fullName">Nguyễn Thành Long</span>
               </li><br>
@@ -77,14 +77,26 @@ input.edit-input {
                   <span>Địa chỉ:</span>
                   <input type="text" id="addressInput" class="edit-input" value="Thanh Xuân, Hà Nội, Việt Nam">
               </li>
-          </ul>
-          <ul>
-              <li>
-                  <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">Chỉnh sửa</button>
-                  <button type="button" class="btn btn-outline-danger" id="saveButton" style="width: 100px; display: none;">Lưu</button>
-                  <button type="button" class="btn btn-outline-secondary" id="removeButton" style="display: none;">Remove</button>
-              </li>
-          </ul>
+          </ul> -->
+          <div ng-repeat="address in addresses">
+            <button
+              class="checkout-address-existing"
+              ng-class="{'border_address': address.selected}"
+              ng-click="selectAddress(address.id)"
+            >
+              <div class="checkout-address-infomation">
+                <p>{{ address.fullName }}</p>
+                <p>{{ address.addressLine }}</p>
+                <p>{{ address.phoneNumber }}</p>
+              </div>
+              <input
+                type="button"
+                class="checkout-address-existing-updateBtn"
+                ng-click="updateAddress($event)"
+                value="Cập nhật"
+              />
+            </button>
+          </div>
       </div>      
         <div class="col-4">
           <button type="button" class="btn btn-success"><h6 style="padding-top: 10px;">NHẬP ĐỊA CHỈ MỚI</h6></button>
