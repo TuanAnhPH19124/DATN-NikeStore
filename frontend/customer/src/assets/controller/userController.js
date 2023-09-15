@@ -7,7 +7,7 @@
     ){
 
         s.userInfor = {};
-        
+        s.changePassword = {};
         s.signOutE = function (){
             authService.setLogOut();
             authService.clearSession();
@@ -39,6 +39,22 @@
                 phoneNumber: s.userInfor.phoneNumber,
                 id: s.userInfor.id
             };
+
+            s.changePassword1 = function() {
+                if (s.changePassword.oldchangePassword === ""){
+                    alert("Nhập mật khẩu cũ");
+                    return;
+                }
+                if (s.changePassword.newchangePassword   === ""){
+                        alert("Nhập mật khẩu mới");
+                        return;
+                }
+                if (s.changePassword.cofirmchangePassword === ""){
+                            alert("Xác nhận mật khẩu mới");
+                            return;
+                }
+            }
+
 
             userService.updateUserInfo(tokenDecode.Id, data)
             .then(function(response){
