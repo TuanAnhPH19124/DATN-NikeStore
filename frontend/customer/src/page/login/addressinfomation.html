@@ -42,7 +42,6 @@
 
   .edit-input {
     width: 100%;
-    height: 2rem;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -95,9 +94,7 @@
    
           <input type="text" id="" class="edit-input" placeholder="Số điện thoại" ng-model="address.phoneNumber">
    
-          <select id="addressInput" class="edit-input">
-   
-          <select  ng-change="getDistricts(newAddress.cityCode)" ng-model="address.cityCode">
+          <select class="edit-input"  ng-change="getDistricts(newAddress.cityCode)" ng-model="address.cityCode">
             <option ng-repeat="p in provices" value="p.ProvinceID">{{ p.NameExtension[1] }}</option>
           </select>
       
