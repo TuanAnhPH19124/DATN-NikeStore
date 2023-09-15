@@ -1,12 +1,67 @@
-.product-container {
+.container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Đảm bảo khoảng cách đều giữa các sản phẩm */
-    margin: -10px; /* Để tạo khoảng cách giữa các sản phẩm */
+    justify-content: center;
+    gap: 20px;
 }
 
-.boxProduct {
-    width: calc(25% - 20px); /* 25% là kích thước của mỗi sản phẩm trong 1 hàng (4 sản phẩm mỗi hàng), 20px là khoảng cách giữa các sản phẩm */
-    margin: 10px; /* Tạo khoảng cách xung quanh mỗi sản phẩm */
-    /* Các thuộc tính khác của sản phẩm */
+.boxProduct1 {
+    margin-right: 10px;
+    width: calc(25% - 10px);
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px rgba(102, 99, 99, 0.1);
+    padding: 20px;
+    justify-content: space-around;
+    border: 1px solid #eee;
 }
+.boxProduct1 a:hover {
+    text-decoration: none;
+}
+
+.boxProduct1 img {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.boxProduct1 img:active {
+    transform: scale(1.05); 
+}
+
+.name1 {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.color1 {
+    color: #595454;
+}
+
+.price1.strike-through {
+    text-decoration: line-through;
+    color: #504f4f;
+}
+
+.cpercenOff1 {
+    flex: 1; 
+    border: 1px solid rgb(135, 130, 130);
+    margin-right: 90px;
+    top: 20px;
+    left: 20px;
+    border: 1px solid #cecbcb;
+    color:rgb(19, 160, 6);
+    padding: 2px 13px;
+    font-size: var(--fs-7);
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.toggle-button1 {
+    font-size: 24px;
+    flex: 1;
+}
+.toggle-button1:hover i {
+    color: red; /* Màu icon khi hover */
+}
+
+
