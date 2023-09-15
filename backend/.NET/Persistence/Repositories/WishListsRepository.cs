@@ -42,7 +42,7 @@ namespace Persistence.Repositories
 
         public async Task<List<WishLists>> GetItemsByUserID(string appUserID, CancellationToken cancellationToken = default)
         {
-            var items =  _dbcontext.WishLists.Where(item => item.AppUserId == appUserID).ToList();
+            var items =  _dbcontext.WishLists.Include(p => p.Product).ThenInclude(p => p.ProductImages).Where(item => item.AppUserId == appUserID).ToList();
             return await Task.FromResult(items);
         }
 

@@ -1,5 +1,5 @@
 (function () {
-    var productController = function (sizeService,colorService, e, l, productService, categoryService, apiUrl) {
+    var productController = function (jwtHelper,authService,wishListService,sizeService,colorService, e, l, productService, categoryService, apiUrl) {
         e.products = [];
         e.categories = [];
         e.sale = false;
@@ -17,6 +17,40 @@
             {min: 2000000, max: 4999999, selected: false},
             {min: 5000000, max: 5000000 * 9999, selected: false}
         ]
+
+        e.addToFavourite = function (productId){
+            if (!authService.isLoggedIn()){
+                let enumType = authService.getEnum();
+                let newE = {
+                    enum: enumType.WISHLIST,
+                    data: {
+                        productsId: productId,
+                        appUserId: "",
+                    }
+                }
+                authService.setEventAfterLogin(newE);
+                authService.scheduleClearEvent();
+                l.path('/signin');
+            }else{
+                let token = authService.getToken();
+                let tokenDecode = jwtHelper.decodeToken(token);
+
+                let data = {
+                    productsId: productId,
+                    appUserId: tokenDecode.Id
+                }
+
+                wishListService.addNewWishList(data)
+                .then(function (response){
+                    alert("Thêm sản phẩm yêu thích thành công");
+
+                }, function (response){
+                    console.error(response.data);
+                })
+
+
+            }
+        }
 
 
 
@@ -128,6 +162,6 @@
         constructor();
     };
 
-    productController.$inject = ['sizeService','colorService', '$scope', '$location', 'productService', 'categoryService', 'apiUrl'];
+    productController.$inject = ['jwtHelper','authService','wishListService','sizeService','colorService', '$scope', '$location', 'productService', 'categoryService', 'apiUrl'];
     angular.module("app").controller("productController", productController);
 }())
