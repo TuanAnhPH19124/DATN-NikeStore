@@ -1,5 +1,5 @@
 (function () {
-    var homeController = function (e, l,jwtHelper, productService, authService, wishListService, cartService,headerFactory, orderFactory){
+    var homeController = function (e, l,jwtHelper, productService, authService, wishListService, cartService,headerFactory, orderFactory, apiUrl){
         e.products = [];
     
         e.addToWishListE = function (productId){
@@ -70,6 +70,58 @@
             }
         }
 
+        e.countColors = function (array) {
+            let countColor = new Set();
+            array.forEach(img => {
+                countColor.add(img.colorId);
+            });
+            return countColor.size;
+        };
+
+        
+        e.addToFavourite = function (productId){
+            if (!authService.isLoggedIn()){
+                let enumType = authService.getEnum();
+                let newE = {
+                    enum: enumType.WISHLIST,
+                    data: {
+                        productsId: productId,
+                        appUserId: "",
+                    }
+                }
+                authService.setEventAfterLogin(newE);
+                authService.scheduleClearEvent();
+                l.path('/signin');
+            }else{
+                let token = authService.getToken();
+                let tokenDecode = jwtHelper.decodeToken(token);
+
+                let data = {
+                    productsId: productId,
+                    appUserId: tokenDecode.Id
+                }
+
+                wishListService.addNewWishList(data)
+                .then(function (response){
+                    alert("Thêm sản phẩm yêu thích thành công");
+
+                }, function (response){
+                    console.error(response.data);
+                })
+
+
+            }
+        }
+        
+        e.calculatePercenOff = function (discount, price) {
+            return 100 - discount / price * 100;
+        }
+
+        e.getImgUrl = function (path) {
+            const imgUrl = new URL(path, apiUrl);
+            return imgUrl.href;
+        }
+
         e.buyNow = function (productId){
             let isLoggedIn = authService.isLoggedIn();
             orderFactory.setProductId(productId);
@@ -127,6 +179,7 @@
             productService.getProducts()
             .then(function (response) {
                 e.products = response.data;
+                console.log(e.products);
             })
             .catch(function (data){
                 console.log(data);
@@ -135,6 +188,6 @@
 
         constructor();
     };
-    homeController.$inject = ['$scope', '$location', 'jwtHelper','productService', 'authService', 'wishListService', 'cartService','headerFactory', 'orderFactory'];
+    homeController.$inject = ['$scope', '$location', 'jwtHelper','productService', 'authService', 'wishListService', 'cartService','headerFactory', 'orderFactory', 'apiUrl'];
     angular.module("app").controller("homeController", homeController);
 }());
