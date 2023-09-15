@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using EntitiesDto;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Service.Abstractions
     {
         Task<WishLists> GetItemByAppUserIDAndProductID(string appUserId, string productId, CancellationToken cancellationToken = default);
         Task CreateAsync(WishLists wishLists, CancellationToken cancellationToken = default);
-        Task<List<WishLists>> GetItemsByUserID(string AppUserId, CancellationToken cancellationToken = default);
+        Task<List<WishListDto>> GetItemsByUserID(string AppUserId, CancellationToken cancellationToken = default);
 
         Task<WishLists> DeleteAsync(string appUserId, string productId, CancellationToken cancellationToken = default);
         Task<bool> IsWishListExists(WishLists wish);

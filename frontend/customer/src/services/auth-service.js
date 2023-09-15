@@ -14,6 +14,11 @@
         var eAfterSignIn = [];
         var clearEventPromise = null;
 
+
+        this.changePassword = function (){
+            
+        }
+
         this.setUserName = function (userName){
             session.userName = userName;
         }
