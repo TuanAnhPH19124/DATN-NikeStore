@@ -1,38 +1,82 @@
-<div>
-    <p>
-        1. Điều kiện đổi trả
+<br>    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-Quý Khách hàng cần kiểm tra tình trạng hàng hóa và có thể đổi hàng/ trả lại hàng ngay tại thời điểm giao/nhận hàng trong những trường hợp sau:
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
 
-– Hàng không đúng chủng loại, mẫu mã trong đơn hàng đã đặt hoặc như trên website tại thời điểm đặt hàng.
-Không đủ số lượng, không đủ bộ như trong đơn hàng.
-– Tình trạng bên ngoài bị ảnh hưởng như rách bao bì, bong tróc, bể vỡ…
-– Khách hàng có trách nhiệm trình giấy tờ liên quan chứng minh sự thiếu sót trên để hoàn thành việc hoàn trả/đổi trả hàng hóa.
+        .categories {
+            flex-basis: 30%;
+        }
 
-– Khách hàng đổi trả Size trong vòng 3 ngày kể từ ngày nhận được giày.
+        .policy {
+            flex-basis: 65%;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
 
-– Trường hợp khách hàng muốn đổi sang sản phẩm khác phải có giá lớn hơn hoặc bằng giá sản phẩm đã mua( Trường hợp giá thấp hơn Authentic Shoes sẽ không hoàn tiền và chuyển số tiền đó sang dạng Voucher).
-    </p>
-    <p>2. Quy định về thời gian thông báo và gửi sản phẩm đổi trả
-        – Thời gian thông báo đổi trả: trong vòng 48h kể từ khi nhận sản phẩm đối với trường hợp sản phẩm thiếu phụ kiện, quà tặng hoặc bể vỡ.
-        – Thời gian gửi chuyển trả sản phẩm: trong vòng 7 ngày kể từ khi nhận sản phẩm.
-        – Địa điểm đổi trả sản phẩm: Khách hàng có thể mang hàng trực tiếp đến văn phòng/ cửa hàng của chúng tôi hoặc chuyển qua đường bưu điện.
-        – Trong trường hợp Quý Khách hàng có ý kiến đóng góp/khiếu nại liên quan đến chất lượng sản phẩm, Quý Khách hàng vui lòng liên hệ đường dây chăm sóc khách hàng của chúng tôi.
-        
-        3. Chính sách bảo hành sản phẩm
-        Authentic Shoes cam kết tất cả các sản phẩm là hàng chính hãng 100%!
-        
-        Trong quá trình sử dụng, nếu phát hiện sản phẩm có những vấn đề do lỗi của nhà sản xuất. Thời gian bảo hành trong vòng 06 tháng kể từ ngày mua (chỉ bảo hành các lỗi như bong keo, sứt chỉ).
-        
-        Lưu ý: Nếu quý khách tự ý thay đổi, sửa chữa và tác động vào sản phẩm hoặc không làm theo phương pháp bảo quản, cách sử dụng dẫn đến sản phẩm bị hư hại. Authentic Shoes sẽ hoàn toàn không chịu trách nhiệm về việc bảo hành lỗi sản phẩm.
-        
-        4. Chính sách đổi hàng và hoàn tiền
-        
-        – Authentic Shoes đổi hàng trong 7 ngày kể từ ngày Quý khách nhận hàng, Authentic Shoes chỉ đổi với sản phẩm chưa sử dụng còn nguyên vẹn như lúc nhận hàng (nguyên hộp, tem, mác, hóa đơn, thẻ bảo hành,…).
-        
-        – Trường hợp đơn hàng Order sẽ bị huỷ trong vòng 20 ngày kể từ ngày giày về nếu khách hàng không thực hiện thanh toán, Authentic Shoes sẽ không có trách nhiệm lại khoản tiền đặt cọc của khách hàng với bất kì lí do nào.
-        
-        – Authentic Shoes hoàn tiền 100% cho Quý khách nếu Quý khách phát hiện sản phẩm không chính hãng, không đúng so với chất lượng đã cam kết.
-        
-        Mọi thông tin về việc bảo hành, đổi hàng Quý khách vui lòng liên hệ với bộ phận chăm sóc khách hàng của Authentic Shoes.</p>
-</div>
+        .category-item {
+            cursor: pointer;
+            padding: 10px;
+        }
+        .category-item1 {
+            margin-top: 20px;
+            cursor: pointer;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #605d5d;
+        }
+
+        .policy-item {
+            padding: 20px;
+        }
+        .categories a {
+            text-decoration: none; 
+            color: #333; 
+            transition: color 0.3s; 
+        }
+
+        .categories a:hover {
+            color: #ff6600;
+        }
+    </style>
+<body>
+    <div class="container" style="padding-top: 20px;">
+        <div class="categories">
+            <h4 class="category-item1">DANH MỤC TRANG</h4><br>
+                <div ><a href="#/">Trang chủ</a></div> <br>
+                <div><a href="#/product">Sản phẩm</a></div><br>
+                <div><a href="#blog">Tin tức</a></div><br>
+                <div><a href="#contact">Liên hệ</a></div><br>
+                <div><a href="#aboutUS">Về chúng tôi</a></div>
+        </div>
+        <div class="policy">
+            <div class="policy-item">
+                <h2>1. Điều kiện đổi trả</h2><br>
+                <ul>
+                    <li>Quý Khách hàng cần kiểm tra tình trạng hàng hóa và có thể đổi hàng/ trả lại hàng ngay tại thời điểm giao/nhận hàng trong những trường hợp sau:</li>
+                    <li>Hàng không đúng chủng loại, mẫu mã trong đơn hàng đã đặt hoặc như trên website tại thời điểm đặt hàng.</li>
+                    <li>Không đủ số lượng, không đủ bộ như trong đơn hàng.</li>
+                    <li>Tình trạng bên ngoài bị ảnh hưởng như rách bao bì, bong tróc, bể vỡ…</li>
+                    <li>Khách hàng có trách nhiệm trình giấy tờ liên quan chứng minh sự thiếu sót trên để hoàn thành việc hoàn trả/đổi trả hàng hóa.</li>
+                </ul>
+            </div>
+            <div class="policy-item">
+                <h2>2. Quy định về thời gian thông báo và gửi sản phẩm đổi trả</h2><br>
+                <ul>
+                <li>Thời gian thông báo đổi trả: trong vòng 48h kể từ khi nhận sản phẩm đối với trường hợp sản phẩm thiếu phụ kiện, quà tặng hoặc bể vỡ.</li>
+                <li>Thời gian gửi chuyển trả sản phẩm: trong vòng 14 ngày kể từ khi nhận sản phẩm.</li>
+                <li>Địa điểm đổi trả sản phẩm: Khách hàng có thể mang hàng trực tiếp đến văn phòng/ cửa hàng của chúng tôi hoặc chuyển qua đường bưu điện.</li>
+                <li>Trong trường hợp Quý Khách hàng có ý kiến đóng góp/khiếu nại liên quan đến chất lượng sản phẩm, Quý Khách hàng vui lòng liên hệ đường dây chăm sóc khách hàng của chúng tôi.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>

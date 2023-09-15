@@ -208,5 +208,11 @@ input[type="submit"]:disabled {
 
 #discount-input:focus + .discount-list{
     opacity: 1;
-   
+}
+.checkout-summary {
+    text-align: right; /* Căn văn bản sang phải */
+}
+
+.checkout-summary span {
+    display: inline-block; /* Để phần tử span trở thành một phần tử inline block */
 }

@@ -199,18 +199,9 @@
     padding: 0; /* Loại bỏ padding mặc định */
     margin-right: 10px;
     font-size: 24px;
-}
-
-.toggle-button {
-    border: none; /* Loại bỏ border */
     transition: color 0.2s;
 }
-
-.toggle-button:hover i {
-    color: rgb(0, 0, 0); /* Thay đổi màu của icon khi hover */
-}
-
-
+    
 .toggle-button:hover i {
     color: red; /* Màu icon khi hover */
 }
