@@ -90,6 +90,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "../page/index/aboutUS.html",
       controller: ""
     })
+    .when("/chinhsach", {
+      templateUrl: "../page/index/chinhsach.html",
+      controller: ""
+    })
     .otherwise({
       templateUrl: "../pages/index/index.html",
     });
