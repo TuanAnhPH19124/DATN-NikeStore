@@ -171,6 +171,7 @@ input[type="submit"]:disabled {
     top: 100%; /* Đặt vị trí bên dưới thẻ input */
     left: 161px;    
     opacity: 0;
+    z-index: -1;
     border: 1px solid #ccc;
     background-color: #fff;
     max-height: 250px; /* Điều chỉnh chiều cao tối đa của danh sách */
@@ -208,5 +209,5 @@ input[type="submit"]:disabled {
 
 #discount-input:focus + .discount-list{
     opacity: 1;
-   
+    z-index: 99;
 }
