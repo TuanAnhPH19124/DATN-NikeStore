@@ -1,5 +1,4 @@
 
-
 <div class="container-fluid mt-5">
 	<div class="row">
 		<div class="col-md-3">
@@ -104,15 +103,17 @@
 			<div class="product-list-container">
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
-						<span class="toggle-button">
-							<i class="fa-regular fa-heart"></i>
-						</span>
+						<button ng-click="addToFavourite(product.id)" class="toggle-button" > 
+							<span class="toggle-button" >
+								<i class="fa-regular fa-heart"></i>
+							</span>
+						</button>
 						<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
 							class="cpercenOff">Giảm {{calculatePercenOff(product.discountRate,
 							product.retailPrice)}}% 
 						</span>														
 						<a href="#/productDetail/{{product.id}}" class="product-link">
-							<img src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">					
+							<img ng-src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">					
 							<div class="product-details">
 								<span class="name">{{product.name}}</span>
 								<span class="color">{{countColors(product.productImages)}} màu</span>

@@ -8,67 +8,40 @@
             <h4 style="padding-top: 15px">Thông tin liên lạc:</h4>
             <hr />
             <div ng-repeat="address in addressCustomer">
-              <button
-                class="checkout-address-existing"
-                ng-class="{'border_address': address.selected}"
-                ng-click="selectAddress(address.id)"
-              >
+              <button class="checkout-address-existing" ng-class="{'border_address': address.selected}"
+                ng-click="selectAddress(address.id)">
                 <div class="checkout-address-infomation">
                   <p>{{ address.fullName }}</p>
                   <p>{{ address.addressLine }}</p>
                   <p>{{ address.phoneNumber }}</p>
                 </div>
-                <input
-                  type="button"
-                  class="checkout-address-existing-updateBtn"
-                  ng-click="updateAddress($event)"
-                  value="Cập nhật"
-                />
+                <input type="button" class="checkout-address-existing-updateBtn" ng-click="updateAddress($event)"
+                  value="Cập nhật" />
               </button>
             </div>
 
             <div ng-hide="showForm === false" class="address-form">
-              <button
-                class="close-button btn btn-dark"
-                ng-click="showForm = false"
-              >
+              <button class="close-button btn btn-dark" ng-click="showForm = false">
                 x
               </button>
-              <form
-                name="form"
-                ng-if="showForm"
-                novalidate
-                class="address-form-container"
-              >
+              <form name="form" ng-if="showForm" novalidate class="address-form-container">
                 <div class="form-row">
                   <div class="form-group" style="padding-right: 20px">
                     <label for="aName">Họ và tên:</label>
-                    <input
-                      type="text"
-                      id="aName"
-                      ng-model="newAddress.fullName"
-                      name="aName"
-                      required=""
-                      class="form-control"
-                    />
+                    <input type="text" id="aName" ng-model="newAddress.fullName" name="aName" required=""
+                      class="form-control" />
                     <div ng-show="form.$submitted || form.aName.$touched">
-                      <div ng-show="form.aName.$error.required">
+                      <div ng-show="form.aName.$error.required" style="color: red;">
                         Xin hãy điền tên.
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="aPhone">Số điện thoại:</label>
-                    <input
-                      type="tel"
-                      id="aPhone"
-                      ng-model="newAddress.phoneNumber"
-                      name="aPhone"
-                      required=""
-                      class="form-control"
-                    />
+                    <input type="tel" id="aPhone" ng-model="newAddress.phoneNumber" name="aPhone" required=""
+                      class="form-control" />
                     <div ng-show="form.$submitted || form.aPhone.$touched">
-                      <div ng-show="form.aPhone.$error.required">
+                      <div ng-show="form.aPhone.$error.required" style="color: red;">
                         Xin điền số điện thoại.
                       </div>
                     </div>
@@ -77,86 +50,52 @@
 
                 <div class="form-group">
                   <label for="aLine">Địa chỉ:</label>
-                  <input
-                    type="text"
-                    id="aLine"
-                    name="aLine"
-                    ng-model="newAddress.addressLine"
-                    required=""
-                    class="form-control"
-                  />
+                  <input type="text" id="aLine" name="aLine" ng-model="newAddress.addressLine" required=""
+                    class="form-control" />
                   <div ng-show="form.$submitted || form.aLine.$touched">
-                    <div ng-show="form.aLine.$error.required">
+                    <div ng-show="form.aLine.$error.required" style="color: red;">
                       Xin hãy điền địa chỉ.
                     </div>
                   </div>
                 </div>
-
                 <div class="form-row">
                   <div class="form-group">
                     <label for="aProvince">Tỉnh:</label>
-                    <select
-                      id="aProvince"
-                      name="aProvince"
-                      ng-model="newAddress.cityCode"
-                      ng-change="getDistricts(newAddress.cityCode)"
-                      required=""
-                      class="form-control"
-                    >
-                      <option
-                        ng-repeat="province in provices"
-                        value="{{province.ProvinceID}}"
-                      >
+                    <select id="aProvince" name="aProvince" ng-model="newAddress.cityCode"
+                      ng-change="getDistricts(newAddress.cityCode)" required="" class="form-control">
+                      <option ng-repeat="province in provices" value="{{province.ProvinceID}}">
                         {{province.NameExtension[1]}}
                       </option>
                     </select>
                     <div ng-show="form.$submitted || form.aProvince.$touched">
-                      <div ng-show="form.aProvince.$error.required">
+                      <div ng-show="form.aProvince.$error.required" style="color: red;">
                         Xin hãy chọn tỉnh thành.
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="aDistrict">Quận:</label>
-                    <select
-                      id="aDistrict"
-                      name="aDistrict"
-                      ng-model="newAddress.provinceCode"
-                      ng-change="getWards(newAddress.provinceCode)"
-                      required=""
-                      class="form-control"
-                    >
-                      <option
-                        ng-repeat="district in districts"
-                        value="{{district.DistrictID}}"
-                      >
+                    <select id="aDistrict" name="aDistrict" ng-model="newAddress.provinceCode"
+                      ng-change="getWards(newAddress.provinceCode)" required="" class="form-control">
+                      <option ng-repeat="district in districts" value="{{district.DistrictID}}">
                         {{district.NameExtension[0]}}
                       </option>
                     </select>
                     <div ng-show="form.$submitted || form.aDistrict.$touched">
-                      <div ng-show="form.aDistrict.$error.required">
+                      <div ng-show="form.aDistrict.$error.required" style="color: red;">
                         Xin hãy chọn quận huyện.
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="aWard">Phường:</label>
-                    <select
-                      id="aWard"
-                      name="aWard"
-                      ng-model="newAddress.wardCode"
-                      required=""
-                      class="form-control"
-                    >
-                      <option
-                        ng-repeat="ward in wards"
-                        value="{{ward.WardCode}}"
-                      >
+                    <select id="aWard" name="aWard" ng-model="newAddress.wardCode" required="" class="form-control">
+                      <option ng-repeat="ward in wards" value="{{ward.WardCode}}">
                         {{ward.NameExtension[0]}}
                       </option>
                     </select>
                     <div ng-show="form.$submitted || form.aWard.$touched">
-                      <div ng-show="form.aWard.$error.required">
+                      <div ng-show="form.aWard.$error.required" style="color: red;">
                         Xin hãy chọn phường.
                       </div>
                     </div>
@@ -164,38 +103,20 @@
                 </div>
 
                 <div class="form-group">
-                  <label
-                    ><input
-                      type="checkbox"
-                      ng-model="newAddress.setAsDefault"
-                    />
-                    Đặt làm địa chỉ mặc định</label
-                  >
+                  <label><input type="checkbox" ng-model="newAddress.setAsDefault" />
+                    Đặt làm địa chỉ mặc định</label>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group">
-                    <input
-                      ng-click="reset(form)"
-                      value="Làm lại"
-                      type="button"
-                      class="btn btn-outline-info"
-                    />
-                    <input
-                      type="submit"
-                      ng-click="save(newAddress)"
-                      value="Lưu"
-                      class="btn btn-outline-secondary"
-                      style="height: 37px; width: 83px; text-align: center"
-                    />
+                    <input ng-click="reset(form)" value="Làm lại" type="button" class="btn btn-outline-info" />
+                    <input type="submit" ng-click="save(newAddress)" value="Lưu" class="btn btn-outline-secondary"
+                      style="height: 37px; width: 83px; text-align: center" />
                   </div>
                 </div>
               </form>
             </div>
-            <button
-              class="add-address-button btn btn-dark"
-              ng-click="showForm = true"
-            >
+            <button class="add-address-button btn btn-dark" ng-click="showForm = true">
               Thêm địa chỉ
             </button>
           </div>
@@ -204,66 +125,35 @@
         <h4>Thông tin địa chỉ giao hàng:</h4>
         <hr />
         <form name="infoForm" ng-submit="step = step + 1">
-          <label
-            >Email:
-            <input
-              type="email"
-              ng-model="userInformation.email"
-              name="iEmail"
-              required
-            />
+          <label>Email:
+            <input type="email" ng-model="userInformation.email" name="iEmail" required />
           </label>
           <br />
           <div ng-show="infoForm.$submitted || infoForm.iEmail.$touched">
-            <span ng-show="infoForm.iEmail.$error.required"
-              >Vui lòng điền Email của bạn.</span
-            >
-            <span ng-show="infoForm.iEmail.$error.email"
-              >Vui lòng điền Email hợp lệ</span
-            >
+            <span ng-show="infoForm.iEmail.$error.required">Vui lòng điền Email của bạn.</span>
+            <span ng-show="infoForm.iEmail.$error.email">Vui lòng điền Email hợp lệ</span>
           </div>
-          <label
-            >Số điện thoại:
-            <input
-              type="tel"
-              ng-model="userInformation.phoneNumber"
-              name="iPhone"
-              required
-            />
+          <label>Số điện thoại:
+            <input type="tel" ng-model="userInformation.phoneNumber" name="iPhone" required />
           </label>
           <br />
           <div ng-show="infoForm.$submitted || infoForm.iPhone.$touched">
-            <span ng-show="infoForm.iPhone.$error.required"
-              >vui lòng điền số điện thoại.</span
-            >
+            <span ng-show="infoForm.iPhone.$error.required">vui lòng điền số điện thoại.</span>
           </div>
 
           <label>
-            <input
-              type="checkbox"
-              ng-model="agree"
-              required
-              style="margin-right: 5px"
-            />Tôi đã đọc điều khoản và đồng ý
+            <input type="checkbox" ng-model="agree" required style="margin-right: 5px" />Tôi đã đọc điều khoản và đồng ý
           </label>
           <br />
-          <input
-            type="submit"
-            value="Tiếp tục"
-            ng-disabled="! agree"
-            ng-click="nextToShippingService()"
-            class="btn btn-dark"
-          />
+          <input type="submit" value="Tiếp tục" ng-disabled="! agree" ng-click="nextToShippingService()"
+            class="btn btn-dark" />
         </form>
       </div>
       <div ng-show="step === 2" style="padding-top: 20px">
         <h4>Chọn dịch vụ vận chuyển:</h4>
-        <div ng-repeat="shippingService in avalibleShippingService" >
-          <button
-            class="checkout-shipping-avaliable"
-            ng-class="{'border_address': shippingService.selected}"
-            ng-click="selectShippingService(shippingService)"
-          >
+        <div ng-repeat="shippingService in avalibleShippingService">
+          <button class="checkout-shipping-avaliable" ng-class="{'border_address': shippingService.selected}"
+            ng-click="selectShippingService(shippingService)">
             <div class="checkout-shipping-infomation">
               <div class="checkout-shipping-infomation-title">
                 <p>{{ shippingService.short_name }}</p>
@@ -276,11 +166,7 @@
             </div>
           </button>
         </div>
-        <button
-          ng-disabled="selectedShippingServiceIndex === -1"
-          ng-click="step = step+1"
-          class="btn btn-dark"
-        >
+        <button ng-disabled="selectedShippingServiceIndex === -1" ng-click="step = step+1" class="btn btn-dark">
           Tiếp tục
         </button>
       </div>
@@ -289,22 +175,13 @@
           <div class="input-group-prepend">
             <span class="" style="padding-top: 10px">Nhập mã giảm giá: </span>
           </div>
-          <input
-            type="text"
-            id="discount-input"
-            class="form-control"
-            ng-change="searchOnChange()"
-            placeholder="Mã giảm giá"
-            ng-model="searchKeyWord"
-            aria-label="Mã giảm giá"
-            aria-describedby="basic-addon2"
-          />
+          <input type="text" id="discount-input" class="form-control" ng-change="searchOnChange()"
+            placeholder="Mã giảm giá" ng-model="searchKeyWord" aria-label="Mã giảm giá"
+            aria-describedby="basic-addon2" />
           <div class="discount-list" id="discount-list">
             <div ng-repeat="voucher in vouchers">
-              <button
-                ng-click="setSelectedVoucher(voucher.id)"
-                ng-disabled="getExpiredDate(voucher.endDate) < 0 || subtotal() < voucher.expression"
-              >
+              <button ng-click="setSelectedVoucher(voucher.id)"
+                ng-disabled="getExpiredDate(voucher.endDate) < 0 || subtotal() < voucher.expression">
                 <p>{{ voucher.code }}</p>
                 <p>giảm {{ voucher.value }} %</p>
                 <p ng-show="getExpiredDate(voucher.endDate) > 0">
@@ -338,13 +215,8 @@
         <div class="step-1">
           <div class="step-intro-head">
             <h4>Giao hàng:</h4>
-            <button
-              ng-show="step > 1"
-              ng-click="step = 1;
-                             selectedShippingServiceIndex = -1"
-              type="button"
-              class="btn btn-info"
-            >
+            <button ng-show="step > 1" ng-click="step = 1;
+                             selectedShippingServiceIndex = -1" type="button" class="btn btn-info">
               Chỉnh sửa
             </button>
           </div>
@@ -384,82 +256,138 @@
     <div class="col-4" style="border: 1px solid rgb(225, 220, 220)">
       <h4 style="padding-top: 15px">Tổng kết hóa đơn:</h4>
       <hr />
-      <div
-        class=""
-        ng-repeat="cart in carts"
-        style="border: 1px solid rgb(242, 239, 239)"
-      >
-        <div
-          style="
+      <div class="" ng-repeat="cart in carts" style="border: 1px solid rgb(242, 239, 239)">
+        <div style="
             display: flex;
             align-items: center;
             justify-content: space-evenly;
             margin: 10px;
-          "
-        >
-          <img
-            ng-src="{{getImgUrl(cart.product.imgUrl)}}"
-            style="padding-bottom: 20px"
-            width="100px"
-            height="100px"
-            alt="{{cart.product.name}}"
-          />
+          ">
+          <img ng-src="{{getImgUrl(cart.product.imgUrl)}}" style="padding-bottom: 20px" width="100px" height="100px"
+            alt="{{cart.product.name}}" />
           <div style="margin-left: 15px">
             <p style="font-weight: bold; margin-bottom: 5px">
-              {{cart.product.name}}
+              Tên sản phẩm: {{cart.product.name}}
             </p>
-            <span style="margin-bottom: 5px">Màu sắc: {{ cart.colorName }}</span> 
-            <p style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</p>
-            <p style="margin-bottom: 5px">Số lượng: {{cart.quantity}}</p>
+            <p style="margin-bottom: 5px">Màu sắc: {{ cart.colorName }}</p>
+            <span style="margin-bottom: 5px; margin-right: 5px;">Số lượng: {{cart.quantity}}</span>
+            <span style="margin-bottom: 5px">Kích cỡ: {{ cart.sizeNumber }}</span>
             <p style="color: red; font-weight: bold">
               {{cart.product.discountRate | formatVNDPrice}}
             </p>
           </div>
         </div>
       </div>
-      <div class="checkout-summary">
-        <p>Tổng phụ: {{subtotal() | formatVNDPrice}}</p>
-      </div>
-
-      <div class="checkout-summary">
-        <p>
-          Phí vận chuyển:
-          <span ng-if="selectedShippingServiceIndex !== -1">
-            {{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
-            formatVNDPrice }}
-          </span>
-          <span ng-if="selectedShippingServiceIndex === -1">0đ</span>
-        </p>
-      </div>
-      <div
-        ng-show="subtotal() > 5000000  && selectedShippingServiceIndex !== -1 "
-        class="checkout-summary"
-      >
-        <p>
-          Miễn phí vận chuyển:
-          <span ng-if="selectedShippingServiceIndex !== -1">
-            -{{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
-            formatVNDPrice }}
-          </span>
-        </p>
-      </div>
-      <div class="checkout-summary" ng-show="selectedVoucher !== ''">
-        <p>Mã giảm giá: {{ voucherValue | formatVNDPrice}}</p>
-      </div>
-      <hr />
-
+      <hr>  
       <p ng-if="selectedShippingServiceIndex !== -1">
         Nhận hàng vào: <br />
         {{
         convertTimestampToDateString(avalibleShippingService[selectedShippingServiceIndex].leadTime
         ) }}
       </p>
-      <div class="checkout-summary">
-        <p style="color: red; font-size: 20px; font-weight: 500">
-          Tổng tiền: {{subtotal() +
-          avalibleShippingService[selectedShippingServiceIndex].totalFee +
-          freeShip() + voucherValue | formatVNDPrice }}
-        </p>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          ">
+          Tổng phụ:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          {{subtotal() | formatVNDPrice}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          ">
+          Phí vận chuyển:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          <span ng-if="selectedShippingServiceIndex !== -1">
+            {{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
+            formatVNDPrice }}
+          </span>
+          <span ng-if="selectedShippingServiceIndex === -1">0đ</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          " ng-show="subtotal() > 5000000  && selectedShippingServiceIndex !== -1 ">
+          Tổng tiền hàng:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+         <span ng-if="selectedShippingServiceIndex !== -1">
+          -{{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
+          formatVNDPrice }}
+        </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          ">
+          Mã giảm giá:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          {{ voucherValue | formatVNDPrice}}
+        </div>
+      </div> 
+      <br>
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);color: red; font-size: 20px; font-weight: 500
+          ">
+          Tổng tiền:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          {{subtotal() +
+            avalibleShippingService[selectedShippingServiceIndex].totalFee +
+            freeShip() + voucherValue | formatVNDPrice }}
+        </div>
       </div>
     </div>
   </div>

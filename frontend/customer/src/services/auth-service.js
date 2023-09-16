@@ -14,6 +14,16 @@
         var eAfterSignIn = [];
         var clearEventPromise = null;
 
+
+        this.changePassword = function (data){
+            let uri = apiUrl + "/api/Authentication/ChangePassword"; 
+            return $http({
+                method: "POST", 
+                url: uri, 
+                data: data, 
+            })
+        }
+
         this.setUserName = function (userName){
             session.userName = userName;
         }

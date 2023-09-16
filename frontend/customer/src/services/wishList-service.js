@@ -16,6 +16,13 @@
                 data : data
             })
         }
+        this.removeWish = function (appUserId, productId){
+            let uri = apiUrl + '/api/wishlists/' + appUserId + '/' + productId;
+            return $http({
+                method: 'DELETE',
+                url: uri
+            })
+        }
     }
     wishListService.$inject = ['$http', 'apiUrl'];
     angular.module("app").service("wishListService", wishListService);

@@ -50,8 +50,9 @@ app.config(function ($routeProvider, $locationProvider) {
     .when("/contact", {
       templateUrl: "../page/contact/contact.html",
     })
-    .when("/21", {
-      templateUrl: "../page/login/addressinfomation.html"
+    .when("/address", {
+      templateUrl: "../page/login/addressinfomation.html",
+      controller: "addressController"
     })
     .when("/productDetail/:id", {
       templateUrl: "../page/productdetails/productdetail.html",
@@ -83,6 +84,14 @@ app.config(function ($routeProvider, $locationProvider) {
     })
     .when("/changePass", {
       templateUrl: "../page/login/changeforgotpassword.html",
+      controller: "userController"
+    })
+    .when("/aboutUS", {
+      templateUrl: "../page/index/aboutUS.html",
+      controller: ""
+    })
+    .when("/chinhsach", {
+      templateUrl: "../page/index/chinhsach.html",
       controller: ""
     })
     .otherwise({
