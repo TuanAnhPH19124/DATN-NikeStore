@@ -5,3 +5,10 @@
 .color-dark{
     color: #000;;
 }
+.h5-name a {
+    color: black;
+}
+
+.h5-name:hover a {
+    text-decoration: none;
+}
