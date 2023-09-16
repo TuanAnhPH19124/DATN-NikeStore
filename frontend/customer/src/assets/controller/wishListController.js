@@ -52,11 +52,11 @@
                 quantity: 1
             }
 
-            console.log('cayvl')
+          
             
-            var modal = document.getElementById('exampleModal');
-            var modalInstance = new bootstrap.Modal(modal);
-            modalInstance.hide();
+            // var modal = document.getElementById('exampleModal');
+            // var modalInstance = new bootstrap.Modal(modal);
+            // modalInstance.hide();
 
 
             // $('#addToCartModal').modal({
@@ -68,18 +68,18 @@
             //     $('#addToCartModal').modal('hide');
             // })
 
-            // cartService.addToCarts(data)
-            //     .then(function (response) {
-            //         let countCart = cartService.getCarts(tokenDecode.Id)
-            //             .then(function (response) {
-            //                 headerFactory.setCartCounter(response.data.length);
-            //                 l.path('/cart');
-            //             })
-            //             .catch(function (data) { console.log(data); })
-            //     })
-            //     .catch(function (data) {
-            //         console.log(data);
-            //     });
+            cartService.addToCarts(data)
+                .then(function (response) {
+                    let countCart = cartService.getCarts(tokenDecode.Id)
+                        .then(function (response) {
+                            headerFactory.setCartCounter(response.data.length);
+                            l.path('/cart');
+                        })
+                        .catch(function (data) { console.log(data); })
+                })
+                .catch(function (data) {
+                    console.log(data);
+                });
         }
 
         s.setSelectedColor = function (colorId) {

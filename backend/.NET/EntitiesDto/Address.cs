@@ -33,4 +33,11 @@ namespace EntitiesDto
         [Required]
         public bool SetAsDefault { get; set; }
     }
+
+    public class AddressUpdateAPI : AddressAPI
+    {
+        [Required]
+        public string Id { get; set; }
+    }
+
 }

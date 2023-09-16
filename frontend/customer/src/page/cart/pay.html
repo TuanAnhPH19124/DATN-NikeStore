@@ -278,7 +278,7 @@
           </div>
         </div>
       </div>
-      <hr>  
+      <hr>
       <p ng-if="selectedShippingServiceIndex !== -1">
         Nhận hàng vào: <br />
         {{
@@ -324,18 +324,17 @@
             {{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
             formatVNDPrice }}
           </span>
-          <span ng-if="selectedShippingServiceIndex === -1">0đ</span>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" ng-show="subtotal() > 5000000 && selectedShippingServiceIndex !== -1">
         <div class="col-8" style="
             display: flex;
             justify-content: start;
             align-items: center;
             border-right: 1px solid rgb(225, 225, 225);
-          " ng-show="subtotal() > 5000000  && selectedShippingServiceIndex !== -1 ">
-          Tổng tiền hàng:
+          ">
+          Miễn phí vận chuyển:
         </div>
         <div class="col-4" style="
             display: flex;
@@ -343,10 +342,7 @@
             align-items: center;
             border: none;
           ">
-         <span ng-if="selectedShippingServiceIndex !== -1">
-          -{{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
-          formatVNDPrice }}
-        </span>
+          {{ freeShip() | formatVNDPrice}}
         </div>
       </div>
 
@@ -367,7 +363,7 @@
           ">
           {{ voucherValue | formatVNDPrice}}
         </div>
-      </div> 
+      </div>
       <br>
       <div class="row">
         <div class="col-8" style="
@@ -385,8 +381,8 @@
             border: none;
           ">
           {{subtotal() +
-            avalibleShippingService[selectedShippingServiceIndex].totalFee +
-            freeShip() + voucherValue | formatVNDPrice }}
+          avalibleShippingService[selectedShippingServiceIndex].totalFee +
+          freeShip() + voucherValue | formatVNDPrice }}
         </div>
       </div>
     </div>

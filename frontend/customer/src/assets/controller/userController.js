@@ -61,7 +61,7 @@
                 userService.getUserInfomation(tokenDecode.Id)
                 .then(function (response){
                     s.userInfor = response.data;
-                    alert("Cập nhật thàng công!")
+                    alert("Cập nhật thành công!")
                 }, function (response){
                     console.error(response.data);
                 })

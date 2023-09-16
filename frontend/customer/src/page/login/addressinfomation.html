@@ -70,7 +70,7 @@
           <p>* <a href="#/changePass" style="text-decoration: none;">Đổi mật khẩu</a></p>
         </li>
         <li>
-          <p>* <a href="#" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
+          <p>* <a href="" id="logoutLink" style="text-decoration: none;" ng-click="signOutE()">Đăng xuất</a></p>
         </li>
       </ul>
     </div>
@@ -88,8 +88,9 @@
         </button>
       </div>
     </div>
-    <div class="col-4" >
-      <ul>
+    <div class="col-4">
+      <button class="btn btn-outline-primary" ng-if="visible === -1" ng-click="addNew()">Thêm mới</button>
+      <ul ng-if="visible === 0">
         <li>
           <input type="text" class="edit-input" placeholder="Họ Tên" ng-model="address.fullName">
         </li>
@@ -99,32 +100,37 @@
         </li>
         <br>
         <li>
-          <select class="edit-input"  ng-change="getDistricts(newAddress.cityCode)" ng-model="address.cityCode">
-            <option ng-repeat="p in provices" value="p.ProvinceID">{{ p.NameExtension[1] }}</option>
+          <input type="text" id="" class="edit-input" placeholder="Địa chỉ" ng-model="addressLine">
+        </li>
+        <br>
+        <li>
+          <select class="edit-input" ng-change="getDistricts(address.cityCode)" ng-model="address.cityCode">
+            <option ng-repeat="p in provices" ng-value="{{ p.ProvinceID}}">{{ p.NameExtension[1] }}</option>
+          </select>
+
+        </li>
+        <br>
+        <li>
+          <select name="" id="" class="edit-input" ng-change="getWards(address.provinceCode)"
+            ng-model="address.provinceCode">
+            <option ng-repeat="d in districts" ng-value="{{d.DistrictID}}">{{ d.NameExtension[1] }}</option>
           </select>
         </li>
         <br>
         <li>
-          <select name="" id="" class="edit-input" ng-model="address.cityCode">
-            <option ng-repeat="p in provices" value="p.ProvinceID">{{ p.NameExtension[1] }}</option>
+          <select name="" id="" class="edit-input" ng-model="address.wardCode">
+            <option ng-repeat="w in wards" value="{{w.WardCode}}">{{ w.NameExtension[1] }}</option>
           </select>
         </li>
         <br>
-        <li>
-          <select name="" id="" class="edit-input">
-            <option value="">Chọn Phường/Xã</option>
-          </select>
-        </li>
-        <br>
-        <li>
-          <input type="text" id="" class="edit-input" placeholder="Địa chỉ" ng-model="address.addressLine">
-        </li> 
+        
         <div class="form-group">
-          <label><input type="checkbox" ng-model="newAddress.setAsDefault"> Đặt làm địa chỉ mặc định</label>
+          <label><input type="checkbox" ng-model="address.setAsDefault"> Đặt làm địa chỉ mặc định</label>
         </div>
-          <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">THÊM
-            MỚI</button>
-          <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;">HUỶ</button>
+        <button type="button" ng-if="isAddNew !== -1" class="btn btn-outline-info" id="editButton" ng-click="addNewAddress()" style="margin-right: 20px;">THÊM
+          MỚI</button>
+        <button type="button" ng-if="isUpdate !== -1" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;" ng-click="updateAddress(address.id)">CẬP NHẬT</button>
+        <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;" ng-click="cancel()">HUỶ</button>
       </ul>
     </div>
   </div>

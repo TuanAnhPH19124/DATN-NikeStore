@@ -13,5 +13,6 @@ namespace Service.Abstractions
     {
         Task <Address> AddNew(AddressAPI address);
         Task<IEnumerable<AddressDto>> GetByUserId(string id);
+        Task Update(AddressUpdateAPI address);
     }
 }

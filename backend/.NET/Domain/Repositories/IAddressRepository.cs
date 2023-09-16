@@ -12,6 +12,6 @@ namespace Domain.Repositories
         Task Add(Address address);
         Task<IEnumerable<Address>> GetByUserId(string id);
         void UpdateRange(List<Address> addresses);
-        void Update(string id, Address address);
+        Task Update(string id, Address address);
     }
 }

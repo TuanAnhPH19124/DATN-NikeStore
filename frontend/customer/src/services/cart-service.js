@@ -19,7 +19,7 @@
         };
 
         this.addRangeToCard = function (data){
-            let uri = apiUrl + "/api/ShoppingCarts/addrange";
+            let uri = apiUrl + '/api/ShoppingCarts/addrange';
             return http({
                 method: 'POST',
                 url: uri,

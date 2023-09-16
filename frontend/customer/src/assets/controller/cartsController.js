@@ -75,7 +75,7 @@
         }
 
         e.removeCart = function(id){
-            var confirm = $window.confirm("Bạn có chắc chắn muốn xóa mục nảy");
+            var confirm = $window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
             if (confirm){
                 let token = authService.getToken();
                 let tokenDecode = jwtHelper.decodeToken(token);
