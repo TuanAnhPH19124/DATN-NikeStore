@@ -1,4 +1,5 @@
-﻿using EntitiesDto;
+﻿using Domain.DTOs;
+using EntitiesDto;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 using Service;
@@ -57,8 +58,28 @@ namespace Webapi.Controllers
 
         // PUT api/<AddressController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put (string id, [FromBody] AddressUpdateAPI address)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            if (id != address.Id)
+                return BadRequest(new { error = "Id địa chỉ không hợp lệ" });
+
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _serviceManager.AddressService.Update(address);
+                    transaction.Commit();
+                    return NoContent();
+                }
+                catch (System.Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(new { error = ex.Message });
+                    throw;
+                }
+            }
         }
 
         // DELETE api/<AddressController>/5

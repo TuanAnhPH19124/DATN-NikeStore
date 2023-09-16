@@ -1,27 +1,125 @@
-(function (){
+(function () {
     var addressController = function (
         s, l,
         addressService,
         authService,
         jwtHelper,
         ghnServices
-    ){
+    ) {
         s.addresses = [];
         s.visible = -1;
         s.address = null;
         s.districts = [];
         s.wards = [];
         s.provices = [];
+        s.isUpdate = -1;
+        s.isAddNew = -1;
+        s.addressLine = '';
 
+        s.signOutE = function () {
+            authService.setLogOut();
+            authService.clearSession();
+            l.path('/');
+        }
 
-        s.showAddressDetail = function (id){
+        s.convertToInt = function (string) {
+            return parseInt(string);
+        }
+
+        s.addNew = function () {
+            s.address = {};
+            s.isUpdate = -1;
+            s.isAddNew = 0;
+            s.addressLine = '';
+            s.visible = 0;
+        }
+
+        s.updateAddress = function (id) {
+            if (confirm("Bạn có muốn cập nhật địa chỉ mới không?")) {
+                let token = authService.getToken();
+                let tokenDecode = jwtHelper.decodeToken(token);
+                let provinceName = s.provices.filter(item => item.ProvinceID === parseInt(s.address.cityCode)).map(item => item.NameExtension[1]);
+                let districtName = s.districts.filter(item => item.DistrictID === parseInt(s.address.provinceCode)).map(item => item.NameExtension[0]);
+                let wardName = s.wards.filter(item => item.WardCode === s.address.wardCode).map(item => item.NameExtension[0]);
+                s.address.addressLine = `${s.addressLine}, ${wardName}, ${districtName}, ${provinceName}`;
+
+                let data = s.address;
+                data.userId = tokenDecode.Id;
+                addressService.updateAddress(id, data)
+                    .then(function (response) {
+                        alert('Cập nhật địa chỉ thành công!');
+                        addressService.getAdresses(tokenDecode.Id)
+                            .then(function (response) {
+                                s.addresses = response.data;
+                            }, function (response) {
+                                console.error(response.data);
+                            });
+                    }, function (response) {
+                        console.error(response.data);
+                    })
+            }
+
+        }
+
+        s.addNewAddress = function () {
+            let token = authService.getToken();
+            let tokenDecode = jwtHelper.decodeToken(token);
+            let provinceName = s.provices.filter(item => item.ProvinceID === parseInt(s.address.cityCode)).map(item => item.NameExtension[1]);
+            let districtName = s.districts.filter(item => item.DistrictID === parseInt(s.address.provinceCode)).map(item => item.NameExtension[0]);
+            let wardName = s.wards.filter(item => item.WardCode === s.address.wardCode).map(item => item.NameExtension[0]);
+            s.address.addressLine = `${s.addressLine}, ${wardName}, ${districtName}, ${provinceName}`;
+
+            let data = s.address;
+            data.userId = tokenDecode.Id;
+
+            addressService.addAddress(data)
+                .then(function (response) {
+                    alert('Thêm địa chỉ thành công');
+                    addressService.getAdresses(tokenDecode.Id)
+                        .then(function (response) {
+                            s.addresses = response.data;
+                        }, function (response) {
+                            console.error(response.data);
+                        });
+                    s.visible = -1;
+                })
+                .catch(function (data) {
+                    console.log(data);
+                });
+        }
+
+        s.cancel = function () {
+            s.visible = -1;
+        }
+
+        s.showAddressDetail = function (id) {
             s.addresses.forEach(element => {
-                if (element.id === id){
+                if (element.id === id) {
                     s.address = element;
                 }
             });
-            console.log(s.address);
+            s.getDistricts(s.address.cityCode);
+            s.getWards(s.address.provinceCode);
+            s.addressLine = splitAddressLine(s.address.addressLine);
             s.visible = 0;
+            s.isUpdate = 0;
+            s.isAddNew = -1;
+        }
+
+        function splitAddressLine(addLine) {
+            let newAddress = '';
+            let arr = addLine.split(', ');
+            arr.splice(-3);
+
+            for (let i = 0; i < arr.length; i++) {
+                if (i === arr.length - 1) {
+                    newAddress += arr[i];
+                } else {
+                    newAddress += arr[i] + ', ';
+                }
+            }
+
+            return newAddress;
         }
 
         s.getDistricts = function (provinceId) {
@@ -33,6 +131,7 @@
                 ghnServices.getDistrict(data)
                     .then(function (response) {
                         s.districts = response.data.data;
+                        console.log(s.districts);
                     }, function (response) {
                         console.log(response.data);
                     });
@@ -51,7 +150,7 @@
                 ghnServices.getWards(data)
                     .then(function (response) {
                         s.wards = response.data.data;
-                        console.log(e.wards);
+                        console.log(s.wards);
                     }, function (response) {
                         console.log(response.data);
                     });
@@ -60,26 +159,27 @@
             }
         }
 
-        function constructor(){
-            if (!authService.isLoggedIn()){
+        function constructor() {
+            if (!authService.isLoggedIn()) {
                 l.path('/signin');
-            }else{
+            } else {
                 let token = authService.getToken();
                 let tokenDecode = jwtHelper.decodeToken(token);
                 addressService.getAdresses(tokenDecode.Id)
-                .then(function (response){
-                    s.addresses = response.data;
-                    console.log(s.addresses)
-                }, function (response){
-                    console.error(response.data);
-                });
+                    .then(function (response) {
+                        s.addresses = response.data;
+                        console.log(s.addresses)
+                    }, function (response) {
+                        console.error(response.data);
+                    });
 
                 ghnServices.getProvinces()
-                .then(function (response) {
-                    s.provices = response.data.data;
-                }, function (response) {
-                    console.log(response.data);
-                });
+                    .then(function (response) {
+                        s.provices = response.data.data;
+                        console.log(s.provices);
+                    }, function (response) {
+                        console.log(response.data);
+                    });
             }
         }
         constructor();

@@ -20,6 +20,7 @@ namespace Domain.Repositories
         Task<IEnumerable<ShoppingCartItems>> GetByUserId(string userId);
 
         void Update(ShoppingCartItems item);
+        void UpdateRange (List<ShoppingCartItems> items);
 
         void Delete(ShoppingCartItems item);
 

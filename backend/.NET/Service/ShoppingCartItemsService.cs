@@ -23,20 +23,27 @@ namespace Service
 
         public async Task AddRangeToCart(List<ShoppingCartItemAPI> items)
         {
+            var newListCarts = new List<ShoppingCartItems>();
+            var updateListCarts = new List<ShoppingCartItems>();
+
             foreach (var item in items)
             {
                 var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAndStockId(item.AppUserId, item.StockId);
                 if (checkCartExist != null){
                     checkCartExist.Quantity = item.Quantity;
-                    _repositoryManager.ShoppingCartItemRepository.Update(checkCartExist);
-                }else{
-                    var newItem = new ShoppingCartItems();
-                    newItem.Quantity = item.Quantity;
-                    newItem.StockId = item.StockId;
-                    newItem.AppUserId = item.AppUserId;
-                    await _repositoryManager.ShoppingCartItemRepository.Add(newItem);
+                    updateListCarts.Add(checkCartExist);
+                }
+                else
+                {
+                    newListCarts.Add(checkCartExist);
                 }
             }
+
+            if (updateListCarts.Count > 0)
+                _repositoryManager.ShoppingCartItemRepository.UpdateRange(updateListCarts);
+
+            if (newListCarts.Count > 0)
+                await _repositoryManager.ShoppingCartItemRepository.AddRange(newListCarts);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
 
