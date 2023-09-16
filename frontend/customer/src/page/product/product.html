@@ -1,5 +1,4 @@
 
-
 <div class="container-fluid mt-5">
 	<div class="row">
 		<div class="col-md-3">
@@ -85,7 +84,6 @@
 						</div>
 					</div>
 				</article>
-				
 			</div>
 		</div>
 
@@ -95,7 +93,6 @@
 					style="border: 1px solid rgb(198, 198, 198); border-radius: 5px;height: 30px;width: 280px;">
 					<option value="">Top thịnh hành</option>
 					<option value="2">Hàng với về</option>
-					<!-- <option value="3">Top thịnh hành</option> -->
 					<option value="0">Giá từ thấp đến cao</option>
 					<option value="1">Giá từ cao đến thấp</option>
 				</select>
@@ -104,7 +101,7 @@
 			<div class="product-list-container">
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
-						<button ng-click="addToFavourite(product.id)">
+						<button ng-click="addToFavourite(product.id)" class="toggle-button" > 
 							<span class="toggle-button" >
 								<i class="fa-regular fa-heart"></i>
 							</span>

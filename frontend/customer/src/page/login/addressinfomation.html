@@ -89,54 +89,43 @@
       </div>
     </div>
     <div class="col-4" >
-
+      <ul>
+        <li>
           <input type="text" class="edit-input" placeholder="Họ Tên" ng-model="address.fullName">
-   
+        </li>
+        <br>
+        <li>
           <input type="text" id="" class="edit-input" placeholder="Số điện thoại" ng-model="address.phoneNumber">
-   
+        </li>
+        <br>
+        <li>
           <select class="edit-input"  ng-change="getDistricts(newAddress.cityCode)" ng-model="address.cityCode">
             <option ng-repeat="p in provices" value="p.ProvinceID">{{ p.NameExtension[1] }}</option>
           </select>
-      
+        </li>
+        <br>
+        <li>
           <select name="" id="" class="edit-input" ng-model="address.cityCode">
-         
             <option ng-repeat="p in provices" value="p.ProvinceID">{{ p.NameExtension[1] }}</option>
           </select>
-    
-      
+        </li>
+        <br>
+        <li>
           <select name="" id="" class="edit-input">
             <option value="">Chọn Phường/Xã</option>
           </select>
-      
-
-
-
-     
+        </li>
+        <br>
+        <li>
           <input type="text" id="" class="edit-input" placeholder="Địa chỉ" ng-model="address.addressLine">
-     
+        </li> 
         <div class="form-group">
           <label><input type="checkbox" ng-model="newAddress.setAsDefault"> Đặt làm địa chỉ mặc định</label>
         </div>
-   
-  
           <button type="button" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;">THÊM
             MỚI</button>
           <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;">HUỶ</button>
-      
-
- 
+      </ul>
     </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const logoutLink = document.getElementById("logoutLink");
-
-    logoutLink.addEventListener("click", function (event) {
-      event.preventDefault();
-      window.location.href = "#/signin";
-    });
-  });
-
-</script>

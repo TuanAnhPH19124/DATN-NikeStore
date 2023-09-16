@@ -1,25 +1,26 @@
 <!-- LONG-TEST -->
-<div >
-    <div class="row" style="margin-left: 20px;">
-        <div class="boxProduct" ng-repeat="product in products">
-            <button ng-click="addToFavourite(product.id)">
-                <span class="toggle-button" >
+<link rel="stylesheet" href="../assets/css/component/product-primary.css">
+<div class="container">
+    <div class="row">
+        <div class="boxProduct1" ng-repeat="product in products">
+            <span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
+                class="cpercenOff1">Giảm {{calculatePercenOff(product.discountRate,
+                product.retailPrice)}}% 
+            </span>
+            <button ng-click="addToFavourite(product.id)" style="background: none; border: none;padding-top: 5px; ">
+                <span class="toggle-button1">
                     <i class="fa-regular fa-heart"></i>
                 </span>
-            </button>
-            <span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
-                class="cpercenOff">Giảm {{calculatePercenOff(product.discountRate,
-                product.retailPrice)}}% 
-            </span>														
+            </button>													
             <a href="#/productDetail/{{product.id}}" class="product-link">
                 <img ng-src="{{ getImgUrl(product.productImages[0].imageUrl) }}">					
-                <div class="product-details">
-                    <span class="name">{{product.name}}</span>
-                    <span class="color">{{countColors(product.productImages)}} màu</span>
-                    <div class="price-section">
-                        <span style="margin-right: 10px;" class="discount"
+                <div class="productdetails1">
+                    <span class="name1">{{product.name}}</span>
+                    <p class="color1">{{countColors(product.productImages)}} màu</p>
+                    <div class="pricesection1">
+                        <span style="margin-right: 10px;" class="discount1"
                             ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice">{{ product.discountRate | formatVNDPrice}}</span>
-                        <span class="price"
+                        <span class="price1"
                             ng-class="{'strike-through': product.discountRate > 0 && product.discountRate !== product.retailPrice}">{{ product.retailPrice | formatVNDPrice }}</span><br>
                     </div>
                 </div>

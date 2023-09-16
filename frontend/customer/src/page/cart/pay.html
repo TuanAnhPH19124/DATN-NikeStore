@@ -31,7 +31,7 @@
                     <input type="text" id="aName" ng-model="newAddress.fullName" name="aName" required=""
                       class="form-control" />
                     <div ng-show="form.$submitted || form.aName.$touched">
-                      <div ng-show="form.aName.$error.required">
+                      <div ng-show="form.aName.$error.required" style="color: red;">
                         Xin hãy điền tên.
                       </div>
                     </div>
@@ -41,7 +41,7 @@
                     <input type="tel" id="aPhone" ng-model="newAddress.phoneNumber" name="aPhone" required=""
                       class="form-control" />
                     <div ng-show="form.$submitted || form.aPhone.$touched">
-                      <div ng-show="form.aPhone.$error.required">
+                      <div ng-show="form.aPhone.$error.required" style="color: red;">
                         Xin điền số điện thoại.
                       </div>
                     </div>
@@ -53,12 +53,11 @@
                   <input type="text" id="aLine" name="aLine" ng-model="newAddress.addressLine" required=""
                     class="form-control" />
                   <div ng-show="form.$submitted || form.aLine.$touched">
-                    <div ng-show="form.aLine.$error.required">
+                    <div ng-show="form.aLine.$error.required" style="color: red;">
                       Xin hãy điền địa chỉ.
                     </div>
                   </div>
                 </div>
-
                 <div class="form-row">
                   <div class="form-group">
                     <label for="aProvince">Tỉnh:</label>
@@ -69,7 +68,7 @@
                       </option>
                     </select>
                     <div ng-show="form.$submitted || form.aProvince.$touched">
-                      <div ng-show="form.aProvince.$error.required">
+                      <div ng-show="form.aProvince.$error.required" style="color: red;">
                         Xin hãy chọn tỉnh thành.
                       </div>
                     </div>
@@ -83,7 +82,7 @@
                       </option>
                     </select>
                     <div ng-show="form.$submitted || form.aDistrict.$touched">
-                      <div ng-show="form.aDistrict.$error.required">
+                      <div ng-show="form.aDistrict.$error.required" style="color: red;">
                         Xin hãy chọn quận huyện.
                       </div>
                     </div>
@@ -96,7 +95,7 @@
                       </option>
                     </select>
                     <div ng-show="form.$submitted || form.aWard.$touched">
-                      <div ng-show="form.aWard.$error.required">
+                      <div ng-show="form.aWard.$error.required" style="color: red;">
                         Xin hãy chọn phường.
                       </div>
                     </div>
@@ -279,46 +278,116 @@
           </div>
         </div>
       </div>
-      <div class="checkout-summary">
-        <p>Tổng phụ: {{subtotal() | formatVNDPrice}}</p>
-      </div>
-
-      <div class="checkout-summary">
-        <p>
-          Phí vận chuyển:
-          <span ng-if="selectedShippingServiceIndex !== -1">
-            {{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
-            formatVNDPrice }}
-          </span>
-          <span ng-if="selectedShippingServiceIndex === -1">0đ</span>
-        </p>
-      </div>
-      <div ng-show="subtotal() > 5000000  && selectedShippingServiceIndex !== -1 " class="checkout-summary">
-        <p>
-          Miễn phí vận chuyển:
-          <span ng-if="selectedShippingServiceIndex !== -1">
-            -{{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
-            formatVNDPrice }}
-          </span>
-        </p>
-      </div>
-      <div class="checkout-summary" ng-show="selectedVoucher !== ''">
-        <p>Mã giảm giá: {{ voucherValue | formatVNDPrice}}</p>
-      </div>
-      <hr />
-
+      <hr>  
       <p ng-if="selectedShippingServiceIndex !== -1">
         Nhận hàng vào: <br />
         {{
         convertTimestampToDateString(avalibleShippingService[selectedShippingServiceIndex].leadTime
         ) }}
       </p>
-      <div class="checkout-summary">
-        <p style="color: red; font-size: 20px; font-weight: 500">
-          Tổng tiền: {{subtotal() +
-          avalibleShippingService[selectedShippingServiceIndex].totalFee +
-          freeShip() + voucherValue | formatVNDPrice }}
-        </p>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          ">
+          Tổng phụ:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          {{subtotal() | formatVNDPrice}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          ">
+          Phí vận chuyển:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          <span ng-if="selectedShippingServiceIndex !== -1">
+            {{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
+            formatVNDPrice }}
+          </span>
+          <span ng-if="selectedShippingServiceIndex === -1">0đ</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          " ng-show="subtotal() > 5000000  && selectedShippingServiceIndex !== -1 ">
+          Tổng tiền hàng:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+         <span ng-if="selectedShippingServiceIndex !== -1">
+          -{{ avalibleShippingService[selectedShippingServiceIndex].totalFee |
+          formatVNDPrice }}
+        </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);
+          ">
+          Mã giảm giá:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          {{ voucherValue | formatVNDPrice}}
+        </div>
+      </div> 
+      <br>
+      <div class="row">
+        <div class="col-8" style="
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            border-right: 1px solid rgb(225, 225, 225);color: red; font-size: 20px; font-weight: 500
+          ">
+          Tổng tiền:
+        </div>
+        <div class="col-4" style="
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            border: none;
+          ">
+          {{subtotal() +
+            avalibleShippingService[selectedShippingServiceIndex].totalFee +
+            freeShip() + voucherValue | formatVNDPrice }}
+        </div>
       </div>
     </div>
   </div>
