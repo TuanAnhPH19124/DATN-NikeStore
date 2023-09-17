@@ -90,7 +90,7 @@
     </div>
     <div class="col-4">
       <button class="btn btn-outline-primary" ng-if="visible === -1" ng-click="addNew()">Thêm mới</button>
-      <ul ng-if="visible === 0">
+      <ul ng-show="visible === 0">
         <li>
           <input type="text" class="edit-input" placeholder="Họ Tên" ng-model="address.fullName">
         </li>
@@ -100,7 +100,7 @@
         </li>
         <br>
         <li>
-          <input type="text" id="" class="edit-input" placeholder="Địa chỉ" ng-model="addressLine">
+          <input type="text"  class="edit-input" placeholder="Địa chỉ" ng-model="addressLineInput">
         </li>
         <br>
         <li>
@@ -130,6 +130,7 @@
         <button type="button" ng-if="isAddNew !== -1" class="btn btn-outline-info" id="editButton" ng-click="addNewAddress()" style="margin-right: 20px;">THÊM
           MỚI</button>
         <button type="button" ng-if="isUpdate !== -1" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;" ng-click="updateAddress(address.id)">CẬP NHẬT</button>
+
         <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;" ng-click="cancel()">HUỶ</button>
       </ul>
     </div>
