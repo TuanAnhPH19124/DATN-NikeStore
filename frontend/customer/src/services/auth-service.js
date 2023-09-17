@@ -15,6 +15,15 @@
         var clearEventPromise = null;
 
 
+        this.forgotPassword = function (data){
+            let uri = apiUrl + '/api/Authentication/forgot-password';
+            return $http({
+                method: 'POST',
+                url: uri,
+                data: data
+            })
+        }
+
         this.changePassword = function (data){
             let uri = apiUrl + "/api/Authentication/ChangePassword"; 
             return $http({
