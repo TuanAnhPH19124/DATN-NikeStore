@@ -10,22 +10,38 @@
     <input
       style="padding: 0 16px; border: 1px solid #c3b8b8; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="name" type="text" ng-model="newUser.fullName" placeholder="Họ tên">
-      <span>{{  }}</span>
+      <span ng-show="errorMsgSignUPFN">{{ errorMsgSignUPFN }}</span>
   </p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="email" type="email" ng-model="newUser.email" placeholder="Email">
+      <span ng-show="errorMsgSignUPE">{{ errorMsgSignUPE }}</span>
+
   </p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="" type="text" ng-model="newUser.phoneNumber" placeholder="Số điện thoại">
+      <span ng-show="errorMsgSignUPPN">{{ errorMsgSignUPPN }}</span>
+
   </p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="" type="password" ng-model="newUser.password" placeholder="Mật khẩu">
+      <span ng-show="errorMsgSignUPP">{{ errorMsgSignUPP }}</span>
+      <span ng-show="newPassWordError">{{ newPassWordError }}</span>
+
+
+  </p>
+
+  <p style="margin-top: 20px;">
+    <input
+      style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
+      id="" type="password" ng-model="newUser.passwordConfirm" placeholder="Xác nhận mật khẩu">
+      <span ng-show="errorMsgSignUPPC">{{ errorMsgSignUPPC }}</span>
+
   </p>
 
   <p style="margin-top: 20px;">
