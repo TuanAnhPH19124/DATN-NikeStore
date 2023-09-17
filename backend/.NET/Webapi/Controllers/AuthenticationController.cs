@@ -190,8 +190,8 @@ namespace Webapi.Controllers
                 {
                     return NotFound(new
                     {
-                        account = appUser.Account,
-                        error = "Tài khoàn này không tồn tại!"
+                        // account = appUser.Account,
+                        // error = "Tài khoàn này không tồn tại!"
                     });
                 }
                 user_exits = userCheckByNameAndEmail;
