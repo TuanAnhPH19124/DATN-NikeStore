@@ -877,19 +877,9 @@ function loadSizeE() {
         console.log(newInput.value);
         newInput.addEventListener("change", function () {
           if (
-            parseInt(newInput.value) <= 0 ||
-            isNaN(parseInt(newInput.value))
+            /^[0-9]+$/.test(newInput.value) &&
+            parseInt(newInput.value) > 0
           ) {
-            newInput.value = 1;
-            validationMessage.textContent =
-              "Số lượng là số lớn hơn hoặc bằng 1.";
-            let index = product.Colors[selectedColor].Sizes.findIndex(
-              (p) => p.id === element.id
-            );
-            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
-              newInput.value
-            );
-          } else {
             validationMessage.textContent = "";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
@@ -897,6 +887,10 @@ function loadSizeE() {
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
               newInput.value
             );
+          } else {
+            newInput.value = 1;
+            validationMessage.textContent =
+              "Số lượng là số lớn hơn hoặc bằng 1";
           }
         });
 

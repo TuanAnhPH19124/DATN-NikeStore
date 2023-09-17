@@ -74,6 +74,12 @@ $(document).ready(function () {
     } else {
       return
     }
+    if (startDate > endDate) {
+      $("#date-error").show();
+      return;
+    } else {
+      $("#date-error").hide();
+    }
     if (confirm(`Bạn có muốn cập nhật voucher không?`)) {
       $.ajax({
         url: "https://localhost:44328/api/Voucher/" + id,
