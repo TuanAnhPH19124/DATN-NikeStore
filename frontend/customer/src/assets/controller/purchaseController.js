@@ -40,56 +40,6 @@
             return imgUrl.href;
         }
 
-        // $s.reBuy = async function (orderId) {
-
-        //     if ($s.orders.length !== 0) {
-        //         try {
-        //             let token = authService.getToken();
-        //             let tokenDecode = jwtHelper.decodeToken(token);
-        //             let data = [];
-        //             let selectedOrder = $s.orders.filter(item => item.orderId === orderId);
-        //             let index = -1;
-        //             for (let i = 0; i < $s.orders.length; i++) {
-        //                 if ($s.orders[i].orderId === orderId) {
-        //                     index = i;
-        //                     break;
-        //                 }
-
-        //             }
-
-        //             $s.orders[index].orderItems.forEach(item => {
-        //                 let apiData = {
-        //                     productId: item.productId,
-        //                     colorId: item.colorId,
-        //                     sizeId: item.sizeId
-        //                 }
-
-        //                 stockService.getStockId(apiData)
-        //                     .then(function (response) {
-        //                         data.push({
-        //                             appUserId: tokenDecode.Id,
-        //                             stockId: response.data,
-        //                             quantity: item.quantity
-        //                         })
-        //                     }, function (response) {
-        //                         console.error(response.data);
-        //                     });
-        //             });
-
-        //             console.log('data: ' + data);
-        //             cartService.addRangeToCard(data)
-        //                 .then(function (response) {
-        //                     l.path('/cart');
-        //                 }, function (response) {
-        //                     console.error(response.data);
-        //                 })
-
-        //         } catch (error) {
-        //             console.error(error);
-        //         }
-        //     }
-        // }
-
         $s.reBuy = async function processOrders(orderId) {
             if ($s.orders.length !== 0) {
                 try {

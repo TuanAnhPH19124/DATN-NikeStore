@@ -11,6 +11,14 @@
     ) {
 
         s.order = [];
+        s.statuses = [
+            {icon: "fa-solid fa-file-invoice", note: "Đơn đã đặt"},
+            {note: "Đã xác nhận thông tin thanh toán", icon: "fa-solid fa-money-bill-1-wave"},
+            {note: "Đã giao cho DVVC", icon: "fa-solid fa-truck-fast"},
+            {note: "Đã nhận được hàng", icon: "fa-solid fa-box-tissue"},
+            {note: "Đã hủy đơn hàng", icon: "fa-solid fa-xmark"},
+            {note: "Đơn hàng đã hoàn thành", icon: "fa-solid fa-star"}
+        ];
 
         constructor();
 
@@ -93,6 +101,7 @@
         s.redirectToOrder = function () {
             l.path('/order');
         }
+
         function constructor() {
             if (!authService.isLoggedIn()) {
                 l.path('/signin');

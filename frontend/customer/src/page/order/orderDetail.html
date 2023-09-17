@@ -15,68 +15,20 @@
   <br />
   <div class="order-status-taskbar">
     <div class="stepper" style="display: flex; justify-content: space-around; align-items: center">
-      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-        <div class="step-icon" style="
-            width: 50px;
-            height: 50px;
-            background-color: green;
-            border-radius: 50%;
-          ">
-          <i class="fa-solid fa-file-invoice"></i>
+   
+      <div class="step" ng-repeat="orderStatus in order[0].orderStatuses" aria-label="">
+        <div class="step-icon completed" style="width: 50px; height: 50px; border-radius: 50%"
+        ng-class="{cancellation: orderStatus.status === 4}">
+          <i class="{{ statuses[orderStatus.status].icon }}"></i>
         </div>
-        <div class="step-text">Đơn đã đặt</div>
+        <div class="step-text">
+          {{ statuses[orderStatus.status].note }}
+        </div>
         <div class="step-date">
-          {{ order[0].orderStatuses[0].time | formatDate }}
+          {{ orderStatus.time | formatDate }}
         </div>
       </div>
-      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-        <div class="step-icon no-completed" style="width: 50px; height: 50px; border-radius: 50%"
-          ng-class="{completed: order[0].status > 0}">
-          <i class="fa-solid fa-money-bill-1-wave"></i>
-        </div>
-        <div ng-show="order[0].status > 0" class="step-text">
-          Đã xác nhận thông tin thanh toán
-        </div>
-        <div ng-show="order[0].status > 0" class="step-date">
-          {{ order[0].orderStatuses[1].time | formatDate }}
-        </div>
-      </div>
-      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-        <div class="step-icon no-completed" style="width: 50px; height: 50px; border-radius: 50%"
-          ng-class="{completed: order[0].status > 1 }">
-          <i class="fa-solid fa-truck-fast"></i>
-        </div>
-        <div ng-show="order[0].status > 1" class="step-text">
-          Đã giao cho DVVC
-        </div>
-        <div ng-show="order[0].status > 1" class="step-date">
-          {{ order[0].orderStatuses[2].time | formatDate }}
-        </div>
-      </div>
-      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-        <div class="step-icon no-completed" style="width: 50px; height: 50px; border-radius: 50%"
-          ng-class="{completed: order[0].status > 2 }">
-          <i class="fa-solid fa-box-tissue"></i>
-        </div>
-        <div ng-show="order[0].status > 2 && order[0].status < 4" class="step-text">
-          Đã Nhận Được Hàng
-        </div>
-        <div ng-show="order[0].status > 2 && order[0].status < 4" class="step-date">
-          {{ order[0].orderStatuses[3].time | formatDate }}
-        </div>
-      </div>
-      <div class="step" aria-label="Đơn đã đặt, 17:07 05-05-2023">
-        <div class="step-icon no-completed" style="width: 50px; height: 50px; border-radius: 50%"
-          ng-class="{completed: order[0].status > 2 }">
-          <i class="fa-solid fa-star"></i>
-        </div>
-        <div ng-show="order[0].status > 2 && order[0].status < 4" class="step-text">
-          Đơn hàng đã hoàn thành
-        </div>
-        <div ng-show="order[0].status > 2 && order[0].status < 4" class="step-date">
-          {{ order[0].orderStatuses[3].time | formatDate }}
-        </div>
-      </div>
+      
     </div>
   </div>
   <hr />
