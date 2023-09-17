@@ -70,3 +70,8 @@
 .toggle-button1:hover i {
     color: red;
 }
+
+.product-link:hover img {
+    transform: scale(1.01); 
+    transition: transform 0.2s ease-in-out; 
+}

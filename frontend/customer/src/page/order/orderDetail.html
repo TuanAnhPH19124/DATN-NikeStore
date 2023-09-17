@@ -15,10 +15,10 @@
   <br />
   <div class="order-status-taskbar">
     <div class="stepper" style="display: flex; justify-content: space-around; align-items: center">
-   
+
       <div class="step" ng-repeat="orderStatus in order[0].orderStatuses" aria-label="">
         <div class="step-icon completed" style="width: 50px; height: 50px; border-radius: 50%"
-        ng-class="{cancellation: orderStatus.status === 4}">
+          ng-class="{cancellation: orderStatus.status === 4}">
           <i class="{{ statuses[orderStatus.status].icon }}"></i>
         </div>
         <div class="step-text">
@@ -28,7 +28,7 @@
           {{ orderStatus.time | formatDate }}
         </div>
       </div>
-      
+
     </div>
   </div>
   <hr />
@@ -38,15 +38,15 @@
       Mua lại
     </button>
   </div>
-  <hr />
+  <br>
   <div class="order-shipping" style="border: 1px solid rgb(225, 225, 225); padding: 20px">
     <div class="row">
-      <div class="col-6">
+      <div class="col-12">
         <h3>Địa chỉ nhận hàng:</h3>
-        <p>{{ order[0].customerName }}</p>
-        <p>{{ order[0].phoneNumber }}</p>
+        <p>Tên khách hàng: {{ order[0].customerName }}</p>
+        <p>Số điện thoại: {{ order[0].phoneNumber }}</p>
         <p>
-          {{ order[0].addressLine }}
+          Địa chỉ: {{ order[0].addressLine }}
         </p>
       </div>
     </div>
@@ -71,7 +71,7 @@
                 margin-right: 30px;
               " />
             <div>
-              <p>{{ item.productName }}</p>
+              <p>Tên sản phẩm: {{ item.productName }}</p>
               <p>Phân loại hàng: {{ item.color }} , {{ item.size }}</p>
               <p>Số lượng: {{ item.quantity }}</p>
             </div>

@@ -35,13 +35,13 @@
                                 <img ng-src="{{ getImgUrl(item.imgUrl) }}" class="centered-image">
                             </div>
                             <div>
-                                <p>{{ item.productName }}</p>
+                                <p>Tên sản phẩm: {{ item.productName }}</p>
                                 <p>Phân loại hàng: {{item.color}}, {{item.sizeNumber}}</p>
                                 <p>Số lượng: {{item.quantity}}</p>
                             </div>
                         </div>
                         <div class="order-item-product-info-price">
-                            <span style="color: rgb(228, 50, 50);"> {{ formatPrice(item.discountRate) }} </span>
+                            <span style="color: rgb(228, 50, 50); margin-right: 5px;"> {{ formatPrice(item.discountRate) }} </span>
                             <span class="retail-price"> {{ formatPrice(item.retailPrice) }} </span>
                         </div>
                     </div>
@@ -52,17 +52,10 @@
                     order.total | formatVNDPrice }}
                 </p>
             </div>
-            <div class="order-item-options">
-            <div class="order-item-options" ng-show="order.status === 3">
-                <div class="order-item-option-review">
-                    <span style="display: inline-block;">Không nhận được đánh giá:</span>
-                    <!-- <button type="button" class="btn btn-outline-success">Đánh giá ngay</button> -->
-                </div>
+            <div class="order-item-options" ng-show="order.status === 3" style="display: flex; justify-content: end">
                 <div>
                     <button type="button" class="btn btn-warning" ng-click="reBuy(order.orderId)">Mua lại</button>
                 </div>
             </div>
-        </div>
-
     </section>
 </div>
