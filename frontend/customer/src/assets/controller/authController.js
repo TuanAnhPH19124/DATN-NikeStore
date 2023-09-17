@@ -3,42 +3,57 @@
         e.loggedInStatus = false;
         e.emailConfirm = '';
         e.errorMsgEmail = '';
+        e.errorMsgUserAccount = '';
+        e.errorMsgUserPassword = '';
+      
+
 
         e.signInE = function (user) {
-            if (user !== null) {
-                authService.signIn(user)
-                    .then(function (response) {
-                        authService.setLoggedIn(!e.loggedInStatus);
-                        authService.setToken(response.data.token);
-                        authService.setUserName(response.data.user);
-                        // get wish list counter
-                        let tokenDecode = jwtHelper.decodeToken(response.data.token);
-                        wishListService.getWishLists(tokenDecode.Id)
-                            .then(function (response) {
-                                headerFactory.setWishListCounter(response.data.length);
+            e.errorMsgUserAccount = '';
+            e.errorMsgUserPassword = '';
 
-                            })
-                            .catch(function (data) {
-                                console.log(data);
-                            });
-                        // get cart counter
-                        cartService.getCarts(tokenDecode.Id)
-                            .then(function (response) {
-                                console.log(response.data);
-                                headerFactory.setCartCounter(response.data.length);
-                            })
-                            .catch(function (data) {
-                                console.log(data);
-                            });
-                        l.path('/');
-                    })
-                    .catch(function (data, status, header, configuration) {
-                        console.log(status);
-                    });
-            } else {
-                console.log('Wrong Credential!');
+            if (user.account === undefined || user.account === '') {
+                e.errorMsgUserAccount = "Không được bỏ trống email";
+                return;
             }
+
+            if (user.password === undefined || user.password === '') {
+                e.errorMsgUserPassword = "Không được bỏ trống mật khẩu";
+                return;
+            }
+
+            authService.signIn(user)
+                .then(function (response) {
+                    authService.setLoggedIn(!e.loggedInStatus);
+                    authService.setToken(response.data.token);
+                    authService.setUserName(response.data.user);
+                    // get wish list counter
+                    let tokenDecode = jwtHelper.decodeToken(response.data.token);
+                    wishListService.getWishLists(tokenDecode.Id)
+                        .then(function (response) {
+                            headerFactory.setWishListCounter(response.data.length);
+
+                        })
+                        .catch(function (data) {
+                            console.log(data);
+                        });
+                    // get cart counter
+                    cartService.getCarts(tokenDecode.Id)
+                        .then(function (response) {
+                            console.log(response.data);
+                            headerFactory.setCartCounter(response.data.length);
+                        })
+                        .catch(function (data) {
+                            console.log(data);
+                        });
+                    l.path('/');
+                })
+                .catch(function (data, status, header, configuration) {
+                    console.log(status);
+                });
+
         };
+
         e.signUpE = function (newUser) {
             if (newUser !== null) {
                 console.log(newUser);

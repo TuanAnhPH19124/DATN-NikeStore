@@ -44,6 +44,7 @@
                 e.vouchers.forEach(item => {
                     if (item.id === id) {
                         e.voucherValue = e.subtotal() * item.value / 100 * -1;
+                        e.searchKeyWord = item.code;
                     }
                 })
             }
