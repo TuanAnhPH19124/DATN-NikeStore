@@ -165,13 +165,12 @@ input[type="submit"]:disabled {
 }
 
 .discount-list{
+    display: none;
     position: absolute;
     padding: 10px; 
     width: 78%; /* Chiều rộng bằng với thẻ input */
     top: 100%; /* Đặt vị trí bên dưới thẻ input */
     left: 161px;    
-    opacity: 0;
-    z-index: -1;
     border: 1px solid #ccc;
     background-color: #fff;
     max-height: 250px; /* Điều chỉnh chiều cao tối đa của danh sách */
@@ -208,9 +207,10 @@ input[type="submit"]:disabled {
 }
 
 #discount-input:focus + .discount-list{
-    opacity: 1;
-    z-index: 99;
+    display: block;
+ 
 }
+
 .checkout-summary {
     text-align: right; /* Căn văn bản sang phải */
 }
