@@ -117,6 +117,8 @@ padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
                                   <option value=""></option>
                                   <option ng-repeat="size in colors[selectedColor].sizes | orderBy: 'numberSize'"
                                     value="{{ size.id }}">{{ size.numberSize }}</option>
+
+                                 
                                 </select>
                               </div>
                             </div>
@@ -131,6 +133,35 @@ padding-top: 20px;font-size: 40px;line-height: 44px;">Yêu Thích</h2>
                       </div>
                     </div>
                   </div>
+
+                  <!-- test modal -->
+
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                  </button>
+
+                  <div class="modal"  id="exampleModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Modal body text goes here.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" ng-click="addToCart()"  onclick="console.log('cayvl')">Save changes</button>
+                          <button type="button" ng-disabled="colors[selectedColor].sizes[selectedSizeIndex].unit === 0"
+                          class="btn btn-primary" >Thêm vào giỏ hàng</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--  -->
                 </div>
               </div>
             </div>

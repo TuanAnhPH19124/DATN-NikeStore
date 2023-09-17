@@ -54,5 +54,22 @@ namespace Service
 
             return addressesDto;
         }
+
+        public async Task Update(AddressUpdateAPI address)
+        {
+            var addr = address.Adapt<Address>();
+            if (address.SetAsDefault)
+            {
+                var addresses = await _repositoryManger.AddressRepository.GetByUserId(address.UserId);
+                foreach (var item in addresses)
+                {
+                    item.SetAsDefault = false;
+                }
+                _repositoryManger.AddressRepository.UpdateRange(addresses.ToList());
+            }
+            await _repositoryManger.AddressRepository.Update(address.Id, addr);
+
+            await _repositoryManger.UnitOfWork.SaveChangeAsync();
+        }
     }
 }

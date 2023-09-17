@@ -16,6 +16,15 @@
                 data: address
             });
         };
+
+        this.updateAddress = function (id ,address){
+            let uri = url + '/api/Address/' + id;
+            return http({
+                method: 'PUT',
+                url: uri,
+                data: address
+            })
+        }
     }
     addressService.$inject = ['$http', 'apiUrl'];
     angular.module("app").service("addressService", addressService);

@@ -15,6 +15,8 @@
             return priceFactory.formatVNDPrice(price);
         }
 
+      
+
         $s.getToTalAmount = function (id){
             var order = null;
             var total = 0;
@@ -38,18 +40,29 @@
             return imgUrl.href;
         }
 
-        $s.reBuy = function(){
+        $s.reBuy = function(orderId){
             console.log('run');
             if ($s.orders.length !== 0){
                 let token = authService.getToken();
                 let tokenDecode = jwtHelper.decodeToken(token);
                 let data = [];
-                $s.orders[0].orderItems.forEach(item =>{
+                let selectedOrder = $s.orders.filter(item => item.orderId === orderId);
+                let index = -1;
+                for (let i = 0; i < $s.orders.length; i++) {
+                    if ($s.orders[i].orderId === orderId){
+                        index = i;
+                        break;  
+                    }
+                    
+                }
+             
+                $s.orders[index].orderItems.forEach(item =>{
                     let apiData = {
                         productId: item.productId,
                         colorId: item.colorId,
                         sizeId: item.sizeId
                     }
+
                     stockService.getStockId(apiData)
                     .then(function (response){
                         data.push({
@@ -59,9 +72,16 @@
                         })
                     }, function(response){
                         console.error(response.data);
-                    })
-                })
+                    });
+                });
                 console.log(data);
+                cartService.addRangeToCard(data)
+                .then(function (response){
+                    l.path('/cart');
+                }, function (response){
+                    console.error(response.data);
+                })
+                
             }
             
         }

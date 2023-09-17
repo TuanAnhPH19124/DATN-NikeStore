@@ -63,6 +63,11 @@ namespace Persistence.Repositories
         {
             _dbcontext.ShoppingCartItems.Update(item);
         }
+
+        public void UpdateRange(List<ShoppingCartItems> items)
+        {
+            _dbcontext.ShoppingCartItems.UpdateRange(items);
+        }
     }
 
 }

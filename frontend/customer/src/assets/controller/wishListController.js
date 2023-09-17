@@ -1,3 +1,5 @@
+
+
 (function () {
     var wishListController = function (
         s, l,
@@ -9,6 +11,7 @@
         cartService,
         headerFactory
     ) {
+
 
         s.wishLists = [];
         s.selectedColor = 0;
@@ -32,7 +35,6 @@
         }
 
         s.addToCart = function () {
-
             if (s.selectedSizeIndex === -1 && s.selectedSize === -1) {
                 s.errorMg = "Bạn phải chọn kích cỡ trước";
                 return;
@@ -50,21 +52,34 @@
                 quantity: 1
             }
 
-            var addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
-              addToCartModal.hide();
+          
+            
+            // var modal = document.getElementById('exampleModal');
+            // var modalInstance = new bootstrap.Modal(modal);
+            // modalInstance.hide();
 
-            // cartService.addToCarts(data)
-            //     .then(function (response) {
-            //         let countCart = cartService.getCarts(tokenDecode.Id)
-            //             .then(function (response) {
-            //                 headerFactory.setCartCounter(response.data.length);
-            //                 l.path('/cart');
-            //             })
-            //             .catch(function (data) { console.log(data); })
-            //     })
-            //     .catch(function (data) {
-            //         console.log(data);
-            //     });
+
+            // $('#addToCartModal').modal({
+            //     keyboard: false,
+            //     backdrop: false
+            // });
+            // $('#addToCartModal').modal('show');
+            // $('#addToCartModal').on('hidden.bs.modal', function (e) {
+            //     $('#addToCartModal').modal('hide');
+            // })
+
+            cartService.addToCarts(data)
+                .then(function (response) {
+                    let countCart = cartService.getCarts(tokenDecode.Id)
+                        .then(function (response) {
+                            headerFactory.setCartCounter(response.data.length);
+                            l.path('/cart');
+                        })
+                        .catch(function (data) { console.log(data); })
+                })
+                .catch(function (data) {
+                    console.log(data);
+                });
         }
 
         s.setSelectedColor = function (colorId) {
