@@ -357,6 +357,8 @@ namespace Webapi.Controllers
         }
 
 
+        [AllowAnonymous]
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
         {
@@ -367,17 +369,25 @@ namespace Webapi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                await _serviceManager.AppUserService.ForgotPassword(forgotPasswordDto.Email);
+                var result = await _serviceManager.AppUserService.ForgotPassword(forgotPasswordDto.Email);
 
+                if (!result.Result)
+                {
+                    // Xử lý trường hợp thất bại
+                    return BadRequest(new { error = result.Error });
+                }
+
+                // Xử lý trường hợp thành công
                 return Ok("Password reset email sent.");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
-
         }
 
+
     }
+
 }
+
