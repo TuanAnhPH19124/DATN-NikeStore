@@ -50,7 +50,7 @@
                 <p style="color: red;font-size: 20px;font-weight: 500;">Thành tiền: {{
                     order.total | formatVNDPrice }}</p>
             </div>
-            <div class="order-item-options">
+            <div class="order-item-options" ng-show="order.status === 3">
                 <div class="order-item-option-review">
                     <span style="display: inline-block;">Không nhận được đánh giá:</span>
                     <!-- <button type="button" class="btn btn-outline-success">Đánh giá ngay</button> -->
