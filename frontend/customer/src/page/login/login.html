@@ -7,11 +7,13 @@
     <input
       style="padding: 0 16px; border: 1px solid #c3b8b8; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72);"
       id="email" type="email" ng-model="user.account" placeholder="Nhập địa chỉ email">
+      <span ng-show="errorMsgUserAccount">{{ errorMsgUserAccount }}</span>
   </p>
   <p>
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72);"
       id="password" type="password" ng-model="user.password" placeholder="Nhập mật khẩu">
+      <span ng-show="errorMsgUserPassword">{{ errorMsgUserPassword }}</span>
   </p>
   <a href="#/fogotpassword" style="text-decoration: none; font-size: 16px; margin: 15px; color: #8b7f7f; ">Quên mật khẩu?</a>
   <a href="#/register" style="text-decoration: none; font-size: 16px; color: #8b7f7f; margin: 15px;">Đăng ký tài khoản</a>
