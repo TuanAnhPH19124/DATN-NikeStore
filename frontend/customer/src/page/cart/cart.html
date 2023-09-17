@@ -13,8 +13,8 @@
       <hr>
       <div ng-show="carts.length === 0" class="emptyCart-container">
         <div class="emptyCart-img">
-            <img src="/frontend/customer/src/assets/img/logo/empty.png" alt="Giỏ hàng trống">
-            <span>Hiện chưa có sản phẩm</span>
+          <img src="/frontend/customer/src/assets/img/logo/empty.png" alt="Giỏ hàng trống">
+          <span>Hiện chưa có sản phẩm</span>
         </div>
       </div>
       <div class="cart-item" ng-repeat="cart in carts">
@@ -29,7 +29,8 @@
             </div>
             <p>Màu sắc: {{cart.colorName}}</p>
             <label for="size" style="margin-right: 20px;">Kích cỡ:
-              <select ng-model="cart.sizeId" ng-change="updateCart(cart.id)">
+              <select ng-model="cart.sizeId" ng-change="updateCart(cart.id)"
+                style="text-align: center;border-radius: 3px;">
                 <option ng-repeat="size in cart.sizes" value="{{size.id}}">{{ size.numberSize }}</option>
               </select>
             </label>
@@ -43,8 +44,10 @@
               style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>
           </div>
           <div class="product-price">
-            <span  ng-class="{'price-black-color': cart.product.discountRate === cart.product.retailPrice}" class="cart-discount-price">{{ formatPrice(cart.product.discountRate) }}</span>
-            <del ng-show="cart.product.discountRate !== cart.product.retailPrice" style="color: rgb(163, 158, 158);">{{ formatPrice(cart.product.retailPrice) }}</del>
+            <span ng-class="{'price-black-color': cart.product.discountRate === cart.product.retailPrice}"
+              class="cart-discount-price">{{ formatPrice(cart.product.discountRate) }}</span>
+            <del ng-show="cart.product.discountRate !== cart.product.retailPrice" style="color: rgb(163, 158, 158);">{{
+              formatPrice(cart.product.retailPrice) }}</del>
           </div>
         </div>
       </div>
@@ -67,7 +70,8 @@
         <span style="color: red; font-size: 20px;">{{ formatPrice(totalAmount()) }}</span>
       </div>
       <hr>
-      <button class="payment-button btn btn-dark" ng-click="pay()" ng-disabled="carts.length === 0">THANH TOÁN NGAY</button>
+      <button class="payment-button btn btn-dark" ng-click="pay()" ng-disabled="carts.length === 0">THANH TOÁN
+        NGAY</button>
       <p>
         <a href="#/product" style="margin-left: 40px;text-decoration: none;color: rgb(70, 66, 66);">
           <i class="fa fa-reply" style="color: rgb(180, 65, 65);"></i> Tiếp tục mua hàng</a>
