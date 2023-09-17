@@ -35,7 +35,7 @@ namespace Service
                 }
                 else
                 {
-                    newListCarts.Add(checkCartExist);
+                    newListCarts.Add(item.Adapt<ShoppingCartItems>());
                 }
             }
 
