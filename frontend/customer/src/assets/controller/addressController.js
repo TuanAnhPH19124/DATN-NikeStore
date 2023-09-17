@@ -14,7 +14,7 @@
         s.provices = [];
         s.isUpdate = -1;
         s.isAddNew = -1;
-        s.addressLine = '';
+        s.addressLineInput = '';
 
         s.signOutE = function () {
             authService.setLogOut();
@@ -30,18 +30,26 @@
             s.address = {};
             s.isUpdate = -1;
             s.isAddNew = 0;
-            s.addressLine = '';
+            s.addressLineInput = '';
             s.visible = 0;
         }
 
+        s.showAddressLine = function (){
+            console.log(s.addressLineInput);
+
+        }
+
         s.updateAddress = function (id) {
+     
+    
+
             if (confirm("Bạn có muốn cập nhật địa chỉ mới không?")) {
                 let token = authService.getToken();
                 let tokenDecode = jwtHelper.decodeToken(token);
                 let provinceName = s.provices.filter(item => item.ProvinceID === parseInt(s.address.cityCode)).map(item => item.NameExtension[1]);
                 let districtName = s.districts.filter(item => item.DistrictID === parseInt(s.address.provinceCode)).map(item => item.NameExtension[0]);
                 let wardName = s.wards.filter(item => item.WardCode === s.address.wardCode).map(item => item.NameExtension[0]);
-                s.address.addressLine = `${s.addressLine}, ${wardName}, ${districtName}, ${provinceName}`;
+                s.address.addressLine = `${s.addressLineInput}, ${wardName}, ${districtName}, ${provinceName}`;
 
                 let data = s.address;
                 data.userId = tokenDecode.Id;
@@ -67,7 +75,7 @@
             let provinceName = s.provices.filter(item => item.ProvinceID === parseInt(s.address.cityCode)).map(item => item.NameExtension[1]);
             let districtName = s.districts.filter(item => item.DistrictID === parseInt(s.address.provinceCode)).map(item => item.NameExtension[0]);
             let wardName = s.wards.filter(item => item.WardCode === s.address.wardCode).map(item => item.NameExtension[0]);
-            s.address.addressLine = `${s.addressLine}, ${wardName}, ${districtName}, ${provinceName}`;
+            s.address.addressLine = `${s.addressLineInput}, ${wardName}, ${districtName}, ${provinceName}`;
 
             let data = s.address;
             data.userId = tokenDecode.Id;
@@ -100,7 +108,7 @@
             });
             s.getDistricts(s.address.cityCode);
             s.getWards(s.address.provinceCode);
-            s.addressLine = splitAddressLine(s.address.addressLine);
+            s.addressLineInput = splitAddressLine(s.address.addressLine);
             s.visible = 0;
             s.isUpdate = 0;
             s.isAddNew = -1;
@@ -109,7 +117,8 @@
         function splitAddressLine(addLine) {
             let newAddress = '';
             let arr = addLine.split(', ');
-            arr.splice(-3);
+            if (arr.length > 3)
+                arr.splice(-3);
 
             for (let i = 0; i < arr.length; i++) {
                 if (i === arr.length - 1) {
