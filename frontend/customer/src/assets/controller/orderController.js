@@ -31,7 +31,7 @@
 
 
         e.freeShip = function (){
-            if (e.subtotal() > 5000000 && e.avalibleShippingService.length > 0 && e.selectedShippingServiceIndex !== -1)
+            if (e.subtotal() >= 5000000 && e.avalibleShippingService.length > 0 && e.selectedShippingServiceIndex !== -1)
                 return e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1;
             else
                 return 0;

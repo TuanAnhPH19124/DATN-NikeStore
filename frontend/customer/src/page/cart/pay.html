@@ -498,10 +498,9 @@
           </span>
         </div>
       </div>
-
       <div
         class="row"
-        ng-show="subtotal() > 5000000 && selectedShippingServiceIndex !== -1"
+        ng-show="subtotal() >= 5000000 && selectedShippingServiceIndex !== -1"
       >
         <div
           class="col-8"

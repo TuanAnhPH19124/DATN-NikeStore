@@ -5,7 +5,7 @@
       <div class="banner-freeship">
         <div class="freeship-infomation">
           <h4 style="margin-left: 10px;">Miễn phí vận chuyển</h4>
-          <span style="margin-left: 10px;">Với các đơn hàng có giá trị từ 5.000.000đ trở lên</span>
+          <span style="margin-left: 10px;">Với các đơn hàng có giá trị trên 5.000.000đ trở lên</span>
         </div>
       </div><br>
       <h3>Giỏ hàng:</h3>
@@ -56,7 +56,7 @@
         <span style="color: red;font-size: 18px;">{{ formatPrice(totalAmount()) }}</span>
       </div>
 
-      <div ng-show="totalAmount() > 5000000" class="freeship">
+      <div ng-show="totalAmount() >= 5000000" class="freeship">
         <span>Miễn phí vận chuyển </span>
       </div>
 

@@ -1,89 +1,97 @@
-
 <style>
-ul {
-    list-style: none; 
-    padding: 0;
-}
-li {
-    display: flex; 
-    align-items: center; 
-}
-span {
-        flex: 1; 
-    font-weight: bold; 
-}
-input.edit-input {
-    flex: 2;
-    padding: 5px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-}
-ul li::before {
-    position: absolute;
-    left: 0;    
-}
-ul li p a{
-    text-decoration: none;
-}
-a {
-    color: black;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-a:hover {
-    color: #5787bb;
-}
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+    }
+
+    span {
+        flex: 1;
+        font-weight: bold;
+    }
+
+    input.edit-input {
+        flex: 2;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    ul li::before {
+        position: absolute;
+        left: 0;
+    }
+
+    ul li p a {
+        text-decoration: none;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    a:hover {
+        color: #5787bb;
+    }
 </style>
 <!-- CSS -->
 <div class="container">
     <div class="account-title">
         <h2 style="text-align: center;padding-top: 50px;font-size: 40px;padding-bottom: 20px;">
-            Tài khoản của bạn  <hr>
-        </h2>       
+            Tài khoản của bạn
+            <hr>
+        </h2>
     </div>
     <div class="row justify-content-start">
         <div class="col-3" style="border: none;">
-          <h4>TÀI KHOẢN</h4>
-          <ul>
-            <li>
-                <p>* <a href="#/accountDetail" style="text-decoration: none;">Thông tin tài khoản</a></p>
-            </li>
-            <li>
-                <p>* <a href="#/address" style="text-decoration: none;">Danh sách địa chỉ</a></p>
-            </li>
-            <li>
-                <p>* <a href="#/changePass" style="text-decoration: none;">Đổi mật khẩu</a></p>
-            </li>
-            <li>
-                <p>* <a href="" ng-click="signOutE()" id="logoutLink" style="text-decoration: none;">Đăng xuất</a></p>
-            </li>          
-          </ul>
+            <h4>TÀI KHOẢN</h4>
+            <ul>
+                <li>
+                    <p>* <a href="#/accountDetail" style="text-decoration: none;">Thông tin tài khoản</a></p>
+                </li>
+                <li>
+                    <p>* <a href="#/address" style="text-decoration: none;">Danh sách địa chỉ</a></p>
+                </li>
+                <li>
+                    <p>* <a href="#/changePass" style="text-decoration: none;">Đổi mật khẩu</a></p>
+                </li>
+                <li>
+                    <p>* <a href="" ng-click="signOutE()" id="logoutLink" style="text-decoration: none;">Đăng xuất</a>
+                    </p>
+                </li>
+            </ul>
         </div>
         <div class="col-8">
-          <h4>THÔNG TIN TÀI KHOẢN</h4>
-          <hr>
-          <ul>
-              <li>
-                  <span>Tên khách hàng:</span>
-                  <input type="text" class="edit-input" ng-model="userInfor.fullName">
-              </li><br>
-              <li>
-                <span>Tên tài khoản:</span>
-                <input type="text" class="edit-input" ng-model="userInfor.userName">
-            </li><br>
-              <li>
-                  <span>Số điện thoại:</span>
-                  <input type="text"class="edit-input" ng-model="userInfor.phoneNumber">
-              </li><br>
-              <li>
-                  <span>Email:</span>
-                  <input type="text" class="edit-input" ng-model="userInfor.email" readonly>
-              </li><br>           
-              <li>
-                  <!-- <button type="button" class="btn btn-outline-info" style="margin-right: 20px;">Chỉnh sửa</button> -->
-                  <button type="button" class="btn btn-outline-danger" ng-disabled="" ng-click="updateInfor()" style="width: 100px;">Lưu</button>
-              </li>
-          </ul>
-      </div>      
-      </div>
+            <h4>THÔNG TIN TÀI KHOẢN</h4>
+            <hr>
+            <ul>
+                <li>
+                    <span>Tên khách hàng:</span>
+                    <input type="text" class="edit-input" ng-model="userInfor.fullName">
+                </li><br>
+                <li>
+                    <span>Tên tài khoản:</span>
+                    <input type="text" class="edit-input" ng-model="userInfor.userName">
+                </li><br>
+                <li>
+                    <span>Số điện thoại:</span>
+                    <input type="text" class="edit-input" ng-model="userInfor.phoneNumber">
+                </li><br>
+                <li>
+                    <span>Email:</span>
+                    <input type="email" class="edit-input" ng-model="userInfor.email" readonly>
+                </li><br>
+                <li>
+                    <button type="button" class="btn btn-outline-danger" ng-disabled="" ng-click="updateInfor()"
+                        style="width: 100px;">Lưu</button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
