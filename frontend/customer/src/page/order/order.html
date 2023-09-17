@@ -14,18 +14,19 @@
         <div class="order-item" ng-repeat="order in orders">
             <div class="status_o" style="padding-bottom: 30px;">
                 <span style="margin-left: 480px;border-bottom: 1px solid rgb(232, 225, 225);">{{ status[order.status]
-                }}</span> -
-            <span ng-show="order.status === 3"
-                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
-                Đã Hoàn thành</span>
-            <span ng-show="order.status !== 3"
-                style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
-                Chưa Hoàn thành</span>
-            <span ng-show="order.status === 4"
-            style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
-            Thất bại</span>
+                    }}</span> -
+                <span ng-show="order.status === 3"
+                    style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
+                    Đã Hoàn thành</span>
+                <span ng-show="order.status !== 3"
+                    style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
+                    Chưa Hoàn thành</span>
+                <span ng-show="order.status === 4"
+                    style="padding-top: 20px;border-bottom: 1px solid rgb(232, 225, 225);color: rgb(255, 0, 0);">
+                    Thất bại</span>
             </div>
-            <a ng-href="#/orderDetail/{{order.orderId}}" style="text-decoration: none; color: black;" ng-repeat="item in order.orderItems">
+            <a ng-href="#/orderDetail/{{order.orderId}}" style="text-decoration: none; color: black;"
+                ng-repeat="item in order.orderItems">
                 <div class="order-tiem-product-info"
                     style="margin-bottom: 10px; border: 1px solid rgb(232, 225, 225);border-radius: 5px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -47,9 +48,11 @@
                 </div>
             </a>
             <div style="display: flex; justify-content: end;">
-                <p style="color: red;font-size: 20px;font-weight: 500;">Thành tiền: {{
-                    order.total | formatVNDPrice }}</p>
+                <p style="color: red;font-size: 20px;font-weight: 500;margin-left: 50px;">Thành tiền: {{
+                    order.total | formatVNDPrice }}
+                </p>
             </div>
+            <div class="order-item-options">
             <div class="order-item-options" ng-show="order.status === 3">
                 <div class="order-item-option-review">
                     <span style="display: inline-block;">Không nhận được đánh giá:</span>
@@ -57,7 +60,6 @@
                 </div>
                 <div>
                     <button type="button" class="btn btn-warning" ng-click="reBuy(order.orderId)">Mua lại</button>
-                    <!-- <button type="button" class="btn btn-outline-info">Xem đánh giá của người mua</button> -->
                 </div>
             </div>
         </div>

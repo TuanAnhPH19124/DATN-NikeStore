@@ -100,14 +100,13 @@
         </li>
         <br>
         <li>
-          <input type="text"  class="edit-input" placeholder="Địa chỉ" ng-model="addressLineInput">
+          <input type="text" class="edit-input" placeholder="Địa chỉ" ng-model="addressLineInput">
         </li>
         <br>
         <li>
           <select class="edit-input" ng-change="getDistricts(address.cityCode)" ng-model="address.cityCode">
             <option ng-repeat="p in provices" ng-value="{{ p.ProvinceID}}">{{ p.NameExtension[1] }}</option>
           </select>
-
         </li>
         <br>
         <li>
@@ -123,15 +122,18 @@
           </select>
         </li>
         <br>
-        
+
         <div class="form-group">
           <label><input type="checkbox" ng-model="address.setAsDefault"> Đặt làm địa chỉ mặc định</label>
         </div>
-        <button type="button" ng-if="isAddNew !== -1" class="btn btn-outline-info" id="editButton" ng-click="addNewAddress()" style="margin-right: 20px;">THÊM
+        <button type="button" ng-if="isAddNew !== -1" class="btn btn-outline-info" id="editButton"
+          ng-click="addNewAddress()" style="margin-right: 20px;">THÊM
           MỚI</button>
-        <button type="button" ng-if="isUpdate !== -1" class="btn btn-outline-info" id="editButton" style="margin-right: 20px;" ng-click="updateAddress(address.id)">CẬP NHẬT</button>
+        <button type="button" ng-if="isUpdate !== -1" class="btn btn-outline-info" id="editButton"
+          style="margin-right: 20px;" ng-click="updateAddress(address.id)">CẬP NHẬT</button>
 
-        <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;" ng-click="cancel()">HUỶ</button>
+        <button type="button" class="btn btn-outline-dark" id="saveButton" style="width: 100px;"
+          ng-click="cancel()">HUỶ</button>
       </ul>
     </div>
   </div>

@@ -14,6 +14,7 @@
     justify-content: space-around;
     border: 1px solid #eee;
 }
+
 .boxProduct1 a:hover {
     text-decoration: none;
 }
@@ -24,8 +25,9 @@
     display: block;
     margin: 0 auto;
 }
+
 .boxProduct1 img:active {
-    transform: scale(1.05); 
+    transform: scale(1.05);
 }
 
 .name1 {
@@ -43,13 +45,13 @@
 }
 
 .cpercenOff1 {
-    flex: 1; 
+    flex: 1;
     border: 1px solid rgb(135, 130, 130);
     margin-right: 90px;
     top: 20px;
     left: 20px;
     border: 1px solid #cecbcb;
-    color:rgb(19, 160, 6);
+    color: rgb(19, 160, 6);
     padding: 2px 13px;
     font-size: var(--fs-7);
     border-radius: 4px;
@@ -60,8 +62,11 @@
     font-size: 24px;
     flex: 1;
 }
-.toggle-button1:hover i {
-    color: red; /* Màu icon khi hover */
+
+.toggle-button1:focus {
+    outline: none;
 }
 
-
+.toggle-button1:hover i {
+    color: red;
+}

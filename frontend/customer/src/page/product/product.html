@@ -1,4 +1,3 @@
-
 <div class="container-fluid mt-5">
 	<div class="row">
 		<div class="col-md-3">
@@ -7,7 +6,7 @@
 					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
 							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Danh mục
-								sản phẩm: 
+								sản phẩm:
 							</h6>
 						</a>
 					</header>
@@ -27,25 +26,30 @@
 				<article>
 					<header class="card-header" style="height: 62px;padding-top: 20px;background-color: white;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="title">
-							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giá tiền:		
+							<h6 class="title" style=" color: black; font-weight: bold; text-decoration: none;"> Giá
+								tiền:
 							</h6>
 						</a>
 					</header>
 					<div class="filter-content collapse show" id="collapse_2">
 						<div class="card-body" style="color: gray;">
 							<label class="custom-control custom-checkbox" ng-repeat="price in priceRanges">
-								<input type="checkbox" ng-model="price.selected" ng-change="onSelectChange()" class="custom-control-input">
-								<div ng-show="price.min === 0" class="custom-control-label"> Dưới {{ formatPrice(price.max) }} 
+								<input type="checkbox" ng-model="price.selected" ng-change="onSelectChange()"
+									class="custom-control-input">
+								<div ng-show="price.min === 0" class="custom-control-label"> Dưới {{
+									formatPrice(price.max) }}
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
-								<div ng-show="price.min !== 0 && price.min !== 5000000" class="custom-control-label"> {{ formatPrice(price.min) }} - {{ formatPrice(price.max) }}
+								<div ng-show="price.min !== 0 && price.min !== 5000000" class="custom-control-label"> {{
+									formatPrice(price.min) }} - {{ formatPrice(price.max) }}
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
-								<div ng-show="price.min === 5000000" class="custom-control-label"> Trên {{ formatPrice(price.min) }} 
+								<div ng-show="price.min === 5000000" class="custom-control-label"> Trên {{
+									formatPrice(price.min) }}
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
 							</label>
-						</div> 
+						</div>
 				</article>
 
 				<article>
@@ -58,7 +62,8 @@
 					<div class="filter-content collapse show" id="collapse_2	">
 						<div class="card-body" style="color: gray;">
 							<label class="custom-control custom-radio" ng-repeat="color in colors">
-								<input type="checkbox" ng-model="color.selected" ng-change="onSelectChange()" class="custom-control-input">
+								<input type="checkbox" ng-model="color.selected" ng-change="onSelectChange()"
+									class="custom-control-input">
 								<div class="custom-control-label"> {{ color.name }}
 									<b class="badge badge-pill badge-light float-right"></b>
 								</div>
@@ -76,9 +81,11 @@
 					</header>
 					<div class="filter-content collapse show" id="collapse_4">
 						<div class="card-body">
-							<label class="checkbox-btn" style="margin: 5px;" ng-repeat="size in sizes | orderBy: numberSize">
+							<label class="checkbox-btn" style="margin: 5px;"
+								ng-repeat="size in sizes | orderBy: numberSize">
 								<span class="btn btn-light" style="border: 1px solid #c7c7c7;background-color: white;">
-									<input type="checkbox" ng-model="size.selected" ng-change="onSelectChange()"> {{ size.numberSize }} 
+									<input type="checkbox" ng-model="size.selected" ng-change="onSelectChange()"> {{
+									size.numberSize }}
 								</span>
 							</label>
 						</div>
@@ -90,7 +97,7 @@
 		<div class="col-md-9 px-5">
 			<div class="sortByProduct">
 				<select ng-model="sortBy" ng-change="onSelectChange()"
-					style="border: 1px solid rgb(198, 198, 198); border-radius: 5px;height: 30px;width: 280px;">
+					style="border: 1px solid rgb(232, 232, 232); border-radius: 5px;height: 30px;width: 280px;">
 					<option value="">Top thịnh hành</option>
 					<option value="2">Hàng mới về</option>
 					<option value="0">Giá từ thấp đến cao</option>
@@ -101,17 +108,17 @@
 			<div class="product-list-container">
 				<div class="row">
 					<div class="col-lg-4 px-2 product-item" ng-repeat="product in products">
-						<button ng-click="addToFavourite(product.id)" class="toggle-button" > 
-							<span class="toggle-button" >
+						<button ng-click="addToFavourite(product.id)" class="toggle-button">
+							<span class="toggle-button">
 								<i class="fa-regular fa-heart"></i>
 							</span>
 						</button>
 						<span ng-show="product.discountRate > 0 && product.discountRate !== product.retailPrice"
 							class="cpercenOff">Giảm {{calculatePercenOff(product.discountRate,
-							product.retailPrice)}}% 
-						</span>														
+							product.retailPrice)}}%
+						</span>
 						<a href="#/productDetail/{{product.id}}" class="product-link">
-							<img ng-src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">					
+							<img ng-src="{{getImgUrl(product.productImages[0].imageUrl)}}" alt="jordan 1">
 							<div class="product-details">
 								<span class="name">{{product.name}}</span>
 								<span class="color">{{countColors(product.productImages)}} màu</span>
