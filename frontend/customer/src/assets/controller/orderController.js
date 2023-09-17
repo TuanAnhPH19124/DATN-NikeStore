@@ -28,20 +28,21 @@
         e.cdn_cgi_trace = null;
         e.selectedVoucher = '';
         e.voucherValue = 0;
+        e.showDiscountList = -1;
 
 
-        e.freeShip = function (){
+        e.freeShip = function () {
             if (e.subtotal() >= 5000000 && e.avalibleShippingService.length > 0 && e.selectedShippingServiceIndex !== -1)
                 return e.avalibleShippingService[e.selectedShippingServiceIndex].totalFee * -1;
             else
                 return 0;
         }
 
-        e.setSelectedVoucher = function (id){
+        e.setSelectedVoucher = function (id) {
             e.selectedVoucher = id;
-            if (e.vouchers.length > 0){
+            if (e.vouchers.length > 0) {
                 e.vouchers.forEach(item => {
-                    if (item.id === id){
+                    if (item.id === id) {
                         e.voucherValue = e.subtotal() * item.value / 100 * -1;
                     }
                 })
@@ -49,30 +50,66 @@
             console.log(e.selectedVoucher);
         }
 
-        e.searchOnChange = function (){
-            if (e.searchKeyWord === ''){
+        e.searchOnChange = function () {
+            if (e.searchKeyWord === '') {
                 voucherService.getVouchers()
-                .then(function (response){
-                    e.vouchers = response.data;
-                }, function (response){
-                    console.error(response.data);
-                })
-            }else{
+                    .then(function (response) {
+                        e.vouchers = response.data;
+                    }, function (response) {
+                        console.error(response.data);
+                    })
+            } else {
                 voucherService.getVoucherByCode(e.searchKeyWord)
-                .then(function (response){
-                    e.vouchers = response.data;
-                }, function (response){
-                    console.error(response.data);
-                })
+                    .then(function (response) {
+                        e.vouchers = response.data;
+                    }, function (response) {
+                        console.error(response.data);
+                    })
             }
         }
 
-        e.getExpiredDate = function (futureTime){
+        e.calculateDate = function tinhKhoangThoiGian(ngayCanTinh) {
+            // Ngày hiện tại
+            const ngayHienTai = new Date();
+
+            // Ngày cần tính khoảng thời gian
+            const ngayCanTinhDate = new Date(ngayCanTinh);
+
+            // Tính khoảng thời gian
+            const khoangThoiGian = ngayCanTinhDate - ngayHienTai;
+
+            // Chuyển khoảng thời gian thành giờ, phút, giây
+            const millisecondsInSecond = 1000;
+            const secondsInMinute = 60;
+            const minutesInHour = 60;
+            const hoursInDay = 24;
+
+            const milliseconds = khoangThoiGian % millisecondsInSecond;
+            const totalSeconds = Math.floor(khoangThoiGian / millisecondsInSecond);
+            const seconds = totalSeconds % secondsInMinute;
+            const totalMinutes = Math.floor(totalSeconds / secondsInMinute);
+            const minutes = totalMinutes % minutesInHour;
+            const totalHours = Math.floor(totalMinutes / minutesInHour);
+            const hours = totalHours % hoursInDay;
+            const days = Math.floor(totalHours / hoursInDay);
+
+            // return {
+            //     days,
+            //     hours,
+            //     minutes,
+            //     seconds,
+            //     milliseconds,
+            // };
+            return `${days > 0 ? days + ' ngày, ': ''}${hours > 0 ? hours + ' giờ, ': ''}${minutes > 0? minutes + ' phút, ': ''}`;
+        }
+ 
+
+        e.getExpiredDate = function (futureTime) {
             let currentDate = new Date();
             let futureDate = new Date(futureTime);
 
             let timeDiff = futureDate.getTime() - currentDate.getTime();
-            let dayDiff = Math.floor(timeDiff /(1000 * 3600 * 24));
+            let dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
             return dayDiff;
         }
 
@@ -130,7 +167,7 @@
             let wardName = e.wards.filter(item => item.WardCode === newAddress.wardCode).map(item => item.NameExtension[0]);
 
             newAddress.userId = tokenDecode.Id;
-         
+
             newAddress.addressLine += `, ${wardName}, ${districtName}, ${provinceName}`;
             addressService.addAddress(newAddress)
                 .then(function (response) {
@@ -343,10 +380,10 @@
             return expireDatetime;
         }
 
-        e.createOrder = function (paymethod){
+        e.createOrder = function (paymethod) {
             let token = authService.getToken();
             let tokenDecode = jwtHelper.decodeToken(token);
-            let oItems = e.carts.map(item =>{
+            let oItems = e.carts.map(item => {
                 return {
                     productId: item.product.id,
                     colorId: item.colorId,
@@ -354,7 +391,7 @@
                     unitPrice: item.product.discountRate,
                     quantity: item.quantity
                 }
-            }); 
+            });
             let data = {
                 addressId: e.addressCustomer[e.selectedIndex].id,
                 userId: tokenDecode.Id,
@@ -369,16 +406,16 @@
             console.log(data);
             console.log(e.carts);
             orderService.createOrder(data)
-            .then(function (response){
-                cartService.clearCart(tokenDecode.Id)
-                .then(function (response){
-                    l.path('/order');
-                }, function(response){
+                .then(function (response) {
+                    cartService.clearCart(tokenDecode.Id)
+                        .then(function (response) {
+                            l.path('/order');
+                        }, function (response) {
+                            console.log(response.data);
+                        })
+                }, function (response) {
                     console.log(response.data);
                 })
-            }, function(response){
-                console.log(response.data);
-            })
         }
 
         e.vnpay = function () {
@@ -396,23 +433,23 @@
             var vnp_Version = '2.1.0';
             var vnp_SecureHash = 'VXTCXWAGUTDABTTTUYINYCNPQPXJLLAS';
             var vnp_ExpireDate = getExpireDateInGMT7Format();
-           
-            var urlPayRedirect = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html' + 
-            '?vnp_Amount=' + vnp_Amount +
-            '&vnp_Command=' + vnp_Command +
-            '&vnp_CreateDate=' + vnp_CreateDate +
-            '&vnp_CurrCode=' + vnp_CurrCode +
-            '&vnp_IpAddr=' + vnp_IpAddr +
-            '&vnp_Locale=' + vnp_Locale +
-            '&vnp_OrderInfo=' + encodeURIComponent(vnp_OrderInfo) +
-            '&vnp_OrderType=' + vnp_OrderType +
-            '&vnp_ReturnUrl=' + encodeURIComponent(vnp_ReturnUrl) +
-            '&vnp_TmnCode=' + vnp_TmnCode +
-            '&vnp_TxnRef=' + vnp_TxnRef +
-            '&vnp_SecureHash=' + vnp_SecureHash +
-            '&vnp_ExpireDate=' + vnp_ExpireDate +
-            '&vnp_Version=' + vnp_Version;
-            
+
+            var urlPayRedirect = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html' +
+                '?vnp_Amount=' + vnp_Amount +
+                '&vnp_Command=' + vnp_Command +
+                '&vnp_CreateDate=' + vnp_CreateDate +
+                '&vnp_CurrCode=' + vnp_CurrCode +
+                '&vnp_IpAddr=' + vnp_IpAddr +
+                '&vnp_Locale=' + vnp_Locale +
+                '&vnp_OrderInfo=' + encodeURIComponent(vnp_OrderInfo) +
+                '&vnp_OrderType=' + vnp_OrderType +
+                '&vnp_ReturnUrl=' + encodeURIComponent(vnp_ReturnUrl) +
+                '&vnp_TmnCode=' + vnp_TmnCode +
+                '&vnp_TxnRef=' + vnp_TxnRef +
+                '&vnp_SecureHash=' + vnp_SecureHash +
+                '&vnp_ExpireDate=' + vnp_ExpireDate +
+                '&vnp_Version=' + vnp_Version;
+
             $window.open(urlPayRedirect, '_blank');
         }
 
@@ -453,12 +490,12 @@
                         console.log(response);
                     })
                 voucherService.getVouchers()
-                .then(function (response){
-                    e.vouchers = response.data;
-                    console.log(e.vouchers);
-                }, function(response){
-                    console.error(response.data);
-                })
+                    .then(function (response) {
+                        e.vouchers = response.data;
+                        console.log(e.vouchers);
+                    }, function (response) {
+                        console.error(response.data);
+                    })
             } else {
                 l.path('/signin');
             }
@@ -467,6 +504,6 @@
 
         constructor();
     }
-    orderController.$inject = ['voucherService','$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
+    orderController.$inject = ['voucherService', '$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
     angular.module("app").controller("orderController", orderController);
 }());

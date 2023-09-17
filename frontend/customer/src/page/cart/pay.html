@@ -319,13 +319,15 @@
           <div class="discount-list" id="discount-list">
             <div ng-repeat="voucher in vouchers">
               <button
-                ng-click="setSelectedVoucher(voucher.id)"
-                ng-disabled="getExpiredDate(voucher.endDate) < 0 || subtotal() < voucher.expression"
+                ng-disabled="getExpiredDate(voucher.endDate) < 0 || subtotal() < voucher.expression || getExpiredDate(voucher.startDate) >= 0"
+                ng-mousedown="setSelectedVoucher(voucher.id)"
               >
                 <p>{{ voucher.code }}</p>
                 <p>giảm {{ voucher.value }} %</p>
+                <p>Bắt đầu sau {{ calculateDate(voucher.startDate) }}</p>
+                <p>Kết thúc ngày {{ voucher.endDate }}</p>
                 <p ng-show="getExpiredDate(voucher.endDate) > 0">
-                  hết hạn sau {{ getExpiredDate(voucher.endDate) }} Ngày
+                  Hết hạn sau {{ getExpiredDate(voucher.endDate) }} Ngày
                 </p>
                 <p ng-show="getExpiredDate(voucher.endDate) < 0">Đã hết hạn</p>
                 <p ng-show="subtotal() < voucher.expression">
@@ -580,7 +582,7 @@
           freeShip() + voucherValue | formatVNDPrice }}
         </div>
       </div>
-      <br>
+      <br />
     </div>
   </div>
 </div>
