@@ -23,7 +23,8 @@
         <div class="container-end">
             <div class="row">
                 <div class="col-lg-2 col-sm-12">
-                    <a href="#/"><img src="../assets/img/logo/nike.png" alt="Trang chủ" style="padding-left: 200px;"></a>
+                    <a href="#/"><img src="../assets/img/logo/nike.png" alt="Trang chủ"
+                            style="padding-left: 200px;"></a>
                 </div>
                 <div class="col-lg-6" style="padding-right: 30px;">
                     <ul>
@@ -34,24 +35,22 @@
                         <li><a href="#aboutUS">Về chúng tôi</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-4" style="display: flex; align-items: center; justify-content: end; padding-right: 100px;">
+                <div class="col-lg-4"
+                    style="display: flex; align-items: center; justify-content: end; padding-right: 100px;">
                     <div class="container_search">
                         <button id="search-btn"><img src="../assets/img/logo/search-interface-symbol.png"
                                 alt="Tìm kiếm"></button>
-                        <input type="text" placeholder="Tìm kiếm ...">
+                        <input type="" placeholder="Tìm kiếm ...">
                     </div>
-                  
                     <div class="container-wishlist">
                         <a href="#/wishlist"><img src="../assets/img/logo/heart.png" alt="Yêu thích"></a>
                     </div>
                     <div class="container-cart">
                         <a href="#/cart"><img src="../assets/img/logo/shopping-bag.png" alt="Giỏ hàng"></a>
                         <span ng-show="cartCounter() >= 10" class="span-9p">9+</span>
-                        <span ng-show="cartCounter() > 0 && cartCounter() < 10" >{{cartCounter()}}</span>
+                        <span ng-show="cartCounter() > 0 && cartCounter() < 10">{{cartCounter()}}</span>
                     </div>
-                   
                 </div>
             </div>
-
         </div>
 </header>
