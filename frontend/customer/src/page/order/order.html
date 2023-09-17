@@ -53,6 +53,11 @@
                 </p>
             </div>
             <div class="order-item-options">
+            <div class="order-item-options" ng-show="order.status === 3">
+                <div class="order-item-option-review">
+                    <span style="display: inline-block;">Không nhận được đánh giá:</span>
+                    <!-- <button type="button" class="btn btn-outline-success">Đánh giá ngay</button> -->
+                </div>
                 <div>
                     <button type="button" class="btn btn-warning" ng-click="reBuy(order.orderId)">Mua lại</button>
                 </div>
