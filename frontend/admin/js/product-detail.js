@@ -1209,6 +1209,65 @@ document.addEventListener("DOMContentLoaded", function () {
       numberSize: $("#numberSize").val(),
     };
     if (confirm(`Bạn có muốn thêm size ${formData.numberSize}?`)) {
+      if (formData.numberSize <= 0) {
+        // Select the toast element by its ID
+        var toastElement = $("#size-duplicate");
+
+        // Change the text content of the toast
+        toastElement.find(".toast-body").text("Size phải là số dương");
+
+        // Show the toast
+        toastElement.toast("show");
+        $.ajax({
+          url: "https://localhost:44328/api/Size/Get",
+          method: "GET",
+          dataType: "json",
+          success: function (data) {
+            var buttonContainer = $("#sizeContainer");
+            var addButton = buttonContainer.find("#add-size-now"); // Get the "add-now-btn" button
+            var buttonsToKeep = buttonContainer.find(
+              ".btn:not(#add-size-now)"
+            ); // Get all buttons except "add-now-btn"
+
+            buttonContainer.empty(); // Empty the container
+
+            // Append the buttons you want to keep
+            buttonsToKeep.each(function () {
+              buttonContainer.append($(this));
+            });
+
+            data.forEach(function (item) {
+              var button = $("<button></button>");
+              button.attr("type", "button");
+              button.addClass("btn btn-outline-dark after-add-size");
+              button.css("margin-left", "3%");
+              button.css("margin-top", "1%");
+              button.text(item.numberSize);
+              button.attr("data-color", item.numberSize);
+              button.click(function () {
+                selectedColorText = {
+                  id: item.id,
+                  numberSize: item.numberSize,
+                  unitInStock: 1,
+                };
+                var buttons = document.getElementsByClassName(
+                  "btn-outline-dark after-add-size"
+                );
+                for (var i = 0; i < buttons.length; i++) {
+                  buttons[i].classList.remove("active");
+                }
+
+                $(this).addClass("active");
+              });
+              buttonContainer.append(button);
+            });
+
+            buttonContainer.append(addButton); // Append the "add-now-btn" button back
+          },
+          error: function (error, xhr) {},
+        });
+        return
+      }
       $.ajax({
         url: "https://localhost:44328/api/Size",
         type: "POST",
