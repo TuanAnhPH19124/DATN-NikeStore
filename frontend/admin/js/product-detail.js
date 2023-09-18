@@ -1267,8 +1267,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
           $("#exampleModalSize").modal("show");
         },
-        error: function () {
-          $("#size-duplicate").toast("show");
+        error: function (error) {
+          if (error.status === 409) {
+            // Select the toast element by its ID
+            var toastElement = $("#size-duplicate");
+
+            // Change the text content of the toast
+            toastElement.find(".toast-body").text("Size bị trùng");
+
+            // Show the toast
+            toastElement.toast("show");
+          }
+          if (error.status === 400) {
+            // Select the toast element by its ID
+            var toastElement = $("#size-duplicate");
+
+            // Change the text content of the toast
+            toastElement.find(".toast-body").text("Kích cỡ phải là số");
+
+            // Show the toast
+            toastElement.toast("show");
+          }
           $.ajax({
             url: "https://localhost:44328/api/Size/Get",
             method: "GET",
