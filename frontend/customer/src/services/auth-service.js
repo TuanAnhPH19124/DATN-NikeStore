@@ -83,7 +83,7 @@
             return enumEvent;
         }
         this.signIn = function (user) {
-            let uri = apiUrl + '/api/Authentication/SignIn';
+            let uri = apiUrl + '/api/Authentication/userSignIn';
             return $http({
                 method: 'POST',
                 url: uri,
