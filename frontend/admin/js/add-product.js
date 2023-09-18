@@ -21,18 +21,16 @@ function selectDiscountType(type) {
     discountFixed.style.display = "block";
   }
 }
-const id_user = localStorage.getItem("user-id")
+const id_user = localStorage.getItem("user-id");
 $.ajax({
-    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
-    type: "GET",
-    contentType: "application/json",
-    success: function (data) {
-        console.log(data.fullName)
-        $("#fullName").text(data.fullName)
-    },
-    error: function () {
-
-    },
+  url: "https://localhost:44328/api/AppUser/Get/" + id_user,
+  type: "GET",
+  contentType: "application/json",
+  success: function (data) {
+    console.log(data.fullName);
+    $("#fullName").text(data.fullName);
+  },
+  error: function () {},
 });
 
 function formatCurrency(input, type) {
@@ -590,7 +588,9 @@ function loadColorE() {
       newButton.id = color.id;
       newButton.textContent = color.name;
       newButton.addEventListener("click", function (e) {
-        var buttons = document.getElementsByClassName("btn-outline-dark pick-color");
+        var buttons = document.getElementsByClassName(
+          "btn-outline-dark pick-color"
+        );
         for (var i = 0; i < buttons.length; i++) {
           buttons[i].classList.remove("active");
         }
@@ -640,7 +640,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var selectedColorText = {};
 
   addColorButton.addEventListener("click", function () {
-    if (selectedColorText === {} || selectedColorText === undefined) {
+    if (selectedColorText == {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
@@ -665,7 +665,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     selectedColorText = {};
     $("#exampleModalColor").modal("hide");
-
   });
 
   $("#exampleModalColor").on("show.bs.modal", function (event) {
@@ -703,11 +702,13 @@ document.addEventListener("DOMContentLoaded", function () {
         button.attr("id", item.id);
         button.click(function () {
           selectedColorText = { id: item.id, text: item.name };
-          var buttons = document.getElementsByClassName("btn-outline-dark add-color");
+          var buttons = document.getElementsByClassName(
+            "btn-outline-dark add-color"
+          );
           for (var i = 0; i < buttons.length; i++) {
             buttons[i].classList.remove("active");
           }
-  
+
           $(this).addClass("active");
         });
         buttonContainer.append(button);
@@ -766,11 +767,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.attr("id", item.id);
                 button.click(function () {
                   selectedColorText = { id: item.id, text: item.name };
-                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-color");
+                  var buttons = document.getElementsByClassName(
+                    "btn-outline-dark after-add-color"
+                  );
                   for (var i = 0; i < buttons.length; i++) {
                     buttons[i].classList.remove("active");
                   }
-          
+
                   $(this).addClass("active");
                 });
                 buttonContainer.append(button);
@@ -812,11 +815,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.attr("data-color", item.name);
                 button.attr("id", item.id);
                 button.click(function () {
-                  var buttons = document.getElementsByClassName("btn-outline-dark add-color");
+                  var buttons = document.getElementsByClassName(
+                    "btn-outline-dark add-color"
+                  );
                   for (var i = 0; i < buttons.length; i++) {
                     buttons[i].classList.remove("active");
                   }
-          
+
                   $(this).addClass("active");
                   selectedColorText = { id: item.id, text: item.name };
                 });
@@ -876,10 +881,7 @@ function loadSizeE() {
         newInput.value = element.unitInStock > 0 ? element.unitInStock : 1;
         console.log(newInput.value);
         newInput.addEventListener("change", function () {
-          if (
-            /^[0-9]+$/.test(newInput.value) &&
-            parseInt(newInput.value) > 0
-          ) {
+          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) > 0) {
             validationMessage.textContent = "";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
@@ -926,7 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var selectedColorText = {};
 
   addColorButton.addEventListener("click", function () {
-    if (selectedColorText === {} || selectedColorText === undefined) {
+    if (selectedColorText == {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
@@ -943,12 +945,16 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSizeE();
     $("#exampleModalSize").modal("hide");
     selectedColorText = {};
-    
-    var buttons = document.getElementsByClassName("btn btn-outline-dark pick-size");
+
+    var buttons = document.getElementsByClassName(
+      "btn btn-outline-dark pick-size"
+    );
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].classList.remove("active");
     }
-    var buttons = document.getElementsByClassName("btn btn-outline-dark after-add-size");
+    var buttons = document.getElementsByClassName(
+      "btn btn-outline-dark after-add-size"
+    );
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].classList.remove("active");
     }
@@ -997,11 +1003,13 @@ document.addEventListener("DOMContentLoaded", function () {
             numberSize: item.numberSize,
             unitInStock: 1,
           };
-          var buttons = document.getElementsByClassName("btn-outline-dark pick-size");
+          var buttons = document.getElementsByClassName(
+            "btn-outline-dark pick-size"
+          );
           for (var i = 0; i < buttons.length; i++) {
             buttons[i].classList.remove("active");
           }
-  
+
           $(this).addClass("active");
         });
         buttonContainer.append(button);
@@ -1063,11 +1071,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     numberSize: item.numberSize,
                     unitInStock: 1,
                   };
-                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-size");
+                  var buttons = document.getElementsByClassName(
+                    "btn-outline-dark after-add-size"
+                  );
                   for (var i = 0; i < buttons.length; i++) {
                     buttons[i].classList.remove("active");
                   }
-          
+
                   $(this).addClass("active");
                 });
                 buttonContainer.append(button);
@@ -1082,7 +1092,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           $("#exampleModalSize").modal("show");
         },
-        error: function () {
+        error: function (error, xhr) {
           $.ajax({
             url: "https://localhost:44328/api/Size/Get",
             method: "GET",
@@ -1115,11 +1125,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     numberSize: item.numberSize,
                     unitInStock: 1,
                   };
-                  var buttons = document.getElementsByClassName("btn-outline-dark after-add-size");
+                  var buttons = document.getElementsByClassName(
+                    "btn-outline-dark after-add-size"
+                  );
                   for (var i = 0; i < buttons.length; i++) {
                     buttons[i].classList.remove("active");
                   }
-          
+
                   $(this).addClass("active");
                 });
                 buttonContainer.append(button);
@@ -1127,11 +1139,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
               buttonContainer.append(addButton); // Append the "add-now-btn" button back
             },
-            error: function () {
-              console.error("Error fetching data.");
-            },
+            error: function (error, xhr) {},
           });
-          $("#size-duplicate").toast("show");
+          console.log(error.status);
+          if (error.status === 409) {
+            // Select the toast element by its ID
+            var toastElement = $("#size-duplicate");
+
+            // Change the text content of the toast
+            toastElement.find(".toast-body").text("Size bị trùng");
+
+            // Show the toast
+            toastElement.toast("show");
+          }
+          if (error.status === 400) {
+            // Select the toast element by its ID
+            var toastElement = $("#size-duplicate");
+
+            // Change the text content of the toast
+            toastElement.find(".toast-body").text("Kích cỡ phải là số");
+
+            // Show the toast
+            toastElement.toast("show");
+          }
         },
       });
     }
