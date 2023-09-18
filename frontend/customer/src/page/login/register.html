@@ -10,40 +10,33 @@
     <input
       style="padding: 0 16px; border: 1px solid #c3b8b8; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="name" type="text" ng-model="newUser.fullName" placeholder="Họ tên">
-      <span ng-show="errorMsgSignUPFN">{{ errorMsgSignUPFN }}</span>
   </p>
+  <p ng-show="errorMsgSignUPFN" style="color: red; font-size: 14px;margin-right: 50px;">{{ errorMsgSignUPFN }}</p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="email" type="email" ng-model="newUser.email" placeholder="Email">
-      <span ng-show="errorMsgSignUPE">{{ errorMsgSignUPE }}</span>
-
   </p>
+  <p ng-show="errorMsgSignUPE" style="color: red; font-size: 14px;margin-right: 120px;">{{ errorMsgSignUPE }}</p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="" type="text" ng-model="newUser.phoneNumber" placeholder="Số điện thoại">
-      <span ng-show="errorMsgSignUPPN">{{ errorMsgSignUPPN }}</span>
-
   </p>
+  <p ng-show="errorMsgSignUPPN" style="color: red; font-size: 14px;margin-right: 25px;">{{ errorMsgSignUPPN }}</p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="" type="password" ng-model="newUser.password" placeholder="Mật khẩu">
-      <span ng-show="errorMsgSignUPP">{{ errorMsgSignUPP }}</span>
-      <span ng-show="newPassWordError">{{ newPassWordError }}</span>
-
-
   </p>
-
+  <p ng-show="errorMsgSignUPP" style="color: red; font-size: 14px;margin-right: 50px;">{{ errorMsgSignUPP }}</p>
+  <p ng-show="newPassWordError" style="color: red; font-size: 14px;margin-right: 50px;">{{ newPassWordError }}</p>
   <p style="margin-top: 20px;">
     <input
       style="padding: 0 16px; border: 1px solid #bbb2b2; height: 40px; border-radius: 3px; width: 23%; color: rgb(76, 75, 72); "
       id="" type="password" ng-model="newUser.passwordConfirm" placeholder="Xác nhận mật khẩu">
-      <span ng-show="errorMsgSignUPPC">{{ errorMsgSignUPPC }}</span>
-
+  <p ng-show="errorMsgSignUPPC" style="color: red;font-size: 14px;margin-left: 20px;">{{ errorMsgSignUPPC }}</p>
   </p>
-
   <p style="margin-top: 20px;">
     <input id="signUp_Btn"
       style="padding: 0 16px; border: 1px solid #000000; height: 40px; border-radius: 3px; width: 23%; color: rgb(255, 255, 255); "

@@ -307,114 +307,113 @@ $(document).ready(function () {
         });
       });
 
-      // hiển thị màu
-      var colorIds = [...new Set(data.productImages.map(function (item) {
-        return item.colorId;
-      }))];
-      var images = data.productImages.map(function (item) {
-        return {
-          colorId : item.colorId,
-          imageUrl : item.imageUrl,
-        };
+// hiển thị màu
+var colorIds = [...new Set(data.productImages.map(function (item) {
+  return item.colorId;
+}))];
+var images = data.productImages.map(function (item) {
+  return {
+    colorId: item.colorId,
+    imageUrl: item.imageUrl,
+  };
+});
+console.log(images);
+
+async function processColors() {
+  for (let colorId of colorIds) {
+    try {
+      const data = await $.ajax({
+        url: "https://localhost:44328/api/Color/Get/" + colorId,
+        type: "GET",
+        dataType: "json",
       });
-      console.log(images)
-      // Assuming product is an object with a Colors property
-      colorIds.forEach(function (colorId) {
-        $.ajax({
-          url: "https://localhost:44328/api/Color/Get/" + colorId,
-          type: "GET",
-          dataType: "json",
-          success: function (data) {
-            console.log(data.id)
-            console.log(colorId)
-            product.Colors.push({
-              id: colorId,
-              name: data.name,
-              Images: [],
-              Sizes: [],
-              NotDelete: true
+
+      console.log(data.id);
+      console.log(colorId);
+
+      product.Colors.push({
+        id: colorId,
+        name: data.name,
+        Images: [],
+        Sizes: [],
+        NotDelete: true
+      });
+
+      loadColorE();
+
+      const imagesForColor = images.filter(image => image.colorId === colorId);
+
+      for (let i = 0; i < product.Colors.length; i++) {
+        if (product.Colors[i].id === colorId) {
+          for (const imageData of imagesForColor) {
+            const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
+            const response = await fetch(imageLink);
+            const blob = await response.blob();
+            const newImage = new File([blob], "image.jpg", {
+              type: "image/jpeg",
             });
-            loadColorE();
-            for (let i = 0; i < product.Colors.length; i++) {
-              if (product.Colors[i].id === colorId) {
-                const imagesForColor = images.filter(image => image.colorId === colorId);
-                
-                imagesForColor.forEach(imageData => {
-                  const imageLink = "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
-            
-                  fetch(imageLink)
-                    .then(response => response.blob())
-                    .then(blob => {
-                      const newImage = new File([blob], "image.jpg", {
-                        type: "image/jpeg",
-                      });
-            
-                      product.Colors[i].Images.push({
-                        file: newImage,
-                        setAsDefault: false,
-                      });
-            
-                      loadImageE();
-                    });
-                });
-              }
-            }
-            
-          },
-          error: function () {
-            console.log("Error retrieving data.");
-          },
-        });
-      });
-      // load Size
-      var sizeData = data.stocks.map(function (item) {
-        return {
-          sizeId: item.sizeId,
-          unitInStock: item.unitInStock,
-          colorId:item.colorId,
-        };
-      });
-      var promises = [];
 
-      sizeData.forEach(function (size) {
-        var promise = $.ajax({
-          url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
-          type: "GET",
-          dataType: "json",
-        })
-          .then(function (data) {
-            console.log(data);
+            product.Colors[i].Images.push({
+              file: newImage,
+              setAsDefault: false,
+            });
 
-            var selectedColorText = {
-              numberSize: data.numberSize,
-              id: size.sizeId,
-            };
-            console.log(sizeData.length)
-            // Find the correct color index based on colorId
-            for (let i = 0; i < sizeData.length; i++) {
-              if (product.Colors[i].id === size.colorId) {
-                selectedColorText.unitInStock = size.unitInStock;
-                selectedColorText.NotDelete = true
-                product.Colors[i].Sizes.push(selectedColorText);
-              }
-            }
-            // Push selectedColorText to the Sizes array of the corresponding color
-          })
-          .catch(function () {
-            console.log("Error retrieving data.");
-          });
+            loadImageE();
+          }
+        }
+      }
+    } catch (error) {
+      console.log("Error retrieving data.");
+    }
+  }
+}
 
-        promises.push(promise);
+// load Size
+var sizeData = data.stocks.map(function (item) {
+  return {
+    sizeId: item.sizeId,
+    unitInStock: item.unitInStock,
+    colorId: item.colorId,
+  };
+});
+var promises = [];
+
+async function processSizes() {
+  for (let size of sizeData) {
+    try {
+      const data = await $.ajax({
+        url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+        type: "GET",
+        dataType: "json",
       });
 
-      // Wait for all AJAX requests to complete
-      Promise.all(promises).then(function () {
-        loadSizeE(); // This will be called after all requests are finished
-        // Assuming you have an imageLink as you mentioned earlier
+      var selectedColorText = {
+        numberSize: data.numberSize,
+        id: size.sizeId,
+      };
 
-          console.log(data)
-          console.log(product);
-      });
+      for (let i = 0; i < sizeData.length; i++) {
+        if (product.Colors[i].id === size.colorId) {
+          selectedColorText.unitInStock = size.unitInStock;
+          selectedColorText.NotDelete = true;
+          product.Colors[i].Sizes.push(selectedColorText);
+        }
+      }
+    } catch (error) {
+      console.log("Error retrieving data.");
+    }
+  }
+}
+
+// Call the functions sequentially
+processColors()
+  .then(processSizes)
+  .then(() => {
+    loadSizeE(); // This will be called after all requests are finished
+    console.log(data);
+    console.log(product);
+  });
+
     },
     error: function () {
       console.log("Error retrieving data.");
@@ -823,7 +822,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var selectedColorText = {};
 
   addColorButton.addEventListener("click", function () {
-    if (selectedColorText === {} || selectedColorText === undefined) {
+    if (selectedColorText == {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
@@ -1121,7 +1120,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var selectedColorText = {};
 
   addColorButton.addEventListener("click", function () {
-    if (selectedColorText === {} || selectedColorText === undefined) {
+    if (selectedColorText == {} || selectedColorText === undefined) {
       return; // Ngăn việc thêm nút nếu màu chưa được chọn
     }
 
@@ -1268,8 +1267,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
           $("#exampleModalSize").modal("show");
         },
-        error: function () {
-          $("#size-duplicate").toast("show");
+        error: function (error) {
+          if (error.status === 409) {
+            // Select the toast element by its ID
+            var toastElement = $("#size-duplicate");
+
+            // Change the text content of the toast
+            toastElement.find(".toast-body").text("Size bị trùng");
+
+            // Show the toast
+            toastElement.toast("show");
+          }
+          if (error.status === 400) {
+            // Select the toast element by its ID
+            var toastElement = $("#size-duplicate");
+
+            // Change the text content of the toast
+            toastElement.find(".toast-body").text("Kích cỡ phải là số");
+
+            // Show the toast
+            toastElement.toast("show");
+          }
           $.ajax({
             url: "https://localhost:44328/api/Size/Get",
             method: "GET",
