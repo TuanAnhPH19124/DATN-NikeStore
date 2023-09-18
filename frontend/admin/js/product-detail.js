@@ -372,6 +372,7 @@ $(document).ready(function () {
                   });
 
                   loadImageE();
+                  console.log(imageData)
                 }
               }
             }
@@ -1090,10 +1091,10 @@ function loadSizeE() {
         var newInput = document.createElement("input");
         newInput.className = "input-unit";
         newInput.placeholder = "Số lượng: ";
-        newInput.value = element.unitInStock >= 0 ? element.unitInStock : 1;
+        newInput.value = element.unitInStock >= 0 ? element.unitInStock : 0;
 
         newInput.addEventListener("change", function () {
-          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) >= 0) {
+          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) > 0) {
             validationMessage.textContent = "";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
@@ -1102,8 +1103,8 @@ function loadSizeE() {
               newInput.value
             );
           } else {
-            newInput.value = 0;
-            validationMessage.textContent = "Số lượng phải là số";
+            newInput.value = element.unitInStock;
+            validationMessage.textContent = "Số lượng phải là số dương";
           }
         });
 
