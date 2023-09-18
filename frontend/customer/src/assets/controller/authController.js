@@ -58,7 +58,8 @@
                         e.errorMsgUserPassword = "Mật khẩu của bạn chưa chính xác!";
                     if (ressponse.status === 404)
                         e.errorMsgUserAccount = "Tài khoản không tồn tại!"
-
+                    if (response.status === 400)
+                        alert("Tài khoản này không thể truy cập");
                 });
 
         };
