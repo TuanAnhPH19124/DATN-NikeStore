@@ -1067,20 +1067,7 @@ function loadSizeE() {
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : 1;
   
         newInput.addEventListener("change", function () {
-          if (
-            parseInt(newInput.value) <= 0 ||
-            isNaN(parseInt(newInput.value))
-          ) {
-            newInput.value = 0;
-            validationMessage.textContent =
-              "Số lượng phải là số";
-            let index = product.Colors[selectedColor].Sizes.findIndex(
-              (p) => p.id === element.id
-            );
-            product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
-              newInput.value
-            );
-          } else {
+          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) > 0) {
             validationMessage.textContent = "";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
@@ -1088,8 +1075,13 @@ function loadSizeE() {
             product.Colors[selectedColor].Sizes[index].unitInStock = parseInt(
               newInput.value
             );
+          } else {
+            newInput.value = 0;
+            validationMessage.textContent =
+              "Số lượng phải là số";
           }
         });
+        
   
         container.appendChild(newButton);
         container.appendChild(newLabel);
