@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Nest;
+using Persistence;
 using Persistence.Ultilities;
 using Service.Abstractions;
 using System;
@@ -31,19 +33,21 @@ namespace Webapi.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHubContext<CustomerHub> _contextHub;
         private readonly IServiceManager _serviceManager;
 
 
      
-        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager)
+        public AuthenticationController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IConfiguration configuration, IHubContext<CustomerHub> contextHub, IServiceManager serviceManager, AppDbContext context)
         {
           _signInManager = signInManager;
           _userManager = userManager;
           _configuration = configuration;
           _contextHub = contextHub;
           _serviceManager = serviceManager;
+          _context = context;
         }
 
         [HttpPost("CreateEmployeeAccount")]
@@ -162,6 +166,58 @@ namespace Webapi.Controllers
                 });
             }
             return Unauthorized();
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("userSignIn")]
+        public async Task<IActionResult> UserSignIn([FromBody] AppUserForLogin appUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    data = ModelState,
+                    error = "Không được để trống thông tin đăng nhập!"
+                });
+            }
+
+            var user_exits = new AppUser();
+            if (!string.IsNullOrEmpty(appUser.Account))
+            {
+                var userCheckByNameAndEmail = await _userManager.FindByNameAsync(appUser.Account);
+                if (userCheckByNameAndEmail == null)
+                {
+                    userCheckByNameAndEmail = await _userManager.FindByEmailAsync(appUser.Account);
+                }
+                
+                if (userCheckByNameAndEmail == null)
+                {
+                    return NotFound(new
+                    {
+                        // account = appUser.Account,
+                        // error = "Tài khoàn này không tồn tại!"
+                    });
+                }
+                user_exits = userCheckByNameAndEmail;
+            }
+
+            if (user_exits.Status == 0)
+                return BadRequest(new {error = "Tài khoản này không thể được truy cập!"});
+            
+
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user_exits, appUser.Password);
+            if (!passwordCorrect)
+                return Unauthorized();
+
+            var roles = await _userManager.GetRolesAsync(user_exits);
+            var token = JwtService.GenerateJwtToken(user_exits, roles, _configuration);
+            return Ok(new
+            {
+                User = user_exits.UserName,
+                Token = token
+            });
+            
         }
 
         [AllowAnonymous]
