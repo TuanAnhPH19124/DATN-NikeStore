@@ -882,122 +882,129 @@ $("#productData tbody").on("click", "tr", function (e) {
         // $('#status').val(data.status);
         // $('#output').attr('src', `/backend/.NET/Webapi/wwwroot/Images/${id}.jpg`);
 
-        // hiển thị màu
-        var colorIds = [
-          ...new Set(
-            data.productImages.map(function (item) {
-              return item.colorId;
-            })
-          ),
-        ];
-        var images = data.productImages.map(function (item) {
-          return {
-            colorId: item.colorId,
-            imageUrl: item.imageUrl,
-          };
-        });
-        console.log(images);
-        // Assuming product is an object with a Colors property
-        colorIds.forEach(function (colorId) {
-          $.ajax({
-            url: "https://localhost:44328/api/Color/Get/" + colorId,
-            type: "GET",
-            dataType: "json",
-            success: function (data) {
-              console.log(data.id);
-              console.log(colorId);
-              product.Colors.push({
-                id: colorId,
-                name: data.name,
-                Images: [],
-                Sizes: [],
+// hiển thị màu
+var colorIds = [
+  ...new Set(
+    data.productImages.map(function (item) {
+      return item.colorId;
+    })
+  ),
+];
+var images = data.productImages.map(function (item) {
+  return {
+    colorId: item.colorId,
+    imageUrl: item.imageUrl,
+  };
+});
+console.log(images);
+
+// Assuming product is an object with a Colors property
+async function fetchColors() {
+  for (let colorId of colorIds) {
+    try {
+      const colorData = await $.ajax({
+        url: "https://localhost:44328/api/Color/Get/" + colorId,
+        type: "GET",
+        dataType: "json",
+      });
+
+      console.log(colorData.id);
+      console.log(colorId);
+
+      product.Colors.push({
+        id: colorId,
+        name: colorData.name,
+        Images: [],
+        Sizes: [],
+      });
+
+      loadColorE();
+
+      const imagesForColor = images.filter((image) => image.colorId === colorId);
+
+      for (let i = 0; i < product.Colors.length; i++) {
+        if (product.Colors[i].id === colorId) {
+          await Promise.all(
+            imagesForColor.map(async (imageData) => {
+              const imageLink =
+                "https://localhost:44328/" + imageData.imageUrl.replace(/\\/g, "/");
+
+              const response = await fetch(imageLink);
+              const blob = await response.blob();
+
+              const newImage = new File([blob], "image.jpg", {
+                type: "image/jpeg",
               });
-              loadColorE();
-              for (let i = 0; i < product.Colors.length; i++) {
-                if (product.Colors[i].id === colorId) {
-                  const imagesForColor = images.filter(
-                    (image) => image.colorId === colorId
-                  );
 
-                  imagesForColor.forEach((imageData) => {
-                    const imageLink =
-                      "https://localhost:44328/" +
-                      imageData.imageUrl.replace(/\\/g, "/");
+              product.Colors[i].Images.push({
+                file: newImage,
+                setAsDefault: false,
+              });
 
-                    fetch(imageLink)
-                      .then((response) => response.blob())
-                      .then((blob) => {
-                        const newImage = new File([blob], "image.jpg", {
-                          type: "image/jpeg",
-                        });
-
-                        product.Colors[i].Images.push({
-                          file: newImage,
-                          setAsDefault: false,
-                        });
-
-                        loadImageE();
-                      });
-                  });
-                }
-              }
-            },
-            error: function () {
-              console.log("Error retrieving data.");
-            },
-          });
-        });
-        // load Size
-        var sizeData = data.stocks.map(function (item) {
-          return {
-            sizeId: item.sizeId,
-            unitInStock: item.unitInStock,
-            colorId: item.colorId,
-          };
-        });
-        var promises = [];
-
-        sizeData.forEach(function (size) {
-          var promise = $.ajax({
-            url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
-            type: "GET",
-            dataType: "json",
-          })
-            .then(function (data) {
-              console.log(data);
-
-              var selectedColorText = {
-                numberSize: data.numberSize,
-                id: size.sizeId,
-              };
-              console.log(sizeData.length);
-              // Find the correct color index based on colorId
-              for (let i = 0; i < sizeData.length; i++) {
-                if (product.Colors[i].id === size.colorId) {
-                  selectedColorText.unitInStock = size.unitInStock;
-                  product.Colors[i].Sizes.push(selectedColorText);
-                }
-              }
-              // Push selectedColorText to the Sizes array of the corresponding color
+              loadImageE();
             })
-            .catch(function () {
-              console.log("Error retrieving data.");
-            });
+          );
+        }
+      }
+    } catch (error) {
+      console.log("Error retrieving data.");
+    }
+  }
+}
 
-          promises.push(promise);
-        });
+// load Size
+var sizeData = data.stocks.map(function (item) {
+  return {
+    sizeId: item.sizeId,
+    unitInStock: item.unitInStock,
+    colorId: item.colorId,
+  };
+});
+var promises = [];
 
-        // Wait for all AJAX requests to complete
-        Promise.all(promises).then(function () {
-          loadSizeE(); // This will be called after all requests are finished
-          // Assuming you have an imageLink as you mentioned earlier
+async function fetchSizes() {
+  for (let size of sizeData) {
+    try {
+      const data = await $.ajax({
+        url: "https://localhost:44328/api/Size/Get/" + size.sizeId,
+        type: "GET",
+        dataType: "json",
+      });
 
-          console.log(data);
-          console.log(product);
-        });
-        addToCartItem.id = data.id;
-        addToCartItem.name = data.name;
-        addToCartItem.price = data.discountRate;
+      var selectedColorText = {
+        numberSize: data.numberSize,
+        id: size.sizeId,
+      };
+
+      for (let i = 0; i < sizeData.length; i++) {
+        if (product.Colors[i].id === size.colorId) {
+          selectedColorText.unitInStock = size.unitInStock;
+          product.Colors[i].Sizes.push(selectedColorText);
+        }
+      }
+    } catch (error) {
+      console.log("Error retrieving data.");
+    }
+  }
+}
+
+// Use async/await to ensure the execution order
+async function fetchData() {
+  await fetchColors();
+  await fetchSizes();
+
+  loadSizeE(); // This will be called after all requests are finished
+
+  console.log(data);
+  console.log(product);
+
+  addToCartItem.id = data.id;
+  addToCartItem.name = data.name;
+  addToCartItem.price = data.discountRate;
+}
+
+fetchData(); // Start fetching data
+
       },
       error: function () {
         console.log("Error retrieving data.");
