@@ -1294,7 +1294,7 @@ $.getJSON("https://localhost:44328/api/Voucher/Get", function (result) {
         .text()
         .replace(/[^0-9]/g, "")
     );
-    if (result[i].expression <= productFee&&result[i].status===true) {
+    if (result[i].expression <= productFee&&result[i].status===true&&new Date()>=new Date(result[i].startDate)&&new Date()<=new Date(result[i].endDate)) {
       option_voucher.push(
         '<option value="',
         result[i].id,
@@ -1467,7 +1467,7 @@ $("#addToCart").click(function () {
           .text()
           .replace(/[^0-9]/g, "")
       );
-      if (result[i].expression <= productFee&&result[i].status===true) {
+      if (result[i].expression <= productFee&&result[i].status===true&&new Date()>=new Date(result[i].startDate)&&new Date()<=new Date(result[i].endDate)) {
         option_voucher.push(
           '<option value="',
           result[i].id,
@@ -1628,7 +1628,7 @@ $(document).on("click", ".delete-item", function () {
           .text()
           .replace(/[^0-9]/g, "")
       );
-      if (result[i].expression <= productFee&&result[i].status===true) {
+      if (result[i].expression <= productFee&&result[i].status===true&&new Date()>=new Date(result[i].startDate)&&new Date()<=new Date(result[i].endDate)) {
         option_voucher.push(
           '<option value="',
           result[i].id,
@@ -1727,7 +1727,7 @@ function clearTableAndData() {
           .text()
           .replace(/[^0-9]/g, "")
       );
-      if (result[i].expression <= productFee&&result[i].status===true) {
+      if (result[i].expression <= productFee&&result[i].status===true&&new Date()>=new Date(result[i].startDate)&&new Date()<=new Date(result[i].endDate)) {
         option_voucher.push(
           '<option value="',
           result[i].id,
