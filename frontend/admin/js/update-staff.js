@@ -9,11 +9,15 @@ $(document).ready(function () {
     success: function (data) {
       console.log(JSON.stringify(data));
       $("#fullName").val(data.fullName);
-      var dateObj1 = new Date(data.dateOfBirth);
-      var day1 = dateObj1.getUTCDate();
-      var month1 = dateObj1.getUTCMonth() + 1;
-      var year1 = dateObj1.getUTCFullYear();
-      var formattedDate = `${day1}/${month1}/${year1}`;
+      var dateObj = new Date(data.dateOfBirth);
+      var day = padZero(dateObj.getUTCDate());
+      var month = padZero(dateObj.getUTCMonth() + 1);
+      var year = dateObj.getUTCFullYear();
+      var formattedDate = `${day}/${month}/${year}`;
+      
+      function padZero(value) {
+        return value < 10 ? `0${value}` : value;
+      }
       $("#dateOfBirth").val(formattedDate);
       $("#snn").val(data.snn);
       $("#phoneNumber").val(data.phoneNumber);
@@ -51,21 +55,32 @@ $(document).ready(function () {
       homeTown: $("#homeTown").val(),
       status: $("#status").prop("checked"),
     };
-    //convert nomal date to ISO 8601 date
-    [startDay, startMonth, startYear] = formData.dateOfBirth.split("/");
+    var startComponents = formData.dateOfBirth.split("/");
     try {
-      formData.dateOfBirth = new Date(
-        `${startYear}-${startMonth}-${startDay}`
-      ).toISOString();
+      var startDate = new Date(
+        `${startComponents[2]}-${startComponents[1]}-${startComponents[0]}`
+      );
+  
+      // Adjust for local time zone offset
+      startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+  
+      formData.dateOfBirth = startDate.toISOString();
+      
     } catch (error) {
       formData.dateOfBirth = "";
     }
+
     if (confirm(`Bạn có muốn cập nhật nhân viên không?`)) {
       const date1 = new Date();
       const date2 = new Date(formData.dateOfBirth);
       console.log(date1);
       console.log(date2);
-
+      if (date1.getFullYear() - date2.getFullYear()<=14) {
+        $("#date14-error").show();
+        return
+      } else {
+        $("#date14-error").hide();
+      }
       // Compare the two dates
       if (date1 < date2) {
         $("#date-error").show();
