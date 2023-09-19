@@ -1094,7 +1094,7 @@ function loadSizeE() {
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : 0;
 
         newInput.addEventListener("change", function () {
-          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) > 0) {
+          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) >= 0) {
             validationMessage.textContent = "";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id
