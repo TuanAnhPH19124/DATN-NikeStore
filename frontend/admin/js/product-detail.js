@@ -418,7 +418,17 @@ $(document).ready(function () {
           }
         }
       }
-
+      // async function fetchData() {
+      //   await processColors();
+      //   await processSizes();
+      
+      //   loadSizeE(); // This will be called after all requests are finished
+      
+      //   console.log(data);
+      //   console.log(product);
+      // }
+      
+      // fetchData(); 
       // sẽ thay code mới vào đây nếu gặp bug
       processColors()
         .then(processSizes)
