@@ -16,16 +16,25 @@ $(document).ready(function () {
         currency: "VND",
       }).format(data.expression));
       var dateObj1 = new Date(data.startDate);
-      var day1 = dateObj1.getUTCDate();
-      var month1 = dateObj1.getUTCMonth() + 1;
+      var day1 = padZero(dateObj1.getUTCDate());
+      var month1 = padZero(dateObj1.getUTCMonth() + 1);
       var year1 = dateObj1.getUTCFullYear();
       var formattedDate = `${day1}/${month1}/${year1}`;
-
+      
+      function padZero(value) {
+        return value < 10 ? `0${value}` : value;
+      }
+      
       var dateObj2 = new Date(data.endDate);
-      var day2 = dateObj2.getUTCDate();
-      var month2 = dateObj2.getUTCMonth() + 1;
+      var day2 = padZero(dateObj2.getUTCDate());
+      var month2 = padZero(dateObj2.getUTCMonth() + 1);
       var year2 = dateObj2.getUTCFullYear();
       var formattedDate2 = `${day2}/${month2}/${year2}`;
+      
+      function padZero(value) {
+        return value < 10 ? `0${value}` : value;
+      }
+      
       $("#startDate").val(formattedDate);
       $("#endDate").val(formattedDate2);
       $("#status").prop("checked", data.status);
@@ -74,8 +83,51 @@ $(document).ready(function () {
     } else {
       return
     }
+    const dateObj = new Date(formData.startDate);
+
+    const day = String(dateObj.getUTCDate()).padStart(2, "0");
+    const month = String(dateObj.getUTCMonth() + 1).padStart(2, "0"); // Note: Month is zero-based
+    const year = dateObj.getUTCFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
+
+    console.log(formattedDate);
+    const today = new Date();
+
+    const day1 = String(today.getDate()).padStart(2, "0");
+    const month1 = String(today.getMonth() + 1).padStart(2, "0"); // Note: Month is zero-based
+    const year1 = today.getFullYear();
+
+    const formattedDate1 = `${day1}-${month1}-${year1}`;
+
+    console.log(formattedDate1);
+
+    // Parse the date strings into Date objects
+    const date1Parts = formattedDate.split("-");
+    const date1 = new Date(
+      parseInt(date1Parts[2], 10),
+      parseInt(date1Parts[1], 10) - 1, // Subtract 1 because months are zero-based
+      parseInt(date1Parts[0], 10)
+    );
+
+    const date2Parts = formattedDate1.split("-");
+    const date2 = new Date(
+      parseInt(date2Parts[2], 10),
+      parseInt(date2Parts[1], 10) - 1, // Subtract 1 because months are zero-based
+      parseInt(date2Parts[0], 10)
+    );
+
+    // Compare the two dates
+    if (date1.getTime() < date2.getTime()) {
+      $("#startDate-error").show();
+      $("#date-error").hide();
+      return
+    }else {
+      $("#startDate-error").hide();
+    }
     if (startDate > endDate) {
       $("#date-error").show();
+      $("#startDate-error").hide();
       return;
     } else {
       $("#date-error").hide();

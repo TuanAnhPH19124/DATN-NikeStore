@@ -418,12 +418,22 @@ $(document).ready(function () {
           }
         }
       }
-
-      // Call the functions sequentially
+      // async function fetchData() {
+      //   await processColors();
+      //   await processSizes();
+      
+      //   loadSizeE(); // This will be called after all requests are finished
+      
+      //   console.log(data);
+      //   console.log(product);
+      // }
+      
+      // fetchData(); 
+      // sẽ thay code mới vào đây nếu gặp bug
       processColors()
         .then(processSizes)
         .then(() => {
-          loadSizeE(); // This will be called after all requests are finished
+          loadSizeE();
           console.log(data);
           console.log(product);
         });
@@ -1094,7 +1104,7 @@ function loadSizeE() {
         newInput.value = element.unitInStock >= 0 ? element.unitInStock : 0;
 
         newInput.addEventListener("change", function () {
-          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) > 0) {
+          if (/^[0-9]+$/.test(newInput.value) && parseInt(newInput.value) >= 0) {
             validationMessage.textContent = "";
             let index = product.Colors[selectedColor].Sizes.findIndex(
               (p) => p.id === element.id

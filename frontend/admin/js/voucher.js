@@ -41,7 +41,7 @@ $(document).ready(function () {
         data: "value",
         title: "Giá trị",
         render: function (data, type, full, meta) {
-          return data+" %";
+          return data + " %";
         },
       },
       {
@@ -69,11 +69,11 @@ $(document).ready(function () {
           var month2 = dateObj2.getUTCMonth() + 1;
           var year2 = dateObj2.getUTCFullYear();
           var formattedDate2 = `${day2}/${month2}/${year2}`;
-          if(full.status===true){
+          if (full.status === true) {
             return `<span class="badge badge-pill badge-success" style="padding:10px;">${
               formattedDate + "-" + formattedDate2
             }</span>`;
-          }else{
+          } else {
             return `<span class="badge badge-pill badge-danger" style="padding:10px;">${
               formattedDate + "-" + formattedDate2
             }</span>`;
@@ -135,16 +135,16 @@ $(document).ready(function () {
     var formData = {
       code: $("#code").val().trim(),
       value: $("#value").val(),
-      expression: parseInt($("#expression").val().replace(/[^\d]/g, ''), 10),
+      expression: parseInt($("#expression").val().replace(/[^\d]/g, ""), 10),
       description: $("#description").val(),
       startDate: $("#startDate").val(),
       endDate: $("#endDate").val(),
       status: true,
     };
-  
+
     var startComponents = formData.startDate.split("/");
     var endComponents = formData.endDate.split("/");
-  
+
     try {
       var startDate = new Date(
         `${startComponents[2]}-${startComponents[1]}-${startComponents[0]}`
@@ -152,31 +152,78 @@ $(document).ready(function () {
       var endDate = new Date(
         `${endComponents[2]}-${endComponents[1]}-${endComponents[0]}`
       );
-  
+
       // Adjust for local time zone offset
-      startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+      startDate.setMinutes(
+        startDate.getMinutes() - startDate.getTimezoneOffset()
+      );
       endDate.setMinutes(endDate.getMinutes() - endDate.getTimezoneOffset());
-  
+
       formData.startDate = startDate.toISOString();
       formData.endDate = endDate.toISOString();
-      
     } catch (error) {
       formData.startDate = "";
       formData.endDate = "";
     }
-  
+    const dateObj = new Date(formData.startDate);
+
+    const day = String(dateObj.getUTCDate()).padStart(2, "0");
+    const month = String(dateObj.getUTCMonth() + 1).padStart(2, "0"); // Note: Month is zero-based
+    const year = dateObj.getUTCFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
+
+    console.log(formattedDate);
+    const today = new Date();
+
+    const day1 = String(today.getDate()).padStart(2, "0");
+    const month1 = String(today.getMonth() + 1).padStart(2, "0"); // Note: Month is zero-based
+    const year1 = today.getFullYear();
+
+    const formattedDate1 = `${day1}-${month1}-${year1}`;
+
+    console.log(formattedDate1);
+
+    // Parse the date strings into Date objects
+    const date1Parts = formattedDate.split("-");
+    const date1 = new Date(
+      parseInt(date1Parts[2], 10),
+      parseInt(date1Parts[1], 10) - 1, // Subtract 1 because months are zero-based
+      parseInt(date1Parts[0], 10)
+    );
+
+    const date2Parts = formattedDate1.split("-");
+    const date2 = new Date(
+      parseInt(date2Parts[2], 10),
+      parseInt(date2Parts[1], 10) - 1, // Subtract 1 because months are zero-based
+      parseInt(date2Parts[0], 10)
+    );
+
+    // Compare the two dates
+    if (date1.getTime() < date2.getTime()) {
+      $("#startDate-error").show();
+      $("#date-error").hide();
+      return
+    }else {
+      $("#startDate-error").hide();
+    }
+
     if (startDate > endDate) {
       $("#date-error").show();
+      $("#startDate-error").hide();
       return;
     } else {
       $("#date-error").hide();
     }
-    if (/^\d+$/.test(formData.value) && parseInt(formData.value, 10) >= 1 && parseInt(formData.value, 10) <= 100) {
+    if (
+      /^\d+$/.test(formData.value) &&
+      parseInt(formData.value, 10) >= 1 &&
+      parseInt(formData.value, 10) <= 100
+    ) {
       // Validation passed
     } else {
-      return
+      return;
     }
-    
 
     if (confirm(`Bạn có muốn thêm voucher ${formData.code} không?`)) {
       $.ajax({
@@ -186,14 +233,17 @@ $(document).ready(function () {
         contentType: "application/json",
         success: function (response) {
           console.log(response);
-  
+
           $("#modal-add-voucher").modal("hide");
           $("#success").toast("show");
           $("#add-voucher-form")[0].reset();
           voucherTable.ajax.reload();
         },
         error: function (xhr, status, error) {
-          if (xhr.responseText === "Code Voucher with the same Name already exists") {
+          if (
+            xhr.responseText ===
+            "Code Voucher with the same Name already exists"
+          ) {
             $("#fail").toast("show");
           }
         },
@@ -202,7 +252,6 @@ $(document).ready(function () {
       return;
     }
   });
-  
 
   // custom validate
   $.validator.addMethod("nameContainOnlyChar", function (value, element) {
@@ -212,7 +261,11 @@ $(document).ready(function () {
     return value.match(/[^0-9]/) == null;
   });
   $.validator.addMethod("value100", function (value, element) {
-    return /^\d+$/.test(value) && parseInt(value, 10) >= 1 && parseInt(value, 10) <= 100;
+    return (
+      /^\d+$/.test(value) &&
+      parseInt(value, 10) >= 1 &&
+      parseInt(value, 10) <= 100
+    );
   });
   // add validate
   $("#add-voucher-form").validate({
@@ -223,7 +276,7 @@ $(document).ready(function () {
       },
       value: {
         required: true,
-        value100: true
+        value100: true,
       },
       expression: {
         required: true,
@@ -245,7 +298,7 @@ $(document).ready(function () {
       },
       value: {
         required: "Bạn phải nhập giá trị giảm giá",
-        value100: "Giá trị là sô nằm trong khoảng từ 1-100"
+        value100: "Giá trị là sô nằm trong khoảng từ 1-100",
       },
       expression: {
         required: "Bạn phải nhập giá trị tối thiểu",
@@ -276,17 +329,14 @@ $("#voucher-table tbody").on("click", "tr", function (e) {
     window.location.href = `/frontend/admin/update-voucher.html`;
   }
 });
-const id_user = localStorage.getItem("user-id")
+const id_user = localStorage.getItem("user-id");
 $.ajax({
-    url: "https://localhost:44328/api/AppUser/Get/"+id_user,
-    type: "GET",
-    contentType: "application/json",
-    success: function (data) {
-        console.log(data.fullName)
-        $("#fullName").text(data.fullName)
-    },
-    error: function () {
-
-    },
+  url: "https://localhost:44328/api/AppUser/Get/" + id_user,
+  type: "GET",
+  contentType: "application/json",
+  success: function (data) {
+    console.log(data.fullName);
+    $("#fullName").text(data.fullName);
+  },
+  error: function () {},
 });
-
