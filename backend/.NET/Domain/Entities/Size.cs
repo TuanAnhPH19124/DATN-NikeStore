@@ -18,5 +18,6 @@ namespace Domain.Entities
         public string Description { get; set; }
 
         public virtual List<Stock> Stocks { get; set; } 
+        public virtual ICollection<ShoppingCartItems> ShoppingCartItems { get; set; }
     }
 }

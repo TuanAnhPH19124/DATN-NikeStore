@@ -48,29 +48,22 @@
                     let data = [];
                     let selectedOrder = $s.orders.find(item => item.orderId === orderId);
                     let index = $s.orders.indexOf(selectedOrder);
-        
+
                     for (let i = 0; i < $s.orders[index].orderItems.length; i++) {
                         let item = $s.orders[index].orderItems[i];
-                        let apiData = {
-                            productId: item.productId,
-                            colorId: item.colorId,
-                            sizeId: item.sizeId
-                        }
-        
-                        try {
-                            let response = await stockService.getStockId(apiData);
-                            data.push({
-                                appUserId: tokenDecode.Id,
-                                stockId: response.data,
-                                quantity: item.quantity
-                            });
-                        } catch (error) {
-                            console.error(error);
-                        }
+
+                        data.push({
+                            appUserId: tokenDecode.Id,
+                            productId: $s.orders[index].orderItems[i].productId,
+                            colorId: $s.orders[index].orderItems[i].colorId,
+                            sizeId: $s.orders[index].orderItems[i].sizeId,
+                            quantity: item.quantity
+                        });
+
                     }
-        
+
                     console.log(data);
-        
+
                     try {
                         let response = await cartService.addRangeToCard(data);
                     } catch (error) {
@@ -85,7 +78,7 @@
             }
 
         }
-    
+
         $s.filterOrder = function (type) {
             console.log('run');
             let token = authService.getToken();

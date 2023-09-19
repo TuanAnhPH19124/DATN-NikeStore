@@ -15,7 +15,8 @@ namespace Domain.Entities
         [Required(ErrorMessage = "Tên màu là bắt buộc")]
         public string Name { get; set; }
 
-        public virtual List<Stock> Stocks { get; set; } = new List<Stock>();
-        public virtual List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        public virtual List<Stock> Stocks { get; set; }
+        public virtual List<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<ShoppingCartItems> ShoppingCartItems { get; set; }
     }
 }

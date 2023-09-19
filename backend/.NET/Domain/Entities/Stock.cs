@@ -20,6 +20,5 @@ namespace Domain.Entities
         public virtual Product Product { get; set; }
         public virtual Color Color { get; set; }
         public virtual Size Size { get; set; }
-        public virtual List<ShoppingCartItems> ShoppingCartItems { get; set; }
     }
 }
