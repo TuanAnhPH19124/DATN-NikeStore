@@ -41,7 +41,7 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<ShoppingCartItems>> GetAllById(string userId)
         {
-            return await _dbcontext.ShoppingCartItems.Where(p => p.AppUserId == userId).ToListAsync();
+            return await _dbcontext.ShoppingCartItems.Include(p => p.Product).ThenInclude(p => p.ProductImages).Include(p => p.Color).Include(p => p.Size).Where(p => p.AppUserId == userId).ToListAsync();
         }
 
         public async Task<ShoppingCartItems> GetById(string id)
@@ -49,14 +49,14 @@ namespace Persistence.Repositories
             return await _dbcontext.ShoppingCartItems.FindAsync(id);
         }
 
-        public async Task<IEnumerable<ShoppingCartItems>> GetByUserId(string userId)
+        public async Task<ShoppingCartItems> GetByRelationId(string userId, string productId, string colorId, string sizeId)
         {
-            return await _dbcontext.ShoppingCartItems.Include(p => p.Stock.Product).ThenInclude(p => p.ProductImages).Include(p => p.Stock.Color).Include(p => p.Stock.Size).Where(p => p.AppUserId == userId).ToListAsync();
+            return await _dbcontext.ShoppingCartItems.FirstOrDefaultAsync(p => p.AppUserId == userId && p.ProductId == productId && p.ColorId == colorId && p.SizeId == sizeId);
         }
 
-        public async Task<ShoppingCartItems> GetByUserIdAndStockId(string userId, string stockId)
+        public async Task<IEnumerable<ShoppingCartItems>> GetByUserId(string userId)
         {
-            return await _dbcontext.ShoppingCartItems.FirstOrDefaultAsync(p => p.AppUserId == userId && p.StockId == stockId);
+            return await _dbcontext.ShoppingCartItems.Include(p => p.Product).ThenInclude(p => p.ProductImages).Include(p => p.Color).Include(p => p.Size).Where(p => p.AppUserId == userId).ToListAsync();
         }
 
         public void Update(ShoppingCartItems item)

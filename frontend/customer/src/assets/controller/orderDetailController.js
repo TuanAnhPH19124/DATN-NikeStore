@@ -12,12 +12,12 @@
 
         s.order = [];
         s.statuses = [
-            {icon: "fa-solid fa-file-invoice", note: "Đơn đã đặt"},
-            {note: "Đã xác nhận thông tin thanh toán", icon: "fa-solid fa-money-bill-1-wave"},
-            {note: "Đã giao cho DVVC", icon: "fa-solid fa-truck-fast"},
-            {note: "Đã nhận được hàng", icon: "fa-solid fa-box-tissue"},
-            {note: "Đã hủy đơn hàng", icon: "fa-solid fa-xmark"},
-            {note: "Đơn hàng đã hoàn thành", icon: "fa-solid fa-star"}
+            { icon: "fa-solid fa-file-invoice", note: "Đơn đã đặt" },
+            { note: "Đã xác nhận thông tin thanh toán", icon: "fa-solid fa-money-bill-1-wave" },
+            { note: "Đã giao cho DVVC", icon: "fa-solid fa-truck-fast" },
+            { note: "Đã nhận được hàng", icon: "fa-solid fa-box-tissue" },
+            { note: "Đã hủy đơn hàng", icon: "fa-solid fa-xmark" },
+            { note: "Đơn hàng đã hoàn thành", icon: "fa-solid fa-star" }
         ];
 
         constructor();
@@ -54,36 +54,30 @@
                     let tokenDecode = jwtHelper.decodeToken(token);
                     let data = [];
                     s.order[0].orderItems.forEach(async item => {
-                        let apiData = {
+                        data.push({
+                            appUserId: tokenDecode.Id,
                             productId: item.productId,
                             colorId: item.colorId,
-                            sizeId: item.sizeId
-                        }
-
-                        try {
-                            let response = await stockService.getStockId(apiData);
-                            data.push({
-                                appUserId: tokenDecode.Id,
-                                stockId: response.data,
-                                quantity: item.quantity
-                            });
-                        } catch (error) {
-                            console.error(error);
-                        }
-                        
-                        try {
-                            let response = await cartService.addRangeToCard(data);
-                        } catch (error) {
-                            console.error(error);
-                        }
-                        l.path('/cart');
-
+                            sizeId: item.sizeId,
+                            quantity: item.quantity
+                        });
                     })
+
+                    try {
+                        let response = await cartService.addRangeToCard(data);
+                    } catch (error) {
+                        console.error(error);
+                    }
+                
+
                 } catch (error) {
                     console.error(error);
                 }
+                s.$apply(function () {
+                    l.path('/cart');
+                });
             }
-
+            
 
         }
 

@@ -15,7 +15,7 @@ namespace Domain.Repositories
         Task<IEnumerable<ShoppingCartItems>> GetAllById(string userId);
         Task<ShoppingCartItems> GetById(string id);
 
-        Task<ShoppingCartItems> GetByUserIdAndStockId(string userId, string stockId);
+        Task<ShoppingCartItems> GetByRelationId(string userId, string productId, string colorId, string sizeId);
 
         Task<IEnumerable<ShoppingCartItems>> GetByUserId(string userId);
 

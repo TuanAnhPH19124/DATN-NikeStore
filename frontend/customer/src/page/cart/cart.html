@@ -19,7 +19,7 @@
       </div>
       <div class="cart-item" ng-repeat="cart in carts">
         <div>
-          <img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
+          <img ng-src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
         </div>
         <div class="main-item">
           <div class="product-infomation">
