@@ -418,12 +418,22 @@ $(document).ready(function () {
           }
         }
       }
-
-      // Call the functions sequentially
+      // async function fetchData() {
+      //   await processColors();
+      //   await processSizes();
+      
+      //   loadSizeE(); // This will be called after all requests are finished
+      
+      //   console.log(data);
+      //   console.log(product);
+      // }
+      
+      // fetchData(); 
+      // sẽ thay code mới vào đây nếu gặp bug
       processColors()
         .then(processSizes)
         .then(() => {
-          loadSizeE(); // This will be called after all requests are finished
+          loadSizeE();
           console.log(data);
           console.log(product);
         });
