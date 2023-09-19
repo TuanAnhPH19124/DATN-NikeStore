@@ -46,11 +46,8 @@
                     }
                 }
                 e.carts[index].quantity = parseInt(e.carts[index].quantity) - 1;
-                e.cartQuantityMsgError = 'Sản phẩm này đã đạt tối đa số lượng trong kho';
-
+                e.cartQuantityMsgError = 'Đã đạt số lượng tối đa';
                 e.$apply();
-
-
             }
         }
 
