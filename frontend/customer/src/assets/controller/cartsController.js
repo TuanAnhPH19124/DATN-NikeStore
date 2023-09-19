@@ -2,6 +2,7 @@
     var cartsController = function (priceFactory,$window,stockService,sizeService, e, l, authService, cartService, jwtHelper, orderFactory, apiUrl) {
         e.carts = [];
         e.sizes = [];
+        e.cartQuantityMsgError = '';
      
         e.totalAmount = function () {
             var total = 0
@@ -45,14 +46,16 @@
                     }
                 }
                 e.carts[index].quantity = parseInt(e.carts[index].quantity) - 1;
+                e.cartQuantityMsgError = 'Sản phẩm này đã đạt tối đa số lượng trong kho';
+
                 e.$apply();
-                
-                alert(error.data.error);
+
 
             }
         }
 
         e.degree = function (id, plus){
+            e.cartQuantityMsgError = '';
             var cart = e.carts.filter(item => item.id === id);
             var index = -1;
             for (let i = 0; i < e.carts.length; i++) {
