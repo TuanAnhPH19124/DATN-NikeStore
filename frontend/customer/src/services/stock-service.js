@@ -8,6 +8,14 @@
             });
         };
 
+        this.getStockByRelationId = function (productId, colorId, sizeId){
+            let uri = apiUrl + `/api/Stock/GetStockByRelationId/${productId}/${colorId}/${sizeId}`;
+            return http({
+                method: 'GET',
+                url: uri
+            }) 
+        }
+
         this.getStockId = function (data){
             let uri = apiUrl + '/api/Stock/getStockId';
             return http({
