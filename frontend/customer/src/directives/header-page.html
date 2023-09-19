@@ -38,10 +38,10 @@
                 <div class="col-lg-4"
                     style="display: flex; align-items: center; justify-content: end; padding-right: 100px;">
                     <div class="container_search">
-                        <button>
-                            <img src="../assets/img/logo/search-interface-symbol.png" alt="Tìm kiếm">
+                        <button ng-click="searchE()">
+                            <img ng-src="../assets/img/logo/search-interface-symbol.png" alt="Tìm kiếm">
                         </button>
-                        <input type="" placeholder="Tìm kiếm ...">
+                        <input type="" ng-model="searchKeyword" ng-keypress="handleKeyPress($event)" placeholder="Tìm kiếm ...">
                     </div>
                     <div class="container-wishlist">
                         <a href="#/wishlist"><img src="../assets/img/logo/heart.png" alt="Yêu thích"></a>

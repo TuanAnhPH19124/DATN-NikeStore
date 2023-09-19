@@ -1,5 +1,7 @@
 (function () {
     var productController = function (jwtHelper,authService,wishListService,sizeService,colorService, e, l, productService, categoryService, apiUrl) {
+        var searchKeyword = l.search().search_keyword;
+
         e.products = [];
         e.categories = [];
         e.sale = false;
@@ -52,8 +54,6 @@
             }
         }
 
-
-
         e.onSelectChange = function () {
             console.log('run filter');
             getProductsByFilter();
@@ -72,6 +72,7 @@
                 };
             });
             let params = {};
+            params.keyword = searchKeyword;
             params.sortBy = e.sortBy;
             params.sale = true;
             params.categories = e.categories.filter(item => item.selected).map(selected => selected.id);
@@ -117,13 +118,20 @@
         }
 
         function constructor() {
-            productService.getProducts()
-                .then(function (response) {
-                    e.products = response.data;
-                })
-                .catch(function (data) {
-                    console.log(data);
-                });
+            if (searchKeyword){
+                console.log('key word found: ' + searchKeyword);
+
+            }
+
+            getProductsByFilter();
+
+            // productService.getProducts()
+            //     .then(function (response) {
+            //         e.products = response.data;
+            //     })
+            //     .catch(function (data) {
+            //         console.log(data);
+            //     });
 
             colorService.getAllColor()
             .then(function(response){
