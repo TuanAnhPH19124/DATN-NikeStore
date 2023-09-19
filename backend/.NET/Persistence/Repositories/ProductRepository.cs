@@ -128,7 +128,7 @@ namespace Persistence.Repositories
 
         public IQueryable<Product> GetAllProductsQuery()
         {
-            return _context.Products.Include(p => p.CategoryProducts).Include(p => p.ProductImages).Include(p => p.Stocks).AsQueryable();
+            return _context.Products.Include(p => p.CategoryProducts).ThenInclude(cp => cp.Category).Include(p => p.ProductImages).Include(p => p.Stocks).AsQueryable();
         }
     }
 }

@@ -54,6 +54,7 @@ namespace EntitiesDto.Product
     }
     public class ProductFilterOptionAPI
     {
+        public string Keyword { get; set; } = null;
         public List<string> Categories { get; set; } = null;
         public List<int> Genders { get; set; } = null;
         public List<string> Sizes { get; set; } = null;
