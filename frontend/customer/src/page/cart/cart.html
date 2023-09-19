@@ -19,7 +19,7 @@
       </div>
       <div class="cart-item" ng-repeat="cart in carts">
         <div>
-          <img src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
+          <img ng-src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
         </div>
         <div class="main-item">
           <div class="product-infomation">
@@ -35,6 +35,7 @@
               </select>
             </label>
             <label for="quantity">Số lượng:</label>
+            <label ng-show="cartQuantityMsgError">{{ cartQuantityMsgError }}</label>
             <button class="quantity-button" ng-click="degree(cart.id, false)"
               style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
             <input type="text" name="quantity" id="quantity" ng-model="cart.quantity" class="numeric-input"

@@ -2,6 +2,7 @@
     var cartsController = function (priceFactory,$window,stockService,sizeService, e, l, authService, cartService, jwtHelper, orderFactory, apiUrl) {
         e.carts = [];
         e.sizes = [];
+        e.cartQuantityMsgError = '';
      
         e.totalAmount = function () {
             var total = 0
@@ -30,27 +31,28 @@
 
         e.updateCart = async function(id){
             try {
-                let data = await Promise.all(e.carts.filter(item => item.id === id).map(async (item) =>{
-                    try {
-                        const response = await stockService.getStockByProductId(item.product.id);
-                        const matchingStock = response.data.find(stock => stock.sizeId === item.sizeId && stock.colorId === item.colorId);
-                        if (matchingStock === null){
-                            throw new Error("Có gì đó không đúng size này không tồn tại");
-                        }
-                        return { id: item.id, quantity: parseInt(item.quantity), stockId: matchingStock.stockId }; 
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }));
+                let data = e.carts.filter(item => item.id === id).map(item => {
+                    return { id: item.id, quantity: parseInt(item.quantity), productId: item.product.id, colorId: item.colorId, sizeId: item.sizeId  };  
+                }) 
                 console.log(data);
                 const response = await cartService.updateCart(id, data[0]);
                 console.log('Thành công');
             } catch (error) {
-                console.error(error.response.data);
+                var index = -1;
+                for (let i = 0; i < e.carts.length; i++) {
+                    if (e.carts[i].id === id){
+                        index = i;
+                        break;
+                    }
+                }
+                e.carts[index].quantity = parseInt(e.carts[index].quantity) - 1;
+                e.cartQuantityMsgError = 'Đã đạt số lượng tối đa';
+                e.$apply();
             }
         }
 
         e.degree = function (id, plus){
+            e.cartQuantityMsgError = '';
             var cart = e.carts.filter(item => item.id === id);
             var index = -1;
             for (let i = 0; i < e.carts.length; i++) {
@@ -125,7 +127,7 @@
                                 console.error(response);
                             })
                         })
-                        
+                        console.log(e.carts);
                     })
                     .catch(function (data) {
                         console.log(data);

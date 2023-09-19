@@ -9,7 +9,9 @@ namespace EntitiesDto
     public class ShoppingCartItemAPI
     {
         public string AppUserId { get; set; }
-        public string StockId { get; set; }
+        public string ProductId { get; set; }
+        public string ColorId { get; set; }
+        public string SizeId { get; set; }
         public int Quantity { get; set; }
     }
 
@@ -17,6 +19,8 @@ namespace EntitiesDto
     {
         public string Id { get; set; }
         public int Quantity { get; set; }
-        public string StockId { get; set; }
+        public string ProductId { get; set; }
+        public string ColorId { get; set; }
+        public string SizeId { get; set; }
     }
 }
