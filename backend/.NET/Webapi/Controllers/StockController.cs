@@ -20,6 +20,17 @@ namespace Webapi.Controllers
             _serviceManager = serviceManager;
         }
 
+        [HttpGet("GetStockByRelationId/{productId}/{colorId}/{sizeId}")]
+        public async Task<ActionResult> GetStockByRelationId(string productId, string colorId, string sizeId)
+        {
+            if (string.IsNullOrEmpty(productId) || string.IsNullOrEmpty(colorId) || string.IsNullOrEmpty(sizeId))
+                return BadRequest(new {error = "Không được bỏ trống các khóa ngoại"});
+
+            var stock = await _serviceManager.StockService.GetStockByRelation(productId, colorId, sizeId);
+            return Ok(stock);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stock>>> GetAllStocks()
         {
@@ -105,8 +116,6 @@ namespace Webapi.Controllers
             }
         }
 
-
-        // Các phương thức khác tại đây...
     }
 }
     

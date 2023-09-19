@@ -46,11 +46,12 @@
             });
         };
 
-        this.clearCart = function (id){
-            let uri = apiUrl + "/api/ShoppingCarts/clear/" + id;
+        this.clearCart = function (data){
+            let uri = apiUrl + "/api/ShoppingCarts/clear";
             return http({
-                method: 'DELETE',
+                method: 'POST',
                 url: uri,
+                data: data
             }) 
         }
     }

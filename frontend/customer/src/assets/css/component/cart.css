@@ -163,3 +163,7 @@ button.remove-button {
 .price-black-color {
     color: black;
 }
+
+.outOfStock{
+    opacity: 0.5;
+}

@@ -72,10 +72,10 @@ namespace Service
             return newItem;
         }
 
-        public async Task ClearCart(string id)
+        public async Task ClearCart(List<ShoppingCartItems> items)
         {
-            var targetItems = await _repositoryManager.ShoppingCartItemRepository.GetAllById(id);
-            _repositoryManager.ShoppingCartItemRepository.DeleteRange(targetItems.ToList());
+            // var targetItems = await _repositoryManager.ShoppingCartItemRepository.GetAllById(id);
+            _repositoryManager.ShoppingCartItemRepository.DeleteRange(items);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();
         }
 
@@ -116,11 +116,20 @@ namespace Service
         public async Task UpdateQuantity(ShoppingCartItemPutAPI item)
         {
             var targetItem = await _repositoryManager.ShoppingCartItemRepository.GetById(item.Id);
-
+            
             if (targetItem == null)
                 throw new Exception("Có gì đó không đúng, không tìm thầy giỏ hàng này");
 
+            var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByRelationId(targetItem.AppUserId, item.ProductId, item.ColorId, item.SizeId);
+            if (checkCartExist != null){
+                _repositoryManager.ShoppingCartItemRepository.Delete(checkCartExist);
+            }
+
             var stock = await _repositoryManager.StockRepository.SelectByVariantId(item.ProductId, item.ColorId, item.SizeId);
+
+            if (stock.UnitInStock == 0)
+                throw new Exception("Sản phẩm này đã hết hàng");
+
             if (item.Quantity > stock.UnitInStock)
                 throw new Exception("Đã đạt giới hạn số lượng trong kho");
             targetItem.Quantity = item.Quantity;
