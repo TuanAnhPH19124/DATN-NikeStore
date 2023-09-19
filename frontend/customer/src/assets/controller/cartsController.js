@@ -37,8 +37,18 @@
                 const response = await cartService.updateCart(id, data[0]);
                 console.log('Thành công');
             } catch (error) {
+                var index = -1;
+                for (let i = 0; i < e.carts.length; i++) {
+                    if (e.carts[i].id === id){
+                        index = i;
+                        break;
+                    }
+                }
+                e.carts[index].quantity = parseInt(e.carts[index].quantity) - 1;
+                e.$apply();
                 
-                console.error(error.response.data);
+                alert(error.data.error);
+
             }
         }
 

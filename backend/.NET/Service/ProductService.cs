@@ -99,6 +99,14 @@ namespace Service
         public async Task<IEnumerable<ProductDtoForGet>> FilterProductsAsync(ProductFilterOptionAPI options)
         {
             var query = _repositoryManger.ProductRepository.GetAllProductsQuery();
+            if (options.Keyword != null && options.Keyword != string.Empty){
+                query = query.Where(
+                    p => p.Name.ToLower().Contains(options.Keyword.ToLower()) || 
+                    p.Description.ToLower().Contains(options.Keyword.ToLower()) || 
+                    p.CategoryProducts.Any(cp => cp.Category.Name.ToLower().Contains(options.Keyword.ToLower()))
+                );
+            }
+
             if (options.Categories != null && options.Categories.Any())
                 query = query.Where(p => p.CategoryProducts.Any(cp => options.Categories.Contains(cp.CategoryId)));
     

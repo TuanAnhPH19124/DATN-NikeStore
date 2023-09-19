@@ -29,6 +29,9 @@ namespace Webapi.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet("SearchOnKeywrod/{keyword}")]
+        
+
         [HttpGet]
         public async Task<IActionResult> GetAllProductsForDisplayAsync()
         {
@@ -52,8 +55,6 @@ namespace Webapi.Controllers
                   
         }
 
-       
-        
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveProductsAsync()
         {
