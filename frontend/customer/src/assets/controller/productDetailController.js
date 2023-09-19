@@ -17,7 +17,7 @@
 
         e.incrementQuantity = function (type) {
             if (e.selectedSize === -1 && e.selectedSizeIndex === -1) {
-                alert('Ban phai chon size truoc')
+                e.errorMg = "Bạn phải chọn kích cỡ trước!";
                 return;
             }
             if (type === 0) {
@@ -31,7 +31,7 @@
 
         e.addToCartE = function (productId) {
             if (e.selectedSizeIndex === -1 && e.selectedSize === -1) {
-                e.errorMg = "Bạn phải chọn kích cỡ trước";
+                e.errorMg = "Bạn phải chọn kích cỡ trước!";
                 return;
             } else {
                 e.errorMg = "";
