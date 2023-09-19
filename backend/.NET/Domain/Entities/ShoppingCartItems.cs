@@ -12,9 +12,14 @@ namespace Domain.Entities
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public int Quantity { get; set; } = 1;
-        public string StockId { get; set; }
+        public string ProductId { get; set; }
+        public string ColorId { get; set; }
+        public string SizeId { get; set; }
         public string AppUserId { get; set; }
-        public virtual Stock Stock { get; set; }
+    
         public virtual AppUser AppUser { get; set; }
+        public virtual Product Product { get; set; }
+        public virtual Color Color { get; set; }
+        public virtual Size Size { get; set; }
     }
 }

@@ -40,7 +40,6 @@
                 return;
             } else {
                 s.errorMg = "";
-
             }
 
 
@@ -48,25 +47,11 @@
             let tokenDecode = jwtHelper.decodeToken(token);
             let data = {
                 appUserId: tokenDecode.Id,
-                stockId: s.colors[s.selectedColor].sizes[s.selectedSizeIndex].stockId,
+                colorId: s.colors[s.selectedColor].id,
+                productId: s.productDetail.id,
+                sizeId: s.colors[s.selectedColor].sizes[s.selectedSizeIndex].id,
                 quantity: 1
             }
-
-          
-            
-            // var modal = document.getElementById('exampleModal');
-            // var modalInstance = new bootstrap.Modal(modal);
-            // modalInstance.hide();
-
-
-            // $('#addToCartModal').modal({
-            //     keyboard: false,
-            //     backdrop: false
-            // });
-            // $('#addToCartModal').modal('show');
-            // $('#addToCartModal').on('hidden.bs.modal', function (e) {
-            //     $('#addToCartModal').modal('hide');
-            // })
 
             cartService.addToCarts(data)
                 .then(function (response) {

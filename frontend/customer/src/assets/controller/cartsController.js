@@ -30,22 +30,14 @@
 
         e.updateCart = async function(id){
             try {
-                let data = await Promise.all(e.carts.filter(item => item.id === id).map(async (item) =>{
-                    try {
-                        const response = await stockService.getStockByProductId(item.product.id);
-                        const matchingStock = response.data.find(stock => stock.sizeId === item.sizeId && stock.colorId === item.colorId);
-                        if (matchingStock === null){
-                            throw new Error("Có gì đó không đúng size này không tồn tại");
-                        }
-                        return { id: item.id, quantity: parseInt(item.quantity), stockId: matchingStock.stockId }; 
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }));
+                let data = e.carts.filter(item => item.id === id).map(item => {
+                    return { id: item.id, quantity: parseInt(item.quantity), productId: item.product.id, colorId: item.colorId, sizeId: item.sizeId  };  
+                }) 
                 console.log(data);
                 const response = await cartService.updateCart(id, data[0]);
                 console.log('Thành công');
             } catch (error) {
+                
                 console.error(error.response.data);
             }
         }
@@ -125,7 +117,7 @@
                                 console.error(response);
                             })
                         })
-                        
+                        console.log(e.carts);
                     })
                     .catch(function (data) {
                         console.log(data);

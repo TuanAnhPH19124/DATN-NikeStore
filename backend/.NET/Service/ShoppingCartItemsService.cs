@@ -4,6 +4,7 @@ using Domain.Repositories;
 using EntitiesDto;
 using EntitiesDto.Datas;
 using Mapster;
+using Nest;
 using Service.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Service
 
             foreach (var item in items)
             {
-                var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAndStockId(item.AppUserId, item.StockId);
+                var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByRelationId(item.AppUserId, item.ProductId, item.ColorId, item.SizeId);
                 if (checkCartExist != null){
                     checkCartExist.Quantity = item.Quantity;
                     updateListCarts.Add(checkCartExist);
@@ -49,7 +50,7 @@ namespace Service
 
         public async Task<ShoppingCartItems> AddToCart(ShoppingCartItemAPI item)
         {
-            var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByUserIdAndStockId(item.AppUserId, item.StockId);
+            var checkCartExist = await _repositoryManager.ShoppingCartItemRepository.GetByRelationId(item.AppUserId, item.ProductId, item.ColorId, item.SizeId);
             var newItem = new ShoppingCartItems();
             if (checkCartExist != null)
             {
@@ -60,7 +61,9 @@ namespace Service
             else
             {
                 newItem.Quantity = item.Quantity;
-                newItem.StockId = item.StockId;
+                newItem.ProductId = item.ProductId;
+                newItem.ColorId = item.ColorId;
+                newItem.SizeId = item.SizeId;
                 newItem.AppUserId = item.AppUserId;
                 await _repositoryManager.ShoppingCartItemRepository.Add(newItem);
             }
@@ -94,17 +97,17 @@ namespace Service
             {
                 Id = p.Id,
                 Quantity = p.Quantity,
-                ColorName = p.Stock.Color.Name,
-                SizeNumber = p.Stock.Size.NumberSize,
-                SizeId = p.Stock.SizeId,
-                ColorId = p.Stock.ColorId,
+                ColorName = p.Color.Name,
+                SizeNumber = p.Size.NumberSize,
+                SizeId = p.Size.Id,
+                ColorId = p.Color.Id,
                 Product = new ShoppingCartProductDto
                 {
-                    Id = p.Stock.ProductId,
-                    Name = p.Stock.Product.Name,
-                    DiscountRate = p.Stock.Product.DiscountRate,
-                    RetailPrice = p.Stock.Product.RetailPrice,
-                    ImgUrl = p.Stock.Product.ProductImages.FirstOrDefault(a => a.ColorId == p.Stock.ColorId).ImageUrl
+                    Id = p.Product.Id,
+                    Name = p.Product.Name,
+                    DiscountRate = p.Product.DiscountRate,
+                    RetailPrice = p.Product.RetailPrice,
+                    ImgUrl = p.Product.ProductImages.FirstOrDefault(a => a.ColorId == p.Color.Id).ImageUrl
                 }
             }).ToList();
             return cartsDto;
@@ -117,8 +120,11 @@ namespace Service
             if (targetItem == null)
                 throw new Exception("Có gì đó không đúng, không tìm thầy giỏ hàng này");
 
+            var stock = await _repositoryManager.StockRepository.SelectByVariantId(item.ProductId, item.ColorId, item.SizeId);
+            if (item.Quantity > stock.UnitInStock)
+                throw new Exception("Đã đạt giới hạn số lượng trong kho");
             targetItem.Quantity = item.Quantity;
-            targetItem.StockId = item.StockId;
+            targetItem.SizeId = item.SizeId;
 
             _repositoryManager.ShoppingCartItemRepository.Update(targetItem);
             await _repositoryManager.UnitOfWork.SaveChangeAsync();

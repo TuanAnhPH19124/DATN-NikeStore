@@ -9,22 +9,22 @@
         e.selectedSize = -1;
         e.selectedSizeIndex = -1;
 
-        e.setSelectedImg = function(img){
+        e.setSelectedImg = function (img) {
             var index = e.colors[e.selectedColor].images.indexOf(img);
             e.selectedImg = index;
             console.log(index);
         }
 
-        e.incrementQuantity = function (type){
-            if (e.selectedSize === -1 && e.selectedSizeIndex === -1){
+        e.incrementQuantity = function (type) {
+            if (e.selectedSize === -1 && e.selectedSizeIndex === -1) {
                 alert('Ban phai chon size truoc')
                 return;
             }
-            if (type === 0){
+            if (type === 0) {
                 if (e.quantity > 1)
-                    e.quantity -= 1;  
-            }else{
-                e.quantity +=1;
+                    e.quantity -= 1;
+            } else {
+                e.quantity += 1;
             }
             e.checkUnit();
         }
@@ -42,7 +42,9 @@
                     enum: enumType.CART,
                     data: {
                         appUserId: null,
-                        stockId: e.colors[e.selectedColor].sizes[e.selectedSizeIndex].stockId,
+                        productId: e.product.id,
+                        colorId: e.colors[e.selectedColor].id,
+                        sizeId: e.colors[e.selectedColor].sizes[e.selectedSizeIndex].id,
                         quantity: parseInt(e.quantity)
                     }
                 }
@@ -54,17 +56,19 @@
                 let tokenDecode = jwtHelper.decodeToken(token);
                 let data = {
                     appUserId: tokenDecode.Id,
-                    stockId: e.colors[e.selectedColor].sizes[e.selectedSizeIndex].stockId,
+                    productId: e.product.id,
+                    colorId: e.colors[e.selectedColor].id,
+                    sizeId: e.colors[e.selectedColor].sizes[e.selectedSizeIndex].id,
                     quantity: parseInt(e.quantity)
                 }
                 cartService.addToCarts(data)
                     .then(function (response) {
                         let countCart = cartService.getCarts(tokenDecode.Id)
-                        .then(function (response){
-                            headerFactory.setCartCounter(response.data.length);
-                            l.path('/cart');
-                        })
-                        .catch(function(data){ console.log(data);})
+                            .then(function (response) {
+                                headerFactory.setCartCounter(response.data.length);
+                                l.path('/cart');
+                            })
+                            .catch(function (data) { console.log(data); })
                     })
                     .catch(function (data) {
                         console.log(data);
@@ -93,7 +97,7 @@
             e.selectedSize = -1;
         }
         e.checkUnit = function () {
-            if (e.selectedSize === -1 && e.selectedSizeIndex === -1){
+            if (e.selectedSize === -1 && e.selectedSizeIndex === -1) {
                 alert('Ban phai chon size truoc');
                 e.quantity = 1;
                 return;
@@ -103,7 +107,7 @@
             let unit = e.colors[e.selectedColor].sizes[e.selectedSizeIndex].unit;
             let selectedUnit = e.quantity;
             if (selectedUnit > unit)
-                e.quantity = unit ;
+                e.quantity = unit;
         }
         e.getImgUrl = function (path) {
             const imgUrl = new URL(path, apiUrl);
