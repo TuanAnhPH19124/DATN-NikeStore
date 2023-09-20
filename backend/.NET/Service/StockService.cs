@@ -47,6 +47,12 @@ namespace Service
             return result;
         }
 
+        public async Task<Stock> GetStockByRelation(string productId, string colorId, string sizeId)
+        {
+            var result = await _repositoryManger.StockRepository.SelectByVariantId(productId, colorId, sizeId);
+            return result;
+        }
+
 
         // Các phương thức khác tại đây...
     }

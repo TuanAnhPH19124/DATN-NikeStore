@@ -11,7 +11,7 @@ namespace Service.Abstractions
 {
     public interface IStockService
     {
-
+        Task<Stock> GetStockByRelation(string productId, string colorId, string sizeId);
         Task<IEnumerable<Stock>> GetAllStocksAsync();
         Task<IEnumerable<Stock>> GetStockByIdAsync(string productId);
         Task AddStockAsync(Stock stock);

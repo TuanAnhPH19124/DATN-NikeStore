@@ -132,16 +132,16 @@ namespace Webapi.Controllers
         }
 
 
-        [HttpDelete("clear/{id}")]
-        public async Task<ActionResult> DeleteRange(string id){
-            if (string.IsNullOrEmpty(id))
-                return BadRequest(new { Error = "Không tìm thấy Id giỏ hàng, yêu cầu Id giỏ hàng." });
+        [HttpPost("clear")]
+        public async Task<ActionResult> DeleteRange(List<ShoppingCartItems> items){
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    await _serviceManager.ShoppingCartItemsService.ClearCart(id);
+                    await _serviceManager.ShoppingCartItemsService.ClearCart(items);
                     transaction.Commit();
                     return NoContent();
                 }

@@ -1,5 +1,6 @@
 (function () {
     var orderController = function (
+        stockService,
         voucherService,
         e, r, l, orderFactory, productService, authService, jwtHelper, cartService, apiUrl, addressService, ghnServices,
         guidService,
@@ -101,9 +102,9 @@
             //     seconds,
             //     milliseconds,
             // };
-            return `${days > 0 ? days + ' ngày, ': ''}${hours > 0 ? hours + ' giờ, ': ''}${minutes > 0? minutes + ' phút, ': ''}`;
+            return `${days > 0 ? days + ' ngày, ' : ''}${hours > 0 ? hours + ' giờ, ' : ''}${minutes > 0 ? minutes + ' phút, ' : ''}`;
         }
- 
+
 
         e.getExpiredDate = function (futureTime) {
             let currentDate = new Date();
@@ -406,9 +407,21 @@
 
             console.log(data);
             console.log(e.carts);
+
             orderService.createOrder(data)
                 .then(function (response) {
-                    cartService.clearCart(tokenDecode.Id)
+                    let dataClearCart = [];
+                    e.carts.forEach(item => {
+                        dataClearCart.push({
+                            id: item.id,
+                            quantity: item.quantity,
+                            productId: item.product.id,
+                            colorId: item.colorId,
+                            sizeId: item.sizeId,
+                            appUserId: tokenDecode.Id
+                        })
+                    })
+                    cartService.clearCart(dataClearCart)
                         .then(function (response) {
                             l.path('/order');
                         }, function (response) {
@@ -462,6 +475,21 @@
                 cartService.getCarts(tokenDecode.Id)
                     .then(function (response) {
                         e.carts = response.data;
+                        for (let i = 0; i < e.carts.length; i++) {
+                            stockService.getStockByRelationId(e.carts[i].product.id, e.carts[i].colorId, e.carts[i].sizeId)
+                                .then(function (response) {
+                                    if (response.data !== null) {
+                                        if (response.data.unitInStock === 0)
+                                            e.carts.splice(i, 1);
+                                        console.log(e.carts);
+                                    } else {
+                                        console.error("Không tìm thấy stock");
+                                    }
+                                }, function (response) {
+                                    console.error(response);
+                                })
+
+                        }
                     })
                     .catch(function (data) {
                         console.log(data);
@@ -505,6 +533,6 @@
 
         constructor();
     }
-    orderController.$inject = ['voucherService', '$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
+    orderController.$inject = ['stockService', 'voucherService', '$scope', '$routeParams', '$location', 'orderFactory', 'productService', 'authService', 'jwtHelper', 'cartService', 'apiUrl', 'addressService', 'ghnServices', 'guidService', 'cloudFlareService', 'vnpayService', '$window', 'orderService'];
     angular.module("app").controller("orderController", orderController);
 }());

@@ -93,11 +93,17 @@ $(document).ready(function () {
     };
 
     //convert nomal date to ISO 8601 date
-    [startDay, startMonth, startYear] = formData.dateOfBirth.split("/");
+    var startComponents = formData.dateOfBirth.split("/");
     try {
-      formData.dateOfBirth = new Date(
-        `${startYear}-${startMonth}-${startDay}`
-      ).toISOString();
+      var startDate = new Date(
+        `${startComponents[2]}-${startComponents[1]}-${startComponents[0]}`
+      );
+  
+      // Adjust for local time zone offset
+      startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+  
+      formData.dateOfBirth = startDate.toISOString();
+      
     } catch (error) {
       formData.dateOfBirth = "";
     }
@@ -112,6 +118,12 @@ $(document).ready(function () {
       console.log(date2)
 
       // Compare the two dates
+      if (date1.getFullYear() - date2.getFullYear()<=14) {
+        $("#date14-error").show();
+        return
+      } else {
+        $("#date14-error").hide();
+      }
       if (date1 < date2) {
         $("#date-error").show();
         return

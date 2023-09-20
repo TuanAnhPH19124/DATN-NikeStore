@@ -17,7 +17,7 @@
           <span>Hiện chưa có sản phẩm</span>
         </div>
       </div>
-      <div class="cart-item" ng-repeat="cart in carts">
+      <div ng-repeat="cart in carts" class="cart-item" ng-class="{'outOfStock': cart.outOfStock}" >
         <div>
           <img ng-src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
         </div>
@@ -29,19 +29,19 @@
             </div>
             <p>Màu sắc: {{cart.colorName}}</p>
             <label for="size" style="margin-right: 20px;">Kích cỡ:
-              <select ng-model="cart.sizeId" ng-change="updateCart(cart.id)"
+              <select ng-disabled="cart.outOfStock" ng-model="cart.sizeId" ng-change="updateCart(cart.id)"
                 style="text-align: center;border-radius: 3px;">
                 <option ng-repeat="size in cart.sizes" value="{{size.id}}">{{ size.numberSize }}</option>
               </select>
             </label>
             <label for="quantity">Số lượng:</label>
             <label ng-show="cartQuantityMsgError">{{ cartQuantityMsgError }}</label>
-            <button class="quantity-button" ng-click="degree(cart.id, false)"
+            <button ng-disabled="cart.outOfStock" class="quantity-button" ng-click="degree(cart.id, false)"
               style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
-            <input type="text" name="quantity" id="quantity" ng-model="cart.quantity" class="numeric-input"
+            <input ng-disabled="cart.outOfStock" type="text" name="quantity" id="quantity" ng-model="cart.quantity" class="numeric-input"
               style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;" min="1" max="10"
               maxlength="10" readonly>
-            <button class="quantity-button" ng-click="degree(cart.id, true)"
+            <button ng-disabled="cart.outOfStock" class="quantity-button" ng-click="degree(cart.id, true)"
               style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>
           </div>
           <div class="product-price">
@@ -71,7 +71,7 @@
         <span style="color: red; font-size: 20px;">{{ formatPrice(totalAmount()) }}</span>
       </div>
       <hr>
-      <button class="payment-button btn btn-dark" ng-click="pay()" ng-disabled="carts.length === 0">THANH TOÁN
+      <button class="payment-button btn btn-dark" ng-click="pay()" ng-disabled="totalAmount() === 0">THANH TOÁN
         NGAY</button>
       <p>
         <a href="#/product" style="margin-left: 40px;text-decoration: none;color: rgb(70, 66, 66);">
