@@ -1,0 +1,58 @@
+[
+  {
+    "Id": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "Name": "Trắng"
+  },
+  {
+    "Id": "a69d5f87-8301-4011-a44f-01ffb7bcd3d2",
+    "Name": "Đỏ"
+  },
+  {
+    "Id": "d8fbb8f3-dd9d-4191-ad7e-2150c7d6f5b1",
+    "Name": "Vàng"
+  },
+  {
+    "Id": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "Name": "Xanh Green"
+  },
+  {
+    "Id": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "Name": "Xanh Blue"
+  },
+  {
+    "Id": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "Name": "Hồng"
+  },
+  {
+    "Id": "b2263fb0-5804-481c-9964-6b3240209e01",
+    "Name": "Xám"
+  },
+  {
+    "Id": "c47574fe-d13a-45eb-9557-b999277021c7",
+    "Name": "Nâu"
+  },
+  {
+    "Id": "4d6fef70-d2eb-461d-bd65-8d474bf9addd",
+    "Name": "Tím"
+  },
+  {
+    "Id": "6ac350e9-e047-493d-ac92-1c7e8b9834fe",
+    "Name": "Xanh Trắng"
+  },
+  {
+    "Id": "4b07abab-83e9-4211-ad73-5eb51a3e67f2",
+    "Name": "Xám Blue"
+  },
+  {
+    "Id": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "Name": "Tổng hợp"
+  },
+  {
+    "Id": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "Name": "Cam"
+  },
+  {
+    "Id": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "Name": "Đen"
+  }
+]
