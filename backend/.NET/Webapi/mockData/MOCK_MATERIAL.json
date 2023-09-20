@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 1,
+    "Name": "Da",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:39:43.835",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Da lộn",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:39:47.398",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 3,
+    "Name": "Da bóng",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:39:51.130",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 4,
+    "Name": "Lưới",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:40:01.822",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 5,
+    "Name": "Da lộn và da bóng",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:40:09.599",
+    "ModifiedDate": ""
+  }
+]
