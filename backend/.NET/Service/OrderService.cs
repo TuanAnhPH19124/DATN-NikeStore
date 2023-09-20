@@ -28,6 +28,7 @@ namespace Service
             var orderList = await _manager.OrderRepository.GetAllOrderAsync(cancellationToken);
             return orderList;
         }
+
         public async Task CreateNewOnlineOrder(OrderPostRequestDto orderDto)
         {
             #region add new order
