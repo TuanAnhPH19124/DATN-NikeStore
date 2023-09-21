@@ -7,7 +7,7 @@
         e.totalAmount = function () {
             var total = 0
             e.carts.forEach(cart => {
-                if (!cart.outOfStock)
+                if (!cart.outOfStock && !cart.notEnough)
                     total += cart.product.discountRate * cart.quantity;
             });
             return total;
@@ -40,6 +40,8 @@
                     item.colorId === data[0].colorId &&
                     item.sizeId === data[0].sizeId);
                 console.log(checkExist.length)
+                let token = authService.getToken();
+                let tokenDecode = jwtHelper.decodeToken(token);
                 if (checkExist.length > 1) {
                     if (confirm("Bạn đã thêm sản phẩm với size này rồi, bạn có muốn tiếp tục không!")) {
                         console.log(data);
@@ -47,8 +49,6 @@
                         const response = await cartService.updateCart(id, data[0]);
                         console.log('Thành công');
                     } else {
-                        let token = authService.getToken();
-                        let tokenDecode = jwtHelper.decodeToken(token);
                         cartService.getCarts(tokenDecode.Id)
                             .then(function (response) {
                                 e.carts = response.data;
@@ -67,9 +67,13 @@
                                         .then(function (response) {
                                             if (response.data !== null) {
                                                 console.log(response.data);
-                                                if (response.data.unitInStock === 0)
+                                                if (response.data.unitInStock === 0) {
                                                     item.outOfStock = true;
-
+                                                }
+                                                else if (item.quantity > response.data.unitInStock) {
+                                                    item.avalibleUnit = response.data.unitInStock;
+                                                    item.notEnough = true;
+                                                }
                                                 else
                                                     item.outOfStock = false;
                                             } else {
@@ -87,7 +91,45 @@
                     }
                 } else {
                     const response = await cartService.updateCart(id, data[0]);
+                    cartService.getCarts(tokenDecode.Id)
+                        .then(function (response) {
+                            e.carts = response.data;
+                            e.carts.forEach(item => {
+                                item.quantity += '';
+                                sizeService.getSizeForProduct(item.product.id, item.colorId)
+                                    .then(function (response) {
+                                        item.sizes = response.data;
+                                    }, function (response) {
+                                        console.error(response);
+                                    })
+                            })
 
+                            e.carts.forEach(item => {
+                                stockService.getStockByRelationId(item.product.id, item.colorId, item.sizeId)
+                                    .then(function (response) {
+                                        if (response.data !== null) {
+                                            console.log(response.data);
+                                            if (response.data.unitInStock === 0) {
+                                                item.outOfStock = true;
+                                            }
+                                            else if (item.quantity > response.data.unitInStock) {
+                                                item.avalibleUnit = response.data.unitInStock;
+                                                item.notEnough = true;
+                                            }
+                                            else
+                                                item.outOfStock = false;
+                                        } else {
+                                            console.error("Không tìm thấy stock");
+                                        }
+                                    }, function (response) {
+                                        console.error(response);
+                                    })
+                            })
+                            console.log(e.carts);
+                        })
+                        .catch(function (data) {
+                            console.log(data);
+                        });
                 }
 
             } catch (error) {
@@ -123,9 +165,13 @@
                                     .then(function (response) {
                                         if (response.data !== null) {
                                             console.log(response.data);
-                                            if (response.data.unitInStock === 0)
+                                            if (response.data.unitInStock === 0) {
                                                 item.outOfStock = true;
-
+                                            }
+                                            else if (item.quantity > response.data.unitInStock) {
+                                                item.avalibleUnit = response.data.unitInStock;
+                                                item.notEnough = true;
+                                            }
                                             else
                                                 item.outOfStock = false;
                                         } else {
@@ -248,9 +294,13 @@
                                 .then(function (response) {
                                     if (response.data !== null) {
                                         console.log(response.data);
-                                        if (response.data.unitInStock === 0)
+                                        if (response.data.unitInStock === 0) {
                                             item.outOfStock = true;
-
+                                        }
+                                        else if (item.quantity > response.data.unitInStock) {
+                                            item.avalibleUnit = response.data.unitInStock;
+                                            item.notEnough = true;
+                                        }
                                         else
                                             item.outOfStock = false;
                                     } else {
