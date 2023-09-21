@@ -51,6 +51,7 @@ select:focus {
     width: 150px;
     height: auto;
     margin-right: 10px;
+    margin-left: 15px;
 }
 
 .main-item {
@@ -167,3 +168,12 @@ button.remove-button {
 .outOfStock{
     opacity: 0.5;
 }
+
+
+.messageError {
+    position: absolute;
+    z-index: 1; 
+    margin-left: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #d2d0d0;
+  }
