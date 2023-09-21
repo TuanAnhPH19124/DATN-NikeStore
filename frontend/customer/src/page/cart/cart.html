@@ -1,81 +1,171 @@
-<br>
+<br />
 <section class="container">
   <div class="row">
     <div class="col-9">
       <div class="banner-freeship">
         <div class="freeship-infomation">
-          <h4 style="margin-left: 10px;">Miễn phí vận chuyển</h4>
-          <span style="margin-left: 10px;">Với các đơn hàng có giá trị từ 5.000.000đ trở lên</span>
+          <h4 style="margin-left: 10px">Miễn phí vận chuyển</h4>
+          <span style="margin-left: 10px"
+            >Với các đơn hàng có giá trị từ 5.000.000đ trở lên</span
+          >
         </div>
       </div>
-      <br>
+      <br />
       <h3>Giỏ hàng:</h3>
-      <hr>
+      <hr />
       <div ng-show="carts.length === 0" class="emptyCart-container">
         <div class="emptyCart-img">
-          <img src="/frontend/customer/src/assets/img/logo/empty.png" alt="Giỏ hàng trống">
+          <img
+            src="/frontend/customer/src/assets/img/logo/empty.png"
+            alt="Giỏ hàng trống"
+          />
           <span>Hiện chưa có sản phẩm</span>
         </div>
       </div>
-      <div ng-repeat="cart in carts" class="cart-item" ng-class="{'outOfStock': cart.outOfStock}" >
+      <div
+        ng-repeat="cart in carts"
+        class="cart-item"
+        ng-class="{'outOfStock': cart.outOfStock || cart.notEnough}"
+      >
+        <p ng-show="cart.outOfStock">Hết hàng</p>
+        <p ng-show="cart.notEnough">Sản phẩm này hiện không còn đủ {{ cart.quantity }} sản phẩm. Hiện tại chỉ còn {{ cart.avalibleUnit }} sản phẩm </p>
         <div>
-          <img ng-src="{{getImgUrl(cart.product.imgUrl)}}" width="150px" height="150px" alt="">
+          <img
+            ng-src="{{getImgUrl(cart.product.imgUrl)}}"
+            width="150px"
+            height="150px"
+            alt=""
+          />
         </div>
         <div class="main-item">
           <div class="product-infomation">
             <div class="product-price">
-              <h3 style="margin-right: 30px;">Tên sản phẩm: {{cart.product.name}}</h3>
-              <button class="remove-button" ng-click="removeCart(cart.id)"><i class="fa-solid fa-xmark"></i></button>
+              <h3 style="margin-right: 30px">
+                Tên sản phẩm: {{cart.product.name}}
+              </h3>
+              <button class="remove-button" ng-click="removeCart(cart.id)">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
             <p>Màu sắc: {{cart.colorName}}</p>
-            <label for="size" style="margin-right: 20px;">Kích cỡ:
-              <select ng-disabled="cart.outOfStock" ng-model="cart.sizeId" ng-change="updateCart(cart.id)"
-                style="text-align: center;border-radius: 3px;">
-                <option ng-repeat="size in cart.sizes" value="{{size.id}}">{{ size.numberSize }}</option>
+            <label for="size" style="margin-right: 20px"
+              >Kích cỡ:
+              <select
+                ng-disabled="cart.outOfStock"
+                ng-model="cart.sizeId"
+                ng-change="updateCart(cart.id)"
+                style="text-align: center; border-radius: 3px"
+              >
+                <option ng-repeat="size in cart.sizes" value="{{size.id}}">
+                  {{ size.numberSize }}
+                </option>
               </select>
             </label>
             <label for="quantity">Số lượng:</label>
-            <label ng-show="cartQuantityMsgError">{{ cartQuantityMsgError }}</label>
-            <button ng-disabled="cart.outOfStock" class="quantity-button" ng-click="degree(cart.id, false)"
-              style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">-</button>
-            <input ng-disabled="cart.outOfStock" type="text" name="quantity" id="quantity" ng-model="cart.quantity" class="numeric-input"
-              style="width: 80px; height: 40px; border: 1px solid #cec9c9; text-align: center;" min="1" max="10"
-              maxlength="10" readonly>
-            <button ng-disabled="cart.outOfStock" class="quantity-button" ng-click="degree(cart.id, true)"
-              style="height: 40px;width: 40px;background-color: white;border: 1px solid #cec9c9">+</button>
+            <label ng-show=" cart.outOfStock || cart.notEnough "
+              >{{ cartQuantityMsgError }}</label
+            >
+            <button
+              ng-disabled="cart.outOfStock"
+              class="quantity-button"
+              ng-click="degree(cart.id, false)"
+              style="
+                height: 40px;
+                width: 40px;
+                background-color: white;
+                border: 1px solid #cec9c9;
+              "
+            >
+              -
+            </button>
+            <input
+              ng-disabled="cart.outOfStock"
+              type="text"
+              name="quantity"
+              id="quantity"
+              ng-model="cart.quantity"
+              class="numeric-input"
+              style="
+                width: 80px;
+                height: 40px;
+                border: 1px solid #cec9c9;
+                text-align: center;
+              "
+              min="1"
+              max="10"
+              maxlength="10"
+              readonly
+            />
+            <button
+              ng-disabled="cart.outOfStock"
+              class="quantity-button"
+              ng-click="degree(cart.id, true)"
+              style="
+                height: 40px;
+                width: 40px;
+                background-color: white;
+                border: 1px solid #cec9c9;
+              "
+            >
+              +
+            </button>
           </div>
           <div class="product-price">
-            <span ng-class="{'price-black-color': cart.product.discountRate === cart.product.retailPrice}"
-              class="cart-discount-price">{{ formatPrice(cart.product.discountRate) }}</span>
-            <del ng-show="cart.product.discountRate !== cart.product.retailPrice" style="color: rgb(163, 158, 158);">{{
-              formatPrice(cart.product.retailPrice) }}</del>
+            <span
+              ng-class="{'price-black-color': cart.product.discountRate === cart.product.retailPrice}"
+              class="cart-discount-price"
+              >{{ formatPrice(cart.product.discountRate) }}</span
+            >
+            <del
+              ng-show="cart.product.discountRate !== cart.product.retailPrice"
+              style="color: rgb(163, 158, 158)"
+              >{{ formatPrice(cart.product.retailPrice) }}</del
+            >
           </div>
         </div>
       </div>
     </div>
     <div class="col-3">
-      <h4 style="padding-top: 5px;">Thông tin đơn hàng</h4>
-      <hr>
+      <h4 style="padding-top: 5px">Thông tin đơn hàng</h4>
+      <hr />
       <div class="subtotal">
         <span>Tạm tính: </span>
-        <span style="color: red;font-size: 18px;">{{ formatPrice(totalAmount()) }}</span>
+        <span style="color: red; font-size: 18px"
+          >{{ formatPrice(totalAmount()) }}</span
+        >
       </div>
 
       <div ng-show="totalAmount() >= 5000000" class="freeship">
         <span>Miễn phí vận chuyển </span>
       </div>
 
-      <hr>
+      <hr />
       <div class="total">
         <span>Tổng cộng: </span>
-        <span style="color: red; font-size: 20px;">{{ formatPrice(totalAmount()) }}</span>
+        <span style="color: red; font-size: 20px"
+          >{{ formatPrice(totalAmount()) }}</span
+        >
       </div>
-      <hr>
-      <button class="payment-button btn btn-dark" ng-click="pay()" ng-disabled="totalAmount() === 0">THANH TOÁN
-        NGAY</button>
+      <hr />
+      <button
+        class="payment-button btn btn-dark"
+        ng-click="pay()"
+        ng-disabled="totalAmount() === 0"
+      >
+        THANH TOÁN NGAY
+      </button>
       <p>
-        <a href="#/product" style="margin-left: 40px;text-decoration: none;color: rgb(70, 66, 66);">
-          <i class="fa fa-reply" style="color: rgb(180, 65, 65);"></i> Tiếp tục mua hàng</a>
+        <a
+          href="#/product"
+          style="
+            margin-left: 40px;
+            text-decoration: none;
+            color: rgb(70, 66, 66);
+          "
+        >
+          <i class="fa fa-reply" style="color: rgb(180, 65, 65)"></i> Tiếp tục
+          mua hàng</a
+        >
       </p>
     </div>
   </div>

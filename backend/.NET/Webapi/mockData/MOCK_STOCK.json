@@ -1,0 +1,555 @@
+[
+  {
+    "StockId": "7d166b6d-7ad5-4846-909a-4b243d308de6",
+    "UnitInStock": 10,
+    "ProductId": "effddb88-f044-4d97-8410-079e0d7e030d",
+    "ColorId": "6ac350e9-e047-493d-ac92-1c7e8b9834fe",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "6fae180e-edff-41b8-83d4-d9d28b2a2f69",
+    "UnitInStock": 15,
+    "ProductId": "effddb88-f044-4d97-8410-079e0d7e030d",
+    "ColorId": "6ac350e9-e047-493d-ac92-1c7e8b9834fe",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "2b70eebf-09d8-4cb1-a86c-bd8070fa8aea",
+    "UnitInStock": 20,
+    "ProductId": "0a154cc5-6c4c-4faf-944e-1ba579372348",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "13841b0f-e70a-4463-93d7-e28951a2d8ac"
+  },
+  {
+    "StockId": "96a37306-f878-4769-8a29-30ca646d02e1",
+    "UnitInStock": 15,
+    "ProductId": "0a154cc5-6c4c-4faf-944e-1ba579372348",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "caf3c534-b4c4-4389-b267-a267f9ae400a",
+    "UnitInStock": 5,
+    "ProductId": "5aa49ffc-4227-4f8d-a6e4-bc86b5a9b8ca",
+    "ColorId": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "a1f00327-64f3-4edc-bd08-04eceda10805",
+    "UnitInStock": 10,
+    "ProductId": "5aa49ffc-4227-4f8d-a6e4-bc86b5a9b8ca",
+    "ColorId": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "9fe617aa-9158-48f0-b1d8-c01d099b1c63",
+    "UnitInStock": 10,
+    "ProductId": "82e09102-08d9-44ae-8997-c3915c9b092e",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "69a0f5ee-28c3-4014-8fed-6ff5ab17c0de",
+    "UnitInStock": 20,
+    "ProductId": "82e09102-08d9-44ae-8997-c3915c9b092e",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "b3c0bae9-c511-44d7-863f-abecf3cf9d3d"
+  },
+  {
+    "StockId": "977fbc45-20d5-41eb-b8b9-2567a61bc25b",
+    "UnitInStock": 10,
+    "ProductId": "ca9506b0-fdec-441f-b652-492e5ff81420",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "13841b0f-e70a-4463-93d7-e28951a2d8ac"
+  },
+  {
+    "StockId": "c3fcd776-a355-4ce3-90a6-71a1354babbe",
+    "UnitInStock": 20,
+    "ProductId": "ca9506b0-fdec-441f-b652-492e5ff81420",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "10f2b1a9-adc0-40a7-9173-8b16a8154de0",
+    "UnitInStock": 30,
+    "ProductId": "8b66861a-ec0b-4a25-9a66-27bc54fa1320",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "f921c43a-4bf3-4955-bac5-5740ad433829",
+    "UnitInStock": 25,
+    "ProductId": "8b66861a-ec0b-4a25-9a66-27bc54fa1320",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "b3c0bae9-c511-44d7-863f-abecf3cf9d3d"
+  },
+  {
+    "StockId": "fb6ab4f7-d303-45a1-844a-c05631b3e9db",
+    "UnitInStock": 10,
+    "ProductId": "6983ad8f-f50f-4fe2-a092-398a6e4a73fb",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "4b9f41d8-5177-439e-84c4-f62f99f372cf"
+  },
+  {
+    "StockId": "29b564f6-7b0f-4129-90db-650c8252ae21",
+    "UnitInStock": 10,
+    "ProductId": "6983ad8f-f50f-4fe2-a092-398a6e4a73fb",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "c4073be4-fa5f-4128-aecd-a2aa0a7d93dd"
+  },
+  {
+    "StockId": "01cb5b7a-5b65-45f0-9614-7c489efa0065",
+    "UnitInStock": 10,
+    "ProductId": "7740cc0f-6794-4c8a-bbad-89c2157a8285",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "5efecafd-3c91-4e29-bde9-64aac7251e2e",
+    "UnitInStock": 20,
+    "ProductId": "7740cc0f-6794-4c8a-bbad-89c2157a8285",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "26ee6b10-0abb-43eb-888d-efbee5921722",
+    "UnitInStock": 10,
+    "ProductId": "df22835b-2950-4de3-9579-cd6c90aeecf9",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "c4073be4-fa5f-4128-aecd-a2aa0a7d93dd"
+  },
+  {
+    "StockId": "7c67e162-f2a1-416a-a0b9-23aadd4dccd8",
+    "UnitInStock": 10,
+    "ProductId": "df22835b-2950-4de3-9579-cd6c90aeecf9",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "13841b0f-e70a-4463-93d7-e28951a2d8ac"
+  },
+  {
+    "StockId": "d57009e2-056c-4701-9d94-a5a45c00fa4c",
+    "UnitInStock": 35,
+    "ProductId": "e55d8d07-5b28-4f6b-8fa3-1423f9d8caad",
+    "ColorId": "4b07abab-83e9-4211-ad73-5eb51a3e67f2",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "c21aabd4-4121-439e-a58a-baeb5489fa2e",
+    "UnitInStock": 40,
+    "ProductId": "e55d8d07-5b28-4f6b-8fa3-1423f9d8caad",
+    "ColorId": "4b07abab-83e9-4211-ad73-5eb51a3e67f2",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "ad7c2522-bd11-471d-bf22-ca09aee6e461",
+    "UnitInStock": 10,
+    "ProductId": "d56350b8-4fdf-4a1c-9c19-652e17dd92e1",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "98815553-5537-467f-a903-dc6db2498696",
+    "UnitInStock": 15,
+    "ProductId": "d56350b8-4fdf-4a1c-9c19-652e17dd92e1",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "fe544545-1a39-4b74-a512-d31df5992d64",
+    "UnitInStock": 10,
+    "ProductId": "2812b2f2-b1ff-4b5f-bd30-a30ef9cc34f7",
+    "ColorId": "b2263fb0-5804-481c-9964-6b3240209e01",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "2ee3f2dd-651c-4f97-90a0-82f9184dca1a",
+    "UnitInStock": 10,
+    "ProductId": "2812b2f2-b1ff-4b5f-bd30-a30ef9cc34f7",
+    "ColorId": "b2263fb0-5804-481c-9964-6b3240209e01",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "3fcc3303-6248-4aa7-91f2-235f2b0a51d9",
+    "UnitInStock": 20,
+    "ProductId": "f901bf5a-dd38-4416-af9c-dc5fc778d333",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "13841b0f-e70a-4463-93d7-e28951a2d8ac"
+  },
+  {
+    "StockId": "cee4d5aa-977f-4a01-8b59-e9a7021419bf",
+    "UnitInStock": 0,
+    "ProductId": "a5923cd5-17fc-4397-84c1-1db70200308f",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "7701644e-c60a-42dd-8340-0728426d3cf5",
+    "UnitInStock": 10,
+    "ProductId": "0d775db2-5fe8-4ed1-8e64-e83df755a64f",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "ed6986a5-67f9-4761-9188-5e8078687ca9",
+    "UnitInStock": 20,
+    "ProductId": "0d775db2-5fe8-4ed1-8e64-e83df755a64f",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "416ad574-9c1c-4a80-8279-89264962da49",
+    "UnitInStock": 25,
+    "ProductId": "0d775db2-5fe8-4ed1-8e64-e83df755a64f",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "ed389b64-f076-41e8-8a16-a6f281722fc3",
+    "UnitInStock": 30,
+    "ProductId": "6a37efa1-187c-425a-b54b-3643aff4a739",
+    "ColorId": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "d7283ef5-c032-44f5-885c-929c01c201c3",
+    "UnitInStock": 35,
+    "ProductId": "6a37efa1-187c-425a-b54b-3643aff4a739",
+    "ColorId": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "5c59cf9a-4762-4dc1-a859-ed119245099e",
+    "UnitInStock": 30,
+    "ProductId": "6a37efa1-187c-425a-b54b-3643aff4a739",
+    "ColorId": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "d637712e-4be7-4acb-9647-3eb439273109",
+    "UnitInStock": 20,
+    "ProductId": "caeaff96-9bb1-466b-8531-09fc6907179d",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "4b9f41d8-5177-439e-84c4-f62f99f372cf"
+  },
+  {
+    "StockId": "22908c04-0a3e-441b-8487-6e348e253fbc",
+    "UnitInStock": 30,
+    "ProductId": "caeaff96-9bb1-466b-8531-09fc6907179d",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "c4073be4-fa5f-4128-aecd-a2aa0a7d93dd"
+  },
+  {
+    "StockId": "ee84652e-3f30-47da-9ebc-4865ca6ec23a",
+    "UnitInStock": 35,
+    "ProductId": "caeaff96-9bb1-466b-8531-09fc6907179d",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "13841b0f-e70a-4463-93d7-e28951a2d8ac"
+  },
+  {
+    "StockId": "b1ff92e4-95d0-4b34-a723-9c616106d11f",
+    "UnitInStock": 15,
+    "ProductId": "d181abd2-de52-479e-8a87-6584e5f5b9df",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "08f6a4d7-e7f2-4d0b-b83e-aef2abcefc26",
+    "UnitInStock": 35,
+    "ProductId": "d181abd2-de52-479e-8a87-6584e5f5b9df",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "793cc072-1889-46c6-b6e6-28be0e792cdb",
+    "UnitInStock": 35,
+    "ProductId": "d181abd2-de52-479e-8a87-6584e5f5b9df",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "7f38bd0b-1420-4140-be92-124f451e1c90",
+    "UnitInStock": 30,
+    "ProductId": "bf0cb04a-911a-4b2a-a61c-68a3f6f73a35",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "6ae5e609-053f-4e98-8549-bfd742f1b09a"
+  },
+  {
+    "StockId": "4a35966b-1416-4bbf-8dbd-d58e425b5747",
+    "UnitInStock": 30,
+    "ProductId": "bf0cb04a-911a-4b2a-a61c-68a3f6f73a35",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "4b9f41d8-5177-439e-84c4-f62f99f372cf"
+  },
+  {
+    "StockId": "a22afff5-de3e-47a5-a3d1-7ca20420b31a",
+    "UnitInStock": 30,
+    "ProductId": "bf0cb04a-911a-4b2a-a61c-68a3f6f73a35",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "c4073be4-fa5f-4128-aecd-a2aa0a7d93dd"
+  },
+  {
+    "StockId": "c995fa86-13c3-4a94-9a9a-bccb17ed28dc",
+    "UnitInStock": 30,
+    "ProductId": "f901bf5a-dd38-4416-af9c-dc5fc778d333",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "1b95b08c-5e2c-445c-b136-2601cb708e77",
+    "UnitInStock": 25,
+    "ProductId": "f901bf5a-dd38-4416-af9c-dc5fc778d333",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "d151fb61-4643-4b14-b8ad-0294bee44a84",
+    "UnitInStock": 20,
+    "ProductId": "9eaf31f0-e7d3-455d-8417-9c2c40b6a7f5",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "f41d5879-f488-49af-ad16-f5bcfb2976c8",
+    "UnitInStock": 20,
+    "ProductId": "9eaf31f0-e7d3-455d-8417-9c2c40b6a7f5",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "b3c0bae9-c511-44d7-863f-abecf3cf9d3d"
+  },
+  {
+    "StockId": "a549bee0-85c9-4fa3-ab70-6e8773b5394a",
+    "UnitInStock": 25,
+    "ProductId": "3346cf62-01c4-48c1-981c-f5ac45b5a1bf",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "20299cf0-ebc0-46f2-b554-af836cdd976b",
+    "UnitInStock": 20,
+    "ProductId": "3346cf62-01c4-48c1-981c-f5ac45b5a1bf",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "4d87349d-697b-4e1f-853d-0cde44bab8f4",
+    "UnitInStock": 30,
+    "ProductId": "3346cf62-01c4-48c1-981c-f5ac45b5a1bf",
+    "ColorId": "5f1680a3-c12f-4e47-a02e-57728e7f8b0e",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "9837ca8e-c743-4edf-bba2-a9a53b60c69f",
+    "UnitInStock": 25,
+    "ProductId": "6cf9801b-02fb-470e-9f7c-a6a4d099385d",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "7b2a3698-d6fc-4847-93de-8d46e5ef11a4",
+    "UnitInStock": 20,
+    "ProductId": "6cf9801b-02fb-470e-9f7c-a6a4d099385d",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "de39f997-90cf-4364-a364-d4c49d0a9294",
+    "UnitInStock": 30,
+    "ProductId": "6cf9801b-02fb-470e-9f7c-a6a4d099385d",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "8c01171f-7f9d-42ce-9196-0c03f8ecabe3",
+    "UnitInStock": 10,
+    "ProductId": "8576e3cb-716c-49d3-b8b1-eb4131c1b715",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "c7a33d75-5a09-4a3a-baaf-c598885a86cc",
+    "UnitInStock": 10,
+    "ProductId": "8576e3cb-716c-49d3-b8b1-eb4131c1b715",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "0e097652-6459-45c1-9861-bcfefeca2e92",
+    "UnitInStock": 25,
+    "ProductId": "5185db71-bf56-4cb0-b05c-a8d8bc51b7d1",
+    "ColorId": "a69d5f87-8301-4011-a44f-01ffb7bcd3d2",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "0cea58b1-75af-47fa-a307-e282f9a3dee9",
+    "UnitInStock": 35,
+    "ProductId": "5185db71-bf56-4cb0-b05c-a8d8bc51b7d1",
+    "ColorId": "a69d5f87-8301-4011-a44f-01ffb7bcd3d2",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "a114d4fd-7789-40fc-879c-6c36d70814a6",
+    "UnitInStock": 20,
+    "ProductId": "5185db71-bf56-4cb0-b05c-a8d8bc51b7d1",
+    "ColorId": "a69d5f87-8301-4011-a44f-01ffb7bcd3d2",
+    "SizeId": "582a911e-9f35-4a87-a57b-113b29ee06a6"
+  },
+  {
+    "StockId": "7eaef2a6-73e2-44ec-b059-d8320e5184df",
+    "UnitInStock": 20,
+    "ProductId": "3e8aa5b0-f701-41b6-bd68-57a8219992aa",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "abf6b230-6e68-4191-8f92-e1d0aceb6696",
+    "UnitInStock": 25,
+    "ProductId": "3e8aa5b0-f701-41b6-bd68-57a8219992aa",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "dcb22dfd-226e-4e43-bf1c-d7b65eee44ff",
+    "UnitInStock": 30,
+    "ProductId": "3e8aa5b0-f701-41b6-bd68-57a8219992aa",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "15231219-fd66-4ff8-9830-ae615633a699",
+    "UnitInStock": 25,
+    "ProductId": "83b8397d-aa2a-4e89-9ab1-981940cd53ba",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "fb2e59ed-f5b2-45f3-b596-84c4cf7ef8f6",
+    "UnitInStock": 30,
+    "ProductId": "83b8397d-aa2a-4e89-9ab1-981940cd53ba",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "c451a43f-e387-4e65-8e0b-10942f807f4f",
+    "UnitInStock": 35,
+    "ProductId": "83b8397d-aa2a-4e89-9ab1-981940cd53ba",
+    "ColorId": "3543c433-6ccc-4949-87e3-977c6ca403bb",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "2138d2d6-643b-4a3a-a4f3-9e40527d79ec",
+    "UnitInStock": 10,
+    "ProductId": "9faeedfe-05f7-4f00-a521-ca9ac675b0b6",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "5b88c460-fb24-490a-a9d5-fe4cc410fe67",
+    "UnitInStock": 10,
+    "ProductId": "9faeedfe-05f7-4f00-a521-ca9ac675b0b6",
+    "ColorId": "6ed70848-9c63-4c5f-8220-9e0657f7afec",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "9bc3fcbe-dfa6-4c44-929e-2051e0d50621",
+    "UnitInStock": 100,
+    "ProductId": "a9513ed1-bdf7-412f-b086-a54d9d4f3226",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "8e439dbf-4480-4b6b-ac68-5ecf1f670a58",
+    "UnitInStock": 100,
+    "ProductId": "a9513ed1-bdf7-412f-b086-a54d9d4f3226",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "7f72a956-6fc7-487c-a25c-21faa284eda0",
+    "UnitInStock": 100,
+    "ProductId": "a9513ed1-bdf7-412f-b086-a54d9d4f3226",
+    "ColorId": "048139f0-c124-4104-b9e0-3502aa9ebb62",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "789b9b6f-d2d7-4aab-8ae7-f538827e032c",
+    "UnitInStock": 20,
+    "ProductId": "a3b675da-3fae-4aa5-b774-f3c440a7634c",
+    "ColorId": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "cd2887c8-049a-4df8-a79e-0811c854ac52",
+    "UnitInStock": 35,
+    "ProductId": "a3b675da-3fae-4aa5-b774-f3c440a7634c",
+    "ColorId": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "6dd78bc9-8de8-49b0-95cc-045d1665fb5e",
+    "UnitInStock": 30,
+    "ProductId": "a3b675da-3fae-4aa5-b774-f3c440a7634c",
+    "ColorId": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "71d4bb09-eb09-4501-b2d8-321f630eaf9a",
+    "UnitInStock": 30,
+    "ProductId": "a3b675da-3fae-4aa5-b774-f3c440a7634c",
+    "ColorId": "6928ed5e-6dda-4b54-beda-498f793da994",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "20b7b754-61e1-4f44-a078-4df6868cf8f8",
+    "UnitInStock": 25,
+    "ProductId": "c261c113-e269-4380-962b-0bd52570011c",
+    "ColorId": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "SizeId": "c4073be4-fa5f-4128-aecd-a2aa0a7d93dd"
+  },
+  {
+    "StockId": "1ef8779b-e660-4b33-a538-39e3ee30b656",
+    "UnitInStock": 35,
+    "ProductId": "c261c113-e269-4380-962b-0bd52570011c",
+    "ColorId": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "SizeId": "13841b0f-e70a-4463-93d7-e28951a2d8ac"
+  },
+  {
+    "StockId": "7a69088f-78f2-40c5-ab6d-3967d14a6779",
+    "UnitInStock": 50,
+    "ProductId": "c261c113-e269-4380-962b-0bd52570011c",
+    "ColorId": "19770079-f7cf-4c8d-9d92-2b09e23df085",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "0572d5a7-7463-40b0-b101-294234235cf9",
+    "UnitInStock": 100,
+    "ProductId": "d00a2797-01b5-4913-8632-1d9a9cd0e5ce",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  },
+  {
+    "StockId": "fe322d8b-c9da-4788-bcd2-d6c3b34b8466",
+    "UnitInStock": 100,
+    "ProductId": "d00a2797-01b5-4913-8632-1d9a9cd0e5ce",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "e00f5b22-6e13-483b-a192-b7b6b7e5d829"
+  },
+  {
+    "StockId": "f0b009bc-022e-46d6-b030-15cb38aaac7f",
+    "UnitInStock": 100,
+    "ProductId": "d00a2797-01b5-4913-8632-1d9a9cd0e5ce",
+    "ColorId": "6e038067-70a5-479f-b27c-424afe36c9ad",
+    "SizeId": "3782dd42-00d6-457d-9589-06717606e879"
+  },
+  {
+    "StockId": "5d83617e-f0eb-45c6-9277-a52fb522d567",
+    "UnitInStock": 40,
+    "ProductId": "2890e2c5-70d2-4dce-b5de-61b7bf58317a",
+    "ColorId": "b2263fb0-5804-481c-9964-6b3240209e01",
+    "SizeId": "e44e245c-2718-4dbc-a695-0a9b3b98ad97"
+  },
+  {
+    "StockId": "67a61e67-f9cf-4921-a931-c86a4b20a30e",
+    "UnitInStock": 41,
+    "ProductId": "2890e2c5-70d2-4dce-b5de-61b7bf58317a",
+    "ColorId": "b2263fb0-5804-481c-9964-6b3240209e01",
+    "SizeId": "5a4e4daa-6d76-4557-b16c-f635c95755f4"
+  }
+]
