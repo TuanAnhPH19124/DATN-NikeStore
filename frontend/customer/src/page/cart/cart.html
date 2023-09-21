@@ -29,8 +29,8 @@
         ng-class="{'outOfStock': cart.outOfStock || cart.notEnough}"
       >
         <div class="messageError">
-          <span style="color: red; font-size: 24px; " ng-show="cart.outOfStock">
-            <i class="fa-solid fa-circle-exclamation"></i>Hết hàng</span>
+          <span style="color: red; " ng-show="cart.outOfStock">
+            <i class="fa-solid fa-circle-exclamation"></i>  Hết hàng</span>
           <span style="color: red;" ng-show="cart.notEnough">
             <i class="fa-solid fa-circle-exclamation"></i>
             Sản phẩm này hiện không còn đủ {{ cart.quantity }} sản phẩm. Hiện tại chỉ còn {{ cart.avalibleUnit }} sản phẩm </span>
