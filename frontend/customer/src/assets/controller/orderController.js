@@ -479,8 +479,12 @@
                             stockService.getStockByRelationId(e.carts[i].product.id, e.carts[i].colorId, e.carts[i].sizeId)
                                 .then(function (response) {
                                     if (response.data !== null) {
-                                        if (response.data.unitInStock === 0)
+                                        if (response.data.unitInStock === 0){
                                             e.carts.splice(i, 1);
+                                        }
+                                        else if (e.carts[i].quantity > response.data.unitInStock) {
+                                            e.carts.splice(i, 1);             
+                                        }
                                         console.log(e.carts);
                                     } else {
                                         console.error("Không tìm thấy stock");

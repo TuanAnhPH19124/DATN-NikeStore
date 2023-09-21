@@ -131,6 +131,9 @@ namespace Service
                 throw new Exception("Sản phẩm này đã hết hàng");
 
             if (item.Quantity > stock.UnitInStock)
+                throw new Exception($"Sản phẩm này hiện chỉ còn {stock.UnitInStock} trong kho.");
+
+            if (item.Quantity > stock.UnitInStock)
                 throw new Exception("Đã đạt giới hạn số lượng trong kho");
             targetItem.Quantity = item.Quantity;
             targetItem.SizeId = item.SizeId;
