@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 1,
+    "Name": "Cao su",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:36:53.103",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 2,
+    "Name": "Cao su lưu hoá",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:38:42.561",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 3,
+    "Name": "PVC",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:39:00.764",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 4,
+    "Name": "PU",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:39:07.389",
+    "ModifiedDate": ""
+  },
+  {
+    "Id": 5,
+    "Name": "ABS",
+    "Description": "",
+    "CreatedDate": "2023-09-19 20:39:18.496",
+    "ModifiedDate": ""
+  }
+]
