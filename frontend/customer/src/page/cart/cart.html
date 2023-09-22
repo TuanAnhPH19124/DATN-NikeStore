@@ -22,13 +22,19 @@
           <span>Hiện chưa có sản phẩm</span>
         </div>
       </div>
+
       <div
         ng-repeat="cart in carts"
         class="cart-item"
         ng-class="{'outOfStock': cart.outOfStock || cart.notEnough}"
       >
-        <p ng-show="cart.outOfStock">Hết hàng</p>
-        <p ng-show="cart.notEnough">Sản phẩm này hiện không còn đủ {{ cart.quantity }} sản phẩm. Hiện tại chỉ còn {{ cart.avalibleUnit }} sản phẩm </p>
+        <div class="messageError">
+          <span style="color: red; " ng-show="cart.outOfStock">
+            <i class="fa-solid fa-circle-exclamation"></i>  Hết hàng</span>
+          <span style="color: red;" ng-show="cart.notEnough">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            Sản phẩm này hiện không còn đủ {{ cart.quantity }} sản phẩm. Hiện tại chỉ còn {{ cart.avalibleUnit }} sản phẩm </span>
+        </div><br>
         <div>
           <img
             ng-src="{{getImgUrl(cart.product.imgUrl)}}"
@@ -37,7 +43,7 @@
             alt=""
           />
         </div>
-        <div class="main-item">
+        <div class="main-item" style="padding: 20px;">
           <div class="product-infomation">
             <div class="product-price">
               <h3 style="margin-right: 30px">
@@ -62,9 +68,9 @@
               </select>
             </label>
             <label for="quantity">Số lượng:</label>
-            <label ng-show=" cart.outOfStock || cart.notEnough "
-              >{{ cartQuantityMsgError }}</label
-            >
+            <!-- <p style="color: red;" ng-show=" cart.outOfStock || cart.notEnough "
+              >{{ cartQuantityMsgError }}</p -->
+            
             <button
               ng-disabled="cart.outOfStock"
               class="quantity-button"
@@ -124,6 +130,7 @@
           </div>
         </div>
       </div>
+
     </div>
     <div class="col-3">
       <h4 style="padding-top: 5px">Thông tin đơn hàng</h4>
